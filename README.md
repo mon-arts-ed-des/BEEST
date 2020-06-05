@@ -1,8 +1,406 @@
-# BEEST
-<p>BEEST stands for Boostrap Enhanced Elements Streamlining Tool. The processes on the various pages take user input (text, links, media) and combine them with pre-written code elements to create content formats that look good, are responsive and user friendly. Use the menu at the top of screen to navigate to the element you wish to create.</p>
-<h3>Important caveats</h3>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A simple element creator to generate responsive code that can be easily embbedded into Moodle">
+    <meta name="author" content="T&M">
+    <title>Element Creator</title>
+
+    <!-- external link to css file --> 
+    <!-- Bootstrap CSS -->   
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Arts CSS -->  
+    <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/adminPlusSetuBlockStyle.css" />
+    
+    <!-- external link to js file -->  
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <!-- Bootstrap js file --> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- FontAwesome js file --> 
+    <script src="https://kit.fontawesome.com/3817feae52.js"></script> 
+    <!-- Tinymce js file -->   
+    <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+
+    <script type="text/javascript">
+      tinymce.init({
+        selector: '#tinyMCE1',
+        menubar: false,
+          plugins : 'advlist autolink link lists charmap print preview' 
+      });
+        tinymce.init({
+        selector: '#tinyMCE2',
+        menubar: false,
+          plugins : 'advlist autolink link lists charmap print preview'  
+      });
+    </script>
+   
+<script>
+    function generateCode() {
+        // Get the HTML contents of the currently active editor
+        console.debug(tinyMCE.activeEditor.getContent());
+
+        //Retrieve the content by id of the tinyMCE textarea
+        var contextCode = tinyMCE.get('tinyMCE1').getContent();
+        var respLink = document.getElementById('respPVRswitch').value;
+        var vPosition = document.getElementById('videoPosition').value;
+
+        //window.alert(vPosition);
+
+        if (vPosition == "left"){
+            var textOutput = respPVR_1+respPVR_2r+respLink+respPVR_3r+respPVR_4+contextCode+respPVR_5;
+        }
+        else if (vPosition == "right"){
+            var textOutput = respPVR_1+contextCode+respPVR_2+respLink+respPVR_3;
+        }
+
+        document.getElementById('txtarearespPVR').innerHTML=textOutput;
+        SelectAll("txtarearespPVR");
+        }
+   
+    function generateAlertCode() {
+        // Get the HTML contents of the currently active editor
+        console.debug(tinyMCE.activeEditor.getContent());
+
+        //Retrieve the content by id of the tinyMCE textarea
+        var alertCode = tinyMCE.get('tinyMCE2').getContent();
+        var textOutput1 = monAlert_1+alertCode+monAlert_2;
+        document.getElementById('monAlertCode').innerHTML=textOutput1;
+        SelectAll("monAlertCode");
+        }
+
+    function SelectAll(id){
+        document.getElementById(id).focus();
+        document.getElementById(id).select();
+        document.execCommand("copy");
+
+        var popup = document.getElementById("myPopup");
+        popup.classList.toggle("show");
+        //window.alert('test');
+    }
+
+    function submitform()
+    {
+        document.forms["myform"].submit();
+    }
+    /* Variable Key
+    These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
+
+    btnNW = btn open in new window
+    btnSW = btn open in same window
+    respPVR = responsive Panopto Video Right (context left/video right)
+    respPVL = responsive Panopto Video Left (video left/context right)
+    artsAlert = Monash blue box alert similar to Bootstrap alert component
+    artsAcc = Monash blue accordion headings and content
+    */
+    var btnNW_1="<p class=\"text-center mb-0\"><a class=\"btn btn-arts m-2\" target=\"_blank\" href=\""
+    var btnNW_2="\">"
+    var btnNW_3=" <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a></p>"
+    var btnSW_1="<p class=\"text-center mb-0\"><a class=\"btn btn-arts m-2\" href=\""
+    var btnSW_2="\">"
+    var btnSW_3=" <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a></p>"
+
+    var respPVR_1="<div class=\"row w-100\"><div class=\"col-lg\">"
+    var respPVR_2="</div><div class=\"col-lg\"><div class=\"embed-responsive embed-responsive-16by9\"><iframe class=\"embed-responsive-item\" frameborder=\"0\" allowfullscreen=\"allowfullscreen\" src=\""
+    var respPVR_2r="<div class=\"embed-responsive embed-responsive-16by9\"><iframe class=\"embed-responsive-item\" frameborder=\"0\" allowfullscreen=\"allowfullscreen\" src=\""
+    var respPVR_3="\"></iframe></div></div></div>"
+    var respPVR_3r="\"></iframe></div></div>"
+    var respPVR_4="<div class=\"col-lg mt-2\">"
+    var respPVR_5="</div></div>"
+
+    var monAlert_1="<div class=\"alert alert-arts rounded\"><div class=\"mb-0\">"
+    var monAlert_2="</div>"
+    var QT_1="<div style=\"margin: 50px 15% 50px 15%; background-color:"
+    var QT_2=";\"><div style=\"position: relative; top: -20px; left: -20px; padding: 20px; background: #ffffff; border: 2px solid "
+    var QT_3=";\"><p>"
+    var QT_4="</p></div></div>"
+
+    var QT_3_1=";\"><p style=\"font-style: italic;\">"
+    var QT_3_2="</p><p style=\"text-align: right;\">"
+
+    var A_1="<div class=\"element_toggler\" style=\"background-color:#eff7ff; border: 1px solid #cccccc; padding:10px; margin:10px;\" aria-controls=\""
+    var A_2="\" aria-expanded=\"no\" aria-label=\"Toggler toggle list visibility\" role=\"button\"><i class=\"icon-mini-arrow-down\"></i>" 
+    var A_3="</div><div id=\""
+    var A_4="\" style=\"display: none; padding:10px; margin:10px;\">"
+    var A_5="</div><div class=\"hidden-desktop hidden-phone hidden-tablet no-print\" style=\"padding:10px; margin:10px;\">"
+    var A_6="</div>"
+    </script>
+       <style>
+        .mce-notification-inner, .mce-close, .mce-notification-warning {
+        display:none !important;
+        }
+
+        /* Popup container - can be anything you want */
+    #popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    }
+
+    /* The actual popup */
+    #popup .popuptext {
+    visibility: hidden;
+    width: 160px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -80px;
+    }
+
+    /* Popup arrow */
+    #popup .popuptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+    }
+
+    /* Toggle this class - hide and show the popup */
+    #popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 2s;
+    animation: fadeIn 2s;
+    }
+
+    /* Add animation (fade in the popup) */
+    @-webkit-keyframes fadeIn {
+    from {opacity: 0;} 
+    to {opacity: 1;}
+    }
+
+    @keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+    }
+
+    @-webkit-keyframes fadeOut {
+    from {opacity: 1;} 
+    to {opacity: 0;}
+    }
+
+    @keyframes fadeOut {
+    from {opacity: 1;}
+    to {opacity:0 ;}
+    }
+
+    </style> 
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-arts mb-3">
+  <a class="navbar-brand" href="#">BEEST</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="https://web.edusercontent.com/37rr142h0egk1dv4g41rultpro/beesthome.html">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://web.edusercontent.com/4933n8d4mjts04ojtr7g7jbin4/beestbuttons.html">Buttons</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://web.edusercontent.com/4933n8d4mjts04ojtr7g7jbin4/beestalerts.html">Alerts
+        </a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Responsive video
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="https://web.edusercontent.com/37rr142h0egk1dv4g41rultpro/beestpanopto.html">Panopto</a>
+          <a class="dropdown-item" href="https://web.edusercontent.com/37rr142h0egk1dv4g41rultpro/beestyoutube.html">Youtube</a>
+          <a class="dropdown-item" href="https://web.edusercontent.com/37rr142h0egk1dv4g41rultpro/beestvimeo.html">Vimeo</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+        <div class="container-fluid">
+  <h1 class="text-center"><i class="fa fa-fw fa-pencil-square-o"></i>BEEST Project</h1>
+  <p>BEEST stands for Bootstrap Enhanced Elements Streamlining Tool. <a href="https://getbootstrap.com/" target="_blank">Bootstrap</a> is the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins This site combines pre-designed HTML code elements with user input to create HTML elements to enhance Moodle site formatting and user experience. Please click on the buttons below to be taken to the page where you can design your desired element. All buttons open in this window and examples of each of the element types can be viewed on each page.</p>
+            <h3><i class="fa fa-fw fa-exclamation-circle"></i>Important caveats</h3>
 <p>These elements require <a href="https://getbootstrap.com/docs/4.0/getting-started/introduction/" target="_blank">Bootstrap v4.0</a> and up to function. The BEEST tool is purpose built for use with Moodle 3.7 and upwards to manipulate content to be responsive and inviting to the user. Should you require any assistance with the use of the BEEST tools or have a suggestion on an element you would like added to the suite we have on offer, please email the creators:</p>
 <ul>
   <li>Timothy Scholl - Faculty of Arts Educational Designer - <a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=tim.scholl@monash.edu&su=Question%20about%20BEEST%20tool" target="_blank">tim.scholl@monash.edu</a></li>
     <li>Matt Chen - Faculty of IT Educational Designer - <a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=matt.chen@monash.edu&su=Question%20about%20BEEST%20tool" target="_blank">matt.chen@monash.edu</a></li>
 </ul>
+
+  <div class="row w-100 mx-auto text-center">
+      <div class="col-lg mt-2"><button href="https://web.edusercontent.com/4933n8d4mjts04ojtr7g7jbin4/beestbuttons.html" class="btn btn-arts">Buttons <i class="fa fa-arrow-right fa-fw"></i></button></div>
+      <div class="col-lg mt-2"><button href="https://web.edusercontent.com/4933n8d4mjts04ojtr7g7jbin4/beestalerts.html" class="btn btn-arts">Alerts <i class="fa fa-arrow-right fa-fw"></i></button></div>
+      <div class="col-lg mt-2">
+     <button class="btn btn-arts" type="button" href="https://web.edusercontent.com/4933n8d4mjts04ojtr7g7jbin4/beestyoutube.html">Responsive Panopto <i class="fa fa-arrow-right fa-fw"></i></button> </div>
+      <div class="col-lg mt-2">   
+    <button class="btn btn-arts" type="button" href="https://web.edusercontent.com/4933n8d4mjts04ojtr7g7jbin4/beestyoutube.html">Responsive Youtube <i class="fa fa-arrow-right fa-fw"></i></button></div>
+      <div class="col-lg mt-2">
+    <button class="btn btn-arts" type="button" href="https://web.edusercontent.com/4933n8d4mjts04ojtr7g7jbin4/beestvimeo.html">Responsive Vimeo <i class="fa fa-arrow-right fa-fw"></i></button>
+  </div>
+</div>
+</div>  
+  </div>
+    <div class="d-none">
+        <h3 class="text-center">Monash button - opens in a new window</h3>
+        <p>This process will generate a Monash blue button element with text that communicates where the button links to and the link will open in a new window. This is recommended for content you are linking to outside of Moodle, so that Moodle stays open in a separate tab for students. Please ensure the links you paste are full URLs.</p>
+            <p><strong>E.g.</strong> https://google.com or https://lms.monash.edu.</p>
+            <p><strong>If you do not include the https:// or http:// prefix your button will not work correctly.</strong></p>
+        <div class="w-100 mx-auto border-arts-3 rounded p-3 m-3">
+            <h3><i class="fa fa-flag-checkered"></i> The result</h3>
+            <p>The end result will be similar to the below example (your link and text will be different). We've included Font Awesome in this example (the arrow pointing to the right) which will be added to the end of your text.</p>
+            <p class="text-center mb-0"><a class="btn btn-arts m-2" target="_blank" href="https://lms.monash.edu">Go to Monash Moodle <i class="fa fa-arrow-right" aria-hidden="true"></i></a></p></div>
+            <!--Form for new window button starts here-->
+            <!--Form for new window button starts here-->
+            <!--Form for new window button starts here-->
+        <form id="btnNW">
+            <h5>Paste your URL</h5>
+        <div class="row w-100 mx-auto">
+        <div class="col-lg">
+            <p>Paste in the link/URL for the button. Where users will be directed to when clicking the button.</p>
+            </div>
+            <div class="col-lg">
+            <p class="text-center"><textarea class="rounded p-2 w-100" rows="1" name="btnNW_pre" placeholder="Write/paste the URL here"></textarea></p>
+            </div>
+            </div>
+        <div class="row w-100 mx-auto">
+        <div class="col-lg">
+            <h5>Write the text for the button</h5>
+            <p>You can have text that tells the user what the button is linked to here - <strong>recommended less than 25 characters including spaces).</strong></p>
+            </div>
+            <div class="col-lg">
+            <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="1" name="btnNW_post" placeholder="Write/paste the text for the button here"></textarea></div></div>
+            <p class="text-center"><input type="button" class="btn btn-arts m-2" name="GenerateWrap" value="Generate Code" OnClick=btnNW.Result.value=btnNW_1+btnNW_pre.value+btnNW_2+btnNW_post.value+btnNW_3>
+            <p class="text-center">
+                <textarea readonly class="rounded p-2 w-100" id="txtareaNW" cols="70" rows="3" name="Result" placeholder="The code for your button will be generated here. Click the button below to copy the code. Then paste the code in Moodle using the HTML editor."></textarea></p>
+        <p class="text-center">
+        <input type="button" class="m-2 btn btn-arts" name="copyCode" value="Click to copy code" onClick=SelectAll("txtareaNW");></input></p>
+        </form>
+        <p class="border-arts-3 border-bottom"></p>
+        <h3 class="text-center">Monash button - opens in the same window</h3>
+        <p>This process will generate a Monash blue button element with text that communicates where the button links to and the link will open in the same window. Please ensure the links you paste are full URLs.</p>
+        <p><strong>E.g.</strong> https://google.com or https://lms.monash.edu.</p>
+        <p><strong>If you do not include the https:// or http:// prefix your button will not work correctly.</strong></p>
+        
+        <div class="w-100 mx-auto border-arts-3 rounded p-3 m-2">
+            <h3><i class="fa fa-flag-checkered"></i> The result</h3>
+            <p>The end result will be similar to the below example (your link and text will be different). We've included Font Awesome in this example (the arrow pointing to the right) which will be added to the end of your text.</p>
+            <p class="text-center mb-0"><a class="btn btn-arts m-2" target="_blank" href="https://lms.monash.edu">Go to Monash Moodle <i class="fa fa-arrow-right" aria-hidden="true"></i></a></p></div>
+        <form id="btnSW">
+            <h5 class="mt-3">Paste your URL</h5>
+        <div class="row w-100">
+        <div class="col-lg">
+            <p>Paste in the link/URL for the button. Where users will be directed to when clicking the button.</p>
+            </div>
+            <div class="col-lg">
+            <p class="text-center"><textarea class="rounded p-2 w-100" rows="1" name="btnSW_pre" placeholder="Write/paste the URL here"></textarea></p>
+            </div>
+            </div>
+        <div class="row w-100">
+        <div class="col-lg">
+            <h5>Write the text for the button</h5>
+            <p>You can have text that tells the user what the button is linked to here - <strong>recommended < 25 characters including spaces).</strong></p>
+            </div>
+            <div class="col-lg">
+            <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="1" name="btnSW_post" placeholder="Write/paste the text for the button here"></textarea></div></div>
+            <p class="text-center"><input type="button" class="btn btn-arts m-2" name="GenerateWrap" value="Generate Code" OnClick=btnSW.Result.value=btnSW_1+btnSW_pre.value+btnSW_2+btnSW_post.value+btnSW_3>
+            <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="txtareaSW" cols="70" rows="5" name="Result" placeholder="The code for your button will be generated here. Click into this text box once generated and the code will all be highlighted. Then paste the code in Moodle using the HTML editor."></textarea></p>
+        <p class="text-center">
+        <input type="button" class="m-2 btn btn-arts" name="copyCode" value="Click to copy code" onClick=SelectAll("txtareaSW");></input></p>
+        </form>
+
+        <!--Form for new window button ends here-->
+        <p class="border-arts-3 border-bottom"></p>
+        <h3 class="text-center">Responsive Panopto video - context on the left, video on the right</h3>
+        <p>This process will create some text on the left which is the context for your video (explained below), and a responsive video on the right. Responsive video changes size as the screen changes size and when the screen gets small enough, this process will 'collapse' the video underneath the text.</p>
+        <div class="w-100 mx-auto border-arts-3 rounded p-3 m-2">
+            <h3><i class="fa fa-flag-checkered"></i> The result</h3>
+            <p>The end result will be similar to the below example. This will vary depending on the heading level you use, whether you use a list and add other text elements in your context. Try resizing your screen to see how the video and text rearrange, and video resizes to be a more appropriate size for the device you're on.</p>
+            <div class="row w-100">
+                <div class="col-lg">
+                    <h5><i class="fa fa-video-camera"></i> Placeholder Video</h5>
+        <p>This video you'll see here is what's called a 'placeholder' video. This is useful to have when you want to do the following:</p>
+        <ul>
+        <li>make a space to put a content video at a later stage.</li>
+        <li>explain how to manipulate video into a certain format</li>
+        </ul>
+        <p>Click play and watch the 7 seconds of silent magic!</p>
+                </div>
+                <div class="col-lg">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=5d23c190-f6c6-405d-968b-abab0095e7a4" class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+                    </div>
+                </div>
+            </div>
+            </div>
+        <form id="respPVR">
+            <h5 class="mt-3">Write the context for your video</h5>
+            <div class="row w-100 mx-auto">
+        <div class="col-lg">
+            <p>It's recommended to have a few sentences or dot points explaining what is in the video students are about to watch. This helps in particular when students are looking back through your site for a specific video where you addressed certain concepts or theories. Instead of watching the entire video, they can read the context you've provided, and make a decision on whether to watch the entire video.</p>
+            <p>Below is a rich-text editor like you would expect to see in Moodle. You can add formatting such as headings, bold, italics, links and lists to your context and it will be replicated in the final code.</p>
+        <textarea id="tinyMCE1" class="border border-dark rounded p-2 w-100 mt-3" cols="70" rows="10" name="respPVR_context" placeholder="Write the context for your video here"></textarea>
+        
+            <h5 class="mt-3">Paste the Panopto link for your video</h5>
+            <p>Paste in the link (not the embed code) for the Panopto video.</p>
+            <p class="text-center"><textarea class="rounded p-2 w-100" rows="1" name="respPVR_link" type="text" id="respPVRswitch" placeholder="Paste the Panopto video link here"></textarea></p>
+            <h5 class="mt-3">Video position</h5>
+            <select id="videoPosition" name="videoPosition">
+              <option value="left">Video on the left</option>
+              <option value="right">Video on the right</option>
+            </select>
+            </div>
+            </div>
+
+            <p class="text-center" id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-3" name="GenerateWrap" value="Generate and copy code" onClick=generateCode()></p>
+
+            <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="txtarearespPVR" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will combine your context and video into a responsive format and copy the code to your clipboard."></textarea></p>
+        </form>
+      <p class="border-arts-3 border-bottom"></p>
+      <h3>Monash themed alerts</h3>
+<form id="monashAlert">
+           <p>This process creates a Monash coloured alert that you can use in your Moodle site to highlight important information for students.</p> 
+            <h5><i class="fa fa-exclamation-circle fa-fw"></i> Important caveats</h5>
+            <p>Overuse of these alerts, like overuse of bold or italic text results in the alert fading into the background as students read through your Moodle site. Like overuse of OHS signage, it can become part of the wallpaper, instead of alerting people to the important information it contains. So use it sparingly and only if absolutely necessary</p>
+             <div class="w-100 mx-auto border-arts-3 rounded p-3 m-3">
+            <h3><i class="fa fa-flag-checkered"></i> The result</h3>
+            <p>The end result here is text with a rounded border and Monash blue background that highlights important text. It's just like editing any other element, we're simply changing the background and the border to draw attention to the information.</p>
+            <div class="alert alert-arts rounded">
+                <div>
+            <h3><i class="fa fa-info-circle"></i> Reminder about this week's guest lecture</h3>
+            <p>Please ensure you visit the forum in the communication section of this Moodle site dedicated to asking questions for our guest, Mark Twain, so that we can compile your questions for the interview. We will do our best to leave time at the end for audience participation, but the questions in the forum will be dispersed throughout the interview.</p>
+            </div>
+            </div>
+            </div>
+            <h5 class="mt-3">Write the information you want to display in your alert</h5>
+             <div class="col-lg">
+            <p>At times in your Moodle site, there are important reminders you give students. Whether it's about guest speakers, assessment, group work or changes to some part of your delivery of the unit. Or maybe there are important pieces of information like your contact details that you want to highlight. Some staff use coloured text to achieve this, and cause accessibility issues unknowingly for visually impaired students, or students who use screenreaders due to a reading impairment. So to allow for staff to highlight important information, while also maintaining accessibility, we have designed Monash coloured alerts.</p>
+        <textarea id="tinyMCE2" class="border border-dark rounded p-2 w-100 mt-3" cols="70" rows="10" name="respPVR_context" placeholder="Write the context for your video here"></textarea>
+    </div>
+    <p class="text-center" id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-3" name="GenerateWrap" value="Generate and copy code" onClick=generateAlertCode()></p>
+    <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="monAlertCode" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code or your alert and copy it to the clipboard."></textarea></p>
+    <script>
+        //code for converting Panopto link from Viewer to Embed
+        $('#respPVRswitch').on('input', function(event) {
+        var s = $('#respPVRswitch').val().toString();
+        var x = s.replace('Viewer','Embed');
+        $('#respPVRswitch').val(x);
+        $('input[type="text"], textarea').attr('readonly','readonly');
+      });
+</script>   
+</div>
+        </body>
+        </html>
