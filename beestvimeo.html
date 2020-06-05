@@ -36,7 +36,7 @@
         console.debug(tinyMCE.activeEditor.getContent());
 
         //Retrieve the content by id of the tinyMCE textarea
-        var contextCode = tinyMCE.get('tinyMCEvideo').getContent();
+        var contextCode = tinyMCE.get('tinyMCEvim').getContent();
         var respLink = document.getElementById('respVimswitch').value;
         var vPosition = document.getElementById('videoPosition').value;
 
@@ -228,7 +228,7 @@
     <h5 class="mt-3">Step 1 - Write the context for your video</h5>
         <p>It's recommended to have a few sentences or dot points explaining what is in the video students are about to watch. This helps in particular when students are looking back through your site for a specific video where you addressed certain concepts or theories. Instead of watching the entire video, they can read the context you've provided, and make a decision on whether to watch the entire video.</p>
         <p>Below is a rich-text editor like you would expect to see in Moodle. You can add formatting such as headings, bold, italics, links and lists to your context and it will be replicated in the final code.</p>
-        <textarea id="tinyMCEvideo" class="border border-dark rounded p-2 w-100 mt-3" cols="70" rows="10" name="respYT_context" placeholder="Write the context for your video here"></textarea>
+        <textarea id="tinyMCEvim" class="border border-dark rounded p-2 w-100 mt-3" cols="70" rows="10" name="respVim_context" placeholder="Write the context for your video here"></textarea>
         <h5 class="mt-3">Step 2 - Paste the Vimeo link for your video</h5>
         <p>Paste in the link (not the embed code) for the Youtube video. When you paste the link into this box it will automatically change the link to be the embed link required for this process to work and you will not be able to edit this box. If you paste the embed code from Youtube it will not work correctly.</p>
         <div class="alert alert-arts rounded mx-auto w-75 p-2">
@@ -260,7 +260,7 @@
                     </div>
              <div id="demo" class="row w-100">
                     </div>
-         <script>//code for converting Youtube link from Viewer to Embed
+         <script>//code for converting Vimeo link from Viewer to Embed
         $('#respVimswitch').on('input', function(event) {
         var s = $('#respVimswitch').val().toString();
         var x = s.replace('https://vimeo.com/','https://player.vimeo.com/video/');
