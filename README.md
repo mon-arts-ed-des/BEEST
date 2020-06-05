@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -401,6 +400,5 @@
         $('input[type="text"], textarea').attr('readonly','readonly');
       });
 </script>   
-</div>
         </body>
         </html>
