@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="A simple element creator to generate responsive code that can be easily embbedded into Moodle">
     <meta name="author" content="T&M">
-    <title>Element Creator</title>
+    <title>BEEST Vimeo</title>
+     <link rel="icon" href="https://www.monash.edu/__data/assets/git_bridge/0006/509343/deploy/mysource_files/favicon-72.png" type="image/gif">
 
     <!-- external link to css file --> 
     <!-- Bootstrap CSS -->   
@@ -24,11 +25,6 @@
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
 
     <script type="text/javascript">
-      tinymce.init({
-        selector: '#tinyMCEvideo',
-        menubar: false,
-          plugins : 'advlist autolink link lists charmap print preview' 
-      });
         tinymce.init({
         selector: '#tinyMCEvim',
         menubar: false,
@@ -58,18 +54,7 @@
         SelectAll("txtarearespVim");
         $('#demo').html($(textOutput).html());
         }
-   /*Function to generate and copy code for the alert*/
-    function generateAlertCode() {
-        // Get the HTML contents of the currently active editor
-        console.debug(tinyMCE.activeEditor.getContent());
-
-        //Retrieve the content by id of the tinyMCE textarea
-        var alertCode = tinyMCE.get('tinyMCEalert').getContent();
-        var textOutput1 = monAlert_1+alertCode+monAlert_2;
-        document.getElementById('monAlertCode').innerHTML=textOutput1;
-        SelectAll("monAlertCode");
-       
-        }
+   
 
     function SelectAll(id){
         document.getElementById(id).focus();
@@ -95,20 +80,7 @@
     artsAlert = Monash blue box alert similar to Bootstrap alert component
     artsAcc = Monash blue accordion headings and content
     */
-    var btnNW_1="<p class=\"text-center mb-0\"><a class=\"btn btn-arts m-2\" target=\"_blank\" href=\""
-    var btnNW_2="\">"
-    var btnNW_3=" <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a></p>"
-    var btnSW_1="<p class=\"text-center mb-0\"><a class=\"btn btn-arts m-2\" href=\""
-    var btnSW_2="\">"
-    var btnSW_3=" <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a></p>"
-
-    var respYT_1="<div class=\"row w-100\"><div class=\"col-lg\">"
-    var respYT_2="</div><div class=\"col-lg\"><div class=\"embed-responsive embed-responsive-16by9\"><iframe class=\"embed-responsive-item\" frameborder=\"0\" allowfullscreen=\"allowfullscreen\" src=\""
-    var respYT_2r="<div class=\"embed-responsive embed-responsive-16by9\"><iframe class=\"embed-responsive-item\" frameborder=\"0\" allowfullscreen=\"allowfullscreen\" src=\""
-    var respYT_3="\"></iframe></div></div></div>"
-    var respYT_3r="\"></iframe></div></div>"
-    var respYT_4="<div class=\"col-lg mt-2\">"
-    var respYT_5="</div></div>"
+ 
 
     var respVim_1="<div class=\"row w-100\"><div class=\"col-lg\">"
     var respVim_2="</div><div class=\"col-lg\"><div class=\"embed-responsive embed-responsive-16by9\"><iframe class=\"embed-responsive-item\" frameborder=\"0\" allowfullscreen=\"allowfullscreen\" src=\""
@@ -118,22 +90,7 @@
     var respVim_4="<div class=\"col-lg mt-2\">"
     var respVim_5="</div></div>"
 
-    var monAlert_1="<div class=\"alert alert-arts rounded\"><div class=\"mb-0\">"
-    var monAlert_2="</div>"
-    var QT_1="<div style=\"margin: 50px 15% 50px 15%; background-color:"
-    var QT_2=";\"><div style=\"position: relative; top: -20px; left: -20px; padding: 20px; background: #ffffff; border: 2px solid "
-    var QT_3=";\"><p>"
-    var QT_4="</p></div></div>"
-
-    var QT_3_1=";\"><p style=\"font-style: italic;\">"
-    var QT_3_2="</p><p style=\"text-align: right;\">"
-
-    var A_1="<div class=\"element_toggler\" style=\"background-color:#eff7ff; border: 1px solid #cccccc; padding:10px; margin:10px;\" aria-controls=\""
-    var A_2="\" aria-expanded=\"no\" aria-label=\"Toggler toggle list visibility\" role=\"button\"><i class=\"icon-mini-arrow-down\"></i>" 
-    var A_3="</div><div id=\""
-    var A_4="\" style=\"display: none; padding:10px; margin:10px;\">"
-    var A_5="</div><div class=\"hidden-desktop hidden-phone hidden-tablet no-print\" style=\"padding:10px; margin:10px;\">"
-    var A_6="</div>"
+   
     </script>
        <style>
         .mce-notification-inner, .mce-close, .mce-notification-warning {
