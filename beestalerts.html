@@ -7,7 +7,7 @@
     <meta name="description" content="A simple element creator to generate responsive code that can be easily embbedded into Moodle">
     <meta name="author" content="T&M">
     <title>BEEST Alerts</title>
-     <link rel="icon" href="https://www.monash.edu/__data/assets/git_bridge/0006/509343/deploy/mysource_files/favicon-72.png" type="image/gif">
+     <link rel="icon" href="https://mon-arts-ed-des.github.io/BEEST/paw-solid%20favicon.png" type="image/gif">
 
     <!-- external link to css file --> 
     <!-- Bootstrap CSS -->   
@@ -196,7 +196,7 @@
 </nav>
 <div class="container-fluid">
  <form id="monashAlert">
-  <h1 class="text-center"><i class="fa fa-bell fa-fw"></i>Monash themed alerts</h1>
+  <h1 class="text-center"><i class="fa fa-bell fa-fw"></i> Monash themed alerts</h1>
   <p>This process creates a Monash coloured alert that you can use in your Moodle site to highlight important information for students.</p> 
   <h3><i class="fa fa-exclamation-circle fa-fw"></i> Important caveats</h3>
   <p>Overuse of these alerts, like overuse of bold or italic text results in the alert fading into the background as students read through your Moodle site. Like overuse of OHS signage, it can become part of the wallpaper, instead of alerting people to the important information it contains. So use it sparingly and only if absolutely necessary</p>
@@ -211,18 +211,17 @@
             </div>
             </div>
         <div class="col-lg">
-        <h5 class="mt-3"><i class="fa fa-pencil fa-fw"></i> Write the information you want to display in your alert</h5>
-             
+        <h3 class="mt-3"><i class="fa fa-pencil fa-fw"></i> Write the information you want to display in your alert</h3>
             <p>At times in your Moodle site, there are important reminders you give students. Whether it's about guest speakers, assessment, group work or changes to some part of your delivery of the unit. Or maybe there are important pieces of information like your contact details that you want to highlight. Some staff use coloured text to achieve this, and cause accessibility issues unknowingly for visually impaired students, or students who use screenreaders due to a reading impairment. So to allow for staff to highlight important information, while also maintaining accessibility, we have designed Monash coloured alerts.</p>
         <textarea id="tinyMCE2" class="border border-dark rounded p-2 w-100 mt-3" cols="70" rows="10" name="respPVR_context" placeholder="Write the context for your video here"></textarea>
     </div>
     <div class="text-center">
-    <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-3 text-center" name="GenerateWrap" value="Generate and copy code" onClick=generateAlertCode()></p>
+    <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-3 text-center" name="GenerateWrap" value="Generate and copy code" onClick=generateAlertCode()></p>
     </div>
     <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="monAlertCode" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code or your alert and copy it to the clipboard."></textarea></p>
     </form>
     <form id="monashDAlert">
-        <h1 class="text-center"><i class="fa fa-bell fa-fw"></i>Monash themed dismissible alerts</h1>
+        <h1 class="text-center"><i class="fa fa-times fa-fw"></i> Monash themed dismissible alerts</h1>
         <p>This process creates a Monash coloured alert <strong>that can be dismissed/closed</strong>. You can use in your Moodle site to highlight important information for students, but that students can close once they have read the information.</p> 
             <h3><i class="fa fa-exclamation-circle fa-fw"></i> Important caveats</h3>
             <p>Overuse of these alerts, like overuse of bold or italic text results in the alert fading into the background as students read through your Moodle site. Like overuse of OHS signage, it can become part of the wallpaper, instead of alerting people to the important information it contains. So use it sparingly and only if absolutely necessary</p>
@@ -234,13 +233,13 @@
 <p>In the interest of keeping the assessment page for this unit brief we have included detailed instructions for each assignment in page resources, indicated by this icon > <img src="https://lms.monash.edu/theme/image.php/monash/page/1588788791/icon" />. Make sure you click into these pages to read the full description for the assessment before beginning your work.</p>
 <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button></div>
             </div>
-            <h5 class="mt-3">Write the information you want to display in your alert</h5>
+            <h3 class="mt-3"><i class="fa fa-pencil fa-fw"></i> Write the information you want to display in your alert</h3>
              <div class="col-lg">
             <p>At times in your Moodle site, there are important reminders you give students. Whether it's about guest speakers, assessment, group work or changes to some part of your delivery of the unit. Or maybe there are important pieces of information like your contact details that you want to highlight. Some staff use coloured text to achieve this, and cause accessibility issues unknowingly for visually impaired students, or students who use screenreaders due to a reading impairment. So to allow for staff to highlight important information, while also maintaining accessibility, we have designed Monash coloured alerts.</p>
         <textarea id="tinyMCE1" class="border border-dark rounded p-2 w-100 mt-3" cols="70" rows="10" name="respPVR_context" placeholder="Write the context for your video here"></textarea>
     </div>
     <div class="text-center">
-    <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-3 text-center" name="GenerateWrap" value="Generate and copy code" onClick=generateAlertDCode()></p>
+    <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-3 text-center" name="GenerateWrap" value="Generate and copy code" onClick=generateAlertDCode()></p>
     </div>
     <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="monAlertDCode" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code or your alert and copy it to the clipboard."></textarea></p>
     </form>
