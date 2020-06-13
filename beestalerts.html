@@ -168,20 +168,23 @@
       <li class="nav-item active">
         <a class="nav-link" href="https://mon-arts-ed-des.github.io/BEEST/home">Home <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link dropdown-toggle" href="https://mon-arts-ed-des.github.io/BEEST/beestbuttons">Buttons</a>
-           
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Buttons</a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beestbuttons">Single buttons</a>
+          <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beesttwobuttons">Two buttons</a>
+          </div>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Alerts</a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Alerts</a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
           <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beestalerts">Normal alerts</a>
           <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beestdmalerts">Dismissable alerts</a>
           </div>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Responsive video</a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Responsive video</a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
           <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beestpanopto">Panopto</a>
           <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beestyoutube">Youtube</a>
           <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beestvimeo">Vimeo</a>
@@ -245,31 +248,6 @@
      </div>
     <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="monAlertCode" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code for your alert and copy it, ready to be pasted."></textarea></p>
     </form>     
-    <hr class="hr-3 my-3">
-    <form id="monashDAlert">
-        <h1 class="text-center"><i class="fa fa-times fa-fw"></i> Monash themed dismissible alerts</h1>
-          <h3><i class="fa fa-fw fa-question-circle-o"></i> What will this process do?</h3>
-  <p>An alert is a text box that has a coloured background and border so that it 'sticks out' from the other text on the page. This process creates a Monash coloured alert <strong>that can be dismissed/closed</strong> by the user once they have finished reading the information within it. You can use in your Moodle site to highlight important information for students, but that students can close once they have read the information.</p> 
-            <h3><i class="fa fa-exclamation-circle fa-fw"></i> Important caveats</h3>
-            <p>Overuse of these alerts, like overuse of bold or italic text results in the alert fading into the background as students read through your Moodle site. Like overuse of OHS signage, it can become part of the wallpaper, instead of alerting people to the important information it contains. So use it sparingly and only if absolutely necessary</p>
-             <div class="w-100 mx-auto border-arts-3 rounded p-3 m-3">
-            <h3><i class="fa fa-flag-checkered"></i> The result</h3>
-            <p>The end result here is text with a rounded border and Monash blue background that highlights important text. It's just like editing any other element, we're simply changing the background and the border to draw attention to the information.</p>
-            <div class="alert alert-arts alert-dismissible fade show rounded" role="alert">
-                <h3><i class="fa fa-fw fa-eye"></i> Please ensure you read assessment descriptions</h3>
-<p>In the interest of keeping the assessment page for this unit brief we have included detailed instructions for each assignment in page resources, indicated by this icon > <img src="https://lms.monash.edu/theme/image.php/monash/page/1588788791/icon" />. Make sure you click into these pages to read the full description for the assessment before beginning your work.</p>
-<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button></div>
-            </div>
-            <h3 class="mt-3"><i class="fa fa-pencil fa-fw"></i> Step 1 - Write the information you want to display in your dismissable alert</h3>
-            <p>At times in your Moodle site, there are important reminders you give students. Whether it's about guest speakers, assessment, group work or changes to some part of your delivery of the unit. Or maybe there are important pieces of information like your contact details that you want to highlight. Some staff use coloured text to achieve this, and cause accessibility issues unknowingly for visually impaired students, or students who use screenreaders due to a reading impairment. So to allow for staff to highlight important information, while also maintaining accessibility, we have designed Monash coloured alerts.</p>
-        <textarea id="tinyMCE1" class="border border-dark rounded p-2 w-100 mt-3" cols="70" rows="10" name="respPVR_context" placeholder="Write the context for your video here"></textarea>
-        <h3 class="mt-3"><i class="fa fa-code fa-fw"></i> Step 2 - Generate and copy the HTML for your element</h3>
-     <p>Click the button below to generate the HTML for your element which will appear in the text box below the button, and also copy it, ready to be pasted into Moodle. If you are unsure of how to paste HTML into Moodle, please watch this short video (opens as an overlay on this screen).</p>
-    <div class="text-center">
-    <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-3 text-center" name="GenerateWrap" value="Generate and copy code" onClick=generateAlertDCode()></p>
-    </div>
-    <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="monAlertDCode" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code or your alert and copy it to the clipboard."></textarea></p>
-    </form>
         </div>
         </body>
         </html>
