@@ -218,15 +218,23 @@
     </div>
      <div>
    <h3 class="mt-3"><i class="fa fa-code fa-fw"></i> Step 2 - Generate and copy the HTML for your element</h3>
-     <p>Click the button below to generate the HTML for your element which will appear in the text box below the button, and also copy it, ready to be pasted into Moodle. If you are unsure of how to paste HTML into Moodle, please watch this short video (opens as an overlay on this screen).</p>
+     <p>Click the button below to generate the HTML for your element which will appear in the text box below the button, and also copy it, ready to be pasted into Moodle. If you are unsure of how to paste HTML into Moodle, please watch <a href="" data-toggle="modal" data-target=".bd-example-modal-lg">this short video</a> (opens as an overlay on this screen).</p>
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+   <div class="embed-responsive embed-responsive-16by9">
+       <iframe class="embed-responsive-item" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=df70f410-555b-4387-8673-abca004f3e1a"></iframe>
+        </div>
+    </div>
+  </div>
+</div>
          <div class="text-center">
     <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-3 text-center" name="GenerateWrap" value="Generate and copy code </>" onClick=generateAlertCode()></p>
          </div>
      </div>
     <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="monAlertCode" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code for your alert and copy it, ready to be pasted."></textarea></p>
-    </form>
+    </form>     
     <hr class="hr-3 my-3">
-    <div class="container-fluid">
     <form id="monashDAlert">
         <h1 class="text-center"><i class="fa fa-times fa-fw"></i> Monash themed dismissible alerts</h1>
           <h3><i class="fa fa-fw fa-question-circle-o"></i> What will this process do?</h3>
@@ -241,15 +249,16 @@
 <p>In the interest of keeping the assessment page for this unit brief we have included detailed instructions for each assignment in page resources, indicated by this icon > <img src="https://lms.monash.edu/theme/image.php/monash/page/1588788791/icon" />. Make sure you click into these pages to read the full description for the assessment before beginning your work.</p>
 <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button></div>
             </div>
-            <h3 class="mt-3"><i class="fa fa-pencil fa-fw"></i> Write the information you want to display in your alert</h3>
-             <div class="col-lg">
+            <h3 class="mt-3"><i class="fa fa-pencil fa-fw"></i> Step 1 - Write the information you want to display in your dismissable alert</h3>
             <p>At times in your Moodle site, there are important reminders you give students. Whether it's about guest speakers, assessment, group work or changes to some part of your delivery of the unit. Or maybe there are important pieces of information like your contact details that you want to highlight. Some staff use coloured text to achieve this, and cause accessibility issues unknowingly for visually impaired students, or students who use screenreaders due to a reading impairment. So to allow for staff to highlight important information, while also maintaining accessibility, we have designed Monash coloured alerts.</p>
         <textarea id="tinyMCE1" class="border border-dark rounded p-2 w-100 mt-3" cols="70" rows="10" name="respPVR_context" placeholder="Write the context for your video here"></textarea>
-    </div>
+        <h3 class="mt-3"><i class="fa fa-code fa-fw"></i> Step 2 - Generate and copy the HTML for your element</h3>
+     <p>Click the button below to generate the HTML for your element which will appear in the text box below the button, and also copy it, ready to be pasted into Moodle. If you are unsure of how to paste HTML into Moodle, please watch this short video (opens as an overlay on this screen).</p>
     <div class="text-center">
     <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-3 text-center" name="GenerateWrap" value="Generate and copy code" onClick=generateAlertDCode()></p>
     </div>
     <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="monAlertDCode" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code or your alert and copy it to the clipboard."></textarea></p>
     </form>
+        </div>
         </body>
         </html>
