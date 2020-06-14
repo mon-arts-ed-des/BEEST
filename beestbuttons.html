@@ -71,6 +71,70 @@
     var btnSW_2="\">"
     var btnSW_3=" <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a></p>"
     </script>
+    <style>
+        .mce-notification-inner, .mce-close, .mce-notification-warning {
+        display:none !important;
+        }
+
+        /* Popup container - can be anything you want */
+    #popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    }
+
+    /* The actual popup */
+    #popup .popuptext {
+    visibility: hidden;
+    width: 160px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -80px;
+    }
+
+    /* Popup arrow */
+    #popup .popuptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+    }
+
+    /* Toggle this class - hide and show the popup */
+    #popup .showPopup {
+    -webkit-animation: fadeinout 3s linear  forwards;
+    animation: fadeinout 3s linear forwards;
+    visibility: visible;
+    }
+
+    /* Add animation (fade in the popup) */
+@-webkit-keyframes fadeinout {
+  0%,100% { opacity: 0; }
+  10% {opacity: 1;}
+  66% { opacity: 1; }
+}
+
+@keyframes fadeinout {
+  0%,100% { opacity: 0; }
+  10% {opacity: 1;}
+  66% { opacity: 1; }
+}
+    </style> 
     </head>
     <body>
        <nav class="navbar navbar-expand-lg navbar-dark bg-arts mb-3">
@@ -143,12 +207,11 @@
             <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="1" id="btnNW_text" name="btnNW_text" placeholder="Write/paste the text for the button here"></textarea>
             </div>
                </div>
-            <p class="text-center"><input type="button" class="btn btn-arts m-2" name="GenerateWrap" value="Generate Code" OnClick=generateBtnCode()>
+            <p class="text-center"><p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-2" name="GenerateWrap" value="Generate Code" OnClick=generateBtnCode()></p>
             <p class="text-center">
                 <textarea readonly class="rounded p-2 w-100" id="txtareaNW" cols="70" rows="3" name="Result" placeholder="When you click the button above it will generate the code for your element and copy it, ready for you to paste into Moodle."></textarea></p>
         </form>
 <hr class="hr-3">
-        <p class="border-arts-3 border-bottom"></p>
 <h1 class="text-center"><i class="fa fa-fw fa-window-maximize"></i> Monash button - opens in the same window</h1>
         <p>This process will generate a Monash blue button element with text that communicates where the button links to and the link will open in the same window. Please ensure the links you paste are full URLs.</p>
         <p><strong>E.g.</strong> https://google.com or https://lms.monash.edu.</p>
@@ -174,7 +237,7 @@
             </div>
             <div class="col-lg">
             <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="1" id="btnSW_text" name="btnSW_text" placeholder="Write/paste the text for the button here"></textarea></div></div>
-            <p class="text-center"><input type="button" class="btn btn-arts m-2" name="GenerateWrap" value="Generate Code" OnClick=generateBtnCodeSW()>
+            <p class="text-center"><p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-2" name="GenerateWrap" value="Generate Code" OnClick=generateBtnCodeSW()></p>
             <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="txtareaSW" cols="70" rows="5" name="Result" placeholder="The code for your button will be generated here. Click into this text box once generated and the code will all be highlighted. Then paste the code in Moodle using the HTML editor."></textarea></p>
         </form>
         <!--Form for new window button ends here-->
