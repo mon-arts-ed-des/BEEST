@@ -24,6 +24,24 @@
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
 
     <script type="text/javascript">
+    function generateBtnCode() {
+        //Retrieve the content by id of the textareas
+        var btnNW_URL = document.getElementById('btnNW_URL').value;
+        var btnNW_text = document.getElementById('btnNW_text').value;
+        var textOutputNW = btnNW_1+btnNW_URL+btnNW_2+btnNW_text+btnNW_3;
+        document.getElementById('txtareaNW').innerHTML=textOutputNW;
+        SelectAll("txtareaNW");
+        }
+        
+    function generateBtnCodeSW() {
+        //Retrieve the content by id of the textareas
+        var btnSW_URL = document.getElementById('btnSW_URL').value;
+        var btnSW_text = document.getElementById('btnSW_text').value;
+        var textOutputSW = btnSW_1+btnSW_URL+btnSW_2+btnSW_text+btnSW_3;
+        document.getElementById('txtareaSW').innerHTML=textOutputSW;
+        SelectAll("txtareaSW");
+        }  
+        
     function SelectAll(id){
         document.getElementById(id).focus();
         document.getElementById(id).select();
@@ -145,7 +163,7 @@
             <p>Paste in the link/URL for the button. Where users will be directed to when clicking the button.</p>
             </div>
             <div class="col-lg">
-            <p class="text-center"><textarea class="rounded p-2 w-100" rows="1" name="btnSW_URL" placeholder="Write/paste the URL here"></textarea></p>
+            <p class="text-center"><textarea class="rounded p-2 w-100" rows="1" id="btnSW_URL" name="btnSW_URL" placeholder="Write/paste the URL here"></textarea></p>
             </div>
             </div>
         <div class="row w-100">
@@ -154,14 +172,10 @@
             <p>You can have text that tells the user what the button is linked to here - <strong>recommended < 25 characters including spaces).</strong></p>
             </div>
             <div class="col-lg">
-            <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="1" name="btnSW_text" placeholder="Write/paste the text for the button here"></textarea></div></div>
-            <p class="text-center"><input type="button" class="btn btn-arts m-2" name="GenerateWrap" value="Generate Code" OnClick=btnSW.Result.value=btnSW_1+btnSW_URL.value+btnSW_2+btnSW_text.value+btnSW_3>
+            <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="1" id="btnSW_text" name="btnSW_text" placeholder="Write/paste the text for the button here"></textarea></div></div>
+            <p class="text-center"><input type="button" class="btn btn-arts m-2" name="GenerateWrap" value="Generate Code" OnClick=generateBtnCodeSW()>
             <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="txtareaSW" cols="70" rows="5" name="Result" placeholder="The code for your button will be generated here. Click into this text box once generated and the code will all be highlighted. Then paste the code in Moodle using the HTML editor."></textarea></p>
-        <p class="text-center">
-        <input type="button" class="m-2 btn btn-arts" name="copyCode" value="Click to copy code" onClick=SelectAll("txtareaSW");></input></p>
         </form>
-    
-
         <!--Form for new window button ends here-->
         </body>
         </html>
