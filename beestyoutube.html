@@ -267,10 +267,24 @@
                     </div>
              <div id="demo">
                     </div>
-         <script>//code for converting Youtube link from Viewer to Embed
+         <script>
+         
         $('#respYTswitch').on('input', function(event) {
         var s = $('#respYTswitch').val().toString();
+        
+        if (s.includes("vimeo") == true)
+        {
+        //code for converting Vimeo link from Viewer to Embed
+        var x = s.replace('https://vimeo.com/','https://player.vimeo.com/video/');
+        }
+        else if (s.includes("youtube") == true) {
+        //code for converting Youtube link from Viewer to Embed
         var x = s.replace('watch?v=','embed/');
+        }
+        else if (s.includes("panopto") == true) {
+          var x = s.replace('Viewer','Embed');
+        }
+
         $('#respYTswitch').val(x);
         $('input[type="text"], textarea').attr('readonly','readonly');
       }); 
