@@ -51,7 +51,10 @@
 
         document.getElementById('txtarearespVim').innerHTML=textOutput;
         SelectAll("txtarearespVim");
-        $('#demo').html($(textOutput).html());
+        //$('#demo').html($(textOutput).html());
+
+        //Add the html code after the div
+        $('#demo').after(textOutput);
         }
    
 
@@ -269,7 +272,7 @@
                     </div>
                     </div>
                     </div>
-             <div id="demo" class="row w-100">
+             <div id="demo">
                     </div>
          <script>//code for converting Vimeo link from Viewer to Embed
         $('#respVimswitch').on('input', function(event) {
