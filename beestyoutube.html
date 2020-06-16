@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="A simple element creator to generate responsive code that can be easily embbedded into Moodle">
     <meta name="author" content="T&M">
-    <title>BEEST Youtube</title>
+    <title>BEEST Video</title>
      <link rel="icon" href="https://www.monash.edu/__data/assets/git_bridge/0006/509343/deploy/mysource_files/favicon-72.png" type="image/gif">
     <!-- external link to css file --> 
     <!-- Bootstrap CSS -->   
@@ -71,7 +71,7 @@
     /* Variable Key
     These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
 
-    respYT = responsive Youtube Video Right (context left/video right)
+    respYT = responsive Video Right (context left/video right)
 
     */
     var respYT_1="<div class=\"row w-100\"><div class=\"col-lg\">"
@@ -193,7 +193,7 @@
 <div class="container-fluid">
     <div class="alert alert-arts h5">Important: You can only generate the code for one element at a time on this page. If you need more elements, copy and paste each element into Moodle, return to this page and create your next element. Watch the video below for a walkthrough of how to use the page effectively.</div>
     <div class="col-lg">
-<h3 class="text-center">Responsive Youtube video + context</h3>
+<h3 class="text-center">Responsive video + context</h3>
     <p>This process will create some text on the left which is the context for your video (explained below), and a responsive video on the right. Responsive video changes size as the screen changes size and when the screen gets small enough, this process will 'collapse' the video underneath the text.</p>
     <h3><i class="fa fa-flag-checkered"></i> The result</h3>
         <p>The end result will be similar to the below example. This will vary depending on the heading level you use, whether you use a list and add other text elements in your context. Try resizing your screen to see how the video and text rearrange, and video resizes to be a more appropriate size for the device you're on. The Font Awesome icons used here will need to be input by the user. Some suggestions for videos are below. The square brackets code is what you will input into the rich text editor. Once pasted into Moodle and saved, it will look like the example given to the right of the square brackets.</p>
@@ -235,11 +235,11 @@
         <p>It's recommended to have a few sentences or dot points explaining what is in the video students are about to watch. This helps in particular when students are looking back through your site for a specific video where you addressed certain concepts or theories. Instead of watching the entire video, they can read the context you've provided, and make a decision on whether to watch the entire video.</p>
         <p>Below is a rich-text editor like you would expect to see in Moodle. You can add formatting such as headings, bold, italics, links and lists to your context and it will be replicated in the final code.</p>
         <textarea id="tinyMCEyt" class="border border-dark rounded p-2 w-100 mt-3" cols="70" rows="10" name="respYT_context" placeholder="Write the context for your video here"></textarea>
-        <h5 class="mt-3">Step 2 - Paste the Youtube link for your video</h5>
-        <p>Paste in the link (not the embed code) for the Youtube video. When you paste the link into this box it will automatically change the link to be the embed link required for this process to work and you will not be able to edit this box. If you paste the embed code from Youtube it will not work correctly.</p>
+        <h5 class="mt-3">Step 2 - Paste the link for your video</h5>
+        <p>Paste in the link (not the embed code) for the video. When you paste the link into this box it will automatically change the link to be the embed link required for this process to work and you will not be able to edit this box. If you paste the embed code from Youtube it will not work correctly.</p>
         <div class="alert alert-arts rounded mx-auto w-75 p-2">
             <div class="text-center"><i class="fa fa-exclamation-circle fa-fw fa-3x m-0"></i><p class="my-1 h5">If you paste the wrong link, you will need to refresh the page and start again.</p></div></div>
-        <p class="text-center"><textarea class="rounded p-2 w-100" rows="1" name="respYT_link" type="text" id="respYTswitch" placeholder="Paste the Youtube video link here"></textarea></p>
+        <p class="text-center"><textarea class="rounded p-2 w-100" rows="1" name="respYT_link" type="text" id="respYTswitch" placeholder="Paste the Youtube/Panopto/Vimeo/TED Talks video link here"></textarea></p>
         <h5 class="mt-3">Step 3 - Select the video position</h5>
         <p>Choose which side of screen you would prefer the video to appear by clicking on one of the options below. <strong>Video on the left</strong> is selected by default.</p>
             <select class="form-control w-50 mx-auto" id="videoPosition" name="videoPosition" size="2">
@@ -272,17 +272,20 @@
         $('#respYTswitch').on('input', function(event) {
         var s = $('#respYTswitch').val().toString();
         
-        if (s.includes("vimeo") == true)
+        if (s.includes("vimeo.com") == true)
         {
         //code for converting Vimeo link from Viewer to Embed
         var x = s.replace('https://vimeo.com/','https://player.vimeo.com/video/');
         }
-        else if (s.includes("youtube") == true) {
+        else if (s.includes("youtube.com") == true) {
         //code for converting Youtube link from Viewer to Embed
         var x = s.replace('watch?v=','embed/');
         }
-        else if (s.includes("panopto") == true) {
+        else if (s.includes("monash-panopto") == true) {
           var x = s.replace('Viewer','Embed');
+        }
+        else if (s.includes("ted.com") == true) {
+          var x = s.replace('www.ted.com','embed.ted.com');
         }
 
         $('#respYTswitch').val(x);
