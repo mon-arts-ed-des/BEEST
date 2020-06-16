@@ -48,7 +48,10 @@
 
         document.getElementById('txtarearespYT').innerHTML=textOutput;
         SelectAll("txtarearespYT");
-        $('#demo').html($(textOutput).html());
+        //$('#demo').html($(textOutput).html());
+
+        //Add the html code after the div
+        $('#demo').after(textOutput);
         }
 
     function SelectAll(id){
@@ -262,7 +265,7 @@
                     </div>
                     </div>
                     </div>
-             <div id="demo" class="row w-100">
+             <div id="demo">
                     </div>
          <script>//code for converting Youtube link from Viewer to Embed
         $('#respYTswitch').on('input', function(event) {
