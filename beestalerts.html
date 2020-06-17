@@ -53,6 +53,9 @@
         var textOutput1 = monAlert_1+alertCode+monAlert_2;
         document.getElementById('monAlertCode').innerHTML=textOutput1;
         SelectAll("monAlertCode");
+
+        var popup = document.getElementById("myPopup");
+        popup.classList.toggle("showPopup");
         }
 
     function generateAlertDCode() {
@@ -64,14 +67,15 @@
         var textOutput2 = monAlertD_1+alertDCode+monAlertD_2;
         document.getElementById('monAlertDCode').innerHTML=textOutput2;
         SelectAll("monAlertDCode");
+
+        var popup = document.getElementById("myPopup2");
+        popup.classList.toggle("showPopup");
         }
     function SelectAll(id){
         document.getElementById(id).focus();
         document.getElementById(id).select();
         document.execCommand("copy");
 
-        var popup = document.getElementById("myPopup");
-        popup.classList.toggle("showPopup");
         //window.alert('test');
     }
 
