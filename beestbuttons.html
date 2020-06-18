@@ -6,7 +6,7 @@
     <meta name="description" content="A simple element creator to generate responsive code that can be easily embedded into Moodle">
     <meta name="author" content="T&M">
     <title>BEEST Buttons</title>
-     <link rel="icon" href="https://mon-arts-ed-des.github.io/BEEST/paw-solid%20favicon.png" type="image/gif">
+     <link rel="icon" href="https://mon-arts-ed-des.github.io/BEEST/dragon-solid%20favicon.png" type="image/gif">
 
     <!-- external link to css file --> 
     <!-- Bootstrap CSS -->   
@@ -26,21 +26,22 @@
     <script type="text/javascript">
     function generateBtnCode() {
         //Retrieve the content by id of the textareas
-        var btnNW_URL = document.getElementById('btnNW_URL').value;
-        var btnNW_text = document.getElementById('btnNW_text').value;
-        var textOutputNW = btnNW_1+btnNW_URL+btnNW_2+btnNW_text+btnNW_3;
-        document.getElementById('txtareaNW').innerHTML=textOutputNW;
-        SelectAll("txtareaNW");
+        var btn_URL = document.getElementById('btn_URL').value;
+        var btn_text = document.getElementById('btn_text').value;
+        var btnTarget = document.getElementById('buttonTarget').value;
+    
+
+        if (btnTarget == "sameWin"){
+            var textOutput = btnSW_1+btn_URL+btnSW_2+btn_text+btnSW_3;
+        }
+        else if (btnTarget == "newWin"){
+            var textOutput = btnNW_1+btn_URL+btnNW_2+btn_text+btnNW_3;
+        }
+
+        document.getElementById('txtareaBtn').innerHTML=textOutput;
+        SelectAll("txtareaBtn");
         }
         
-    function generateBtnCodeSW() {
-        //Retrieve the content by id of the textareas
-        var btnSW_URL = document.getElementById('btnSW_URL').value;
-        var btnSW_text = document.getElementById('btnSW_text').value;
-        var textOutputSW = btnSW_1+btnSW_URL+btnSW_2+btnSW_text+btnSW_3;
-        document.getElementById('txtareaSW').innerHTML=textOutputSW;
-        SelectAll("txtareaSW");
-        }  
         
     function SelectAll(id){
         document.getElementById(id).focus();
@@ -65,7 +66,7 @@
     */
     var btnNW_1="<p class=\"text-center mb-0\"><a class=\"btn btn-arts m-2\" target=\"_blank\" href=\""
     var btnNW_2="\">"
-    var btnNW_3=" <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a></p>"
+    var btnNW_3=" <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a></p><p class=\"text-center\">(Opens in a new window)</p>"
     
     var btnSW_1="<p class=\"text-center mb-0\"><a class=\"btn btn-arts m-2\" href=\""
     var btnSW_2="\">"
@@ -150,7 +151,7 @@
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Buttons</a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beestbuttons">Single buttons</a>
+          <a class="dropdown-item" href="../beestbuttons.html">Single buttons</a>
           <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beesttwobuttons">Two buttons</a>
           </div>
       </li>
@@ -188,14 +189,14 @@
             <h3><i class="fa fa-flag-checkered"></i> The result</h3>
             <p>The end result will be similar to the below example (your link and text will be different). We've included Font Awesome in this example (the arrow pointing to the right) which will be added to the end of your text.</p>
             <p class="text-center mb-0"><a class="btn btn-arts m-2" target="_blank" href="https://lms.monash.edu">Go to Monash Moodle <i class="fa fa-arrow-right" aria-hidden="true"></i></a></p></div>
-           <form id="btnNW">
+           <form id="btn">
             <h3><i class="fa fa-fw fa-link"></i> Step 1 - Paste your URL</h3>
         <div class="row w-100 mx-auto">
         <div class="col-lg">
             <p>Paste in the link/URL for the button. Where users will be directed to when clicking the button.</p>
             </div>
             <div class="col-lg">
-            <p class="text-center"><textarea class="rounded p-2 w-100" rows="1" id="btnNW_URL" name="btnNW_URL" placeholder="Write/paste the URL here"></textarea></p>
+            <p class="text-center"><textarea class="rounded p-2 w-100" rows="1" id="btn_URL" name="btn_URL" placeholder="Write/paste the URL here"></textarea></p>
             </div>
             </div>
         <h3><i class="fa fa-fw fa-pencil"></i> Step 2 - Write the text for the button</h3>
@@ -204,48 +205,22 @@
             <p>You can have text that tells the user what the button is linked to here - <strong>recommended less than 25 characters including spaces).</strong></p>
             </div>
         <div class="col-lg">
-            <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="1" id="btnNW_text" name="btnNW_text" placeholder="Write/paste the text for the button here"></textarea>
+            <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="1" id="btn_text" name="btn_text" placeholder="Write/paste the text for the button here"></textarea>
             </div>
                </div>
-                <h3><i class="fa fa-fw fa-code"></i> Step 3 - Generate and copy the code for your element</h3>
+               <h3><i class="fa fa-fw fa-question-circle-o"></i> Step 3 - Open your link in the same window or a new window</h3>
+               <p>You should open your link in a new window if it is opening a site outside of Moodle or resource you want students to read/view. If you are linking to another part of the same Moodle site, e.g. a forum, then open the link in the same window. New window is chosen by default</p>
+               <select class="form-control w-50 mx-auto" id="buttonTarget" name="buttonTarget" size="2">
+                <option selected value="newWin">New window</option>
+                 <option value="sameWin">Same window</option>
+               
+              </select>
+                <h3><i class="fa fa-fw fa-code"></i> Step 4 - Generate and copy the code for your element</h3>
                <p>When you click the button below, it will generate the HTML for your element and copy it, ready to be pasted into Moodle. If you are unsure of how to paste HTML into Moodle watch this short video here.</p>
             <div class="text-center"><p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-2" name="GenerateWrap" value="Generate Code" OnClick=generateBtnCode()></p>
                </div>
             <p class="text-center">
-                <textarea readonly class="rounded p-2 w-100" id="txtareaNW" cols="70" rows="3" name="Result" placeholder="When you click the button above it will generate the code for your element and copy it, ready for you to paste into Moodle."></textarea></p>
+                <textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="3" name="Result" placeholder="When you click the button above it will generate the code for your element and copy it, ready for you to paste into Moodle."></textarea></p>
         </form>
-<hr class="hr-3">
-<h1 class="text-center"><i class="fa fa-fw fa-window-maximize"></i> Monash button - opens in the same window</h1>
-        <p>This process will generate a Monash blue button element with text that communicates where the button links to and the link will open in the same window. Please ensure the links you paste are full URLs.</p>
-        <p><strong>E.g.</strong> https://google.com or https://lms.monash.edu.</p>
-        <p><strong>If you do not include the https:// or http:// prefix your button will not work correctly.</strong></p>
-        <div class="w-100 mx-auto border-arts-3 rounded p-3 m-2">
-            <h3><i class="fa fa-flag-checkered"></i> The result</h3>
-            <p>The end result will be similar to the below example (your link and text will be different). We've included Font Awesome in this example (the arrow pointing to the right) which will be added to the end of your text.</p>
-            <p class="text-center mb-0"><a class="btn btn-arts m-2" target="_blank" href="https://lms.monash.edu">Go to Monash Moodle <i class="fa fa-arrow-right" aria-hidden="true"></i></a></p></div>
-        <form id="btnSW">
-            <h3 class="mt-3"><i class="fa fa-fw fa-link"></i> Step 1 - Paste your URL</h3>
-        <div class="row w-100">
-        <div class="col-lg">
-            <p>Paste in the link/URL for the button. Where users will be directed to when clicking the button.</p>
-            </div>
-        <div class="col-lg">
-            <p class="text-center"><textarea class="rounded p-2 w-100" rows="1" id="btnSW_URL" name="btnSW_URL" placeholder="Write/paste the URL here"></textarea></p>
-            </div>
-            </div>
-            <h3><i class="fa fa-fw fa-pencil"></i> Step 2 - Write the text for the button</h3>
-        <div class="row w-100">
-        <div class="col-lg">
-            <p>You can have text that tells the user what the button is linked to here - <strong>recommended < 25 characters including spaces).</strong></p>
-            </div>
-            <div class="col-lg">
-            <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="1" id="btnSW_text" name="btnSW_text" placeholder="Write/paste the text for the button here"></textarea></div></div>
-              <h3><i class="fa fa-fw fa-code"></i> Step 3 - Generate and copy the code for your element</h3>
-<p>When you click the button below, it will generate the HTML for your element and copy it, ready to be pasted into Moodle. If you are unsure of how to paste HTML into Moodle watch this short video here.</p>
-            <div class="text-center"><p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-2" name="GenerateWrap" value="Generate Code" OnClick=generateBtnCodeSW()></p>
-            </div>
-            <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="txtareaSW" cols="70" rows="5" name="Result" placeholder="The code for your button will be generated here. Click into this text box once generated and the code will all be highlighted. Then paste the code in Moodle using the HTML editor."></textarea></p>
-        </form>
-        <!--Form for new window button ends here-->
         </body>
         </html>
