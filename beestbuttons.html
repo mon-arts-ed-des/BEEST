@@ -176,11 +176,10 @@
         </div>
       </nav>
         <div class="container-fluid">
-        <div class="alert alert-arts h5">Important: You can only generate the code for one element at a time on this page. If you need more elements, copy and paste each element into Moodle, return to this page and create your next element. Watch the video below for a walkthrough of how to use the page effectively.</div>
             <h1 class="text-center"><i class="fa fa-fw fa-external-link"></i> Monash button</h1>
         <p>This process will generate a Monash blue button element with a link to a site, text that communicates where the button links to and whether the button opens in the same window or a new window.</p>
-            <p><strong>E.g.</strong> https://google.com or https://lms.monash.edu.</p>
-            <p><strong>If you do not include the https:// or http:// prefix your button will not work correctly.</strong></p>
+            <p><strong>E.g.</strong> https://google.com or https://lms.monash.edu | <strong>If you do not include the https:// or http:// prefix your button will not work correctly.</strong></p>
+        
         <div class="w-100 mx-auto border-arts-3 rounded p-3 m-3">
             <h3><i class="fa fa-flag-checkered"></i> The result</h3>
             <p>The end result will be similar to the below example (your link and text will be different). We've included Font Awesome in this example (the arrow pointing to the right) which will be added to the end of your text.</p>
@@ -204,13 +203,18 @@
             <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="1" id="btn_text" name="btn_text" placeholder="Write/paste the text for the button here"></textarea>
             </div>
                </div>
+               <div class="row w-100 mx-auto">
+                <div class="col-lg">
                <h3><i class="fa fa-fw fa-question-circle-o"></i> Step 3 - Open your link in the same window or a new window</h3>
                <p>You should open your link in a new window if it is opening a site outside of Moodle or resource you want students to read/view. If you are linking to another part of the same Moodle site, e.g. a forum, then open the link in the same window. New window is chosen by default</p>
+               </div>
+               <div class="col-lg">
                <select class="form-control w-50 mx-auto" id="buttonTarget" name="buttonTarget" size="2">
                 <option selected value="newWin">New window</option>
-                 <option value="sameWin">Same window</option>
-               
+                 <option value="sameWin">Same window</option>               
               </select>
+            </div>
+            </div>
                 <h3><i class="fa fa-fw fa-code"></i> Step 4 - Generate and copy the code for your element</h3>
                <p>When you click the button below, it will generate the HTML for your element and copy it, ready to be pasted into Moodle. If you are unsure of how to paste HTML into Moodle watch this short video here.</p>
             <div class="text-center"><p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-2" name="GenerateWrap" value="Generate Code" OnClick=generateBtnCode()></p>
