@@ -40,6 +40,7 @@
 
         document.getElementById('txtareaBtn').innerHTML=textOutput;
         SelectAll("txtareaBtn");
+        $('#demo').after(textOutput);
         }
         
         
@@ -176,8 +177,8 @@
       </nav>
         <div class="container-fluid">
         <div class="alert alert-arts h5">Important: You can only generate the code for one element at a time on this page. If you need more elements, copy and paste each element into Moodle, return to this page and create your next element. Watch the video below for a walkthrough of how to use the page effectively.</div>
-            <h1 class="text-center"><i class="fa fa-fw fa-external-link"></i> Monash button - opens in a new window</h1>
-        <p>This process will generate a Monash blue button element with text that communicates where the button links to and the link will open in a new window. This is recommended for content you are linking to outside of Moodle, so that Moodle stays open in a separate tab for students. Please ensure the links you paste are full URLs.</p>
+            <h1 class="text-center"><i class="fa fa-fw fa-external-link"></i> Monash button</h1>
+        <p>This process will generate a Monash blue button element with a link to a site, text that communicates where the button links to and whether the button opens in the same window or a new window.</p>
             <p><strong>E.g.</strong> https://google.com or https://lms.monash.edu.</p>
             <p><strong>If you do not include the https:// or http:// prefix your button will not work correctly.</strong></p>
         <div class="w-100 mx-auto border-arts-3 rounded p-3 m-3">
@@ -217,5 +218,8 @@
             <p class="text-center">
                 <textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="3" name="Result" placeholder="When you click the button above it will generate the code for your element and copy it, ready for you to paste into Moodle."></textarea></p>
         </form>
+        <h3><i class="fa fa-fw fa-eye"></i> Step 5 - Preview of your element</h3>
+        <div id="demo">
+        </div>
         </body>
         </html>
