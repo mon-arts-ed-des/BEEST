@@ -40,7 +40,9 @@
 
         document.getElementById('txtareaBtn').innerHTML=textOutput;
         SelectAll("txtareaBtn");
+      
         $('#demo').after(textOutput);
+        $('#demo').prop('demo','test');
         }
         
         
@@ -231,5 +233,27 @@
         <p>A preview of your element will appear below</p>
         <div id="demo">
         </div>
+
+        <script>
+          $('#btn_URL').on('input', function(event) {
+          var s = $('#btn_URL').val().toString();
+          
+          if (s.includes("https://") == true)
+          {
+          //do nothing if match to 'https'
+          }
+          else if (s.includes("http://") == true) {
+          //do nothing if match to 'http'
+          }
+          //if not, add 'http'
+          else {
+            s = "http://" + s;
+          }
+      
+          $('#btn_URL').val(s);
+          $('input[type="text"], textarea').attr('readonly','readonly');
+        }); 
+        </script>
+
         </body>
         </html>
