@@ -16,6 +16,8 @@
     
     <!-- external link to js file -->  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  
     <!-- Bootstrap js file --> 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- FontAwesome js file --> 
@@ -60,6 +62,9 @@
     {
         document.forms["myform"].submit();
     }
+    $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
     /* Variable Key
     These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
 
@@ -185,55 +190,49 @@
             <h3><i class="fa fa-flag-checkered"></i> The result</h3>
             <p>The end result will be similar to the below example (your link and text will be different). We've included Font Awesome in this example (the arrow pointing to the right) which will be added to the end of your text.</p>
             <p class="text-center mb-0"><a class="btn btn-arts m-2" target="_blank" href="https://lms.monash.edu">Go to Monash Moodle <i class="fa fa-arrow-right" aria-hidden="true"></i></a></p></div>
-           <form id="btn">
-            <h3><i class="fa fa-fw fa-link"></i> Step 1 - Paste your URL</h3>
+           <form id="btn">           
         <div class="row w-100 mx-auto">
         <div class="col-lg">
-            <p>Paste in the link/URL for the button. This is where users will be directed to when clicking the button.</p>
-            </div>
-            <div class="col-lg">
+          <h3 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Paste in the link/URL for the button below. This is where users will be directed to when clicking the button."><i class="fa fa-fw fa-link"></i> Step 1 - Paste your URL</h3>
+            <p>Paste in the link/URL for the button below. This is where users will be directed to when clicking the button.</p>
             <p class="text-center"><textarea class="rounded p-2 w-100" rows="1" id="btn_URL" name="btn_URL" placeholder="Write/paste the URL here"></textarea></p>
             </div>
+            <div class="col-lg">
+              <h3><i class="fa fa-fw fa-pencil"></i> Step 2 - Write the text for the button</h3>
+              <p>Write the text that will appear on the button <strong>(recommended less than 25 characters including spaces).</strong></p>
+          <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="1" id="btn_text" name="btn_text" placeholder="Write/paste the text for the button here"></textarea>
             </div>
-        <h3><i class="fa fa-fw fa-pencil"></i> Step 2 - Write the text for the button</h3>
-        <div class="row w-100 mx-auto">
         <div class="col-lg">
-            <p>Write the text that will appear on the button <strong>(recommended less than 25 characters including spaces).</strong></p>
-            </div>
-        <div class="col-lg">
-            <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="1" id="btn_text" name="btn_text" placeholder="Write/paste the text for the button here"></textarea>
-            </div>
+          <h3><i class="fa fa-fw fa-question-circle-o"></i> Step 3 - Open your link in the same window or a new window</h3>
+          <p>You should open your link in a new window if it is opening a site outside of Moodle or resource you want students to read/view. If you are linking to another part of the same Moodle site, e.g. a forum, then open the link in the same window. <strong>New window is chosen by default.</strong></p>
+          <select class="form-control w-75 mx-auto" id="buttonTarget" name="buttonTarget" size="2">
+            <option selected value="newWin">New window</option>
+             <option value="sameWin">Same window</option>               
+          </select>
+            </div>             
                </div>
-               <h3><i class="fa fa-fw fa-question-circle-o"></i> Step 3 - Open your link in the same window or a new window</h3>
-               <div class="row w-100 mx-auto">
-                <div class="col-lg-8">
-               <p>You should open your link in a new window if it is opening a site outside of Moodle or resource you want students to read/view. If you are linking to another part of the same Moodle site, e.g. a forum, then open the link in the same window. <strong>New window is chosen by default.</strong></p>
-               </div>
+               <div class="row w-100">
                <div class="col-lg">
-               <select class="form-control w-75 mx-auto" id="buttonTarget" name="buttonTarget" size="2">
-                <option selected value="newWin">New window</option>
-                 <option value="sameWin">Same window</option>               
-              </select>
-            </div>
-            </div>
                 <h3><i class="fa fa-fw fa-code"></i> Step 4 - Generate and copy the code for your element</h3>
-                <div class="row w-100 mx-auto">
-                  <div class="col-lg-8">
-               <p>When you click the button below, it will generate the HTML for your element and copy it, ready to be pasted into Moodle. If you are unsure of how to paste HTML into Moodle watch this short video here.</p>
-               </div>
-               <div class="col-lg">
-            <div class="text-center"><p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-2" name="GenerateWrap" value="Generate Code </>" OnClick=generateBtnCode()></p>
-               </div>
-               </div>
-               </div>
-            <p class="text-center">
-                <textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="1" name="Result" placeholder="When you click the button above it will generate the code for your element and copy it, ready for you to paste into Moodle."></textarea></p>
-        </form>
-        <h3><i class="fa fa-fw fa-eye"></i> Step 5 - Preview of your element</h3>
-        <p>A preview of your element will appear below</p>
-        <div id="demo">
+                <p>When you click the button below, it will generate the HTML for your element and copy it, ready to be pasted into Moodle. If you are unsure of how to paste HTML into Moodle watch this short video here.</p>
+                <div class="text-center"><p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-2" name="GenerateWrap" value="Generate Code </>" OnClick=generateBtnCode()></p>
+                <textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="1" name="Result" placeholder="When you click the button above it will generate the code for your element and copy it, ready for you to paste into Moodle."></textarea></div>
+            </div>
+            <div class="col-lg">
+              <h3><i class="fa fa-fw fa-eye"></i> Step 5 - Preview of your element</h3>
+              <p>A preview of your element will appear below</p>
+              <div id="demo">
+              </div>
+         </div>
+         <div class="col-lg">
+          <h3><i class="fa fa-fw fa-refresh"></i> Step 6 - Refresh the page to make another element</h3>
+          <p>Click this button to refresh the page to create another element</p>
+          <div class="text-center">
+          <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
         </div>
-
+        </div>
+            </div>
+        </form>        
         <script>
           $('#btn_URL').on('input', function(event) {
           var s = $('#btn_URL').val().toString();
@@ -251,7 +250,7 @@
           }
       
           $('#btn_URL').val(s);
-          $('input[type="text"], textarea').attr('readonly','readonly');
+          $('input[type="text"], #btn_URL').attr('readonly','readonly');
         }); 
         </script>
 
