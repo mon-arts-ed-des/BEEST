@@ -233,7 +233,13 @@
         <p>A preview of your element will appear below</p>
         <div id="demo">
         </div>
-
+        <h3 class="mt-2"><i class="fa fa-fw fa-refresh"></i> Step 6 - Refresh the page to create another element</h3>
+        <div class="row w-100">
+          <div class="col-lg">
+            <p>Click this button to refresh the page to create a new element</p>
+          </div>
+          <div class="col-lg"><a class="btn btn-arts" href="javascript:window.location.reload();"><i class="fa fa-fw fa-refresh"></i> Refresh this page</a></div>
+        </div>
         <script>
           $('#btn_URL').on('input', function(event) {
           var s = $('#btn_URL').val().toString();
@@ -254,6 +260,5 @@
           $('input[type="text"], textarea').attr('readonly','readonly');
         }); 
         </script>
-
         </body>
         </html>
