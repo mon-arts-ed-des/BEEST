@@ -44,7 +44,6 @@
         SelectAll("txtareaBtn");
       
         $('#demo').after(textOutput);
-        $('#demo').prop('demo','test');
         }
         
         
@@ -52,9 +51,6 @@
         document.getElementById(id).focus();
         document.getElementById(id).select();
         document.execCommand("copy");
-
-        var popup = document.getElementById("myPopup");
-        popup.classList.toggle("showPopup");
         //window.alert('test');
     }
 
@@ -143,6 +139,13 @@
   10% {opacity: 1;}
   66% { opacity: 1; }
 }
+
+.tooltip-inner {
+  text-align: left;
+  padding: 15px;
+  font-size: 1.05rem;
+  max-width: 280px;
+}
     </style> 
     </head>
     <body>
@@ -184,50 +187,40 @@
       </nav>
         <div class="container-fluid">
             <h1 class="text-center"><i class="fa fa-fw fa-external-link"></i> Monash button</h1>
-        <p>This process will generate a Monash blue button element with a link to a site, text that communicates where the button links to and whether the button opens in the same window or a new window.</p>
+        <p>This process will generate a Monash blue button element with a link to a URL. To complete this process you need to copy the link you want in the button, write the text that will appear on the button and choose whether the button will open in the same window it is located in, or open the link in a new tab. Head to the demo page to see how this element works if you are unsure. If you are not familiar with using HTML in Moodle, please watch this short video (opens in a popup window on this page) to see how to paste the HTML you create here into Moodle.</p>
             <p><strong>E.g.</strong> https://google.com or https://lms.monash.edu | <strong>If you do not include the https:// or http:// prefix your button will not work correctly.</strong></p>
-        <div class="w-100 mx-auto border-arts-3 rounded p-3 m-3">
-            <h3><i class="fa fa-flag-checkered"></i> The result</h3>
-            <p>The end result will be similar to the below example (your link and text will be different). We've included Font Awesome in this example (the arrow pointing to the right) which will be added to the end of your text.</p>
-            <p class="text-center mb-0"><a class="btn btn-arts m-2" target="_blank" href="https://lms.monash.edu">Go to Monash Moodle <i class="fa fa-arrow-right" aria-hidden="true"></i></a></p></div>
            <form id="btn">           
-        <div class="row w-100 mx-auto">
+        <div class="row w-100 mx-auto text-center">
         <div class="col-lg">
-          <h3 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Paste in the link/URL for the button below. This is where users will be directed to when clicking the button."><i class="fa fa-fw fa-link"></i> Step 1 - Paste your URL</h3>
-            <p>Paste in the link/URL for the button below. This is where users will be directed to when clicking the button.</p>
-            <p class="text-center"><textarea class="rounded p-2 w-100" rows="1" id="btn_URL" name="btn_URL" placeholder="Write/paste the URL here"></textarea></p>
+          <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Paste in the link/URL for the button below. This is where users will be directed to when clicking the button."><i class="fa fa-fw fa-link"></i> Step 1 - Paste URL</h5>
+           <p><textarea class="rounded p-2 w-100" rows="1" id="btn_URL" name="btn_URL" placeholder="Write/paste the URL here"></textarea></p>
             </div>
             <div class="col-lg">
-              <h3><i class="fa fa-fw fa-pencil"></i> Step 2 - Write the text for the button</h3>
-              <p>Write the text that will appear on the button <strong>(recommended less than 25 characters including spaces).</strong></p>
-          <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="1" id="btn_text" name="btn_text" placeholder="Write/paste the text for the button here"></textarea>
+              <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Write the text that will appear on the button. This space is limited to 30 characters."><i class="fa fa-fw fa-pencil"></i> Step 2 - Button text</h5>
+              <textarea maxlength="30" class="mb-3 rounded p-2 w-100" cols="70" rows="1" id="btn_text" name="btn_text" placeholder="Button text here. 30 character maximum"></textarea>
             </div>
         <div class="col-lg">
-          <h3><i class="fa fa-fw fa-question-circle-o"></i> Step 3 - Open your link in the same window or a new window</h3>
-          <p>You should open your link in a new window if it is opening a site outside of Moodle or resource you want students to read/view. If you are linking to another part of the same Moodle site, e.g. a forum, then open the link in the same window. <strong>New window is chosen by default.</strong></p>
+          <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Choose whether to open link in a new window, or the same window users are on. New window is chosen by default."><i class="fa fa-fw fa-question-circle-o"></i> Step 3 - New/Same window</h5>
           <select class="form-control w-75 mx-auto" id="buttonTarget" name="buttonTarget" size="2">
             <option selected value="newWin">New window</option>
              <option value="sameWin">Same window</option>               
           </select>
             </div>             
-               </div>
-               <div class="row w-100">
+               </div> 
+               <div class="row w-100 text-center mt-3">
                <div class="col-lg">
-                <h3><i class="fa fa-fw fa-code"></i> Step 4 - Generate and copy the code for your element</h3>
-                <p>When you click the button below, it will generate the HTML for your element and copy it, ready to be pasted into Moodle. If you are unsure of how to paste HTML into Moodle watch this short video here.</p>
-                <div class="text-center"><p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-2" name="GenerateWrap" value="Generate Code </>" OnClick=generateBtnCode()></p>
-                <textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="1" name="Result" placeholder="When you click the button above it will generate the code for your element and copy it, ready for you to paste into Moodle."></textarea></div>
+                <h5 data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 5."><i class="fa fa-fw fa-code"></i> Step 4 - Generate/copy code</h5>
+                <div class="text-center"><input data-toggle="tooltip" data-placement="top" data-trigger="click" title="Your code has been generated and copied." type="button" class="btn btn-arts m-2" name="GenerateWrap" value="Generate Code </>" OnClick=generateBtnCode()></p>
+                <textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here"></textarea></div>
             </div>
             <div class="col-lg">
-              <h3><i class="fa fa-fw fa-eye"></i> Step 5 - Preview of your element</h3>
-              <p>A preview of your element will appear below</p>
+              <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 4."><i class="fa fa-fw fa-eye"></i> Step 5 - Preview</h5>
               <div id="demo">
               </div>
          </div>
          <div class="col-lg">
-          <h3><i class="fa fa-fw fa-refresh"></i> Step 6 - Refresh the page to make another element</h3>
-          <p>Click this button to refresh the page to create another element</p>
-          <div class="text-center">
+          <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click this button to refresh the page to create another element."><i class="fa fa-fw fa-refresh"></i> Step 6 - Refresh page</h5>
+             <div class="text-center">
           <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
         </div>
         </div>
