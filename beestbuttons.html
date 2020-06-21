@@ -52,6 +52,8 @@
         document.getElementById(id).select();
         document.execCommand("copy");
         //window.alert('test');
+        var popup = document.getElementById("myPopup");
+        popup.classList.toggle("showPopup");
     }
 
     function submitform()
@@ -60,7 +62,9 @@
     }
     $(function () {
   $('[data-toggle="tooltip"]').tooltip()
+  trigger : 'hover'
 })
+
     /* Variable Key
     These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
 
@@ -96,7 +100,7 @@
     #popup .popuptext {
     visibility: hidden;
     width: 160px;
-    background-color: #555;
+    background-color: #222222;
     color: #fff;
     text-align: center;
     border-radius: 6px;
@@ -117,7 +121,7 @@
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: #555 transparent transparent transparent;
+    border-color: #222222 transparent transparent transparent;
     }
 
     /* Toggle this class - hide and show the popup */
@@ -207,11 +211,11 @@
           </select>
             </div>             
                </div> 
-               <div class="row w-100 text-center mt-3">
+               <div class="row w-100 mx-auto text-center mt-3">
                <div class="col-lg">
                 <h5 data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 5."><i class="fa fa-fw fa-code"></i> Step 4 - Generate/copy code</h5>
-                <div class="text-center"><input data-toggle="tooltip" data-placement="top" data-trigger="click" title="Your code has been generated and copied." type="button" class="btn btn-arts m-2" name="GenerateWrap" value="Generate Code </>" OnClick=generateBtnCode()></p>
-                <textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here"></textarea></div>
+                <p id="popup"><span class="popuptext" id="myPopup">Your code has been copied</span><input class="btn btn-arts m-2" name="GenerateWrap" value="Generate Code </>" OnClick=generateBtnCode()></p>
+                <textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="5" name="Result" placeholder="Code for your element will appear here"></textarea>
             </div>
             <div class="col-lg">
               <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 4."><i class="fa fa-fw fa-eye"></i> Step 5 - Preview</h5>
