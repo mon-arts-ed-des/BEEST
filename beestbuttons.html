@@ -42,7 +42,7 @@
 
         document.getElementById('txtareaBtn').innerHTML=textOutput;
         SelectAll("txtareaBtn");
-      
+        $('#demo').nextAll('p').remove();
         $('#demo').after(textOutput);
         }
         
@@ -104,7 +104,7 @@
     color: #fff;
     text-align: left;
     border-radius: 6px;
-    padding: 8px 0;
+    padding: 12px;
     position: absolute;
     z-index: 1;
     bottom: 125%;
