@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/adminPlusSetuBlockStyle.css" />
     <!-- external link to js file -->  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <!-- Bootstrap js file --> 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- FontAwesome js file --> 
@@ -48,9 +49,8 @@
 
         document.getElementById('txtarearespVid').innerHTML=textOutput;
         SelectAll("txtarearespVid");
-        //$('#demo').html($(textOutput).html());
-
-        //Add the html code after the div
+         //Add the html code after the div
+        $('#demo').nextAll('div').remove();
         $('#demo').after(textOutput);
         }
 
@@ -58,23 +58,27 @@
         document.getElementById(id).focus();
         document.getElementById(id).select();
         document.execCommand("copy");
-
         var popup = document.getElementById("myPopup");
         popup.classList.toggle("showPopup");
+      
         //window.alert('test');
     }
+ 
 
     function submitform()
     {
         document.forms["myform"].submit();
     }
+    $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
     /* Variable Key
     These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
 
     respVid = responsive Video Right (context left/video right)
 
     */
-    var respVid_1="<div class=\"row w-100\"><div class=\"col-lg\">"
+    var respVid_1="<div class=\"row w-100 mx-auto\"><div class=\"col-lg\">"
     var respVid_2="</div><div class=\"col-lg\"><div class=\"embed-responsive embed-responsive-16by9\"><iframe class=\"embed-responsive-item\" frameborder=\"0\" allowfullscreen=\"allowfullscreen\" src=\""
     var respVid_2r="<div class=\"embed-responsive embed-responsive-16by9\"><iframe class=\"embed-responsive-item\" frameborder=\"0\" allowfullscreen=\"allowfullscreen\" src=\""
     var respVid_3="\"></iframe></div></div></div>"
@@ -102,7 +106,7 @@
     #popup .popuptext {
     visibility: hidden;
     width: 220px;
-    background-color: #555;
+    background-color: #222222;
     color: #fff;
     text-align: center;
     border-radius: 6px;
@@ -145,7 +149,12 @@
   10% {opacity: 1;}
   66% { opacity: 1; }
 }
-
+.tooltip-inner {
+  text-align: left;
+  padding: 15px;
+  font-size: 1.05rem;
+  max-width: 400px;
+}
     </style> 
     </head>
 <body>
@@ -186,81 +195,55 @@
     </div>
   </nav>
 <div class="container-fluid">
-    <div class="alert alert-arts h5">Important: You can only generate the code for one element at a time on this page. If you need more elements, copy and paste each element into Moodle, return to this page and create your next element. Watch the video below for a walkthrough of how to use the page effectively.</div>
-    <div class="col-lg">
-<h3 class="text-center">Responsive video + context</h3>
-    <p>This process will create some text on the left which is the context for your video (explained below), and a responsive video on the right. Responsive video changes size as the screen changes size and when the screen gets small enough, this process will 'collapse' the video underneath the text.</p>
-    <h3><i class="fa fa-flag-checkered"></i> The result</h3>
-        <p>The end result will be similar to the below example. This will vary depending on the heading level you use, whether you use a list and add other text elements in your context. Try resizing your screen to see how the video and text rearrange, and video resizes to be a more appropriate size for the device you're on. The Font Awesome icons used here will need to be input by the user. Some suggestions for videos are below. The square brackets code is what you will input into the rich text editor. Once pasted into Moodle and saved, it will look like the example given to the right of the square brackets.</p>
-        <ul>
-            <li>[fa-video-camera] - <i class="fa fa-video-camera" aria-hidden="true"></i></li>
-            <li>[fa-play] - <i class="fa fa-play" aria-hidden="true"></i></li>
-            <li>[fa-youtube-play] - <i class="fa fa-youtube-play" aria-hidden="true"></i></li>
-        </ul>
-<!-- Read More Toggle -->
-<p>Click the button below to toggle an example of the result with the video on the right.</p>
-<div class="collapse" id="readMore1">
-<div class="w-100 mx-auto border-arts-3 rounded p-3 m-2">
-<div class="row w-100">
-    <div class="col-lg">
-    <h5><i class="fa fa-video-camera"></i> Placeholder Video</h5>
-    <p>This video you'll see here is what's called a 'placeholder' video. This is useful to have when you want to do the following:</p>
-    <ul>
-        <li>make a space to put a content video at a later stage.</li>
-        <li>explain how to manipulate video into a certain format</li>
-    </ul>
-        <p>Click play and watch the 7 seconds of silent magic!</p>
-    </div>
-    <div class="col-lg">
-        <div class="embed-responsive embed-responsive-16by9">
-        <iframe src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=5d23c190-f6c6-405d-968b-abab0095e7a4" class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
-        </div>
-    </div>
-</div>
-</div>
-</div>
-<div><a class="btn btn-arts btn-block w-50 mx-auto" data-toggle="collapse" href="#readMore1" role="button" aria-expanded="false" aria-controls="collapseExample">Show/Hide the result</a></div>
-<!-- End of Read More Toggle -->
-<hr>
-</div>
+    <div class="alert alert-arts h6"><i class="fa fa-fw fa-exclamation-circle"></i> Important: You can only generate the code for one element at a time on this page. When you paste the link for your video (Panopto/Vimeo/Youtube/TED) that box will become read only. This means you cannot delete or edit the link in the box. If you need more elements, copy and paste each element into Moodle, refresh the page and create your next element. If you make an error you will need to refresh the page and start again.</div>
+<h1 class="text-center"><i class="fa fa-fw fa-video-camera"></i> Responsive video + context</h1>
+<h5><i class="fa fa-fw fa-flag-checkered"></i> The result of this process</h5>
+        <p>This process will generate a video iframe that is responsive that is side by side with the context for what students can expect to see in the video. A responsive video changes size with the size of the browser window you are in and when the screen gets small enough, the video and text in this combo will 'collapse' underneath one another. This tool will change your video link into the embed link for the respective platform, making it easier to create responsive video. See what link you need to get from each of the platforms on this video to ensure that you produce the elements on this page correctly.</p>
+        <h5><i class="fa fa-fw fa-list-ol"></i> How to use this page</h5>
+        <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle, this short video will help (it will open in an overlay on this screen).</p>
+        <h5><i class="fa fa-fw fa-refresh"></i> Refresh this page if you make an error</h5>
+        <div class="row w-100">
+          <div class="col-lg">
+        <p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
+        <div class="col-lg-3"><div class="text-center">
+          <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
+        </div></div></div>
 <form id="respVid">   
-<div class="row w-100 mx-auto">
+<div class="row w-100 mx-auto text-center mt-3">
+  <div class="col-lg">
+    <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your video. When you paste the link into this box it will automatically change the link to be the embed link required for the platform you are pasting from this process to work and you will not be able to edit this box."><i class="fa fa-fw fa-link"></i> Step 1 - Paste the link for your video</h5>
+    <p class="text-center"><textarea class="rounded p-2 w-100" rows="1" name="respVid_link" type="text" id="respVidSwitch" placeholder="Paste the Youtube/Panopto/Vimeo/TED Talks video link here"></textarea></p>
+  </div>
+  <div class="col-lg">
+    <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Choose which side of screen you would prefer the video to appear by clicking on one of the options below. Video on the left is selected by default."><i class="fa fa-fw fa-arrows-alt-h"></i> Step 2 - Select the video position</h5>
+          <select class="form-control w-50 mx-auto" id="videoPosition" name="videoPosition" size="2">
+          <option value="left" selected>Video on the left</option>
+          <option value="right">Video on the right</option>
+        </select>
+        </div>         
+  </div>
+  <div class="row w-100 mx-auto text-center">
     <div class="col-lg">
-    <h5 class="mt-3">Step 1 - Write the context for your video</h5>
-        <p>It's recommended to have a few sentences or dot points explaining what is in the video students are about to watch. This helps in particular when students are looking back through your site for a specific video where you addressed certain concepts or theories. Instead of watching the entire video, they can read the context you've provided, and make a decision on whether to watch the entire video.</p>
-        <p>Below is a rich-text editor like you would expect to see in Moodle. You can add formatting such as headings, bold, italics, links and lists to your context and it will be replicated in the final code.</p>
-        <textarea id="tinyMCEvideo" class="border border-dark rounded p-2 w-100 mt-3" cols="70" rows="10" name="respVid_context" placeholder="Write the context for your video here"></textarea>
-        <h5 class="mt-3">Step 2 - Paste the link for your video</h5>
-        <p>Paste in the link (not the embed code) for the video. When you paste the link into this box it will automatically change the link to be the embed link required for this process to work and you will not be able to edit this box. If you paste the embed code from Youtube it will not work correctly.</p>
-        <div class="alert alert-arts rounded mx-auto w-75 p-2">
-            <div class="text-center"><i class="fa fa-exclamation-circle fa-fw fa-3x m-0"></i><p class="my-1 h5">If you paste the wrong link, you will need to refresh the page and start again.</p></div></div>
-        <p class="text-center"><textarea class="rounded p-2 w-100" rows="1" name="respVid_link" type="text" id="respVidSwitch" placeholder="Paste the Youtube/Panopto/Vimeo/TED Talks video link here"></textarea></p>
-        <h5 class="mt-3">Step 3 - Select the video position</h5>
-        <p>Choose which side of screen you would prefer the video to appear by clicking on one of the options below. <strong>Video on the left</strong> is selected by default.</p>
-            <select class="form-control w-50 mx-auto" id="videoPosition" name="videoPosition" size="2">
-              <option value="left" selected>Video on the left</option>
-              <option value="right">Video on the right</option>
-            </select>
-            </div>         
-            </div>
-            <div class="col-lg">
-    <h5 class="text-left mt-3">Step 4 - Click to generate and copy code</h5>
+      <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="It's recommended to have a few sentences or dot points explaining what is in the video students are about to watch. This helps in particular when students are looking back through your site for a specific video where you addressed certain concepts or theories. Instead of watching the entire video, they can read the context you have provided, and decide if they have found what they need without having to watch the entire video."> <i class="fa fa-fw fa-pencil"></i> Step 3 - Write the context for your video</h5>
+          <textarea id="tinyMCEvideo" class="border border-dark rounded p-2 w-100 mt-3" cols="70" rows="5" name="respVid_context"></textarea>
+      </div>
+            <div class="col-lg mt-3">
+    <h5 data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 5."><i class="fa fa-fw fa-code"></i> Step 4 - Click to generate and copy code</h5>
                 <div class="text-center">
-            <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-3" name="GenerateWrap" value="Generate and copy code" onClick=generateCode()></p>
-            <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="txtarearespVid" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will combine your context and video into a responsive format and copy the code to your clipboard."></textarea></p>
+            <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-3" name="GenerateWrap" value="Generate and copy code" onClick=generateCode() ></p>
+            <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="txtarearespVid" cols="70" rows="4" name="Result" placeholder="Code for your element will appear here"></textarea></p>
             </div>
             </div>
-            </div> 
-          
-                    </form>
-                    <div class="container-fluid">
-                    <div class="row w-100 mx-auto">
-                      <div class="col-lg">
-                    <h5>Step 5 - A preview of your content will appear below</h5>
-                    </div>
-                    </div>
-                    </div>
-             <div id="demo">
+                   
+              </div>
+              <div class="row w-100 mt-3 text-center">
+                <div class="col-lg">
+                <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 4."><i class="fa fa-fw fa-eye"></i> Step 5 - A preview of your content will appear below</h5>
+                </div>
+              </div>
+            </div>          
+                           </form>
+                    <div id="demo">
                     </div>
          <script>
          
