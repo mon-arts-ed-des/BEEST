@@ -31,14 +31,27 @@
         var btn_URL = document.getElementById('btn_URL').value;
         var btn_text = document.getElementById('btn_text').value;
         var btnTarget = document.getElementById('buttonTarget').value;
-    
-
+        var btnAlign = document.getElementById('buttonAlign').value;
+        if (btnAlign == "leftAlign" && btnTarget == "sameWin"){
+            var textOutput = btnLeft+btnSW_1+btn_URL+btnSW_2+btn_text+btnSW_3;
+        }
+        else if (btnAlign == "leftAlign" && btnTarget == "newWin"){
+            var textOutput = btnLeft+btnNW_1+btn_URL+btnNW_2+btn_text+btnNW_3;
+        }
+        else if (btnAlign == "centerAlign" && btnTarget == "sameWin"){
+            var textOutput = btnCenter+btnSW_1+btn_URL+btnSW_2+btn_text+btnSW_3;
+        }
+        else if (btnAlign == "centerAlign" && btnTarget == "newWin"){
+            var textOutput = btnCenter+btnNW_1+btn_URL+btnNW_2+btn_text+btnNW_3;
+        }
+    /*
         if (btnTarget == "sameWin"){
             var textOutput = btnSW_1+btn_URL+btnSW_2+btn_text+btnSW_3;
         }
         else if (btnTarget == "newWin"){
             var textOutput = btnNW_1+btn_URL+btnNW_2+btn_text+btnNW_3;
         }
+        */
 
         document.getElementById('txtareaBtn').innerHTML=textOutput;
         SelectAll("txtareaBtn");
@@ -71,13 +84,24 @@
     btnSW = btn open in same window
   
     */
+    var btnLeft="<p class=\"mb-0\"><a class=\"btn btn-arts m-2\""
+    var btnCenter="<p class=\"text-center mb-0\"><a class=\"btn btn-arts m-2\""
+    var btnNW_1=" target=\"_blank\" href=\""
+    var btnNW_2="\">"
+    var btnNW_3=" <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a> (Opens in a new window)</p>"
+
+    var btnSW_1=" href=\""
+    var btnSW_2="\">"
+    var btnSW_3=" <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a></p>"
+
+    /*
     var btnNW_1="<p class=\"text-center mb-0\"><a class=\"btn btn-arts m-2\" target=\"_blank\" href=\""
     var btnNW_2="\">"
     var btnNW_3=" <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a></p><p class=\"text-center\">(Opens in a new window)</p>"
     
     var btnSW_1="<p class=\"text-center mb-0\"><a class=\"btn btn-arts m-2\" href=\""
     var btnSW_2="\">"
-    var btnSW_3=" <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a></p>"
+    var btnSW_3=" <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a></p>"*/
     </script>
     <style>
     .mce-notification-inner, .mce-close, .mce-notification-warning {
@@ -210,16 +234,23 @@
             <option selected value="newWin">New window</option>
              <option value="sameWin">Same window</option>               
           </select>
-            </div>             
+            </div>    
+            <div class="col-lg">
+              <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Choose whether to open button to be left-aligned, or centre-aligned. Left-align is chosen by default."><i class="fa fa-fw fa-question-circle-o"></i> Step 4 - Left/Centre align</h5>
+              <select class="form-control w-75 mx-auto" id="buttonAlign" name="buttonAlign" size="2">
+                <option selected value="leftAlign">Left align button</option>
+                 <option value="centerAlign">Center align button</option>               
+              </select>
+                </div>           
                </div> 
-               <div class="row w-100 mx-auto text-center mt-3">
-               <div class="col-lg">
-                <h5 data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 5."><i class="fa fa-fw fa-code"></i> Step 4 - Generate/copy code</h5>
-                <p id="popup"><span class="popuptext" id="myPopup">Your code has been copied</span><input class="btn btn-arts m-2" name="GenerateWrap" value="Generate Code </>" OnClick=generateBtnCode()></p>
+               <div class="row w-100 mx-auto mt-3">
+               <div class="col-lg text-center">
+                <h5 data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 6."><i class="fa fa-fw fa-code"></i> Step 5 - Generate/copy code</h5>
+                <p id="popup"><span class="popuptext" id="myPopup">Your code has been copied</span><input class="btn btn-arts m-2" name="GenerateWrap" value="Generate Code </>" OnClick=generateBtnCode() ></p>
                 <textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="5" name="Result" placeholder="Code for your element will appear here"></textarea>
             </div>
             <div class="col-lg">
-              <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 4."><i class="fa fa-fw fa-eye"></i> Step 5 - Preview</h5>
+              <h5 class="text-center" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 4."><i class="fa fa-fw fa-eye"></i> Step 6 - Preview</h5>
               <div id="demo">
               </div>
          </div>
