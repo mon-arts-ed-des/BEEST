@@ -225,24 +225,25 @@
   <div class="col-lg-3"><div class="text-center">
     <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
   </div></div></div>
+  <hr class="hr-3">
            <form id="btn">           
-        <div class="row w-100 mx-auto text-center">
-        <div class="col-lg">
+        <div class="row w-100 mx-auto text-center mt-3">
+        <div class="col-lg mt-3">
           <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Paste in the link/URL for the button below. This is where users will be directed to when clicking the button."><i class="fa fa-fw fa-link"></i> Step 1 - Paste URL</h5>
            <p><textarea class="rounded p-2 w-100" rows="1" id="btn_URL" name="btn_URL" placeholder="Write/paste the URL here"></textarea></p>
             </div>
-            <div class="col-lg">
+            <div class="col-lg mt-3">
               <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Write the text that will appear on the button. This space is limited to 30 characters."><i class="fa fa-fw fa-pencil"></i> Step 2 - Button text</h5>
               <textarea maxlength="30" class="mb-3 rounded p-2 w-100" cols="70" rows="1" id="btn_text" name="btn_text" placeholder="Button text here. 30 character maximum"></textarea>
             </div>
-        <div class="col-lg">
+        <div class="col-lg mt-3">
           <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Choose whether to open link in a new window, or the same window users are on. New window is chosen by default."><i class="fa fa-fw fa-question-circle-o"></i> Step 3 - New/Same window</h5>
           <select class="form-control w-75 mx-auto" id="buttonTarget" name="buttonTarget" size="2">
             <option selected value="newWin">New window</option>
              <option value="sameWin">Same window</option>               
           </select>
             </div>    
-            <div class="col-lg">
+            <div class="col-lg mt-3">
               <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Choose whether to open button to be left-aligned, or centre-aligned. Left-align is chosen by default."><i class="fa fa-fw fa-question-circle-o"></i> Step 4 - Left/Centre align</h5>
               <select class="form-control w-75 mx-auto" id="buttonAlign" name="buttonAlign" size="2">
                 <option selected value="leftAlign">Left align button</option>
@@ -251,13 +252,13 @@
                 </div>           
                </div> 
                <div class="row w-100 mx-auto mt-3">
-               <div class="col-lg text-center">
+               <div class="col-lg text-center mt-3">
                 <h5 data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 6."><i class="fa fa-fw fa-code"></i> Step 5 - Generate/copy code</h5>
                 <p id="popup"><span class="popuptext" id="myPopup">Your code has been copied</span><input class="btn btn-arts m-2" name="GenerateWrap" value="Generate Code </>" OnClick=generateBtnCode() ></p>
                 <textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="5" name="Result" placeholder="Code for your element will appear here"></textarea>
             </div>
-            <div class="col-lg">
-              <h5 class="text-center" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 4."><i class="fa fa-fw fa-eye"></i> Step 6 - Preview</h5>
+            <div class="col-lg mt-3">
+              <h5 class="text-center" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 5."><i class="fa fa-fw fa-eye"></i> Step 6 - Preview</h5>
               <div id="demo">
               </div>
          </div>
