@@ -7,21 +7,22 @@
     <meta name="description" content="A simple element creator to generate responsive code that can be easily embbedded into Moodle">
     <meta name="author" content="T&M">
       <title>BEEST Read More</title>
-     <link rel="icon" href="https://mon-arts-ed-des.github.io/BEEST/dragon-solid%20favicon.png" type="image/gif">
-    <!-- external link to css file --> 
-    <!-- Bootstrap CSS -->   
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <!-- Arts CSS -->  
-    <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/adminPlusSetuBlockStyle.css" />
-    
-    <!-- external link to js file -->  
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <!-- Bootstrap js file --> 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <!-- FontAwesome js file --> 
-    <script src="https://kit.fontawesome.com/3817feae52.js"></script> 
-    <!-- Tinymce js file -->   
-    <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+      <link rel="icon" href="https://mon-arts-ed-des.github.io/BEEST/dragon-solid%20favicon.png" type="image/gif">
+      <!-- external link to css file --> 
+      <!-- Bootstrap CSS -->   
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <!-- Arts CSS -->  
+      <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/adminPlusSetuBlockStyle.css" />
+      
+      <!-- external link to js file -->  
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+      <!-- Bootstrap js file --> 
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      <!-- FontAwesome js file --> 
+      <script src="https://kit.fontawesome.com/3817feae52.js"></script> 
+      <!-- Tinymce js file -->   
+      <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
 
     <script type="text/javascript">
        tinymce.init({
@@ -43,10 +44,13 @@
         var readMoreAfter = tinyMCE.get('tinyMCEreadMoreAfter').getContent();
         var readMoreNumber = document.getElementById('readMoreNumber').value;
         var readMoreBtnTxt = document.getElementById('readMoreBtnTxt').value;
-        var readMoreOutput = readMoreBefore+readMore_1+readMoreNumber+readMore_2+readMoreAfter+readMore_3+readMoreNumber+readMore_4+readMoreBtnTxt+readMore_5;
+        var readMoreOutput = readMoreContainer+readMoreBefore+readMore_1+readMoreNumber+readMore_2+readMoreAfter+readMore_3+readMoreNumber+readMore_4+readMoreBtnTxt+readMore_5+readMoreClose;
         document.getElementById('readMoreCode').innerHTML=readMoreOutput;
         SelectAll("readMoreCode");
-    }
+        $('#demo').nextAll('div').remove();
+        $('#demo').after(readMoreOutput);
+        }
+    
 
     function SelectAll(id){
         document.getElementById(id).focus();
@@ -62,17 +66,21 @@
     {
         document.forms["myform"].submit();
     }
+    $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
     /* Variable Key
     These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
 
     readMore = button to toggle extended text
     */
+    var readMoreContainer="<div>"
     var readMore_1="<div class=\"collapse\" id=\"readMore"
     var readMore_2="\">"
-    var readMore_3="</div><div><a class=\"btn btn-arts btn-block w-50 mx-auto\" data-toggle=\"collapse\" href=\"#readMore"
+    var readMore_3="</div><div><a class=\"btn btn-arts btn-block w-50 mb-2 mx-auto\" data-toggle=\"collapse\" href=\"#readMore"
     var readMore_4="\" role=\"button\" aria-expanded=\"false\" aria-controls=\"collapseExample\">Show/Hide "
     var readMore_5=" <i class=\"fa fa-fw fa-arrows-v\"></i></a></div>"
-   
+    var readMoreClose="</div>"
     </script>
        <style>
         .mce-notification-inner, .mce-close, .mce-notification-warning {
@@ -137,6 +145,12 @@
   10% {opacity: 1;}
   66% { opacity: 1; }
 }
+.tooltip-inner {
+  text-align: left;
+  padding: 15px;
+  font-size: 1.05rem;
+  max-width: 480px;
+}
     </style> 
     </head>
     <body>
@@ -169,42 +183,58 @@
         </div>
       </nav>
         <div class="container-fluid">
-      <form id="readMoreForm">
-  <h1 class="text-center"><i class="fa fa-plus fa-fw"></i>Monash themed read more buttom</h1>
-           <p>This process creates a read more button that can hide extended text, and reveal or collapse when clicking the button.</p> 
-            <h3><i class="fa fa-exclamation-circle fa-fw"></i> Important caveats</h3>
-            <p>Overuse of these read more buttons, or putting to much content behind the toggle can result in poor user experience. As a guide, you should only hide between 15-20 lines of text behind the read more button.</p>
-            <h3><i class="fa fa-flag-checkered"></i> The result</h3>
-            <p>The end result here is the a read more button that hides extended text that reveals or collapses on click.</p>
-          <hr>
-<!-- Read More Toggle -->
-<p>This is an example of text that goes before the read more button. Click the button below to reveal more content.</p>
-<div class="collapse" id="readMore1">
-<p>This is the content that gets revealed/collapsed when you click the button. Some examples of where this could be useful are:</p>
-<ul>
-    <li>Writing your full bio as a teacher/researcher in your Moodle site, but only putting a small teaser before the button.</li>
-    <li>Writing a longer description of learning content or assessment, then only putting the critical information before the read more button.</li>
-</ul>
-</div>
-<div><a class="btn btn-arts btn-block w-50 mx-auto" data-toggle="collapse" href="#readMore1" role="button" aria-expanded="false" aria-controls="collapseExample">Show/Hide full text <i class="fa fa-fw fa-arrows-v"></i></a></div>
-<!-- End of Read More Toggle -->
-<hr>
-      <h5 class="mt-3"><i class="fa fa-list-ol fa-fw"></i> Step 1 - What number read more button on your page is this <em>before</em> your read more button.</h5> 
-      <p>If you want to display on read more button on a page, simply put the number 1 in the box below. If you want to put more than one read more button on a page, you need to number them so that they work. For example. If you make two read more buttons that are both number one, clicking one of the buttons will result in only the first read more button opening and closing the full text.</p>
-      <div class="alert alert-arts rounded"><p class="text-center"><i class="fa fa-fw fa-exclamation-circle fa-3x"></i></p>
-      <p class="h5 text-center">Using more than 3 read more buttons on a page could result in poor useability for students. </p></div>
-      <p class="text-center"><textarea class="border border-dark rounded p-2 w-50 mx-auto mt-1 mb-3" rows="1" cols="70" placeholder="Input read more button number here" id="readMoreNumber"></textarea></p>
-      <h5 class="mt-3"><i class="fa fa-list-ol fa-fw"></i> Step 2 - What are you showing/hiding?</h5> 
-      <p>The read more button will always start with Show/hide. What you put in the text box below will appear after Show/hide. For example Show/hide full bio or Show/hide full text.</p>
-      <p class="text-center"><textarea class="border border-dark rounded p-2 w-50 mx-auto mt-1 mb-3" rows="1" cols="70" placeholder="Input the text for your read more button here" id="readMoreBtnTxt"></textarea></p>
-        <h5 class="mt-3"><i class="fa fa-pencil fa-fw"></i> Step 3 - Write the information you want to display <em>before</em> your read more button.</h5>      
-        <textarea id="tinyMCEreadMoreBefore" class="border border-dark rounded p-2 w-100 mt-3" cols="70" rows="10" name="readMoreBefore" placeholder="Write the context for your video here"></textarea>
-        <h5 class="mt-5"><i class="fa fa-pencil fa-fw"></i> Step 4 - Write the information you want to display <em>after</em> your read more button.</h5>  
-        <textarea id="tinyMCEreadMoreAfter" class="border border-dark rounded p-2 w-100 mt-3" cols="70" rows="10" name="readMoreAfter" placeholder="Write the context for your video here"></textarea>
-    <div class="text-center">
-    <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-3 text-center" name="GenerateWrap" value="Generate and copy code" onClick=generateReadMoreCode()></p>
+          <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
+            <div class="h6"><i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle"></i>You can produce multiple read more buttons on this page. It is important to number the buttons differently if you are planning on embedding them in the same page. If two buttons have the same number assigned to them, the second button will not work correctly.</div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+            </div>    
+  <h1 class="text-center"><i class="fa fa-plus fa-fw"></i>Read more button</h1>
+  <h5><i class="fa fa-fw fa-flag-checkered"></i> The result of this process</h5>
+  <p>This process will generate a read more button that reveals more content on the page when clicked. This is used frequently in web articles and web sites to 'tease' users with an introduction while giving them the option to reveal the rest of what is written.</p>
+  <h5><i class="fa fa-fw fa-list-ol"></i> How to use this page</h5>
+  <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle, this short video will help (it will open in an overlay on this screen).</p>
+  <h5><i class="fa fa-fw fa-refresh"></i> Refresh this page if you make an error</h5>
+  <div class="row w-100">
+    <div class="col-lg">
+  <p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
+  <div class="col-lg-3"><div class="text-center">
+    <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
+  </div></div></div>
+<hr class="hr-3">
+<form id="readMoreForm">
+  <div class="row w-100 mx-auto text-center mt-3">
+    <div class="col-lg mt-3">
+      <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="If you want to display one read more button on a page, simply put the number 1 in the box below. If you want to put more than one read more button on a page, you need to number them so that they work. For example. If you make two read more buttons that are both number one that display on the same page only the first read more button will open and close. Using more than 3 read more buttons on a page could result in poor useability for students. Currently this only accepts text and embed codes for videos."><i class="fa fa-list-ol fa-fw"></i> Step 1 - Number your read more button</h5> 
+      <p class="text-center"><textarea class="border border-dark rounded p-2 w-50 mx-auto" rows="1" cols="70" placeholder="Input read more button number here" id="readMoreNumber"></textarea></p>
+    </div>
+    <div class="col-lg mt-3">
+      <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="The text on the read more button will always start with Show/hide. What you put in the text box below will appear after Show/hide. For example Show/hide full bio or Show/hide full text."><i class="fa fa-arrows-alt-v fa-fw"></i> Step 2 - What are you showing/hiding?</h5> 
+      <p class="text-center"><textarea class="border border-dark rounded p-2 w-50 mx-auto" rows="1" cols="70" placeholder="Input the text for your read more button here" id="readMoreBtnTxt"></textarea></p>
+    </div>
+  </div>
+  <div class="row w-100 mx-auto text-center">
+    <div class="col-lg mt-3">
+        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="What you input in the box below will appear before the read more button. This should be an introduction and engage the reader enough to want to click the button to read the rest of the content."><i class="fa fa-pencil fa-fw"></i> Step 3 - Content <em>before</em> your read more button.</h5>      
+        <textarea id="tinyMCEreadMoreBefore" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="readMoreBefore" placeholder="Write the context for your video here"></textarea>
+        </div>
+        <div class="col-lg mt-3">
+        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="What you input in the box below will appear after the read more button. This can be text, lists, headings, embedded video and images from public repositories such as unsplash.com or pixabay. This tool does not currently accept uploads of images or audio."><i class="fa fa-pencil fa-fw"></i> Step 4 - Content <em>after</em> your read more button.</h5>  
+        <textarea id="tinyMCEreadMoreAfter" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="readMoreAfter"></textarea>
+        </div></div>
+        <div class="row w-100 mt-3 mx-auto text-center">
+          <div class="col-lg mt-3">
+        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 6."><i class="fa fa-fw fa-code"></i> Step 5 - Generate/copy code</h5>
+        <div>
+    <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy code" onClick=generateReadMoreCode()></p>
     </div>
     <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="readMoreCode" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code or your alert and copy it to the clipboard."></textarea></p>
+  </div>
+</div>
+    <div class="row w-100 mx-auto text-center mt-3">
+      <div class="col-lg mt-3">
+        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 5."><i class="fa fa-fw fa-eye"></i> Step 6 - Preview</h5>
+        </div>
+        </div>
     </form>
+    <div id="demo"></div>
         </body>
         </html>
