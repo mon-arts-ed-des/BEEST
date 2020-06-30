@@ -256,6 +256,9 @@
         //code for converting Youtube link from Viewer to Embed
         var x = s.replace('watch?v=','embed/');
         }
+        else if (s.includes("youtu.be") == true) {
+        var x = s.replace('youtu.be','www.youtube.com/embed');
+        }
         //code for converting Panopto link from Viewer to Embed
         else if (s.includes("monash-panopto") == true) {
           var x = s.replace('Viewer','Embed');
