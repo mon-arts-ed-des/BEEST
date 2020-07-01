@@ -76,11 +76,11 @@
     monAlert = Monash themed alert
     monAlertD = Monash themed alert that can be dismissed
     */
-    var monAlert_1="<div class=\"alert alert-arts rounded\"><div class=\"mb-0\">"
+    var monAlert_1="<div class=\"alert alert-arts rounded\">"
     var monAlert_2="</div>"
 
     var monAlertD_1="<div class=\"alert alert-arts rounded alert-dismissible fade show\" role=\"alert\">"
-    var monAlertD_2="<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"> <span aria-hidden=\"true\">&times;</span></button></div>"
+    var monAlertD_2="<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>"
     </script>
        <style>
         .mce-notification-inner, .mce-close, .mce-notification-warning {
@@ -156,7 +156,7 @@
     </head>
     <body>
       <nav class="navbar navbar-expand-lg navbar-dark bg-arts mb-3">
-        <a class="navbar-brand" href="home.html">BEEST</a>
+        <a class="navbar-brand text-center border border-white p-2 rounded" href="home.html"><img src="dragon-solid-white.png" width="30" height="30" alt=""></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -165,22 +165,14 @@
             <li class="nav-item active">
               <a class="nav-link" href="home.html">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Buttons</a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="beestbuttons.html">Single buttons</a>
-                <a class="dropdown-item" href="beesttwobuttons.html">Two buttons</a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Alerts</a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
-                <a class="dropdown-item" href="beestalerts.html">Normal alerts</a>
-                <a class="dropdown-item" href="beestdmalerts.html">Dismissable alerts</a>
-                </div>
-            </li>
             <li class="nav-item">
               <a class="nav-link" href="beestvideo.html">Responsive Video</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="beestbuttons.html">Buttons</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="beestalerts.html">Alerts</a>
             </li>
                <li class="nav-item">
               <a class="nav-link" href="beestpollev.html">Poll Everywhere</a>
