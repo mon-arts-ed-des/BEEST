@@ -72,6 +72,10 @@
     $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
+function turnOffTooltip(){
+  $('h5').tooltip('disable');
+}
+
     /* Variable Key
     These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
 
@@ -194,7 +198,7 @@
     </div>
 <h1 class="text-center"><i class="fa fa-fw fa-video-camera"></i> Responsive video + context</h1>
 <h5><i class="fa fa-fw fa-flag-checkered"></i> The result of this process</h5>
-        <p>This process will generate a video iframe that is responsive that is side by side with the context for what students can expect to see in the video. A responsive video changes size with the size of the browser window you are in and when the screen gets small enough, the video and text in this combo will 'collapse' underneath one another. This tool will change your video link into the embed link for the respective platform, making it easier to create responsive video. See what link you need to get from each of the platforms on this video to ensure that you produce the elements on this page correctly.</p>
+        <p>This process will generate a video iframe that is responsive that is side by side with the context for what students can expect to see in the video. A responsive video changes size with the size of the browser window you are in and when the screen gets small enough, the video and text in this combo will 'collapse' underneath one another. This tool will change your video link into the embed link for the respective platform. This tool currently accepts the following video links - Panopto videos/playlists, Youtube, Vimeo, TED talks. <strong>See what link you need to get from each of the platforms on this video to ensure that you produce the elements on this page correctly.</strong></p>
         <h5><i class="fa fa-fw fa-list-ol"></i> How to use this page</h5>
         <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle, this short video will help (it will open in an overlay on this screen).</p>
         <h5><i class="fa fa-fw fa-refresh"></i> Refresh this page</h5>
@@ -203,6 +207,13 @@
         <p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
         <div class="col-lg-3"><div class="text-center">
           <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
+        </div></div></div>
+        <h5><i class="fa fa-fw fa-level-up-alt"></i> Advanced mode - turn off instructions</h5>
+        <div class="row w-100">
+          <div class="col-lg">
+        <p>Click this button to turn off the instructions that appear when you hover over the headings. Only do this if you are completely familiar with how to use the tool. The instructions will reappear when you refresh the page.</p></div>
+        <div class="col-lg-3"><div class="text-center">
+          <button onclick="turnOffTooltip()" class="btn btn-mu">Turn off instructions <i class="fa fa-fw fa-power-off"></i></a>
         </div></div></div>
         <hr class="hr-3">
 <form id="respVid">   
