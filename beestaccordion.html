@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A simple element creator to generate responsive code that can be easily embbedded into Moodle">
+    <meta name="author" content="T&M">
+      <title>BEEST Read More</title>
+      <link rel="icon" href="https://mon-arts-ed-des.github.io/BEEST/dragon-solid%20favicon.png" type="image/gif">
+      <!-- external link to css file --> 
+      <!-- Bootstrap CSS -->   
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <!-- Arts CSS -->  
+      <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/adminPlusSetuBlockStyle.css" />
+      <!-- external link to js file -->  
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+      <!-- Bootstrap js file --> 
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      <!-- FontAwesome js file --> 
+      <script src="https://kit.fontawesome.com/3817feae52.js"></script> 
+      <!-- Tinymce js file -->   
+      <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+      <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/artsAccordionStyle.css" />
+    <script type="text/javascript">
+       tinymce.init({
+        selector: '#tinyMCEmonAccBefore',
+        menubar: false,
+          plugins : 'advlist autolink link lists charmap print preview'  
+      });
+      tinymce.init({
+        selector: '#tinyMCEmonAccAfter',
+        menubar: false,
+          plugins : 'advlist autolink link lists charmap print preview' 
+      });     
+    function generatemonAccCode() {
+        // Get the HTML contents of the currently active editor
+        console.debug(tinyMCE.activeEditor.getContent());
+        //Retrieve the content by id of the tinyMCE textarea
+        var monAccBefore = tinyMCE.get('tinyMCEmonAccBefore').getContent();
+        var monAccAfter = tinyMCE.get('tinyMCEmonAccAfter').getContent();
+        var monAccNumber = document.getElementById('monAccNumber').value;
+        var monAccBtnTxt = document.getElementById('monAccBtnTxt').value;
+        var monAccOutput = monAccContainer+monAccBefore+monAcc_1+monAccNumber+monAcc_2+monAccAfter+monAcc_3+monAccNumber+monAcc_4+monAccBtnTxt+monAcc_5+monAccClose;
+        document.getElementById('monAccCode').innerHTML=monAccOutput;
+        SelectAll("monAccCode");
+        $('#demo').nextAll('div').remove();
+        $('#demo').after(monAccOutput);
+        }
+    function SelectAll(id){
+        document.getElementById(id).focus();
+        document.getElementById(id).select();
+        document.execCommand("copy");
+
+        var popup = document.getElementById("myPopup");
+        popup.classList.toggle("showPopup");
+        //window.alert('test');
+    }
+
+    function submitform()
+    {
+        document.forms["myform"].submit();
+    }
+    $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+    /* Variable Key
+    These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
+
+    monAcc = button to toggle extended text
+    */
+    var monAccContainer="<div>"
+    var monAcc_1="<div id=\"accordion\" class=\"mt-0 w-100 mx-auto\"><div class=\"card border-0\"><div class=\"rounded-top headingStyle text-white card-header p-0\" id=\"head"
+    var monAcc_2=" data-toggle=\"collapse\" data-target=\"#content"
+    var monAcc_3=" aria-expanded=\"false\" aria-controls=\"content"
+    var monAcc_4="><h5 class=\"mb-0 text-center\"><button class=\"noUnderline text-white btn btn-link\" data-toggle=\"collapse\" data-target=\"#content"
+    var monAcc_5="\" aria-expanded=\"true\" aria-controls=\"content"
+    var monAcc_6="\"><span class=\"h5 text-white\">"
+    var monAcc_7="</span></button></h5></div><div id=\"content"
+    var monAcc_8="\" class=\"collapse show cardBodyBorder\" aria-labelledby=\"head"
+    var monAcc_9=" data-parent=\"#accordion\"><div class=\"card-body p-2\"><div class=\"m-1 p-1\"><div class=\"row w-100 mx-auto\"><div>"
+    var monAcc_10="</div></div></div></div></div></div>"
+    var monAcc_11=""      
+    var monAccClose="</div>"
+    </script>
+       <style>
+        .mce-notification-inner, .mce-close, .mce-notification-warning {
+        display:none !important;
+        }
+
+        /* Popup container - can be anything you want */
+    #popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    }
+
+    /* The actual popup */
+    #popup .popuptext {
+    visibility: hidden;
+    width: 160px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -80px;
+    }
+
+    /* Popup arrow */
+    #popup .popuptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+    }
+
+    /* Toggle this class - hide and show the popup */
+    #popup .showPopup {
+    -webkit-animation: fadeinout 3s linear  forwards;
+    animation: fadeinout 3s linear forwards;
+    visibility: visible;
+    }
+
+    /* Add animation (fade in the popup) */
+@-webkit-keyframes fadeinout {
+  0%,100% { opacity: 0; }
+  10% {opacity: 1;}
+  66% { opacity: 1; }
+}
+
+@keyframes fadeinout {
+  0%,100% { opacity: 0; }
+  10% {opacity: 1;}
+  66% { opacity: 1; }
+}
+.tooltip-inner {
+  text-align: left;
+  padding: 15px;
+  font-size: 1.05rem;
+  max-width: 480px;
+}
+    </style> 
+    </head>
+    <body>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-arts mb-3">
+        <a class="navbar-brand text-center border border-white p-2 rounded" href="home.html"><img src="dragon-solid-white.png" width="30" height="30" alt=""></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="home.html">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="beestvideo.html">Responsive Video</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="beestbuttons.html">Buttons</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="beestalerts.html">Alerts</a>
+            </li>
+               <li class="nav-item">
+              <a class="nav-link" href="beestpollev.html">Poll Everywhere</a>
+            </li>
+               <li class="nav-item">
+              <a class="nav-link" href="beestmonAcc.html">Read More Button</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+        <div class="container-fluid">
+          <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
+            <div class="h6 mb-0"><i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle"></i>You can produce multiple read more buttons on this page. It is important to number the buttons differently if you are planning on embedding them in the same page. If two buttons have the same number assigned to them, the second button will not work correctly.</div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+            </div>    
+  <h1 class="text-center"><i class="fa fa-plus fa-fw"></i>Read more button</h1>
+  <h5><i class="fa fa-fw fa-flag-checkered"></i> The result of this process</h5>
+  <p>This process will generate a read more button that reveals more content on the page when clicked. This is used frequently in web articles and web sites to 'tease' users with an introduction while giving them the option to reveal the rest of what is written.</p>
+  <h5><i class="fa fa-fw fa-list-ol"></i> How to use this page</h5>
+  <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle, this short video will help (it will open in an overlay on this screen).</p>
+  <h5><i class="fa fa-fw fa-refresh"></i> Refresh this page if you make an error</h5>
+  <div class="row w-100">
+    <div class="col-lg">
+  <p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
+  <div class="col-lg-3"><div class="text-center">
+    <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
+  </div></div></div>
+<hr class="hr-3">
+<form id="monAccForm">
+  <div class="row w-100 mx-auto text-center mt-3">
+    <div class="col-lg mt-3">
+      <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title=""><i class="fa fa-list-ol fa-fw"></i> Step 1 - Number your read more button</h5>
+      <p class="text-center"><textarea class="border border-dark rounded p-2 w-50 mx-auto" rows="1" cols="70" placeholder="Input read more button number here" id="monAccNumber"></textarea></p>
+    </div>
+    <div class="col-lg mt-3">
+      <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="The text on the read more button will always start with Show/hide. What you put in the text box below will appear after Show/hide. For example Show/hide full bio or Show/hide full text."><i class="fa fa-arrows-alt-v fa-fw"></i> Step 2 - What are you showing/hiding?</h5> 
+      <p class="text-center"><textarea class="border border-dark rounded p-2 w-50 mx-auto" rows="1" cols="70" placeholder="Input the text for your read more button here" id="monAccBtnTxt"></textarea></p>
+    </div>
+  </div>
+  <div class="row w-100 mx-auto text-center">
+    <div class="col-lg mt-3">
+        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="What you input in the box below will appear before the read more button. This should be an introduction and engage the reader enough to want to click the button to read the rest of the content."><i class="fa fa-pencil fa-fw"></i> Step 3 - Content <em>before</em> your read more button.</h5>      
+        <textarea id="tinyMCEmonAccBefore" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="monAccBefore" placeholder="Write the context for your video here"></textarea>
+        </div>
+        <div class="col-lg mt-3">
+        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="What you input in the box below will appear after the read more button. This can be text, lists, headings, embedded video and images from public repositories such as unsplash.com or pixabay. This tool does not currently accept uploads of images or audio."><i class="fa fa-pencil fa-fw"></i> Step 4 - Content <em>after</em> your read more button.</h5>  
+        <textarea id="tinyMCEmonAccAfter" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="monAccAfter"></textarea>
+        </div></div>
+        <div class="row w-100 mt-3 mx-auto text-center">
+          <div class="col-lg mt-3">
+        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 6."><i class="fa fa-fw fa-code"></i> Step 5 - Generate/copy code</h5>
+        <div>
+    <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy code" onClick=generatemonAccCode()></p>
+    </div>
+    <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="monAccCode" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code or your alert and copy it to the clipboard."></textarea></p>
+  </div>
+</div>
+    <div class="row w-100 mx-auto text-center mt-3">
+      <div class="col-lg mt-3">
+        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 5."><i class="fa fa-fw fa-eye"></i> Step 6 - Preview</h5>
+        </div>
+        </div>
+    </form>
+    <div id="demo"></div>
+        </body>
+        </html>
