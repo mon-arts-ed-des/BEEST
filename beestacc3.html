@@ -24,24 +24,31 @@
       <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/artsAccordionStyle.css" />
     <script type="text/javascript">
        tinymce.init({
-        selector: '#tinyMCEmonAccBefore',
+        selector: '#tinyMCEmonAccContent1',
         menubar: false,
           plugins : 'advlist autolink link lists charmap print preview'  
       });
       tinymce.init({
-        selector: '#tinyMCEmonAccAfter',
+        selector: '#tinyMCEmonAccContent2',
         menubar: false,
-          plugins : 'advlist autolink link lists charmap print preview' 
-      });     
+          plugins : 'advlist autolink link lists charmap print preview'  
+      });   
+      tinymce.init({
+        selector: '#tinyMCEmonAccContent3',
+        menubar: false,
+          plugins : 'advlist autolink link lists charmap print preview'  
+      });
     function generatemonAccCode() {
         // Get the HTML contents of the currently active editor
         console.debug(tinyMCE.activeEditor.getContent());
         //Retrieve the content by id of the tinyMCE textarea
-        var monAccBefore = tinyMCE.get('tinyMCEmonAccBefore').getContent();
-        var monAccAfter = tinyMCE.get('tinyMCEmonAccAfter').getContent();
-        var monAccNumber = document.getElementById('monAccNumber').value;
-        var monAccBtnTxt = document.getElementById('monAccBtnTxt').value;
-        var monAccOutput = monAccContainer+monAccBefore+monAcc_1+monAccNumber+monAcc_2+monAccAfter+monAcc_3+monAccNumber+monAcc_4+monAccBtnTxt+monAcc_5+monAccClose;
+        var monAccContent1 = tinyMCE.get('tinyMCEmonAccContent1').getContent();
+        var monAccContent2 = tinyMCE.get('tinyMCEmonAccContent2').getContent();
+        var monAccContent3 = tinyMCE.get('tinyMCEmonAccContent3').getContent();
+        var monAccBtnTxt1 = document.getElementById('monAccBtnTxt1').value;
+        var monAccBtnTxt2 = document.getElementById('monAccBtnTxt2').value;
+        var monAccBtnTxt3 = document.getElementById('monAccBtnTxt3').value;
+        var monAccOutput = monAccStyle+monAcc_1+'1'+monAcc_2+'1'+monAcc_3+'1'+monAcc_4+'1'+monAcc_5+'1'+monAcc_6+monAccBtnTxt1+monAcc_7+'1'+monAcc_8+'1'+monAcc_9+monAccContent1+monAcc_10+monAcc_1a+'2'+monAcc_2+'2'+monAcc_3+'2'+monAcc_4+'2'+monAcc_5+'2'+monAcc_6+monAccBtnTxt2+monAcc_7+'2'+monAcc_8a+'2'+monAcc_9+monAccContent2+monAcc_10+monAcc_1a+'3'+monAcc_2+'3'+monAcc_3+'3'+monAcc_4+'3'+monAcc_5+'3'+monAcc_6+monAccBtnTxt3+monAcc_7+'3'+monAcc_8b+'3'+monAcc_9+monAccContent3+monAcc_10;
         document.getElementById('monAccCode').innerHTML=monAccOutput;
         SelectAll("monAccCode");
         $('#demo').nextAll('div').remove();
@@ -69,19 +76,21 @@
 
     monAcc = button to toggle extended text
     */
-    var monAccContainer="<div>"
+    var monAccStyle="<link rel=\"stylesheet\" href=\"https://mon-arts-ed-des.github.io/artsmoodlecode/artsAccordionStyle.css\" />"
     var monAcc_1="<div id=\"accordion\" class=\"mt-0 w-100 mx-auto\"><div class=\"card border-0\"><div class=\"rounded-top headingStyle text-white card-header p-0\" id=\"head"
-    var monAcc_2=" data-toggle=\"collapse\" data-target=\"#content"
-    var monAcc_3=" aria-expanded=\"false\" aria-controls=\"content"
-    var monAcc_4="><h5 class=\"mb-0 text-center\"><button class=\"noUnderline text-white btn btn-link\" data-toggle=\"collapse\" data-target=\"#content"
+    var monAcc_1a="<div id=\"accordion\" class=\"mt-0 w-100 mx-auto\"><div class=\"card border-0\"><div class=\"headingStyle text-white card-header p-0\" id=\"head"
+    var monAcc_2="\" data-toggle=\"collapse\" data-target=\"#content"
+    var monAcc_3="\" aria-expanded=\"false\" aria-controls=\"content"
+    var monAcc_4="\"><h5 class=\"mb-0 text-center\"><button class=\"noUnderline text-white btn btn-link\" data-toggle=\"collapse\" data-target=\"#content"
     var monAcc_5="\" aria-expanded=\"true\" aria-controls=\"content"
     var monAcc_6="\"><span class=\"h5 text-white\">"
     var monAcc_7="</span></button></h5></div><div id=\"content"
+
     var monAcc_8="\" class=\"collapse show cardBodyBorder\" aria-labelledby=\"head"
-    var monAcc_9=" data-parent=\"#accordion\"><div class=\"card-body p-2\"><div class=\"m-1 p-1\"><div class=\"row w-100 mx-auto\"><div>"
+    var monAcc_8a="\" class=\"collapse cardBodyBorder\" aria-labelledby=\"head"
+    var monAcc_8b="\" class=\"collapse cardBodyBorder rounded-bottom\" aria-labelledby=\"head"
+    var monAcc_9="\" data-parent=\"#accordion\"><div class=\"card-body p-1\"><div class=\"m-1 p-1\"><div class=\"row w-100 mx-auto\"><div class=\"accDiv\">"
     var monAcc_10="</div></div></div></div></div></div>"
-    var monAcc_11=""      
-    var monAccClose="</div>"
     </script>
        <style>
         .mce-notification-inner, .mce-close, .mce-notification-warning {
@@ -178,19 +187,30 @@
               <a class="nav-link" href="beestpollev.html">Poll Everywhere</a>
             </li>
                <li class="nav-item">
-              <a class="nav-link" href="beestmonAcc.html">Read More Button</a>
+              <a class="nav-link" href="beestreadmore.html">Read More Button</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Accordions</a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="beestacc3.html">3</a>
+                <a class="dropdown-item" href="beestacc4.html">4</a>
+                <a class="dropdown-item" href="beestacc5.html">5</a>
+                <a class="dropdown-item" href="beestacc6.html">6</a>
+                <a class="dropdown-item" href="beestacc7.html">7</a>
+                <a class="dropdown-item" href="beestacc8.html">8</a>
+              </div>
             </li>
           </ul>
         </div>
       </nav>
         <div class="container-fluid">
           <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
-            <div class="h6 mb-0"><i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle"></i>You can produce multiple read more buttons on this page. It is important to number the buttons differently if you are planning on embedding them in the same page. If two buttons have the same number assigned to them, the second button will not work correctly.</div>
+            <i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle my-2"></i><div class="h6 my-3">You can only have one accordion on a page because of the way the HTML works. Please make sure you only produce, copy and paste one accordion per Moodle page maximum.</div>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
-            </div>    
-  <h1 class="text-center"><i class="fa fa-plus fa-fw"></i>Read more button</h1>
+            </div>   
+  <h1 class="text-center"><i class="fa fa-plus fa-fw"></i>Accordion</h1>
   <h5><i class="fa fa-fw fa-flag-checkered"></i> The result of this process</h5>
-  <p>This process will generate a read more button that reveals more content on the page when clicked. This is used frequently in web articles and web sites to 'tease' users with an introduction while giving them the option to reveal the rest of what is written.</p>
+  <p>This process will generate an accordion that can display information collapsed under heading buttons. It's important to note that accordions can easily be misused. They should be used to contain information such as frequently asked questions (FAQs), or putting together important unit information such a Synopsis, Learning Outcomes, Assessment Summary all in the one place.</p>
   <h5><i class="fa fa-fw fa-list-ol"></i> How to use this page</h5>
   <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle, this short video will help (it will open in an overlay on this screen).</p>
   <h5><i class="fa fa-fw fa-refresh"></i> Refresh this page if you make an error</h5>
@@ -204,35 +224,49 @@
 <form id="monAccForm">
   <div class="row w-100 mx-auto text-center mt-3">
     <div class="col-lg mt-3">
-      <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title=""><i class="fa fa-list-ol fa-fw"></i> Step 1 - Number your read more button</h5>
-      <p class="text-center"><textarea class="border border-dark rounded p-2 w-50 mx-auto" rows="1" cols="70" placeholder="Input read more button number here" id="monAccNumber"></textarea></p>
+      <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="This is the text that will appear on the accordion buttons (all text boxes on the left side of screen). This should give users a clear idea of what will appear if the button is clicked"><i class="fa fa-arrows-alt-v fa-fw"></i> Step 1 - Headings</h5> 
+      <h6>Heading 1</h6>
+      <p class="text-center"><textarea class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your first accordion button here" id="monAccBtnTxt1"></textarea></p>
     </div>
     <div class="col-lg mt-3">
-      <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="The text on the read more button will always start with Show/hide. What you put in the text box below will appear after Show/hide. For example Show/hide full bio or Show/hide full text."><i class="fa fa-arrows-alt-v fa-fw"></i> Step 2 - What are you showing/hiding?</h5> 
-      <p class="text-center"><textarea class="border border-dark rounded p-2 w-50 mx-auto" rows="1" cols="70" placeholder="Input the text for your read more button here" id="monAccBtnTxt"></textarea></p>
-    </div>
-  </div>
-  <div class="row w-100 mx-auto text-center">
-    <div class="col-lg mt-3">
-        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="What you input in the box below will appear before the read more button. This should be an introduction and engage the reader enough to want to click the button to read the rest of the content."><i class="fa fa-pencil fa-fw"></i> Step 3 - Content <em>before</em> your read more button.</h5>      
-        <textarea id="tinyMCEmonAccBefore" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="monAccBefore" placeholder="Write the context for your video here"></textarea>
+        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="What you input in the box below will appear when the relative accordion button is clicked (all rich text editors on the right of screen). This can include text, lists, videos and externally embedded media. You can click, hold and drag the bottom right corner of these boxes to make them bigger on this screen."><i class="fa fa-pencil fa-fw"></i> Step 2 - Content</h5>
+        <h6>Content 1</h6>      
+        <textarea id="tinyMCEmonAccContent1" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="monAccContent1" placeholder="Write the content for your accordion here"></textarea>
         </div>
-        <div class="col-lg mt-3">
-        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="What you input in the box below will appear after the read more button. This can be text, lists, headings, embedded video and images from public repositories such as unsplash.com or pixabay. This tool does not currently accept uploads of images or audio."><i class="fa fa-pencil fa-fw"></i> Step 4 - Content <em>after</em> your read more button.</h5>  
-        <textarea id="tinyMCEmonAccAfter" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="monAccAfter"></textarea>
-        </div></div>
+        </div>
+        <div class="row w-100 mx-auto text-center mt-3">
+            <div class="col-lg mt-3">
+              <h6>Heading 2</h6>
+              <p class="text-center"><textarea class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="70" placeholder="Input the heading for your second accordion button here" id="monAccBtnTxt2"></textarea></p>
+            </div>
+            <div class="col-lg mt-3">
+              <h6>Content 2</h6>  
+                <textarea id="tinyMCEmonAccContent2" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="monAccContent2" placeholder="Write the content for your accordion here"></textarea>
+                </div>
+                </div>
+                <div class="row w-100 mx-auto text-center mt-3">
+                    <div class="col-lg mt-3">
+                      <h6>Heading 3</h6>  
+                      <p class="text-center"><textarea class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="70" placeholder="Input the heading for your third accordion button here" id="monAccBtnTxt3"></textarea></p>
+                    </div>
+                    <div class="col-lg mt-3">  
+                      <h6>Content 3</h6>  
+                        <textarea id="tinyMCEmonAccContent3" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="monAccContent3" placeholder="Write the content for your accordion here"></textarea>
+                        </div>
+                        </div>
+                          
         <div class="row w-100 mt-3 mx-auto text-center">
           <div class="col-lg mt-3">
-        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 6."><i class="fa fa-fw fa-code"></i> Step 5 - Generate/copy code</h5>
+        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 4."><i class="fa fa-fw fa-code"></i> Step 3 - Generate/copy code</h5>
         <div>
     <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy code" onClick=generatemonAccCode()></p>
     </div>
-    <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="monAccCode" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code or your alert and copy it to the clipboard."></textarea></p>
+    <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="monAccCode" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code for your accordion and copy it to the clipboard."></textarea></p>
   </div>
 </div>
     <div class="row w-100 mx-auto text-center mt-3">
       <div class="col-lg mt-3">
-        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 5."><i class="fa fa-fw fa-eye"></i> Step 6 - Preview</h5>
+        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 3."><i class="fa fa-fw fa-eye"></i> Step 4 - Preview</h5>
         </div>
         </div>
     </form>
