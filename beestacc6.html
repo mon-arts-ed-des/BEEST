@@ -26,7 +26,7 @@
        tinymce.init({
         selector: '#tinyMCEmonAccContent1',
         menubar: false,
-        plugins : 'advlist autolink link lists charmap print preview code',
+          plugins : 'advlist autolink link lists charmap print preview code',
           toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code'
       });
       tinymce.init({
@@ -39,10 +39,22 @@
         selector: '#tinyMCEmonAccContent3',
         menubar: false,
         plugins : 'advlist autolink link lists charmap print preview code',
-          toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code'
+          toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code'  
       });
       tinymce.init({
         selector: '#tinyMCEmonAccContent4',
+        menubar: false,
+        plugins : 'advlist autolink link lists charmap print preview code',
+          toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code'
+      });
+      tinymce.init({
+        selector: '#tinyMCEmonAccContent5',
+        menubar: false,
+        plugins : 'advlist autolink link lists charmap print preview code',
+          toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code'
+      });
+      tinymce.init({
+        selector: '#tinyMCEmonAccContent6',
         menubar: false,
         plugins : 'advlist autolink link lists charmap print preview code',
           toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code'
@@ -55,11 +67,15 @@
         var monAccContent2 = tinyMCE.get('tinyMCEmonAccContent2').getContent();
         var monAccContent3 = tinyMCE.get('tinyMCEmonAccContent3').getContent();
         var monAccContent4 = tinyMCE.get('tinyMCEmonAccContent4').getContent();
+        var monAccContent5 = tinyMCE.get('tinyMCEmonAccContent5').getContent();
+        var monAccContent6 = tinyMCE.get('tinyMCEmonAccContent6').getContent();
         var monAccBtnTxt1 = document.getElementById('monAccBtnTxt1').value;
         var monAccBtnTxt2 = document.getElementById('monAccBtnTxt2').value;
         var monAccBtnTxt3 = document.getElementById('monAccBtnTxt3').value;
         var monAccBtnTxt4 = document.getElementById('monAccBtnTxt4').value;
-        var monAccOutput = monAccStyle+monAcc_1+'1'+monAcc_2+'1'+monAcc_3+'1'+monAcc_4+'1'+monAcc_5+'1'+monAcc_6+monAccBtnTxt1+monAcc_7+'1'+monAcc_8+'1'+monAcc_9+monAccContent1+monAcc_10+monAcc_1a+'2'+monAcc_2+'2'+monAcc_3+'2'+monAcc_4+'2'+monAcc_5+'2'+monAcc_6+monAccBtnTxt2+monAcc_7+'2'+monAcc_8a+'2'+monAcc_9+monAccContent2+monAcc_10+monAcc_1a+'3'+monAcc_2+'3'+monAcc_3+'3'+monAcc_4+'3'+monAcc_5+'3'+monAcc_6+monAccBtnTxt3+monAcc_7+'3'+monAcc_8a+'3'+monAcc_9+monAccContent3+monAcc_10+monAcc_1a+'4'+monAcc_2+'4'+monAcc_3+'4'+monAcc_4+'4'+monAcc_5+'4'+monAcc_6+monAccBtnTxt4+monAcc_7+'4'+monAcc_8b+'4'+monAcc_9+monAccContent4+monAcc_10;
+        var monAccBtnTxt5 = document.getElementById('monAccBtnTxt5').value;
+        var monAccBtnTxt6 = document.getElementById('monAccBtnTxt6').value;
+        var monAccOutput = monAccStyle+monAcc_1+'1'+monAcc_2+'1'+monAcc_3+'1'+monAcc_4+'1'+monAcc_5+'1'+monAcc_6+monAccBtnTxt1+monAcc_7+'1'+monAcc_8+'1'+monAcc_9+monAccContent1+monAcc_10+monAcc_1a+'2'+monAcc_2+'2'+monAcc_3+'2'+monAcc_4+'2'+monAcc_5+'2'+monAcc_6+monAccBtnTxt2+monAcc_7+'2'+monAcc_8a+'2'+monAcc_9+monAccContent2+monAcc_10+monAcc_1a+'3'+monAcc_2+'3'+monAcc_3+'3'+monAcc_4+'3'+monAcc_5+'3'+monAcc_6+monAccBtnTxt3+monAcc_7+'3'+monAcc_8a+'3'+monAcc_9+monAccContent3+monAcc_10+monAcc_1a+'4'+monAcc_2+'4'+monAcc_3+'4'+monAcc_4+'4'+monAcc_5+'4'+monAcc_6+monAccBtnTxt4+monAcc_7+'4'+monAcc_8a+'4'+monAcc_9+monAccContent4+monAcc_10+monAcc_1a+'5'+monAcc_2+'5'+monAcc_3+'5'+monAcc_4+'5'+monAcc_5+'5'+monAcc_6+monAccBtnTxt5+monAcc_7+'5'+monAcc_8a+'5'+monAcc_9+monAccContent5+monAcc_10+monAcc_1a+'6'+monAcc_2+'6'+monAcc_3+'6'+monAcc_4+'6'+monAcc_5+'6'+monAcc_6+monAccBtnTxt6+monAcc_7+'6'+monAcc_8b+'6'+monAcc_9+monAccContent6+monAcc_10;
         document.getElementById('monAccCode').innerHTML=monAccOutput;
         SelectAll("monAccCode");
         $('#demo').nextAll('div').remove();
@@ -212,23 +228,23 @@
           </ul>
         </div>
       </nav>
-      <div class="container-fluid">
-        <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
-          <i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle my-2"></i><div class="h6 my-3">You can only have one accordion on a page because of the way the HTML works. Please make sure you only produce, copy and paste one accordion per Moodle page maximum.</div>
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
-          </div>    
-<h1 class="text-center"><i class="fa fa-plus fa-fw"></i>Accordion</h1>
-<h5><i class="fa fa-fw fa-flag-checkered"></i> The result of this process</h5>
-<p>This process will generate an accordion that can display information collapsed under heading buttons. It's important to note that accordions can easily be misused. They should be used to contain information such as frequently asked questions (FAQs), or putting together important unit information such a Synopsis, Learning Outcomes, Assessment Summary all in the one place.</p>
-<h5><i class="fa fa-fw fa-list-ol"></i> How to use this page</h5>
-<p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle, this short video will help (it will open in an overlay on this screen).</p>
-<h5><i class="fa fa-fw fa-refresh"></i> Refresh this page if you make an error</h5>
-<div class="row w-100">
-  <div class="col-lg">
-<p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
-<div class="col-lg-3"><div class="text-center">
-  <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
-</div></div></div>
+        <div class="container-fluid">
+          <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
+            <i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle my-2"></i><div class="h6 my-3">You can only have one accordion on a page because of the way the HTML works. Please make sure you only produce, copy and paste one accordion per Moodle page maximum.</div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+            </div>   
+      <h1 class="text-center"><i class="fa fa-plus fa-fw"></i>Accordion</h1>
+      <h5><i class="fa fa-fw fa-flag-checkered"></i> The result of this process</h5>
+      <p>This process will generate an accordion that can display information collapsed under heading buttons. It's important to note that accordions can easily be misused. They should be used to contain information such as frequently asked questions (FAQs), or putting together important unit information such a Synopsis, Learning Outcomes, Assessment Summary all in the one place.</p>
+      <h5><i class="fa fa-fw fa-list-ol"></i> How to use this page</h5>
+      <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle, this short video will help (it will open in an overlay on this screen).</p>
+      <h5><i class="fa fa-fw fa-refresh"></i> Refresh this page if you make an error</h5>
+      <div class="row w-100">
+        <div class="col-lg">
+      <p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
+      <div class="col-lg-3"><div class="text-center">
+        <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
+      </div></div></div>
 <hr class="hr-3">
 <form id="monAccForm">
   <div class="row w-100 mx-auto text-center mt-3">
@@ -265,6 +281,22 @@
                                 <textarea id="tinyMCEmonAccContent4" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="monAccContent4" placeholder="Write the content for your accordion here"></textarea>
                                 </div>
                                 </div>
+                                <div class="row w-100 mx-auto text-center mt-3">
+                                    <div class="col-lg mt-3">
+                                      <p class="text-center"><textarea class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="70" placeholder="Input the heading for your fifth accordion button here" id="monAccBtnTxt5"></textarea></p>
+                                    </div>
+                                    <div class="col-lg mt-3">  
+                                        <textarea id="tinyMCEmonAccContent5" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="monAccContent5" placeholder="Write the content for your accordion here"></textarea>
+                                        </div>
+                                        </div>
+                                        <div class="row w-100 mx-auto text-center mt-3">
+                                            <div class="col-lg mt-3">
+                                              <p class="text-center"><textarea class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="70" placeholder="Input the heading for your sixth accordion button here" id="monAccBtnTxt6"></textarea></p>
+                                            </div>
+                                            <div class="col-lg mt-3">  
+                                                <textarea id="tinyMCEmonAccContent6" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="monAccContent6" placeholder="Write the content for your accordion here"></textarea>
+                                                </div>
+                                                </div>
         <div class="row w-100 mt-3 mx-auto text-center">
           <div class="col-lg mt-3">
         <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 4."><i class="fa fa-fw fa-code"></i> Step 3 - Generate/copy code</h5>
