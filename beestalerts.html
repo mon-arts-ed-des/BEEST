@@ -7,7 +7,7 @@
     <meta name="description" content="A simple element creator to generate responsive code that can be easily embbedded into Moodle">
     <meta name="author" content="T&M">
     <title>BEEST Alerts</title>
-     <link rel="icon" href="https://mon-arts-ed-des.github.io/BEEST/dragon-solid%20favicon.png" type="image/gif">
+     <link rel="icon" href="https://mon-arts-ed-des.github.io/BEEST/paw-solid%20favicon.png" type="image/gif">
 
     <!-- external link to css file --> 
     <!-- Bootstrap CSS -->   
@@ -17,7 +17,6 @@
     
     <!-- external link to js file -->  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <!-- Bootstrap js file --> 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- FontAwesome js file --> 
@@ -27,60 +26,73 @@
 
     <script type="text/javascript">
       tinymce.init({
-        selector: '#tinyMCEalert',
+        selector: '#tinyMCE1',
         menubar: false,
           plugins : 'advlist autolink link lists charmap print preview' 
       });
+        tinymce.init({
+        selector: '#tinyMCE2',
+        menubar: false,
+          plugins : 'advlist autolink link lists charmap print preview'  
+      });
+    
+        //code for converting Panopto link from Viewer to Embed
+        $('#respPVRswitch').on('input', function(event) {
+        var s = $('#respPVRswitch').val().toString();
+        var x = s.replace('Viewer','Embed');
+        $('#respPVRswitch').val(x);
+        $('input[type="text"], textarea').attr('readonly','readonly');
+      })
    
     function generateAlertCode() {
         // Get the HTML contents of the currently active editor
         console.debug(tinyMCE.activeEditor.getContent());
 
         //Retrieve the content by id of the tinyMCE textarea
-        var alertCode = tinyMCE.get('tinyMCEalert').getContent();
-        var dmoption = document.getElementById('dmoption').value;
-    
-        if (dmoption == "dismissable"){
-            var textOutput = monAlertD_1+alertCode+monAlertD_2;
-        }
-        else if (dmoption == "permanent"){
-            var textOutput = monAlert_1+alertCode+monAlert_2;
-        }
-        
-        document.getElementById('monAlertCode').innerHTML=textOutput;
+        var alertCode = tinyMCE.get('tinyMCE2').getContent();
+        var textOutput1 = monAlert_1+alertCode+monAlert_2;
+        document.getElementById('monAlertCode').innerHTML=textOutput1;
         SelectAll("monAlertCode");
-        $('#demo').nextAll('div').remove();
-        $('#demo').after(textOutput);
+
+        var popup = document.getElementById("myPopup");
+        popup.classList.toggle("showPopup");
         }
 
+    function generateAlertDCode() {
+        // Get the HTML contents of the currently active editor
+        console.debug(tinyMCE.activeEditor.getContent());
+
+        //Retrieve the content by id of the tinyMCE textarea
+        var alertDCode = tinyMCE.get('tinyMCE1').getContent();
+        var textOutput2 = monAlertD_1+alertDCode+monAlertD_2;
+        document.getElementById('monAlertDCode').innerHTML=textOutput2;
+        SelectAll("monAlertDCode");
+
+        var popup = document.getElementById("myPopup2");
+        popup.classList.toggle("showPopup");
+        }
     function SelectAll(id){
         document.getElementById(id).focus();
         document.getElementById(id).select();
         document.execCommand("copy");
 
-        var popup = document.getElementById("myPopup");
-        popup.classList.toggle("showPopup");
         //window.alert('test');
     }
-    
+
     function submitform()
     {
         document.forms["myform"].submit();
     }
-    $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
     /* Variable Key
     These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
-
     monAlert = Monash themed alert
     monAlertD = Monash themed alert that can be dismissed
     */
-    var monAlert_1="<div class=\"alert alert-arts rounded\">"
+    var monAlert_1="<div class=\"alert alert-arts rounded\"><div class=\"mb-0\">"
     var monAlert_2="</div>"
 
     var monAlertD_1="<div class=\"alert alert-arts rounded alert-dismissible fade show\" role=\"alert\">"
-    var monAlertD_2="<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>"
+    var monAlertD_2="<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"> <span aria-hidden=\"true\">&times;</span></button></div>"
     </script>
        <style>
         .mce-notification-inner, .mce-close, .mce-notification-warning {
@@ -101,17 +113,17 @@
     /* The actual popup */
     #popup .popuptext {
     visibility: hidden;
-    width: 220px;
-    background-color: #222222;
+    width: 160px;
+    background-color: #555;
     color: #fff;
     text-align: center;
     border-radius: 6px;
-    padding: 10px 5px;
+    padding: 8px 0;
     position: absolute;
     z-index: 1;
-    bottom:100%;
+    bottom: 125%;
     left: 50%;
-    margin-left: -110px;
+    margin-left: -80px;
     }
 
     /* Popup arrow */
@@ -128,11 +140,11 @@
 
     /* Toggle this class - hide and show the popup */
     #popup .showPopup {
-    -webkit-animation: fadeinout 4s linear forwards;
-    animation: fadeinout 4s linear forwards;
+    -webkit-animation: fadeinout 3s linear  forwards;
+    animation: fadeinout 3s linear forwards;
     visibility: visible;
     }
-  
+
     /* Add animation (fade in the popup) */
 @-webkit-keyframes fadeinout {
   0%,100% { opacity: 0; }
@@ -145,108 +157,100 @@
   10% {opacity: 1;}
   66% { opacity: 1; }
 }
-.tooltip-inner {
-  text-align: left;
-  padding: 15px;
-  font-size: 1.05rem;
-  max-width: 400px;
-}
 
     </style> 
     </head>
     <body>
       <nav class="navbar navbar-expand-lg navbar-dark bg-arts mb-3">
-        <a class="navbar-brand text-center border border-white p-2 rounded" href="home.html"><img src="dragon-solid-white.png" width="30" height="30" alt=""></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav">
-            <li class="nav-item active">
-              <a class="nav-link" href="home.html">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="beestvideo.html">Responsive Video</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="beestbuttons.html">Buttons</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="beestalerts.html">Alerts</a>
-            </li>
-               <li class="nav-item">
-              <a class="nav-link" href="beestpollev.html">Poll Everywhere</a>
-            </li>
-               <li class="nav-item">
-              <a class="nav-link" href="beestreadmore.html">Read More Button</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Accordions</a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="beestacc3.html">3 drawers</a>
-                <a class="dropdown-item" href="beestacc4.html">4 drawers</a>
-                <a class="dropdown-item" href="beestacc5.html">5 drawers</a>
-                <a class="dropdown-item" href="beestacc6.html">6 drawers</a>
-              </div>
-            </li>
-          </ul>
+  <a class="navbar-brand" href="https://mon-arts-ed-des.github.io/BEEST/home">BEEST</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="https://mon-arts-ed-des.github.io/BEEST/home">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Buttons</a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beestbuttons">Single buttons</a>
+          <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beesttwobuttons">Two buttons</a>
+          </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Alerts</a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+          <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beestalerts">Normal alerts</a>
+          <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beestdmalerts">Dismissable alerts</a>
+          </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Responsive video</a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+          <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beestpanopto">Panopto</a>
+          <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beestyoutube">Youtube</a>
+          <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beestvimeo">Vimeo</a>
         </div>
-      </nav>
+      </li>
+         <li class="nav-item">
+        <a class="nav-link" href="https://mon-arts-ed-des.github.io/BEEST/beestpollev">Poll Everywhere</a>
+      </li>
+         <li class="nav-item">
+        <a class="nav-link" href="https://mon-arts-ed-des.github.io/BEEST/beestreadmore">Read More Button</a>
+      </li>
+    </ul>
+  </div>
+</nav>
 <div class="container-fluid">
-  <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
-    <div class="h6"><i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle"></i>Overuse of alerts on a page can become like OHS signage. They simply fade into the background, and all of a sudden the 'important' information you want students to notice, becomes less important than the rest of the text on the screen. Use them sparingly.</div>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
-    </div>
  <form id="monashAlert">
   <h1 class="text-center"><i class="fa fa-bell fa-fw"></i> Monash themed alerts</h1>
-  <h5><i class="fa fa-fw fa-flag-checkered"></i> The result of this process</h5>
-  <p>This process will generate what is termed an 'alert'. It is a box that 'sticks out' from the rest of the text to alert students to important information on the page. You can choose whether to make this alert permanent, or add the option to dismiss/close it.</p>
-  <h5><i class="fa fa-fw fa-list-ol"></i> How to use this page</h5>
-  <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle, <a data-toggle="modal" data-target=".bd-example-modal-lg" href="">this short video will help</a> (it will open in an overlay on this screen).</p>
-  <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content p-2">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+     <h3><i class="fa fa-fw fa-question-circle-o"></i> What will this process do?</h3>
+  <p>An alert is a text box that has a coloured background and border so that it 'sticks out' from the other text on the page. This process creates a permanent Monash coloured alert that you can use in your Moodle site to highlight important information for students.</p> 
+  <h3><i class="fa fa-exclamation-circle fa-fw"></i> Important caveats</h3>
+  <p>Overuse of these alerts, like overuse of bold or italic text results in the alert fading into the background as students read through your Moodle site. Like overuse of OHS signage, it can become part of the wallpaper, instead of alerting people to the important information it contains. So use it sparingly and only if absolutely necessary</p>
+    <div class="w-100 mx-auto border-arts-3 rounded p-2 m-3">
+    <h3><i class="fa fa-flag-checkered"></i> The result</h3>
+    <p>The end result here is text with a rounded border and Monash blue background that highlights important text. It's just like editing any other element, we're simply changing the background and the border to draw attention to the information.</p>
+      <div class="alert alert-arts rounded">
+                <div>
+            <h3><i class="fa fa-info-circle"></i> Reminder about this week's guest lecture</h3>
+            <p>Please ensure you visit the forum in the communication section of this Moodle site dedicated to asking questions for our guest, Mark Twain, so that we can compile your questions for the interview. We will do our best to leave time at the end for audience participation, but the questions in the forum will be dispersed throughout the interview.</p>
+            </div>
+            </div>
+            </div>
+        <div>
+        <h3 class="mt-3"><i class="fa fa-pencil fa-fw"></i> Step 1 - Write the information you want to display in your alert</h3>
+            <p>At times in your Moodle site, there are important reminders you give students. Whether it's about guest speakers, assessment, group work or changes to some part of your delivery of the unit. Or maybe there are important pieces of information like your contact details that you want to highlight. Some staff use coloured text to achieve this, and cause accessibility issues unknowingly for visually impaired students, or students who use screenreaders due to a reading impairment. So to allow for staff to highlight important information, while also maintaining accessibility, we have designed Monash coloured alerts.</p>
+        <textarea id="tinyMCE2" class="border border-dark rounded p-2 w-100 mt-3" cols="70" rows="10" name="respPVR_context" placeholder="Write the context for your video here"></textarea>
+    </div>
+     <div>
+   <h3 class="mt-3"><i class="fa fa-code fa-fw"></i> Step 2 - Generate and copy the HTML for your element</h3>
+     <p>Click the button below to generate the HTML for your element which will appear in the text box below the button, and also copy it, ready to be pasted into Moodle. If you are unsure of how to paste HTML into Moodle, please watch <a href="" data-toggle="modal" data-target=".bd-example-modal-lg">this short video</a> (opens as an overlay on this screen).</p>
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+        <div class="row w-100 p-3 mx-auto">
+            <div class="col-lg-11">
+        <div class="h4">Click anywhere outside of this video to return to the page or click the close button on the right.</div>
+            </div>
+                <div class="col-lg-1 p-0">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <p class="mr-2" style="font-size: 2rem;" aria-hidden="true">&times;</p>
+        </button></div>
+            </div>
+   <div class="embed-responsive embed-responsive-16by9">
+       <iframe class="embed-responsive-item" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe>
         </div>
-      <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe></div>
-      </div>
     </div>
   </div>
-  <h5><i class="fa fa-fw fa-refresh"></i> Refresh this page if you make an error</h5>
-  <div class="row w-100">
-    <div class="col-lg">
-  <p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
-  <div class="col-lg-3"><div class="text-center">
-    <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
-  </div></div></div>
-  <hr class="hr-3">
-        <div class="row w-100 mx-auto text-center">
-          <div class="col-lg-6 mt-3">
-        <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Type in the text you would like to appear in your alert. You can use headings, lists, bold, italics to accent text within the alert just as you would any other text editor. These alerts both highlight important information, and meet WCAG AA Accessibility Standards."><i class="fa fa-pencil fa-fw"></i> Step 1 - Write the information you want to display in your alert</h5>
-        <textarea id="tinyMCEalert" class="border border-dark rounded p-2 w-100 mt-3" cols="70" rows="8" name="respPVR_context" placeholder="Write the content or your alert here."></textarea>
-    </div>
-     <div class="col-lg mt-3">
-      <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Choose whether to leave the alert as a permanent alert (cannot be closed) or make it dismissable (a close button will appear for users to close the alert). Dismissable is chosen by default"><i class="fa fa-fw fa-times"></i> Step 2 - Permanent or Dismissable</h5>
-      <select class="form-control w-50 mx-auto" id="dmoption" name="dmoption" size="2">
-      <option value="dismissable" selected>Dismissable</option>
-      <option value="permanent">Permanent</option>
-    </select>
-    </div>
-          <div class="col-lg mt-3"> 
-   <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 4."><i class="fa fa-fw fa-code"></i> Step 3 - Generate/copy code</h5>
-        <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy code </>" onClick=generateAlertCode()></p>
-        <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="monAlertCode" cols="70" rows="7" name="Result" placeholder="Code for your element will appear here."></textarea></p>
-        </div></div>
-    </form>   
-    <div class="row w-100 mx-auto mt-3 text-center">  
-      <div class="col-lg mt-3">
-      <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 4."><i class="fa fa-fw fa-eye"></i> Step 4 - A preview of your content will appear below</h5>
-      </div>  
+</div>
+         <div class="text-center">
+    <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-3 text-center" name="GenerateWrap" value="Generate and copy code </>" onClick=generateAlertCode()></p>
+         </div>
+     </div>
+    <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="monAlertCode" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code for your alert and copy it, ready to be pasted."></textarea></p>
+    </form>     
         </div>
-        <div id="demo"></div>
         </body>
         </html>
