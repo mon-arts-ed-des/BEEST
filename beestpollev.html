@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="A simple element creator to generate responsive code that can be easily embbedded into Moodle">
     <meta name="author" content="T&M">
-    <title>BEEST PollEv</title>
-<link rel="icon" href="https://www.monash.edu/__data/assets/git_bridge/0006/509343/deploy/mysource_files/favicon-72.png" type="image/gif">
+    <title>BEEST Poll Everywhere</title>
+<link rel="icon" href="https://mon-arts-ed-des.github.io/BEEST/dragon-solid%20favicon.png" type="image/gif">
     <!-- external link to css file --> 
     <!-- Bootstrap CSS -->   
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -15,6 +15,7 @@
     
     <!-- external link to js file -->  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <!-- Bootstrap js file --> 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- FontAwesome js file --> 
@@ -33,11 +34,14 @@
 
         //Retrieve the content by id of the tinyMCE textarea
     var contextCode = tinyMCE.get('tinyMCEpollEv').getContent();
+
         //Retrieve the content by id of the textareas
     var pollEv_URL = document.getElementById('pollEv_URL').value;
-        var textOutputPollEv = contextCode+pollEv_1+pollEv_URL+pollEv_2;
+        var textOutputPollEv = divContainer+contextCode+pollEv_1+pollEv_URL+pollEv_2+closeContainer;
         document.getElementById('txtareapollEv').innerHTML=textOutputPollEv;
         SelectAll("txtareapollEv");
+        $('#demo').nextAll('div').remove();
+        $('#demo').after(textOutputPollEv);
         }
 
     function SelectAll(id){
@@ -54,23 +58,18 @@
     {
         document.forms["myform"].submit();
     }
+    $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
     /* Variable Key
     These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
 
-    btnNW = btn open in new window
-    btnSW = btn open in same window
-    respPVR = responsive Panopto Video Right (context left/video right)
-    respPVL = responsive Panopto Video Left (video left/context right)
-    artsAlert = Monash blue box alert similar to Bootstrap alert component
-    artsAcc = Monash blue accordion headings and content
+   pollEv=poll everywhere
     */
+    var divContainer="<div>"
     var pollEv_1="<iframe src=\""
     var pollEv_2="\" width=\"100%\" height=\"600\" frameBorder=\"0\"></iframe>"
-       var btnNW_3=" <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a></p>"
-
-    var btnSW_1="<p class=\"text-center mb-0\"><a class=\"btn btn-arts m-2\" href=\""
-    var btnSW_2="\">"
-    var btnSW_3=" <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a></p>"
+    var closeContainer="</div>"
     </script>
       <style>
         .mce-notification-inner, .mce-close, .mce-notification-warning {
@@ -136,100 +135,133 @@
   66% { opacity: 1; }
 }
 
+.tooltip-inner {
+  text-align: left;
+  padding: 15px;
+  font-size: 1.05rem;
+  max-width: 420px;
+}
     </style>  
     </head>
     <body>
-       <nav class="navbar navbar-expand-lg navbar-dark bg-arts mb-3">
-  <a class="navbar-brand" href="https://mon-arts-ed-des.github.io/BEEST/home">BEEST</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="https://mon-arts-ed-des.github.io/BEEST/home">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Buttons</a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beestbuttons">Single buttons</a>
-          <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beesttwobuttons">Two buttons</a>
-          </div>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Alerts</a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
-          <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beestalerts">Normal alerts</a>
-          <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beestdmalerts">Dismissable alerts</a>
-          </div>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Responsive video</a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-          <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beestpanopto">Panopto</a>
-          <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beestyoutube">Youtube</a>
-          <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beestvimeo">Vimeo</a>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-arts mb-3">
+        <a class="navbar-brand text-center border border-white p-2 rounded" href="home.html"><img src="dragon-solid-white.png" width="30" height="30" alt=""></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="home.html">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="beestvideo.html">Responsive Video</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="beestbuttons.html">Buttons</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="beestalerts.html">Alerts</a>
+            </li>
+               <li class="nav-item">
+              <a class="nav-link" href="beestpollev.html">Poll Everywhere</a>
+            </li>
+               <li class="nav-item">
+              <a class="nav-link" href="beestreadmore.html">Read More Button</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Accordions</a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="beestacc3.html">3 drawers</a>
+                <a class="dropdown-item" href="beestacc4.html">4 drawers</a>
+                <a class="dropdown-item" href="beestacc5.html">5 drawers</a>
+                <a class="dropdown-item" href="beestacc6.html">6 drawers</a>
+              </div>
+            </li>
+          </ul>
         </div>
-      </li>
-         <li class="nav-item">
-        <a class="nav-link" href="https://mon-arts-ed-des.github.io/BEEST/beestpollev">Poll Everywhere</a>
-      </li>
-         <li class="nav-item">
-        <a class="nav-link" href="https://mon-arts-ed-des.github.io/BEEST/beestreadmore">Read More Button</a>
-      </li>
-    </ul>
-  </div>
-</nav>
-        <div class="container-fluid">
-        <div class="alert alert-arts h5">Important: You can only generate the code for one element at a time on this page. If you need more elements, copy and paste each element into Moodle, return to this page and create your next element. Watch the video below for a walkthrough of how to use the page effectively.</div>
-        <h3 class="text-center">Poll everywhere embed shareable response link</h3>
-        <p>This process will generate a the embed code to embed your poll everywhere poll in Moodle.</p>
-            <hr>
-            <h3><i class="fa fa-flag-checkered"></i> The result</h3>
-            <p>The end result will be similar to the below example (your poll will be different).</p>
-                <p>Click the button below to toggle an example of the button that links to lms.monash.edu.</p>
-                <hr>
-            <div class="collapse" id="readMore1">
-                <p>Write your response to the poll question below. The results will be displayed for you to view the group's responses later in the lesson.</p>
-        <iframe src="https://PollEv.com/free_text_polls/Lr1kAqRMftAK2kig5rlM8/respond" width="100%" height="600" frameBorder="0"></iframe>
+      </nav>
+      <div class="container-fluid">
+        <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
+            <div class="h6"><i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle"></i>You can only produce the embed code for one (1) poll at a time on this page. You will need to paste the code for each poll into Moodle, then come back to this page, refresh it and start again.</div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+            </div>     
+          <h1 class="text-center"><i class="fa fa-poll fa-fw"></i> Embed Poll Everywhere Activities</h1>
+          <h5><i class="fa fa-fw fa-flag-checkered"></i> The result of this process</h5>
+          <p>This process will generate embed code for Poll Everywhere activites using the shareable link available in your Poll Everywhere account. To get the link for your poll activity <a href="" data-toggle="modal" data-target=".pollev-modal">follow these steps</a> (will appear as an overlay on this screen).</p>
+<div class="modal fade pollev-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg modal-dialog-centered">
+<div class="modal-content">
+    <div class="row w-100 p-3 mx-auto">
+        <div class="col-lg-11">
+          <h5><i class="fa fa-fw fa-link"></i> Get the shareable link for your poll</h5>
+            <ol class="mb-0">
+                <li>Go to <a href="https://polleverywhere.com" target="_blank">Poll Everywhere</a> and login.</li>
+                <li>Create and save your single activity or click on the <strong>Edit</strong> menu of an already created item by hovering over it.</li>
+                <li>Go to the <strong>3. Present tab</strong> in the top right corner of the screen.</li>
+              <li>Click on the <strong>Share tab</strong> to reveal your options.</li>
+          <li>Copy the <strong>Shareable response link</strong> or click the <strong>hyperlink icon</strong> next to the heading to automatically copy the link.</li></ol>
+        </div>
+            <div class="col-lg-1 p-0">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <p class="mr-2" style="font-size: 2rem;" aria-hidden="true">&times;</p>
+    </button></div>
+        </div>
+</div>
+</div>
+</div>     
+          <h5><i class="fa fa-fw fa-list-ol"></i> How to use this page</h5>
+          <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle,  <a data-toggle="modal" data-target=".bd-example-modal-lg" href="">this short video will help</a> (it will open in an overlay on this screen).</p>
+          <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content p-2">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe></div>
+              </div>
             </div>
-            <!--Form for new window button starts here-->
-            <!--Form for new window button starts here-->
-            <!--Form for new window button starts here-->
-     <div><a class="btn btn-arts btn-block w-50 mx-auto" data-toggle="collapse" href="#readMore1" role="button" aria-expanded="false" aria-controls="collapseExample">Show/Hide the result</a></div>
-         <hr>
-           <form id="pollEv">     
-        <div class="row w-100 mx-auto">
-        <div class="col-lg">
-            <h5>Write the context for the poll</h5>
-            <p>Writing some instructions, or context for students on your poll will help the students to respond correctly. Write your context in the space below.</p>
-            <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="1" name="pollEv_text" id="tinyMCEpollEv" placeholder="Write/paste the text for the button here"></textarea></div></div>
-            <hr>
-             <div class="row w-100 mx-auto mt-3">
-        <div class="col-lg">
-            <h5>Paste your shareable response link</h5>
-            <p>Paste your poll everywhere shareable link in the space below. This can be found by:</p>
-            <ol>
-                <li>going to <a href="https://polleverywhere.com" target="_blank">Poll Everywhere</a></li>
-                <li>logging in to the platform</li>
-                <li>click on the title of the poll you want to embed</li>
-                <li>click on <strong>3. Present</strong> in the top right corner</li>
-                <li>click the small chain symbol near <strong>Shareable response link</strong> to copy the response link</li>
-                </ol>
-            </div>
+          </div></p>
+          <h5><i class="fa fa-fw fa-refresh"></i> Refresh this page if you make an error</h5>
+          <div class="row w-100">
             <div class="col-lg">
-            <p class="text-center"><textarea class="rounded p-2 w-100" rows="1" name="pollEv_URL" id="pollEv_URL" placeholder="Write/paste the Shareable response link here"></textarea></p>
-            </div>
-            </div>
-            <div class="text-center"><p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span> <input type="button" class="m-2 btn btn-arts" name="copyCode" value="Click to generate and copy code" onClick=generatePollEvCode()></input></div>
-                  <p class="text-center">
-                <textarea readonly class="rounded p-2 w-100" id="txtareapollEv" cols="70" rows="3" name="Result" placeholder="The code for your button will be generated here. Click the button below to copy the code. Then paste the code in Moodle using the HTML editor."></textarea></p>
-        <script>//code for converting Youtube link from Viewer to Embed
-        $('#pollEv_URL').on('input', function(event) {
-        
-        $('input[type="text"], textarea').attr('readonly','readonly');
-      }); 
-      </script>
-        </form>
-        </body>
-        </html>
+          <p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
+          <div class="col-lg-3"><div class="text-center">
+            <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
+          </div></div></div>
+     <hr class="hr-3">
+       <form id="pollEv">     
+    <div class="row w-100 mx-auto text-center mt-3">
+    <div class="col-lg mt-3">
+        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="If you already have written the context for your poll in Moodle, skip this step, generate the embed code for your poll and paste it after your context in Moodle. Otherwise, writing some instructions, or context for students on your poll will help the students to respond correctly. Write your context in the space below. You can use headings, bold, italics and lists if needed in your instructions."><i class="fa fa-fw fa-pencil"></i> Step 1 - Write the context for the poll (optional)</h5>
+        <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="3" name="pollEv_text" id="tinyMCEpollEv" placeholder="Write/paste the text for the button here"></textarea></div>
+    <div class="col-lg mt-3">
+        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Paste in your polls shareable link. You can get this link by following the instructions from the top of the page. Click on the text that says 'follow these steps' to reveal the instructions."><i class="fa fa-fw fa-link"></i> Step 2 - Paste shareable link URL</h5>
+        <p class="text-center"><textarea class="rounded p-2 w-100" rows="1" name="pollEv_URL" id="pollEv_URL" placeholder="Write/paste the Shareable response link here"></textarea></p>
+        </div>
+        <div class="col-lg mt-3">
+          <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 4."><i class="fa fa-fw fa-code"></i> Step 3 - Generate/copy code</h5>
+        <div><p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span> <input type="button" class="m-1 btn btn-arts" name="copyCode" value="Click to generate and copy code" onClick=generatePollEvCode()></input></div>
+              <p class="text-center">
+            <textarea readonly class="rounded p-2 w-100" id="txtareapollEv" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here."></textarea></p>
+        </div>
+    </div>
+    <div class="row w-100 mx-auto text-center mt-3">
+      <div class="col-lg mt-3">
+        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 3."><i class="fa fa-fw fa-eye"></i> Step 4 - Preview</h5>
+        </div>
+        </div>
+      </div>
+    <script>//code for converting textarea to readonly on paste
+    $('#pollEv_URL').on('input', function(event) {
+    
+    $('input[type="text"], textarea').attr('readonly','readonly');
+  }); 
+  </script>
+    </form>
+    <div id="demo"></div>
+    </body>
+    </html>

@@ -6,7 +6,7 @@
     <meta name="description" content="A simple element creator to generate responsive code that can be easily embedded into Moodle">
     <meta name="author" content="T&M">
     <title>BEEST Buttons</title>
-     <link rel="icon" href="https://mon-arts-ed-des.github.io/BEEST/paw-solid%20favicon.png" type="image/gif">
+     <link rel="icon" href="https://mon-arts-ed-des.github.io/BEEST/dragon-solid%20favicon.png" type="image/gif">
 
     <!-- external link to css file --> 
     <!-- Bootstrap CSS -->   
@@ -16,6 +16,8 @@
     
     <!-- external link to js file -->  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  
     <!-- Bootstrap js file --> 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- FontAwesome js file --> 
@@ -26,36 +28,55 @@
     <script type="text/javascript">
     function generateBtnCode() {
         //Retrieve the content by id of the textareas
-        var btnNW_URL = document.getElementById('btnNW_URL').value;
-        var btnNW_text = document.getElementById('btnNW_text').value;
-        var textOutputNW = btnNW_1+btnNW_URL+btnNW_2+btnNW_text+btnNW_3;
-        document.getElementById('txtareaNW').innerHTML=textOutputNW;
-        SelectAll("txtareaNW");
+        var btn_URL = document.getElementById('btn_URL').value;
+        var btn_text = document.getElementById('btn_text').value;
+        var btnTarget = document.getElementById('buttonTarget').value;
+        var btnAlign = document.getElementById('buttonAlign').value;
+        if (btnAlign == "leftAlign" && btnTarget == "sameWin"){
+            var textOutput = btnLeft+btnSW_1+btn_URL+btnSW_2+btn_text+btnSW_3;
+        }
+        else if (btnAlign == "leftAlign" && btnTarget == "newWin"){
+            var textOutput = btnLeft+btnNW_1+btn_URL+btnNW_2+btn_text+btnNW_3;
+        }
+        else if (btnAlign == "centerAlign" && btnTarget == "sameWin"){
+            var textOutput = btnCenter+btnSW_1+btn_URL+btnSW_2+btn_text+btnSW_3;
+        }
+        else if (btnAlign == "centerAlign" && btnTarget == "newWin"){
+            var textOutput = btnCenter+btnNW_1+btn_URL+btnNW_2+btn_text+btnNW_3;
+        }
+    /*
+        if (btnTarget == "sameWin"){
+            var textOutput = btnSW_1+btn_URL+btnSW_2+btn_text+btnSW_3;
+        }
+        else if (btnTarget == "newWin"){
+            var textOutput = btnNW_1+btn_URL+btnNW_2+btn_text+btnNW_3;
+        }
+        */
+
+        document.getElementById('txtareaBtn').innerHTML=textOutput;
+        SelectAll("txtareaBtn");
+        $('#demo').nextAll('p').remove();
+        $('#demo').after(textOutput);
         }
         
-    function generateBtnCodeSW() {
-        //Retrieve the content by id of the textareas
-        var btnSW_URL = document.getElementById('btnSW_URL').value;
-        var btnSW_text = document.getElementById('btnSW_text').value;
-        var textOutputSW = btnSW_1+btnSW_URL+btnSW_2+btnSW_text+btnSW_3;
-        document.getElementById('txtareaSW').innerHTML=textOutputSW;
-        SelectAll("txtareaSW");
-        }  
         
     function SelectAll(id){
         document.getElementById(id).focus();
         document.getElementById(id).select();
         document.execCommand("copy");
-
+        //window.alert('test');
         var popup = document.getElementById("myPopup");
         popup.classList.toggle("showPopup");
-        //window.alert('test');
     }
 
     function submitform()
     {
         document.forms["myform"].submit();
     }
+    $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
     /* Variable Key
     These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
 
@@ -63,13 +84,24 @@
     btnSW = btn open in same window
   
     */
+    var btnLeft="<p class=\"mb-0\"><a class=\"btn btn-arts m-2\""
+    var btnCenter="<p class=\"text-center mb-0\"><a class=\"btn btn-arts m-2\""
+    var btnNW_1=" target=\"_blank\" href=\""
+    var btnNW_2="\">"
+    var btnNW_3=" <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a> (Opens in a new window)</p>"
+
+    var btnSW_1=" href=\""
+    var btnSW_2="\">"
+    var btnSW_3=" <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a></p>"
+
+    /*
     var btnNW_1="<p class=\"text-center mb-0\"><a class=\"btn btn-arts m-2\" target=\"_blank\" href=\""
     var btnNW_2="\">"
-    var btnNW_3=" <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a></p>"
+    var btnNW_3=" <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a></p><p class=\"text-center\">(Opens in a new window)</p>"
     
     var btnSW_1="<p class=\"text-center mb-0\"><a class=\"btn btn-arts m-2\" href=\""
     var btnSW_2="\">"
-    var btnSW_3=" <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a></p>"
+    var btnSW_3=" <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a></p>"*/
     </script>
     <style>
     .mce-notification-inner, .mce-close, .mce-notification-warning {
@@ -91,11 +123,11 @@
     #popup .popuptext {
     visibility: hidden;
     width: 160px;
-    background-color: #555;
+    background-color: #222222;
     color: #fff;
-    text-align: center;
+    text-align: left;
     border-radius: 6px;
-    padding: 8px 0;
+    padding: 12px;
     position: absolute;
     z-index: 1;
     bottom: 125%;
@@ -112,7 +144,7 @@
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: #555 transparent transparent transparent;
+    border-color: #222222 transparent transparent transparent;
     }
 
     /* Toggle this class - hide and show the popup */
@@ -134,118 +166,138 @@
   10% {opacity: 1;}
   66% { opacity: 1; }
 }
+
+.tooltip-inner {
+  text-align: left;
+  padding: 15px;
+  font-size: 1.05rem;
+  max-width: 280px;
+}
     </style> 
     </head>
     <body>
-       <nav class="navbar navbar-expand-lg navbar-dark bg-arts mb-3">
-  <a class="navbar-brand" href="https://mon-arts-ed-des.github.io/BEEST/home">BEEST</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="https://mon-arts-ed-des.github.io/BEEST/home">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Buttons</a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beestbuttons">Single buttons</a>
-          <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beesttwobuttons">Two buttons</a>
-          </div>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Alerts</a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
-          <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beestalerts">Normal alerts</a>
-          <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beestdmalerts">Dismissable alerts</a>
-          </div>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Responsive video</a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-          <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beestpanopto">Panopto</a>
-          <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beestyoutube">Youtube</a>
-          <a class="dropdown-item" href="https://mon-arts-ed-des.github.io/BEEST/beestvimeo">Vimeo</a>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-arts mb-3">
+        <a class="navbar-brand text-center border border-white p-2 rounded" href="home.html"><img src="dragon-solid-white.png" width="30" height="30" alt=""></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="home.html">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="beestvideo.html">Responsive Video</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="beestbuttons.html">Buttons</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="beestalerts.html">Alerts</a>
+            </li>
+               <li class="nav-item">
+              <a class="nav-link" href="beestpollev.html">Poll Everywhere</a>
+            </li>
+               <li class="nav-item">
+              <a class="nav-link" href="beestreadmore.html">Read More Button</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Accordions</a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="beestacc3.html">3 drawers</a>
+                <a class="dropdown-item" href="beestacc4.html">4 drawers</a>
+                <a class="dropdown-item" href="beestacc5.html">5 drawers</a>
+                <a class="dropdown-item" href="beestacc6.html">6 drawers</a>
+              </div>
+            </li>
+          </ul>
         </div>
-      </li>
-         <li class="nav-item">
-        <a class="nav-link" href="https://mon-arts-ed-des.github.io/BEEST/beestpollev">Poll Everywhere</a>
-      </li>
-         <li class="nav-item">
-        <a class="nav-link" href="https://mon-arts-ed-des.github.io/BEEST/beestreadmore">Read More Button</a>
-      </li>
-    </ul>
-  </div>
-</nav>
+      </nav>
         <div class="container-fluid">
-        <div class="alert alert-arts h5">Important: You can only generate the code for one element at a time on this page. If you need more elements, copy and paste each element into Moodle, return to this page and create your next element. Watch the video below for a walkthrough of how to use the page effectively.</div>
-            <h1 class="text-center"><i class="fa fa-fw fa-external-link"></i> Monash button - opens in a new window</h1>
-        <p>This process will generate a Monash blue button element with text that communicates where the button links to and the link will open in a new window. This is recommended for content you are linking to outside of Moodle, so that Moodle stays open in a separate tab for students. Please ensure the links you paste are full URLs.</p>
-            <p><strong>E.g.</strong> https://google.com or https://lms.monash.edu.</p>
-            <p><strong>If you do not include the https:// or http:// prefix your button will not work correctly.</strong></p>
-        <div class="w-100 mx-auto border-arts-3 rounded p-3 m-3">
-            <h3><i class="fa fa-flag-checkered"></i> The result</h3>
-            <p>The end result will be similar to the below example (your link and text will be different). We've included Font Awesome in this example (the arrow pointing to the right) which will be added to the end of your text.</p>
-            <p class="text-center mb-0"><a class="btn btn-arts m-2" target="_blank" href="https://lms.monash.edu">Go to Monash Moodle <i class="fa fa-arrow-right" aria-hidden="true"></i></a></p></div>
-           <form id="btnNW">
-            <h3><i class="fa fa-fw fa-link"></i> Step 1 - Paste your URL</h3>
-        <div class="row w-100 mx-auto">
-        <div class="col-lg">
-            <p>Paste in the link/URL for the button. Where users will be directed to when clicking the button.</p>
+            <h1 class="text-center"><i class="fa fa-fw fa-external-link"></i> Monash button</h1>
+            <h5><i class="fa fa-fw fa-flag-checkered"></i> The result of this process</h5>
+        <p>This process will generate a Monash blue button element with a link to a URL. To complete this process you need to copy the link you want in the button, write the text that will appear on the button and choose whether the button will open in the same window it is located in, or open the link in a new tab. Head to the demo page to see how this element works if you are unsure. If you are not familiar with using HTML in Moodle, <a data-toggle="modal" data-target=".bd-example-modal-lg" href="">this short video will help</a> (it will open in an overlay on this screen).</p>
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content p-2">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe></div>
             </div>
-            <div class="col-lg">
-            <p class="text-center"><textarea class="rounded p-2 w-100" rows="1" id="btnNW_URL" name="btnNW_URL" placeholder="Write/paste the URL here"></textarea></p>
+          </div>
+        </div></p>
+        <h5><i class="fa fa-fw fa-list-ol"></i> How to use this page</h5>
+        <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle, this short video will help (it will open in an overlay on this screen).</p>
+        <h5><i class="fa fa-fw fa-refresh"></i> Refresh this page</h5>
+  <div class="row w-100">
+    <div class="col-lg">
+  <p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
+  <div class="col-lg-3"><div class="text-center">
+    <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
+  </div></div></div>
+  <hr class="hr-3">
+           <form id="btn">           
+        <div class="row w-100 mx-auto text-center mt-3">
+        <div class="col-lg mt-3">
+          <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Paste in the link/URL for the button below. This is where users will be directed to when clicking the button."><i class="fa fa-fw fa-link"></i> Step 1 - Paste URL</h5>
+           <p><textarea class="rounded p-2 w-100" rows="1" id="btn_URL" name="btn_URL" placeholder="Write/paste the URL here"></textarea></p>
             </div>
+            <div class="col-lg mt-3">
+              <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Write the text that will appear on the button. This space is limited to 30 characters."><i class="fa fa-fw fa-pencil"></i> Step 2 - Button text</h5>
+              <textarea maxlength="30" class="mb-3 rounded p-2 w-100" cols="70" rows="1" id="btn_text" name="btn_text" placeholder="Button text here. 30 character maximum"></textarea>
             </div>
-        <h3><i class="fa fa-fw fa-pencil"></i> Step 2 - Write the text for the button</h3>
-        <div class="row w-100 mx-auto">
-        <div class="col-lg">
-            <p>You can have text that tells the user what the button is linked to here - <strong>recommended less than 25 characters including spaces).</strong></p>
+        <div class="col-lg mt-3">
+          <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Choose whether to open link in a new window, or the same window users are on. New window is chosen by default."><i class="fa fa-fw fa-question-circle-o"></i> Step 3 - New/Same window</h5>
+          <select class="form-control w-75 mx-auto" id="buttonTarget" name="buttonTarget" size="2">
+            <option selected value="newWin">New window</option>
+             <option value="sameWin">Same window</option>               
+          </select>
+            </div>    
+            <div class="col-lg mt-3">
+              <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Choose whether to open button to be left-aligned, or centre-aligned. Left-align is chosen by default."><i class="fa fa-fw fa-question-circle-o"></i> Step 4 - Left/Centre align</h5>
+              <select class="form-control w-75 mx-auto" id="buttonAlign" name="buttonAlign" size="2">
+                <option selected value="leftAlign">Left align button</option>
+                 <option value="centerAlign">Center align button</option>               
+              </select>
+                </div>           
+               </div> 
+               <div class="row w-100 mx-auto mt-3">
+               <div class="col-lg text-center mt-3">
+                <h5 data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 6."><i class="fa fa-fw fa-code"></i> Step 5 - Generate/copy code</h5>
+                <p id="popup"><span class="popuptext" id="myPopup">Your code has been copied</span><input class="btn btn-arts m-2" name="GenerateWrap" value="Generate Code </>" OnClick=generateBtnCode() ></p>
+                <textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="5" name="Result" placeholder="Code for your element will appear here"></textarea>
             </div>
-        <div class="col-lg">
-            <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="1" id="btnNW_text" name="btnNW_text" placeholder="Write/paste the text for the button here"></textarea>
+            <div class="col-lg mt-3">
+              <h5 class="text-center" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 5."><i class="fa fa-fw fa-eye"></i> Step 6 - Preview</h5>
+              <div id="demo">
+              </div>
+         </div>
+         
             </div>
-               </div>
-                <h3><i class="fa fa-fw fa-code"></i> Step 3 - Generate and copy the code for your element</h3>
-               <p>When you click the button below, it will generate the HTML for your element and copy it, ready to be pasted into Moodle. If you are unsure of how to paste HTML into Moodle watch this short video here.</p>
-            <div class="text-center"><p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-2" name="GenerateWrap" value="Generate Code" OnClick=generateBtnCode()></p>
-               </div>
-            <p class="text-center">
-                <textarea readonly class="rounded p-2 w-100" id="txtareaNW" cols="70" rows="3" name="Result" placeholder="When you click the button above it will generate the code for your element and copy it, ready for you to paste into Moodle."></textarea></p>
-        </form>
-<hr class="hr-3">
-<h1 class="text-center"><i class="fa fa-fw fa-window-maximize"></i> Monash button - opens in the same window</h1>
-        <p>This process will generate a Monash blue button element with text that communicates where the button links to and the link will open in the same window. Please ensure the links you paste are full URLs.</p>
-        <p><strong>E.g.</strong> https://google.com or https://lms.monash.edu.</p>
-        <p><strong>If you do not include the https:// or http:// prefix your button will not work correctly.</strong></p>
-        <div class="w-100 mx-auto border-arts-3 rounded p-3 m-2">
-            <h3><i class="fa fa-flag-checkered"></i> The result</h3>
-            <p>The end result will be similar to the below example (your link and text will be different). We've included Font Awesome in this example (the arrow pointing to the right) which will be added to the end of your text.</p>
-            <p class="text-center mb-0"><a class="btn btn-arts m-2" target="_blank" href="https://lms.monash.edu">Go to Monash Moodle <i class="fa fa-arrow-right" aria-hidden="true"></i></a></p></div>
-        <form id="btnSW">
-            <h3 class="mt-3"><i class="fa fa-fw fa-link"></i> Step 1 - Paste your URL</h3>
-        <div class="row w-100">
-        <div class="col-lg">
-            <p>Paste in the link/URL for the button. Where users will be directed to when clicking the button.</p>
-            </div>
-        <div class="col-lg">
-            <p class="text-center"><textarea class="rounded p-2 w-100" rows="1" id="btnSW_URL" name="btnSW_URL" placeholder="Write/paste the URL here"></textarea></p>
-            </div>
-            </div>
-            <h3><i class="fa fa-fw fa-pencil"></i> Step 2 - Write the text for the button</h3>
-        <div class="row w-100">
-        <div class="col-lg">
-            <p>You can have text that tells the user what the button is linked to here - <strong>recommended < 25 characters including spaces).</strong></p>
-            </div>
-            <div class="col-lg">
-            <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="1" id="btnSW_text" name="btnSW_text" placeholder="Write/paste the text for the button here"></textarea></div></div>
-              <h3><i class="fa fa-fw fa-code"></i> Step 3 - Generate and copy the code for your element</h3>
-<p>When you click the button below, it will generate the HTML for your element and copy it, ready to be pasted into Moodle. If you are unsure of how to paste HTML into Moodle watch this short video here.</p>
-            <div class="text-center"><p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-2" name="GenerateWrap" value="Generate Code" OnClick=generateBtnCodeSW()></p>
-            </div>
-            <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="txtareaSW" cols="70" rows="5" name="Result" placeholder="The code for your button will be generated here. Click into this text box once generated and the code will all be highlighted. Then paste the code in Moodle using the HTML editor."></textarea></p>
-        </form>
-        <!--Form for new window button ends here-->
+        </form>        
+        <script>
+          $('#btn_URL').on('input', function(event) {
+          var s = $('#btn_URL').val().toString();
+          
+          if (s.includes("https://") == true)
+          {
+          //do nothing if match to 'https'
+          }
+          else if (s.includes("http://") == true) {
+          //do nothing if match to 'http'
+          }
+          //if not, add 'http'
+          else {
+            s = "http://" + s;
+          }
+      
+          $('#btn_URL').val(s);
+          $('input[type="text"], #btn_URL').attr('readonly','readonly');
+        }); 
+        </script>
         </body>
         </html>
