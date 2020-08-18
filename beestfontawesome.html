@@ -38,59 +38,61 @@
         var code = document.getElementById('fsCode').value;
         //window.alert(vPosition);
 
-        if (code == "1"){
+        switch (code){
+            case "1":
             var textOutput = contextCode + "<i class=\"fas fa-book fa-lg\" style=\"color:#000;\"></i>";
-        }
-        else if (code == "2"){
+            break;
+            case "2":
             var textOutput = contextCode + "<i class=\"fas fa-play fa-lg\" style=\"color:#000;\"></i>";
-        }
-        else if (code == "3"){
-            var textOutput = contextCode + "<i class=\"fas fa-pencil fa-lg\" style=\"color:#000;\"></i>";
-        }
-        else if (code == "4"){
+            break;
+            case "3":
+            var textOutput = contextCode + "<i class=\"fa fa-pencil fa-lg\" style=\"color:#000;\"></i>";
+            break;
+            case "4":
             var textOutput = contextCode + "<i class=\"fas fa-question-circle fa-lg\" style=\"color:#000;\"></i>";
-        }
-        else if (code == "5"){
+            break;
+            case "5":
             var textOutput = contextCode + "<i class=\"fas fa-map fa-lg\" style=\"color:#000;\"></i>";
-        }
-        else if (code == "6"){
+            break;
+            case "6":
             var textOutput = contextCode + "<i class=\"fas fa-comments fa-lg\" style=\"color:#000;\"></i>";
-        }
-        else if (code == "7"){
+            break;
+            case "7":
             var textOutput = contextCode + "<i class=\"fas fa-users fa-lg\" style=\"color:#000;\"></i>";
-        }
-        else if (code == "8"){
+            break;
+            case "8":
             var textOutput = contextCode + "<i class=\"fas fa-laptop fa-lg\" style=\"color:#000;\"></i>";
-        }
-        else if (code == "9"){
+            break;
+            case "9":
             var textOutput = contextCode + "<i class=\"fas fa-graduation-cap fa-lg\" style=\"color:#000;\"></i>";
-        }
-        else if (code == "10"){
+            break;
+            case "10":
             var textOutput = contextCode + "<i class=\"fas fa-folder-open fa-lg\" style=\"color:#000;\"></i>";
-        }
-        else if (code == "11"){
+            break;
+            case "11":
             var textOutput = contextCode + "<i class=\"fas fa-info-circle fa-lg\" style=\"color:#000;\"></i>";
-        }
-        else if (code == "12"){
+            break;
+            case "12":
             var textOutput = contextCode + "<i class=\"fas fa-list-ol fa-lg\" style=\"color:#000;\"></i>";
-        }
-        else if (code == "13"){
+            break;
+            case "13":
             var textOutput = contextCode + "<i class=\"fas fa-images fa-lg\" style=\"color:#000;\"></i>";
-        }
-        else if (code == "14"){
+            break;
+            case "14":
             var textOutput = contextCode + "<i class=\"fas fa-check-square fa-lg\" style=\"color:#000;\"></i>";
-        }
-        else if (code == "15"){
+            break;
+            case "15":
             var textOutput = contextCode + "<i class=\"fas fa-exclamation-circle fa-lg\" style=\"color:#000;\"></i>";
-        }
-        else if (code == "16"){
+            break;
+            case "16":
             var textOutput = contextCode + "<i class=\"fas fa-flag-checkered fa-lg\" style=\"color:#000;\"></i>";
-        }
-        else if (code == "17"){
+            break;
+            case "17":
             var textOutput = contextCode + "<i class=\"fas fa-briefcase fa-lg\" style=\"color:#000;\"></i>";
-        }
-        else if (code == "18"){
+            break;
+            case "18":
             var textOutput = contextCode + "<i class=\"fas fa-external-link fa-lg\" style=\"color:#000;\"></i>";
+            break;
         }
 
         document.getElementById('monAlertCode').innerHTML=textOutput;
@@ -268,7 +270,7 @@ function turnOffTooltip(){
       </tr>
       <tr>
         <td>7. Users <i class="fas fa-users fa-lg" style="color:#000;"></i></td>
-        <td>8. Laoptop <i class="fas fa-laptop fa-lg" style="color:#000;"></i></td>
+        <td>8. Laptop <i class="fas fa-laptop fa-lg" style="color:#000;"></i></td>
         <td>9. Graduation Cap <i class="fa fa-graduation-cap fa-lg" style="color:#000;"></i></td>
         <td>10. Folder Open <i class="fa fa-folder-open fa-lg" style="color:#000;"></i></td>
         <td>11. Info Circle <i class="fa fa-info-circle fa-lg" style="color:#000;"></i></td>
