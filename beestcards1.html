@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A simple element creator to generate responsive code that can be easily embbedded into Moodle">
+    <meta name="author" content="T&M">
+    <title>BEEST Alerts</title>
+     <link rel="icon" href="https://mon-arts-ed-des.github.io/BEEST/dragon-solid%20favicon.png" type="image/gif">
+
+    <!-- external link to css file --> 
+    <!-- Bootstrap CSS -->   
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Arts CSS -->  
+    <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/adminPlusSetuBlockStyle.css" />
+    
+    <!-- external link to js file -->  
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <!-- Bootstrap js file --> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- FontAwesome js file --> 
+    <script src="https://kit.fontawesome.com/3817feae52.js"></script> 
+    <!-- Tinymce js file -->   
+    <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+
+    <script type="text/javascript">
+      tinymce.init({
+        selector: '#cardText',
+        menubar: false,
+        plugins : 'advlist autolink link lists charmap print preview code',
+          toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code' 
+      });
+      function generateAlertCode() {
+        // Get the HTML contents of the currently active editor
+        console.debug(tinyMCE.activeEditor.getContent());
+
+        //Retrieve the content by id of the tinyMCE textarea
+        var alertCode = tinyMCE.get('tinyMCE2').getContent();
+        var textOutput1 = monAlert_1+alertCode+monAlert_2;
+        document.getElementById('monAlertCode').innerHTML=textOutput1;
+        SelectAll("monAlertCode");
+
+        var popup = document.getElementById("myPopup");
+        popup.classList.toggle("showPopup");
+        }
+   
+    function generateCardCode() {
+        // Get the HTML contents of the currently active editor
+        console.debug(tinyMCE.activeEditor.getContent());
+        //Retrieve the content by id of the tinyMCE textarea
+        var card_TextCode = tinyMCE.get('cardText').getContent();
+        var card_Heading = document.getElementById('cardHeading').value
+
+        var cardOutput = card_1+card_Heading+card_2+card_TextCode+card_3;
+    
+        document.getElementById('monCardCode').innerHTML=cardOutput;
+        SelectAll("monCardCode");
+        $('#demoCard').nextAll('div').remove();
+        $('#demoCard').after(cardOutput);
+        }
+
+    function SelectAll(id){
+        document.getElementById(id).focus();
+        document.getElementById(id).select();
+        document.execCommand("copy");
+
+        var popup = document.getElementById("myPopup");
+        popup.classList.toggle("showPopup");
+        //window.alert('test');
+    }
+    
+    function submitform()
+    {
+        document.forms["myform"].submit();
+    }
+    $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+    /* Variable Key
+    These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
+
+    card = predefined code to create Bootstrap cards
+    */
+    var card_1="<div class=\"w-50 mx-auto\"><div class=\"card mb-3 rounded\"><div class=\"card-header text-white bg-mu text-center h5\">"
+    var card_2="</div><div class=\"card-body\"><p class=\"card-text mb-0\">"
+    var card_3="</p></div></div>"
+    </script>
+       <style>
+        .mce-notification-inner, .mce-close, .mce-notification-warning {
+        display:none !important;
+        }
+
+        /* Popup container - can be anything you want */
+    #popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    }
+
+    /* The actual popup */
+    #popup .popuptext {
+    visibility: hidden;
+    width: 220px;
+    background-color: #222222;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px 5px;
+    position: absolute;
+    z-index: 1;
+    bottom:100%;
+    left: 50%;
+    margin-left: -110px;
+    }
+
+    /* Popup arrow */
+    #popup .popuptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+    }
+
+    /* Toggle this class - hide and show the popup */
+    #popup .showPopup {
+    -webkit-animation: fadeinout 4s linear forwards;
+    animation: fadeinout 4s linear forwards;
+    visibility: visible;
+    }
+  
+    /* Add animation (fade in the popup) */
+@-webkit-keyframes fadeinout {
+  0%,100% { opacity: 0; }
+  10% {opacity: 1;}
+  66% { opacity: 1; }
+}
+
+@keyframes fadeinout {
+  0%,100% { opacity: 0; }
+  10% {opacity: 1;}
+  66% { opacity: 1; }
+}
+.tooltip-inner {
+  text-align: left;
+  padding: 15px;
+  font-size: 1.05rem;
+  max-width: 400px;
+}
+
+    </style> 
+    </head>
+    <body>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-arts mb-3">
+        <a class="navbar-brand text-center border border-white p-2 rounded" href="home.html"><img src="dragon-solid-white.png" width="30" height="30" alt=""></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="home.html">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="beestvideo.html">Responsive Video</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="beestbuttons.html">Buttons</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="beestalerts.html">Alerts</a>
+            </li>
+               <li class="nav-item">
+              <a class="nav-link" href="beestpollev.html">Poll Everywhere</a>
+            </li>
+               <li class="nav-item">
+              <a class="nav-link" href="beestreadmore.html">Read More Button</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Accordions</a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="beestacc3.html">3 drawers</a>
+                <a class="dropdown-item" href="beestacc4.html">4 drawers</a>
+                <a class="dropdown-item" href="beestacc5.html">5 drawers</a>
+                <a class="dropdown-item" href="beestacc6.html">6 drawers</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cards</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+                  <a class="dropdown-item" href="beestcards1.html">1 card</a>
+                  <a class="dropdown-item" href="beestacc4.html">2 cards</a>
+                  <a class="dropdown-item" href="beestacc5.html">3 cards</a>
+                </div>
+              </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="container-fluid">
+    <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
+      <div class="h6"><i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle"></i>When using Bootstrap cards, keep the heading brief (30 characters or less) and the information inside the card to less than 5 lines where possible.</div>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+      </div>
+   <form id="monCard">
+    <h1 class="text-center"><i class="fa fa-id-card-o fa-fw"></i> Cards</h1>
+    <h5><i class="fa fa-fw fa-flag-checkered"></i> The result of this process</h5>
+    <p>The intention for this element is to contain important information and make it stand out like learning outcomes or lecturer contact details. When using Bootstrap cards, we have pre-coded them to format in a certain manner. One card will be centred on the page and half the width of the screen. Two or more cards will take up equal width on the screen, i.e. Two cards will be half the width of the screen and 3 cards a 1/3 of the width of the screen each.</p>
+    <h5><i class="fa fa-fw fa-list-ol"></i> How to use this page</h5>
+    <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle, <a data-toggle="modal" data-target=".bd-example-modal-lg" href="">this short video will help</a> (it will open in an overlay on this screen).</p>
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content p-2">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe></div>
+        </div>
+      </div>
+    </div>
+    <h5><i class="fa fa-fw fa-refresh"></i> Refresh this page if you make an error</h5>
+    <div class="row w-100">
+      <div class="col-lg">
+    <p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
+    <div class="col-lg-3"><div class="text-center">
+      <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
+    </div></div></div>
+    <hr class="hr-3">
+          <div class="row w-100 mx-auto text-center">
+            <div class="col-lg mt-3">
+          <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="This is the box where you should put your card heading. You can copy and paste or type the heading."><i class="fa fa-pencil fa-fw"></i> Step 1 - Input the Card Heading</h5>
+          <textarea class="border border-dark rounded p-2 w-100 mt-3" cols="70" rows="1" id="cardHeading" name="cardHeading" placeholder="Write your heading here."></textarea>
+      </div>
+       <div class="col-lg mt-3">
+        <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Input the content for the body of your card. You can embed videos and use rich text here."><i class="fa fa-fw fa-times"></i> Step 2 - Input the Card Content</h5>
+        <textarea class="border border-dark rounded p-2 w-100 mt-3" cols="70" rows="6" id="cardText" name="cardText" placeholder="Write the content for your reference here."></textarea>
+      </div>
+    </div>
+    <div class="row w-100 mx-auto text-center">
+            <div class="col-lg mt-3"> 
+     <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 4."><i class="fa fa-fw fa-code"></i> Step 3 - Generate/copy code</h5>
+          <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy code </>" onClick=generateCardCode()></p>
+          <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="monCardCode" cols="70" rows="4" name="Result" placeholder="Code for your element will appear here."></textarea></p>
+          </div></div>
+      </form>   
+      <div class="row w-100 mx-auto mt-3 text-center">  
+        <div class="col-lg mt-3">
+        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 4."><i class="fa fa-fw fa-eye"></i> Step 4 - A preview of your content will appear below</h5>
+        </div>  
+          </div>
+          <div id="demoCard"></div>
