@@ -38,62 +38,30 @@
         var code = document.getElementById('fsCode').value;
         //window.alert(vPosition);
 
-        switch (code){
-            case "1":
-            var textOutput = contextCode + "<i class=\"fas fa-book fa-lg\" style=\"color:#000;\"></i>";
-            break;
-            case "2":
-            var textOutput = contextCode + "<i class=\"fas fa-play fa-lg\" style=\"color:#000;\"></i>";
-            break;
-            case "3":
-            var textOutput = contextCode + "<i class=\"fa fa-pencil fa-lg\" style=\"color:#000;\"></i>";
-            break;
-            case "4":
-            var textOutput = contextCode + "<i class=\"fas fa-question-circle fa-lg\" style=\"color:#000;\"></i>";
-            break;
-            case "5":
-            var textOutput = contextCode + "<i class=\"fas fa-map fa-lg\" style=\"color:#000;\"></i>";
-            break;
-            case "6":
-            var textOutput = contextCode + "<i class=\"fas fa-comments fa-lg\" style=\"color:#000;\"></i>";
-            break;
-            case "7":
-            var textOutput = contextCode + "<i class=\"fas fa-users fa-lg\" style=\"color:#000;\"></i>";
-            break;
-            case "8":
-            var textOutput = contextCode + "<i class=\"fas fa-laptop fa-lg\" style=\"color:#000;\"></i>";
-            break;
-            case "9":
-            var textOutput = contextCode + "<i class=\"fas fa-graduation-cap fa-lg\" style=\"color:#000;\"></i>";
-            break;
-            case "10":
-            var textOutput = contextCode + "<i class=\"fas fa-folder-open fa-lg\" style=\"color:#000;\"></i>";
-            break;
-            case "11":
-            var textOutput = contextCode + "<i class=\"fas fa-info-circle fa-lg\" style=\"color:#000;\"></i>";
-            break;
-            case "12":
-            var textOutput = contextCode + "<i class=\"fas fa-list-ol fa-lg\" style=\"color:#000;\"></i>";
-            break;
-            case "13":
-            var textOutput = contextCode + "<i class=\"fas fa-images fa-lg\" style=\"color:#000;\"></i>";
-            break;
-            case "14":
-            var textOutput = contextCode + "<i class=\"fas fa-check-square fa-lg\" style=\"color:#000;\"></i>";
-            break;
-            case "15":
-            var textOutput = contextCode + "<i class=\"fas fa-exclamation-circle fa-lg\" style=\"color:#000;\"></i>";
-            break;
-            case "16":
-            var textOutput = contextCode + "<i class=\"fas fa-flag-checkered fa-lg\" style=\"color:#000;\"></i>";
-            break;
-            case "17":
-            var textOutput = contextCode + "<i class=\"fas fa-briefcase fa-lg\" style=\"color:#000;\"></i>";
-            break;
-            case "18":
-            var textOutput = contextCode + "<i class=\"fas fa-external-link fa-lg\" style=\"color:#000;\"></i>";
-            break;
-        }
+		var colour = "#000"
+		var iconNames = {
+			"1":"book",
+			"2":"play",
+			"3":"pencil",
+			"4":"question-circle",
+			"5":"map",
+ 			"6":"comments",
+ 			"7":"users",
+ 			"8":"laptop",
+ 			"9":"graduation-cap",
+ 			"10":"folder-open",
+ 			"11":"info-circle",
+ 			"12":"list-ol",
+ 			"13":"images",
+ 			"14":"check-square",
+ 			"15":"exclamation-circle",
+ 			"16":"flag-checkered",
+ 			"17":"briefcase",
+ 			"18":"external-link"
+		}
+		/*These different options have been absorbed into a javascript Object allowing a direct mapping and lookup of code to icon name*/
+		var iconName = iconNames[code];
+		var textOutput = contextCode + "<i class=\"fas fa-"+iconName+"fa-lg\" style=\"color:" + colour + ";\"></i>";
 
         document.getElementById('monAlertCode').innerHTML=textOutput;
         SelectAll("monAlertCode");
