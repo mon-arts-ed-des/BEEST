@@ -51,7 +51,51 @@
         var monAccBtnTxt1 = document.getElementById('monAccBtnTxt1').value;
         var monAccBtnTxt2 = document.getElementById('monAccBtnTxt2').value;
         var monAccBtnTxt3 = document.getElementById('monAccBtnTxt3').value;
-        var monAccOutput = monAccStyle+monAcc_1+'1'+monAcc_2+'1'+monAcc_3+'1'+monAcc_4+'1'+monAcc_5+'1'+monAcc_6+monAccBtnTxt1+monAcc_7+'1'+monAcc_8+'1'+monAcc_9+monAccContent1+monAcc_10+monAcc_1a+'2'+monAcc_2+'2'+monAcc_3+'2'+monAcc_4+'2'+monAcc_5+'2'+monAcc_6+monAccBtnTxt2+monAcc_7+'2'+monAcc_8a+'2'+monAcc_9+monAccContent2+monAcc_10+monAcc_1a+'3'+monAcc_2+'3'+monAcc_3+'3'+monAcc_4+'3'+monAcc_5+'3'+monAcc_6+monAccBtnTxt3+monAcc_7+'3'+monAcc_8b+'3'+monAcc_9+monAccContent3+monAcc_10;
+		
+		var monAccBtnTxt = [,monAccBtnTxt1,monAccBtnTxt2,monAccBtnTxt3];
+		var monAcc_1_opt = [,monAcc_1,monAcc_1a,monAcc_1a];
+		var monAcc_8_opt = [,monAcc_8,monAcc_8a,monAcc_8b];
+		var monAccContent = [,monAccContent1,monAccContent2,monAccContent3];
+		var num = [,"1","2","3"];
+		
+		var monAccOutput = monAccStyle
+		
+		for (var secNum = 1; secNum <= 3; secNum++){
+			monAccOutput += monAcc_1_opt[secNum] + num[secNum]
+			monAccOutput += monAcc_2 + num[secNum]
+			monAccOutput += monAcc_3 + num[secNum]
+			monAccOutput += monAcc_4 + num[secNum]
+			monAccOutput += monAcc_5 + num[secNum]
+			monAccOutput += monAcc_6
+			
+			monAccOutput += monAccBtnTxt[secNum]
+			
+			monAccOutput += monAcc_7 + num[secNum]
+			monAccOutput += monAcc_8_opt[secNum] + num[secNum]
+			monAccOutput += monAcc_9
+			
+			monAccOutput += monAccContent[secNum]
+			monAccOutput += monAcc_10
+		} // this is the same thing condensed down into a loop (or it should be -- you'll have to test this)
+		/*
+		var monAccOutput = monAccStyle+
+		
+			monAcc_1+'1'+monAcc_2+'1'+monAcc_3+'1'+monAcc_4+'1'+monAcc_5+'1'+monAcc_6+
+			monAccBtnTxt1+
+			monAcc_7+'1'+monAcc_8+'1'+monAcc_9+
+			monAccContent1+monAcc_10+
+			
+			monAcc_1a+'2'+monAcc_2+'2'+monAcc_3+'2'+monAcc_4+'2'+monAcc_5+'2'+monAcc_6+
+			monAccBtnTxt2+
+			monAcc_7+'2'+monAcc_8a+'2'+monAcc_9+
+			monAccContent2+monAcc_10+
+			
+			monAcc_1a+'3'+monAcc_2+'3'+monAcc_3+'3'+monAcc_4+'3'+monAcc_5+'3'+monAcc_6+
+			monAccBtnTxt3+
+			monAcc_7+'3'+monAcc_8b+'3'+monAcc_9+
+			monAccContent3+monAcc_10;
+		*/ // the above should be equivalent to the below -- broken down into sections for readability and to see where the similarity lies	
+        //var monAccOutput = monAccStyle+monAcc_1+'1'+monAcc_2+'1'+monAcc_3+'1'+monAcc_4+'1'+monAcc_5+'1'+monAcc_6+monAccBtnTxt1+monAcc_7+'1'+monAcc_8+'1'+monAcc_9+monAccContent1+monAcc_10+monAcc_1a+'2'+monAcc_2+'2'+monAcc_3+'2'+monAcc_4+'2'+monAcc_5+'2'+monAcc_6+monAccBtnTxt2+monAcc_7+'2'+monAcc_8a+'2'+monAcc_9+monAccContent2+monAcc_10+monAcc_1a+'3'+monAcc_2+'3'+monAcc_3+'3'+monAcc_4+'3'+monAcc_5+'3'+monAcc_6+monAccBtnTxt3+monAcc_7+'3'+monAcc_8b+'3'+monAcc_9+monAccContent3+monAcc_10;
         document.getElementById('monAccCode').innerHTML=monAccOutput;
         SelectAll("monAccCode");
         $('#demo').nextAll('div').remove();
