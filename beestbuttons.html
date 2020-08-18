@@ -32,18 +32,29 @@
         var btn_text = document.getElementById('btn_text').value;
         var btnTarget = document.getElementById('buttonTarget').value;
         var btnAlign = document.getElementById('buttonAlign').value;
-        if (btnAlign == "leftAlign" && btnTarget == "sameWin"){
-            var textOutput = btnLeft+btnSW_1+btn_URL+btnSW_2+btn_text+btnSW_3;
-        }
-        else if (btnAlign == "leftAlign" && btnTarget == "newWin"){
-            var textOutput = btnLeft+btnNW_1+btn_URL+btnNW_2+btn_text+btnNW_3;
-        }
-        else if (btnAlign == "centerAlign" && btnTarget == "sameWin"){
-            var textOutput = btnCenter+btnSW_1+btn_URL+btnSW_2+btn_text+btnSW_3;
-        }
-        else if (btnAlign == "centerAlign" && btnTarget == "newWin"){
-            var textOutput = btnCenter+btnNW_1+btn_URL+btnNW_2+btn_text+btnNW_3;
-        }
+		var textOutput = "";
+		if (btnAlign == "leftAlign"){ //broken up into two sequential conditional checks to do in stages
+			textOutput = btnLeft;
+		}
+		else if (btnAlign == "centerAlign"){
+			textOutput = btnCenter;
+		}
+		else{
+			alert("alignment option chosen not covered by 'generateBtnCode()'") //to let us know if we add something and forget to change the code
+		}
+		
+		//doing the below as a switch statement to show the approximate relationship between if and switch
+		switch(btnTarget){
+			case "sameWin": //the same as if btnTarget == "sameWin"
+				textOutput += btnSW_1+btn_URL+btnSW_2+btn_text+btnSW_3;
+			break;	//breaks stop the code in the 'case' moving into the next case (that's one way for multiple inputs to lead to the same result)
+			case "newWin":
+				textOutput += btnNW_1+btn_URL+btnNW_2+btn_text+btnNW_3;
+			break;
+			default:
+				alert("button target option chosen not covered by 'generateBtnCode()'")
+			break;
+		}
     /*
         if (btnTarget == "sameWin"){
             var textOutput = btnSW_1+btn_URL+btnSW_2+btn_text+btnSW_3;
