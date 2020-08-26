@@ -35,16 +35,37 @@
 
         //Retrieve the content by id of the tinyMCE textarea
         var contextCode = tinyMCE.get('tinyMCEvideo').getContent();
+        var vidHeading = document.getElementById('respVidHeading').value;
         var respLink = document.getElementById('respVidSwitch').value;
         var vPosition = document.getElementById('videoPosition').value;
+        var headSize = document.getElementById('headSize').value;
+        var faIcon = document.getElementById('faCode').value;
+        var iconNames = {
+			      "1":"video-camera",
+            "2":"play",
+            "3":"eye" 
+             }
+        var iconName = iconNames[faIcon];
+		    var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
+        
+        //Resizing the heading text
+        if (headSize == "h3"){
+        var resizedHead = head_3+faIconCode+vidHeading+endHead_3;
+        }
+        else if (headSize == "h4"){
+        var resizedHead = head_4+faIconCode+vidHeading+endHead_4;
+        }
+        else if (headSize == "h5"){
+        var resizedHead = head_5+faIconCode+vidHeading+endHead_5;
+        }
 
         //window.alert(vPosition);
 
         if (vPosition == "left"){
-            var textOutput = respVid_1+respVid_2r+respLink+respVid_3r+respVid_4+contextCode+respVid_5;
+            var textOutput = resizedHead+respVid_1+respVid_2r+respLink+respVid_3r+respVid_4+contextCode+respVid_5;
         }
         else if (vPosition == "right"){
-            var textOutput = respVid_1+contextCode+respVid_2+respLink+respVid_3;
+            var textOutput = resizedHead+respVid_1+contextCode+respVid_2+respLink+respVid_3;
         }
 
         document.getElementById('txtarearespVid').innerHTML=textOutput;
@@ -82,6 +103,12 @@ function turnOffTooltip(){
     respVid = responsive Video Right (context left/video right)
 
     */
+    var head_3="<h3>"
+    var endHead_3="</h3>"
+    var head_4="<h4>"
+    var endHead_4="</h4>"
+    var head_5="<h5>"
+    var endHead_5="</h5>"
     var respVid_1="<div class=\"row w-100\"><div class=\"col-lg\">"
     var respVid_2="</div><div class=\"col-lg\"><div class=\"embed-responsive embed-responsive-16by9\"><iframe class=\"embed-responsive-item\" frameborder=\"0\" allowfullscreen=\"allowfullscreen\" src=\""
     var respVid_2r="<div class=\"embed-responsive embed-responsive-16by9\"><iframe class=\"embed-responsive-item\" frameborder=\"0\" allowfullscreen=\"allowfullscreen\" src=\""
@@ -89,6 +116,9 @@ function turnOffTooltip(){
     var respVid_3r="\"></iframe></div></div>"
     var respVid_4="<div class=\"col-lg mt-2\">"
     var respVid_5="</div></div>"
+	
+		/*These different options have been absorbed into a javascript Object allowing a direct mapping and lookup of code to icon name*/
+		
     </script>
        <style>
         .mce-notification-inner, .mce-close, .mce-notification-warning {
@@ -240,13 +270,35 @@ function turnOffTooltip(){
         <hr class="hr-3">
 <form id="respVid">   
 <div class="row w-100 mx-auto text-center mt-3">
+  <div class="col-lg-3 mt-3">
+    <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Choose an icon to go with your heading. Video camera is selected by default."><i class="fab fa-fw fa-font-awesome-alt"></i> Step 1 - Select icon</h5>
+    <select class="form-control w-75 mx-auto border border-dark" id="faCode" name="faCode" size="3">
+        <option selected value="1">Video Camera</option>
+        <option value="2">Play</option>
+        <option value="3">Eye</option>
+      </select>
+    </div>
   <div class="col-lg mt-3">
-    <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your video. When you paste the link into this box it will automatically change the link to be the embed link required for the platform you are pasting from this process to work and you will not be able to edit this box."><i class="fa fa-fw fa-link"></i> Step 1 - Paste the link for your video</h5>
+    <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Type the heading for this video. 50 character maximum."><i class="fa fa-fw fa-link"></i> Step 2 - Heading</h5>
+    <p class="text-center"><textarea maxlength="50" class="rounded p-2 w-100" rows="1" name="respVid_heading" type="text" id="respVidHeading" placeholder="Type your video heading here"></textarea></p>
+  </div>
+  <div class="col-lg-3 mt-3">
+    <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Choose the size of your heading."><i class="fa fa-fw fa-arrows-alt-h"></i> Step 3 - Heading size</h5>
+          <select class="form-control w-75 mx-auto border border-dark" id="headSize" name="headSize" size="3">
+          <option value="h3" class="h3" selected>Size 3</option>
+          <option value="h4" class="h4">Size 4</option>
+          <option value="h5" class="h5">Size 5</option>
+        </select>
+        </div> 
+      </div>
+      <div class="row w-100 mx-auto text-center mt-3">
+  <div class="col-lg mt-3">
+    <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your video. When you paste the link into this box it will automatically change the link to be the embed link required for the platform you are pasting from this process to work and you will not be able to edit this box."><i class="fa fa-fw fa-link"></i> Step 4 - Paste the link for your video</h5>
     <p class="text-center"><textarea class="rounded p-2 w-100" rows="1" name="respVid_link" type="text" id="respVidSwitch" placeholder="Paste the Youtube/Panopto/Vimeo/TED Talks video link here"></textarea></p>
   </div>
-  <div class="col-lg mt-3">
-    <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Choose which side of screen you would prefer the video to appear by clicking on one of the options below. Video on the left is selected by default."><i class="fa fa-fw fa-arrows-alt-h"></i> Step 2 - Select the video position</h5>
-          <select class="form-control w-50 mx-auto" id="videoPosition" name="videoPosition" size="2">
+  <div class="col-lg-3 mt-3">
+    <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Choose which half/side of screen you would prefer the video to appear by clicking on one of the options below. Video on the left is selected by default."><i class="fa fa-fw fa-arrows-alt-h"></i> Step 5 - Video position</h5>
+          <select class="form-control w-75 mx-auto border border-dark" id="videoPosition" name="videoPosition" size="2">
           <option value="left" selected>Video on the left</option>
           <option value="right">Video on the right</option>
         </select>
@@ -254,11 +306,11 @@ function turnOffTooltip(){
   </div>
   <div class="row w-100 mx-auto text-center mt-3">
     <div class="col-lg">
-      <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="It's recommended to have a few sentences or dot points explaining what is in the video students are about to watch. This helps in particular when students are looking back through your site for a specific video where you addressed certain concepts or theories. Instead of watching the entire video, they can read the context you have provided, and decide if they have found what they need without having to watch the entire video."> <i class="fa fa-fw fa-pencil"></i> Step 3 - Write the context for your video</h5>
+      <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="It's recommended to have a few sentences or dot points explaining what is in the video students are about to watch. This helps in particular when students are looking back through your site for a specific video where you addressed certain concepts or theories. Instead of watching the entire video, they can read the context you have provided, and decide if they have found what they need without having to watch the entire video."> <i class="fa fa-fw fa-pencil"></i> Step 6 - Write the context for your video</h5>
           <textarea id="tinyMCEvideo" class="border border-dark rounded p-2 w-100 mt-3" cols="70" rows="5" name="respVid_context"></textarea>
       </div>
             <div class="col-lg mt-3">
-    <h5 data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 5."><i class="fa fa-fw fa-code"></i> Step 4 - Generate/copy code</h5>
+    <h5 data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8."><i class="fa fa-fw fa-code"></i> Step 7 - Generate/copy code</h5>
                 <div class="text-center">
             <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Generate and copy code" onClick=generateCode() ></p>
             <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="txtarearespVid" cols="70" rows="5" name="Result" placeholder="Code for your element will appear here"></textarea></p>
@@ -268,7 +320,7 @@ function turnOffTooltip(){
               </div>
               <div class="row w-100 mt-3 text-center">
                 <div class="col-lg mt-3">
-                <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 4."><i class="fa fa-fw fa-eye"></i> Step 5 - A preview of your content will appear below</h5>
+                <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 7."><i class="fa fa-fw fa-eye"></i> Step 8 - A preview of your content will appear below</h5>
                 </div>
               </div>
             </div>          
@@ -287,10 +339,10 @@ function turnOffTooltip(){
         }
         else if (s.includes("youtube.com") == true) {
         //code for converting Youtube link from Viewer to Embed
-        var x = s.replace('watch?v=','embed/');
+        var x = s.replace('watch?v=','embed/').replace('&start','?start');
         }
         else if (s.includes("youtu.be") == true) {
-        var x = s.replace('youtu.be','www.youtube.com/embed');
+        var x = s.replace('youtu.be','www.youtube.com/embed').replace('t=','start=');
         }
         //code for converting Panopto link from Viewer to Embed
         else if (s.includes("monash-panopto") == true) {
@@ -300,9 +352,9 @@ function turnOffTooltip(){
         else if (s.includes("ted.com") == true) {
           var x = s.replace('www.ted.com','embed.ted.com');
         }
-
+        
         $('#respVidSwitch').val(x);
-        $('input[type="text"], textarea').attr('readonly','readonly');
+        $('input[type="text"], textarea#respVidSwitch').attr('readonly','readonly');
       }); 
       </script>
         </body>
