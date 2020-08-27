@@ -71,8 +71,8 @@
         document.getElementById('txtarearespVid').innerHTML=textOutput;
         SelectAll("txtarearespVid");
          //Add the html code after the div
-        $('#demo').nextAll('div').remove();
-        $('#demo').after(textOutput);
+		var demoDiv = document.getElementById("demo");
+		demoDiv.innerHTML = textOutput;
         }
 
     function SelectAll(id){
