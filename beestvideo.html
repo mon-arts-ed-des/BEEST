@@ -27,7 +27,58 @@
         menubar: false,
           plugins : 'advlist autolink link lists charmap print preview'  
       });
-    
+	const ADV_MODE_KEY = "Advanced_Mode"
+	const ON_STATE = true
+	const OFF_STATE = false
+	var AdvancedMode = OFF_STATE;
+	if (localStorageAvailable){
+		AdvancedMode = getAdvancedModeInStorage();
+	}
+	$(document).ready(function() {activateDeactivateAdvancedMode(AdvancedMode)})
+
+	
+	function getAdvancedModeInStorage(){
+		if (localStorageAvailable()){
+			var result = localStorage.getItem(ADV_MODE_KEY)
+			result = JSON.parse(result)
+			if (result === null){
+				setAdvancedModeInStorage(OFF_STATE)
+				return OFF_STATE
+			}
+			else{
+				return result
+			}
+		}
+		else{
+			return OFF_STATE
+		}
+	}
+	
+	function setAdvancedModeInStorage(state){
+		if (localStorageAvailable()){
+			localStorage.setItem(ADV_MODE_KEY,state) //if unable to save to localStorage then continue to just keep in this session as a global variable
+		}
+		AdvancedMode = state
+	}
+	
+	function localStorageAvailable(){
+		if (typeof localStorage !== 'undefined') {
+			try {
+				localStorage.setItem('is_local_storage_available', 'yes');
+				if (localStorage.getItem('is_local_storage_available') === 'yes') {
+					localStorage.removeItem('is_local_storage_available');
+					return true;
+				} else {
+					return false;
+				}
+			} catch(e) {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	
 /*Function to generate and copy code for the responsive videos*/
     function generateCode() {
         // Get the HTML contents of the currently active editor
@@ -93,43 +144,48 @@
     $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
-function flipTooltip(){
+
+function activateDeactivateAdvancedMode(newMode){
   var otherInstr = document.getElementById("allInstructExceptMode")
   var displayMode = "???";
   
-  var statusWasOn;
   var statusText = "???";
   var endInstrText = "??!!??";
   var instrHead = document.getElementById("instrHead")
   var instrStatus = document.getElementById("instrStatus")
   var instrEnd = document.getElementById("instrEnd")
   var buttonOnOff = document.getElementById("buttonOnOff")
-  if ((instrHead.innerHTML === "off") && (instrStatus.innerHTML === "off") && (buttonOnOff.innerHTML === "off")){
-	statusWasOn = true;
+  
+  if (newMode === ON_STATE){
+	$('h5').tooltip('disable'); //hide tooltips
+	statusText = "on" //set button and status text vars
+	endInstrText = ""
+	displayMode = "none" //none meaning hide
+	setAdvancedModeInStorage(ON_STATE) // turn *ON* advanced mode
   }
   else{
-	statusWasOn = false;
-	}
-	
-  if (statusWasOn)
+	$('h5').tooltip('enable'); //show tool tips
+	statusText = "off"
+	endInstrText = " Only do this if you are completely familiar with how to use the tool."
+	displayMode = "block" //block meaning show
+	setAdvancedModeInStorage(OFF_STATE) // turn *OFF* advanced mode
+  }
+  
+  instrHead.innerHTML = statusText //update text in tags
+  instrStatus.innerHTML = statusText
+  instrEnd.innerHTML = endInstrText
+  buttonOnOff.innerHTML = statusText
+  otherInstr.style.display = displayMode //set display mode
+}
+
+function flipTooltip(){
+  if (AdvancedMode === OFF_STATE) //if flipping mode and was in the OFF state
 	{
-		$('h5').tooltip('disable');
-		statusText = "on"
-		endInstrText = ""
-		displayMode = "none"
+		activateDeactivateAdvancedMode(ON_STATE)
 	}
 	else{
-		$('h5').tooltip('enable');
-		statusText = "off"
-		endInstrText = " Only do this if you are completely familiar with how to use the tool."
-		displayMode = "block"
+		activateDeactivateAdvancedMode(OFF_STATE)
 	}
-	
-	instrHead.innerHTML = statusText
-	instrStatus.innerHTML = statusText
-	instrEnd.innerHTML = endInstrText
-	buttonOnOff.innerHTML = statusText
-	otherInstr.style.display = displayMode
 }
 
     /* Variable Key
