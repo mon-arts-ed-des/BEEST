@@ -93,8 +93,37 @@
     $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
-function turnOffTooltip(){
-  $('h5').tooltip('disable');
+function flipTooltip(){
+  var statusWasOn;
+  var statusText = "???";
+  var endInstrText = "??!!??";
+  var instrHead = document.getElementById("instrHead")
+  var instrStatus = document.getElementById("instrStatus")
+  var instrEnd = document.getElementById("instrEnd")
+  var buttonOnOff = document.getElementById("buttonOnOff")
+  if ((instrHead.innerHTML === "off") && (instrStatus.innerHTML === "off") && (buttonOnOff.innerHTML === "off")){
+	statusWasOn = true;
+  }
+  else{
+	statusWasOn = false;
+	}
+	
+  if (statusWasOn)
+	{
+		$('h5').tooltip('disable');
+		statusText = "on"
+		endInstrText = ""
+	}
+	else{
+		$('h5').tooltip('enable');
+		statusText = "off"
+		endInstrText = " Only do this if you are completely familiar with how to use the tool."
+	}
+	
+	instrHead.innerHTML = statusText
+	instrStatus.innerHTML = statusText
+	instrEnd.innerHTML = endInstrText
+	buttonOnOff.innerHTML = statusText
 }
 
     /* Variable Key
@@ -260,12 +289,12 @@ function turnOffTooltip(){
         <div class="col-lg-3"><div class="text-center">
           <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
         </div></div></div>
-        <h5><i class="fa fa-fw fa-level-up-alt"></i> Advanced mode - turn off instructions</h5>
+        <h5><i class="fa fa-fw fa-level-up-alt"></i> Advanced mode - turn <span id="instrHead">off</span> instructions</h5>
         <div class="row w-100">
           <div class="col-lg">
-        <p>Click this button to turn off the instructions that appear when you hover over the headings. Only do this if you are completely familiar with how to use the tool. The instructions will reappear when you refresh the page.</p></div>
+        <p>Click this button to turn <span id="instrStatus">off</span> the instructions that appear when you hover over the headings.<span id="instrEnd"> Only do this if you are completely familiar with how to use the tool.</span></p></div>
         <div class="col-lg-3"><div class="text-center">
-          <button onclick="turnOffTooltip()" class="btn btn-mu">Turn off instructions <i class="fa fa-fw fa-power-off"></i></a>
+          <button onclick="flipTooltip()" class="btn btn-mu">Turn <span id="buttonOnOff">off</span> instructions <i class="fa fa-fw fa-power-off"></i></a>
         </div></div></div>
         <hr class="hr-3">
 <form id="respVid">   
