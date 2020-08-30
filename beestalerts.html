@@ -29,7 +29,8 @@
       tinymce.init({
         selector: '#tinyMCEalert',
         menubar: false,
-          plugins : 'advlist autolink link lists charmap print preview' 
+        plugins : 'advlist autolink link lists charmap print preview code',
+          toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code'  
       });
    
     function generateAlertCode() {
@@ -50,6 +51,9 @@
              }
         var iconName = iconNames[faIcon];
 		    var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> "
+        if (faIcon == "noI"){
+          faIconCode = "";
+        }
         var colourNames = {
 			      "1":"mu",
             "2":"danger",
@@ -60,12 +64,16 @@
             "7":"dark" 
              }
         var colourName = colourNames[bsColour];
-		    var alertPColourCode = "<div class=\"alert alert-"+colourName+" border-"+colourName+" rounded\" role=\"alert\">";
-        var alertDMColourCode = "<div class=\"alert alert-"+colourName+" border-"+colourName+" rounded alert-dismissible fade show\" role=\"alert\">";
+		    var alertPColourCode = "<div class=\"alert alert-"+colourName+" border border-"+colourName+" rounded\" role=\"alert\">";
+        var alertDMColourCode = "<div class=\"alert alert-"+colourName+" border border-"+colourName+" rounded alert-dismissible fade show\" role=\"alert\">";
         var monAlertP_Close="</div>";
         var monAlertD_Close="<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>";
         //Resizing the heading text
-        if (headSize == "h3"){
+        if (headSize == "noH"){
+        var resizedHead = "";
+        }
+
+        else if (headSize == "h3"){
         var resizedHead = "<h3>"+faIconCode+alertHeading+"</h3>";
         }
         else if (headSize == "h4"){
@@ -229,12 +237,12 @@
     <div class="h6"><i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle"></i>Overuse of alerts on a page can become like OHS signage. They simply fade into the background, and all of a sudden the 'important' information you want students to notice, becomes less important than the rest of the text on the screen. Use them sparingly.</div>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
     </div>
- <form id="monashAlert">
-  <h1 class="text-center"><i class="fa fa-bell fa-fw"></i> Monash themed alerts</h1>
-  <h5><i class="fa fa-fw fa-flag-checkered"></i> The result of this process</h5>
+ 
+  <h1 class="text-center"><i class="fa fa-bell fa-fw"></i> Alerts</h1>
+  <h5>The result of this process</h5>
   <p>This process will generate what is termed an 'alert'. It is a box that 'sticks out' from the rest of the text to alert students to important information on the page. You can choose whether to make this alert permanent, or add the option to dismiss/close it.</p>
-  <h5><i class="fa fa-fw fa-list-ol"></i> How to use this page</h5>
-  <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle, <a data-toggle="modal" data-target=".bd-example-modal-lg" href="">this short video will help</a> (it will open in an overlay on this screen).</p>
+  <h5>How to use this page</h5>
+  <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle, <a data-toggle="modal" data-target=".bhhd-example-modal-lg" href="">this short video will help</a> (it will open in an overlay on this screen).</p>
   <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content p-2">
@@ -248,7 +256,7 @@
       </div>
     </div>
   </div>
-  <h5><i class="fa fa-fw fa-refresh"></i> Refresh this page if you make an error</h5>
+  <h5>Refresh this page if you make an error</h5>
   <div class="row w-100">
     <div class="col-lg">
   <p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
@@ -256,34 +264,37 @@
     <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
   </div></div></div>
   <hr class="hr-3">
+  <form id="monashAlert">
         <div class="row w-100 mx-auto">
-          <div class="col-lg-6 mt-2">
-            <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. Exclamation circle is selected by default.">Step 1 - Select icon</h5>
+          <div class="col-lg-8 mt-2">
+            <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="If your would like an icon to the left of your heading, select it here. The default is no icon.">Step 1 - Select icon</h5>
             <select class="custom-select w-50 border border-dark" id="faCode" name="faCode">
-                <option selected value="1">Exclamation circle</option>
+                <option selected value="noI">No icon</option>
+                <option value="1">Exclamation circle</option>
                 <option value="2">Info circle</option>
                 <option value="3">Question mark</option>
               </select>
             </div>
             </div>
               <div class="row w-100 mx-auto">
-          <div class="col-lg-6 mt-2">
-            <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. Heading level 3 is chosen by default.">Step 2 - Heading size</h5>
+          <div class="col-lg-8 mt-2">
+            <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Only choose the size of your heading if you want to create a heading with this element. If you don't pick a heading size, but write a heading, the heading will not appear.">Step 2 - Heading size</h5>
                   <select class="custom-select w-50 border border-dark" id="headSize" name="headSize">
-                  <option value="h3" class="h3" selected>Size 3</option>
+                  <option selected value="noH">Select your heading size</option>
+                  <option value="h3" class="h3">Size 3</option>
                   <option value="h4" class="h4">Size 4</option>
                   <option value="h5" class="h5">Size 5</option>
                 </select>
                 </div> 
                 </div>
                   <div class="row w-100 mx-auto">
-                <div class="col-lg-6 mt-2">
+                <div class="col-lg-8 mt-2">
                   <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the heading for this alert. 50 character maximum.">Step 3 - Heading</h5>
-                  <textarea maxlength="50" class="rounded p-2 w-100 border border-dark" rows="1" name="alertHeading" type="text" id="alertHeading" placeholder="Type your alert heading here"></textarea>
+                  <textarea maxlength="50" class="rounded p-2 w-100 border border-dark" rows="1" name="alertHeading" type="text" id="alertHeading" placeholder="If you do not want a heading, leave this blank. Otherwise, type your alert heading here."></textarea>
                 </div>
                 </div>
                 <div class="row w-100 mx-auto">
-                  <div class="col-lg-6 mt-2">
+                  <div class="col-lg-8 mt-2">
             <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the colour of your alert. Monash blue is selected by default.">Step 4 - Select alert colour</h5>
             <select class="custom-select w-50 border border-dark" id="alertColour" name="alertColour">
                 <option class="h5 bg-mu text-white" selected value="1">Monash blue</option>
@@ -297,7 +308,7 @@
             </div>
             </div>
             <div class="row w-100 mx-auto">
-     <div class="col-lg-6 mt-2">
+     <div class="col-lg-8 mt-2">
       <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose whether to leave the alert as a permanent alert (cannot be closed) or make it dismissable (a close button will appear for users to close the alert). Dismissable is chosen by default">Step 5 - Permanent or Dismissable</h5>
       <select class="custom-select w-50 border border-dark" id="dmoption" name="dmoption">
       <option value="dismissable" selected>Dismissable</option>
@@ -306,21 +317,21 @@
     </div>
     </div>
               <div class="row w-100 mx-auto">
-          <div class="col-lg-6 mt-2">
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type in the text you would like to appear in your alert. You can use headings, lists, bold, italics to accent text within the alert just as you would any other text editor. These alerts both highlight important information, and meet WCAG AA Accessibility Standards.">Step 6 - Write the information you want to display in your alert</h5>
-        <textarea id="tinyMCEalert" class="border border-dark rounded p-2 w-100" cols="70" rows="8" placeholder="Write the content or your alert here."></textarea>
+          <div class="col-lg-8 mt-2">
+        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type in the text you would like to appear in your alert. You can use headings, lists, bold, italics to accent text within the alert just as you would any other text editor. These alerts both highlight important information, and meet WCAG AA Accessibility Standards.">Step 6 - Write the alert</h5>
+        <textarea id="tinyMCEalert" class="border border-dark rounded p-2 w-100" cols="70" rows="3" placeholder="Write the content or your alert here."></textarea>
     </div>
     </div>
     <div class="row w-100 mx-auto">
-          <div class="col-lg-6 mt-2"> 
+          <div class="col-lg-8 mt-2"> 
    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 7 - Generate/copy code</h5>
         <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy code </>" onClick=generateAlertCode()></p>
-        <textarea readonly class="border border-dark rounded p-2 w-100" id="monAlertCode" cols="70" rows="7" name="Result" placeholder="Code for your element will appear here."></textarea></p>
+        <textarea readonly class="border border-dark rounded p-2 w-100" id="monAlertCode" cols="70" rows="4" name="Result" placeholder="Code for your element will appear here."></textarea></p>
         </div></div>
     </form>   
-    <div class="row w-100">  
+    <div class="row w-100 mx-auto">  
       <div class="col-lg mt-2">
-      <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 7.">Step 8 - A preview of your content will appear below</h5>
+      <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 7.">Step 8 - Preview the alert</h5>
       </div>  
         </div>
         <div id="demo"></div>

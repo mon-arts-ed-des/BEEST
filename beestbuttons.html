@@ -32,8 +32,36 @@
         var btn_text = document.getElementById('btn_text').value;
         var btnTarget = document.getElementById('buttonTarget').value;
         var btnAlign = document.getElementById('buttonAlign').value;
-		var textOutput = "";
-		if (btnAlign == "leftAlign"){ //broken up into two sequential conditional checks to do in stages
+        var faIcon = document.getElementById('faCode').value;
+        var bsColour = document.getElementById('btnColour').value;
+        var iconNames = {
+            "noI":"",
+			      "1":"arrow-right",
+            "2":"arrow-circle-o-right",
+            "3":"external-link",
+            "4":"hand-o-right",
+            "5":"play",
+            "6":"play-circle-o" 
+             }
+        var iconName = iconNames[faIcon];
+		    var faIconCode = " <i class=\"fa fa-"+iconName+"\"></i>"
+        var colourNames = {
+			      "1":"mu",
+            "2":"danger",
+            "3":"warning",
+            "4":"success",
+            "5":"primary",
+            "6":"info", 
+            "7":"dark" 
+             }
+        var colourName = colourNames[bsColour];
+		    var btnClrCode = "<a class=\"btn btn-"+colourName+"\" role=\"button\" href=\"";
+
+        if (faIcon == "noI"){
+          faIconCode = "";
+        }
+            
+			if (btnAlign == "leftAlign"){ //broken up into two sequential conditional checks to do in stages
 			textOutput = btnLeft;
 		}
 		else if (btnAlign == "centerAlign"){
@@ -46,27 +74,18 @@
 		//doing the below as a switch statement to show the approximate relationship between if and switch
 		switch(btnTarget){
 			case "sameWin": //the same as if btnTarget == "sameWin"
-				textOutput += btnSW_1+btn_URL+btnSW_2+btn_text+btnSW_3;
+				textOutput += btnClrCode+btn_URL+btnSW_1+btn_text+faIconCode+btnSW_2;
 			break;	//breaks stop the code in the 'case' moving into the next case (that's one way for multiple inputs to lead to the same result)
 			case "newWin":
-				textOutput += btnNW_1+btn_URL+btnNW_2+btn_text+btnNW_3;
+				textOutput += btnClrCode+btn_URL+btnNW_1+btn_text+faIconCode+btnNW_2;
 			break;
 			default:
 				alert("button target option chosen not covered by 'generateBtnCode()'")
 			break;
 		}
-    /*
-        if (btnTarget == "sameWin"){
-            var textOutput = btnSW_1+btn_URL+btnSW_2+btn_text+btnSW_3;
-        }
-        else if (btnTarget == "newWin"){
-            var textOutput = btnNW_1+btn_URL+btnNW_2+btn_text+btnNW_3;
-        }
-        */
-
         document.getElementById('txtareaBtn').innerHTML=textOutput;
         SelectAll("txtareaBtn");
-        $('#demo').nextAll('p').remove();
+        $('#demo').nextAll('div').remove();
         $('#demo').after(textOutput);
         }
         
@@ -95,24 +114,15 @@
     btnSW = btn open in same window
   
     */
-    var btnLeft="<p class=\"mb-0\"><a class=\"btn btn-arts m-2\""
-    var btnCenter="<p class=\"text-center mb-0\"><a class=\"btn btn-arts m-2\""
-    var btnNW_1=" target=\"_blank\" href=\""
-    var btnNW_2="\">"
-    var btnNW_3=" <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a> (Opens in a new window)</p>"
+    var btnLeft="<div><p>"
+    var btnCenter="<div class=\"text-center\"><p>"
+    var btnNW_1="\" target=\"_blank\">"
+    var btnNW_2="</a></p><p>(Opens in a new window)</p></div>"
 
-    var btnSW_1=" href=\""
-    var btnSW_2="\">"
-    var btnSW_3=" <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a></p>"
-
-    /*
-    var btnNW_1="<p class=\"text-center mb-0\"><a class=\"btn btn-arts m-2\" target=\"_blank\" href=\""
-    var btnNW_2="\">"
-    var btnNW_3=" <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a></p><p class=\"text-center\">(Opens in a new window)</p>"
     
-    var btnSW_1="<p class=\"text-center mb-0\"><a class=\"btn btn-arts m-2\" href=\""
-    var btnSW_2="\">"
-    var btnSW_3=" <i class=\"fa fa-arrow-right\" aria-hidden=\"true\"></i></a></p>"*/
+    var btnSW_1="\">"
+    var btnSW_2="</a></p></div>"
+
     </script>
     <style>
     .mce-notification-inner, .mce-close, .mce-notification-warning {
@@ -225,10 +235,16 @@
         </div>
       </nav>
         <div class="container-fluid">
-            <h1 class="text-center"><i class="fa fa-fw fa-external-link"></i> Monash button</h1>
-            <h5><i class="fa fa-fw fa-flag-checkered"></i> The result of this process</h5>
-        <p>This process will generate a Monash blue button element with a link to a URL. To complete this process you need to copy the link you want in the button, write the text that will appear on the button and choose whether the button will open in the same window it is located in, or open the link in a new tab. Head to the demo page to see how this element works if you are unsure. If you are not familiar with using HTML in Moodle, <a data-toggle="modal" data-target=".bd-example-modal-lg" href="">this short video will help</a> (it will open in an overlay on this screen).</p>
-        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+          <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
+            <div class="h6"><i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle"></i>You can use buttons to make links 'stand out' to students. But be careful to keep your design consistent. If buttons are all different colours it can become confusing for the student. External links outside of Moodle should <strong>always</strong> open in a new window. If it's a link that opens within your Moodle site, we recommend you open it in the same window, unless students are 'jumping out' of one activity and into another activity or resource. Think about the pathway students are taking when making the choice of where to open the link.</div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+            </div>
+            <h1 class="text-center"><i class="fa fa-fw fa-play-circle-o"></i> Buttons</h1>
+            <h5>The result of this process</h5>
+        <p>This process will generate a coloured button element with a link to a URL of your choice.</p>
+            <h5>How to use this page</h5>
+        <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are not familiar with pasting HTML in Moodle, <a data-toggle="modal" data-target=".html-video" href=".html-video">this short video will help</a> (it will open in an overlay on this screen).</p>
+        <div class="modal fade html-video" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg">
             <div class="modal-content p-2">
               <div class="modal-header">
@@ -240,10 +256,8 @@
             <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe></div>
             </div>
           </div>
-        </div></p>
-        <h5><i class="fa fa-fw fa-list-ol"></i> How to use this page</h5>
-        <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle, this short video will help (it will open in an overlay on this screen).</p>
-        <h5><i class="fa fa-fw fa-refresh"></i> Refresh this page</h5>
+          </div>
+        <h5>Refresh this page</h5>
   <div class="row w-100">
     <div class="col-lg">
   <p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
@@ -252,38 +266,74 @@
   </div></div></div>
   <hr class="hr-3">
            <form id="btn">           
-        <div class="row w-100 mx-auto text-center mt-3">
-        <div class="col-lg mt-3">
-          <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Paste in the link/URL for the button below. This is where users will be directed to when clicking the button."><i class="fa fa-fw fa-link"></i> Step 1 - Paste URL</h5>
-           <p><textarea class="rounded p-2 w-100" rows="1" id="btn_URL" name="btn_URL" placeholder="Write/paste the URL here"></textarea></p>
+        <div class="row w-100 mx-auto mt-2">
+        <div class="col-lg-8">
+          <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL for the button below. This is where users will be directed to when clicking the button.">Step 1 - Paste URL</h5>
+           <textarea class="border border-dark rounded p-2 w-100" rows="1" id="btn_URL" name="btn_URL" placeholder="Paste the URL here"></textarea>
             </div>
-            <div class="col-lg mt-3">
-              <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Write the text that will appear on the button. This space is limited to 30 characters."><i class="fa fa-fw fa-pencil"></i> Step 2 - Button text</h5>
-              <textarea maxlength="30" class="mb-3 rounded p-2 w-100" cols="70" rows="1" id="btn_text" name="btn_text" placeholder="Button text here. 30 character maximum"></textarea>
+          </div>
+          <div class="row w-100 mx-auto mt-2">
+            <div class="col-lg-8">
+              <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Write the text that will appear on the button. This space is limited to 30 characters.">Step 2 - Button text</h5>
+              <textarea maxlength="30" class="border border-dark rounded p-2 w-100" cols="70" rows="1" id="btn_text" name="btn_text" placeholder="Button text here. 30 character maximum"></textarea>
             </div>
-        <div class="col-lg mt-3">
-          <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Choose whether to open link in a new window, or the same window users are on. New window is chosen by default."><i class="fa fa-fw fa-question-circle-o"></i> Step 3 - New/Same window</h5>
-          <select class="form-control w-75 mx-auto" id="buttonTarget" name="buttonTarget" size="2">
+          </div>
+          <div class="row w-100 mx-auto mt-2">
+            <div class="col-lg-8">
+              <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="If you would like an icon to the right of your button text, choose one from this list. The default is no icon.">Step 3 - Choose icon</h5>
+              <select class="custom-select w-50 border border-dark" id="faCode" name="faCode">
+                <option selected value="noI">No icon</option>
+                <option value="1">Arrow right</option>
+                <option value="2">Arrow right in a circle</option>
+                <option value="3">External link square</option>
+                <option value="4">Finger pointing right</option>
+                <option value="5">Play</option>
+                <option value="6">Play in a circle</option>
+              </select>
+                </div>
+              </div>
+              <div class="row w-100 mx-auto">
+                <div class="col-lg-8 mt-2">
+          <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the colour of your button. Monash blue is selected by default.">Step 4 - Select button colour</h5>
+          <select class="custom-select w-50 border border-dark" id="btnColour" name="btnColour">
+              <option class="h5 bg-mu text-white" selected value="1">Monash blue</option>
+              <option class="h5 bg-danger text-white" value="2">Red</option>
+              <option class="h5 bg-warning text-dark" value="3">Yellow</option>
+              <option class="h5 bg-success text-white" value="4">Green</option>
+              <option class="h5 bg-primary text-white" value="5">Dark blue</option>
+              <option class="h5 bg-info text-white" value="6">Light blue</option>
+              <option class="h5 bg-dark text-white" value="7">Black</option>
+            </select>
+          </div>
+          </div>
+          <div class="row w-100 mx-auto mt-2">
+        <div class="col-lg-8">
+          <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose whether to open link in a new window, or the same window users are on. New window is chosen by default.">Step 5 - New/Same window</h5>
+          <select class="custom-select w-50 border border-dark" id="buttonTarget" name="buttonTarget" size="1">
             <option selected value="newWin">New window</option>
              <option value="sameWin">Same window</option>               
           </select>
-            </div>    
-            <div class="col-lg mt-3">
-              <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Choose whether to open button to be left-aligned, or centre-aligned. Left-align is chosen by default."><i class="fa fa-fw fa-question-circle-o"></i> Step 4 - Left/Centre align</h5>
-              <select class="form-control w-75 mx-auto" id="buttonAlign" name="buttonAlign" size="2">
+            </div>
+          </div>    
+          <div class="row w-100 mx-auto mt-2">
+            <div class="col-lg-8">
+              <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose whether the button is left or centre-aligned. Left-align is chosen by default.">Step 6 - Left/Centre align</h5>
+              <select class="custom-select w-50 border border-dark" id="buttonAlign" name="buttonAlign" size="1">
                 <option selected value="leftAlign">Left align button</option>
                  <option value="centerAlign">Center align button</option>               
               </select>
                 </div>           
                </div> 
-               <div class="row w-100 mx-auto mt-3">
-               <div class="col-lg text-center mt-3">
-                <h5 data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 6."><i class="fa fa-fw fa-code"></i> Step 5 - Generate/copy code</h5>
+               <div class="row w-100 mx-auto mt-2">
+                <div class="col-lg-8">
+                <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 7 - Generate/copy code</h5>
                 <p id="popup"><span class="popuptext" id="myPopup">Your code has been copied</span><input class="btn btn-arts m-2" name="GenerateWrap" value="Generate Code </>" OnClick=generateBtnCode() ></p>
-                <textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="5" name="Result" placeholder="Code for your element will appear here"></textarea>
+                <textarea readonly class="rounded p-2 w-100 border border-dark" id="txtareaBtn" cols="70" rows="2" name="Result" placeholder="Code for your element will appear here"></textarea>
             </div>
-            <div class="col-lg mt-3">
-              <h5 class="text-center" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 5."><i class="fa fa-fw fa-eye"></i> Step 6 - Preview</h5>
+            </div>
+            <div class="row w-100 mx-auto mt-2">
+              <div class="col-lg">
+              <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 7.">Step 8 - Preview</h5>
               <div id="demo">
               </div>
          </div>
