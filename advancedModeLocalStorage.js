@@ -47,3 +47,13 @@
 			return false;
 		}
 	}
+	
+	function flipTooltip(){
+  if (AdvancedMode === OFF_STATE) //if flipping mode and was in the OFF state
+	{
+		activateDeactivateAdvancedMode(ON_STATE)
+	}
+	else{
+		activateDeactivateAdvancedMode(OFF_STATE)
+	}
+}

@@ -29,7 +29,7 @@
           plugins : 'advlist autolink link lists charmap print preview'  
       });
 
-	$(document).ready(function() {activateDeactivateAdvancedMode(AdvancedMode)})
+	$(document).ready(function() {activateDeactivateAdvancedMode(AdvancedMode)}) //trigger the advanced mode updater when the page is finished loading
 	
 /*Function to generate and copy code for the responsive videos*/
     function generateCode() {
@@ -128,16 +128,6 @@ function activateDeactivateAdvancedMode(newMode){
   instrEnd.innerHTML = endInstrText
   buttonOnOff.innerHTML = statusText
   otherInstr.style.display = displayMode //set display mode
-}
-
-function flipTooltip(){
-  if (AdvancedMode === OFF_STATE) //if flipping mode and was in the OFF state
-	{
-		activateDeactivateAdvancedMode(ON_STATE)
-	}
-	else{
-		activateDeactivateAdvancedMode(OFF_STATE)
-	}
 }
 
     /* Variable Key
