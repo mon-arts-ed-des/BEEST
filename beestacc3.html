@@ -10,6 +10,8 @@
       <!-- external link to css file --> 
       <!-- Bootstrap CSS -->   
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	  
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
       <!-- Arts CSS -->  
       <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/adminPlusSetuBlockStyle.css" />
       <!-- external link to js file -->  
@@ -29,20 +31,179 @@
         plugins : 'advlist autolink link lists charmap print preview code',
           toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code' 
       });
-      tinymce.init({
-        selector: '#tinyMCEmonAccContent2',
-        menubar: false,
-        plugins : 'advlist autolink link lists charmap print preview code',
-          toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code'
-      });   
-      tinymce.init({
-        selector: '#tinyMCEmonAccContent3',
-        menubar: false,
-        plugins : 'advlist autolink link lists charmap print preview code',
-          toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code'
-      });
+	
+	const absoluteMaxAccord = 6;
+	const absoluteMinAccord = 3;
+	var accordianSectionsCurr = 1;
+	var accordianSectionsTotalMade = 1;
+	var accordiansPostInit = []
+	
+	$(document).ready(function() { //create the tinyMCE areas after the first
+		while (accordianSectionsCurr < absoluteMinAccord){
+			addSection()
+		}
+	})
+	
+	function accordianSectionTemplate(num){
+		var idHead = "monAccBtnTxt"+num
+		var idCont = "monAccContent"+num
+		var idTiny = "tinyMCEmonAccContent"+num
+		var idBlock = "AccordSect"+num
+		
+		var headingHTML="<div id=\""+idBlock+"\" class=\"row w-100 mx-auto text-center mt-3\"><div class=\"col-lg mt-3\"><h6>Heading "+num+"</h6><p class=\"text-center\"><textarea class=\"border border-dark rounded p-2 w-100 mx-auto\" rows=\"1\" cols=\"70\" placeholder=\"Input the heading for your next accordion button here\" id=\""+idHead+"\"></textarea></p></div>"
+		var contentHTML = "<div class=\"col-lg mt-3\"><h6>Content "+num+"</h6><textarea id=\""+idTiny+"\"class=\"border border-dark rounded p-2 w-100\" cols=\"70\" rows=\"5\" name=\""+idCont+"\" placeholder=\"Write the content for your accordion here\"></textarea></div></div>"
+		
+		return {
+			IDHead: idHead,
+			IDTiny: idTiny,
+			IDCont: idCont,
+			IDBlock: idBlock,
+			output: headingHTML+contentHTML
+		}
+	}
+	
+	function htmlStyle(id,styleName,styleResult){
+		document.getElementById(id).style[styleName]=styleResult
+	}
+	function showHTML(id){
+		htmlStyle(id,"display","")
+	}
+	function hideHTML(id){
+		htmlStyle(id,"display","none")
+	}
+	function hideButton(id){
+		document.getElementById(id).disabled = true
+		hideHTML(id)
+	}
+	function showButton(id){
+		document.getElementById(id).disabled = false
+		showHTML(id)
+	}
+	
+	function addSection(){
+	/*
+	use the template to construct a new one (or show existing)
+	(maximum absoluteMaxAccord sections)
+	*/	
+		var newSection = accordianSectionsCurr+1
+		if (newSection > absoluteMaxAccord){
+			alert("maximum accordian sections reached") //just in case button is still clicked despite being hidden
+			return
+		}
+		
+		if (accordianSectionsCurr >= accordianSectionsTotalMade){
+		
+			var newAccordian = accordianSectionTemplate(newSection)
+			accordiansPostInit.push(newAccordian)
+		
+			var newArea = document.getElementById("newAccordArea")
+			newArea.insertAdjacentHTML('beforeend', newAccordian.output)
+			
+			tinymce.init({
+			selector: '#'+newAccordian.IDTiny,
+			menubar: false,
+			plugins : 'advlist autolink link lists charmap print preview code',
+			  toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code'
+			});
+			
+			accordianSectionsTotalMade+=1;
+		}
+		else{
+			var accordAppear = accordiansPostInit[newSection-2]
+			showHTML(accordAppear.IDBlock)
+		}
+		accordianSectionsCurr += 1;
+		
+		if (accordianSectionsCurr > absoluteMinAccord)
+		{
+			num.push(""+accordianSectionsCurr); //add a new num to the end of the nums array
+			
+			monAcc_1_opt.push(monAcc_1a) //add another 1a
+			
+			monAcc_8_opt.pop() //remove the 8b and add it after another 8a
+			monAcc_8_opt.push(monAcc_8a)
+			monAcc_8_opt.push(monAcc_8b)
+		}
+		
+		else{
+			num = [,"1","2","3"] //otherwise reset
+			monAcc_1_opt = [,monAcc_1,monAcc_1a,monAcc_1a];
+			monAcc_8_opt = [,monAcc_8,monAcc_8a,monAcc_8b];
+		}
+		
+		if (accordianSectionsCurr >= absoluteMaxAccord){
+			hideButton("plusbutton")
+		}
+		if (accordianSectionsCurr > absoluteMinAccord){
+			showButton("minusbutton")
+		}
+	}
+	function removeSection(){
+	/*
+	hide an existing one (minimum absoluteMinAccord sections)
+	TBC change arrays at end
+	*/
+		if (accordianSectionsCurr <= absoluteMinAccord){
+			alert("minimum accordian sections reached") //just in case button is still clicked despite being hidden
+			return
+		}
+	
+		var accordAppear = accordiansPostInit[accordianSectionsCurr-2]
+		hideHTML(accordAppear.IDBlock)
+	
+		accordianSectionsCurr -= 1;
+		if (accordianSectionsCurr > absoluteMinAccord){
+			num.pop(); //remove the last 'num' from the end of the nums array
+			
+			monAcc_1_opt.pop() //remove the last 1a
+			
+			monAcc_8_opt.pop() //remove the 8b and 8a before it and add the 8b back in after
+			monAcc_8_opt.pop()
+			monAcc_8_opt.push(monAcc_8b)
+		}
+		
+		
+		if (accordianSectionsCurr < absoluteMaxAccord){
+			showButton("plusbutton")
+		}
+		if (accordianSectionsCurr <= absoluteMinAccord){
+			hideButton("minusbutton")
+		}
+	}
+	
+	function accordListToIDs(accordList){
+		/*format of accordList {
+			IDHead: idHead,
+			IDTiny: idTiny,
+			IDCont: idCont,
+			IDBlock: idBlock,
+			output: headingHTML+contentHTML
+		}*/
+		var output = {btn: [], tiny: [], length:0};
+		for (var accordNum=0; accordNum<accordList.length; accordNum++){
+			output.btn.push(accordList[accordNum].IDHead)
+			output.tiny.push(accordList[accordNum].IDTiny)
+			output.length++;
+		}
+		return output
+	}
+	
+	function getTextAreas(idList){
+		var monAccContent1 = tinyMCE.get('tinyMCEmonAccContent1').getContent();
+		var monAccBtnTxt1 = document.getElementById('monAccBtnTxt1').value;
+		var monAccCont = [,monAccContent1]
+		var monAccBtn = [,monAccBtnTxt1] //start with comma to index from 1
+		
+		for (var idNum=0; idNum<idList.length; idNum++){
+			monAccCont.push(tinyMCE.get(idList.tiny[idNum]).getContent())
+			monAccBtn.push(document.getElementById(idList.btn[idNum]).value)
+		}		
+		return {cont: monAccCont, btn: monAccBtn, length:idList.length}
+	}
+	
     function generatemonAccCode() {
-        // Get the HTML contents of the currently active editor
+        /*
+		// Get the HTML contents of the currently active editor
         console.debug(tinyMCE.activeEditor.getContent());
         //Retrieve the content by id of the tinyMCE textarea
         var monAccContent1 = tinyMCE.get('tinyMCEmonAccContent1').getContent();
@@ -52,15 +213,16 @@
         var monAccBtnTxt2 = document.getElementById('monAccBtnTxt2').value;
         var monAccBtnTxt3 = document.getElementById('monAccBtnTxt3').value;
 		
-		var monAccBtnTxt = [,monAccBtnTxt1,monAccBtnTxt2,monAccBtnTxt3];
-		var monAcc_1_opt = [,monAcc_1,monAcc_1a,monAcc_1a];
-		var monAcc_8_opt = [,monAcc_8,monAcc_8a,monAcc_8b];
-		var monAccContent = [,monAccContent1,monAccContent2,monAccContent3];
-		var num = [,"1","2","3"];
+		monAccBtnTxt = [,monAccBtnTxt1,monAccBtnTxt2,monAccBtnTxt3];
+		monAccContent = [,monAccContent1,monAccContent2,monAccContent3];
+		*/
+		var IDs = getTextAreas(accordListToIDs(accordiansPostInit))
+		monAccBtnTxt = IDs.btn;
+		monAccContent = IDs.cont;
 		
 		var monAccOutput = monAccStyle
 		
-		for (var secNum = 1; secNum <= 3; secNum++){
+		for (var secNum = 1; secNum <= accordianSectionsCurr; secNum++){
 			monAccOutput += monAcc_1_opt[secNum] + num[secNum]
 			monAccOutput += monAcc_2 + num[secNum]
 			monAccOutput += monAcc_3 + num[secNum]
@@ -138,6 +300,13 @@
     var monAcc_8b="\" class=\"collapse cardBodyBorder rounded-bottom\" aria-labelledby=\"head"
     var monAcc_9="\" data-parent=\"#accordion\"><div class=\"card-body p-1\"><div class=\"m-1 p-1\"><div class=\"row w-100 mx-auto\"><div class=\"accDiv\">"
     var monAcc_10="</div></div></div></div></div></div>"
+	
+	var num = [,"1","2","3"];
+	var monAcc_1_opt = [,monAcc_1,monAcc_1a,monAcc_1a];
+	var monAcc_8_opt = [,monAcc_8,monAcc_8a,monAcc_8b];
+	var monAccBtnTxt = [,];
+	var monAccContent = [,];
+	
     </script>
        <style>
         .mce-notification-inner, .mce-close, .mce-notification-warning {
@@ -298,27 +467,16 @@
         <textarea id="tinyMCEmonAccContent1" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="monAccContent1" placeholder="Write the content for your accordion here"></textarea>
         </div>
         </div>
-        <div class="row w-100 mx-auto text-center mt-3">
-            <div class="col-lg mt-3">
-              <h6>Heading 2</h6>
-              <p class="text-center"><textarea class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="70" placeholder="Input the heading for your second accordion button here" id="monAccBtnTxt2"></textarea></p>
-            </div>
-            <div class="col-lg mt-3">
-              <h6>Content 2</h6>  
-                <textarea id="tinyMCEmonAccContent2" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="monAccContent2" placeholder="Write the content for your accordion here"></textarea>
-                </div>
-                </div>
-                <div class="row w-100 mx-auto text-center mt-3">
-                    <div class="col-lg mt-3">
-                      <h6>Heading 3</h6>  
-                      <p class="text-center"><textarea class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="70" placeholder="Input the heading for your third accordion button here" id="monAccBtnTxt3"></textarea></p>
-                    </div>
-                    <div class="col-lg mt-3">  
-                      <h6>Content 3</h6>  
-                        <textarea id="tinyMCEmonAccContent3" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="monAccContent3" placeholder="Write the content for your accordion here"></textarea>
-                        </div>
-                        </div>
-                          
+                       <span id="newAccordArea"></span>
+<div class="btn-group btn-group-justified" role="group" id="addMinusButtons">
+		<div class="btn-group-lg" role="group">
+			  <button id="plusbutton" onclick="addSection()" type="button" class="btn btn-success">Add</button>
+		</div><div class="btn-group-lg" role="group">
+              <button id="minusbutton" style="display:none;" onclick="removeSection()" type="button" class="btn btn-danger">Remove </button>
+		</div>
+</div>
+          </span>				   
+
         <div class="row w-100 mt-3 mx-auto text-center">
           <div class="col-lg mt-3">
         <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 4."><i class="fa fa-fw fa-code"></i> Step 3 - Generate/copy code</h5>
