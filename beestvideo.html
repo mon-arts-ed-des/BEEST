@@ -28,17 +28,8 @@
         menubar: false,
           plugins : 'advlist autolink link lists charmap print preview'  
       });
-	const ADV_MODE_KEY = "Advanced_Mode"
-	const ON_STATE = true
-	const OFF_STATE = false
-	var AdvancedMode = OFF_STATE;
-	if (localStorageAvailable){
-		AdvancedMode = getAdvancedModeInStorage();
-	}
-	$(document).ready(function() {activateDeactivateAdvancedMode(AdvancedMode)})
 
-	
-	
+	$(document).ready(function() {activateDeactivateAdvancedMode(AdvancedMode)})
 	
 /*Function to generate and copy code for the responsive videos*/
     function generateCode() {

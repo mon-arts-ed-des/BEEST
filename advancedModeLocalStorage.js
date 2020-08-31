@@ -1,3 +1,11 @@
+	const ADV_MODE_KEY = "Advanced_Mode"
+	const ON_STATE = true
+	const OFF_STATE = false
+	var AdvancedMode = OFF_STATE;
+	if (localStorageAvailable){
+		AdvancedMode = getAdvancedModeInStorage();
+	}
+
 	function getAdvancedModeInStorage(){
 		if (localStorageAvailable()){
 			var result = localStorage.getItem(ADV_MODE_KEY)
