@@ -21,63 +21,13 @@
     <script src="https://kit.fontawesome.com/3817feae52.js"></script> 
     <!-- Tinymce js file -->   
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+	<script src="advancedModeLocalStorage.js"></script>
     <script type="text/javascript">
         tinymce.init({
         selector: '#tinyMCEvideo',
         menubar: false,
           plugins : 'advlist autolink link lists charmap print preview'  
       });
-	const ADV_MODE_KEY = "Advanced_Mode"
-	const ON_STATE = true
-	const OFF_STATE = false
-	var AdvancedMode = OFF_STATE;
-	if (localStorageAvailable){
-		AdvancedMode = getAdvancedModeInStorage();
-	}
-	$(document).ready(function() {activateDeactivateAdvancedMode(AdvancedMode)})
-
-	
-	function getAdvancedModeInStorage(){
-		if (localStorageAvailable()){
-			var result = localStorage.getItem(ADV_MODE_KEY)
-			result = JSON.parse(result)
-			if (result === null){
-				setAdvancedModeInStorage(OFF_STATE)
-				return OFF_STATE
-			}
-			else{
-				return result
-			}
-		}
-		else{
-			return OFF_STATE
-		}
-	}
-	
-	function setAdvancedModeInStorage(state){
-		if (localStorageAvailable()){
-			localStorage.setItem(ADV_MODE_KEY,state) //if unable to save to localStorage then continue to just keep in this session as a global variable
-		}
-		AdvancedMode = state
-	}
-	
-	function localStorageAvailable(){
-		if (typeof localStorage !== 'undefined') {
-			try {
-				localStorage.setItem('is_local_storage_available', 'yes');
-				if (localStorage.getItem('is_local_storage_available') === 'yes') {
-					localStorage.removeItem('is_local_storage_available');
-					return true;
-				} else {
-					return false;
-				}
-			} catch(e) {
-				return false;
-			}
-		} else {
-			return false;
-		}
-	}
 	
 /*Function to generate and copy code for the responsive videos*/
     function generateCode() {
@@ -161,14 +111,14 @@ function activateDeactivateAdvancedMode(newMode){
 	statusText = "on" //set button and status text vars
 	endInstrText = ""
 	displayMode = "none" //none meaning hide
-	setAdvancedModeInStorage(ON_STATE) // turn *ON* advanced mode
+	AdvancedMode = setAdvancedModeInStorage(ON_STATE) // turn *ON* advanced mode
   }
   else{
 	$('h5').tooltip('enable'); //show tool tips
 	statusText = "off"
 	endInstrText = " Only do this if you are completely familiar with how to use the tool."
 	displayMode = "block" //block meaning show
-	setAdvancedModeInStorage(OFF_STATE) // turn *OFF* advanced mode
+	AdvancedMode = setAdvancedModeInStorage(OFF_STATE) // turn *OFF* advanced mode
   }
   
   instrHead.innerHTML = statusText //update text in tags
@@ -176,16 +126,6 @@ function activateDeactivateAdvancedMode(newMode){
   instrEnd.innerHTML = endInstrText
   buttonOnOff.innerHTML = statusText
   otherInstr.style.display = displayMode //set display mode
-}
-
-function flipTooltip(){
-  if (AdvancedMode === OFF_STATE) //if flipping mode and was in the OFF state
-	{
-		activateDeactivateAdvancedMode(ON_STATE)
-	}
-	else{
-		activateDeactivateAdvancedMode(OFF_STATE)
-	}
 }
 
     /* Variable Key
