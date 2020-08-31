@@ -6,6 +6,8 @@
 		AdvancedMode = getAdvancedModeInStorage();
 	}
 
+$(document).ready(function() {activateDeactivateAdvancedMode(AdvancedMode)}) //trigger the advanced mode updater when the page is finished loading
+
 	function getAdvancedModeInStorage(){
 		if (localStorageAvailable()){
 			var result = localStorage.getItem(ADV_MODE_KEY)
