@@ -228,9 +228,9 @@
             </div>    
   <h1 class="text-center"><i class="fa fa-plus fa-fw"></i>Read more button</h1>
 <span id="allInstructExceptMode">  
-  <h5><i class="fa fa-fw fa-flag-checkered"></i> The result of this process</h5>
+  <h5>The result of this process</h5>
   <p>This process will generate a read more button that reveals more content on the page when clicked. This is used frequently in web articles and web sites to 'tease' users with an introduction while giving them the option to reveal the rest of what is written.</p>
-  <h5><i class="fa fa-fw fa-list-ol"></i> How to use this page</h5>
+  <h5>How to use this page</h5>
   <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle, <a data-toggle="modal" data-target=".bd-example-modal-lg" href="">this short video will help</a> (it will open in an overlay on this screen).</p>
   <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -245,7 +245,7 @@
       </div>
     </div>
   </div></p>
-  <h5><i class="fa fa-fw fa-refresh"></i> Refresh this page if you make an error</h5>
+  <h5>Refresh this page if you make an error</h5>
   <div class="row w-100">
     <div class="col-lg">
   <p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
@@ -253,7 +253,7 @@
     <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
   </div></div></div>
   </span>
-        <h5><i class="fa fa-fw fa-level-up-alt"></i> Advanced mode - turn <span id="instrHead">off</span> instructions</h5>
+        <h5>Advanced mode - turn <span id="instrHead">off</span> instructions</h5>
         <div class="row w-100">
           <div class="col-lg">
         <p>Click this button to turn <span id="instrStatus">off</span> the instructions that appear when you hover over the headings.<span id="instrEnd"> Only do this if you are completely familiar with how to use the tool.</span></p></div>
@@ -262,37 +262,41 @@
         </div></div></div>
 <hr class="hr-3">
 <form id="readMoreForm">
-  <div class="row w-100 mx-auto text-center mt-3">
+  <div class="row w-100 mx-auto">
     <div class="col-lg mt-3">
-      <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="If you want to display one read more button on a page, simply put the number 1 in the box below. If you want to put more than one read more button on a page, you need to number them so that they work. For example. If you make two read more buttons that are both number one that display on the same page only the first read more button will open and close. Using more than 3 read more buttons on a page could result in poor useability for students. Currently this only accepts text and embed codes for videos."><i class="fa fa-list-ol fa-fw"></i> Step 1 - Number your read more button</h5> 
-      <p class="text-center"><textarea class="border border-dark rounded p-2 w-50 mx-auto" rows="1" cols="70" placeholder="Input read more button number here" id="readMoreNumber"></textarea></p>
+      <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="If you want to display one read more button on a page, simply put the number 1 in the box below. If you want to put more than one read more button on a page, you need to number them so that they work. For example. If you make two read more buttons that are both number one that display on the same page only the first read more button will open and close. Using more than 3 read more buttons on a page could result in poor useability for students. Currently this only accepts text and embed codes for videos.">Step 1 - Number your read more button</h5> 
+      <textarea class="border border-dark rounded p-2 w-50 mx-auto" rows="1" cols="70" placeholder="Input read more button number here" id="readMoreNumber"></textarea>
     </div>
+  </div>
+  <div class="row w-100 mx-auto">
     <div class="col-lg mt-3">
-      <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="The text on the read more button will always start with Show/hide. What you put in the text box below will appear after Show/hide. For example Show/hide full bio or Show/hide full text."><i class="fa fa-arrows-alt-v fa-fw"></i> Step 2 - What are you showing/hiding?</h5> 
+      <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="The text on the read more button will always start with Show/hide. What you put in the text box below will appear after Show/hide. For example Show/hide full bio or Show/hide full text.">Step 2 - What are you showing/hiding?</h5> 
       <p class="text-center"><textarea class="border border-dark rounded p-2 w-50 mx-auto" rows="1" cols="70" placeholder="Input the text for your read more button here" id="readMoreBtnTxt"></textarea></p>
     </div>
   </div>
-  <div class="row w-100 mx-auto text-center">
+  <div class="row w-100 mx-auto">
     <div class="col-lg mt-3">
-        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="What you input in the box below will appear before the read more button. This should be an introduction and engage the reader enough to want to click the button to read the rest of the content."><i class="fa fa-pencil fa-fw"></i> Step 3 - Content <em>before</em> your read more button.</h5>      
+        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="What you input in the box below will appear before the read more button. This should be an introduction and engage the reader enough to want to click the button to read the rest of the content.">Step 3 - Content <em>before</em> your read more button.</h5>      
         <textarea id="tinyMCEreadMoreBefore" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="readMoreBefore" placeholder="Write the context for your video here"></textarea>
         </div>
+      </div>
+      <div class="row w-100 mx-auto">
         <div class="col-lg mt-3">
-        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="What you input in the box below will appear after the read more button. This can be text, lists, headings, embedded video and images from public repositories such as unsplash.com or pixabay. This tool does not currently accept uploads of images or audio."><i class="fa fa-pencil fa-fw"></i> Step 4 - Content <em>after</em> your read more button.</h5>  
+        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="What you input in the box below will appear after the read more button. This can be text, lists, headings, embedded video and images from public repositories such as unsplash.com or pixabay. This tool does not currently accept uploads of images or audio.">Step 4 - Content <em>after</em> your read more button.</h5>  
         <textarea id="tinyMCEreadMoreAfter" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="readMoreAfter"></textarea>
         </div></div>
-        <div class="row w-100 mt-3 mx-auto text-center">
+        <div class="row w-100 mx-auto">
           <div class="col-lg mt-3">
-        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 6."><i class="fa fa-fw fa-code"></i> Step 5 - Generate/copy code</h5>
+        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 6.">Step 5 - Generate/copy code</h5>
         <div>
     <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy code" onClick=generateReadMoreCode()></p>
     </div>
-    <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="readMoreCode" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code or your alert and copy it to the clipboard."></textarea></p>
+    <textarea readonly class="rounded p-2 w-100" id="readMoreCode" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code or your alert and copy it to the clipboard."></textarea></p>
   </div>
 </div>
-    <div class="row w-100 mx-auto text-center mt-3">
+    <div class="row w-100 mx-auto">
       <div class="col-lg mt-3">
-        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 5."><i class="fa fa-fw fa-eye"></i> Step 6 - Preview</h5>
+        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 5.">Step 6 - Preview</h5>
         </div>
         </div>
     </form>

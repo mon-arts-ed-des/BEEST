@@ -259,15 +259,14 @@ function activateDeactivateAdvancedMode(newMode){
   </nav>
 <div class="container-fluid">
   <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
-         
     <div class="h6"><i class="fa fa-fw fa-3x fa-pull-left fa-exclamation-circle"></i>You can only generate the code for one element at a time on this page. When you paste the link for your video (Panopto/Vimeo/Youtube/TED) that box will become read only. This means you cannot delete or edit the link in the box. If you need more elements, copy and paste each element into Moodle, refresh the page and create your next element. If you make an error you will need to refresh the page and start again.</div>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
     </div>
-<h1 class="text-center"><i class="fa fa-fw fa-video-camera"></i> Responsive video + context</h1>
+<h1 class="text-center">Responsive video + context</h1>
 <span id="allInstructExceptMode">
-<h5><i class="fa fa-fw fa-flag-checkered"></i> The result of this process</h5>
+<h5>The result of this process</h5>
         <p>This process will generate a video iframe that is responsive that is side by side with the context for what students can expect to see in the video. A responsive video changes size with the size of the browser window you are in and when the screen gets small enough, the video and text in this combo will 'collapse' underneath one another. This tool will change your video link into the embed link for the respective platform. This tool currently accepts the following video links - Panopto videos/playlists, Youtube, Vimeo, TED talks. <strong>See what link you need to get from each of the platforms on this video to ensure that you produce the elements on this page correctly.</strong></p>
-        <h5><i class="fa fa-fw fa-list-ol"></i> How to use this page</h5>
+        <h5>How to use this page</h5>
         <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle, <a data-toggle="modal" data-target=".bd-example-modal-lg" href="">this short video will help</a> (it will open in an overlay on this screen).</p>
         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg">
@@ -282,7 +281,7 @@ function activateDeactivateAdvancedMode(newMode){
             </div>
           </div>
         </div></p>
-        <h5><i class="fa fa-fw fa-refresh"></i> Refresh this page</h5>
+        <h5>Refresh this page</h5>
         <div class="row w-100">
           <div class="col-lg">
         <p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
@@ -290,7 +289,7 @@ function activateDeactivateAdvancedMode(newMode){
           <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
         </div></div></div>
 </span>
-        <h5><i class="fa fa-fw fa-level-up-alt"></i> Advanced mode - turn <span id="instrHead">off</span> instructions</h5>
+        <h5>Advanced mode - turn <span id="instrHead">off</span> instructions</h5>
         <div class="row w-100">
           <div class="col-lg">
         <p>Click this button to turn <span id="instrStatus">off</span> the instructions that appear when you hover over the headings.<span id="instrEnd"> Only do this if you are completely familiar with how to use the tool.</span></p></div>
@@ -301,7 +300,7 @@ function activateDeactivateAdvancedMode(newMode){
 <form id="respVid">   
 <div class="row w-100 mx-auto text-center mt-3">
   <div class="col-lg-3 mt-3">
-    <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Choose an icon to go with your heading. Video camera is selected by default."><i class="fab fa-fw fa-font-awesome-alt"></i> Step 1 - Select icon</h5>
+    <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Choose an icon to go with your heading. Video camera is selected by default.">Step 1 - Select icon</h5>
     <select class="form-control w-75 mx-auto border border-dark" id="faCode" name="faCode" size="3">
         <option selected value="1">Video Camera</option>
         <option value="2">Play</option>
@@ -309,7 +308,7 @@ function activateDeactivateAdvancedMode(newMode){
       </select>
     </div>
     <div class="col-lg-3 mt-3">
-      <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Choose the size of your heading. Heading level 3 is chosen by default."><i class="fa fa-fw fa-arrows-alt-v"></i> Step 2 - Heading size</h5>
+      <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Choose the size of your heading. Heading level 3 is chosen by default.">Step 2 - Heading size</h5>
             <select class="form-control w-75 mx-auto border border-dark" id="headSize" name="headSize" size="3">
             <option value="h3" class="h3" selected>Size 3</option>
             <option value="h4" class="h4">Size 4</option>
@@ -318,30 +317,30 @@ function activateDeactivateAdvancedMode(newMode){
           </div> 
       
   <div class="col-lg mt-3">
-    <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Type the heading for this video. 50 character maximum."><i class="fa fa-fw fa-link"></i> Step 3 - Heading</h5>
+    <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Type the heading for this video. 50 character maximum.">Step 3 - Heading</h5>
     <p class="text-center"><textarea maxlength="50" class="rounded p-2 w-100" rows="1" name="respVid_heading" type="text" id="respVidHeading" placeholder="Type your video heading here"></textarea></p>
   </div>
 </div>
       <div class="row w-100 mx-auto text-center mt-3">
         <div class="col-lg-3 mt-3">
-          <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Choose which half/side of screen you would prefer the video to appear by clicking on one of the options below. Video on the left is selected by default."><i class="fa fa-fw fa-arrows-alt-h"></i> Step 4 - Video position</h5>
+          <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Choose which half/side of screen you would prefer the video to appear by clicking on one of the options below. Video on the left is selected by default.">Step 4 - Video position</h5>
                 <select class="form-control w-75 mx-auto border border-dark" id="videoPosition" name="videoPosition" size="2">
                 <option value="left" selected>Video on the left</option>
                 <option value="right">Video on the right</option>
               </select>
               </div>  
   <div class="col-lg mt-3">
-    <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your video. When you paste the link into this box it will automatically change the link to be the embed link required for the platform you are pasting from this process to work and you will not be able to edit this box."><i class="fa fa-fw fa-link"></i> Step 5 - Paste the link for your video</h5>
+    <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your video. When you paste the link into this box it will automatically change the link to be the embed link required for the platform you are pasting from this process to work and you will not be able to edit this box.">Step 5 - Paste the link for your video</h5>
     <p class="text-center"><textarea class="rounded p-2 w-100" rows="1" name="respVid_link" type="text" id="respVidSwitch" placeholder="Paste the Youtube/Panopto/Vimeo/TED Talks video link here"></textarea></p>
   </div>
   </div>
   <div class="row w-100 mx-auto text-center mt-3">
     <div class="col-lg">
-      <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="It's recommended to have a few sentences or dot points explaining what is in the video students are about to watch. This helps in particular when students are looking back through your site for a specific video where you addressed certain concepts or theories. Instead of watching the entire video, they can read the context you have provided, and decide if they have found what they need without having to watch the entire video."> <i class="fa fa-fw fa-pencil"></i> Step 6 - Write the context for your video</h5>
+      <h5 class="mt-3" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="It's recommended to have a few sentences or dot points explaining what is in the video students are about to watch. This helps in particular when students are looking back through your site for a specific video where you addressed certain concepts or theories. Instead of watching the entire video, they can read the context you have provided, and decide if they have found what they need without having to watch the entire video.">Step 6 - Write the context for your video</h5>
           <textarea id="tinyMCEvideo" class="border border-dark rounded p-2 w-100 mt-3" cols="70" rows="5" name="respVid_context"></textarea>
       </div>
             <div class="col-lg mt-3">
-    <h5 data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8."><i class="fa fa-fw fa-code"></i> Step 7 - Generate/copy code</h5>
+    <h5 data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 7 - Generate/copy code</h5>
                 <div class="text-center">
             <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Generate and copy code" onClick=generateCode() ></p>
             <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="txtarearespVid" cols="70" rows="5" name="Result" placeholder="Code for your element will appear here"></textarea></p>
@@ -349,9 +348,9 @@ function activateDeactivateAdvancedMode(newMode){
             </div>
                    
               </div>
-              <div class="row w-100 mt-3 text-center">
+              <div class="row w-100 mt-3">
                 <div class="col-lg mt-3">
-                <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 7."><i class="fa fa-fw fa-eye"></i> Step 8 - A preview of your content will appear below</h5>
+                <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 7.">Step 8 - A preview of your content will appear below</h5>
                 </div>
               </div>
             </div>          

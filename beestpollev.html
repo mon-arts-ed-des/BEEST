@@ -217,9 +217,9 @@
             <div class="h6"><i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle"></i>You can only produce the embed code for one (1) poll at a time on this page. You will need to paste the code for each poll into Moodle, then come back to this page, refresh it and start again.</div>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
             </div>     
-          <h1 class="text-center"><i class="fa fa-poll fa-fw"></i> Embed Poll Everywhere Activities</h1>
+          <h1 class="text-center"><i class="fa fa-poll fa-fw"></i> Embed Poll Everywhere Activities/Surveys</h1>
 		<span id="allInstructExceptMode">
-          <h5><i class="fa fa-fw fa-flag-checkered"></i> The result of this process</h5>
+          <h5>The result of this process</h5>
           <p>This process will generate embed code for Poll Everywhere activites using the shareable link available in your Poll Everywhere account. To get the link for your poll activity <a href="" data-toggle="modal" data-target=".pollev-modal">follow these steps</a> (will appear as an overlay on this screen).</p>
 <div class="modal fade pollev-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -242,7 +242,7 @@
 </div>
 </div>
 </div>     
-          <h5><i class="fa fa-fw fa-list-ol"></i> How to use this page</h5>
+          <h5>How to use this page</h5>
           <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle,  <a data-toggle="modal" data-target=".bd-example-modal-lg" href="">this short video will help</a> (it will open in an overlay on this screen).</p>
           <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -257,7 +257,7 @@
               </div>
             </div>
           </div></p>
-          <h5><i class="fa fa-fw fa-refresh"></i> Refresh this page if you make an error</h5>
+          <h5>Refresh this page if you make an error</h5>
           <div class="row w-100">
             <div class="col-lg">
           <p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
@@ -265,7 +265,7 @@
             <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
           </div></div></div>
 	</span>
-	<h5><i class="fa fa-fw fa-level-up-alt"></i> Advanced mode - turn <span id="instrHead">off</span> instructions</h5>
+	<h5>Advanced mode - turn <span id="instrHead">off</span> instructions</h5>
         <div class="row w-100">
           <div class="col-lg">
         <p>Click this button to turn <span id="instrStatus">off</span> the instructions that appear when you hover over the headings.<span id="instrEnd"> Only do this if you are completely familiar with how to use the tool.</span></p></div>
@@ -274,24 +274,28 @@
         </div></div></div>
      <hr class="hr-3">
        <form id="pollEv">     
-    <div class="row w-100 mx-auto text-center mt-3">
-    <div class="col-lg mt-3">
-        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="If you already have written the context for your poll in Moodle, skip this step, generate the embed code for your poll and paste it after your context in Moodle. Otherwise, writing some instructions, or context for students on your poll will help the students to respond correctly. Write your context in the space below. You can use headings, bold, italics and lists if needed in your instructions."><i class="fa fa-fw fa-pencil"></i> Step 1 - Write the context for the poll (optional)</h5>
-        <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="3" name="pollEv_text" id="tinyMCEpollEv" placeholder="Write/paste the text for the button here"></textarea></div>
-    <div class="col-lg mt-3">
-        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Paste in your polls shareable link. You can get this link by following the instructions from the top of the page. Click on the text that says 'follow these steps' to reveal the instructions."><i class="fa fa-fw fa-link"></i> Step 2 - Paste shareable link URL</h5>
-        <p class="text-center"><textarea class="rounded p-2 w-100" rows="1" name="pollEv_URL" id="pollEv_URL" placeholder="Write/paste the Shareable response link here"></textarea></p>
+    <div class="row w-100 mx-auto">
+    <div class="col-lg mt-2">
+        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="If you already have written the context for your poll in Moodle, skip this step, generate the embed code for your poll and paste it after your context in Moodle. Otherwise, writing some instructions, or context for students on your poll will help the students to respond correctly. Write your context in the space below. You can use headings, bold, italics and lists if needed in your instructions.">Step 1 - Write the context for the poll (optional)</h5>
+        <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="3" name="pollEv_text" id="tinyMCEpollEv" placeholder="Write/paste the text for the button here"></textarea>
+      </div>
+    </div>
+        <div class="row w-100 mx-auto">
+    <div class="col-lg mt-2">
+        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Paste in your polls shareable link. You can get this link by following the instructions from the top of the page. Click on the text that says 'follow these steps' to reveal the instructions.">Step 2 - Paste shareable link URL</h5>
+        <textarea class="rounded p-2 w-100" rows="1" name="pollEv_URL" id="pollEv_URL" placeholder="Write/paste the Shareable response link here"></textarea>
         </div>
-        <div class="col-lg mt-3">
-          <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 4."><i class="fa fa-fw fa-code"></i> Step 3 - Generate/copy code</h5>
+        </div>
+        <div class="row w-100 mx-auto">
+        <div class="col-lg mt-2">
+          <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 4.">Step 3 - Generate/copy code</h5>
         <div><p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span> <input type="button" class="m-1 btn btn-arts" name="copyCode" value="Click to generate and copy code" onClick=generatePollEvCode()></input></div>
-              <p class="text-center">
-            <textarea readonly class="rounded p-2 w-100" id="txtareapollEv" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here."></textarea></p>
+           <textarea readonly class="rounded p-2 w-100" id="txtareapollEv" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here."></textarea>
         </div>
     </div>
-    <div class="row w-100 mx-auto text-center mt-3">
-      <div class="col-lg mt-3">
-        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 3."><i class="fa fa-fw fa-eye"></i> Step 4 - Preview</h5>
+    <div class="row w-100 mx-auto">
+      <div class="col-lg mt-2">
+        <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 3.">Step 4 - Preview</h5>
         </div>
         </div>
       </div>
