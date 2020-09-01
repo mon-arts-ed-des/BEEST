@@ -51,7 +51,7 @@
 		var idTiny = "tinyMCEmonAccContent"+num
 		var idBlock = "AccordSect"+num
 		
-		var headingHTML="<div id=\""+idBlock+"\" class=\"row w-100 mx-auto\"><div class=\"col-lg mt-3\"><h6>Heading "+num+"</h6><p><textarea class=\"border border-dark rounded p-2 w-100 mx-auto\" rows=\"1\" cols=\"70\" placeholder=\"Input the heading for your next accordion button here\" id=\""+idHead+"\"></textarea></p></div>"
+		var headingHTML="<div id=\""+idBlock+"\" class=\"row w-100 mx-auto\"><div class=\"col-lg mt-3\"><h6>Heading "+num+"</h6><p><textarea maxlength=\"50\" class=\"border border-dark rounded p-2 w-100 mx-auto\" rows=\"1\" cols=\"70\" placeholder=\"Input the heading for your next accordion button here\" id=\""+idHead+"\"></textarea></p></div>"
 		var contentHTML = "<div class=\"col-lg mt-3\"><h6>Content "+num+"</h6><textarea id=\""+idTiny+"\"class=\"border border-dark rounded p-2 w-100\" cols=\"70\" rows=\"5\" name=\""+idCont+"\" placeholder=\"Write the content for your accordion here\"></textarea></div></div>"
 		
 		return {
@@ -510,9 +510,9 @@
 <div id="drawerCurrentNumber"></div>
   <div class="row w-100 mx-auto">
     <div class="col-lg mt-2">
-      <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="This is the text that will appear on the accordion buttons (all text boxes on the left side of screen). This should give users a clear idea of what will appear if the button is clicked">Step 2 - Headings</h5> 
+      <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="This is the text that will appear on the accordion buttons (all text boxes on the left side of screen). This should give users a clear idea of what will appear if the button is clicked. Max length is 50 characters.">Step 2 - Headings</h5> 
       <h6>Heading 1</h6>
-      <textarea class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your first accordion button here" id="monAccBtnTxt1"></textarea>
+      <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your first accordion button here" id="monAccBtnTxt1"></textarea>
     </div>
     <div class="col-lg mt-2">
         <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="What you input in the box below will appear when the relative accordion button is clicked (all rich text editors on the right of screen). This can include text, lists, videos and externally embedded media. You can click, hold and drag the bottom right corner of these boxes to make them bigger on this screen.">Step 3 - Content</h5>

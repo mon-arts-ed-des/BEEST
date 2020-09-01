@@ -7,7 +7,7 @@
     <meta name="description" content="A simple element creator to generate responsive code that can be easily embbedded into Moodle">
     <meta name="author" content="T&M">
     <title>BEEST home</title>
- <link rel="icon" href="https://mon-arts-ed-des.github.io/BEEST/dragon-solid%20favicon.png" type="image/gif">
+    <link rel="icon" href="https://mon-arts-ed-des.github.io/BEEST/dragon-solid%20favicon.png" type="image/gif">
     <!-- external link to css file --> 
     <!-- Bootstrap CSS -->   
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -16,6 +16,7 @@
     
     <!-- external link to js file -->  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <!-- Bootstrap js file --> 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- FontAwesome js file --> 
@@ -81,17 +82,17 @@
 10% {opacity: 1;}
 66% { opacity: 1; }
 }
+.tooltip-inner {
+  text-align: left;
+  padding: 15px;
+  font-size: 1.05rem;
+  max-width: 480px;
+}
   </style> 
   <script>
-      function SelectAll(id){
-        document.getElementById(id).focus();
-        document.getElementById(id).select();
-        document.execCommand("copy");
-
-        var popup = document.getElementById("myPopup");
-        popup.classList.toggle("showPopup");
-        //window.alert('test');
-    }
+        $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
   </script>
        </head>
     <body>
@@ -131,7 +132,15 @@
       </nav>
         <div class="container-fluid">
   <h1 class="text-center"><i class="fa fa-fw fa-dragon"></i> BEEST Project</h1>
-  <p>BEEST stands for Bootstrap Enhanced Elements Streamlining Tool. <a href="https://getbootstrap.com/" target="_blank">Bootstrap</a> is the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins This site combines pre-designed HTML code elements with user input to create HTML elements to enhance Moodle site formatting and user experience. Please click on the buttons below to be taken to the page where you can design your desired element. All buttons open in this window and examples of each of the element types can be viewed on each page.</p>
+  <h5>What is BEEST?</h5>
+  <p>BEEST stands for <strong>B</strong>ootstrap <strong>E</strong>nhanced <strong>E</strong>lements <strong>S</strong>treamlining <strong>T</strong>ool. This site combines pre-designed HTML code with simple user input to create an engaging, <span class="font-weight-bold text-primary" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="This means the design is well formatted across all device types - desktop, laptop, tablet & phone.">responsive</span> user experience (UX) in your Moodle site.</p>
+  <h5>Why would I use BEEST?</h5>
+  <p>Assessment, teaching and learning design that builds an interactive, meaningful, applied learning experience for students is the key to teaching and learning success for both the teacher and the student. As technology and the digital learning space evolves at a rapid pace, learners are also beginning to expect a seamless and intuitive user experience from Moodle site to Moodle site, and across all device types. But building responsive, consistent user experiences requires time, effort, a basic understanding of UX and restraint in using design. BEEST can help you achieve a consistent design and cut down on time and effort required to build complex elements needed for an engaging UX across all your Moodle sites, you just need to bring the content, consistency and constraint.</p>
+  <h5>What can BEEST do that nothing else can?</h5>
+  <p>BEEST, <strong>when used appropriately</strong>, can help you build a consistent, well-formatted, responsive user experience in your Moodle site <strong>without</strong> the need for advanced coding skills.</p>
+  <h5>How does BEEST make designing advanced elements easy?</h5>
+  <p>The processes in this site combine pre-built HTML with your input. The user only needs to know how to follow instructions on each page to find the correct links from different platforms for the BEEST element you are creating, copy and paste text and links, use rich text formatting like you would in Moodle and also how to paste HTML into the Moodle editor.</p>
+  
             <h3><i class="fa fa-fw fa-exclamation-circle"></i>Important caveats</h3>
 <ul>
     <li>These elements require <a href="https://getbootstrap.com/docs/4.0/getting-started/introduction/" target="_blank">Bootstrap v4.0</a> and up to function. The BEEST pages here are purpose built for use with Moodle 3.7 and upwards to manipulate content to be responsive and inviting to the user.</li> 
@@ -183,7 +192,7 @@
 <hr class="hr2" />
 <h3><i class="fa fa-code"></i> CSS Reference for Monash themed elements</h3>
 <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy the below code &lt;/&gt;" onClick="SelectAll('monElementsLink')"></p>
-<p class="text-center"><textarea readonly class="rounded p-2 w-100" id="monElementsLink" cols="20" rows="16" name="Result" placeholder="Code for your element will appear here.">
+<textarea readonly class="rounded p-2 w-100" id="monElementsLink" cols="20" rows="18" name="Result" placeholder="Code for your element will appear here.">
     <style>
       #inst1234567 {
 box-shadow: none !important;
@@ -199,8 +208,10 @@ margin: 0px !important;
       color: #fff !important;
     }
   </style>
-  <p><link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/monashElements.css" /></p></textarea>
-</p>  
+  <p><link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/monashElements.css" /></p>
+  <p><link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/artsAccordionStyle.css" /></p>
+</textarea>
+
         </div>
         </body>
         </html>
