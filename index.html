@@ -22,17 +22,88 @@
     <script src="https://kit.fontawesome.com/3817feae52.js"></script> 
     <!-- Tinymce js file -->   
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+    <style>
+      /* Popup container - can be anything you want */
+  #popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  }
+
+  /* The actual popup */
+  #popup .popuptext {
+  visibility: hidden;
+  width: 220px;
+  background-color: #222222;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 10px 5px;
+  position: absolute;
+  z-index: 1;
+  bottom:100%;
+  left: 50%;
+  margin-left: -110px;
+  }
+
+  /* Popup arrow */
+  #popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+  }
+
+  /* Toggle this class - hide and show the popup */
+  #popup .showPopup {
+  -webkit-animation: fadeinout 4s linear forwards;
+  animation: fadeinout 4s linear forwards;
+  visibility: visible;
+  }
+
+  /* Add animation (fade in the popup) */
+@-webkit-keyframes fadeinout {
+0%,100% { opacity: 0; }
+10% {opacity: 1;}
+66% { opacity: 1; }
+}
+
+@keyframes fadeinout {
+0%,100% { opacity: 0; }
+10% {opacity: 1;}
+66% { opacity: 1; }
+}
+  </style> 
+  <script>
+      function SelectAll(id){
+        document.getElementById(id).focus();
+        document.getElementById(id).select();
+        document.execCommand("copy");
+
+        var popup = document.getElementById("myPopup");
+        popup.classList.toggle("showPopup");
+        //window.alert('test');
+    }
+  </script>
        </head>
     <body>
       <nav class="navbar navbar-expand-lg navbar-dark bg-arts mb-3">
-        <a class="navbar-brand text-center border border-white p-2 rounded" href="home.html"><img src="dragon-solid-white.png" width="30" height="30" alt=""></a>
+        <a class="navbar-brand text-center border border-white p-2 rounded" href="index.html"><img src="dragon-solid-white.png" width="30" height="30" alt=""></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
             <li class="nav-item active">
-              <a class="nav-link" href="home.html">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="beestvideo.html">Responsive Video</a>
@@ -49,6 +120,12 @@
                <li class="nav-item">
               <a class="nav-link" href="beestreadmore.html">Read More Button</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="beestacc.html">Accordion</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="beestquote.html">Quote</a>
+            </li>
           </ul>
         </div>
       </nav>
@@ -58,13 +135,73 @@
             <h3><i class="fa fa-fw fa-exclamation-circle"></i>Important caveats</h3>
 <ul>
     <li>These elements require <a href="https://getbootstrap.com/docs/4.0/getting-started/introduction/" target="_blank">Bootstrap v4.0</a> and up to function. The BEEST pages here are purpose built for use with Moodle 3.7 and upwards to manipulate content to be responsive and inviting to the user.</li> 
-    <li>Some elements also require a stylesheet reference to function correctly. Where needed this reference will appear so that you can copy and paste it along with your element to ensure it works correctly.</li> 
+    <li>Some elements (the Monash blue elements) also require a stylesheet reference to function correctly as this is not part of the Bootstrap styling guide. This requires some work from a Faculty Moodle administrator (LMS Administrator, Ed Designers, Teaching Support) The code needed is below, click the button to copy the code. The process for putting this into place can be viewed on <a data-toggle="modal" data-target=".bd-example-modal-lg" href="">this short video</a> (it will open in an overlay on this screen).</p>
+      <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content p-2">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=bc32c84c-599c-4698-bd8c-ac0601883fb9"></iframe></div>
+          </div>
+        </div>
+      </div></li> 
             </ul>
-<p>to Should you require any assistance with the use of the BEEST tools or have a suggestion on an element you would like added to the suite we have on offer, please email the creators:</p>
-<ul>
-  <li>Timothy Scholl - Faculty of Arts Educational Designer - <a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=tim.scholl@monash.edu&su=Question%20about%20BEEST%20tool" target="_blank">tim.scholl@monash.edu</a></li>
-    <li>Matt Chen - Faculty of IT Educational Designer - <a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=matt.chen@monash.edu&su=Question%20about%20BEEST%20tool" target="_blank">matt.chen@monash.edu</a></li>
-</ul>       
+<p>Should you require any assistance with the use of the BEEST tools or have a suggestion on an element you would like added to the suite we have on offer, please email the creators:</p>
+<div class="row w-100">
+  <div class="col-lg">
+    <img src="img/tim.png" class="img-fluid" />
+  </div>
+  <div class="col-lg">
+   <p>Timothy Scholl</p>
+   <p>Educational Designer</p>
+   <p>Faculty of Arts</p>
+   <p><a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=tim.scholl@monash.edu&su=Question%20about%20BEEST%20tool" target="_blank">tim.scholl@monash.edu</a></p>
+  </div>
+  <div class="col-lg">
+    <img src="img/matt.png" class="img-fluid" />
+  </div>
+  <div class="col-lg">
+    <p>Matt Chen</p>
+    <p>Educational Designer</p>
+    <p>Faculty of IT</p>
+    <p><a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=matt.chen@monash.edu&su=Question%20about%20BEEST%20tool" target="_blank">matt.chen@monash.edu</a></p>
+   </div>
+   <div class="col-lg">
+    <img src="img/phil.png" class="img-fluid" />
+  </div>
+  <div class="col-lg">
+    <p>Phil Abramson</p>
+    <p>Educational Designer</p>
+    <p>Faculty of IT</p>
+    <p><a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=phillip.abramson@monash.edu&su=Question%20about%20BEEST%20tool" target="_blank">phillip.abramson@monash.edu</a></p>
+   </div>
+</div>   
+<hr class="hr2" />
+<h3><i class="fa fa-code"></i> CSS Reference for Monash themed elements</h3>
+<p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy the below code &lt;/&gt;" onClick="SelectAll('monElementsLink')"></p>
+<p class="text-center"><textarea readonly class="rounded p-2 w-100" id="monElementsLink" cols="20" rows="16" name="Result" placeholder="Code for your element will appear here.">
+    <style>
+      #inst1234567 {
+box-shadow: none !important;
+height: 0px !important;
+margin: 0px !important;
+    }
+    #inst1234567 .action-menu, #inst1234567 .dropdown-toggle, #inst1234567 i {
+      background: #fff !important;
+      color: #fff !important;
+    }
+    #inst1234567 .card-title {
+      background: #fff !important;
+      color: #fff !important;
+    }
+  </style>
+  <p><link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/monashElements.css" /></p></textarea>
+</p>  
         </div>
         </body>
         </html>
+        
