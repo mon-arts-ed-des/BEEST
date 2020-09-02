@@ -59,3 +59,31 @@ $(document).ready(function() {activateDeactivateAdvancedMode(AdvancedMode)}) //t
 		activateDeactivateAdvancedMode(OFF_STATE)
 	}
 }
+
+
+function activateDeactivateAdvancedMode(newMode){
+  //var otherInstr = document.getElementById("allInstructExceptMode")
+  var displayMode;
+  var statusText;
+  var tooltipmode;
+  
+  if (newMode === ON_STATE){
+	tooltipmode = 'disable'; //hide tooltips
+	statusText = "on" //set button and status text vars
+	displayMode = "none" //none meaning hide
+	AdvancedMode = setAdvancedModeInStorage(ON_STATE) // turn *ON* advanced mode
+  }
+  else{
+	tooltipmode = 'enable'; //show tool tips
+	statusText = "off"
+	displayMode = "block" //block meaning show
+	AdvancedMode = setAdvancedModeInStorage(OFF_STATE) // turn *OFF* advanced mode
+  }
+	$('h5').tooltip(tooltipmode)
+	$(".onoffswapinstr").each(function(){
+		this.innerHTML = statusText
+	})
+	$(".hideableinstruct").each(function(){
+		this.style.display = displayMode //set display mode
+	});
+}
