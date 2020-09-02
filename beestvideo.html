@@ -48,24 +48,28 @@
         }
 
         var iconName = iconNames[faIcon];
-		    var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
+		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
+		
         if (faIcon == "noI"){
           faIconCode = "";
         }
+		
+		var resizedHead;
         //Resizing the heading text
-        if (headSize == "noH"){
-        var resizedHead = "";
-        }
-        else if (headSize == "h3"){
-        var resizedHead = head_3+faIconCode+vidHeading+endHead_3;
-        }
-        else if (headSize == "h4"){
-        var resizedHead = head_4+faIconCode+vidHeading+endHead_4;
-        }
-        else if (headSize == "h5"){
-        var resizedHead = head_5+faIconCode+vidHeading+endHead_5;
-        }
-
+		switch(headSize){
+			case "noH":
+				resizedHead = "";
+				break;
+			case "h3":
+				resizedHead = head_3+faIconCode+vidHeading+endHead_3;
+				break;
+			case "h4":
+				resizedHead = head_4+faIconCode+vidHeading+endHead_4;
+				break;
+			case "h5":
+				resizedHead = head_5+faIconCode+vidHeading+endHead_5;
+				break;
+		}
         //window.alert(vPosition);
 
         if (vPosition == "left"){
