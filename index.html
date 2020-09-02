@@ -145,58 +145,46 @@
    <hr class="hr2">
    <h3>Creators and Support</h3>
 <p>Should you require any assistance with the use of the BEEST elements, please email the creators on <a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=beest@monash.edu&su=Question%20about%20BEEST%20tool" target="_blank">beest@monash.edu</a>. The creators and current managers of the BEEST project are:</p>
-<div class="row w-100">
-  <div class="col-lg">
-    <img src="img/tim.png" class="img-fluid" />
-  </div>
-  <div class="col-lg">
-   <p>Timothy Scholl</p>
+<div class="row w-50 mx-auto">
+    <div class="col-lg text-center h5 mt-2">
+      <div class="border border-dark rounded p-2">
+    <img src="img/tim.png" class="img-fluid w-100 mb-3" />
+   <p class="font-weight-bold">Timothy Scholl</p>
    <p>Educational Designer</p>
    <p>Faculty of Arts</p>
   </div>
-  <div class="col-lg">
-    <img src="img/matt.png" class="img-fluid" />
   </div>
-  <div class="col-lg">
-    <p>Matt Chen</p>
+    <div class="col-lg text-center h5 mt-2">
+    <div class="border border-dark rounded p-2">
+    <img src="img/matt.png" class="img-fluid mb-3" />
+    <p class="font-weight-bold">Matt Chen</p>
     <p>Educational Designer</p>
     <p>Faculty of IT</p>
       </div>
-   <div class="col-lg">
-    <img src="img/phil.png" class="img-fluid" />
-  </div>
-  <div class="col-lg">
-    <p>Phillip Abramson</p>
+    </div>
+    <div class="col-lg text-center h5 mt-2">
+      <div class="border border-dark rounded p-2">
+    <img src="img/phil.png" class="img-fluid mb-3" />
+    <p class="font-weight-bold">Phillip Abramson</p>
     <p>Educational Designer</p>
     <p>Faculty of IT</p>
      </div>
-</div>   
+</div> 
+</div>  
 <hr class="hr2">
    <div class="alert alert-arts rounded">
-  <h3 class="text-center"><i class="fa fa-fw fa-exclamation-circle"></i>Important caveats</h3>
-<ol class="mb-0">
-    <li>These elements require <a href="https://getbootstrap.com/docs/4.0/getting-started/introduction/" target="_blank">Bootstrap v4.0</a> and up to function. If you are using Monash Moodle, this is <span class="text-primary font-weight-bold" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="This means it is already part of the Moodle instance Monash uses and appears on every page in the background, to support responsive, accessible, consistent design across Moodle.">baked in</span> to Moodle, it is not something you need to add to your Moodle site. The BEEST elements available here are purpose built for use with Moodle 3.7 and upwards to manipulate content to be responsive and inviting to the user.</li> 
-    <li>The Monash blue elements (like this alert for example) are the only element types that require some extra work by a Faculty Moodle administrator (LMS Administrator, Ed Designers, Teaching Support, eLearning design team) to function correctly as this is not part of the Bootstrap styling guide. The code needed is below, click the button to copy the code. The process for putting this into place can be viewed on <a data-toggle="modal" data-target=".bd-example-modal-lg" href="">this short video</a> (it will open in an overlay on this screen).</p>
-      <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content p-2">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+  <h3 class="text-center"><i class="fa fa-fw fa-exclamation-circle"></i>Setting up to use the Monash blue elements</h3>
+<p class="mb-0">When you select the 'Monash blue' colour on certain elements (buttons, alerts, read more button, quote) they require some extra work by a Faculty Moodle administrator (LMS Administrator, Ed Designers, Teaching Support, eLearning design team) to function correctly as this is not part of the Bootstrap styling guide. The code needed is below, click the button to copy the code. The process for putting this into place can be viewed on the short video walkthrough below.</p>
+                <div class="row w-100">
+            <div class="col-lg mt-2">
+              <h3>Video walkthrough for setting up Monash blue elements</h3>
+              <p>This video will walk you through the steps to use the CSS on the right correctly in your Faculty level category. <strong>N.B.</strong> This requires a staff member with administrator access to Moodle.</p>
+              <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item mt-3" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=bc32c84c-599c-4698-bd8c-ac0601883fb9"></iframe></div>
             </div>
-          <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=bc32c84c-599c-4698-bd8c-ac0601883fb9"></iframe></div>
-          </div>
-        </div>
-      </div></li> 
-            </ol>
-          </div>
-            
-<hr class="hr2" />
-<h3>CSS Reference for Monash themed elements</h3>
+            <div class="col-lg mt-2">
+              <h3>CSS Reference for Monash blue elements</h3>
 <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy the below code &lt;/&gt;" onClick="SelectAll('monElementsLink')"></p>
-<p class="text-left"><textarea readonly class="rounded p-2 w-50" id="monElementsLink" cols="10" rows="18" name="Result">
+<p class="text-left"><textarea readonly class="rounded p-2 w-100" id="monElementsLink" cols="10" rows="18" name="Result">
     <style>
       #inst1234567 {
 box-shadow: none !important;
@@ -215,6 +203,8 @@ margin: 0px !important;
   <p><link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/monashElements.css" /></p>
   <p><link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/artsAccordionStyle.css" /></p></textarea>
 </p>  
+</div>
+
         </div>
         </body>
         </html>
