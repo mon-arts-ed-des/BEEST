@@ -99,39 +99,6 @@
         var popup = document.getElementById("myPopup");
         popup.classList.toggle("showPopup");
     }
-	
-	function activateDeactivateAdvancedMode(newMode){
-  var otherInstr = document.getElementById("allInstructExceptMode")
-  var displayMode = "???";
-  
-  var statusText = "???";
-  var endInstrText = "??!!??";
-  var instrHead = document.getElementById("instrHead")
-  var instrStatus = document.getElementById("instrStatus")
-  var instrEnd = document.getElementById("instrEnd")
-  var buttonOnOff = document.getElementById("buttonOnOff")
-  
-  if (newMode === ON_STATE){
-	$('h5').tooltip('disable'); //hide tooltips
-	statusText = "on" //set button and status text vars
-	endInstrText = ""
-	displayMode = "none" //none meaning hide
-	AdvancedMode = setAdvancedModeInStorage(ON_STATE) // turn *ON* advanced mode
-  }
-  else{
-	$('h5').tooltip('enable'); //show tool tips
-	statusText = "off"
-	endInstrText = " Only do this if you are completely familiar with how to use the tool."
-	displayMode = "block" //block meaning show
-	AdvancedMode = setAdvancedModeInStorage(OFF_STATE) // turn *OFF* advanced mode
-  }
-  
-  instrHead.innerHTML = statusText //update text in tags
-  instrStatus.innerHTML = statusText
-  instrEnd.innerHTML = endInstrText
-  buttonOnOff.innerHTML = statusText
-  otherInstr.style.display = displayMode //set display mode
-}
 
     function submitform()
     {
@@ -271,7 +238,7 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
             </div>
             <h1 class="text-center"><i class="fa fa-fw fa-play-circle-o"></i> Buttons</h1>
-	<span id="allInstructExceptMode">		
+	<span class="hideableinstruct">		
             <h5>The result of this process</h5>
         <p>This process will generate a coloured button element with a link to a URL of your choice.</p>
             <h5>How to use this page</h5>
@@ -297,12 +264,12 @@
     <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
   </div></div></div>
   </span>
-        <h5>Advanced mode - turn <span id="instrHead">off</span> instructions</h5>
+        <h5>Advanced mode - turn <span class="onoffswapinstr">off</span> instructions</h5>
         <div class="row w-100">
           <div class="col-lg">
-        <p>Click this button to turn <span id="instrStatus">off</span> the instructions that appear when you hover over the headings.<span id="instrEnd"> Only do this if you are completely familiar with how to use the tool.</span></p></div>
+        <p>Click this button to turn <span class="onoffswapinstr">off</span> the instructions that appear when you hover over the headings.<span class="hideableinstruct"> Only do this if you are completely familiar with how to use the tool.</span></p></div>
         <div class="col-lg-3"><div class="text-center">
-          <button onclick="flipTooltip()" class="btn btn-mu">Turn <span id="buttonOnOff">off</span> instructions <i class="fa fa-fw fa-power-off"></i></a>
+          <button onclick="flipTooltip()" class="btn btn-mu">Turn <span class="onoffswapinstr">off</span> instructions <i class="fa fa-fw fa-power-off"></i></a>
         </div></div></div>
   <hr class="hr-3">
            <form id="btn">           
