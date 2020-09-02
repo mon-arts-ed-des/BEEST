@@ -306,7 +306,7 @@ function activateDeactivateAdvancedMode(newMode){
 <form id="respVid">   
 <div class="row w-100 mx-auto">
   <div class="col-lg-8 mt-2">
-    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also choose a heading size (step 2) and write a heading (step 3) or the icon will not display.">Step 1 - Select icon</h5>
+    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also choose a heading size (step 2) and write a heading (step 3) or the icon will not display.">Step 1 - Select icon (optional)</h5>
     <select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1">
       <option selected value="noI">No icon</option>
         <option value="1">Video Camera</option>
@@ -317,7 +317,7 @@ function activateDeactivateAdvancedMode(newMode){
   </div>
     <div class="row w-100 mx-auto">
     <div class="col-lg-8 mt-2">
-      <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default.">Step 2 - Heading size</h5>
+      <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default.">Step 2 - Heading size (optional)</h5>
             <select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1">
             <option selected value="noH">No heading</option>
             <option value="h3" class="h3">Size 3</option>
@@ -328,7 +328,7 @@ function activateDeactivateAdvancedMode(newMode){
         </div>     
         <div class="row w-100 mx-auto">
   <div class="col-lg-8 mt-2">
-    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the heading for this video. 50 character maximum.">Step 3 - Heading</h5>
+    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the heading for this video. 50 character maximum.">Step 3 - Heading (optional)</h5>
     <textarea maxlength="50" class="rounded p-2 w-100" rows="1" name="respVid_heading" type="text" id="respVidHeading" placeholder="Type your video heading here"></textarea>
   </div>
 </div>
@@ -343,7 +343,21 @@ function activateDeactivateAdvancedMode(newMode){
             </div> 
             <div class="row w-100 mx-auto">
   <div class="col-lg-8 mt-2">
-    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your video. When you paste the link into this box it will automatically change the link to be the embed link required for the platform you are pasting from this process to work and you will not be able to edit this box.">Step 5 - Paste the link for your video</h5>
+    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your video. Use the buttons below to go to the relative platform. All buttons open their links in a new window. Ensure you view the video at the top of this page about which link to retrieve for your platform of choice. Once you paste your link you will not be able to edit this text box, and to create another video or start from the beginning again, you will need to refresh the page.">Step 5 - Paste the link for your video</h5>
+    <div class="row w-100 mb-2">
+      <div class="col-lg">
+        <a data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="May prompt you to sign in with your Monash credentials." class="btn btn-lg btn-outline-success" href="https://monash.edu/panopto" target="_blank">Panopto</a>
+      </div>
+      <div class="col-lg">
+        <a class="btn btn-lg btn-outline-danger" href="https://youtube.com" target="_blank">YouTube</a>
+      </div>
+      <div class="col-lg">
+        <a class="btn btn-lg btn-outline-dark" href="https://www.ted.com/talks" target="_blank">TED Talks</a>
+      </div>
+      <div class="col-lg">
+        <a class="btn btn-lg btn-outline-info" href="https://vimeo.com/search" target="_blank">Vimeo</a>
+      </div>
+    </div>
     <textarea class="rounded p-2 w-100" rows="1" name="respVid_link" type="text" id="respVidSwitch" placeholder="Paste the Youtube/Panopto/Vimeo/TED Talks video link here"></textarea>
   </div>
   </div>
