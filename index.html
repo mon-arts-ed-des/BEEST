@@ -16,12 +16,19 @@
     
     <!-- external link to js file -->  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <!-- Popper js file to ensure tooltips work consistently and as intended in line with Bootstrap -->
+    <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <!-- Bootstrap js file --> 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- FontAwesome js file --> 
     <script src="https://kit.fontawesome.com/3817feae52.js"></script> 
     <!-- Tinymce js file -->   
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+    <script>
+      $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+  </script>
     <style>
       /* Popup container - can be anything you want */
   #popup {
@@ -81,18 +88,14 @@
 10% {opacity: 1;}
 66% { opacity: 1; }
 }
+.tooltip-inner {
+  text-align: left;
+  padding: 15px;
+  font-size: 1.05rem;
+  max-width: 400px;
+}
   </style> 
-  <script>
-      function SelectAll(id){
-        document.getElementById(id).focus();
-        document.getElementById(id).select();
-        document.execCommand("copy");
-
-        var popup = document.getElementById("myPopup");
-        popup.classList.toggle("showPopup");
-        //window.alert('test');
-    }
-  </script>
+  
        </head>
     <body>
       <nav class="navbar navbar-expand-lg navbar-dark bg-arts mb-3">
@@ -131,11 +134,49 @@
       </nav>
         <div class="container-fluid">
   <h1 class="text-center"><i class="fa fa-fw fa-dragon"></i> BEEST Project</h1>
-  <p>BEEST stands for Bootstrap Enhanced Elements Streamlining Tool. <a href="https://getbootstrap.com/" target="_blank">Bootstrap</a> is the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins This site combines pre-designed HTML code elements with user input to create HTML elements to enhance Moodle site formatting and user experience. Please click on the buttons below to be taken to the page where you can design your desired element. All buttons open in this window and examples of each of the element types can be viewed on each page.</p>
-            <h3><i class="fa fa-fw fa-exclamation-circle"></i>Important caveats</h3>
-<ul>
-    <li>These elements require <a href="https://getbootstrap.com/docs/4.0/getting-started/introduction/" target="_blank">Bootstrap v4.0</a> and up to function. The BEEST pages here are purpose built for use with Moodle 3.7 and upwards to manipulate content to be responsive and inviting to the user.</li> 
-    <li>Some elements (the Monash blue elements) also require a stylesheet reference to function correctly as this is not part of the Bootstrap styling guide. This requires some work from a Faculty Moodle administrator (LMS Administrator, Ed Designers, Teaching Support) The code needed is below, click the button to copy the code. The process for putting this into place can be viewed on <a data-toggle="modal" data-target=".bd-example-modal-lg" href="">this short video</a> (it will open in an overlay on this screen).</p>
+  <h3>What is BEEST?</h3>
+  <p>BEEST stands for <strong>B</strong>ootstrap <strong>E</strong>nhanced <strong>E</strong>lements <strong>S</strong>treamlining <strong>T</strong>ool. BEEST takes your input and combines it with pre-written HTML to create advanced HTML elements without the need for complex HTML skills.</p>
+  <h3>What can BEEST do that nothing else can?</h3>
+  <p>This tool, <strong>when used appropriately</strong>, can create <span class="text-primary font-weight-bold" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="Responsive design means web pages detect the user's screen size and orientation and change the layout accordingly. Therefore the elements here 'respond' to the user's device to work how that person expects them to work on that device.">responsive</span>, consistent, quality HTML elements that improve your Moodle site's user experience (UX) design while also meeting <span class="text-primary font-weight-bold" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="WCAG is the global body that produces guidelines to support making content accessible to a wider range of people with disabilities, including blindness, low vision, deafness, hearing loss, learning disabilities, cognitive limitations, limited movement, speech disabilities, photosensitivity and combinations of these.">WCAG accessibility standards</span>. As technology and the digital learning space continues to develop at a rapid pace, students are now not only expecting meaningful, applied, active learning approaches, they want the experience of interacting with the learning content to be an engaging, clear and easy to operate experience. This is why the BEEST was designed. So often, high-quality teachers and designers use up an incredible amount of time and effort manipulating HTML to make their learning sites a quality <span class="text-primary font-weight-bold" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="User experience encompasses all aspects of the end-user's interaction with the product including usability, clarity of instructions, accessibility, responsivity and formatting.">user experience</span> as well. BEEST can cut the time needed and the skills required to achieve this by a vast amount. This means more time for planning learning content, and more teachers having access to high-level design features they thought were out of reach.</p>
+  <h3>Why use BEEST?</h3> 
+   <p>If you are producing high quality teaching and learning in your Moodle site, and want to take it to the next level for your students, BEEST can help you reformat your existing content, and support a responsive, high-quality end-user learning product.</p>
+   <h3>How do I use BEEST?</h3> 
+   <p>On each of the pages there are step by step instructions on what input you need to provide, and how to manipulate the respective element to produce the final result desired. Each page will also produce a preview. This is so you can take a sneak peek at what you have created before pasting it into Moodle and make and changes you feel are necessary.</p>
+   <hr class="hr2">
+   <h3>Creators and Support</h3>
+<p>Should you require any assistance with the use of the BEEST elements, please email the creators on <a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=beest@monash.edu&su=Question%20about%20BEEST%20tool" target="_blank">beest@monash.edu</a>. The creators and current managers of the BEEST project are:</p>
+<div class="row w-100">
+  <div class="col-lg">
+    <img src="img/tim.png" class="img-fluid" />
+  </div>
+  <div class="col-lg">
+   <p>Timothy Scholl</p>
+   <p>Educational Designer</p>
+   <p>Faculty of Arts</p>
+  </div>
+  <div class="col-lg">
+    <img src="img/matt.png" class="img-fluid" />
+  </div>
+  <div class="col-lg">
+    <p>Matt Chen</p>
+    <p>Educational Designer</p>
+    <p>Faculty of IT</p>
+      </div>
+   <div class="col-lg">
+    <img src="img/phil.png" class="img-fluid" />
+  </div>
+  <div class="col-lg">
+    <p>Phillip Abramson</p>
+    <p>Educational Designer</p>
+    <p>Faculty of IT</p>
+     </div>
+</div>   
+<hr class="hr2">
+   <div class="alert alert-arts rounded">
+  <h3 class="text-center"><i class="fa fa-fw fa-exclamation-circle"></i>Important caveats</h3>
+<ol class="mb-0">
+    <li>These elements require <a href="https://getbootstrap.com/docs/4.0/getting-started/introduction/" target="_blank">Bootstrap v4.0</a> and up to function. If you are using Monash Moodle, this is <span class="text-primary font-weight-bold" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="This means it is already part of the Moodle instance Monash uses and appears on every page in the background, to support responsive, accessible, consistent design across Moodle.">baked in</span> to Moodle, it is not something you need to add to your Moodle site. The BEEST elements available here are purpose built for use with Moodle 3.7 and upwards to manipulate content to be responsive and inviting to the user.</li> 
+    <li>The Monash blue elements (like this alert for example) are the only element types that require some extra work by a Faculty Moodle administrator (LMS Administrator, Ed Designers, Teaching Support, eLearning design team) to function correctly as this is not part of the Bootstrap styling guide. The code needed is below, click the button to copy the code. The process for putting this into place can be viewed on <a data-toggle="modal" data-target=".bd-example-modal-lg" href="">this short video</a> (it will open in an overlay on this screen).</p>
       <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content p-2">
@@ -149,41 +190,13 @@
           </div>
         </div>
       </div></li> 
-            </ul>
-<p>Should you require any assistance with the use of the BEEST tools or have a suggestion on an element you would like added to the suite we have on offer, please email the creators:</p>
-<div class="row w-100">
-  <div class="col-lg">
-    <img src="img/tim.png" class="img-fluid" />
-  </div>
-  <div class="col-lg">
-   <p>Timothy Scholl</p>
-   <p>Educational Designer</p>
-   <p>Faculty of Arts</p>
-   <p><a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=tim.scholl@monash.edu&su=Question%20about%20BEEST%20tool" target="_blank">tim.scholl@monash.edu</a></p>
-  </div>
-  <div class="col-lg">
-    <img src="img/matt.png" class="img-fluid" />
-  </div>
-  <div class="col-lg">
-    <p>Matt Chen</p>
-    <p>Educational Designer</p>
-    <p>Faculty of IT</p>
-    <p><a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=matt.chen@monash.edu&su=Question%20about%20BEEST%20tool" target="_blank">matt.chen@monash.edu</a></p>
-   </div>
-   <div class="col-lg">
-    <img src="img/phil.png" class="img-fluid" />
-  </div>
-  <div class="col-lg">
-    <p>Phil Abramson</p>
-    <p>Educational Designer</p>
-    <p>Faculty of IT</p>
-    <p><a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=phillip.abramson@monash.edu&su=Question%20about%20BEEST%20tool" target="_blank">phillip.abramson@monash.edu</a></p>
-   </div>
-</div>   
+            </ol>
+          </div>
+            
 <hr class="hr2" />
-<h3><i class="fa fa-code"></i> CSS Reference for Monash themed elements</h3>
+<h3>CSS Reference for Monash themed elements</h3>
 <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy the below code &lt;/&gt;" onClick="SelectAll('monElementsLink')"></p>
-<p class="text-center"><textarea readonly class="rounded p-2 w-100" id="monElementsLink" cols="20" rows="16" name="Result" placeholder="Code for your element will appear here.">
+<p class="text-left"><textarea readonly class="rounded p-2 w-50" id="monElementsLink" cols="10" rows="18" name="Result">
     <style>
       #inst1234567 {
 box-shadow: none !important;
@@ -199,7 +212,8 @@ margin: 0px !important;
       color: #fff !important;
     }
   </style>
-  <p><link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/monashElements.css" /></p></textarea>
+  <p><link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/monashElements.css" /></p>
+  <p><link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/artsAccordionStyle.css" /></p></textarea>
 </p>  
         </div>
         </body>
