@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="A simple element creator to generate responsive code that can be easily embbedded into Moodle">
     <meta name="author" content="T&M">
-    <title>BEEST Alerts</title>
+    <title>BEEST Quote</title>
      <link rel="icon" href="https://mon-arts-ed-des.github.io/BEEST/dragon-solid%20favicon.png" type="image/gif">
 
     <!-- external link to css file --> 
@@ -24,6 +24,7 @@
     <script src="https://kit.fontawesome.com/3817feae52.js"></script> 
     <!-- Tinymce js file -->   
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+    <script src="advancedModeLocalStorage.js"></script>
 
     <script type="text/javascript">
    
@@ -180,10 +181,10 @@
               <a class="nav-link" href="beestvideo.html">Responsive Video</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="beestbuttons.html">Buttons</a>
+            <a class="nav-link" href="beestbuttons.html">Button</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="beestalerts.html">Alerts</a>
+              <a class="nav-link" href="beestalerts.html">Alert</a>
             </li>
                <li class="nav-item">
               <a class="nav-link" href="beestpollev.html">Poll Everywhere</a>
@@ -206,7 +207,8 @@
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
     </div>
  <form id="monQuote">
-  <h1 class="text-center"><i class="fa fa-quote-left fa-fw"></i> Quotes <i class="fa fa-quote-right fa-fw"></i></h1>
+  <h1 class="text-center"><i class="fa fa-quote-left fa-fw"></i> Quote <i class="fa fa-quote-right fa-fw"></i></h1>
+  <span class="hideableinstruct">
   <h5>The result of this process</h5>
   <p>This process will combine your input with Font Awesome (icons) and Bootstrap to create prebuilt direct quotes that stand out from your normal text. All you need to do is input your direct quotation and citation.</p>
   <h5>How to use this page</h5>
@@ -230,7 +232,14 @@
   <p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
   <div class="col-lg-3"><div class="text-center">
     <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
-  </div></div></div>
+  </div></div></div></span>
+  <h5>Advanced mode - turn <span class="onoffswapinstr">off</span> instructions</h5>
+        <div class="row w-100">
+          <div class="col-lg">
+        <p>Click this button to turn <span class="onoffswapinstr">off</span> the instructions that appear when you hover over the headings.<span class="hideableinstruct"> Only do this if you are completely familiar with how to use the tool.</span></p></div>
+        <div class="col-lg-3"><div class="text-center">
+          <button onclick="flipTooltip()" class="btn btn-mu">Turn <span class="onoffswapinstr">off</span> instructions <i class="fa fa-fw fa-power-off"></i></a>
+        </div></div></div>
   <hr class="hr-3">
         <div class="row w-100 mx-auto">
           <div class="col-lg-8 mt-2">
@@ -256,7 +265,7 @@
             </div>
             <div class="row w-100 mx-auto">
               <div class="col-lg-8 mt-2">
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the colour of your quote background. Monash blue is chosen by default.">Step 4 - Select alert colour</h5>
+        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the colour of your quote background. Monash blue is chosen by default.">Step 4 - Select background colour</h5>
         <select class="custom-select w-50 border border-dark" id="bgColour" name="bgColour">
             <option class="h5 bg-mu text-white" selected value="1">Monash blue</option>
             <option class="h5 bg-danger text-white" value="2">Red</option>
@@ -278,7 +287,7 @@
     </form>   
     <div class="row w-100 mx-auto mb-3">  
       <div class="col-lg mt-2">
-      <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 5.">Step 6 - Preview quote</h5>
+      <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 5.">Step 6 - Preview</h5>
       </div>  
         </div>
         <div id="demoQuote"></div>
