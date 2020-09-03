@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="A simple element creator to generate responsive code that can be easily embedded into Moodle">
     <meta name="author" content="T&M">
-    <title>BEEST Buttons</title>
+    <title>BEEST Button</title>
      <link rel="icon" href="https://mon-arts-ed-des.github.io/BEEST/dragon-solid%20favicon.png" type="image/gif">
 
     <!-- external link to css file --> 
@@ -34,6 +34,7 @@
         var btnAlign = document.getElementById('buttonAlign').value;
         var faIcon = document.getElementById('faCode').value;
         var bsColour = document.getElementById('btnColour').value;
+        var bsBtnSize = document.getElementById('buttonSize').value;
         var iconNames = {
             "noI":"",
 			      "1":"arrow-right",
@@ -45,6 +46,15 @@
              }
         var iconName = iconNames[faIcon];
 		    var faIconCode = " <i class=\"fa fa-"+iconName+"\"></i>"
+        var buttonSize = {
+          "1":"",
+          "2":" btn-lg ",
+          "3":" btn-sm ",
+          "4":" btn-block ",
+          "5":" btn-lg btn-block ",
+          "6":" btn-sm btn-block ",
+        }
+        var btnSize = buttonSize[bsBtnSize];
         var colourNames = {
 			      "1":"mu",
             "2":"danger",
@@ -53,10 +63,17 @@
             "5":"primary",
             "6":"info", 
             "7":"dark",
-            "8":"secondary"
+            "8":"secondary",
+            "9":"outline-danger",
+            "10":"outline-warning",
+            "11":"outline-success",
+            "12":"outline-primary",
+            "13":"outline-info",
+            "14":"outline-dark",
+            "15":"outline-secondary"
              }
         var colourName = colourNames[bsColour];
-		    var btnClrCode = "<a class=\"btn btn-"+colourName+" rounded btn-default m-1\" role=\"button\" href=\"";
+		    var btnClrCode = "<a class=\"btn btn-"+colourName+""+btnSize+" rounded btn-default m-1\" role=\"button\" href=\"";
 
         if (faIcon == "noI"){
           faIconCode = "";
@@ -99,39 +116,6 @@
         var popup = document.getElementById("myPopup");
         popup.classList.toggle("showPopup");
     }
-	
-	function activateDeactivateAdvancedMode(newMode){
-  var otherInstr = document.getElementById("allInstructExceptMode")
-  var displayMode = "???";
-  
-  var statusText = "???";
-  var endInstrText = "??!!??";
-  var instrHead = document.getElementById("instrHead")
-  var instrStatus = document.getElementById("instrStatus")
-  var instrEnd = document.getElementById("instrEnd")
-  var buttonOnOff = document.getElementById("buttonOnOff")
-  
-  if (newMode === ON_STATE){
-	$('h5').tooltip('disable'); //hide tooltips
-	statusText = "on" //set button and status text vars
-	endInstrText = ""
-	displayMode = "none" //none meaning hide
-	AdvancedMode = setAdvancedModeInStorage(ON_STATE) // turn *ON* advanced mode
-  }
-  else{
-	$('h5').tooltip('enable'); //show tool tips
-	statusText = "off"
-	endInstrText = " Only do this if you are completely familiar with how to use the tool."
-	displayMode = "block" //block meaning show
-	AdvancedMode = setAdvancedModeInStorage(OFF_STATE) // turn *OFF* advanced mode
-  }
-  
-  instrHead.innerHTML = statusText //update text in tags
-  instrStatus.innerHTML = statusText
-  instrEnd.innerHTML = endInstrText
-  buttonOnOff.innerHTML = statusText
-  otherInstr.style.display = displayMode //set display mode
-}
 
     function submitform()
     {
@@ -245,10 +229,10 @@
               <a class="nav-link" href="beestvideo.html">Responsive Video</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="beestbuttons.html">Buttons</a>
+            <a class="nav-link" href="beestbuttons.html">Button</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="beestalerts.html">Alerts</a>
+              <a class="nav-link" href="beestalerts.html">Alert</a>
             </li>
                <li class="nav-item">
               <a class="nav-link" href="beestpollev.html">Poll Everywhere</a>
@@ -271,7 +255,7 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
             </div>
             <h1 class="text-center"><i class="fa fa-fw fa-play-circle-o"></i> Buttons</h1>
-	<span id="allInstructExceptMode">		
+	<span class="hideableinstruct">		
             <h5>The result of this process</h5>
         <p>This process will generate a coloured button element with a link to a URL of your choice.</p>
             <h5>How to use this page</h5>
@@ -297,12 +281,12 @@
     <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
   </div></div></div>
   </span>
-        <h5>Advanced mode - turn <span id="instrHead">off</span> instructions</h5>
+        <h5>Advanced mode - turn <span class="onoffswapinstr">off</span> instructions</h5>
         <div class="row w-100">
           <div class="col-lg">
-        <p>Click this button to turn <span id="instrStatus">off</span> the instructions that appear when you hover over the headings.<span id="instrEnd"> Only do this if you are completely familiar with how to use the tool.</span></p></div>
+        <p>Click this button to turn <span class="onoffswapinstr">off</span> the instructions that appear when you hover over the headings.<span class="hideableinstruct"> Only do this if you are completely familiar with how to use the tool.</span></p></div>
         <div class="col-lg-3"><div class="text-center">
-          <button onclick="flipTooltip()" class="btn btn-mu">Turn <span id="buttonOnOff">off</span> instructions <i class="fa fa-fw fa-power-off"></i></a>
+          <button onclick="flipTooltip()" class="btn btn-mu">Turn <span class="onoffswapinstr">off</span> instructions <i class="fa fa-fw fa-power-off"></i></a>
         </div></div></div>
   <hr class="hr-3">
            <form id="btn">           
@@ -344,9 +328,29 @@
               <option class="h5 bg-info text-white" value="6">Light blue</option>
               <option class="h5 bg-dark text-white" value="7">Black</option>
               <option class="h5 bg-secondary text-dark" value="8">Grey</option>
+              <option class="h5 bg-outline-danger text-dark" value="9">Red outline</option>
+              <option class="h5 bg-outline-warning text-dark" value="10">Yellow outline</option>
+              <option class="h5 bg-outline-success text-dark" value="11">Green outline</option>
+              <option class="h5 bg-outline-primary text-dark" value="12">Dark blue outline</option>
+              <option class="h5 bg-outline-info text-dark" value="13">Light blue outline</option>
+              <option class="h5 bg-outline-dark text-dark" value="14">Black outline</option>
+              <option class="h5 bg-outline-secondary text-dark" value="15">Grey outline</option>
             </select>
           </div>
           </div>
+          <div class="row w-100 mx-auto mt-2">
+            <div class="col-lg-8">
+      <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your button. Regular is chosen by default.">Step 5 - Select button size</h5>
+      <select class="custom-select w-50 border border-dark" id="buttonSize" name="buttonSize">
+          <option selected value="1">Regular</option>
+          <option value="2">Large</option>
+          <option value="3">Small</option>
+          <option value="4">Regular + full width of screen</option>
+          <option value="5">Large + full width of screen</option>
+          <option value="6">Small + full width of screen</option>
+        </select>
+      </div>
+      </div>
           <div class="row w-100 mx-auto mt-2">
         <div class="col-lg-8">
           <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose whether to open link in a new window, or the same window users are on. New window is chosen by default.">Step 5 - New/Same window</h5>

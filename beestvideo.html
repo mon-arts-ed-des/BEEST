@@ -48,24 +48,28 @@
         }
 
         var iconName = iconNames[faIcon];
-		    var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
+		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
+		
         if (faIcon == "noI"){
           faIconCode = "";
         }
+		
+		var resizedHead;
         //Resizing the heading text
-        if (headSize == "noH"){
-        var resizedHead = "";
-        }
-        else if (headSize == "h3"){
-        var resizedHead = head_3+faIconCode+vidHeading+endHead_3;
-        }
-        else if (headSize == "h4"){
-        var resizedHead = head_4+faIconCode+vidHeading+endHead_4;
-        }
-        else if (headSize == "h5"){
-        var resizedHead = head_5+faIconCode+vidHeading+endHead_5;
-        }
-
+		switch(headSize){
+			case "noH":
+				resizedHead = "";
+				break;
+			case "h3":
+				resizedHead = head_3+faIconCode+vidHeading+endHead_3;
+				break;
+			case "h4":
+				resizedHead = head_4+faIconCode+vidHeading+endHead_4;
+				break;
+			case "h5":
+				resizedHead = head_5+faIconCode+vidHeading+endHead_5;
+				break;
+		}
         //window.alert(vPosition);
 
         if (vPosition == "left"){
@@ -101,38 +105,6 @@
   $('[data-toggle="tooltip"]').tooltip()
 })
 
-function activateDeactivateAdvancedMode(newMode){
-  var otherInstr = document.getElementById("allInstructExceptMode")
-  var displayMode = "???";
-  
-  var statusText = "???";
-  var endInstrText = "??!!??";
-  var instrHead = document.getElementById("instrHead")
-  var instrStatus = document.getElementById("instrStatus")
-  var instrEnd = document.getElementById("instrEnd")
-  var buttonOnOff = document.getElementById("buttonOnOff")
-  
-  if (newMode === ON_STATE){
-	$('h5').tooltip('disable'); //hide tooltips
-	statusText = "on" //set button and status text vars
-	endInstrText = ""
-	displayMode = "none" //none meaning hide
-	AdvancedMode = setAdvancedModeInStorage(ON_STATE) // turn *ON* advanced mode
-  }
-  else{
-	$('h5').tooltip('enable'); //show tool tips
-	statusText = "off"
-	endInstrText = " Only do this if you are completely familiar with how to use the tool."
-	displayMode = "block" //block meaning show
-	AdvancedMode = setAdvancedModeInStorage(OFF_STATE) // turn *OFF* advanced mode
-  }
-  
-  instrHead.innerHTML = statusText //update text in tags
-  instrStatus.innerHTML = statusText
-  instrEnd.innerHTML = endInstrText
-  buttonOnOff.innerHTML = statusText
-  otherInstr.style.display = displayMode //set display mode
-}
 
     /* Variable Key
     These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
@@ -243,10 +215,10 @@ function activateDeactivateAdvancedMode(newMode){
           <a class="nav-link" href="beestvideo.html">Responsive Video</a>
         </li>
         <li class="nav-item">
-        <a class="nav-link" href="beestbuttons.html">Buttons</a>
+        <a class="nav-link" href="beestbuttons.html">Button</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="beestalerts.html">Alerts</a>
+          <a class="nav-link" href="beestalerts.html">Alert</a>
         </li>
            <li class="nav-item">
           <a class="nav-link" href="beestpollev.html">Poll Everywhere</a>
@@ -269,7 +241,7 @@ function activateDeactivateAdvancedMode(newMode){
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
     </div>
 <h1 class="text-center"><i class="fa fa-video-camera"></i> Responsive video + context</h1>
-<span id="allInstructExceptMode">
+<span class="hideableinstruct">
 <h5>The result of this process</h5>
         <p>This process will generate a video iframe that is responsive that is side by side with the context for what students can expect to see in the video. A responsive video changes size with the size of the browser window you are in and when the screen gets small enough, the video and text in this combo will 'collapse' underneath one another. This tool will change your video link into the embed link for the respective platform. This tool currently accepts the following video links - Panopto videos/playlists, Youtube, Vimeo, TED talks. <strong>See what link you need to get from each of the platforms on this video to ensure that you produce the elements on this page correctly.</strong></p>
         <h5>How to use this page</h5>
@@ -295,12 +267,12 @@ function activateDeactivateAdvancedMode(newMode){
           <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
         </div></div></div>
 </span>
-        <h5>Advanced mode - turn <span id="instrHead">off</span> instructions</h5>
+        <h5>Advanced mode - turn <span class="onoffswapinstr">off</span> instructions</h5>
         <div class="row w-100">
           <div class="col-lg">
-        <p>Click this button to turn <span id="instrStatus">off</span> the instructions that appear when you hover over the headings.<span id="instrEnd"> Only do this if you are completely familiar with how to use the tool.</span></p></div>
+        <p>Click this button to turn <span class="onoffswapinstr">off</span> the instructions that appear when you hover over the headings.<span class="hideableinstruct"> Only do this if you are completely familiar with how to use the tool.</span></p></div>
         <div class="col-lg-3"><div class="text-center">
-          <button onclick="flipTooltip()" class="btn btn-mu">Turn <span id="buttonOnOff">off</span> instructions <i class="fa fa-fw fa-power-off"></i></a>
+          <button onclick="flipTooltip()" class="btn btn-mu">Turn <span class="onoffswapinstr">off</span> instructions <i class="fa fa-fw fa-power-off"></i></a>
         </div></div></div>
         <hr class="hr-3">
 <form id="respVid">   
@@ -343,14 +315,13 @@ function activateDeactivateAdvancedMode(newMode){
             </div> 
             <div class="row w-100 mx-auto">
   <div class="col-lg-8 mt-2">
-    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your video. Use the buttons below to go to the relative platform. All buttons open their links in a new window. Ensure you view the video at the top of this page about which link to retrieve for your platform of choice. Once you paste your link you will not be able to edit this text box, and to create another video or start from the beginning again, you will need to refresh the page.">Step 5 - Paste the link for your video</h5>
-  
+    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your video. When you paste the link into this box it will automatically change the link to be the embed link required for the platform you are pasting from this process to work and you will not be able to edit this box.">Step 5 - Video link</h5>
     <textarea class="rounded p-2 w-100" rows="1" name="respVid_link" type="text" id="respVidSwitch" placeholder="Paste the Youtube/Panopto/Vimeo/TED Talks video link here"></textarea>
   </div>
   </div>
   <div class="row w-100 mx-auto">
     <div class="col-lg-8 mt-2">
-      <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="It's recommended to have a few sentences or dot points explaining what is in the video students are about to watch. This helps in particular when students are looking back through your site for a specific video where you addressed certain concepts or theories. Instead of watching the entire video, they can read the context you have provided, and decide if they have found what they need without having to watch the entire video.">Step 6 - Write the context for your video</h5>
+      <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="It's recommended to have a few sentences or dot points explaining what is in the video students are about to watch. This helps in particular when students are looking back through your site for a specific video where you addressed certain concepts or theories. Instead of watching the entire video, they can read the context you have provided, and decide if they have found what they need without having to watch the entire video.">Step 6 - Video context</h5>
           <textarea id="tinyMCEvideo" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="respVid_context"></textarea>
       </div>
     </div>
@@ -366,7 +337,7 @@ function activateDeactivateAdvancedMode(newMode){
               </div>
               <div class="row w-100 mb-3 mx-auto">
                 <div class="col-lg mt-2">
-                <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 7.">Step 8 - A preview of your content will appear below</h5>
+                <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 7.">Step 8 - Preview</h5>
                 </div>
               </div>
             </div>          
