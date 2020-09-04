@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A simple element creator to generate responsive code that can be easily embedded into Moodle">
+    <meta name="author" content="T&M">
+    <title>BEEST Tabbed Content</title>
+     <link rel="icon" href="https://mon-arts-ed-des.github.io/BEEST/dragon-solid%20favicon.png" type="image/gif">
+
+    <!-- external link to css file --> 
+    <!-- Bootstrap CSS -->   
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Arts CSS -->  
+    <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/adminPlusSetuBlockStyle.css" />
+    <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/monTabs.css" />
+    <!-- external link to js file -->  
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  
+    <!-- Bootstrap js file --> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- FontAwesome js file --> 
+    <script src="https://kit.fontawesome.com/3817feae52.js"></script> 
+    <!-- Tinymce js file -->   
+    <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+	<script src="advancedModeLocalStorage.js"></script>
+    <script type="text/javascript">
+ 	tinymce.init({
+			selector: '#tinyMCEmonTabContent1',
+			menubar: false,
+			plugins : 'advlist autolink link lists charmap print preview code',
+			  toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code'
+			});
+      tinymce.init({
+			selector: '#tinyMCEmonTabContent2',
+			menubar: false,
+			plugins : 'advlist autolink link lists charmap print preview code',
+			  toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code'
+			});
+      function generateTabbedContentCode() {
+    console.debug(tinyMCE.activeEditor.getContent());
+
+//Retrieve the content by id of the tinyMCE textarea
+    var tabContentCode1 = tinyMCE.get('tinyMCEmonTabContent1').getContent();
+    var tabContentCode2 = tinyMCE.get('tinyMCEmonTabContent2').getContent();
+    var monTabH1 = document.getElementById('monAccTabHeadingTxt1').value;
+    var monTabH2 = document.getElementById('monAccTabHeadingTxt2').value;
+    /*Tab variables*/
+    var num ="1";
+    var monTabHeading_Open = "<div class=\"row w-100 mx-auto\"><div class=\"col-3\"><div class=\"nav monTabs flex-column nav-pills border-arts rounded\" id=\"v-tabs-tab\" role=\"tablist\" aria-orientation=\"vertical\">";
+    var monTabHeading_1 = "<a class=\"nav-link active show\" id=\"tab"+num+"\" data-toggle=\"pill\" href=\"#t"+num+"\" role=\"tab\" aria-controls=\"v-tabs-t"+num+"\" aria-selected=\"true\">"+monTabH1+"</a>";
+    var monTabHeading_2 = "<a class=\"nav-link\" id=\"tab2\" data-toggle=\"pill\" href=\"#t2\" role=\"tab\" aria-controls=\"v-tabs-t2\" aria-selected=\"false\">"+monTabH2+"</a>";
+    var monTabHeading_Close="</div></div>";
+    var monTabContent_Open="<div class=\"col-9\"><div class=\"tab-content border-arts-3 rounded\" id=\"v-tabs-tabContent\">";
+    var monTabContent_1="<div class=\"tab-pane p-3 fade active show\" id=\"t1\" role=\"tabpanel\" aria-labelledby=\"v-tabs-t1-tab\">";
+    var monTabContent_2="<div class=\"tab-pane p-3 fade\" id=\"t2\" role=\"tabpanel\" aria-labelledby=\"v-tabs-t2-tab\">";
+    var monTabContent_Close="</div>";
+    var monTabContent_Final="</div></div></div></div>";
+
+        //Retrieve the content by id of the textareas
+   
+        var textOutputTabbedContent = monTabHeading_Open+monTabHeading_1+monTabHeading_2+monTabHeading_Close+monTabContent_Open+monTabContent_1+tabContentCode1+monTabContent_Close+monTabContent_2+tabContentCode2+monTabContent_Final;
+        document.getElementById('txtareaBtn').innerHTML=textOutputTabbedContent;
+        SelectAll("txtareaBtn");
+        $('#demo').nextAll('div').remove();
+        $('#demo').after(textOutputTabbedContent);
+     
+      }
+        
+    function SelectAll(id){
+        document.getElementById(id).focus();
+        document.getElementById(id).select();
+        document.execCommand("copy");
+        //window.alert('test');
+        var popup = document.getElementById("myPopup");
+        popup.classList.toggle("showPopup");
+    }
+
+    function submitform()
+    {
+        document.forms["myform"].submit();
+    }
+    $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+    /* Variable Key
+    These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
+
+    btnNW = btn open in new window
+    btnSW = btn open in same window
+  
+    */
+    var tabHeadings = "<div class=\"row w-100 mx-auto\"><div class=\"col-3\"><div class=\"nav flex-column nav-pills border-arts text-white rounded\" id=\"v-tabs-tab\" role=\"tablist\" aria-orientation=\"vertical\">";
+    </script>
+    <style>
+    .mce-notification-inner, .mce-close, .mce-notification-warning {
+        display:none !important;
+        }
+
+        /* Popup container - can be anything you want */
+    #popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    }
+
+    /* The actual popup */
+    #popup .popuptext {
+    visibility: hidden;
+    width: 160px;
+    background-color: #222222;
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 12px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -80px;
+    }
+
+    /* Popup arrow */
+    #popup .popuptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #222222 transparent transparent transparent;
+    }
+
+    /* Toggle this class - hide and show the popup */
+    #popup .showPopup {
+    -webkit-animation: fadeinout 3s linear  forwards;
+    animation: fadeinout 3s linear forwards;
+    visibility: visible;
+    }
+
+    /* Add animation (fade in the popup) */
+@-webkit-keyframes fadeinout {
+  0%,100% { opacity: 0; }
+  10% {opacity: 1;}
+  66% { opacity: 1; }
+}
+
+@keyframes fadeinout {
+  0%,100% { opacity: 0; }
+  10% {opacity: 1;}
+  66% { opacity: 1; }
+}
+
+.tooltip-inner {
+  text-align: left;
+  padding: 15px;
+  font-size: 1.05rem;
+  max-width: 280px;
+}
+    </style> 
+
+    </head>
+    <!--Start vertical tabs-->
+    <!--
+<style>
+.monTabs .nav-link:hover {
+  background: #006dae !important;
+  color: white !important;
+}
+.monTabs .nav-link.active {
+  background: #006dae !important;
+  color: white !important;
+}
+.monTabs .nav-link {
+color: #006dae;
+}
+</style>
+-->
+<!--
+<div class="row w-100 mx-auto monTabs">
+<div class="col-3">
+<div class="nav monTabs flex-column nav-pills border-arts text-white rounded" id="v-tabs-tab" role="tablist" aria-orientation="vertical">
+    <a class="nav-link active show" id="tab1" data-toggle="pill" href="#t1" role="tab" aria-controls="v-tabs-t1" aria-selected="true">Appearance</a>
+    <a class="nav-link" id="tab2" data-toggle="pill" href="#t2" role="tab" aria-controls="v-tabs-t2" aria-selected="false">Availability</a>
+    <a class="nav-link" id="tab3" data-toggle="pill" href="#t3" role="tab" aria-controls="v-tabs-t3" aria-selected="false">Flow control</a>
+    <a class="nav-link" id="tab4" data-toggle="pill" href="#t4" role="tab" aria-controls="v-tabs-t4" aria-selected="false">Grade</a>
+    <a class="nav-link" id="tab5" data-toggle="pill" href="#t5" role="tab" aria-controls="v-tabs-t5" aria-selected="false">Common module settings</a>
+    <a class="nav-link" id="tab6" data-toggle="pill" href="#t6" role="tab" aria-controls="v-tabs-t6" aria-selected="false">Restrict access</a>
+    <a class="nav-link" id="tab7" data-toggle="pill" href="#t7" role="tab" aria-controls="v-tabs-t7" aria-selected="false">Activity completion</a>
+    <a class="nav-link" id="tab8" data-toggle="pill" href="#t8" role="tab" aria-controls="v-tabs-t8" aria-selected="false">Tags</a>
+</div>
+</div>
+<div class="col-9">
+<div class="tab-content border-arts-3 rounded" id="v-tabs-tabContent">
+<div class="tab-pane p-3 fade active show" id="t1" role="tabpanel" aria-labelledby="v-tabs-t1-tab">
+</div>
+<div class="tab-pane p-3 fade" id="t2" role="tabpanel" aria-labelledby="v-tabs-t2-tab">
+    <h5>Availability</h5>
+    <div>This setting allows you to dictate when the lesson is available to access within a specified date range.</div>
+    <ul class="mb-0">
+        <li><strong>Available from:</strong> when enabled, select the date you wish the lesson to be available for access. <strong>The lesson will not be accessible prior to that date</strong>.</li>
+        <li><strong>Deadline:</strong> when enabled, <strong>the lesson will no longer be accessible from this date</strong>. </li>
+        <li><strong>Time limit:</strong> enables a countdown timer for completion once the lesson is accessed. Students are given a warning about this at the commencement of the lesson.</li>
+        <li><strong>Password protection:</strong> when enabled, a password is required to access the lesson.</li>
+        </ul>
+</div>
+<div class="tab-pane p-3 fade" id="t3" role="tabpanel" aria-labelledby="v-tabs-t3-tab">
+    <h5>Flow control</h5>
+    <div>This setting allows you to control the way a student moves through the lesson.</div>
+    <ul class="mb-0">
+        <li>Allow student review: gives students the ability to go through the lesson after their first attempt. It's recommended to always switch this on to enable reviewing of content. <strong>If turned off students can only go through the lesson once.</strong></li>
+        <li><strong>Provide option to try a question again:</strong> If enabled, when a question is answered incorrectly, the student is given the option to try it again for no point credit or continue with the lesson. If the student clicks to move on to another question then the selected (wrong) answer will be followed. By default, the wrong answer will then refresh the question page with feedback for the wrong answer.</li>
+        <li><strong>Maximum number of attempts</strong>: This is how many attempts a student is allowed to have before the question is marked as incorrect and the lesson continues automatically. If the lesson is ungraded, it's recommended to set this to three (3) attempts and provide instructions at the beginning of the lesson that this is the case. If the lesson is graded, it is your decision as the lecturer as to how many attempts you allow students in a graded lesson.</li>
+        <li><strong>Action after correct answer:</strong> It is recommended to leave this set to <strong>Normal - follow lesson path</strong>. This is so you can choose where students go to after a correct answer. Changing this setting automatically sends students to another page after a correct answer.</li>
+        <li><strong>Number of pages to show:</strong> This setting specifies the number of pages shown in a lesson. <strong>It is only applicable for lessons with pages shown in a random order</strong> - when <strong>Action after correct answer</strong> is set to <strong>Show an unseen page</strong> or <strong>Show an unanswered page</strong>. If set to zero, then all pages are shown.</li>
+        </ul>
+</div>
+<div class="tab-pane p-3 fade" id="t4" role="tabpanel" aria-labelledby="v-tabs-t4-tab">
+    <h5>Grade</h5>
+    <div>this setting allows you to assign grading functionality to the lesson. These settings will link up with your grade book and <strong>grades are activated by default</strong>. So <strong>if you don't want the lesson to appear in your grade book you must change this to None.</strong> If you choose none, the lesson will not appear in your grade book.</div>
+    <ul class="mb-0">
+        <li><strong>Grade:</strong> If you want to grade the lesson, this is activated by default. You should choose:
+        <ul>
+        <li>The <strong>Type</strong>: Point or scale.</li>
+        <li>The <strong>Maximum grade</strong> if you choose <strong>Point</strong>. This is set from 0-100 marks.</li>
+        <li>The <strong>Scale</strong> <strong>type</strong> if you choose <strong>Scale</strong>. This has several options in a dropdown list which you should investigate to decide on which scale is appropriate for your context.</li>
+        <li><strong>Point is the preferred method if you want to grade,</strong> so that your grade book is consistent and easier to manage, so that it all adds up to 100 points.</li>
+        </ul>
+        </li>
+        <li><strong>Grade category:</strong> if you've setup categories in your grade book, they will appear here in a dropdown list for you to sort your activities feeding into the grade book.</li>
+        <li><strong>Grade to pass:</strong> Set a mark students need to achieve to pass the lesson.</li>
+        <li><strong>Practice lesson:</strong> If this is switched on any grades will not count. If you're grading it is strongly recommended this is switched off.</li>
+        <li><strong>Custom scoring:</strong> If you want to score questions in your own way, turn this on and as you add questions you will score them manually.</li>
+        <li><strong>Re-takes allowed:</strong> If you're grading, it is your personal preference as to whether you turn this on. If switched on, students can redo the lesson multiple times and their last attempt will be the one that counts into the grade book.</li>
+        <li><strong>Minimum number of questions:</strong> this specifies the minimum amount of questions that need to be answered in order to calculate a grade for the lesson.</li>
+        </ul>
+</div>
+<div class="tab-pane p-3 fade" id="t5" role="tabpanel" aria-labelledby="v-tabs-t5-tab">
+    <h5>Common module settings</h5>
+    <div>This setting allows changing the availability of the activity and applying grouping options.</div>
+    <ul class="mb-0">
+        <li><strong>Availability:</strong> This sets the visibility options of the lesson activity (and any other Moodle activity type). You can choose from:
+        <ul>
+        <li><strong>Show on course page:</strong> Students can click on the lesson and access it directly. Default setting. Recommended setting.</li>
+        <li><strong>Hide from students:</strong> Hidden from students on the page and cannot be access by students.</li>
+        <li><strong>Make available but not shown on course page:</strong> The lesson can be linked to, but students cannot access it directly.</li>
+        </ul>
+        </li>
+        <li><strong>ID number:</strong> You can provide a number in Moodle so that the lesson is easily searchable in the backend of Moodle. Not required.</li>
+        <li><strong>Group mode:</strong> This sets whether there are group restrictions. For lessons, there isn't any real effect by applying these settings. See <a href="https://lms.monash.edu/mod/book/view.php?id=7108629&section=2">Groups and Groupings book</a> to understand these settings in detail, but in short:</li>
+        <ul>
+        <li>No groups: no group restrictions on the lesson</li>
+        <li>Visible groups: students can see each other's work, but not respond (has no effect on lessons, students can't see each other's attempts).</li>
+        <li>Separate groups: students can only see work for their group.</li>
+        </ul>
+        <li><strong>Grouping:</strong> The grouping of groups that the restriction in Group mode will apply to.</li>
+        </ul>
+</div>
+<div class="tab-pane p-3 fade" id="t6" role="tabpanel" aria-labelledby="v-tabs-t6-tab">
+    <h5>Restrict access</h5>
+    <div>This setting contains all options for restricting access to the lesson through groups, date ranges, activity completion or a combination of all of these.</div>
+    <ul class="mb-0">
+        <li>Access restrictions: 
+        <ul>
+        <li><strong>Activity completion:</strong> Restrict access on the basis of completing or not completing another activity in the Moodle site.</li>
+        <li><strong>Date:</strong> Restrict access before or after specific dates</li>
+        <li><strong>Grade:</strong> Student must attain a certain grade in another activity to gain access to the lesson</li>
+        <li><strong>Group:</strong> Student must belong to a specific group to gain access to the lesson</li>
+        <li><strong>Grouping:</strong> Student must belong to a specific group within a grouping to gain access to the lesson.</li>
+        <li><strong>Restriction set:</strong> A combination of some or all of the above restrictions.</li>
+        </ul>
+        </li>
+        </ul>
+</div>
+<div class="tab-pane p-3 fade" id="t7" role="tabpanel" aria-labelledby="v-tabs-t7-tab">
+    <h5>Activity completion</h5>
+    <div>This setting allows you to manage how/if the lesson is marked as completed. This will reflect on the Activity Completion Report under Administration > Reports > Activity Completion</div>
+    <ul class="mb-0">
+        <li>Completion tracking: Your options here are -
+        <ul>
+        <li>Do not indicate activity completion - Activity completion is deactivated for the current activity.</li>
+        <li>Students can manually mark the activity completed - A checkbox will appear to the right of each activity or resource this is set for so students can tick it complete; <strong>N.B. This setting rarely results in students actually marking activities and resources as complete.</strong> Setting is not recommended.</li>
+        <li>Show the activity as complete when conditions are met; this changes for each activity type. For lessons your options are:
+        <ul>
+        <li><strong>Student must view this activity to complete it</strong> - Once a student views the first page, the lesson is marked complete. Basic completion, not effective for measuring any engagement as they only have to click into the lesson to be marked complete.</li>
+        <li><strong>Student must receive a grade to complete this activity</strong> - Once a student completes 1 question and receives a grade, the lesson is marked complete. Can be ineffective and if you haven't input any question pages, this will not work.</li>
+        <li><strong>Student must reach the end of lesson page to complete this activity </strong>- Once the student reaches the final end of lesson page that Moodle generates, the lesson is marked complete. A recommended setting to show that a student has clicked through all of the content and question pages of the lesson.</li>
+        <li><strong>Student must do this activity at least for X minutes</strong> - You can indicate a number of minutes a student needs to be inside of the lesson for this to be marked complete. Can be effective if you tell the students the time they are expected to spend in the lesson. Without indicating this, some students will exit before this time is up, and therefore will not be marked complete.</li>
+        </ul>
+        </li>
+        <li><strong>Expect completed on</strong> - You can set a date here, and students will be notified on their Moodle dashboards that the lesson needs to be completed by a certain date and time.</li>
+        </ul>
+        </li>
+        </ul>
+</div>
+<div class="tab-pane p-3 fade" id="t8" role="tabpanel" aria-labelledby="v-tabs-t8-tab">
+    <h5>Tags</h5>
+    <div>This setting is only used if you have tags set up within your unit. Tags can help you search for materials in Moodle, in particular quiz questions, but you can apply this to lessons as well to be able to search them at another point in time.</div>
+</div>
+</div>
+</div>
+</div>
+End of vertical tabs -->
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-arts mb-3">
+      <a class="navbar-brand text-center border border-white p-2 rounded" href="index.html"><img src="dragon-solid-white.png" width="30" height="30" alt=""></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="beestvideo.html">Responsive Video</a>
+          </li>
+          <li class="nav-item">
+          <a class="nav-link" href="beestbuttons.html">Button</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="beestalerts.html">Alert</a>
+          </li>
+             <li class="nav-item">
+            <a class="nav-link" href="beestpollev.html">Poll Everywhere</a>
+          </li>
+             <li class="nav-item">
+            <a class="nav-link" href="beestreadmore.html">Read More Button</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="beestacc.html">Accordion</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="beestquote.html">Quote</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+      <div class="container-fluid">
+        <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
+          <i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle my-auto"></i><div class="h6 mb-0">You can only have one accordion on a page because of the way the HTML works. Please make sure you only produce, copy and paste one accordion per Moodle page maximum. If you try to put two accordions on a page, neither will work correctly.</div>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+          </div>   
+<h1 class="text-center"><i class="fa fa-arrows-v fa-fw"></i>Vertical Tabs</h1>
+<span class="hideableinstruct">  
+<h5>The result of this process</h5>
+<p>This process will generate a set of vertical tabs on the left that alternate content displayed on the right when clicked. Tabbed content can be easily misused.</p>
+<p>
+<ul>
+  <li>Tabs should be used to contain information such as frequently asked questions (FAQs), or putting together important unit information such a Synopsis, Learning Outcomes, Assessment Summary all in the one place. Or as a recap of the important aspects of the content from the lesson/week/topic/module.</li>
+  <li>If they get used on every single page they end up frustrating users who constantly have to click to reveal information.</li>
+  <li>if you put too much information in the content on the right, the user will have to scroll which defeats the purpose of keeping information concise.</li>
+</ul></p>
+<h5>How to use this page</h5>
+<p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. These text editors differ slightly from the other BEEST pages. They allow you to input HTML. So if you want to embed a video or other external content, or even content from another BEEST page (video, alert, button) you can. If you are unsure of how to paste HTML into these text editors or Moodle, <a data-toggle="modal" data-target=".bd-example-modal-lg" href="">this short video will help</a> (it will open in an overlay on this screen).</p>
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content p-2">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe></div>
+    </div>
+  </div>
+</div>
+<h5>Refresh this page if you make an error</h5>
+<div class="row w-100">
+  <div class="col-lg">
+<p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
+<div class="col-lg-3"><div class="text-center">
+  <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
+</div></div></div>
+</span>
+      <h5>Advanced mode - turn <span class="onoffswapinstr">off</span> instructions</h5>
+      <div class="row w-100">
+        <div class="col-lg">
+      <p>Click this button to turn <span class="onoffswapinstr">off</span> the instructions that appear when you hover over the headings.<span class="hideableinstruct"> Only do this if you are completely familiar with how to use the tool.</span></p></div>
+      <div class="col-lg-3"><div class="text-center">
+        <button onclick="flipTooltip()" class="btn btn-mu">Turn <span class="onoffswapinstr">off</span> instructions <i class="fa fa-fw fa-power-off"></i></a>
+      </div></div></div>
+<hr class="hr-3">
+<form id="monTabsForm">
+<div class="row w-100 mx-auto">
+  <div class="col-lg">
+ <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="The page defaults to start with 3 tabs plus their content. If you only need 3 tabs you can skip this step. If you require 4 or more tabs, click the add button below to add more tabs. You can have a maximum of 10, and you can remove tabs to a minimum of 3.">Step 1 - Add/Remove tab + content</h5>
+
+<div class="btn-group btn-group-justified" role="group" id="addMinusButtons">
+<div class="btn-group-lg" role="group">
+<button id="plusbutton" onclick="addSection()" type="button" class="btn btn-success mr-2">Add tab/content <i class="fa fa-fw fa-plus"></i></button>
+</div><div class="btn-group-lg" role="group">
+<button id="minusbutton" style="display:none;" onclick="removeSection()" type="button" class="btn btn-danger">Remove tab/content <i class="fa fa-fw fa-times"></i></button>
+</div>
+</div>
+</div>
+</div>
+<div id="drawerCurrentNumber"></div>
+<div class="row w-100 mx-auto">
+  <div class="col-lg mt-2">
+    <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="This is the text that will appear on the accordion buttons (all text boxes on the left side of screen). This should give users a clear idea of what will appear if the button is clicked. Max length is 50 characters.">Step 2 - Tabs</h5> 
+    <h6>Tab 1</h6>
+    <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button here" id="monAccTabHeadingTxt1"></textarea>
+  </div>
+  <div class="col-lg mt-2">
+      <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="What you input in the box below will appear when the relative accordion button is clicked (all rich text editors on the right of screen). This can include text, lists, videos and externally embedded media. You can click, hold and drag the bottom right corner of these boxes to make them bigger on this screen.">Step 3 - Content</h5>
+      <h6>Content 1</h6>      
+      <textarea id="tinyMCEmonTabContent1" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="monTabContent1"></textarea>
+      </div>
+      </div>
+      <div class="row w-100 mx-auto">
+  <div class="col-lg mt-2">
+    <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="This is the text that will appear on the accordion buttons (all text boxes on the left side of screen). This should give users a clear idea of what will appear if the button is clicked. Max length is 50 characters.">Step 2 - Tabs</h5> 
+    <h6>Tab 2</h6>
+    <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button" id="monAccTabHeadingTxt2"></textarea>
+  </div>
+  <div class="col-lg mt-2">
+      <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="What you input in the box below will appear when the relative accordion button is clicked (all rich text editors on the right of screen). This can include text, lists, videos and externally embedded media. You can click, hold and drag the bottom right corner of these boxes to make them bigger on this screen.">Step 3 - Content</h5>
+      <h6>Content 2</h6>      
+      <textarea id="tinyMCEmonTabContent2" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="monTabContent2"></textarea>
+      </div>
+      </div>
+                     <span id="newAccordArea"></span>   
+    
+<div class="row w-100 mx-auto">
+        <div class="col-lg mt-3">
+      <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 4.">Step 4 - Generate/copy code</h5>
+      <div>
+  <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy code" onClick=generateTabbedContentCode() ></p>
+  </div>
+  <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code for your accordion and copy it to the clipboard."></textarea></p>
+</div>
+</div>
+  <div class="row w-100 mx-auto mt-2 mb-3">
+    <div class="col-lg">
+      <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 3.">Step 5 - Preview</h5>
+      </div>
+      </div>
+  </form>
+  <div id="demo"></div>
+      </body>
+      </html>
