@@ -47,20 +47,31 @@
     var monTabH1 = document.getElementById('monAccTabHeadingTxt1').value;
     var monTabH2 = document.getElementById('monAccTabHeadingTxt2').value;
     /*Tab variables*/
-    var num ="1";
-    var monTabHeading_Open = "<div class=\"row w-100 mx-auto\"><div class=\"col-3\"><div class=\"nav monTabs flex-column nav-pills border-arts rounded\" id=\"v-tabs-tab\" role=\"tablist\" aria-orientation=\"vertical\">";
-    var monTabHeading_1 = "<a class=\"nav-link active show\" id=\"tab"+num+"\" data-toggle=\"pill\" href=\"#t"+num+"\" role=\"tab\" aria-controls=\"v-tabs-t"+num+"\" aria-selected=\"true\">"+monTabH1+"</a>";
-    var monTabHeading_2 = "<a class=\"nav-link\" id=\"tab2\" data-toggle=\"pill\" href=\"#t2\" role=\"tab\" aria-controls=\"v-tabs-t2\" aria-selected=\"false\">"+monTabH2+"</a>";
-    var monTabHeading_Close="</div></div>";
+	
+	const maxTabs = 3 //when to stop creating
+	var currTabs = 2; //representing how many tabs are currently available on the page
+	var tabContentTxt = [,tabContentCode1,tabContentCode2] //an extendible array to hold the text content in any tab
+	var tabHTxt = [,monTabH1,monTabH2] //to hold the heading text for each tab
+	var tabIDs = [,{head:"tab1",cont:"t1"},{head:"tab2",cont:"t2"}] //to hold the IDs we'll assign to the tags
+	var tabHeadingHTMLs = [,,] //to hold the HTML of the headings
+	var tabContentHTMLs = [,,] //to hold the HTML of the content
+	
+    var monTabHeading_1 = "<a class=\"nav-link active show\" id=\""+tabIDs[1].head+"\" data-toggle=\"pill\" href=\"#"+tabIDs[1].cont+"\" role=\"tab\" aria-controls=\"v-tabs-"+tabIDs[1].cont+"\" aria-selected=\"true\">"+tabHTxt[1]+"</a>";
+    var monTabHeading_2 = "<a class=\"nav-link\" id=\""+tabIDs[2].head+"\" data-toggle=\"pill\" href=\"#"+tabIDs[2].cont+"\" role=\"tab\" aria-controls=\"v-tabs-"+tabIDs[2].cont+"\" aria-selected=\"false\">"+tabHTxt[2]+"</a>";
+	var monTabContent_1="<div class=\"tab-pane p-3 fade active show\" id=\""+tabIDs[1].cont+"\" role=\"tabpanel\" aria-labelledby=\"v-tabs-"+tabIDs[1].cont+"-tab\">";
+    var monTabContent_2="<div class=\"tab-pane p-3 fade\" id=\""+tabIDs[2].cont+"\" role=\"tabpanel\" aria-labelledby=\"v-tabs-"+tabIDs[2].cont+"-tab\">";
+    
+	var monTabHeading_Open = "<div class=\"row w-100 mx-auto\"><div class=\"col-3\"><div class=\"nav monTabs flex-column nav-pills border-arts rounded\" id=\"v-tabs-tab\" role=\"tablist\" aria-orientation=\"vertical\">";
+	var monTabHeading_Close="</div></div>";
     var monTabContent_Open="<div class=\"col-9\"><div class=\"tab-content border-arts-3 rounded\" id=\"v-tabs-tabContent\">";
-    var monTabContent_1="<div class=\"tab-pane p-3 fade active show\" id=\"t1\" role=\"tabpanel\" aria-labelledby=\"v-tabs-t1-tab\">";
-    var monTabContent_2="<div class=\"tab-pane p-3 fade\" id=\"t2\" role=\"tabpanel\" aria-labelledby=\"v-tabs-t2-tab\">";
+
     var monTabContent_Close="</div>";
-    var monTabContent_Final="</div></div></div></div>";
+    var monTabContent_Final="</div></div></div>";
 
         //Retrieve the content by id of the textareas
    
-        var textOutputTabbedContent = monTabHeading_Open+monTabHeading_1+monTabHeading_2+monTabHeading_Close+monTabContent_Open+monTabContent_1+tabContentCode1+monTabContent_Close+monTabContent_2+tabContentCode2+monTabContent_Final;
+	//format seems to be heading_open + heading
+	var textOutputTabbedContent = monTabHeading_Open+monTabHeading_1+monTabHeading_2+monTabHeading_Close+monTabContent_Open+monTabContent_1+tabContentCode1+monTabContent_Close+monTabContent_2+tabContentCode2+monTabContent_Close+monTabContent_Final;
         document.getElementById('txtareaBtn').innerHTML=textOutputTabbedContent;
         SelectAll("txtareaBtn");
         $('#demo').nextAll('div').remove();
@@ -429,7 +440,7 @@ End of vertical tabs -->
       <textarea id="tinyMCEmonTabContent2" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="monTabContent2"></textarea>
       </div>
       </div>
-                     <span id="newAccordArea"></span>   
+                     <span id="newTabArea"></span>   
     
 <div class="row w-100 mx-auto">
         <div class="col-lg mt-3">
