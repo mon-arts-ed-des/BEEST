@@ -203,26 +203,13 @@
 	}
 	
     function generatemonAccCode() {
-        /*
-		// Get the HTML contents of the currently active editor
-        console.debug(tinyMCE.activeEditor.getContent());
-        //Retrieve the content by id of the tinyMCE textarea
-        var monAccContent1 = tinyMCE.get('tinyMCEmonAccContent1').getContent();
-        var monAccContent2 = tinyMCE.get('tinyMCEmonAccContent2').getContent();
-        var monAccContent3 = tinyMCE.get('tinyMCEmonAccContent3').getContent();
-        var monAccBtnTxt1 = document.getElementById('monAccBtnTxt1').value;
-        var monAccBtnTxt2 = document.getElementById('monAccBtnTxt2').value;
-        var monAccBtnTxt3 = document.getElementById('monAccBtnTxt3').value;
-		
-		monAccBtnTxt = [,monAccBtnTxt1,monAccBtnTxt2,monAccBtnTxt3];
-		monAccContent = [,monAccContent1,monAccContent2,monAccContent3];
-		*/
-		var IDs = getTextAreas(accordListToIDs(accordiansPostInit))
+       	var IDs = getTextAreas(accordListToIDs(accordiansPostInit))
 		monAccBtnTxt = IDs.btn;
 		monAccContent = IDs.cont;
 		
 		var monAccOutput = monAccStyle
 		
+		// loop over every accordion block
 		for (var secNum = 1; secNum <= accordianSectionsCurr; secNum++){
 			monAccOutput += monAcc_1_opt[secNum] + num[secNum]
 			monAccOutput += monAcc_2 + num[secNum]
@@ -239,26 +226,7 @@
 			
 			monAccOutput += monAccContent[secNum]
 			monAccOutput += monAcc_10
-		} // this is the same thing condensed down into a loop (or it should be -- you'll have to test this)
-		/*
-		var monAccOutput = monAccStyle+
-		
-			monAcc_1+'1'+monAcc_2+'1'+monAcc_3+'1'+monAcc_4+'1'+monAcc_5+'1'+monAcc_6+
-			monAccBtnTxt1+
-			monAcc_7+'1'+monAcc_8+'1'+monAcc_9+
-			monAccContent1+monAcc_10+
-			
-			monAcc_1a+'2'+monAcc_2+'2'+monAcc_3+'2'+monAcc_4+'2'+monAcc_5+'2'+monAcc_6+
-			monAccBtnTxt2+
-			monAcc_7+'2'+monAcc_8a+'2'+monAcc_9+
-			monAccContent2+monAcc_10+
-			
-			monAcc_1a+'3'+monAcc_2+'3'+monAcc_3+'3'+monAcc_4+'3'+monAcc_5+'3'+monAcc_6+
-			monAccBtnTxt3+
-			monAcc_7+'3'+monAcc_8b+'3'+monAcc_9+
-			monAccContent3+monAcc_10;
-		*/ // the above should be equivalent to the below -- broken down into sections for readability and to see where the similarity lies	
-        //var monAccOutput = monAccStyle+monAcc_1+'1'+monAcc_2+'1'+monAcc_3+'1'+monAcc_4+'1'+monAcc_5+'1'+monAcc_6+monAccBtnTxt1+monAcc_7+'1'+monAcc_8+'1'+monAcc_9+monAccContent1+monAcc_10+monAcc_1a+'2'+monAcc_2+'2'+monAcc_3+'2'+monAcc_4+'2'+monAcc_5+'2'+monAcc_6+monAccBtnTxt2+monAcc_7+'2'+monAcc_8a+'2'+monAcc_9+monAccContent2+monAcc_10+monAcc_1a+'3'+monAcc_2+'3'+monAcc_3+'3'+monAcc_4+'3'+monAcc_5+'3'+monAcc_6+monAccBtnTxt3+monAcc_7+'3'+monAcc_8b+'3'+monAcc_9+monAccContent3+monAcc_10;
+		} 
         document.getElementById('monAccCode').innerHTML=monAccOutput;
         SelectAll("monAccCode");
         $('#demo').nextAll('div').remove();
@@ -286,7 +254,7 @@
 
     monAcc = button to toggle extended text
     */
-    var monAccStyle="<link rel=\"stylesheet\" href=\"https://mon-arts-ed-des.github.io/artsmoodlecode/artsAccordionStyle.css\" />"
+	var monAccStyle="<script src='https://code.jquery.com/jquery-3.2.1.slim.min.js' integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN' crossorigin='anonymous'></scrip"+"t><script> $(document).ready(function() {var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://mon-arts-ed-des.github.io/artsmoodlecode/artsAccordionStyle.css'; $('head').append(L);})</scrip"+"t>"
     var monAcc_1="<div id=\"accordion\" class=\"mt-0 w-100 mx-auto\"><div class=\"card border-0\"><div class=\"rounded-top headingStyle text-white card-header p-0\" id=\"head"
     var monAcc_1a="<div id=\"accordion\" class=\"mt-0 w-100 mx-auto\"><div class=\"card border-0\"><div class=\"headingStyle text-white card-header p-0\" id=\"head"
     var monAcc_2="\" data-toggle=\"collapse\" data-target=\"#content"
