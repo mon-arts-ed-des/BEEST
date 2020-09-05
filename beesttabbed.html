@@ -48,7 +48,7 @@
     var monTabH2 = document.getElementById('monAccTabHeadingTxt2').value;
     /*Tab variables*/
 	
-	const maxTabs = 3 //when to stop creating
+	const maxTabs = 10 //when to stop creating - I think min 3 max 10 like accordions is the best for consistency.
 	var currTabs = 2; //representing how many tabs are currently available on the page
 	var tabContentTxt = [,tabContentCode1,tabContentCode2] //an extendible array to hold the text content in any tab
 	var tabHTxt = [,monTabH1,monTabH2] //to hold the heading text for each tab
@@ -71,6 +71,7 @@
         //Retrieve the content by id of the textareas
    
 	//format seems to be heading_open + heading
+  //Tim to Phil - the formula is essentially monTabHeading_Open + monTabHeading_1 (unique as it needs to be active/show) + as many monTabHeading_2's as the user wants up to 10 + monTabHeading_Close on the last heading + monTabContent_Open + monTabContent_1 (unique as it needs to be active/show) + as many monTabContent_2's to match the headings + monTabContent_close after each one + monTabContent_Final on the last Content tinyMCE to close off the element.
 	var textOutputTabbedContent = monTabHeading_Open+monTabHeading_1+monTabHeading_2+monTabHeading_Close+monTabContent_Open+monTabContent_1+tabContentCode1+monTabContent_Close+monTabContent_2+tabContentCode2+monTabContent_Close+monTabContent_Final;
         document.getElementById('txtareaBtn').innerHTML=textOutputTabbedContent;
         SelectAll("txtareaBtn");
@@ -103,7 +104,6 @@
     btnSW = btn open in same window
   
     */
-    var tabHeadings = "<div class=\"row w-100 mx-auto\"><div class=\"col-3\"><div class=\"nav flex-column nav-pills border-arts text-white rounded\" id=\"v-tabs-tab\" role=\"tablist\" aria-orientation=\"vertical\">";
     </script>
     <style>
     .mce-notification-inner, .mce-close, .mce-notification-warning {
