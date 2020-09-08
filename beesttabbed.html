@@ -58,7 +58,7 @@
 		
 		
 		function tabTemplate(tabNum){
-			var result = '<div id='+OUTER_BLOCK_ID_BASE+' class="row w-100 mx-auto"><div class="col-lg mt-2"><h6>Tab '+tabNum+'</h6><textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button" id="'+HEADING_ID_BASE+tabNum+'"></textarea></div><div class="col-lg mt-2"><h6>Content '+tabNum+'</h6><textarea id="'+TINYMCE_ID_BASE+tabNum+'" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="'+INNER_HEADING_ID_BASE+tabNum+'"></textarea></div></div>'
+			var result = '<div id='+OUTER_BLOCK_ID_BASE+tabNum+' class="row w-100 mx-auto"><div class="col-lg mt-2"><h6>Tab '+tabNum+'</h6><textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button" id="'+HEADING_ID_BASE+tabNum+'"></textarea></div><div class="col-lg mt-2"><h6>Content '+tabNum+'</h6><textarea id="'+TINYMCE_ID_BASE+tabNum+'" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="'+INNER_HEADING_ID_BASE+tabNum+'"></textarea></div></div>'
 			return result
 		}
 		
@@ -75,7 +75,24 @@
 				  toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code'
 				});
 			}
-	
+		
+			
+		function showTab(tabNum){
+			var thisouter = getOuterBlock(tabNum)
+			thisouter.style.display=""
+			thisouter[DO_NOT_USE]=undefined
+				
+			getHeadingText(tabNum)[DO_NOT_USE]=undefined
+			getTinyMCEText(tabNum)[DO_NOT_USE]=undefined
+		}
+		function hideTab(tabNum){
+			var thisouter = getOuterBlock(tabNum)
+			thisouter.style.display="none"
+			thisouter[DO_NOT_USE]=true
+				
+			getHeadingText(tabNum)[DO_NOT_USE]=true
+			getTinyMCEText(tabNum)[DO_NOT_USE]=true
+		}
 			
 		function addSection(){
 		/*
@@ -95,12 +112,7 @@
 				createdTabs++
 			}
 			else{
-				var thisouter = getOuterBlock(newVisCount)
-				thisouter.style.display=""
-				thisouter[DO_NOT_USE]=undefined
-				
-				getHeadingText(newVisCount)[DO_NOT_USE]=undefined
-				getTinyMCEText(newVisCount)[DO_NOT_USE]=undefined
+				showTab(newVisCount)
 				visibleTabs++
 			}
 			if (newVisCount >= maxTabs){
@@ -109,7 +121,32 @@
 			if (newVisCount > absoluteMinTab){
 				showButton("minusbutton")
 			}
-		}	
+		}
+
+	function removeSection(){
+		/*
+		hide an existing one (minimum absoluteMinAccord sections)
+		TBC change arrays at end
+		*/
+			if (visibleTabs <= absoluteMinTab){
+				alert("minimum accordion sections reached") //just in case button is still clicked despite being hidden
+				return
+			}
+		
+			var tabToHide = getOuterBlock(visibleTabs)
+			hideTab(visibleTabs)
+		
+			visibleTabs -= 1;
+			if (visibleTabs <= absoluteMinTab)
+			{
+				hideButton("minusbutton")
+			}
+			
+			if (visibleTabs < maxTabs){
+				showButton("plusbutton")
+			}
+			
+		}		
 		
 		function getTinyMCEText(tabNum){
 			return tinyMCE.get(TINYMCE_ID_BASE+tabNum)
