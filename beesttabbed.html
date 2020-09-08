@@ -65,11 +65,10 @@
 	var tabContentTxt = [] //an extendible array to hold the text content in any tab
 	var tabHTxt = [] //to hold the heading text for each tab
 	var tabIDs = [] //to hold the IDs we'll assign to the tags
-	var tabHeadingHTMLs = [,,] //to hold the HTML of the headings
-	var tabContentHTMLs = [,,] //to hold the HTML of the content
 	var moreTabs = true
 
-	for (currTabs = 1; ((currTabs < maxTabs) && (moreTabs)); currTabs++){
+	currTabs = 1;
+	while ((currTabs < maxTabs) && (moreTabs)){
 	//repeat until we've captured all of the tabs in the page (currTabs becomes maxTabs OR it breaks not finding one)
 		try{
 			//put the content/value/ids into this spot in the array
@@ -77,17 +76,31 @@
 			//assumes each follow the same ID format
 			tabHTxt[currTabs] = document.getElementById('monAccTabHeadingTxt'+currTabs).value
 			tabIDs[currTabs] = {head:"tab"+currTabs, cont:"t"+currTabs}
+			currTabs++;
 		}
 		catch (error){ //technically this is poor practice as I haven't identified the likely error
 			moreTabs = false; //if it breaks from not finding the tabs then trigger to stop the loop
+			currTabs-- //as we increased it to an invalid point
 		}
+	}
+	
+	var tabHeadingHTMLs = [] //to hold the HTML of the headings
+	var tabContentHTMLs = [] //to hold the HTML of the content
+	//looping to generate the headings1,2,etc. and content1,2,etc.
+	for (var headContI=1;headContI<=currTabs;headContI++){
+		tabHeadingHTMLs[headContI] = "<a class=\"nav-link "
+		if (headContI==1){//only for the first one
+			tabHeadingHTMLs[headContI]+="active show"
+		}
+		tabHeadingHTMLs[headContI]+="\" id=\""+tabIDs[headContI].head+"\" data-toggle=\"pill\" href=\"#"+tabIDs[headContI].cont+"\" role=\"tab\" aria-controls=\"v-tabs-"+tabIDs[headContI].cont+"\" aria-selected=\""
+		tabHeadingHTMLs[headContI]+=(headContI==1)+"\">"+tabHTxt[headContI]+"</a>"; //instead of if x==1 --> y=true we can say y=(x==1)
 	}
 
   //Heading variables
   var monTabHeading_Open = "<div class=\"row w-100 mx-auto mb-3\"><div class=\"col-3\"><div class=\"nav monTabs flex-column nav-pills border-arts rounded\" id=\"v-tabs-tab\" role=\"tablist\" aria-orientation=\"vertical\">";
-    var monTabHeading_1 = "<a class=\"nav-link active show\" id=\""+tabIDs[1].head+"\" data-toggle=\"pill\" href=\"#"+tabIDs[1].cont+"\" role=\"tab\" aria-controls=\"v-tabs-"+tabIDs[1].cont+"\" aria-selected=\"true\">"+tabHTxt[1]+"</a>";
-    var monTabHeading_2 = "<a class=\"nav-link\" id=\""+tabIDs[2].head+"\" data-toggle=\"pill\" href=\"#"+tabIDs[2].cont+"\" role=\"tab\" aria-controls=\"v-tabs-"+tabIDs[2].cont+"\" aria-selected=\"false\">"+tabHTxt[2]+"</a>";
-    var monTabHeading_3 = "<a class=\"nav-link\" id=\""+tabIDs[3].head+"\" data-toggle=\"pill\" href=\"#"+tabIDs[3].cont+"\" role=\"tab\" aria-controls=\"v-tabs-"+tabIDs[3].cont+"\" aria-selected=\"false\">"+tabHTxt[3]+"</a>";
+    //var monTabHeading_1 = "<a class=\"nav-link active show\" id=\""+tabIDs[1].head+"\" data-toggle=\"pill\" href=\"#"+tabIDs[1].cont+"\" role=\"tab\" aria-controls=\"v-tabs-"+tabIDs[1].cont+"\" aria-selected=\"true\">"+tabHTxt[1]+"</a>";
+    //var monTabHeading_2 = "<a class=\"nav-link\" id=\""+tabIDs[2].head+"\" data-toggle=\"pill\" href=\"#"+tabIDs[2].cont+"\" role=\"tab\" aria-controls=\"v-tabs-"+tabIDs[2].cont+"\" aria-selected=\"false\">"+tabHTxt[2]+"</a>";
+    //var monTabHeading_3 = "<a class=\"nav-link\" id=\""+tabIDs[3].head+"\" data-toggle=\"pill\" href=\"#"+tabIDs[3].cont+"\" role=\"tab\" aria-controls=\"v-tabs-"+tabIDs[3].cont+"\" aria-selected=\"false\">"+tabHTxt[3]+"</a>";
     var monTabHeading_Close="</div></div>";
   //Content variables
 	  var monTabContent_1="<div class=\"tab-pane p-3 fade active show\" id=\""+tabIDs[1].cont+"\" role=\"tabpanel\" aria-labelledby=\"v-tabs-"+tabIDs[1].cont+"-tab\">";
@@ -101,7 +114,7 @@
    
 	//format seems to be heading_open + heading
   //Tim to Phil - the formula is essentially monTabHeading_Open + monTabHeading_1 (unique as it needs to be active/show) + as many monTabHeading_2's as the user wants up to 10 + monTabHeading_Close on the last heading + monTabContent_Open + monTabContent_1 (unique as it needs to be active/show) + as many monTabContent_2's to match the headings + monTabContent_close after each one + monTabContent_Final on the last Content tinyMCE to close off the element.
-	var textOutputTabbedContent = monTabHeading_Open+monTabHeading_1+monTabHeading_2+monTabHeading_3+monTabHeading_Close+monTabContent_Open+monTabContent_1+tabContentTxt[1]+monTabContent_Close+monTabContent_2+tabContentTxt[2]+monTabContent_Close+monTabContent_3+tabContentTxt[3]+monTabContent_Final;
+	var textOutputTabbedContent = monTabHeading_Open+tabHeadingHTMLs[1]+tabHeadingHTMLs[2]+tabHeadingHTMLs[3]+monTabHeading_Close+monTabContent_Open+monTabContent_1+tabContentTxt[1]+monTabContent_Close+monTabContent_2+tabContentTxt[2]+monTabContent_Close+monTabContent_3+tabContentTxt[3]+monTabContent_Final;
         document.getElementById('txtareaBtn').innerHTML=textOutputTabbedContent;
         SelectAll("txtareaBtn");
         $('#demo').nextAll('div').remove();
