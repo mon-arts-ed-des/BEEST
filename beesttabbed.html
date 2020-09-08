@@ -33,6 +33,7 @@
 	const INNER_HEADING_ID_BASE = "monTabContent"
 	const OUTER_BLOCK_ID_BASE = "outerblock"
 	const DO_NOT_USE = "DO_NOT_USE"
+	const COUNTER_ID="tabCounter"
 	const absoluteMinTab = 3;
 	
  	tinymce.init({
@@ -54,6 +55,7 @@
 				createdTabs++
 				visibleTabs++
 			}
+			updatePageCounter(COUNTER_ID,visibleTabs)
 		})
 		
 		
@@ -110,10 +112,12 @@
 				addTab(newVisCount)
 				visibleTabs++
 				createdTabs++
+				updatePageCounter(COUNTER_ID,visibleTabs)
 			}
 			else{
 				showTab(newVisCount)
 				visibleTabs++
+				updatePageCounter(COUNTER_ID,visibleTabs)
 			}
 			if (newVisCount >= maxTabs){
 				hideButton("plusbutton")
@@ -137,6 +141,7 @@
 			hideTab(visibleTabs)
 		
 			visibleTabs -= 1;
+			updatePageCounter(COUNTER_ID,visibleTabs)
 			if (visibleTabs <= absoluteMinTab)
 			{
 				hideButton("minusbutton")
@@ -262,6 +267,10 @@
         var popup = document.getElementById("myPopup");
         popup.classList.toggle("showPopup");
     }
+
+	function updatePageCounter(ID,currCounter){
+		document.getElementById(ID).innerHTML = currCounter;
+	}
 
     function submitform()
     {
@@ -581,6 +590,7 @@ End of vertical tabs -->
  <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="The page defaults to start with 3 tabs plus their content. If you only need 3 tabs you can skip this step. If you require 4 or more tabs, click the add button below to add more tabs. You can have a maximum of 10, and you can remove tabs to a minimum of 3.">Step 1 - Add/Remove tab + content</h5>
 
 <div class="btn-group btn-group-justified" role="group" id="addMinusButtons">
+<span style="font-size:35px" id="tabCounter">0</span>
 <div class="btn-group-lg" role="group">
 <button id="plusbutton" onclick="addSection()" type="button" class="btn btn-success mr-2">Add tab/content <i class="fa fa-fw fa-plus"></i></button>
 </div><div class="btn-group-lg" role="group">
