@@ -70,17 +70,19 @@
 	currTabs = 1;
 	while ((currTabs < maxTabs) && (moreTabs)){
 	//repeat until we've captured all of the tabs in the page (currTabs becomes maxTabs OR it breaks not finding one)
-		try{
+		var tinyObj = tinyMCE.get('tinyMCEmonTabContent'+currTabs)
+		var headingObj = document.getElementById('monAccTabHeadingTxt'+currTabs)
+		//assumes each follow the same ID format
+		if ((tinyObj == null)||(headingObj == null)){ // stop looping if one couldn't find the id
+			moreTabs = false
+			currTabs--; //to cancel out advancing one too far and discovering no tabbed area
+		}
+		else{
 			//put the content/value/ids into this spot in the array
-			tabContentTxt[currTabs] = tinyMCE.get('tinyMCEmonTabContent'+currTabs).getContent()
-			//assumes each follow the same ID format
-			tabHTxt[currTabs] = document.getElementById('monAccTabHeadingTxt'+currTabs).value
+			tabContentTxt[currTabs] = tinyObj.getContent()
+			tabHTxt[currTabs] = headingObj.value
 			tabIDs[currTabs] = {head:"tab"+currTabs, cont:"t"+currTabs}
 			currTabs++;
-		}
-		catch (error){ //technically this is poor practice as I haven't identified the likely error
-			moreTabs = false; //if it breaks from not finding the tabs then trigger to stop the loop
-			currTabs-- //as we increased it to an invalid point
 		}
 	}
 	
