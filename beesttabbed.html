@@ -38,33 +38,43 @@
 			plugins : 'advlist autolink link lists charmap print preview code',
 			  toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code'
 			});
+      tinymce.init({
+			selector: '#tinyMCEmonTabContent3',
+			menubar: false,
+			plugins : 'advlist autolink link lists charmap print preview code',
+			  toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code'
+			});
       function generateTabbedContentCode() {
     console.debug(tinyMCE.activeEditor.getContent());
 
 //Retrieve the content by id of the tinyMCE textarea
     var tabContentCode1 = tinyMCE.get('tinyMCEmonTabContent1').getContent();
     var tabContentCode2 = tinyMCE.get('tinyMCEmonTabContent2').getContent();
+    var tabContentCode3 = tinyMCE.get('tinyMCEmonTabContent3').getContent();
     var monTabH1 = document.getElementById('monAccTabHeadingTxt1').value;
     var monTabH2 = document.getElementById('monAccTabHeadingTxt2').value;
+    var monTabH3 = document.getElementById('monAccTabHeadingTxt3').value;
     /*Tab variables*/
 	
 	const maxTabs = 10 //when to stop creating - I think min 3 max 10 like accordions is the best for consistency.
 	var currTabs = 2; //representing how many tabs are currently available on the page
 	var tabContentTxt = [,tabContentCode1,tabContentCode2] //an extendible array to hold the text content in any tab
-	var tabHTxt = [,monTabH1,monTabH2] //to hold the heading text for each tab
-	var tabIDs = [,{head:"tab1",cont:"t1"},{head:"tab2",cont:"t2"}] //to hold the IDs we'll assign to the tags
+	var tabHTxt = [,monTabH1,monTabH2,monTabH3] //to hold the heading text for each tab
+	var tabIDs = [,{head:"tab1",cont:"t1"},{head:"tab2",cont:"t2"},{head:"tab3",cont:"t3"}] //to hold the IDs we'll assign to the tags
 	var tabHeadingHTMLs = [,,] //to hold the HTML of the headings
 	var tabContentHTMLs = [,,] //to hold the HTML of the content
-	
+
+  //Heading variables
+  var monTabHeading_Open = "<div class=\"row w-100 mx-auto\"><div class=\"col-3\"><div class=\"nav monTabs flex-column nav-pills border-arts rounded\" id=\"v-tabs-tab\" role=\"tablist\" aria-orientation=\"vertical\">";
     var monTabHeading_1 = "<a class=\"nav-link active show\" id=\""+tabIDs[1].head+"\" data-toggle=\"pill\" href=\"#"+tabIDs[1].cont+"\" role=\"tab\" aria-controls=\"v-tabs-"+tabIDs[1].cont+"\" aria-selected=\"true\">"+tabHTxt[1]+"</a>";
     var monTabHeading_2 = "<a class=\"nav-link\" id=\""+tabIDs[2].head+"\" data-toggle=\"pill\" href=\"#"+tabIDs[2].cont+"\" role=\"tab\" aria-controls=\"v-tabs-"+tabIDs[2].cont+"\" aria-selected=\"false\">"+tabHTxt[2]+"</a>";
-	var monTabContent_1="<div class=\"tab-pane p-3 fade active show\" id=\""+tabIDs[1].cont+"\" role=\"tabpanel\" aria-labelledby=\"v-tabs-"+tabIDs[1].cont+"-tab\">";
+    var monTabHeading_3 = "<a class=\"nav-link\" id=\""+tabIDs[3].head+"\" data-toggle=\"pill\" href=\"#"+tabIDs[3].cont+"\" role=\"tab\" aria-controls=\"v-tabs-"+tabIDs[3].cont+"\" aria-selected=\"false\">"+tabHTxt[3]+"</a>";
+    var monTabHeading_Close="</div></div>";
+  //Content variables
+	  var monTabContent_1="<div class=\"tab-pane p-3 fade active show\" id=\""+tabIDs[1].cont+"\" role=\"tabpanel\" aria-labelledby=\"v-tabs-"+tabIDs[1].cont+"-tab\">";
     var monTabContent_2="<div class=\"tab-pane p-3 fade\" id=\""+tabIDs[2].cont+"\" role=\"tabpanel\" aria-labelledby=\"v-tabs-"+tabIDs[2].cont+"-tab\">";
-    
-	var monTabHeading_Open = "<div class=\"row w-100 mx-auto\"><div class=\"col-3\"><div class=\"nav monTabs flex-column nav-pills border-arts rounded\" id=\"v-tabs-tab\" role=\"tablist\" aria-orientation=\"vertical\">";
-	var monTabHeading_Close="</div></div>";
+    var monTabContent_3="<div class=\"tab-pane p-3 fade\" id=\""+tabIDs[3].cont+"\" role=\"tabpanel\" aria-labelledby=\"v-tabs-"+tabIDs[3].cont+"-tab\">";
     var monTabContent_Open="<div class=\"col-9\"><div class=\"tab-content border-arts-3 rounded\" id=\"v-tabs-tabContent\">";
-
     var monTabContent_Close="</div>";
     var monTabContent_Final="</div></div></div>";
 
@@ -72,7 +82,7 @@
    
 	//format seems to be heading_open + heading
   //Tim to Phil - the formula is essentially monTabHeading_Open + monTabHeading_1 (unique as it needs to be active/show) + as many monTabHeading_2's as the user wants up to 10 + monTabHeading_Close on the last heading + monTabContent_Open + monTabContent_1 (unique as it needs to be active/show) + as many monTabContent_2's to match the headings + monTabContent_close after each one + monTabContent_Final on the last Content tinyMCE to close off the element.
-	var textOutputTabbedContent = monTabHeading_Open+monTabHeading_1+monTabHeading_2+monTabHeading_Close+monTabContent_Open+monTabContent_1+tabContentCode1+monTabContent_Close+monTabContent_2+tabContentCode2+monTabContent_Close+monTabContent_Final;
+	var textOutputTabbedContent = monTabHeading_Open+monTabHeading_1+monTabHeading_2+monTabHeading_3+monTabHeading_Close+monTabContent_Open+monTabContent_1+tabContentCode1+monTabContent_Close+monTabContent_2+tabContentCode2+monTabContent_Close+monTabContent_3+tabContentCode3+monTabContent_Final;
         document.getElementById('txtareaBtn').innerHTML=textOutputTabbedContent;
         SelectAll("txtareaBtn");
         $('#demo').nextAll('div').remove();
@@ -440,13 +450,13 @@ End of vertical tabs -->
       </div>
       <div class="row w-100 mx-auto">
         <div class="col-lg mt-2">
-          <h6>Tab 2</h6>
-          <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button" id="monAccTabHeadingTxt2"></textarea>
+          <h6>Tab 3</h6>
+          <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button" id="monAccTabHeadingTxt3"></textarea>
         </div>
         <div class="col-lg mt-2">
     
-            <h6>Content 2</h6>      
-            <textarea id="tinyMCEmonTabContent2" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="monTabContent2"></textarea>
+            <h6>Content 3</h6>      
+            <textarea id="tinyMCEmonTabContent3" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="monTabContent3"></textarea>
             </div>
             </div>
                      <span id="newTabArea"></span>   
