@@ -104,21 +104,29 @@
 	}
 
   //Heading variables
-  var monTabHeading_Open = "<div class=\"row w-100 mx-auto mb-3\"><div class=\"col-3\"><div class=\"nav monTabs flex-column nav-pills border-arts rounded\" id=\"v-tabs-tab\" role=\"tablist\" aria-orientation=\"vertical\">";
+	var monTabHeading_Open = "<div class=\"row w-100 mx-auto mb-3\"><div class=\"col-3\"><div class=\"nav monTabs flex-column nav-pills border-arts rounded\" id=\"v-tabs-tab\" role=\"tablist\" aria-orientation=\"vertical\">";
     var monTabHeading_Close="</div></div>";
   //Content variables
-	 /* var monTabContent_1="<div class=\"tab-pane p-3 fade active show\" id=\""+tabIDs[1].cont+"\" role=\"tabpanel\" aria-labelledby=\"v-tabs-"+tabIDs[1].cont+"-tab\">";
-    var monTabContent_2="<div class=\"tab-pane p-3 fade\" id=\""+tabIDs[2].cont+"\" role=\"tabpanel\" aria-labelledby=\"v-tabs-"+tabIDs[2].cont+"-tab\">";
-    var monTabContent_3="<div class=\"tab-pane p-3 fade\" id=\""+tabIDs[3].cont+"\" role=\"tabpanel\" aria-labelledby=\"v-tabs-"+tabIDs[3].cont+"-tab\">";*/
     var monTabContent_Open="<div class=\"col-9\"><div class=\"tab-content border-arts-3 rounded\" id=\"v-tabs-tabContent\">";
     var monTabContent_Close="</div>";
-    var monTabContent_Final="</div></div></div>";
+    var monTabContent_Final="</div></div>";//triple div close to double div close and the final product can stop with +close+final instead of +final to simplify looping
 
         //Retrieve the content by id of the textareas
-   
-	//format seems to be heading_open + heading
-  //Tim to Phil - the formula is essentially monTabHeading_Open + monTabHeading_1 (unique as it needs to be active/show) + as many monTabHeading_2's as the user wants up to 10 + monTabHeading_Close on the last heading + monTabContent_Open + monTabContent_1 (unique as it needs to be active/show) + as many monTabContent_2's to match the headings + monTabContent_close after each one + monTabContent_Final on the last Content tinyMCE to close off the element.
-	var textOutputTabbedContent = monTabHeading_Open+tabHeadingHTMLs[1]+tabHeadingHTMLs[2]+tabHeadingHTMLs[3]+monTabHeading_Close+monTabContent_Open+tabContentHTMLs[1]+tabContentTxt[1]+monTabContent_Close+tabContentHTMLs[2]+tabContentTxt[2]+monTabContent_Close+tabContentHTMLs[3]+tabContentTxt[3]+monTabContent_Final;
+   	var textOutputTabbedContent = monTabHeading_Open
+	
+	for (var headingIndex=1;headingIndex<=currTabs;headingIndex++){
+		textOutputTabbedContent+=tabHeadingHTMLs[headingIndex]
+	} //add in as many tabHeadingHTMLs as there are
+	
+	textOutputTabbedContent+=monTabHeading_Close+monTabContent_Open //add the close and open for the contents of the tab
+	
+	for (var contentIndex=1;contentIndex<=currTabs;contentIndex++){
+		textOutputTabbedContent+=tabContentHTMLs[contentIndex]+tabContentTxt[contentIndex]+monTabContent_Close
+		//add in tabhtml + contents of tab + close the tab's html
+	}
+	textOutputTabbedContent+=monTabContent_Final //close the html (double div end instead of triple as _Close includes a div end)
+	
+	
         document.getElementById('txtareaBtn').innerHTML=textOutputTabbedContent;
         SelectAll("txtareaBtn");
         $('#demo').nextAll('div').remove();
