@@ -24,7 +24,7 @@
     <script src="https://kit.fontawesome.com/3817feae52.js"></script> 
     <!-- Tinymce js file -->   
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
-
+	<script src="advancedModeLocalStorage.js"></script>
     <script type="text/javascript">
       tinymce.init({
         selector: '#cardText',
@@ -206,7 +206,8 @@
       </div>
    <form id="monCard">
     <h1 class="text-center"><i class="fa fa-id-card-o fa-fw"></i> Cards</h1>
-    <h5><i class="fa fa-fw fa-flag-checkered"></i> The result of this process</h5>
+    <span class="hideableinstruct">  
+	<h5><i class="fa fa-fw fa-flag-checkered"></i> The result of this process</h5>
     <p>The intention for this element is to contain important information and make it stand out like learning outcomes or lecturer contact details. When using Bootstrap cards, we have pre-coded them to format in a certain manner. One card will be centred on the page and half the width of the screen. Two or more cards will take up equal width on the screen, i.e. Two cards will be half the width of the screen and 3 cards a 1/3 of the width of the screen each.</p>
     <h5><i class="fa fa-fw fa-list-ol"></i> How to use this page</h5>
     <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle, <a data-toggle="modal" data-target=".bd-example-modal-lg" href="">this short video will help</a> (it will open in an overlay on this screen).</p>
@@ -230,6 +231,14 @@
     <div class="col-lg-3"><div class="text-center">
       <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
     </div></div></div>
+	</span>
+        <h5>Advanced mode - turn <span class="onoffswapinstr">off</span> instructions</h5>
+        <div class="row w-100">
+          <div class="col-lg">
+        <p>Click this button to turn <span class="onoffswapinstr">off</span> the instructions that appear when you hover over the headings.<span class="hideableinstruct"> Only do this if you are completely familiar with how to use the tool.</span></p></div>
+        <div class="col-lg-3"><div class="text-center">
+          <button onclick="flipTooltip()" class="btn btn-mu">Turn <span class="onoffswapinstr">off</span> instructions <i class="fa fa-fw fa-power-off"></i></a>
+        </div></div></div>
     <hr class="hr-3">
           <div class="row w-100 mx-auto text-center">
             <div class="col-lg mt-3">
