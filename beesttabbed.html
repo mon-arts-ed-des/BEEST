@@ -44,25 +44,44 @@
 			plugins : 'advlist autolink link lists charmap print preview code',
 			  toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code'
 			});
+			
+			
       function generateTabbedContentCode() {
     console.debug(tinyMCE.activeEditor.getContent());
 
 //Retrieve the content by id of the tinyMCE textarea
+/*
     var tabContentCode1 = tinyMCE.get('tinyMCEmonTabContent1').getContent();
     var tabContentCode2 = tinyMCE.get('tinyMCEmonTabContent2').getContent();
     var tabContentCode3 = tinyMCE.get('tinyMCEmonTabContent3').getContent();
     var monTabH1 = document.getElementById('monAccTabHeadingTxt1').value;
     var monTabH2 = document.getElementById('monAccTabHeadingTxt2').value;
     var monTabH3 = document.getElementById('monAccTabHeadingTxt3').value;
+*/ // not necessary to have separate manual variables when captured using loop and array
     /*Tab variables*/
 	
 	const maxTabs = 10 //when to stop creating - I think min 3 max 10 like accordions is the best for consistency.
 	var currTabs = 2; //representing how many tabs are currently available on the page
-	var tabContentTxt = [,tabContentCode1,tabContentCode2] //an extendible array to hold the text content in any tab
-	var tabHTxt = [,monTabH1,monTabH2,monTabH3] //to hold the heading text for each tab
-	var tabIDs = [,{head:"tab1",cont:"t1"},{head:"tab2",cont:"t2"},{head:"tab3",cont:"t3"}] //to hold the IDs we'll assign to the tags
+	var tabContentTxt = [] //an extendible array to hold the text content in any tab
+	var tabHTxt = [] //to hold the heading text for each tab
+	var tabIDs = [] //to hold the IDs we'll assign to the tags
 	var tabHeadingHTMLs = [,,] //to hold the HTML of the headings
 	var tabContentHTMLs = [,,] //to hold the HTML of the content
+	var moreTabs = true
+
+	for (currTabs = 1; ((currTabs < maxTabs) && (moreTabs)); currTabs++){
+	//repeat until we've captured all of the tabs in the page (currTabs becomes maxTabs OR it breaks not finding one)
+		try{
+			//put the content/value/ids into this spot in the array
+			tabContentTxt[currTabs] = tinyMCE.get('tinyMCEmonTabContent'+currTabs).getContent()
+			//assumes each follow the same ID format
+			tabHTxt[currTabs] = document.getElementById('monAccTabHeadingTxt'+currTabs).value
+			tabIDs[currTabs] = {head:"tab"+currTabs, cont:"t"+currTabs}
+		}
+		catch (error){ //technically this is poor practice as I haven't identified the likely error
+			moreTabs = false; //if it breaks from not finding the tabs then trigger to stop the loop
+		}
+	}
 
   //Heading variables
   var monTabHeading_Open = "<div class=\"row w-100 mx-auto mb-3\"><div class=\"col-3\"><div class=\"nav monTabs flex-column nav-pills border-arts rounded\" id=\"v-tabs-tab\" role=\"tablist\" aria-orientation=\"vertical\">";
@@ -82,7 +101,7 @@
    
 	//format seems to be heading_open + heading
   //Tim to Phil - the formula is essentially monTabHeading_Open + monTabHeading_1 (unique as it needs to be active/show) + as many monTabHeading_2's as the user wants up to 10 + monTabHeading_Close on the last heading + monTabContent_Open + monTabContent_1 (unique as it needs to be active/show) + as many monTabContent_2's to match the headings + monTabContent_close after each one + monTabContent_Final on the last Content tinyMCE to close off the element.
-	var textOutputTabbedContent = monTabHeading_Open+monTabHeading_1+monTabHeading_2+monTabHeading_3+monTabHeading_Close+monTabContent_Open+monTabContent_1+tabContentCode1+monTabContent_Close+monTabContent_2+tabContentCode2+monTabContent_Close+monTabContent_3+tabContentCode3+monTabContent_Final;
+	var textOutputTabbedContent = monTabHeading_Open+monTabHeading_1+monTabHeading_2+monTabHeading_3+monTabHeading_Close+monTabContent_Open+monTabContent_1+tabContentTxt[1]+monTabContent_Close+monTabContent_2+tabContentTxt[2]+monTabContent_Close+monTabContent_3+tabContentTxt[3]+monTabContent_Final;
         document.getElementById('txtareaBtn').innerHTML=textOutputTabbedContent;
         SelectAll("txtareaBtn");
         $('#demo').nextAll('div').remove();
