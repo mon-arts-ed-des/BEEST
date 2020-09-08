@@ -34,6 +34,7 @@
           toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code' 
       });
 	
+	const COUNTER_ID = "accordCounter"
 	const absoluteMaxAccord = 10;
 	const absoluteMinAccord = 3;
 	var accordianSectionsCurr = 1;
@@ -44,6 +45,9 @@
 			addSection()
 		}
 	})
+	function updatePageCounter(ID,currCounter){
+		document.getElementById(ID).innerHTML = currCounter;
+	}
 	
 	function accordianSectionTemplate(num){
 		var idHead = "monAccBtnTxt"+num
@@ -114,6 +118,7 @@
 			showHTML(accordAppear.IDBlock)
 		}
 		accordianSectionsCurr += 1;
+		updatePageCounter(COUNTER_ID,accordianSectionsCurr)
 		
 		if (accordianSectionsCurr > absoluteMinAccord)
 		{
@@ -153,6 +158,7 @@
 		hideHTML(accordAppear.IDBlock)
 	
 		accordianSectionsCurr -= 1;
+		updatePageCounter(COUNTER_ID,accordianSectionsCurr)
 		if (accordianSectionsCurr > absoluteMinAccord){
 			num.pop(); //remove the last 'num' from the end of the nums array
 			
@@ -434,6 +440,7 @@
    <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="The page defaults to start with 3 accordion drawers. If you only need 3 drawers you can skip this step. If you require 4 or more drawers, click the add button below to add more drawers. You can have a maximum of 10, and you can remove drawers to a minimum of 3.">Step 1 - Add/Remove drawers</h5>
   
 <div class="btn-group btn-group-justified" role="group" id="addMinusButtons">
+<span style="font-size:35px" id="accordCounter">0</span>
 <div class="btn-group-lg" role="group">
 <button id="plusbutton" onclick="addSection()" type="button" class="btn btn-success mr-2">Add drawer <i class="fa fa-fw fa-plus"></i></button>
 </div><div class="btn-group-lg" role="group">
