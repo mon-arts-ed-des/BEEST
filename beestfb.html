@@ -1,210 +1,369 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feedback form</title>
+    <meta charset="utf-8">
+    </meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description"
+        content="A simple element creator to generate responsive code that can be easily embedded into Moodle">
+    <meta name="author" content="T&M">
+    <title>BEEST Feedback</title>
+    <link rel="icon" href="https://mon-arts-ed-des.github.io/BEEST/dragon-solid%20favicon.png" type="image/gif">
+
+    <!-- external link to css file -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Arts CSS -->
+    <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/adminPlusSetuBlockStyle.css" />
+
+    <!-- external link to js file -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+    <!-- Bootstrap js file -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <!-- FontAwesome js file -->
+    <script src="https://kit.fontawesome.com/3817feae52.js"></script>
+    <!-- Tinymce js file -->
+    <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+    <script src="advancedModeLocalStorage.js"></script>
+
+    <style>
+        .mce-notification-inner,
+        .mce-close,
+        .mce-notification-warning {
+            display: none !important;
+        }
+
+        /* Popup container - can be anything you want */
+        #popup {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* The actual popup */
+        #popup .popuptext {
+            visibility: hidden;
+            width: 160px;
+            background-color: #222222;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 12px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -80px;
+        }
+
+        /* Popup arrow */
+        #popup .popuptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #222222 transparent transparent transparent;
+        }
+
+        /* Toggle this class - hide and show the popup */
+        #popup .showPopup {
+            -webkit-animation: fadeinout 3s linear forwards;
+            animation: fadeinout 3s linear forwards;
+            visibility: visible;
+        }
+
+        /* Add animation (fade in the popup) */
+        @-webkit-keyframes fadeinout {
+
+            0%,
+            100% {
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            66% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeinout {
+
+            0%,
+            100% {
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            66% {
+                opacity: 1;
+            }
+        }
+
+        .tooltip-inner {
+            text-align: left;
+            padding: 15px;
+            font-size: 1.05rem;
+            max-width: 280px;
+        }
+
+        .nav {
+            list-style: none !important;
+        }
+
+        .nav-item {
+            margin: 5px !important;
+        }
+
+        .nav-link:hover {
+            background: #006dae !important;
+            color: white !important;
+
+        }
+
+        li>.active {
+            background: #006dae !important;
+        }
+    </style>
+
 </head>
+
 <body>
 
-    
-    <div class="container"> 
 
-    <div class="row " style="margin-top: 50px">
-        <div class="col-md-6 col-md-offset-3 w3-padding-16 form-container">
-            <h2>Feedback</h2> 
-            <p> Please provide your feedback below: </p>
-            <form role="form" method="post" id="feedback_form">
-                <div class="row">
-                    <div class="col-sm-12 form-group">
-                        <label>How do you rate your overall experience?</label>
-                        <p>
-                            <label class="radio-inline">
-                                <input type="radio" name="experience" id="radio_experience" value="bad" >
-                                Bad 
+    <div class="container">
+        <h2>Feedback types</h2>
+        <br /> <!-- Nav pills -->
+        <ul class="nav nav-pills" role="tablist">
+            <li class="nav-item"><a class="nav-link active btn" data-toggle="pill" href="#menu1">General</a></li>
+            <li class="nav-item"><a class="nav-link btn" data-toggle="pill" href="#menu2">Problems/Bugs</a></li>
+            <li class="nav-item"><a class="nav-link btn" data-toggle="pill" href="#menu3">Improvements/Suggestions</a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div id="menu1" class="container tab-pane active"><br />
+                <h3>General feedback</h3>
+                <div class="row " style="margin-top: 50px">
+                    <div class="col-md-6 col-md-offset-3 w3-padding-16 form-container">
+                        <p> Please provide your feedback below: </p>
+                        <form role="form" method="post" id="feedback_form">
+                            <label>How do you rate your overall experience?</label>
+                            <p>
+                                <label class="radio-inline">
+                                    <input type="radio" name="experience" id="radio_experience" value="bad">
+                                    Bad
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="experience" id="radio_experience" value="average">
+                                    Average
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="experience" id="radio_experience" value="good">
+                                    Good
+                            </p>
                             </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="experience" id="radio_experience" value="average" >
-                                Average 
+                            <label for="comments"> Comments:</label>
+                            <textarea class="form-control" type="textarea" name="comments" id="comments"
+                                placeholder="Your Comments" maxlength="6000" rows="7"></textarea>
+                            <br>
+                            <div class="row">
+                                <div class="col-sm-6 form-group">
+                                    <label for="name">
+                                        Your Name:
+                                    </label>
+                                    <input type="text" class="form-control" id="name" name="name" required="">
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <label for="email">
+                                        Email:
+                                    </label>
+                                    <input type="email" class="form-control" id="email" name="email" required="">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 form-group">
+                                    <button type="submit" class="btn btn-arts m-1 text-center">Send </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="menu2" class="container tab-pane active"><br />
+                <h3>Feedback regarding problems/bugs</h3>
+                <div class="row " style="margin-top: 50px">
+                    <div class="col-md-6 col-md-offset-3 w3-padding-16 form-container">
+                        <p> Please report your problems below: </p>
+                        <form role="form" method="post" id="problems_form">
+                            <label>How do you rate your overall experience?</label>
+                            <p>
+                                <label class="radio-inline">
+                                    <input type="radio" name="experience" id="radio_experience" value="bad">
+                                    Bad
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="experience" id="radio_experience" value="average">
+                                    Average
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="experience" id="radio_experience" value="good">
+                                    Good
+                            </p>
                             </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="experience" id="radio_experience" value="good" >
-                                Good 
-                            </label>
-                        </p>
+                            <label for="comments"> Comments:</label>
+                            <textarea class="form-control" type="textarea" name="comments" id="comments"
+                                placeholder="Your Comments" maxlength="6000" rows="7"></textarea>
+                            <br>
+                            <div class="row">
+                                <div class="col-sm-6 form-group">
+                                    <label for="name">
+                                        Your Name:
+                                    </label>
+                                    <input type="text" class="form-control" id="name" name="name" required="">
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <label for="email">
+                                        Email:
+                                    </label>
+                                    <input type="email" class="form-control" id="email" name="email" required="">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 form-group">
+                                    <button type="submit" class="btn btn-arts m-1 text-center">Send </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-12 form-group">
-                        <label for="comments"> Comments:</label>
-                        <textarea class="form-control" type="textarea" name="comments" id="comments" placeholder="Your Comments" maxlength="6000" rows="7"></textarea>
+            </div>
+
+
+            <div id="menu3" class="container tab-pane fade"><br />
+                <h3>Feedback regarding improvements/suggestions</h3>
+                <div class="row " style="margin-top: 50px">
+                    <div class="col-md-6 col-md-offset-3 w3-padding-16 form-container">
+                        <p> Please provide your suggestions below: </p>
+                        <form role="form" method="post" id="suggestion_form">
+                            <div class="row">
+                                <div class="col-sm-12 form-group">
+                                            <label>How do you rate your overall experience?</label>
+                                            <p>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="experience" id="radio_experience" value="bad" >
+                                                    <a type="button" class="btn-floating indigo"><i class="far fa-smile fa-3x"
+                                                        aria-hidden="true"></i></a>
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="experience" id="radio_experience" value="average" >
+                                                    <a type="button" class="btn-floating indigo"><i class="far fa-meh fa-3x"
+                                                        aria-hidden="true"></i></a> 
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="experience" id="radio_experience" value="good" >
+                                                    <a type="button" class="btn-floating indigo"><i class="far fa-frown fa-3x"
+                                                        aria-hidden="true"></i></a>
+                                                </label>
+                                            </p>                                   
+                                    <div class="row">
+                                        <div class="col-sm-12 form-group">
+                                            <label for="description"> Suggestion:</label>
+                                            <textarea class="form-control" type="textarea" name="description"
+                                                id="description" placeholder="Your suggestion" maxlength="6000"
+                                                rows="7"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 form-group">
+                                    <button type="submit" class="btn btn-arts m-1 text-center">Send </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-6 form-group">
-                        <label for="name">
-                            Your Name:</label>
-                        <input type="text" class="form-control" id="name" name="name" required="">
-                    </div>
-                    <div class="col-sm-6 form-group">
-                        <label for="email">
-                            Email:</label>
-                        <input type="email" class="form-control" id="email" name="email" required="">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12 form-group">
-                        <button type="submit" class="btn btn-lg btn-primary btn-block" >Send </button>
-                    </div>
-                </div>
-            </form>
-            <div id="success_message" style="width:100%; height:100%; display:none; "> <h3>Posted your feedback successfully!</h3> </div>
-            <div id="error_message" style="width:100%; height:100%; display:none; "> <h3>Error</h3> Sorry there was an error sending your form. </div>
+            </div>
         </div>
-    </div>
-
-</div>
-<style>
-
-/* Form in a container
-
-.form-container
-{
-	background-color: rgb(157, 160, 190);
-    padding: 12px;
-    box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 20px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
-    border-radius: 8px;
-    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
-}
-
-.container
-{
-  width: 50%;
-  position: relative;
-  border-radius: 5px;
-  background-color: #f2f2f2;
-  padding: 20px;
-}
-*/
-
-input[type='text'],input[type='email'],textarea 
-{
-  width: 100%; /* Full width */
-  padding: 12px; /* Some padding */ 
-  border: 1px solid #ccc; /* Gray border */
-  border-radius: 4px; /* Rounded borders */
-  box-sizing: border-box; /* Make sure that padding and width stays in place */
-  margin-top: 6px; /* Add a top margin */
-  margin-bottom: 16px; /* Bottom margin */
-  resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
-}
-body {
-	background-color: #ffff;
-}
-html,
-body {
-	height: 100%;
-}
+        <div id="success_message" style="width:100%; height:100%; display:none; ">
+            <h3>Posted your feedback successfully!</h3>
+        </div>
+        <div id="error_message" style="width:100%; height:100%; display:none; ">
+            <h3>Error</h3> Sorry there was an error sending your form.
+        </div>
 
 
+        <script>
 
-.btn {
-    display: inline-block;
-    padding: 6px 12px;
-    margin-bottom: 0;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.42857143;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    background-image: none;
-    border: 1px solid transparent;
-    border-radius: 4px;
-}
-
-.btn-primary
-{
-    background-image: -webkit-linear-gradient(top,#337ab7 0,#265a88 100%);
-    background-image: -o-linear-gradient(top,#337ab7 0,#265a88 100%);
-    background-image: (linear,left top,left bottom (#265a88));
-    background-image: linear-gradient(to bottom,#337ab7 0,#265a88 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff337ab7', endColorstr='#ff265a88', GradientType=0);
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-    background-repeat: repeat-x;
-    color: #fff;
-    background-color: #337ab7;
-    border-color: #2e6da4;
-}
-
-
-
-</style>
-
-
-    <script>
-           
-        $(function()
-        {
-            function after_form_submitted(data)
-            {
-                if(data.result == 'success')
-                {
+            function after_form_submitted(data) {
+                if (data.result == 'success') {
                     $('form#feedback_form').hide();
                     $('#success_message').show();
                     $('#error_message').hide();
                 }
-                else
-                {
+                else {
                     $('#error_message').append('<ul></ul>');
-        
-                    jQuery.each(data.errors,function(key,val)
-                    {
-                        $('#error_message ul').append('<li>'+key+':'+val+'</li>');
+
+                    jQuery.each(data.errors, function (key, val) {
+                        $('#error_message ul').append('<li>' + key + ':' + val + '</li>');
                     });
                     $('#success_message').hide();
                     $('#error_message').show();
-        
+
                     //reverse the response on the button
-                    $('button[type="button"]', $form).each(function()
-                    {
+                    $('button[type="button"]', $form).each(function () {
                         $btn = $(this);
                         label = $btn.prop('orig_label');
-                        if(label)
-                        {
-                            $btn.prop('type','submit' );
+                        if (label) {
+                            $btn.prop('type', 'submit');
                             $btn.text(label);
-                            $btn.prop('orig_label','');
+                            $btn.prop('orig_label', '');
                         }
                     });
-        
+
                 }//else
             }
-        
-            $('#feedback_form').submit(function(e)
-              {
+
+            $('#feedback_form').submit(function (e) {
                 e.preventDefault();
-        
+
                 $form = $(this);
                 //show some response on the button
-                $('button[type="submit"]', $form).each(function()
-                {
+                $('button[type="submit"]', $form).each(function () {
                     $btn = $(this);
-                    $btn.prop('type','button' );
-                    $btn.prop('orig_label',$btn.text());
+                    $btn.prop('type', 'button');
+                    $btn.prop('orig_label', $btn.text());
                     $btn.text('Sending ...');
                 });
-        
-              });
-        });
+
+            });
+
         </script>
 
 </body>
+
 </html>
