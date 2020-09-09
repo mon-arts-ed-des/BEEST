@@ -1,4 +1,4 @@
-<!--Add only for lecturer and non-primary lecturer permissions level-->
+<!--Add for administrator, lecturer, non-primary lectuer level roles-->
 window.onload = function(){
 $(".block-region .type_course a").each(function(){
 if($(this).text().match(/Turn editing/)){
