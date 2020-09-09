@@ -1,4 +1,4 @@
-<!--Add only for administrator permissions level-->
+<!--Add for administrator level roles only-->
 window.onload = function(){
 $(".block-region .type_course a").each(function(){
 if($(this).text().match(/Restore/)){
