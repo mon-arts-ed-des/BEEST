@@ -63,8 +63,23 @@
       </nav>
     
     <div class="container"> 
-
-    <div class="row " style="margin-top: 50px">
+        
+        <a href="" data-toggle="modal" data-target=".feedback-modal">follow these steps</a> (will appear as an overlay on this screen).</p>
+<div class="modal fade feedback-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg modal-dialog-centered">
+<div class="modal-content">
+    <div class="row w-100 p-3 mx-auto">
+        <div class="col-lg">
+        <div><iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeojgdmy3o6gUq1ZzuV3Q2YflUDfxH4TKKzz5lbpTJLmLOm5w/viewform?usp=sf_link" class="embed-responsive-item" width="100%" height="1400px"></iframe></div>
+    </div>
+           
+        </div>
+</div>
+</div>
+</div> 
+       
+    <div class="row" style="margin-top: 50px">
+      
         <div class="col-md-6 col-md-offset-3 w3-padding-16 form-container">
             <h2>Feedback</h2> 
             <p> Please provide your feedback below: </p>
@@ -88,7 +103,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="row">
+                     <div class="row">
                     <div class="col-sm-12 form-group">
                         <label for="comments"> Comments:</label>
                         <textarea class="form-control" type="textarea" name="comments" id="comments" placeholder="Your Comments" maxlength="6000" rows="7"></textarea>
@@ -112,11 +127,65 @@
                     </div>
                 </div>
             </form>
-            <div id="success_message" style="width:100%; height:100%; display:none; "> <h3>Posted your feedback successfully!</h3> </div>
-            <div id="error_message" style="width:100%; height:100%; display:none; "> <h3>Error</h3> Sorry there was an error sending your form. </div>
-        </div>
+            
     </div>
-
+    <div id="success_message" style="width:100%; height:100%; display:none; "> <h3>Posted your feedback successfully!</h3> </div>
+    <div id="error_message" style="width:100%; height:100%; display:none; "> <h3>Error</h3> Sorry there was an error sending your form. </div>
+</div>
+<div class="row" style="margin-top: 50px">
+      
+    <div class="col-md-6 col-md-offset-3 w3-padding-16 form-container">
+        <h2>Feedback</h2> 
+        <p> Please provide your feedback below: </p>
+        <form role="form" method="post" id="feedback_form">
+            <div class="row">
+                <div class="col-sm-12 form-group">
+                    <label>How do you rate your overall experience?</label>
+                    <p>
+                        <label class="radio-inline">
+                            <input type="radio" name="experience" id="radio_experience" value="bad" >
+                            Bad 
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="experience" id="radio_experience" value="average" >
+                            Average 
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="experience" id="radio_experience" value="good" >
+                            Good 
+                        </label>
+                    </p>
+                </div>
+            </div>
+                 <div class="row">
+                <div class="col-sm-12 form-group">
+                    <label for="comments"> Comments:</label>
+                    <textarea class="form-control" type="textarea" name="comments" id="comments" placeholder="Your Comments" maxlength="6000" rows="7"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 form-group">
+                    <label for="name">
+                        Your Name:</label>
+                    <input type="text" class="form-control" id="name" name="name" required="">
+                </div>
+                <div class="col-sm-6 form-group">
+                    <label for="email">
+                        Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" required="">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 form-group">
+                    <button type="submit" class="btn btn-lg btn-primary btn-block" >Send </button>
+                </div>
+            </div>
+        </form>
+        
+</div>
+<div id="success_message" style="width:100%; height:100%; display:none; "> <h3>Posted your feedback successfully!</h3> </div>
+<div id="error_message" style="width:100%; height:100%; display:none; "> <h3>Error</h3> Sorry there was an error sending your form. </div>
+</div>
 </div>
 
     <script>
@@ -173,6 +242,6 @@
               });
    
         </script>
-
+<a style="position:static; margin: 15px;" class="btn btn-lg btn-outline-success" href="https://docs.google.com/forms/d/e/1FAIpQLSeojgdmy3o6gUq1ZzuV3Q2YflUDfxH4TKKzz5lbpTJLmLOm5w/viewform?usp=sf_link" target="_blank">Feedback/Improvements/Issues</a>
 </body>
 </html>

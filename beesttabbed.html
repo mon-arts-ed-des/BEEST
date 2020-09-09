@@ -359,151 +359,8 @@
   max-width: 280px;
 }
     </style> 
-
     </head>
-    <!--Start vertical tabs-->
-    <!--
-<style>
-.monTabs .nav-link:hover {
-  background: #006dae !important;
-  color: white !important;
-}
-.monTabs .nav-link.active {
-  background: #006dae !important;
-  color: white !important;
-}
-.monTabs .nav-link {
-color: #006dae;
-}
-</style>
--->
-<!--
-<div class="row w-100 mx-auto monTabs">
-<div class="col-3">
-<div class="nav monTabs flex-column nav-pills border-arts text-white rounded" id="v-tabs-tab" role="tablist" aria-orientation="vertical">
-    <a class="nav-link active show" id="tab1" data-toggle="pill" href="#t1" role="tab" aria-controls="v-tabs-t1" aria-selected="true">Appearance</a>
-    <a class="nav-link" id="tab2" data-toggle="pill" href="#t2" role="tab" aria-controls="v-tabs-t2" aria-selected="false">Availability</a>
-    <a class="nav-link" id="tab3" data-toggle="pill" href="#t3" role="tab" aria-controls="v-tabs-t3" aria-selected="false">Flow control</a>
-    <a class="nav-link" id="tab4" data-toggle="pill" href="#t4" role="tab" aria-controls="v-tabs-t4" aria-selected="false">Grade</a>
-    <a class="nav-link" id="tab5" data-toggle="pill" href="#t5" role="tab" aria-controls="v-tabs-t5" aria-selected="false">Common module settings</a>
-    <a class="nav-link" id="tab6" data-toggle="pill" href="#t6" role="tab" aria-controls="v-tabs-t6" aria-selected="false">Restrict access</a>
-    <a class="nav-link" id="tab7" data-toggle="pill" href="#t7" role="tab" aria-controls="v-tabs-t7" aria-selected="false">Activity completion</a>
-    <a class="nav-link" id="tab8" data-toggle="pill" href="#t8" role="tab" aria-controls="v-tabs-t8" aria-selected="false">Tags</a>
-</div>
-</div>
-<div class="col-9">
-<div class="tab-content border-arts-3 rounded" id="v-tabs-tabContent">
-<div class="tab-pane p-3 fade active show" id="t1" role="tabpanel" aria-labelledby="v-tabs-t1-tab">
-</div>
-<div class="tab-pane p-3 fade" id="t2" role="tabpanel" aria-labelledby="v-tabs-t2-tab">
-    <h5>Availability</h5>
-    <div>This setting allows you to dictate when the lesson is available to access within a specified date range.</div>
-    <ul class="mb-0">
-        <li><strong>Available from:</strong> when enabled, select the date you wish the lesson to be available for access. <strong>The lesson will not be accessible prior to that date</strong>.</li>
-        <li><strong>Deadline:</strong> when enabled, <strong>the lesson will no longer be accessible from this date</strong>. </li>
-        <li><strong>Time limit:</strong> enables a countdown timer for completion once the lesson is accessed. Students are given a warning about this at the commencement of the lesson.</li>
-        <li><strong>Password protection:</strong> when enabled, a password is required to access the lesson.</li>
-        </ul>
-</div>
-<div class="tab-pane p-3 fade" id="t3" role="tabpanel" aria-labelledby="v-tabs-t3-tab">
-    <h5>Flow control</h5>
-    <div>This setting allows you to control the way a student moves through the lesson.</div>
-    <ul class="mb-0">
-        <li>Allow student review: gives students the ability to go through the lesson after their first attempt. It's recommended to always switch this on to enable reviewing of content. <strong>If turned off students can only go through the lesson once.</strong></li>
-        <li><strong>Provide option to try a question again:</strong> If enabled, when a question is answered incorrectly, the student is given the option to try it again for no point credit or continue with the lesson. If the student clicks to move on to another question then the selected (wrong) answer will be followed. By default, the wrong answer will then refresh the question page with feedback for the wrong answer.</li>
-        <li><strong>Maximum number of attempts</strong>: This is how many attempts a student is allowed to have before the question is marked as incorrect and the lesson continues automatically. If the lesson is ungraded, it's recommended to set this to three (3) attempts and provide instructions at the beginning of the lesson that this is the case. If the lesson is graded, it is your decision as the lecturer as to how many attempts you allow students in a graded lesson.</li>
-        <li><strong>Action after correct answer:</strong> It is recommended to leave this set to <strong>Normal - follow lesson path</strong>. This is so you can choose where students go to after a correct answer. Changing this setting automatically sends students to another page after a correct answer.</li>
-        <li><strong>Number of pages to show:</strong> This setting specifies the number of pages shown in a lesson. <strong>It is only applicable for lessons with pages shown in a random order</strong> - when <strong>Action after correct answer</strong> is set to <strong>Show an unseen page</strong> or <strong>Show an unanswered page</strong>. If set to zero, then all pages are shown.</li>
-        </ul>
-</div>
-<div class="tab-pane p-3 fade" id="t4" role="tabpanel" aria-labelledby="v-tabs-t4-tab">
-    <h5>Grade</h5>
-    <div>this setting allows you to assign grading functionality to the lesson. These settings will link up with your grade book and <strong>grades are activated by default</strong>. So <strong>if you don't want the lesson to appear in your grade book you must change this to None.</strong> If you choose none, the lesson will not appear in your grade book.</div>
-    <ul class="mb-0">
-        <li><strong>Grade:</strong> If you want to grade the lesson, this is activated by default. You should choose:
-        <ul>
-        <li>The <strong>Type</strong>: Point or scale.</li>
-        <li>The <strong>Maximum grade</strong> if you choose <strong>Point</strong>. This is set from 0-100 marks.</li>
-        <li>The <strong>Scale</strong> <strong>type</strong> if you choose <strong>Scale</strong>. This has several options in a dropdown list which you should investigate to decide on which scale is appropriate for your context.</li>
-        <li><strong>Point is the preferred method if you want to grade,</strong> so that your grade book is consistent and easier to manage, so that it all adds up to 100 points.</li>
-        </ul>
-        </li>
-        <li><strong>Grade category:</strong> if you've setup categories in your grade book, they will appear here in a dropdown list for you to sort your activities feeding into the grade book.</li>
-        <li><strong>Grade to pass:</strong> Set a mark students need to achieve to pass the lesson.</li>
-        <li><strong>Practice lesson:</strong> If this is switched on any grades will not count. If you're grading it is strongly recommended this is switched off.</li>
-        <li><strong>Custom scoring:</strong> If you want to score questions in your own way, turn this on and as you add questions you will score them manually.</li>
-        <li><strong>Re-takes allowed:</strong> If you're grading, it is your personal preference as to whether you turn this on. If switched on, students can redo the lesson multiple times and their last attempt will be the one that counts into the grade book.</li>
-        <li><strong>Minimum number of questions:</strong> this specifies the minimum amount of questions that need to be answered in order to calculate a grade for the lesson.</li>
-        </ul>
-</div>
-<div class="tab-pane p-3 fade" id="t5" role="tabpanel" aria-labelledby="v-tabs-t5-tab">
-    <h5>Common module settings</h5>
-    <div>This setting allows changing the availability of the activity and applying grouping options.</div>
-    <ul class="mb-0">
-        <li><strong>Availability:</strong> This sets the visibility options of the lesson activity (and any other Moodle activity type). You can choose from:
-        <ul>
-        <li><strong>Show on course page:</strong> Students can click on the lesson and access it directly. Default setting. Recommended setting.</li>
-        <li><strong>Hide from students:</strong> Hidden from students on the page and cannot be access by students.</li>
-        <li><strong>Make available but not shown on course page:</strong> The lesson can be linked to, but students cannot access it directly.</li>
-        </ul>
-        </li>
-        <li><strong>ID number:</strong> You can provide a number in Moodle so that the lesson is easily searchable in the backend of Moodle. Not required.</li>
-        <li><strong>Group mode:</strong> This sets whether there are group restrictions. For lessons, there isn't any real effect by applying these settings. See <a href="https://lms.monash.edu/mod/book/view.php?id=7108629&section=2">Groups and Groupings book</a> to understand these settings in detail, but in short:</li>
-        <ul>
-        <li>No groups: no group restrictions on the lesson</li>
-        <li>Visible groups: students can see each other's work, but not respond (has no effect on lessons, students can't see each other's attempts).</li>
-        <li>Separate groups: students can only see work for their group.</li>
-        </ul>
-        <li><strong>Grouping:</strong> The grouping of groups that the restriction in Group mode will apply to.</li>
-        </ul>
-</div>
-<div class="tab-pane p-3 fade" id="t6" role="tabpanel" aria-labelledby="v-tabs-t6-tab">
-    <h5>Restrict access</h5>
-    <div>This setting contains all options for restricting access to the lesson through groups, date ranges, activity completion or a combination of all of these.</div>
-    <ul class="mb-0">
-        <li>Access restrictions: 
-        <ul>
-        <li><strong>Activity completion:</strong> Restrict access on the basis of completing or not completing another activity in the Moodle site.</li>
-        <li><strong>Date:</strong> Restrict access before or after specific dates</li>
-        <li><strong>Grade:</strong> Student must attain a certain grade in another activity to gain access to the lesson</li>
-        <li><strong>Group:</strong> Student must belong to a specific group to gain access to the lesson</li>
-        <li><strong>Grouping:</strong> Student must belong to a specific group within a grouping to gain access to the lesson.</li>
-        <li><strong>Restriction set:</strong> A combination of some or all of the above restrictions.</li>
-        </ul>
-        </li>
-        </ul>
-</div>
-<div class="tab-pane p-3 fade" id="t7" role="tabpanel" aria-labelledby="v-tabs-t7-tab">
-    <h5>Activity completion</h5>
-    <div>This setting allows you to manage how/if the lesson is marked as completed. This will reflect on the Activity Completion Report under Administration > Reports > Activity Completion</div>
-    <ul class="mb-0">
-        <li>Completion tracking: Your options here are -
-        <ul>
-        <li>Do not indicate activity completion - Activity completion is deactivated for the current activity.</li>
-        <li>Students can manually mark the activity completed - A checkbox will appear to the right of each activity or resource this is set for so students can tick it complete; <strong>N.B. This setting rarely results in students actually marking activities and resources as complete.</strong> Setting is not recommended.</li>
-        <li>Show the activity as complete when conditions are met; this changes for each activity type. For lessons your options are:
-        <ul>
-        <li><strong>Student must view this activity to complete it</strong> - Once a student views the first page, the lesson is marked complete. Basic completion, not effective for measuring any engagement as they only have to click into the lesson to be marked complete.</li>
-        <li><strong>Student must receive a grade to complete this activity</strong> - Once a student completes 1 question and receives a grade, the lesson is marked complete. Can be ineffective and if you haven't input any question pages, this will not work.</li>
-        <li><strong>Student must reach the end of lesson page to complete this activity </strong>- Once the student reaches the final end of lesson page that Moodle generates, the lesson is marked complete. A recommended setting to show that a student has clicked through all of the content and question pages of the lesson.</li>
-        <li><strong>Student must do this activity at least for X minutes</strong> - You can indicate a number of minutes a student needs to be inside of the lesson for this to be marked complete. Can be effective if you tell the students the time they are expected to spend in the lesson. Without indicating this, some students will exit before this time is up, and therefore will not be marked complete.</li>
-        </ul>
-        </li>
-        <li><strong>Expect completed on</strong> - You can set a date here, and students will be notified on their Moodle dashboards that the lesson needs to be completed by a certain date and time.</li>
-        </ul>
-        </li>
-        </ul>
-</div>
-<div class="tab-pane p-3 fade" id="t8" role="tabpanel" aria-labelledby="v-tabs-t8-tab">
-    <h5>Tags</h5>
-    <div>This setting is only used if you have tags set up within your unit. Tags can help you search for materials in Moodle, in particular quiz questions, but you can apply this to lessons as well to be able to search them at another point in time.</div>
-</div>
-</div>
-</div>
-</div>
-End of vertical tabs -->
-
-<body>
+  <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-arts mb-3">
       <a class="navbar-brand text-center border border-white p-2 rounded" href="index.html"><img src="dragon-solid-white.png" width="30" height="30" alt=""></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -590,12 +447,14 @@ End of vertical tabs -->
  <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="The page defaults to start with 3 tabs plus their content. If you only need 3 tabs you can skip this step. If you require 4 or more tabs, click the add button below to add more tabs. You can have a maximum of 10, and you can remove tabs to a minimum of 3.">Step 1 - Add/Remove tab + content</h5>
 
 <div class="btn-group btn-group-justified" role="group" id="addMinusButtons">
-<span style="font-size:35px" id="tabCounter">0</span>
 <div class="btn-group-lg" role="group">
 <button id="plusbutton" onclick="addSection()" type="button" class="btn btn-success mr-2">Add tab/content <i class="fa fa-fw fa-plus"></i></button>
 </div><div class="btn-group-lg" role="group">
 <button id="minusbutton" style="display:none;" onclick="removeSection()" type="button" class="btn btn-danger">Remove tab/content <i class="fa fa-fw fa-times"></i></button>
 </div>
+<div class="btn-group-lg" role="group"><span class="ml-3 h5">Current number of tabs</span>
+  <div class="border border-dark px-3 py-2 h5 rounded ml-1 btn" style="cursor:default ;"><div><span id="tabCounter">0</span></div></div>
+  </div>
 </div>
 </div>
 </div>
@@ -632,5 +491,6 @@ End of vertical tabs -->
   </form>
   <div id="demo"></div>
   <span class="my-3"></span>
+  <a data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Opens a feedback form in a new window." style="position:static; margin: 15px;" class="btn btn-lg btn-outline-success" href="https://docs.google.com/forms/d/e/1FAIpQLSeojgdmy3o6gUq1ZzuV3Q2YflUDfxH4TKKzz5lbpTJLmLOm5w/viewform?usp=sf_link" target="_blank">Feedback/Improvements/Issues <i class="fa fa-bullhorn"></i></a>
       </body>
       </html>
