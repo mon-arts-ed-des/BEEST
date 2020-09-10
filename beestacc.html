@@ -234,7 +234,7 @@
 			monAccOutput += monAccContent[secNum]
 			monAccOutput += monAcc_10
 		} 
-        document.getElementById('monAccCode').innerHTML=monAccOutput;
+        document.getElementById('monAccCode').innerHTML=monAccOutput+=monAcc_Close;
         SelectAll("monAccCode");
         $('#demo').nextAll('div').remove();
         $('#demo').after(monAccOutput);
@@ -276,6 +276,7 @@
     var monAcc_8b="\" class=\"collapse cardBodyBorder rounded-bottom\" aria-labelledby=\"head"
     var monAcc_9="\" data-parent=\"#accordion\"><div class=\"card-body p-1\"><div class=\"m-1 p-1\"><div class=\"row w-100 mx-auto\"><div class=\"accDiv\">"
     var monAcc_10="</div></div></div></div></div></div>"
+    var monAcc_Close="</div></div></div>"
 	
 	var num = [,"1","2","3"];
 	var monAcc_1_opt = [,monAcc_1,monAcc_1a,monAcc_1a];
@@ -400,7 +401,7 @@
             <i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle my-auto"></i><div class="h6 mb-0">You can only have one accordion on a page because of the way the HTML works. <strong>Please make sure you only produce, copy and paste one accordion per Moodle page maximum</strong>. If you try to put two or more accordions on a page, none of them will work correctly.</div>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
             </div>   
-  <h1 class="text-center"><i class="fa fa-layer-group fa-fw"></i>Accordion</h1>
+  <h1 class="text-center"><i class="fa fa-layer-group fa-fw"></i> Accordion</h1>
 <span class="hideableinstruct">  
   <h5>The result of this process</h5>
   <p>This process will generate an accordion that can display information collapsed under heading buttons (drawers). It's important to note that accordions can easily be misused.</p>
