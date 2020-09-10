@@ -1,4 +1,4 @@
-<!--Add for administrator, lecturer, non-primary lectuer level roles-->
+<!--Add for administrator, lecturer, non-primary lecturer level roles-->
 window.onload = function(){
 $(".dropdown-menu .dropdown-item").each(function(){
 if($(this).text().match(/Turn editing/)){
