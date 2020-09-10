@@ -1,4 +1,4 @@
-<!--Add for administrator, lecturer, non-primary lectuer and tutor level roles-->
+<!--Add for administrator, lecturer, non-primary lecturer and tutor level roles-->
 window.onload = function(){
 $(".dropdown-menu .dropdown-item").each(function(){
 if($(this).text().match(/Recycle bin/)){
