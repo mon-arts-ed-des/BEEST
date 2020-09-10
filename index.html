@@ -225,7 +225,7 @@ document.getElementById('beestInMoodle').innerHTML=textOutput;
             </div>
             <div class="col-lg mt-2">
               <h3>Script + CSS to make BEEST operate within Moodle</h3>
-              <div><h5 data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose which level of Moodle role you want to have access to the BEEST.">Step 1 - Choose access level</h5>
+              <div><h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose which level of Moodle role you want to have access to the BEEST.">Step 1 - Choose access level</h5>
               <select class="custom-select w-50 border border-dark" id="accessToBeest" name="accessToBeest" size="1">
               <option selected value="1">Moodle administrators only</option>
               <option value="2">Administrators, lecturers and non-primary lecturers</option>
@@ -233,13 +233,13 @@ document.getElementById('beestInMoodle').innerHTML=textOutput;
             </select>
           </div>
           <div class="mt-2">
-              <h5 data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Once you have created your Faculty Category level block, find its 7 digit ID in the browser inspector (see walkthrough video) and input those 7 digits in the text area below.">Step 2 - Category level HTML block ID</h5>
+              <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Once you have created your Faculty Category level block, find its 7 digit ID in the browser inspector (see walkthrough video) and input those 7 digits in the text area below.">Step 2 - Category level HTML block ID</h5>
             </div>
               <div>
               <textarea id="htmlBlockID" class="rounded p-2 w-100" maxlength="7" cols="70" rows="1" placeholder="Input your 7 digit HTML block id number here."></textarea>
             </div>
             <div class="mt-2">
-              <h5 data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Once you have created completed step 1 and 2, click the button below to generate the code required to paste into your Faculty Category HTML block.">Step 3 - Generate/copy code</h5>
+              <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Once you have created completed step 1 and 2, click the button below to generate the code required to paste into your Faculty Category HTML block.">Step 3 - Generate/copy code</h5>
 <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy the below code &lt;/&gt;" onClick=generateAccessCode()></p>
 <p class="text-left"><textarea readonly placeholder="Your code will appear here when you click the button above this text area." class="rounded p-2 w-100" id="beestInMoodle" cols="10" rows="10" name="Result">
 </textarea>
