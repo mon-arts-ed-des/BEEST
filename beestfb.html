@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8"></meta>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -26,6 +27,7 @@
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
 	<script src="advancedModeLocalStorage.js"></script>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-arts mb-3">
         <a class="navbar-brand text-center border border-white p-2 rounded" href="index.html"><img src="dragon-solid-white.png" width="30" height="30" alt=""></a>
@@ -100,148 +102,186 @@
                                 <input type="radio" name="experience" id="radio_experience" value="good" >
                                 Good 
                             </label>
-                        </p>
+                            <label for="comments"> Comments:</label>
+                            <textarea class="form-control" type="textarea" name="comments" id="comments"
+                                placeholder="Your Comments" maxlength="6000" rows="7"></textarea>
+                            <br>
+                            <div class="row">
+                                <div class="col-sm-6 form-group">
+                                    <label for="name">
+                                        Your Name:
+                                    </label>
+                                    <input type="text" class="form-control" id="name" name="name" required="">
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <label for="email">
+                                        Email:
+                                    </label>
+                                    <input type="email" class="form-control" id="email" name="email" required="">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 form-group">
+                                    <button type="submit" class="btn btn-arts m-1 text-center">Send </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                </div>
-                     <div class="row">
-                    <div class="col-sm-12 form-group">
-                        <label for="comments"> Comments:</label>
-                        <textarea class="form-control" type="textarea" name="comments" id="comments" placeholder="Your Comments" maxlength="6000" rows="7"></textarea>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6 form-group">
-                        <label for="name">
-                            Your Name:</label>
-                        <input type="text" class="form-control" id="name" name="name" required="">
-                    </div>
-                    <div class="col-sm-6 form-group">
-                        <label for="email">
-                            Email:</label>
-                        <input type="email" class="form-control" id="email" name="email" required="">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12 form-group">
-                        <button type="submit" class="btn btn-lg btn-primary btn-block" >Send </button>
-                    </div>
-                </div>
-            </form>
-            
-    </div>
-    <div id="success_message" style="width:100%; height:100%; display:none; "> <h3>Posted your feedback successfully!</h3> </div>
-    <div id="error_message" style="width:100%; height:100%; display:none; "> <h3>Error</h3> Sorry there was an error sending your form. </div>
-</div>
-<div class="row" style="margin-top: 50px">
-      
-    <div class="col-md-6 col-md-offset-3 w3-padding-16 form-container">
-        <h2>Feedback</h2> 
-        <p> Please provide your feedback below: </p>
-        <form role="form" method="post" id="feedback_form">
-            <div class="row">
-                <div class="col-sm-12 form-group">
-                    <label>How do you rate your overall experience?</label>
-                    <p>
-                        <label class="radio-inline">
-                            <input type="radio" name="experience" id="radio_experience" value="bad" >
-                            Bad 
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="experience" id="radio_experience" value="average" >
-                            Average 
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="experience" id="radio_experience" value="good" >
-                            Good 
-                        </label>
-                    </p>
                 </div>
             </div>
-                 <div class="row">
-                <div class="col-sm-12 form-group">
-                    <label for="comments"> Comments:</label>
-                    <textarea class="form-control" type="textarea" name="comments" id="comments" placeholder="Your Comments" maxlength="6000" rows="7"></textarea>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 form-group">
-                    <label for="name">
-                        Your Name:</label>
-                    <input type="text" class="form-control" id="name" name="name" required="">
-                </div>
-                <div class="col-sm-6 form-group">
-                    <label for="email">
-                        Email:</label>
-                    <input type="email" class="form-control" id="email" name="email" required="">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12 form-group">
-                    <button type="submit" class="btn btn-lg btn-primary btn-block" >Send </button>
-                </div>
-            </div>
-        </form>
-        
-</div>
-<div id="success_message" style="width:100%; height:100%; display:none; "> <h3>Posted your feedback successfully!</h3> </div>
-<div id="error_message" style="width:100%; height:100%; display:none; "> <h3>Error</h3> Sorry there was an error sending your form. </div>
-</div>
-</div>
 
-    <script>
-           
-        function after_form_submitted(data)
-            {
-                if(data.result == 'success')
-                {
+
+            <div id="menu2" class="container tab-pane active"><br />
+                <h3>Feedback regarding problems/bugs</h3>
+                <div class="row " style="margin-top: 50px">
+                    <div class="col-md-6 col-md-offset-3 w3-padding-16 form-container">
+                        <p> Please report your problems below: </p>
+                        <form role="form" method="post" id="problems_form">
+                            <label>How do you rate your overall experience?</label>
+                            <p>
+                                <label class="radio-inline">
+                                    <input type="radio" name="experience" id="radio_experience" value="bad">
+                                    Bad
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="experience" id="radio_experience" value="average">
+                                    Average
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="experience" id="radio_experience" value="good">
+                                    Good
+                            </p>
+                            </label>
+                            <label for="comments"> Comments:</label>
+                            <textarea class="form-control" type="textarea" name="comments" id="comments"
+                                placeholder="Your Comments" maxlength="6000" rows="7"></textarea>
+                            <br>
+                            <div class="row">
+                                <div class="col-sm-6 form-group">
+                                    <label for="name">
+                                        Your Name:
+                                    </label>
+                                    <input type="text" class="form-control" id="name" name="name" required="">
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <label for="email">
+                                        Email:
+                                    </label>
+                                    <input type="email" class="form-control" id="email" name="email" required="">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 form-group">
+                                    <button type="submit" class="btn btn-arts m-1 text-center">Send </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="menu3" class="container tab-pane fade"><br />
+                <h3>Feedback regarding improvements/suggestions</h3>
+                <div class="row " style="margin-top: 50px">
+                    <div class="col-md-6 col-md-offset-3 w3-padding-16 form-container">
+                        <p> Please provide your suggestions below: </p>
+                        <form role="form" method="post" id="suggestion_form">
+                            <div class="row">
+                                <div class="col-sm-12 form-group">
+                                            <label>How do you rate your overall experience?</label>
+                                            <p>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="experience" id="radio_experience" value="bad" >
+                                                    <a type="button" class="btn-floating indigo"><i class="far fa-smile fa-3x"
+                                                        aria-hidden="true"></i></a>
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="experience" id="radio_experience" value="average" >
+                                                    <a type="button" class="btn-floating indigo"><i class="far fa-meh fa-3x"
+                                                        aria-hidden="true"></i></a> 
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="experience" id="radio_experience" value="good" >
+                                                    <a type="button" class="btn-floating indigo"><i class="far fa-frown fa-3x"
+                                                        aria-hidden="true"></i></a>
+                                                </label>
+                                            </p>                                   
+                                    <div class="row">
+                                        <div class="col-sm-12 form-group">
+                                            <label for="description"> Suggestion:</label>
+                                            <textarea class="form-control" type="textarea" name="description"
+                                                id="description" placeholder="Your suggestion" maxlength="6000"
+                                                rows="7"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 form-group">
+                                    <button type="submit" class="btn btn-arts m-1 text-center">Send </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="success_message" style="width:100%; height:100%; display:none; ">
+            <h3>Posted your feedback successfully!</h3>
+        </div>
+        <div id="error_message" style="width:100%; height:100%; display:none; ">
+            <h3>Error</h3> Sorry there was an error sending your form.
+        </div>
+
+
+        <script>
+
+            function after_form_submitted(data) {
+                if (data.result == 'success') {
                     $('form#feedback_form').hide();
                     $('#success_message').show();
                     $('#error_message').hide();
                 }
-                else
-                {
+                else {
                     $('#error_message').append('<ul></ul>');
-        
-                    jQuery.each(data.errors,function(key,val)
-                    {
-                        $('#error_message ul').append('<li>'+key+':'+val+'</li>');
+
+                    jQuery.each(data.errors, function (key, val) {
+                        $('#error_message ul').append('<li>' + key + ':' + val + '</li>');
                     });
                     $('#success_message').hide();
                     $('#error_message').show();
-        
+
                     //reverse the response on the button
-                    $('button[type="button"]', $form).each(function()
-                    {
+                    $('button[type="button"]', $form).each(function () {
                         $btn = $(this);
                         label = $btn.prop('orig_label');
-                        if(label)
-                        {
-                            $btn.prop('type','submit' );
+                        if (label) {
+                            $btn.prop('type', 'submit');
                             $btn.text(label);
-                            $btn.prop('orig_label','');
+                            $btn.prop('orig_label', '');
                         }
                     });
-        
+
                 }//else
             }
-        
-            $('#feedback_form').submit(function(e)
-              {
+
+            $('#feedback_form').submit(function (e) {
                 e.preventDefault();
-        
+
                 $form = $(this);
                 //show some response on the button
-                $('button[type="submit"]', $form).each(function()
-                {
+                $('button[type="submit"]', $form).each(function () {
                     $btn = $(this);
-                    $btn.prop('type','button' );
-                    $btn.prop('orig_label',$btn.text());
+                    $btn.prop('type', 'button');
+                    $btn.prop('orig_label', $btn.text());
                     $btn.text('Sending ...');
                 });
-        
-              });
-   
+
+            });
+
         </script>
 <a style="position:static; margin: 15px;" class="btn btn-lg btn-outline-success" href="https://docs.google.com/forms/d/e/1FAIpQLSeojgdmy3o6gUq1ZzuV3Q2YflUDfxH4TKKzz5lbpTJLmLOm5w/viewform?usp=sf_link" target="_blank">Feedback/Improvements/Issues</a>
 </body>
+
 </html>
