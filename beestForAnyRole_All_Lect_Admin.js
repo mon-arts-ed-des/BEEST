@@ -1,8 +1,8 @@
 //single script to add any
 
-const match_Admin = /Restore/;
-const match_Lect = /Turn editing/;
-const match_Staff = /Recycle bin/;
+const match_admin = /Restore/;
+const match_lect = /Turn editing/;
+const match_tutor = /Recycle bin/;
 
 //window.onload = 
 
