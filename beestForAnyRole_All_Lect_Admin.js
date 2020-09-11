@@ -1,97 +1,5 @@
 //single script to add any
 
-const match_admin = /Restore/;
-const match_lect = /Turn editing/;
-const match_tutor = /Recycle bin/;
-const key_current_role_raw = "CURRENT_ROLE"
-const key_current_role = sha256(key_current_role_raw)
-var match = [
-	[match_admin.toString(),"admin"],
-	[match_lect.toString(),"lect"],
-	[match_tutor.toString(),"tutor"]
-]
-var regex_to_role = {} //to go from regex to role name
-for (var mappingId=0;mappingId<match.length;mappingId++){
-	regex_to_role[match[mappingId][0]]=match[mappingId][1]
-}
-var mode;
- 
-function localStorageAvailable(){
-		if (typeof localStorage !== 'undefined') {
-			try {
-				localStorage.setItem('is_local_storage_available', 'yes');
-				if (localStorage.getItem('is_local_storage_available') === 'yes') {
-					localStorage.removeItem('is_local_storage_available');
-					return true;
-				} else {
-					return false;
-				}
-			} catch(e) {
-				return false;
-			}
-		} else {
-			return false;
-		}
-	}
-
-
-function save_to_local(key,value){
-	if (localStorageAvailable()){
-		localStorage.setItem(key,JSON.stringify(value))
-	}
-}
-
-function retrieve_from_local(key){
-	if (localStorageAvailable()){
-		return JSON.parse(localStorage.getItem(key))
-	}
-}
-
-function setup_beest(MODE){
-	$(".dropdown-menu .dropdown-item").each(function(){
-		var cog_present = ($(this).text().match(match_tutor))
-		mode = MODE.toString();
-		if((cog_present)&&($(this).text().match(MODE))){
-			//if at any point cog present and can find the required text...
-			role = sha256(regex_to_role[mode])
-			
-			/*POSSIBLE DANGER: someone with cog access could change in the page the role by modifying localStorage in their browser directly
-			SOLUTION: encrypt both the localStorage key and value to make it practically impossible to change without knowledge of this code
-			*/
-			
-			//update current role of user to localStorage
-			save_to_local(key_current_role,role)
-			make_beest_visible();
-		}
-		else if ((cog_present)&&(!($(this).text().match(MODE)))){
-			//cog present but not correct role
-			role = sha256("invalid")
-			save_to_local(key_current_role,role)
-			//update localStorage to match
-		}
-		else if (!(cog_present)){
-			//if can't find cog -- pull from local storage
-			role = retrieve_from_local(key_current_role) //should already be encrypted in SHA256
-			
-			//to decide whether to show or hide beest
-			if (sha256(regex_to_role[mode])===role){
-				//if the role (encrypted) matches the role for the lookup (encrypted) then make visible
-				make_beest_visible();
-			}
-		}
-		
-	});
-};
-
-function make_beest_visible(){
-	$(".header-right").prepend(
-		'<div class="custom-menus my-auto dropdown"><button type="button" target="_blank" class="border border-dark rounded-circle p-2 text-dark" role="button" title="BEEST" style="width: 38px; height: 38px;" data-toggle="modal" data-target=".beest-home-modal" id="beestDropdown"><img src="https://mon-arts-ed-des.github.io/BEEST/dragon-solid-black.png" width="20px" height="20px" style="margin-bottom: 4px;" /></button>'
-	);
-	$("#region-main").append(
-		'<style>.modal-beest{max-width: 80% !important;}</style><div class="modal fade beest-home-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"><div class="modal-dialog modal-lg modal-beest"><div class="modal-content"><div class="modal-header mb-0 p-2 bg-danger text-white px-5"><h5 class="modal-title text-white my-auto" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5><button type="button" class="btn btn-outline-light btn-lg rounded" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">Close <i class="fa fa-times"></i></span></button></div><iframe src="https://mon-arts-ed-des.github.io/BEEST/index.html" width="100%" height="900px"></iframe></div></div></div>'
-	);
-		
-}
 /*SHA256 function to encrypt sensitive data (make it hard for someone to dynamically change role in localStorage) -- credit: https://geraintluff.github.io/sha256/*/
 function sha256(ascii) {
     function rightRotate(value, amount) {
@@ -189,3 +97,96 @@ function sha256(ascii) {
     }
     return result;
 };
+
+const match_admin = /Restore/;
+const match_lect = /Turn editing/;
+const match_tutor = /Recycle bin/;
+const key_current_role_raw = "CURRENT_ROLE"
+const key_current_role = sha256(key_current_role_raw)
+var match = [
+	[match_admin.toString(),"admin"],
+	[match_lect.toString(),"lect"],
+	[match_tutor.toString(),"tutor"]
+]
+var regex_to_role = {} //to go from regex to role name
+for (var mappingId=0;mappingId<match.length;mappingId++){
+	regex_to_role[match[mappingId][0]]=match[mappingId][1]
+}
+var mode;
+ 
+function localStorageAvailable(){
+		if (typeof localStorage !== 'undefined') {
+			try {
+				localStorage.setItem('is_local_storage_available', 'yes');
+				if (localStorage.getItem('is_local_storage_available') === 'yes') {
+					localStorage.removeItem('is_local_storage_available');
+					return true;
+				} else {
+					return false;
+				}
+			} catch(e) {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
+
+function save_to_local(key,value){
+	if (localStorageAvailable()){
+		localStorage.setItem(key,JSON.stringify(value))
+	}
+}
+
+function retrieve_from_local(key){
+	if (localStorageAvailable()){
+		return JSON.parse(localStorage.getItem(key))
+	}
+}
+
+function setup_beest(MODE){
+	$(".dropdown-menu .dropdown-item").each(function(){
+		var cog_present = ($(this).text().match(match_tutor))
+		mode = MODE.toString();
+		if((cog_present)&&($(this).text().match(MODE))){
+			//if at any point cog present and can find the required text...
+			role = sha256(regex_to_role[mode])
+			
+			/*POSSIBLE DANGER: someone with cog access could change in the page the role by modifying localStorage in their browser directly
+			SOLUTION: encrypt both the localStorage key and value to make it practically impossible to change without knowledge of this code
+			*/
+			
+			//update current role of user to localStorage
+			save_to_local(key_current_role,role)
+			make_beest_visible();
+		}
+		else if ((cog_present)&&(!($(this).text().match(MODE)))){
+			//cog present but not correct role
+			role = sha256("invalid")
+			save_to_local(key_current_role,role)
+			//update localStorage to match
+		}
+		else if (!(cog_present)){
+			//if can't find cog -- pull from local storage
+			role = retrieve_from_local(key_current_role) //should already be encrypted in SHA256
+			
+			//to decide whether to show or hide beest
+			if (sha256(regex_to_role[mode])===role){
+				//if the role (encrypted) matches the role for the lookup (encrypted) then make visible
+				make_beest_visible();
+			}
+		}
+		
+	});
+};
+
+function make_beest_visible(){
+	$(".header-right").prepend(
+		'<div class="custom-menus my-auto dropdown"><button type="button" target="_blank" class="border border-dark rounded-circle p-2 text-dark" role="button" title="BEEST" style="width: 38px; height: 38px;" data-toggle="modal" data-target=".beest-home-modal" id="beestDropdown"><img src="https://mon-arts-ed-des.github.io/BEEST/dragon-solid-black.png" width="20px" height="20px" style="margin-bottom: 4px;" /></button>'
+	);
+	$("#region-main").append(
+		'<style>.modal-beest{max-width: 80% !important;}</style><div class="modal fade beest-home-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"><div class="modal-dialog modal-lg modal-beest"><div class="modal-content"><div class="modal-header mb-0 p-2 bg-danger text-white px-5"><h5 class="modal-title text-white my-auto" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5><button type="button" class="btn btn-outline-light btn-lg rounded" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">Close <i class="fa fa-times"></i></span></button></div><iframe src="https://mon-arts-ed-des.github.io/BEEST/index.html" width="100%" height="900px"></iframe></div></div></div>'
+	);
+		
+}
