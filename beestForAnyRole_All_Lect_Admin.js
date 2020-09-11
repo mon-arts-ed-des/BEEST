@@ -93,7 +93,7 @@ function make_beest_visible(){
 		
 }
 /*SHA256 function to encrypt sensitive data (make it hard for someone to dynamically change role in localStorage) -- credit: https://geraintluff.github.io/sha256/*/
-var sha256 = function sha256(ascii) {
+function sha256(ascii) {
     function rightRotate(value, amount) {
         return (value>>>amount) | (value<<(32 - amount));
     };
