@@ -157,7 +157,6 @@ function setup_beest(MODE){
 			return false;
 			//if we've discovered all we need to know end the .each() operation
 			//.each ends on a return false.
-			
 		}
 		
 		var innerText = $(this).text()
