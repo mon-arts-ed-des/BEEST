@@ -101,6 +101,7 @@ function sha256(ascii) {
 const match_admin = /Restore/;
 const match_lect = /Turn editing/;
 const match_tutor = /Recycle bin/;
+const match_tutor_lect_or_admin = /Restore|Turn editing|Recyclebin/;
 const key_current_role_raw = "CURRENT_ROLE"
 const key_current_role = sha256(key_current_role_raw)
 var match = [
@@ -148,7 +149,7 @@ function retrieve_from_local(key){
 function setup_beest(MODE){
 	$(".dropdown-item").each(function(){
 		var innerText = $(this).text()
-		var cog_present = (innerText.match(match_tutor))
+		var cog_present = (innerText.match(match_tutor_lect_or_admin))
 		mode = MODE.toString();
 		if((cog_present)&&(innerText.match(MODE))){
 			//if at any point cog present and can find the required text...
