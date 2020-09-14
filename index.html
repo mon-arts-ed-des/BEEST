@@ -48,10 +48,12 @@
 				role="lect"
 				//accessLevel = beestForMoodleLect;
 				break;
-			case "3":
+			/*
+			case "3": //unreachable code now that tutor access has been removed from scope
 				role="tutor"
 				//accessLevel = beestForAllStaff;
 				break;
+			*/
 		}
 		accessLevel = role_to_comment[role]+"<p><scrip"+"t src=\"https://mon-arts-ed-des.github.io/BEEST/beestForAnyRole_All_Lect_Admin.js\"></scrip"+"t></p><scrip"+"t>window.onload=function(){setup_beest(match_"+role+")}</scrip"+"t>"
 		
@@ -239,8 +241,8 @@
               <div><h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose which level of Moodle role you want to have access to the BEEST.">Step 1 - Choose access level</h5>
               <select class="custom-select w-50 border border-dark" id="accessToBeest" name="accessToBeest" size="1">
               <option selected value="1">Moodle administrators only</option>
-              <option value="2">Administrators, lecturers and non-primary lecturers</option>
-              <option value="3">Administrators, lecturers, non-primary lecturers and tutors</option>
+              <option value="2">Administrators, lecturers and non-primary lecturers</option><!--
+              <option value="3">Administrators, lecturers, non-primary lecturers and tutors</option>-->
             </select>
           </div>
           <div class="mt-2">
