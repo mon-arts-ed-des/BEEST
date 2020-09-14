@@ -113,6 +113,7 @@ var regex_to_role = {} //to go from regex to role name
 for (var mappingId=0;mappingId<match.length;mappingId++){
 	regex_to_role[match[mappingId][0]]=match[mappingId][1]
 }
+var beest_icon_visible=false;
 var mode;
  
 function localStorageAvailable(){
@@ -161,7 +162,10 @@ function setup_beest(MODE){
 			
 			//update current role of user to localStorage
 			save_to_local(key_current_role,role)
-			make_beest_visible();
+			if (!(beest_icon_visible)){
+				make_beest_visible();
+				beest_icon_visible = true;
+			}
 		}
 		else if ((cog_present)&&(!($(this).text().match(MODE)))){
 			//cog present but not correct role
@@ -176,7 +180,10 @@ function setup_beest(MODE){
 			//to decide whether to show or hide beest
 			if (sha256(regex_to_role[mode])===role){
 				//if the role (encrypted) matches the role for the lookup (encrypted) then make visible
-				make_beest_visible();
+				if (!(beest_icon_visible)){
+					make_beest_visible();
+					beest_icon_visible = true;
+				}
 			}
 		}
 		
