@@ -154,7 +154,10 @@ function setup_beest(MODE){
 	
 	$(".dropdown-item").each(function(){
 		if ((cog_present)&&(correct_role)){
-			return //stop checking anything 
+			return false;
+			//if we've discovered all we need to know end the .each() operation
+			//.each ends on a return false.
+			
 		}
 		
 		var innerText = $(this).text()
