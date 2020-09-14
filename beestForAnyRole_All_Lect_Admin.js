@@ -146,10 +146,11 @@ function retrieve_from_local(key){
 }
 
 function setup_beest(MODE){
-	$(".dropdown-menu .dropdown-item").each(function(){
-		var cog_present = ($(this).text().match(match_tutor))
+	$(".dropdown-item").each(function(){
+		var innerText = $(this).text()
+		var cog_present = (innerText.match(match_tutor))
 		mode = MODE.toString();
-		if((cog_present)&&($(this).text().match(MODE))){
+		if((cog_present)&&(innerText.match(MODE))){
 			//if at any point cog present and can find the required text...
 			role = sha256(regex_to_role[mode])
 			
