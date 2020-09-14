@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="A simple element creator to generate responsive code that can be easily embedded into Moodle">
     <meta name="author" content="T&M">
-    <title>BEEST Tabbed Content</title>
+    <title>BEEST Tables</title>
      <link rel="icon" href="https://mon-arts-ed-des.github.io/BEEST/dragon-solid%20favicon.png" type="image/gif">
 
     <!-- external link to css file --> 
@@ -25,8 +25,48 @@
     <script src="https://kit.fontawesome.com/3817feae52.js"></script> 
     <!-- Tinymce js file -->   
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
-	<script src="advancedModeLocalStorage.js"></script>
+    <script src="advancedModeLocalStorage.js"></script>
+    <!--
+<h3>[fa-list-ol] Assessment summary</h3>
+<table class="table table-hover table-striped table-responsive-lg border border-dark">
+  <thead class="thead-dark h5">
+    <tr>
+      <th scope="col">Number</th>
+      <th scope="col">Type</th>
+      <th scope="col">Value</th>
+      <th scope="col">Due</th>
+      <th scope="col">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Reflective essay</td>
+      <td>20%</td>
+      <td>Week 3 Friday</td>
+      <td>This is a short reflective essay where you are to give your thoughts on how the readings from the first 2 weeks have effected your opinion on the topics.</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Quiz</td>
+      <td>15%</td>
+      <td>Week 5 Friday</td>
+      <td>This quiz will contain 15 questions that will test your knowledge of week 3 and 4.</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Presentation</td>
+      <td>30%</td>
+      <td>Dates across week 8</td>
+      <td>You will be tasked with creating and delivering a 5 minute presentation based on a topic from the given list in the extended description on this page.</td>
+    </tr>
+  </tbody>
+</table>
+
+    -->
+
     <script type="text/javascript">
+  
 	const maxTabs = 10 //when to stop creating - I think min 3 max 10 like accordions is the best for consistency.
 	const requiredInitialTabs = 3; //the default number of tabs to start with
 	const TINYMCE_ID_BASE = "tinyMCEmonTabContent"
@@ -37,6 +77,7 @@
 	const COUNTER_ID="tabCounter"
 	const absoluteMinTab = 3;
 	
+
  	tinymce.init({
 			selector: '#'+TINYMCE_ID_BASE+'1',
 			menubar: false,
@@ -178,9 +219,35 @@
 		htmlStyle(id,"display","")
 	}
 			
-      function generateTabbedContentCode() {
-    console.debug(tinyMCE.activeEditor.getContent());
-
+      function generateTableCode() {
+  
+  var thColContent1 = document.getElementById('tColHeading1').value;
+  var thColContent2 = document.getElementById('tColHeading2').value;
+  var thColContent3 = document.getElementById('tColHeading3').value;
+  var thRowContent1 = document.getElementById('tRowHeading1').value;
+  var thRowContent2 = document.getElementById('tRowHeading2').value;
+  var tdContent1 = document.getElementById('td1').value;
+  var tdContent2 = document.getElementById('td2').value;
+  var tdContent3 = document.getElementById('td3').value;
+  var tdContent4 = document.getElementById('td4').value;
+  var tableOpen = "<table class=\"table table-hover table-striped table-responsive-lg border border-dark\">"
+  var theadOpen = "<thead class=\"thead-dark h5\">"
+  var theadClose = "</thead>"
+  var trOpen = "<tr>"
+  var trClose = "</tr>"
+  var tdOpen = "<td>"
+  var tdClose = "</td>"
+  var thColOpen = "<th scope=\"col\">"
+  var thRowOpen = "<th scope=\"row\">"
+  var thClose = "</th>"
+  var tBodyOpen = "<tbody>"
+  var tBodyClose = "</tbody>"
+  var tableClose = "</table>"
+  var tableHeadingRow = theadOpen+trOpen+thColOpen+thColContent1+thClose+thColOpen+thColContent2+thClose+thColOpen+thColContent3+thClose+trClose+theadClose;
+  var tr1Content = trOpen+thRowOpen+thRowContent1+thClose+tdOpen+tdContent1+tdClose+tdOpen+tdContent2+tdClose+trClose;
+  var tr2Content = trOpen+thRowOpen+thRowContent2+thClose+tdOpen+tdContent3+tdClose+tdOpen+tdContent4+tdClose+trClose;
+  var textOutputTable = tableOpen+tableHeadingRow+tBodyOpen+tr1Content+tr2Content+tBodyClose+tableClose;
+  
 	var currTabs; //representing how many tabs are currently available on the page and seen by this method
 	var tabContentTxt = [] //an extendible array to hold the text content in any tab
 	var tabHTxt = [] //to hold the heading text for each tab
@@ -252,11 +319,12 @@
 	}
 	textOutputTabbedContent+=monTabContent_Final //close the html (double div end instead of triple as _Close includes a div end)
 	
+  
 	
-        document.getElementById('txtareaBtn').innerHTML=textOutputTabbedContent;
+        document.getElementById('txtareaBtn').innerHTML=textOutputTable;
         SelectAll("txtareaBtn");
         $('#demo').nextAll('div').remove();
-        $('#demo').after(textOutputTabbedContent);
+        $('#demo').after(textOutputTable);
      
       }
         
@@ -407,15 +475,15 @@
           <i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle my-auto"></i><div class="h6 mb-0">You can only have one accordion on a page because of the way the HTML works. Please make sure you only produce, copy and paste one accordion per Moodle page maximum. If you try to put two accordions on a page, neither will work correctly.</div>
           <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
           </div>   
-<h1 class="text-center"><i class="fa fa-columns fa-fw"></i> Tabbed Content</h1>
+<h1 class="text-center"><i class="fa fa-table fa-fw"></i> Tables</h1>
 <span class="hideableinstruct">  
 <h5>The result of this process</h5>
-<p>This process will generate a set of vertical tabs on the left that alternate content displayed on the right when clicked. Tabbed content can be easily misused.</p>
+<p>This process will generate a <span class="text-primary font-weight-bold" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="Responsive design means web pages detect the user's screen size and orientation and change the layout accordingly. Therefore the elements here 'respond' to the user's device to work how that person expects them to work on that device.">responsive</span> table. These can be used in place of regular Moodle tables to ensure they respond well across devices, and look more refined than a basic table. Some of the suggested uses for these tables are:</p>
 <p>
 <ul>
-  <li>Tabs should be used to contain information such as frequently asked questions (FAQs), or putting together important unit information such a Synopsis, Learning Outcomes, Assessment Summary all in the one place. Or as a recap of the important aspects of the content from the lesson/week/topic/module.</li>
-  <li>If they get used on every single page they end up frustrating users who constantly have to click to reveal information.</li>
-  <li>if you put too much information in the content on the right, the user will have to scroll which defeats the purpose of keeping information concise.</li>
+  <li>Unit/Topic Schedule summary for your unit to briefly describe each week or topic's content and what will be covered, as well as indicate where assessment is due.</li>
+  <li>Assessment summary to indicate to students what the assessments are, their value, due date and a brief description of the task.</li>
+  <li>A schedule for a unit field trip or virtual field trip.</li>
 </ul></p>
 <h5>How to use this page</h5>
 <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. These text editors differ slightly from the other BEEST pages. They allow you to input HTML. So if you want to embed a video or other external content, or even content from another BEEST page (video, alert, button) you can. If you are unsure of how to paste HTML into these text editors or Moodle, <a data-toggle="modal" data-target=".bd-example-modal-lg" href="">this short video will help</a> (it will open in an overlay on this screen).</p>
@@ -449,52 +517,66 @@
       </div></div></div>
 <hr class="hr-3">
 <form id="monTabsForm">
+  <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Add headings for your table.">Step 1 - Add table column headings</h5>
 <div class="row w-100 mx-auto">
   <div class="col-lg">
- <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="The page defaults to start with 3 tabs plus their content. If you only need 3 tabs you can skip this step. If you require 4 or more tabs, click the add button below to add more tabs. You can have a maximum of 10, and you can remove tabs to a minimum of 3.">Step 1 - Add/Remove tab + content</h5>
-<div class="btn-group btn-group-justified" role="group" id="addMinusButtons">
-<div class="btn-group-lg" role="group">
-<button id="plusbutton" onclick="addSection()" type="button" class="btn btn-success mr-2">Add tab/content <i class="fa fa-fw fa-plus"></i></button>
-</div><div class="btn-group-lg" role="group">
-<button id="minusbutton" style="display:none;" onclick="removeSection()" type="button" class="btn btn-danger">Remove tab/content <i class="fa fa-fw fa-times"></i></button>
+    <textarea id="tColHeading1" placeholder="Add table heading here." class="border border-dark rounded p-2 w-100" cols="70" rows="1" name="tColHeading1"></textarea>
 </div>
-<div class="btn-group-lg" role="group"><span class="ml-3 h5">Current number of tabs</span>
-  <div class="border border-dark px-3 py-2 h5 rounded ml-1 btn" style="cursor:default ;"><div><span id="tabCounter">0</span></div></div>
-  </div>
+<div class="col-lg">
+  <textarea id="tColHeading2" placeholder="Add table heading here." class="border border-dark rounded p-2 w-100" cols="70" rows="1" name="tColHeading2"></textarea>
+</div>
+<div class="col-lg">
+  <textarea id="tColHeading3" placeholder="Add table heading here." class="border border-dark rounded p-2 w-100" cols="70" rows="1" name="tColHeading3"></textarea>
 </div>
 </div>
-</div>
-<div id="drawerCurrentNumber"></div>
+<h5 data-toggle="tooltip" data-placement="right" class="w-25" data-trigger="hover focus" title="Add the content for your table.">Step 2 - Add content</h5>
 <div class="row w-100 mx-auto">
   <div class="col-lg mt-2">
-    <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="This is the text that will appear on the tab buttons (all text boxes on the left side of screen). This should give users a clear idea of what will appear if the button is clicked. Max length is 50 characters.">Step 2 - Tabs</h5> 
-    <h6>Tab 1</h6>
-    <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button here" id="monAccTabHeadingTxt1"></textarea>
+    <h6>Row 1 heading</h6>
+    <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input your row heading." id="tRowHeading1"></textarea>
   </div>
   <div class="col-lg mt-2">
-      <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="What you input in the box below will appear when the relative tab button is clicked (all rich text editors on the right of screen). This can include text, lists, videos and externally embedded media..">Step 3 - Content</h5>
-      <h6>Content 1</h6>      
-      <textarea id="tinyMCEmonTabContent1" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="monTabContent1"></textarea>
-      </div>
-      </div>
+    <h6>Row 1 content</h6>
+    <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input your row heading." id="td1"></textarea>
+  </div>
+  <div class="col-lg mt-2">
+    <h6>Row 1 content</h6>
+    <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input your row heading." id="td2"></textarea>
+  </div>
+</div>
+<div class="row w-100 mx-auto">
+  <div class="col-lg mt-2">
+    <h6>Row 2 heading</h6>
+    <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input your row heading." id="tRowHeading2"></textarea>
+  </div>
+  <div class="col-lg mt-2">
+    <h6>Row 2 content</h6>
+    <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input your row heading." id="td3"></textarea>
+  </div>
+  <div class="col-lg mt-2">
+    <h6>Row 2 content</h6>
+    <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input your row heading." id="td4"></textarea>
+  </div>
+</div>
 
-      <span id="newTabArea"></span>   
+    
     
 <div class="row w-100 mx-auto">
         <div class="col-lg mt-3">
-      <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 5.">Step 4 - Generate/copy code</h5>
+      <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 4.">Step 3 - Generate/copy code</h5>
       <div>
-  <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy code" onClick=generateTabbedContentCode() ></p>
+  <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy code" onClick=generateTableCode() ></p>
   </div>
   <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code for your accordion and copy it to the clipboard."></textarea></p>
 </div>
 </div>
   <div class="row w-100 mx-auto mt-2 mb-3">
     <div class="col-lg">
-      <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 4.">Step 5 - Preview</h5>
+      <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 3.">Step 4 - Preview</h5>
       </div>
       </div>
   </form>
+
   <div id="demo"></div>
   <span class="my-3"></span>
   <a data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Opens in a new window." style="position:static; margin: 15px;" class="btn btn-lg btn-outline-success" href="https://docs.google.com/forms/d/e/1FAIpQLSeojgdmy3o6gUq1ZzuV3Q2YflUDfxH4TKKzz5lbpTJLmLOm5w/viewform?usp=sf_link" target="_blank">Feedback/Improvements/Issues <i class="fa fa-bullhorn"></i></a>
