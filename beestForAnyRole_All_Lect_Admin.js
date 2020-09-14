@@ -101,7 +101,6 @@ function sha256(ascii) {
 const match_admin = /Restore/;
 const match_lect = /Turn editing/;
 const match_tutor = /Recycle bin/;
-const match_tutor_lect_or_admin = /Restore|Turn editing|Recyclebin/;
 const key_current_role_raw = "CURRENT_ROLE"
 const key_current_role = sha256(key_current_role_raw)
 var match = [
@@ -148,46 +147,66 @@ function retrieve_from_local(key){
 }
 
 function setup_beest(MODE){
+	var cog_present=false;
+	var correct_role=false;
+	var role = null;
+	mode = MODE.toString();
+	
 	$(".dropdown-item").each(function(){
+		if ((cog_present)&&(correct_role)){
+			return //stop checking anything 
+		}
+		
 		var innerText = $(this).text()
-		var cog_present = (innerText.match(match_tutor_lect_or_admin))
-		mode = MODE.toString();
-		if((cog_present)&&(innerText.match(MODE))){
-			//if at any point cog present and can find the required text...
-			role = sha256(regex_to_role[mode])
-			
-			/*POSSIBLE DANGER: someone with cog access could change in the page the role by modifying localStorage in their browser directly
-			SOLUTION: encrypt both the localStorage key and value to make it practically impossible to change without knowledge of this code
-			*/
-			
-			//update current role of user to localStorage
-			save_to_local(key_current_role,role)
+		if (!(cog_present)){
+			//if you haven't *yet* found the any staff option check if this one is it
+			cog_present = ((innerText.match(match_tutor))!=null)
+			//null being the value when **not** a match
+		}
+		if (!(correct_role)){
+			//keep checking until you find the menu option matching the correct role (or you run out of menu options)
+			correct_role = ((innerText.match(MODE))!=null)
+		}
+		
+	});
+	
+	//now we've explored EACH menu option let's check if we should display the icon.
+	
+	if((cog_present)&&(correct_role)){
+		//if at any point cog present and can find the required text...
+		role = sha256(regex_to_role[mode])
+		
+		/*POSSIBLE DANGER: someone with cog access could change in the page the role by modifying localStorage in their browser directly
+		SOLUTION: encrypt both the localStorage key and value to make it practically impossible to change without knowledge of this code
+		*/
+		
+		//update current role of user to localStorage
+		save_to_local(key_current_role,role)
+		if (!(beest_icon_visible)){
+			make_beest_visible();
+			beest_icon_visible = true;
+			//paranoid checking -- don't show the icon if you're already done this on this page load
+		}
+	}
+	else if ((cog_present)&&(!(correct_role))){
+		//cog present but not correct role
+		role = "invalid" //unencrypted for testing purposes only*******!!!!!
+		save_to_local(key_current_role,role)
+		//override localStorage with 'invalid' option
+	}
+	else if (!(cog_present)){
+		//if can't find cog -- pull from local storage
+		role = retrieve_from_local(key_current_role) //should already be encrypted in SHA256
+		
+		//to decide whether to show or hide beest
+		if (sha256(regex_to_role[mode])===role){
+			//if the role (encrypted) matches the role for the lookup (encrypted) then make visible
 			if (!(beest_icon_visible)){
 				make_beest_visible();
 				beest_icon_visible = true;
 			}
 		}
-		else if ((cog_present)&&(!($(this).text().match(MODE)))){
-			//cog present but not correct role
-			role = sha256("invalid")
-			save_to_local(key_current_role,role)
-			//update localStorage to match
-		}
-		else if (!(cog_present)){
-			//if can't find cog -- pull from local storage
-			role = retrieve_from_local(key_current_role) //should already be encrypted in SHA256
-			
-			//to decide whether to show or hide beest
-			if (sha256(regex_to_role[mode])===role){
-				//if the role (encrypted) matches the role for the lookup (encrypted) then make visible
-				if (!(beest_icon_visible)){
-					make_beest_visible();
-					beest_icon_visible = true;
-				}
-			}
-		}
-		
-	});
+	}
 };
 
 function make_beest_visible(){
