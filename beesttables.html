@@ -77,11 +77,68 @@
 	const COUNTER_ID="tabCounter"
 	const absoluteMinTab = 3;
 	*/
+	var rowsWithData = 3
+	var currRow = 3
+	var currCol = 3
+	
+	const absoluteMaxRow = 10;
+	const absoluteMaxCol = 10;
+	const tableBody = "TABLE_BODY"
+	const baseRowID = "ROW"
 	const baseCellID = "CELL"
+	
+	var editableTableHTML = [[]]
 	
 	var tableContents = [
 		[]
 	] //empty 2d array
+	
+	$(document).ready(function() { 
+			wipeHTML("editTable")
+			generateEditableTable("editTable",currRow,currCol)
+	})
+	
+		function wipeHTML(idToWipe){
+			document.getElementById(idToWipe).innerHTML = ""
+		}
+	
+		function newEditTableRow(rowN,maxCols){
+			var theRow = []
+			
+			for (var colN=0;colN<maxCols;colN++){
+				if (theRow.length<=colN){
+					theRow.push("")
+				}
+				placeholder = "Input your row contents"
+				if (rowN==0){
+					placeholder = "Input your table heading"
+				}
+				else if (colN==0){
+					placeholder = "Input your bolded row contents"
+				}
+				theRow[colN] = newTextField(placeholder,baseCellID+rowN+"-"+colN)
+			}
+			return theRow
+		}
+	
+		function generateEditableTable(idToPlaceIn,maxRows,maxCols){
+			/*create the editable table on the page to write into*/
+			var placeholder="";
+			for (var rowN=0;rowN<maxRows;rowN++){
+				if (editableTableHTML.length<=rowN){
+					editableTableHTML.push([])
+				}
+				for (var colN=0;colN<maxCols;colN++){
+					editableTableHTML[rowN] = newEditTableRow(rowN,maxCols)
+				}
+			}
+			var tableHTML = newTableCode(editableTableHTML)
+			document.getElementById(idToPlaceIn).innerHTML = tableHTML
+		}
+	
+		function newTextField(placeholder,id){
+			return "<textarea id=\""+id+"\" placeholder=\""+placeholder+"\" class=\"border border-dark rounded p-2 w-100\" cols=\"70\" rows=\"1\" name=\""+id+"\"></textarea>"
+		}
 	
 		function newCellCode(rowNum,colNum,contents){
 			var cellCode = ""
@@ -101,7 +158,7 @@
 		/*
 		length of contents array must match column count for the row
 		*/
-			var rowCode = "<tr>"
+			var rowCode = "<tr id=\""+baseRowID+rowNum+"\">"
 			var thisCell;
 			var cellContent;
 			
@@ -127,7 +184,7 @@
 						tableCode += "<thead class=\"thead-dark h5\">"
 						break;
 					case 1:
-						tableCode += "</thead><tbody>"
+						tableCode += "</thead><tbody id=\""+tableBody+"\">"
 						break;
 				}
 
@@ -141,44 +198,108 @@
 		}
 		
 		function getCellContents(row,col){
-			return document.getElementById(baseCellID+row+"-"+col).value
+			return getCell(row,col).value
+		}
+		function getCell(row,col){
+			return document.getElementById(baseCellID+row+"-"+col)
 		}
 		
-		function getHTMLBlock(base,num){
-			return document.getElementById(base+num)
+		function removeRow(){
+			//will remove the nth row from the page (and generated code) where n = currRow global value
+			if (currRow > 1){
+				currRow -= 1; //so now this row won't be included in generated code
+				
+				hideHTML(baseRowID+currRow) //row disappears in html page
+				
+				if (currRow == 1){
+					hideButton("minusbutton")
+				}
+				if (currRow < absoluteMaxRow){
+					showButton("plusbutton")
+				}
+			}
+			else{
+				alert("cannot delete only remaining row")
+			}
 		}
+		
+		function addRow(){
+			if (currRow < absoluteMaxRow){
+				
+				if (currRow < rowsWithData){
+					showHTML(baseRowID+currRow)
+				}
+				else{
+					//if no row yet exists
+					
+					//is there a body?
+					tableBodyTag = document.getElementById(tableBody)
+					if (tableBodyTag!=null){
+						var rowContents = newEditTableRow(currRow,currCol)
+						var theRow = newRowCode(currRow,rowContents)
+						tableBodyTag.innerHTML+=theRow
+						rowsWithData++
+					}
+					else{
+						//is there only a head?
+						alert("no table body found to add to -- please click the feedback/improvements/issues button and let us know what happened")
+					}
+
+					
+					
+				}
+				
+				currRow++
+				
+				
+				
+				if (currRow == absoluteMaxRow){
+					hideButton("plusbutton")
+				}
+				if (currRow > 1){
+					showButton("minusbutton")
+				}
+			}
+			else{
+				alert("too many rows -- consider the amount of information you are displaying")
+			}
+		
+		}
+		
+		
+	function hideHTML(id){htmlStyle(id,"display","none")}
+	function showHTML(id){htmlStyle(id,"display","")}
 	function htmlStyle(id,styleName,styleResult){
 		document.getElementById(id).style[styleName]=styleResult
 	}
 	function hideButton(id){
 		document.getElementById(id).disabled = true
-		htmlStyle(id,"display","none")
+		hideHTML(id)
 	}
 	function showButton(id){
 		document.getElementById(id).disabled = false
-		htmlStyle(id,"display","")
+		showHTML(id)
 	}
 	
-	function getTableContentsFromPage(){
-		var maxRow = 3
-		var maxCol = 3
+	function getTableContentsFromPage(maxRow,maxCol){
+		var the_table = [[]]
 		for (var rowN=0;rowN<maxRow;rowN++){
-			if (tableContents.length<=rowN){
-				tableContents.push([])
+			if (the_table.length<=rowN){
+				the_table.push([])
 			}
 			for (var colN=0;colN<maxCol;colN++){
-				if (tableContents[rowN].length<=colN){
-					tableContents[rowN].push("")
+				if (the_table[rowN].length<=colN){
+					the_table[rowN].push("")
 				}
-				tableContents[rowN][colN] = getCellContents(rowN,colN)
+				the_table[rowN][colN] = getCellContents(rowN,colN)
 			}
 		}
-		return tableContents
+		return the_table
 	}
 			
-      function generateTableCode() {
+    function generateTableCode() {
 	  
-		tableContents = getTableContentsFromPage()
+		tableContents = getTableContentsFromPage(currRow,currCol)
 	  
 		var textOutputTable = newTableCode(tableContents)
 	  
@@ -196,10 +317,6 @@
         var popup = document.getElementById("myPopup");
         popup.classList.toggle("showPopup");
     }
-
-	function updatePageCounter(ID,currCounter){
-		document.getElementById(ID).innerHTML = currCounter;
-	}
 
     function submitform()
     {
@@ -379,28 +496,18 @@
 <form id="monTabsForm">
   <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Add headings for your table.">Step 1 - Add table contents</h5>
     
+	<div class="btn-group btn-group-justified" role="group" id="addMinusButtons">
+<div class="btn-group-lg" role="group">
+<button id="plusbutton" onclick="addRow()" type="button" class="btn btn-success mr-2">Add row <i class="fa fa-fw fa-plus"></i></button>
+</div><div class="btn-group-lg" role="group">
+<button id="minusbutton" onclick="removeRow()" type="button" class="btn btn-danger">Remove row <i class="fa fa-fw fa-times"></i></button>
+</div>
+</div>
+	
 	<div id="editTable">
 	
-	<table class="table table-hover table-striped table-responsive-lg border border-dark"><thead class="thead-dark h5"><tr><th scope="col"><div class="col-lg">
-		<textarea id="CELL0-0" placeholder="Add table heading here." class="border border-dark rounded p-2 w-100" cols="70" rows="1" name="CELL0-0"></textarea>
-	</div></th><th scope="col"><div class="col-lg">
-		<textarea id="CELL0-1" placeholder="Add table heading here." class="border border-dark rounded p-2 w-100" cols="70" rows="1" name="CELL0-1"></textarea>
-	</div></th><th scope="col"><div class="col-lg">
-		<textarea id="CELL0-2" placeholder="Add table heading here." class="border border-dark rounded p-2 w-100" cols="70" rows="1" name="CELL0-2"></textarea>
-	</div></th></tr></thead><tbody><tr><th scope="row"><div class="col-lg mt-2">
-		<textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input your row heading." id="CELL1-0"></textarea>
-	</div></th><td><div class="col-lg mt-2">
-		<textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input your row contents." id="CELL1-1"></textarea>
-	</div></td><td><div class="col-lg mt-2">
-		<textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input your row contents." id="CELL1-2"></textarea>
-	</div></td></tr><tr><th scope="row"><div class="col-lg mt-2">
-		<textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input your row heading." id="CELL2-0"></textarea>
-	</div></th><td><div class="col-lg mt-2">
-		<textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input your row contents." id="CELL2-1"></textarea>
-	</div></td><td><div class="col-lg mt-2">
-       <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input your row contents." id="CELL2-2"></textarea>
-	</div></td></tr></tbody></table>
-	
+	please wait for page to load
+
 	</div>
 
 	
