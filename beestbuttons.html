@@ -101,7 +101,8 @@
 				alert("button target option chosen not covered by 'generateBtnCode()'")
 			break;
 		}
-        document.getElementById('txtareaBtn').innerHTML=textOutput;
+             
+        document.getElementById('txtareaBtn').value=textOutput;
         SelectAll("txtareaBtn");
         $('#demo').nextAll('div').remove();
         $('#demo').after(textOutput);
