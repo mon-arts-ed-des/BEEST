@@ -66,7 +66,7 @@
     -->
 
     <script type="text/javascript">
-  
+  /*
 	const maxTabs = 10 //when to stop creating - I think min 3 max 10 like accordions is the best for consistency.
 	const requiredInitialTabs = 3; //the default number of tabs to start with
 	const TINYMCE_ID_BASE = "tinyMCEmonTabContent"
@@ -76,136 +76,76 @@
 	const DO_NOT_USE = "DO_NOT_USE"
 	const COUNTER_ID="tabCounter"
 	const absoluteMinTab = 3;
+	*/
+	const baseCellID = "CELL"
 	
-
- 	tinymce.init({
-			selector: '#'+TINYMCE_ID_BASE+'1',
-			menubar: false,
-			plugins : 'advlist autolink link lists charmap print preview code',
-			  toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code'
-			});
-
-
-		var createdTabs = 1; //representing how many tabs are currently available on the page
-		var visibleTabs = 1;
-		
-		$(document).ready(function() { 
-			while (createdTabs < requiredInitialTabs)
-			{
-				addTab(createdTabs+1); //if have 1, next one to create is 2
-				//hence if have X need to make X+1
-				createdTabs++
-				visibleTabs++
+	var tableContents = [
+		[]
+	] //empty 2d array
+	
+		function newCellCode(rowNum,colNum,contents){
+			var cellCode = ""
+			if (rowNum==0){
+				cellCode = "<th scope=\"col\">"+contents+"</th>"
 			}
-			updatePageCounter(COUNTER_ID,visibleTabs)
-		})
-		
-		
-		function tabTemplate(tabNum){
-			var result = '<div id='+OUTER_BLOCK_ID_BASE+tabNum+' class="row w-100 mx-auto"><div class="col-lg mt-2"><h6>Tab '+tabNum+'</h6><textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button" id="'+HEADING_ID_BASE+tabNum+'"></textarea></div><div class="col-lg mt-2"><h6>Content '+tabNum+'</h6><textarea id="'+TINYMCE_ID_BASE+tabNum+'" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="'+INNER_HEADING_ID_BASE+tabNum+'"></textarea></div></div>'
-			return result
-		}
-		
-		function addTab(tabNum){
-			var newTab = tabTemplate(tabNum)
-			
-			var newArea = document.getElementById("newTabArea")
-			newArea.insertAdjacentHTML('beforeend', newTab)
-			
-			tinymce.init({
-				selector: '#'+TINYMCE_ID_BASE+tabNum,
-				menubar: false,
-				plugins : 'advlist autolink link lists charmap print preview code',
-				  toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code'
-				});
-			}
-		
-			
-		function showTab(tabNum){
-			var thisouter = getOuterBlock(tabNum)
-			thisouter.style.display=""
-			thisouter[DO_NOT_USE]=undefined
-				
-			getHeadingText(tabNum)[DO_NOT_USE]=undefined
-			getTinyMCEText(tabNum)[DO_NOT_USE]=undefined
-		}
-		function hideTab(tabNum){
-			var thisouter = getOuterBlock(tabNum)
-			thisouter.style.display="none"
-			thisouter[DO_NOT_USE]=true
-				
-			getHeadingText(tabNum)[DO_NOT_USE]=true
-			getTinyMCEText(tabNum)[DO_NOT_USE]=true
-		}
-			
-		function addSection(){
-		/*
-		use the addTab to construct a new tab (or show existing)
-		(maximum maxTabs tabs)
-		*/	
-			var newVisCount = visibleTabs+1
-			if (newVisCount > maxTabs){
-				alert("maximum accordion sections reached") //just in case button is still clicked despite being hidden
-				return
-			}
-		
-			if (newVisCount > createdTabs){
-			
-				addTab(newVisCount)
-				visibleTabs++
-				createdTabs++
-				updatePageCounter(COUNTER_ID,visibleTabs)
+			else if (colNum==0){
+				cellCode = "<th scope=\"row\">"+contents+"</th>"
 			}
 			else{
-				showTab(newVisCount)
-				visibleTabs++
-				updatePageCounter(COUNTER_ID,visibleTabs)
+				cellCode = "<td>"+contents+"</td>"
 			}
-			if (newVisCount >= maxTabs){
-				hideButton("plusbutton")
-			}
-			if (newVisCount > absoluteMinTab){
-				showButton("minusbutton")
-			}
+			return cellCode
 		}
-
-	function removeSection(){
+		
+		function newRowCode(rowNum,contentsArray){
 		/*
-		hide an existing one (minimum absoluteMinAccord sections)
-		TBC change arrays at end
+		length of contents array must match column count for the row
 		*/
-			if (visibleTabs <= absoluteMinTab){
-				alert("minimum accordion sections reached") //just in case button is still clicked despite being hidden
-				return
+			var rowCode = "<tr>"
+			var thisCell;
+			var cellContent;
+			
+			for (var colN = 0; colN < contentsArray.length; colN++){
+				cellContent = contentsArray[colN]
+				thisCell = newCellCode(rowNum,colN,cellContent)
+				rowCode += thisCell
 			}
+			rowCode += "</tr>"
+			
+			return rowCode
+		}
 		
-			var tabToHide = getOuterBlock(visibleTabs)
-			hideTab(visibleTabs)
-		
-			visibleTabs -= 1;
-			updatePageCounter(COUNTER_ID,visibleTabs)
-			if (visibleTabs <= absoluteMinTab)
-			{
-				hideButton("minusbutton")
+		function newTableCode(contentsArray){
+		/*
+		format should be [[r0c0,r0c1,r0c2,...],[r1c0,r1c1,c1c2,...],...]
+		*/
+			var tableCode = "<table class=\"table table-hover table-striped table-responsive-lg border border-dark\">"
+
+			for (var rowN=0;rowN<contentsArray.length;rowN++){
+				switch(rowN){
+					case 0:
+						tableCode += "<thead class=\"thead-dark h5\">"
+						break;
+					case 1:
+						tableCode += "</thead><tbody>"
+						break;
+				}
+
+				tableCode += newRowCode(rowN,contentsArray[rowN])
+				
 			}
 			
-			if (visibleTabs < maxTabs){
-				showButton("plusbutton")
-			}
+			tableCode += "</tbody></table>"
 			
-		}		
+			return tableCode
+		}
 		
-		function getTinyMCEText(tabNum){
-			return tinyMCE.get(TINYMCE_ID_BASE+tabNum)
+		function getCellContents(row,col){
+			return document.getElementById(baseCellID+row+"-"+col).value
 		}
-		function getOuterBlock(tabNum){
-			return getHTMLBlock(OUTER_BLOCK_ID_BASE,tabNum)
-		}
+		
 		function getHTMLBlock(base,num){
 			return document.getElementById(base+num)
-		}	
-		function getHeadingText(tabNum){
-			return getHTMLBlock(HEADING_ID_BASE,tabNum)
 		}
 	function htmlStyle(id,styleName,styleResult){
 		document.getElementById(id).style[styleName]=styleResult
@@ -218,113 +158,33 @@
 		document.getElementById(id).disabled = false
 		htmlStyle(id,"display","")
 	}
+	
+	function getTableContentsFromPage(){
+		var maxRow = 3
+		var maxCol = 3
+		for (var rowN=0;rowN<maxRow;rowN++){
+			if (tableContents.length<=rowN){
+				tableContents.push([])
+			}
+			for (var colN=0;colN<maxCol;colN++){
+				if (tableContents[rowN].length<=colN){
+					tableContents[rowN].push("")
+				}
+				tableContents[rowN][colN] = getCellContents(rowN,colN)
+			}
+		}
+		return tableContents
+	}
 			
       function generateTableCode() {
-  
-  var thColContent1 = document.getElementById('tColHeading1').value;
-  var thColContent2 = document.getElementById('tColHeading2').value;
-  var thColContent3 = document.getElementById('tColHeading3').value;
-  var thRowContent1 = document.getElementById('tRowHeading1').value;
-  var thRowContent2 = document.getElementById('tRowHeading2').value;
-  var tdContent1 = document.getElementById('td1').value;
-  var tdContent2 = document.getElementById('td2').value;
-  var tdContent3 = document.getElementById('td3').value;
-  var tdContent4 = document.getElementById('td4').value;
-  var tableOpen = "<table class=\"table table-hover table-striped table-responsive-lg border border-dark\">"
-  var theadOpen = "<thead class=\"thead-dark h5\">"
-  var theadClose = "</thead>"
-  var trOpen = "<tr>"
-  var trClose = "</tr>"
-  var tdOpen = "<td>"
-  var tdClose = "</td>"
-  var thColOpen = "<th scope=\"col\">"
-  var thRowOpen = "<th scope=\"row\">"
-  var thClose = "</th>"
-  var tBodyOpen = "<tbody>"
-  var tBodyClose = "</tbody>"
-  var tableClose = "</table>"
-  var tableHeadingRow = theadOpen+trOpen+thColOpen+thColContent1+thClose+thColOpen+thColContent2+thClose+thColOpen+thColContent3+thClose+trClose+theadClose;
-  var tr1Content = trOpen+thRowOpen+thRowContent1+thClose+tdOpen+tdContent1+tdClose+tdOpen+tdContent2+tdClose+trClose;
-  var tr2Content = trOpen+thRowOpen+thRowContent2+thClose+tdOpen+tdContent3+tdClose+tdOpen+tdContent4+tdClose+trClose;
-  var textOutputTable = tableOpen+tableHeadingRow+tBodyOpen+tr1Content+tr2Content+tBodyClose+tableClose;
-  
-	var currTabs; //representing how many tabs are currently available on the page and seen by this method
-	var tabContentTxt = [] //an extendible array to hold the text content in any tab
-	var tabHTxt = [] //to hold the heading text for each tab
-	var tabIDs = [] //to hold the IDs we'll assign to the tags
-	var moreTabs = true
-
-	currTabs = 1; //assume there's at least one
-	while ((currTabs <= maxTabs) && (moreTabs)){
-	//repeat until we've captured all of the tabs in the page (currTabs becomes maxTabs OR it breaks not finding one)
-		var tinyObj = getTinyMCEText(currTabs)
-		var headingObj = getHeadingText(currTabs)
-		//assumes each follow the same ID format -- see globals for format
-		
-		if ((tinyObj == null)||(headingObj == null)||(headingObj[DO_NOT_USE]!=undefined)||(tinyObj[DO_NOT_USE]!=undefined)){ // stop looping if one couldn't find the id OR you could but the tab is invisible on the page
-		// NOTE: the order of this condition is important! checking tinyObj and headingObj are null must happen before accessing an attribute within them
-			moreTabs = false
-			currTabs--; //to cancel out advancing one too far and discovering no tabbed area
-		}
-		else{
-			//put the content/value/ids into this spot in the array
-			tabContentTxt[currTabs] = tinyObj.getContent()
-			tabHTxt[currTabs] = headingObj.value
-			tabIDs[currTabs] = {head:"tab"+currTabs, cont:"t"+currTabs}
-			currTabs++;
-		}
-	}
-	if (currTabs==(maxTabs+1)){currTabs = maxTabs}
-	//at this point currTabs represents the total number of tabs on the page
-	
-	var tabHeadingHTMLs = [] //to hold the HTML of the headings
-	var tabContentHTMLs = [] //to hold the HTML of the content
-	//looping to generate the headings1,2,etc. and content1,2,etc.
-	for (var headContI=1;headContI<=currTabs;headContI++){
-		tabHeadingHTMLs[headContI] = "<a class=\"nav-link"
-		if (headContI==1){//only for the first one
-			tabHeadingHTMLs[headContI]+=" active show"
-		}
-		//since headContI changes each time we go through the loop it talks about the next tabbed section and then the next one
-		tabHeadingHTMLs[headContI]+="\" id=\""+tabIDs[headContI].head+"\" data-toggle=\"pill\" href=\"#"+tabIDs[headContI].cont+"\" role=\"tab\" aria-controls=\"v-tabs-"+tabIDs[headContI].cont+"\" aria-selected=\""
-		tabHeadingHTMLs[headContI]+=(headContI==1)+"\">"+tabHTxt[headContI]+"</a>"; //instead of if x==1 --> y=true we can say y=(x==1)
-		
-		tabContentHTMLs[headContI]="<div class=\"tab-pane p-3 fade"
-		if (headContI==1){//only for the first one
-			tabContentHTMLs[headContI]+=" active show"
-		}
-		tabContentHTMLs[headContI]+="\" id=\""+tabIDs[headContI].cont+"\" role=\"tabpanel\" aria-labelledby=\"v-tabs-"+tabIDs[headContI].cont+"-tab\">";
-	}
-
-  //Heading variables
-	var monTabHeading_Open = "<script> var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://mon-arts-ed-des.github.io/artsmoodlecode/monTabs.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t><div class=\"row w-100 mx-auto mb-3\"><div class=\"col-3\"><div class=\"nav monTabs flex-column nav-pills border-arts rounded\" id=\"v-tabs-tab\" role=\"tablist\" aria-orientation=\"vertical\">";
-    var monTabHeading_Close="</div></div>";
-  //Content variables
-    var monTabContent_Open="<div class=\"col-9\"><div class=\"tab-content border-arts-3 rounded\" id=\"v-tabs-tabContent\">";
-    var monTabContent_Close="</div>";
-    var monTabContent_Final="</div></div>";//triple div close to double div close and the final product can stop with +close+final instead of +final to simplify looping
-
-        //Retrieve the content by id of the textareas
-   	var textOutputTabbedContent = monTabHeading_Open
-	
-	for (var headingIndex=1;headingIndex<=currTabs;headingIndex++){
-		textOutputTabbedContent+=tabHeadingHTMLs[headingIndex]
-	} //add in as many tabHeadingHTMLs as there are
-	
-	textOutputTabbedContent+=monTabHeading_Close+monTabContent_Open //add the close and open for the contents of the tab
-	
-	for (var contentIndex=1;contentIndex<=currTabs;contentIndex++){
-		textOutputTabbedContent+=tabContentHTMLs[contentIndex]+tabContentTxt[contentIndex]+monTabContent_Close
-		//add in tabhtml + contents of tab + close the tab's html
-	}
-	textOutputTabbedContent+=monTabContent_Final //close the html (double div end instead of triple as _Close includes a div end)
-	
-  
-	
+	  
+		tableContents = getTableContentsFromPage()
+	  
+		var textOutputTable = newTableCode(tableContents)
+	  
         document.getElementById('txtareaBtn').innerHTML=textOutputTable;
         SelectAll("txtareaBtn");
-        $('#demo').nextAll('div').remove();
-        $('#demo').after(textOutputTable);
+        document.getElementById('demo').innerHTML = textOutputTable;
      
       }
         
@@ -517,53 +377,36 @@
       </div></div></div>
 <hr class="hr-3">
 <form id="monTabsForm">
-  <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Add headings for your table.">Step 1 - Add table column headings</h5>
-<div class="row w-100 mx-auto">
-  <div class="col-lg">
-    <textarea id="tColHeading1" placeholder="Add table heading here." class="border border-dark rounded p-2 w-100" cols="70" rows="1" name="tColHeading1"></textarea>
-</div>
-<div class="col-lg">
-  <textarea id="tColHeading2" placeholder="Add table heading here." class="border border-dark rounded p-2 w-100" cols="70" rows="1" name="tColHeading2"></textarea>
-</div>
-<div class="col-lg">
-  <textarea id="tColHeading3" placeholder="Add table heading here." class="border border-dark rounded p-2 w-100" cols="70" rows="1" name="tColHeading3"></textarea>
-</div>
-</div>
-<h5 data-toggle="tooltip" data-placement="right" class="w-25" data-trigger="hover focus" title="Add the content for your table.">Step 2 - Add content</h5>
-<div class="row w-100 mx-auto">
-  <div class="col-lg mt-2">
-    <h6>Row 1 heading</h6>
-    <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input your row heading." id="tRowHeading1"></textarea>
-  </div>
-  <div class="col-lg mt-2">
-    <h6>Row 1 content</h6>
-    <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input your row heading." id="td1"></textarea>
-  </div>
-  <div class="col-lg mt-2">
-    <h6>Row 1 content</h6>
-    <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input your row heading." id="td2"></textarea>
-  </div>
-</div>
-<div class="row w-100 mx-auto">
-  <div class="col-lg mt-2">
-    <h6>Row 2 heading</h6>
-    <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input your row heading." id="tRowHeading2"></textarea>
-  </div>
-  <div class="col-lg mt-2">
-    <h6>Row 2 content</h6>
-    <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input your row heading." id="td3"></textarea>
-  </div>
-  <div class="col-lg mt-2">
-    <h6>Row 2 content</h6>
-    <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input your row heading." id="td4"></textarea>
-  </div>
-</div>
+  <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Add headings for your table.">Step 1 - Add table contents</h5>
+    
+	<div id="editTable">
+	
+	<table class="table table-hover table-striped table-responsive-lg border border-dark"><thead class="thead-dark h5"><tr><th scope="col"><div class="col-lg">
+		<textarea id="CELL0-0" placeholder="Add table heading here." class="border border-dark rounded p-2 w-100" cols="70" rows="1" name="CELL0-0"></textarea>
+	</div></th><th scope="col"><div class="col-lg">
+		<textarea id="CELL0-1" placeholder="Add table heading here." class="border border-dark rounded p-2 w-100" cols="70" rows="1" name="CELL0-1"></textarea>
+	</div></th><th scope="col"><div class="col-lg">
+		<textarea id="CELL0-2" placeholder="Add table heading here." class="border border-dark rounded p-2 w-100" cols="70" rows="1" name="CELL0-2"></textarea>
+	</div></th></tr></thead><tbody><tr><th scope="row"><div class="col-lg mt-2">
+		<textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input your row heading." id="CELL1-0"></textarea>
+	</div></th><td><div class="col-lg mt-2">
+		<textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input your row contents." id="CELL1-1"></textarea>
+	</div></td><td><div class="col-lg mt-2">
+		<textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input your row contents." id="CELL1-2"></textarea>
+	</div></td></tr><tr><th scope="row"><div class="col-lg mt-2">
+		<textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input your row heading." id="CELL2-0"></textarea>
+	</div></th><td><div class="col-lg mt-2">
+		<textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input your row contents." id="CELL2-1"></textarea>
+	</div></td><td><div class="col-lg mt-2">
+       <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input your row contents." id="CELL2-2"></textarea>
+	</div></td></tr></tbody></table>
+	
+	</div>
 
-    
-    
+	
 <div class="row w-100 mx-auto">
         <div class="col-lg mt-3">
-      <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 4.">Step 3 - Generate/copy code</h5>
+      <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 3.">Step 2 - Generate/copy code</h5>
       <div>
   <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy code" onClick=generateTableCode() ></p>
   </div>
@@ -572,10 +415,11 @@
 </div>
   <div class="row w-100 mx-auto mt-2 mb-3">
     <div class="col-lg">
-      <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 3.">Step 4 - Preview</h5>
+      <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 3.">Step 3 - Preview</h5>
       </div>
       </div>
   </form>
+	
 
   <div id="demo"></div>
   <span class="my-3"></span>
