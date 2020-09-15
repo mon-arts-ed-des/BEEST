@@ -66,17 +66,7 @@
     -->
 
     <script type="text/javascript">
-  /*
-	const maxTabs = 10 //when to stop creating - I think min 3 max 10 like accordions is the best for consistency.
-	const requiredInitialTabs = 3; //the default number of tabs to start with
-	const TINYMCE_ID_BASE = "tinyMCEmonTabContent"
-	const HEADING_ID_BASE = "monAccTabHeadingTxt"
-	const INNER_HEADING_ID_BASE = "monTabContent"
-	const OUTER_BLOCK_ID_BASE = "outerblock"
-	const DO_NOT_USE = "DO_NOT_USE"
-	const COUNTER_ID="tabCounter"
-	const absoluteMinTab = 3;
-	*/
+
 	var rowsWithData = 3
 	var colsWithData = 3
 	var currRow = 3
@@ -87,6 +77,7 @@
 	const tableBody = "TABLE_BODY"
 	const baseRowID = "ROW"
 	const baseCellID = "CELL" //format for a cell is baseCellID+row+"-"+col
+	const previewMode = false;
 	
 	var editableTableHTML = [[]]
 	
@@ -97,6 +88,12 @@
 	$(document).ready(function() { 
 			wipeHTML("editTable")
 			generateEditableTable("editTable",currRow,currCol)
+			if (previewMode){
+				showButton("edit")
+			}
+			else{
+				hideButton("edit")
+			}
 	})
 	
 		function wipeHTML(idToWipe){
@@ -202,8 +199,9 @@
 			return getCell(row,col).value
 		}
 		function getCell(row,col){
-			return document.getElementById(baseCellID+row+"-"+col)
+			return document.getElementById(cellID(row,col))
 		}
+		function cellID(row,col){return baseCellID+row+"-"+col}
 		
 		function removeRow(){
 			//will remove the nth row from the page (and generated code) where n = currRow global value
@@ -224,6 +222,15 @@
 			}
 		}
 		
+		function resetColDisplay(rowNum,colsToDisplay,maxCols){
+			for (var colN=0; colN < colsToDisplay; colN++){
+				showHTML(cellID(rowNum,colN))
+			}
+			for (colN=colsToDisplay; colN < maxCols; colN++){
+				hideHTML(cellID(rowNum,colN))
+			}
+		}
+		
 		function addRow(){
 			if (currRow < absoluteMaxRow){
 				if (currRow < rowsWithData){
@@ -238,6 +245,8 @@
 						var rowContents = newEditTableRow(currRow,currCol)
 						var theRow = newRowCode(currRow,rowContents)
 						tableBodyTag.innerHTML+=theRow
+						
+						editableTableHTML.push(rowContents) // save it for direct access
 						rowsWithData++
 					}
 					else{
@@ -245,6 +254,7 @@
 						alert("no table body found to add to -- please click the feedback/improvements/issues button and let us know what happened")
 					}
 				}
+				resetColDisplay(currRow,currCol,colsWithData)
 				currRow++
 				if (currRow == absoluteMaxRow){
 					hideButton("plusbutton")
@@ -308,18 +318,20 @@
 				if (rNum==0){placeholder = "Input your table heading"}
 				newColContent = newTextField(placeholder,baseCellID+rNum+"-"+colNum)
 				rowsList[rNum].innerHTML += newCellCode(rNum,colNum,newColContent)
+				editableTableHTML[rNum][colNum]=newColContent //keep it available for later
+				
 			}
 		}
 		
 		function showColHTML(maxRows,colNumber){
 			for (var rNum=0;rNum < maxRows; rNum++){
-				showHTML(baseCellID+rNum+"-"+colNumber)
+				showHTML(cellID(rNum,colNumber))
 			}
 		}
 		
 		function hideColHTML(maxRows,colNumber){
 			for (var rNum=0;rNum < maxRows; rNum++){
-				hideHTML(baseCellID+rNum+"-"+colNumber)
+				hideHTML(cellID(rNum,colNumber))
 			}
 		}
 		
@@ -341,7 +353,25 @@
 			}
 		}
 		
+		function setValuesInFields(maxRows,maxCols){
+			//for all cell set value to value in version
+			for (var rNum=0;rNum<maxRows;rNum++){
+				for (var cNum=0;cNum<maxCols;cNum++){
+					getCell(rNum,cNum).value = tableContents[rNum][cNum]
+				}
+			}
+		}
 		
+		function setRowToDisplayX(rowNum,displayData){
+			var rowElement = document.getElementById(baseRowID+rowNum)
+			//rowElement.innerHTML = ""
+			
+			var newRowHTML = ""//for INSIDE the row
+			for (var colN=0; colN < displayData.length; colN++){
+				newRowHTML+= newCellCode(rowNum,colN,displayData[colN])
+			}
+			rowElement.innerHTML = newRowHTML
+		}
 	function hideHTML(id){htmlStyle(id,"display","none")}
 	function showHTML(id){htmlStyle(id,"display","")}
 	function htmlStyle(id,styleName,styleResult){
@@ -371,18 +401,39 @@
 		}
 		return the_table
 	}
-			
+	
+	function activatePreviewMode(){
+		for (var rNum=0; rNum < currRow; rNum++){
+			setRowToDisplayX(rNum,tableContents[rNum])
+		}
+	}
+	
     function generateTableCode() {
 	  
 		tableContents = getTableContentsFromPage(currRow,currCol)
 	  
+		
+  
 		var textOutputTable = newTableCode(tableContents)
 	  
         document.getElementById('txtareaBtn').innerHTML=textOutputTable;
         SelectAll("txtareaBtn");
-        document.getElementById('demo').innerHTML = textOutputTable;
-     
+        if (previewMode){
+			activatePreviewMode()
+		}
+		else{
+			document.getElementById('demo').innerHTML = textOutputTable;
+		}
       }
+	  
+	function editMode(){
+		if (previewMode){
+			for (var rNum=0; rNum < currRow; rNum++){
+				setRowToDisplayX(rNum,editableTableHTML[rNum])
+			}
+			setValuesInFields(currRow,currCol)
+		}
+	}
         
     function SelectAll(id){
         document.getElementById(id).focus();
@@ -609,7 +660,11 @@
         <div class="col-lg mt-3">
       <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 3.">Step 2 - Generate/copy code</h5>
       <div>
-  <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy code" onClick=generateTableCode() ></p>
+  <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Save and copy code" onClick=generateTableCode() >
+  
+  <button id="edit" onClick=editMode()>Edit values</button>
+  
+  </p>
   </div>
   <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code for your accordion and copy it to the clipboard."></textarea></p>
 </div>
