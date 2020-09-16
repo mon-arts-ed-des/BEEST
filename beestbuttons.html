@@ -172,6 +172,18 @@
       window.onload=function(){
         $('#beestNav').load('https://mon-arts-ed-des.github.io/BEEST/beestnav.html');
         $('#beestFooter').load('https://mon-arts-ed-des.github.io/BEEST/beestfooter.html');
+        function activeNav() {
+          var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
+           $(".nav-link").each(function(){
+                if($(this).attr("href") == pgurl || $(this).attr("href") == '' )
+                $(this).addClass("active");
+                $(this).append('<span class="sr-only">(current)</span>')
+           });
+      }
+      
+      setTimeout(function() {
+          activeNav();
+      }, 100);
     };
     </script>
     <style>
@@ -248,7 +260,6 @@
     </head>
     <body>
       <div id="beestNav"></div>
-      <!--<nav class="navbar navbar-expand-lg navbar-dark bg-arts mb-3">
         <a class="navbar-brand text-center border border-white p-2 rounded" href="index.html"><img src="dragon-solid-white.png" width="30" height="30" alt=""></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
