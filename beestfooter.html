@@ -20,26 +20,41 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- FontAwesome js file --> 
     <script src="https://kit.fontawesome.com/3817feae52.js"></script> 
+    <script>  
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+      </script>
     </head>
     <style>
-        .btn-outline-light:hover {color: #006dae;
+        .tooltip-inner {
+            text-align: left;
+            padding: 15px;
+            font-size: 1.05rem;
+            max-width: 480px;
+}
+        .btn-outline-light:hover {
+            color: #006dae;
         }
     </style>
-<footer class="bg-arts text-white">
-    <div class="row w-75 mx-auto">
-        <div class="col-lg-1">
-            <img src="https://mon-arts-ed-des.github.io/BEEST/dragon-solid-white.png" class="img-fluid" />
+<footer class="bg-arts text-white" style="line-height:3rem;">
+    <div class="row w-100 mx-auto">
+        <div class="col-lg-1 text-center">
+            <p style="line-height:3rem;margin-top:20px;">
+            <a href="index.html"><img class="my-auto border border-white rounded p-2" src="https://mon-arts-ed-des.github.io/BEEST/dragon-solid-white.png" style="width:70px; height:70px;" /></a></p>
         </div>
-<div class="col-lg mt-2">
-<a class="btn btn-outline-light btn-lg w-100" href="#">Feedback/Improvements/Issues</a></p>
+<div class="col-lg my-3">
+    <p style="line-height:3rem;margin-top:12px;">
+<a class="btn btn-outline-light btn-lg w-100" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Opens in a new window." href="https://docs.google.com/forms/d/e/1FAIpQLSeojgdmy3o6gUq1ZzuV3Q2YflUDfxH4TKKzz5lbpTJLmLOm5w/viewform?usp=sf_link" target="_blank">Feedback/Improvements/Issues</a></p>
 </div>
-<div class="col-lg mt-2">
-    <a class="btn btn-outline-light btn-lg w-100" href="mailto:beest@monash.edu" target="_blank">Contact BEEST support</a>
+<div class="col-lg my-3">
+    <p style="line-height:3rem;margin-top:12px;">
+    <a data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Opens a prefilled email in a new window." class="btn btn-outline-light btn-lg w-100" href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=beest@monash.edu&su=Question%20about%20BEEST%20tool" target="_blank">Contact BEEST support</a></p>
 </div>
-<div class="col-lg mt-4 mb-3">
-    <p class="h5 text-center"><i class="fa fa-copyright"></i> Monash University 2020</p>
+<div class="col-lg-2 my-3 text-center">
+    <p style="line-height:3rem;margin-top:12px;" class="h5 text-left"><i class="fa fa-copyright"></i> Monash University 2020</p>
 </div>
 </div>
   </footer>
-
+  
 </html>
