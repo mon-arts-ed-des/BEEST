@@ -28,9 +28,9 @@
    tinymce.init({
         selector: '#tinyMCEpollEv',
         menubar: false,
-          plugins : 'advlist autolink link lists charmap print preview' 
+        plugins : 'advlist autolink link lists charmap print preview code',
+          toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat'  
       });
-	  
     function generatePollEvCode() {
          console.debug(tinyMCE.activeEditor.getContent());
 

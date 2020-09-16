@@ -39,11 +39,10 @@
 	
  	tinymce.init({
 			selector: '#'+TINYMCE_ID_BASE+'1',
-			menubar: false,
-			plugins : 'advlist autolink link lists charmap print preview code',
-			  toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code'
-			});
-
+      menubar: false,
+        plugins : 'advlist autolink link lists charmap print preview code',
+          toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat'  
+      });
 
 		var createdTabs = 1; //representing how many tabs are currently available on the page
 		var visibleTabs = 1;
@@ -73,9 +72,9 @@
 			
 			tinymce.init({
 				selector: '#'+TINYMCE_ID_BASE+tabNum,
-				menubar: false,
-				plugins : 'advlist autolink link lists charmap print preview code',
-				  toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code'
+        menubar: false,
+        plugins : 'advlist autolink link lists charmap print preview code',
+          toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat'  
 				});
 			}
 		
