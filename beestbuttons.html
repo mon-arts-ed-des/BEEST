@@ -12,7 +12,8 @@
     <!-- Bootstrap CSS -->   
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Arts CSS -->  
-    <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/adminPlusSetuBlockStyle.css" />
+    <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/monashElements.css" />
+    
     
     <!-- external link to js file -->  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -35,6 +36,14 @@
         var faIcon = document.getElementById('faCode').value;
         var bsColour = document.getElementById('btnColour').value;
         var bsBtnSize = document.getElementById('buttonSize').value;
+        var btnLeft="<div><p>"
+        var btnCenter="<div class=\"text-center\"><p>"
+        var btnBlockSwap="<div class=\"text-center mx-2\"><p>"
+        var btnNW_1="\" target=\"_blank\">"
+        var btnNW_2="</a></p><p>(Opens in a new window)</p></div>"
+        var btnSW_1="\">"
+        var btnSW_2="</a></p></div>"
+
         var iconNames = {
             "noI":"",
 			      "1":"arrow-right",
@@ -44,17 +53,19 @@
             "5":"play",
             "6":"play-circle-o" 
              }
+
         var iconName = iconNames[faIcon];
 		    var faIconCode = " <i class=\"fa fa-"+iconName+"\"></i>"
         var buttonSize = {
-          "1":"",
+          "1":" ",
           "2":" btn-lg ",
           "3":" btn-sm ",
           "4":" btn-block ",
           "5":" btn-lg btn-block ",
-          "6":" btn-sm btn-block ",
+          "6":" btn-sm btn-block "
         }
         var btnSize = buttonSize[bsBtnSize];
+       
         var colourNames = {
 			      "1":"mu",
             "2":"danger",
@@ -73,22 +84,34 @@
             "15":"outline-secondary"
              }
         var colourName = colourNames[bsColour];
-		    var btnClrCode = "<a class=\"btn btn-"+colourName+""+btnSize+" rounded btn-default m-1\" role=\"button\" href=\"";
+        btnClrCode = "<a class=\"btn btn-"+colourName+btnSize+"m-1\" role=\"button\" href=\"";
 
         if (faIcon == "noI"){
           faIconCode = "";
         }
-            
+        if (btnSize == " btn-lg btn-block "){
+          btnLeft = btnBlockSwap;
+          btnCenter = btnBlockSwap;
+         }
+         else if (btnSize == " btn-block "){
+          btnLeft = btnBlockSwap;
+          btnCenter = btnBlockSwap;
+         }
+         else if (btnSize == " btn-sm btn-block "){
+          btnLeft = btnBlockSwap;
+          btnCenter = btnBlockSwap;
+         }
+
 			if (btnAlign == "leftAlign"){ //broken up into two sequential conditional checks to do in stages
 			textOutput = btnLeft;
 		}
 		else if (btnAlign == "centerAlign"){
 			textOutput = btnCenter;
 		}
-		else{
+		else {
 			alert("alignment option chosen not covered by 'generateBtnCode()'") //to let us know if we add something and forget to change the code
 		}
-		
+    
 		//doing the below as a switch statement to show the approximate relationship between if and switch
 		switch(btnTarget){
 			case "sameWin": //the same as if btnTarget == "sameWin"
