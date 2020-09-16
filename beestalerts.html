@@ -64,10 +64,15 @@
             "8":"secondary" 
              }
         var colourName = colourNames[bsColour];
+        
 		    var alertPColourCode = "<div class=\"alert alert-"+colourName+" border border-"+colourName+" rounded\" role=\"alert\">";
         var alertDMColourCode = "<div class=\"alert alert-"+colourName+" border border-"+colourName+" rounded alert-dismissible fade show\" role=\"alert\">";
         var monAlertP_Close="</div>";
         var monAlertD_Close="<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>";
+        if (colourName == "mu"){
+        var alertPColourCode = "<div class=\"alert alert-"+colourName+" rounded\" role=\"alert\">";
+        var alertDMColourCode = "<div class=\"alert alert-"+colourName+" rounded alert-dismissible fade show\" role=\"alert\">";
+        }
         //Resizing the heading text
         if (headSize == "noH"){
         var resizedHead = "";
@@ -277,9 +282,32 @@
         </div></div></div>
   <hr class="hr-3">
   <form id="monashAlert">
+    <div class="row w-100 mx-auto">
+      <div class="col-lg-8 mt-2">
+    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type in the text you would like to appear in your alert. You can use headings, lists, bold, italics to accent text within the alert just as you would any other text editor. These alerts both highlight important information, and meet WCAG AA Accessibility Standards.">Step 1 - Write the alert</h5>
+    <textarea id="tinyMCEalert" class="border border-dark rounded p-2 w-100" cols="70" rows="3"></textarea>
+</div>
+</div>
+<div class="row w-100 mx-auto">
+  <div class="col-lg-8 mt-2">
+    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the heading for this alert. 50 character maximum.">Step 2 - Heading</h5>
+    <textarea maxlength="50" class="rounded p-2 w-100 border border-dark" rows="1" name="alertHeading" type="text" id="alertHeading" placeholder="If you do not want a heading, leave this blank. Otherwise, type your alert heading here."></textarea>
+  </div>
+  </div>
+<div class="row w-100 mx-auto">
+  <div class="col-lg-8 mt-2">
+    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Only choose the size of your heading if you want to create a heading with this element. If you don't pick a heading size, but write a heading, the heading will not appear. No heading is chosen by default">Step 3 - Heading size</h5>
+          <select class="custom-select w-50 border border-dark" id="headSize" name="headSize">
+          <option selected value="noH">No heading</option>
+          <option value="h3" class="h3">Size 3</option>
+          <option value="h4" class="h4">Size 4</option>
+          <option value="h5" class="h5">Size 5</option>
+        </select>
+        </div> 
+        </div>
         <div class="row w-100 mx-auto">
           <div class="col-lg-8 mt-2">
-            <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="If your would like an icon to the left of your heading, select it here. The default is no icon.">Step 1 - Select icon</h5>
+            <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="If you would like an icon to the left of your heading, select it here. The default is no icon. This is optional.">Step 4 - Select icon</h5>
             <select class="custom-select w-50 border border-dark" id="faCode" name="faCode">
                 <option selected value="noI">No icon</option>
                 <option value="1">Exclamation circle</option>
@@ -288,53 +316,33 @@
               </select>
             </div>
             </div>
-              <div class="row w-100 mx-auto">
-          <div class="col-lg-8 mt-2">
-            <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Only choose the size of your heading if you want to create a heading with this element. If you don't pick a heading size, but write a heading, the heading will not appear. No heading is chosen by default">Step 2 - Heading size</h5>
-                  <select class="custom-select w-50 border border-dark" id="headSize" name="headSize">
-                  <option selected value="noH">No heading</option>
-                  <option value="h3" class="h3">Size 3</option>
-                  <option value="h4" class="h4">Size 4</option>
-                  <option value="h5" class="h5">Size 5</option>
-                </select>
-                </div> 
-                </div>
-                  <div class="row w-100 mx-auto">
-                <div class="col-lg-8 mt-2">
-                  <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the heading for this alert. 50 character maximum.">Step 3 - Heading</h5>
-                  <textarea maxlength="50" class="rounded p-2 w-100 border border-dark" rows="1" name="alertHeading" type="text" id="alertHeading" placeholder="If you do not want a heading, leave this blank. Otherwise, type your alert heading here."></textarea>
-                </div>
-                </div>
+              
+                 
                 <div class="row w-100 mx-auto">
                   <div class="col-lg-8 mt-2">
-            <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the colour of your alert. Monash blue is selected by default.">Step 4 - Select alert colour</h5>
+            <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the colour of your alert. Monash blue is selected by default.">Step 5 - Select alert colour</h5>
             <select class="custom-select w-50 border border-dark" id="alertColour" name="alertColour">
-                <option class="h5 bg-mu text-white" selected value="1">Monash blue</option>
-                <option class="h5 bg-danger text-white" value="2">Red</option>
-                <option class="h5 bg-warning text-dark" value="3">Yellow</option>
-                <option class="h5 bg-success text-white" value="4">Green</option>
-                <option class="h5 bg-primary text-white" value="5">Dark blue</option>
-                <option class="h5 bg-info text-white" value="6">Light blue</option>
-                <option class="h5 bg-dark text-white" value="7">Black</option>
-                <option class="h5 bg-secondary text-dark" value="8">Grey</option>
+                <option selected value="1">Monash blue</option>
+                <option value="2">Red</option>
+                <option value="3">Yellow</option>
+                <option value="4">Green</option>
+                <option value="5">Dark blue</option>
+                <option value="6">Light blue</option>
+                <option value="7">Black</option>
+                <option value="8">Grey</option>
               </select>
             </div>
             </div>
             <div class="row w-100 mx-auto">
      <div class="col-lg-8 mt-2">
-      <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose whether to leave the alert as a permanent alert (cannot be closed) or make it dismissable (a close button will appear for users to close the alert). Dismissable is chosen by default">Step 5 - Permanent or Dismissable</h5>
+      <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose whether to leave the alert as a permanent alert (cannot be closed) or make it dismissable (a close button will appear for users to close the alert). Dismissable is chosen by default">Step 6 - Permanent or Dismissable</h5>
       <select class="custom-select w-50 border border-dark" id="dmoption" name="dmoption">
       <option value="dismissable" selected>Dismissable</option>
       <option value="permanent">Permanent</option>
     </select>
     </div>
     </div>
-              <div class="row w-100 mx-auto">
-          <div class="col-lg-8 mt-2">
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type in the text you would like to appear in your alert. You can use headings, lists, bold, italics to accent text within the alert just as you would any other text editor. These alerts both highlight important information, and meet WCAG AA Accessibility Standards.">Step 6 - Write the alert</h5>
-        <textarea id="tinyMCEalert" class="border border-dark rounded p-2 w-100" cols="70" rows="3" placeholder="Write the content or your alert here."></textarea>
-    </div>
-    </div>
+             
     <div class="row w-100 mx-auto">
           <div class="col-lg-8 mt-2"> 
    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 7 - Generate/copy code</h5>
