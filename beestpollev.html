@@ -73,7 +73,12 @@
     var pollEv_2="\" width=\"100%\" height=\"600\" frameBorder=\"0\"></iframe>"
     var closeContainer="</div>"
     </script>
-    
+    <script>   
+      window.onload=function(){
+        $('#beestNav').load('https://mon-arts-ed-des.github.io/BEEST/beestnav.html');
+        $('#beestFooter').load('https://mon-arts-ed-des.github.io/BEEST/beestfooter.html');
+    };
+    </script>
     <script>   
     /*  window.onload=function(){
         $('#beestNav').load('https://mon-arts-ed-des.github.io/BEEST/beestnav.html');
@@ -166,8 +171,8 @@
     </style>  
     </head>
     <body>
- <!--<div id="beestNav"></div>-->        
-      <nav class="navbar navbar-expand-lg navbar-dark bg-arts mb-3">
+ <div id="beestNav"></div>
+      <!--<nav class="navbar navbar-expand-lg navbar-dark bg-arts mb-3">
         <a class="navbar-brand text-center border border-white p-2 rounded" href="index.html"><img src="dragon-solid-white.png" width="30" height="30" alt=""></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -206,7 +211,7 @@
             </li>
           </ul>
         </div>
-      </nav>
+      </nav>-->
       <div class="container-fluid">
         <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
             <div class="h6"><i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle"></i>You can only produce the embed code for one (1) poll at a time on this page. You will need to paste the code for each poll into Moodle, then come back to this page, refresh it and start again.</div>
@@ -302,6 +307,7 @@
   </script>
     </form>
     <div id="demo"></div>
-    <a data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Opens in a new window." style="position:static; margin: 15px;" class="btn btn-lg btn-outline-success" href="https://docs.google.com/forms/d/e/1FAIpQLSeojgdmy3o6gUq1ZzuV3Q2YflUDfxH4TKKzz5lbpTJLmLOm5w/viewform?usp=sf_link" target="_blank">Feedback/Improvements/Issues <i class="fa fa-bullhorn"></i></a>  
+    <!--<a data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Opens in a new window." style="position:static; margin: 15px;" class="btn btn-lg btn-outline-success" href="https://docs.google.com/forms/d/e/1FAIpQLSeojgdmy3o6gUq1ZzuV3Q2YflUDfxH4TKKzz5lbpTJLmLOm5w/viewform?usp=sf_link" target="_blank">Feedback/Improvements/Issues <i class="fa fa-bullhorn"></i></a>-->
+    <div id="beestFooter"></div> 
   </body>
     </html>
