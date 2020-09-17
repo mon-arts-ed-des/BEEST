@@ -282,6 +282,8 @@
 				
 			}
 		}
+
+		
 		
 		function showColHTML(maxRows,colNumber){
 			for (var rNum=0;rNum < maxRows; rNum++){
@@ -371,38 +373,7 @@
     function generateTableCode() {
 	  
 		tableContents = getTableContentsFromPage(currRow,currCol)
-	  
- 
-		var textOutputTable = newTableCode(tableContents)
-	  
-        document.getElementById('txtareaBtn').innerHTML=textOutputTable;
-        SelectAll("txtareaBtn");
-        if (previewMode){
-			activatePreviewMode()
-		}
-		else{
-			document.getElementById('demo').innerHTML = textOutputTable;
-		}
-      }
-	  
-	function editMode(){
-		if (previewMode){
-			for (var rNum=0; rNum < currRow; rNum++){
-				setRowToDisplayX(rNum,editableTableHTML[rNum])
-			}
-			setValuesInFields(currRow,currCol)
-		}
-	}
-        
-    function SelectAll(id){
-        document.getElementById(id).focus();
-        document.getElementById(id).select();
-        document.execCommand("copy");
-        //window.alert('test');
-        var popup = document.getElementById("myPopup");
-        popup.classList.toggle("showPopup");
-    }
-	var tableMainHeading = document.getElementById('tableMainHeading').value;
+		var tableMainHeading = document.getElementById('tableMainHeading').value;
     var headSize = document.getElementById('headSize').value;
     var faIcon = document.getElementById('faCode').value;
     var head_3="<h3>"
@@ -452,6 +423,36 @@
 				resizedHead = head_5+faIconCode+tableMainHeading+endHead_5;
 				break;
 		}
+		var textOutputTable = newTableCode(tableContents)
+	    
+        document.getElementById('txtareaBtn').innerHTML= resizedHead+textOutputTable;
+        SelectAll("txtareaBtn");
+        if (previewMode){
+			activatePreviewMode()
+		}
+		else{
+			document.getElementById('demo').innerHTML = resizedHead+textOutputTable;
+		}
+      }
+	  
+	function editMode(){
+		if (previewMode){
+			for (var rNum=0; rNum < currRow; rNum++){
+				setRowToDisplayX(rNum,editableTableHTML[rNum])
+			}
+			setValuesInFields(currRow,currCol)
+		}
+	}
+        
+    function SelectAll(id){
+        document.getElementById(id).focus();
+        document.getElementById(id).select();
+        document.execCommand("copy");
+        //window.alert('test');
+        var popup = document.getElementById("myPopup");
+        popup.classList.toggle("showPopup");
+    }
+	
     function submitform()
     {
         document.forms["myform"].submit();
@@ -468,24 +469,6 @@
   
     */
 	</script>
-	<script>   
-		window.onload=function(){
-		  $('#beestNav').load('https://mon-arts-ed-des.github.io/BEEST/beestnav.html');
-		  $('#beestFooter').load('https://mon-arts-ed-des.github.io/BEEST/beestfooter.html');
-		  function activeNav() {
-          var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
-           $(".nav-link").each(function(){
-                if($(this).attr("href") == pgurl || $(this).attr("href") == '' )
-                $(this).addClass("active");
-                $(this).append('<span class="sr-only">(current)</span>')
-           });
-      }
-      
-      setTimeout(function() {
-          activeNav();
-      }, 100);
-    };
-	  </script>
     <style>
     .mce-notification-inner, .mce-close, .mce-notification-warning {
         display:none !important;
