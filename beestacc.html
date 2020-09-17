@@ -216,8 +216,57 @@
        	var IDs = getTextAreas(accordListToIDs(accordiansPostInit))
 		monAccBtnTxt = IDs.btn;
 		monAccContent = IDs.cont;
+    var accMainHeading = document.getElementById('accMainHeading').value;
+    var headSize = document.getElementById('headSize').value;
+    var faIcon = document.getElementById('faCode').value;
+    var head_3="<h3>"
+    var endHead_3="</h3>"
+    var head_4="<h4>"
+    var endHead_4="</h4>"
+    var head_5="<h5>"
+    var endHead_5="</h5>"
+    var iconNames = {
+            "1":"database",
+			      "2":"question",
+            "3":"question-circle",
+            "4":"question-circle-o", 
+            "5":"info",
+            "6":"info-circle",
+            "7":"bars",
+            "8":"plus",
+            "9":"plus-square",
+            "10":"plus-square-o",
+            "11":"exclamation",
+            "12":"exclamation-triangle",
+            "13":"exclamation-circle",
+            "14":"life-ring"
+        }
+
+        var iconName = iconNames[faIcon];
+		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
 		
-		var monAccOutput = monAccStyle
+        if (faIcon == "noI"){
+          faIconCode = "";
+        }
+		
+		var resizedHead;
+        //Resizing the heading text
+		switch(headSize){
+			case "noH":
+				resizedHead = "";
+				break;
+			case "h3":
+				resizedHead = head_3+faIconCode+accMainHeading+endHead_3;
+				break;
+			case "h4":
+				resizedHead = head_4+faIconCode+accMainHeading+endHead_4;
+				break;
+			case "h5":
+				resizedHead = head_5+faIconCode+accMainHeading+endHead_5;
+				break;
+		}
+		
+		var monAccOutput = monAccStyle+resizedHead;
 		
 		// loop over every accordion block
 		for (var secNum = 1; secNum <= accordianSectionsCurr; secNum++){
@@ -237,9 +286,9 @@
 			monAccOutput += monAccContent[secNum]
 			monAccOutput += monAcc_10
 		} 
-        document.getElementById('monAccCode').innerHTML=monAccOutput+=monAcc_Close;
+        document.getElementById('monAccCode').innerHTML=resizedHead+monAccOutput+monAcc_Close;
         SelectAll("monAccCode");
-        $('#demo').nextAll('div').remove();
+        $('#demo').nextAll('div, h3, h4, h5, i').remove();
         $('#demo').after(monAccOutput);
         }
     function SelectAll(id){
@@ -286,6 +335,7 @@
 	var monAcc_8_opt = [,monAcc_8,monAcc_8a,monAcc_8b];
 	var monAccBtnTxt = [,];
 	var monAccContent = [,];
+  
     </script>
     <script>   
       window.onload=function(){
@@ -483,15 +533,53 @@
 </div>
 </div>
 </div>
-
+<div class="row w-100 mx-auto">
+  <div class="col-lg-6 mt-2">
+    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the main heading for this accordion that will sit above the element and indicate to students what is in the accordion. 75 character maximum.">Step 2 - Main heading (optional)</h5>
+    <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="accMainHeading" type="text" id="accMainHeading" placeholder="Type your accordion heading here"></textarea>
+  </div>
+</div>
+<div class="row w-100 mx-auto">
+<div class="col-lg-6 mt-2">
+<h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 3 - Heading size (optional)</h5>
+<select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1">
+<option selected value="noH">No heading</option>
+<option value="h3" class="h3">Size 3</option>
+<option value="h4" class="h4">Size 4</option>
+<option value="h5" class="h5">Size 5</option>
+</select>
+</div> 
+</div>   
+<div class="row w-100 mx-auto">
+<div class="col-lg-6 mt-2">
+<h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 2) and choose a heading size (step 3) or the icon and heading will not display.">Step 4 - Select icon (optional)</h5>
+<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1">
+  <option selected value="noI">No icon</option>
+  <option value="1">Layered circles - database symbol</option>  
+  <option value="2">Question mark</option>
+    <option value="3">White question mark in a black circle</option>
+    <option value="4">Black question mark in a white circle</option>
+    <option value="5">Information symbol</option>
+    <option value="6">White information symbol in a black circle</option>
+    <option value="7">Three (3) horizontal bars</option>
+    <option value="8">Plus symbol</option>
+    <option value="9">White plus symbol in a black square</option>
+    <option value="10">Black plus symbol in a white square</option>
+    <option value="11">Exclamation mark</option>
+    <option value="12">White exclamation mark in a black triangle</option>
+    <option value="13">White exclamation mark in a black circle</option>
+    <option value="14">Life ring</option>
+  </select>
+</div>
+</div>
   <div class="row w-100 mx-auto">
     <div class="col-lg mt-2">
-      <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="This is the text that will appear on the accordion buttons (all text boxes on the left side of screen). This should give users a clear idea of what will appear if the button is clicked. Max length is 75 characters.">Step 2 - Headings</h5> 
+      <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="This is the text that will appear on the accordion drawers (all text boxes on the left side of screen). This should give users a clear idea of what will appear if the button is clicked. Max length is 75 characters.">Step 5 - Drawer headings</h5> 
       <h6>Heading 1</h6>
-      <textarea maxlength="75" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" placeholder="Input the heading for your first accordion button here" id="monAccBtnTxt1"></textarea>
+      <textarea maxlength="75" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" placeholder="Input the heading for your first accordion drawer here" id="monAccBtnTxt1"></textarea>
     </div>
     <div class="col-lg mt-2">
-        <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="What you input in the box below will appear when the relative accordion button is clicked (all rich text editors on the right of screen). This can include text, lists, videos and externally embedded media. You can click, hold and drag the bottom right corner of these boxes to make them bigger on this screen.">Step 3 - Content</h5>
+        <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="What you input in the box below will appear when the relative accordion drawer button is clicked (all rich text editors on the right of screen). This can include text, lists, videos and externally embedded media. You can click, hold and drag the bottom right corner of these boxes to make them bigger on this screen.">Step 6 - Content</h5>
         <h6>Content 1</h6>      
         <textarea id="tinyMCEmonAccContent1" class="border border-dark rounded p-2 w-100" rows="5" name="monAccContent1" placeholder="Write the content for your accordion here"></textarea>
         </div>
@@ -499,7 +587,7 @@
                        <span id="newAccordArea"></span>       
 <div class="row w-100 mx-auto">
           <div class="col-lg mt-3">
-        <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 4.">Step 4 - Generate/copy code</h5>
+        <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 7 - Generate/copy code</h5>
         <div>
     <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy code" onClick=generatemonAccCode()></p>
     </div>
@@ -508,7 +596,7 @@
 </div>
     <div class="row w-100 mx-auto mt-2 mb-3">
       <div class="col-lg">
-        <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 3.">Step 5 - Preview</h5>
+        <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 7.">Step 8 - Preview</h5>
         </div>
         </div>
     </form>
