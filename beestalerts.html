@@ -271,8 +271,8 @@
 </div>
 <div class="row w-100 mx-auto">
   <div class="col-lg-8 mt-2">
-    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the heading for this alert. 50 character maximum.">Step 2 - Heading</h5>
-    <textarea maxlength="50" class="rounded p-2 w-100 border border-dark" rows="1" name="alertHeading" type="text" id="alertHeading" placeholder="If you do not want a heading, leave this blank. Otherwise, type your alert heading here."></textarea>
+    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the heading for this alert. 75 character maximum.">Step 2 - Heading</h5>
+    <textarea maxlength="75" class="rounded p-2 w-100 border border-dark" rows="1" name="alertHeading" type="text" id="alertHeading" placeholder="If you do not want a heading, leave this blank. Otherwise, type your alert heading here."></textarea>
   </div>
   </div>
 <div class="row w-100 mx-auto">
@@ -339,6 +339,21 @@
         <div id="demo"></div>
         <p class="my-3"></p>
         </div>
+        <script>
+          var textarea = $('#alertHeading');
+          var select = $('#headSize');
+          var addOrRemoveRequiredAttribute = function () {
+          if (textarea.val().length) {
+          select.val("h5")
+          }
+          };
+          
+          // Run now
+          addOrRemoveRequiredAttribute();
+          
+          // And when textarea changes
+          textarea.on('change', addOrRemoveRequiredAttribute);
+          </script>
         <div id="beestFooter"></div>
         </body>
         </html>

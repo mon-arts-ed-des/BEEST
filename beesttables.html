@@ -734,6 +734,21 @@
   <div id="demo"></div>
   <p class="my-3"></p>
   </div>
+  <script>
+	var textarea = $('#tableMainHeading');
+	var select = $('#headSize');
+	var addOrRemoveRequiredAttribute = function () {
+	if (textarea.val().length) {
+	select.val("h5")
+	}
+	};
+	
+	// Run now
+	addOrRemoveRequiredAttribute();
+	
+	// And when textarea changes
+	textarea.on('change', addOrRemoveRequiredAttribute);
+	</script>
   <footer class="bg-arts text-white w-100">
     <nav class="navbar navbar-expand navbar-dark bg-arts">    
         <a class="navbar-brand text-center border border-white p-2 rounded" href="index.html"><img src="dragon-solid-white.png" width="30" height="30" alt=""></a>  

@@ -625,5 +625,20 @@
           </ul>
           </nav>
 </footer>
+<script>
+var textarea = $('#tabbedMainHeading');
+var select = $('#headSize');
+var addOrRemoveRequiredAttribute = function () {
+if (textarea.val().length) {
+select.val("h5")
+}
+};
+
+// Run now
+addOrRemoveRequiredAttribute();
+
+// And when textarea changes
+textarea.on('change', addOrRemoveRequiredAttribute);
+</script>
       </body>
       </html>
