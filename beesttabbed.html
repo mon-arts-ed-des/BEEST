@@ -427,7 +427,7 @@
   text-align: left;
   padding: 15px;
   font-size: 1.05rem;
-  max-width: 280px;
+  max-width: 400px;
 }
     </style> 
     </head>
@@ -540,13 +540,13 @@
 <div id="drawerCurrentNumber"></div>
 <div class="row w-100 mx-auto">
   <div class="col-lg-8 mt-2">
-    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the heading for this video. 75 character maximum.">Step 1 - Heading (optional)</h5>
-    <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="tabbedMainHeading" type="text" id="tabbedMainHeading" placeholder="Type a heading for your Tabbed Content here."></textarea>
+    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type a heading for your Tabbed Content here that will sit above the element and indicate to the student what is contained within the tabs. 75 character maximum.">Step 2 - Main Heading (optional)</h5>
+    <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="tabbedMainHeading" type="text" id="tabbedMainHeading" placeholder="Type a main heading for your Tabbed Content here."></textarea>
   </div>
 </div>
 <div class="row w-100 mx-auto">
 <div class="col-lg-8 mt-2">
-<h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 2 - Heading size (optional)</h5>
+<h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 3 - Heading size (optional)</h5>
 <select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1">
 <option selected value="noH">No heading</option>
 <option value="h3" class="h3">Size 3</option>
@@ -557,7 +557,7 @@
 </div>   
 <div class="row w-100 mx-auto">
 <div class="col-lg-8 mt-2">
-<h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 1) and choose a heading size (step 2) and or the icon and heading will not display.">Step 3 - Select icon (optional)</h5>
+<h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 1) and choose a heading size (step 2) and or the icon and heading will not display.">Step 4 - Select icon (optional)</h5>
 <select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1">
   <option selected value="noI">No icon</option>
   <option value="1">Two columns</option>  
@@ -579,12 +579,12 @@
 </div>
 <div class="row w-100 mx-auto">
   <div class="col-lg mt-2">
-    <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="This is the text that will appear on the tab buttons (all text boxes on the left side of screen). This should give users a clear idea of what will appear if the button is clicked. Max length is 50 characters.">Step 2 - Tabs</h5> 
+    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="This is the text that will appear on the tab buttons (all text boxes on the left side of screen). This should give users a clear idea of what will appear if the button is clicked. Max length is 50 characters.">Step 5 - Tab headings</h5> 
     <h6>Tab 1</h6>
     <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button here" id="monAccTabHeadingTxt1"></textarea>
   </div>
   <div class="col-lg mt-2">
-      <h5 data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="What you input in the box below will appear when the relative tab button is clicked (all rich text editors on the right of screen). This can include text, lists, videos and externally embedded media..">Step 3 - Content</h5>
+      <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="What you input in the box below will appear when the relative tab button is clicked (all rich text editors on the right of screen). This can include text, lists, videos and externally embedded media..">Step 6 - Content</h5>
       <h6>Content 1</h6>      
       <textarea id="tinyMCEmonTabContent1" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="monTabContent1"></textarea>
       </div>
@@ -594,7 +594,7 @@
     
 <div class="row w-100 mx-auto">
         <div class="col-lg mt-3">
-      <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 5.">Step 4 - Generate/copy code</h5>
+      <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 5.">Step 7 - Generate/copy code</h5>
       <div>
   <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy code" onClick=generateTabbedContentCode() ></p>
   </div>
@@ -603,7 +603,7 @@
 </div>
   <div class="row w-100 mx-auto mt-2 mb-3">
     <div class="col-lg">
-      <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 4.">Step 5 - Preview</h5>
+      <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 4.">Step 8 - Preview</h5>
       </div>
       </div>
   </form>
