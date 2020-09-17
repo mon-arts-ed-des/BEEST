@@ -27,7 +27,6 @@
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
     <script src="advancedModeLocalStorage.js"></script>
     <script type="text/javascript">
-
 	var rowsWithData = 3
 	var colsWithData = 3
 	var currRow = 3
@@ -373,8 +372,7 @@
 	  
 		tableContents = getTableContentsFromPage(currRow,currCol)
 	  
-		
-  
+ 
 		var textOutputTable = newTableCode(tableContents)
 	  
         document.getElementById('txtareaBtn').innerHTML=textOutputTable;
@@ -404,7 +402,56 @@
         var popup = document.getElementById("myPopup");
         popup.classList.toggle("showPopup");
     }
-
+	var tableMainHeading = document.getElementById('tableMainHeading').value;
+    var headSize = document.getElementById('headSize').value;
+    var faIcon = document.getElementById('faCode').value;
+    var head_3="<h3>"
+    var endHead_3="</h3>"
+    var head_4="<h4>"
+    var endHead_4="</h4>"
+    var head_5="<h5>"
+    var endHead_5="</h5>"
+    var iconNames = {
+            "1":"calendar",
+		    "2":"list-ol",
+            "3":"list-ul",
+            "4":"table", 
+            "5":"info",
+            "6":"info-circle",
+            "7":"question",
+            "8":"question-circle",
+            "9":"question-circle-o",
+            "10":"check",
+            "11":"check-square",
+            "12":"check-square-o",
+			"13":"exclamation",
+            "14":"exclamation-triangle",
+			"15":"exclamation-circle"
+        }
+		
+        var iconName = iconNames[faIcon];
+		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
+		
+        if (faIcon == "noI"){
+          faIconCode = "";
+        }
+		
+		var resizedHead;
+        //Resizing the heading text
+		switch(headSize){
+			case "noH":
+				resizedHead = "";
+				break;
+			case "h3":
+				resizedHead = head_3+faIconCode+tableMainHeading+endHead_3;
+				break;
+			case "h4":
+				resizedHead = head_4+faIconCode+tableMainHeading+endHead_4;
+				break;
+			case "h5":
+				resizedHead = head_5+faIconCode+tableMainHeading+endHead_5;
+				break;
+		}
     function submitform()
     {
         document.forms["myform"].submit();
@@ -602,13 +649,51 @@
       </div></div></div>
 <hr class="hr-3">
 <form id="monTabsForm">
-  <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Add headings for your table.">Step 1 - Add table contents</h5>
-    
-	
-	<table class="table table-responsive-lg"><tbody>
-	
-	<tr><td>
-	
+	<div class="row w-100 mx-auto">
+		<div class="col-lg-6 mt-2">
+		  <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the main heading for this accordion that will sit above the element and indicate to students what is in the accordion. 75 character maximum.">Step 1 - Main heading (optional)</h5>
+		  <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="tableMainHeading" type="text" id="tableMainHeading" placeholder="Type your accordion heading here"></textarea>
+		</div>
+	  </div>
+	  <div class="row w-100 mx-auto">
+	  <div class="col-lg-6 mt-2">
+	  <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 2 - Heading size (optional)</h5>
+	  <select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1">
+	  <option selected value="noH">No heading</option>
+	  <option value="h3" class="h3">Size 3</option>
+	  <option value="h4" class="h4">Size 4</option>
+	  <option value="h5" class="h5">Size 5</option>
+	  </select>
+	  </div> 
+	  </div>   
+	  <div class="row w-100 mx-auto">
+	  <div class="col-lg-6 mt-2">
+	  <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 2) and choose a heading size (step 3) or the icon and heading will not display.">Step 3 - Select icon (optional)</h5>
+	  <select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1">
+		<option selected value="noI">No icon</option>
+		<option value="1">Calendar</option>
+		<option value="2">Numbered list</option>
+		<option value="3">Dot point list</option>
+		<option value="4">Table</option>  
+		<option value="5">Information symbol</option>
+		<option value="6">White information symbol in a black circle</option>
+		<option value="7">Question mark</option>
+		<option value="8">White question mark in a black circle</option>
+		<option value="9">Black question mark in a white circle</option>
+		<option value="10">Tick/check</option>
+		<option value="11">White tick symbol in a black square</option>
+		<option value="12">Black tick symbol in a white square</option>
+		<option value="13">Exclamation mark</option>
+		<option value="14">White exclamation mark in a black triangle</option>
+		<option value="15">White exclamation mark in a black circle</option>	
+		</select>
+	  </div>
+	  </div>
+	  <div class="row w-100 mx-auto">
+		  <div class="col-lg mt-2">
+  <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Add headings for your table.">Step 4 - Add table contents</h5>	
+	<table class="table table-responsive-lg"><tbody>	
+	<tr><td>	
 		<div class="btn-group btn-group-justified" role="group" id="addMinusButtons">
 		<div class="btn-group-lg" role="group">
 		<button id="plusbutton" onclick="addRow()" type="button" class="btn btn-success mr-2">Row <i class="fa fa-fw fa-plus"></i></button>
@@ -616,9 +701,11 @@
 		<button id="minusbutton" onclick="removeRow()" type="button" class="btn btn-danger">Row <i class="fa fa-fw fa-minus"></i></button>
 		</div>
 		</div>
-	
-	</td></tr>
-	
+	</div>
+</div>
+
+	</td></tr>	
+
 	<tr><td>
 		<span id="editTable">
 		
@@ -633,6 +720,7 @@
 		<button id="minuscolbutton" onclick="removeCol()" type="button" class="btn btn-danger">Col <i class="fa fa-fw fa-minus"></i></button>
 		</div>
 		</div>
+
 	</td></tr>
 	
 	
@@ -640,7 +728,7 @@
 	
 <div class="row w-100 mx-auto">
         <div class="col-lg mt-3">
-      <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 3.">Step 2 - Generate/copy code</h5>
+      <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 6.">Step 5 - Generate/copy code</h5>
       <div>
   <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Save and copy code" onClick=generateTableCode() >
   
@@ -653,7 +741,7 @@
 </div>
   <div class="row w-100 mx-auto mt-2 mb-3">
     <div class="col-lg">
-      <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 3.">Step 3 - Preview</h5>
+      <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 5.">Step 6 - Preview</h5>
       </div>
       </div>
   </form>
