@@ -127,7 +127,8 @@
     var respVid_3r="\"></iframe></div></div>"
     var respVid_4="<div class=\"col-lg mt-2\">"
     var respVid_5="</div></div>"
-	
+    var respVidYoutu="</div><div class=\"col-lg\"><div class=\"embed-responsive embed-responsive-16by9\"><iframe class=\"embed-responsive-item\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen src=\""
+     var respVidYoutu2="<div class=\"embed-responsive embed-responsive-16by9\"><iframe class=\"embed-responsive-item\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen src=\""
 		/*These different options have been absorbed into a javascript Object allowing a direct mapping and lookup of code to icon name*/
 		
     </script>
@@ -325,7 +326,7 @@
   <div class="row w-100 mx-auto">
     <div class="col-lg-8 mt-2">
       <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your video. When you paste the link into this box it will automatically change the link to be the embed link required for the platform you are pasting from this process to work and you will not be able to edit this box.">Step 1 - Video link</h5>
-      <textarea class="rounded p-2 w-100" rows="1" name="respVid_link" type="text" id="respVidSwitch" placeholder="Paste the Youtube/Panopto/Vimeo/TED Talks video link here"></textarea>
+      <textarea class="rounded p-2 w-100" rows="1" name="respVidSwitch" type="text" id="respVidSwitch" placeholder="Paste the Youtube/Panopto/Vimeo/TED Talks video link here"></textarea>
     </div>
     </div>
     <div class="row w-100 mx-auto">
@@ -389,25 +390,29 @@
              
                            </form>
                     <div id="demo">
-                      <p class="my-3"></p>
+                     
                     </div>
+                    <p class="my-3"></p>
                   </div>
          <script>
          
         $('#respVidSwitch').on('input', function(event) {
         var s = $('#respVidSwitch').val().toString();
         
-        if (s.includes("vimeo.com") == true)
-        {
+        if (s.includes("vimeo.com") == true) {
         //code for converting Vimeo link from Viewer to Embed
         var x = s.replace('https://vimeo.com/','https://player.vimeo.com/video/');
         }
         else if (s.includes("youtube.com") == true) {
         //code for converting Youtube link from Viewer to Embed
         var x = s.replace('watch?v=','embed/').replace('&start','?start');
+        respVid_2=respVidYoutu;
+        respVid_2r=respVidYoutu2;
         }
         else if (s.includes("youtu.be") == true) {
         var x = s.replace('youtu.be','www.youtube.com/embed').replace('t=','start=');
+        respVid_2=respVidYoutu;
+        respVid_2r=respVidYoutu2; 
         }
         //code for converting Panopto link from Viewer to Embed
         else if (s.includes("monash-panopto") == true) {
