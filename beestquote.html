@@ -56,7 +56,9 @@
              }
         var colourName = colourNames[bsColour];
 		    var bgClrCode = "<blockquote class=\"blockquote alert alert-"+colourName+" pb-3 px-2 border border-"+colourName+" rounded\"><i aria-hidden=\"true\" class=\"fa fa-fw fa-quote-left fa-2x fa-pull-left\"></i>"
-
+          if (colourName == "mu"){
+        var bgClrCode = "<blockquote class=\"blockquote alert alert-"+colourName+" pb-3 px-2 rounded\"><i aria-hidden=\"true\" class=\"fa fa-fw fa-quote-left fa-2x fa-pull-left\"></i>";
+        }
         var quoteOutput = bgClrCode+resizedText+quote_Text+quotes_1+reference_text+quotes_2;
     
         document.getElementById('monQuoteCode').innerHTML=quoteOutput;
