@@ -36,13 +36,59 @@
 
         //Retrieve the content by id of the tinyMCE textarea
     var contextCode = tinyMCE.get('tinyMCEpollEv').getContent();
+    var pollHeading = document.getElementById('pollHeading').value;
+    var headSize = document.getElementById('headSize').value;
+    var faIcon = document.getElementById('faCode').value;
+    var head_3="<h3>"
+    var endHead_3="</h3>"
+    var head_4="<h4>"
+    var endHead_4="</h4>"
+    var head_5="<h5>"
+    var endHead_5="</h5>"
+        var iconNames = {
+			      "1":"question",
+            "2":"question-circle",
+            "3":"question-circle-o", 
+            "4":"bar-chart",
+            "5":"pie-chart",
+            "6":"line-chart",
+            "7":"area-chart",
+            "8":"bullhorn",
+            "9":"balance-scale",
+            "10":"comments-o",
+            "11":"gavel",
+        }
+
+        var iconName = iconNames[faIcon];
+		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
+		
+        if (faIcon == "noI"){
+          faIconCode = "";
+        }
+		
+		var resizedHead;
+        //Resizing the heading text
+		switch(headSize){
+			case "noH":
+				resizedHead = "";
+				break;
+			case "h3":
+				resizedHead = head_3+faIconCode+pollHeading+endHead_3;
+				break;
+			case "h4":
+				resizedHead = head_4+faIconCode+pollHeading+endHead_4;
+				break;
+			case "h5":
+				resizedHead = head_5+faIconCode+pollHeading+endHead_5;
+				break;
+		}
 
         //Retrieve the content by id of the textareas
     var pollEv_URL = document.getElementById('pollEv_URL').value;
-        var textOutputPollEv = divContainer+contextCode+pollEv_1+pollEv_URL+pollEv_2+closeContainer;
+        var textOutputPollEv = resizedHead+divContainer+contextCode+pollEv_1+pollEv_URL+pollEv_2+closeContainer;
         document.getElementById('txtareapollEv').innerHTML=textOutputPollEv;
         SelectAll("txtareapollEv");
-        $('#demo').nextAll('div').remove();
+        $('#demo').nextAll('div, h3, h4, h5').remove();
         $('#demo').after(textOutputPollEv);
         }
 
@@ -230,36 +276,75 @@
           <button onclick="flipTooltip()" class="btn btn-mu">Turn <span class="onoffswapinstr">off</span> instructions <i class="fa fa-fw fa-power-off"></i></a>
         </div></div></div>
      <hr class="hr-3">
-       <form id="pollEv">     
+       <form id="pollEv">    
+        <div class="row w-100 mx-auto mt-2">
+          <div class="col-lg-8">
+              <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in your polls shareable link. You can get this link by following the instructions from the top of the page. Click on the text that says 'follow these steps' to reveal the instructions.">Step 1 - Paste shareable link URL</h5>
+              <textarea class="rounded p-2 w-100" rows="1" name="pollEv_URL" id="pollEv_URL" placeholder="Write/paste the Shareable response link here"></textarea>
+              </div>
+              </div> 
+              <div class="row w-100 mx-auto">
+                <div class="col-lg-8 mt-2">
+                  <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the heading for this video. 75 character maximum.">Step 2 - Heading (optional)</h5>
+                  <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="pollHeading" type="text" id="pollHeading" placeholder="Type your poll heading here"></textarea>
+                </div>
+              </div>
+      <div class="row w-100 mx-auto">
+      <div class="col-lg-8 mt-2">
+        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 3 - Heading size (optional)</h5>
+              <select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1">
+              <option selected value="noH">No heading</option>
+              <option value="h3" class="h3">Size 3</option>
+              <option value="h4" class="h4">Size 4</option>
+              <option value="h5" class="h5">Size 5</option>
+            </select>
+            </div> 
+          </div>   
+          <div class="row w-100 mx-auto">
+            <div class="col-lg-8 mt-2">
+              <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 2) and choose a heading size (step 3) and or the icon and heading will not display.">Step 4 - Select icon (optional)</h5>
+              <select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1">
+                <option selected value="noI">No icon</option>
+                  <option value="1">Question mark</option>
+                  <option value="2">White question mark in a black circle</option>
+                  <option value="3">Black question mark in a white circle</option>
+                  <option value="4">Bar chart</option>
+                  <option value="5">Pie chart</option>
+                  <option value="6">Line chart</option>
+                  <option value="7">Area chart</option>
+                  <option value="8">Megaphone/bullhorn</option>
+                  <option value="9">Set of scales</option>
+                  <option value="10">Two speech bubbles</option>
+                  <option value="11">Gavel</option>
+                </select>
+              </div>
+            </div>
     <div class="row w-100 mx-auto mt-2">
     <div class="col-lg-8">
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="If you already have written the context for your poll in Moodle, skip this step, generate the embed code for your poll and paste it after your context in Moodle. Otherwise, writing some instructions, or context for students on your poll will help the students to respond correctly. Write your context in the space below. You can use headings, bold, italics and lists if needed in your instructions.">Step 1 - Write the context for the poll (optional)</h5>
+        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="If you already have written the context for your poll in Moodle, skip this step, generate the embed code for your poll and paste it after your context in Moodle. Otherwise, writing some instructions, or context for students on your poll will help the students to respond correctly. Write your context in the space below. You can use headings, bold, italics and lists if needed in your instructions.">Step 5 - Write the context for the poll (optional)</h5>
         <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="3" name="pollEv_text" id="tinyMCEpollEv" placeholder="Write/paste the text for the button here"></textarea>
       </div>
     </div>
-        <div class="row w-100 mx-auto mt-2">
-    <div class="col-lg-8">
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in your polls shareable link. You can get this link by following the instructions from the top of the page. Click on the text that says 'follow these steps' to reveal the instructions.">Step 2 - Paste shareable link URL</h5>
-        <textarea class="rounded p-2 w-100" rows="1" name="pollEv_URL" id="pollEv_URL" placeholder="Write/paste the Shareable response link here"></textarea>
-        </div>
-        </div>
+        
+       
+      
         <div class="row w-100 mx-auto mt-2">
         <div class="col-lg-8">
-          <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 4.">Step 3 - Generate/copy code</h5>
+          <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 4.">Step 6 - Generate/copy code</h5>
         <div><p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span> <input type="button" class="m-1 btn btn-arts" name="copyCode" value="Click to generate and copy code" onClick=generatePollEvCode()></input></div>
            <textarea readonly class="rounded p-2 w-100" id="txtareapollEv" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here."></textarea>
         </div>
     </div>
     <div class="row w-100 mx-auto mt-2 mb-3">
       <div class="col-lg">
-        <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 3.">Step 4 - Preview</h5>
+        <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 3.">Step 7 - Preview</h5>
         </div>
         </div>
       
     <script>//code for converting textarea to readonly on paste
     $('#pollEv_URL').on('input', function(event) {
     
-    $('input[type="text"], textarea').attr('readonly','readonly');
+    $('input[type="text"], #pollEv_URL').attr('readonly','readonly');
   }); 
   </script>
     </form>
