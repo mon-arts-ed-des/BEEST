@@ -33,7 +33,8 @@
         selector: '#tinyMCEmonAccContent1',
         menubar: false,
         plugins : 'advlist autolink link lists charmap print preview code',
-          toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat' 
+        toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
+        'undo redo | charmap | autolink link | code | removeformat' ]   
       });
 	
 	const COUNTER_ID = "accordCounter"
@@ -109,9 +110,10 @@
 			tinymce.init({
 			selector: '#'+newAccordian.IDTiny,
 			menubar: false,
-			plugins : 'advlist autolink link lists charmap print preview code',
-			  toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat'
-			});
+      plugins : 'advlist autolink link lists charmap print preview code',
+        toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
+        'undo redo | charmap | autolink link | code | removeformat' ]   
+      });
 			
 			accordianSectionsTotalMade+=1;
 		}
