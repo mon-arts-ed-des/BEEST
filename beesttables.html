@@ -193,6 +193,15 @@
 			}
 		}
 		
+		function rowHTMLtoRowElem(rowHTML){
+			var elem = document.createElement("tr")
+			var tagCont = rowHTML.replace(/">.*/,"")
+			tagCont = tagCont.replace(/<.*?"/,"")
+			elem.id = tagCont
+			elem.innerHTML = rowHTML.replace(/(<tr.*?>)|(<.tr>)/,"")
+			return elem
+		}
+		
 		function addRow(){
 			if (currRow < absoluteMaxRow){
 				if (currRow < rowsWithData){
@@ -204,9 +213,12 @@
 					//is there a body?
 					tableBodyTag = document.getElementById(tableBody)
 					if (tableBodyTag!=null){
-						var rowContents = newEditTableRow(currRow,currCol)
+						var rowContents = newEditTableRow(currRow,colsWithData)
 						var theRow = newRowCode(currRow,rowContents)
-						tableBodyTag.innerHTML+=theRow
+						theRow = rowHTMLtoRowElem(theRow)
+						tableBodyTag.appendChild(theRow)
+						
+						resetColDisplay(currRow,currCol,colsWithData)
 						
 						editableTableHTML.push(rowContents) // save it for direct access
 						rowsWithData++
