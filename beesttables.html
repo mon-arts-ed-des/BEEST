@@ -284,6 +284,30 @@
 			}
 		}
 		
+		function newCellAsDOMElem(cellCode){
+			/*
+			might start with a th OR a td
+			td doesn't matter but th has the scope to watch for
+			*/
+			var tag = cellCode.replace(/">.*</,"><")
+			var elem;
+			switch(tag[1]+tag[2]){
+				case "td":
+					elem = document.createElement("td")
+					break;
+				case "th":
+					elem = document.createElement("th")
+					var scope = tag.replace(/<th.*?"/,"").replace(/>.*/,"")
+					elem.scope = scope
+					break;
+				default:
+					alert("cell replacer encountered a non cell item")
+			}
+			var tagContents = cellCode.replace(/<t[dh].*?>/,"").replace(/<.t[dh].*?>/,"")
+			elem.innerHTML = tagContents
+			return elem
+		}
+		
 		function addColToRowsHTML(rowsList,colNum){
 			var placeholder;
 			var newColContent;
@@ -291,7 +315,11 @@
 				placeholder = "Input your row contents"
 				if (rNum==0){placeholder = "Input your table heading"}
 				newColContent = newTextField(placeholder,baseCellID+rNum+"-"+colNum)
-				rowsList[rNum].innerHTML += newCellCode(rNum,colNum,newColContent)
+				rowsList[rNum].appendChild(
+					newCellAsDOMElem(
+						newCellCode(rNum,colNum,newColContent)
+					)
+				)
 				editableTableHTML[rNum][colNum]=newColContent //keep it available for later
 				
 			}
