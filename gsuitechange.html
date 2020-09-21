@@ -213,8 +213,36 @@
        </div>
      </div>
      <ul>
-         <li>Find the publishing link</li>
-         <li>Find the share link</li>
+         <li><a data-toggle="modal" data-target=".publishing-modal" href="">Find the publishing link</a>
+            <div class="modal fade publishing-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content p-2">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=178070af-f91f-4eae-b3c8-ac3d005ff74d"></iframe></div>
+                  </div>
+                </div>
+              </div>
+         </li>
+         <li><a data-toggle="modal" data-target=".sharing-modal" href="">Find the share link</a>
+            <div class="modal fade sharing-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content p-2">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=240f0d65-d3f0-422e-8ba5-ac3d005ff727"></iframe></div>
+                  </div>
+                </div>
+              </div>
+         </li>
         </ul>
      <h5>Refresh this page</h5>
      <div class="row w-100">
@@ -226,13 +254,13 @@
      <form id="docEmbeddedPlusDocToPDF">    
         <div class="row w-100 mx-auto mt-2">
           <div class="col-lg-8">
-              <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in your Google Doc's publishing link. You can find this under File > Publish to the web > Link after you click the Publish button. If you are unsure of where to find this follow the instructions at the top of the page.">Step 1 - Paste the Docs Publishing link</h5>
+              <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in your Google Doc's publishing link. You can find this under File > Publish to the web > Link after you click the Publish button. If you are unsure of where to find this follow the instructions at the top of the page for 'Finding the publishing link'.">Step 1 - Paste the Docs Publishing link</h5>
               <textarea class="rounded p-2 w-100" rows="1" name="gDocPubLink" id="gDocPubLink" placeholder="Paste the publish link here"></textarea>
               </div>
               </div> 
               <div class="row w-100 mx-auto mt-2">
                 <div class="col-lg-8">
-                    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in your Google Doc's share link. You can find this by clicking the blue Share button in the top right of your doc, and then selecting Copy link.">Step 2 - Paste the Docs Share link</h5>
+                    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in your Google Doc's share link. You can find this by clicking the blue Share button in the top right of your doc, and then selecting Copy link. If you are unsure of where to find this follow the instructions at the top of the page for 'Finding the sharing link'.">Step 2 - Paste the Docs Share link</h5>
                     <textarea class="rounded p-2 w-100" rows="1" name="gDocShareLink" id="gDocShareLink" placeholder="Paste the publish link here"></textarea>
                     </div>
                     </div> 
