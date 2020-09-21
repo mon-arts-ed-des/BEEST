@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A simple element creator to generate responsive code that can be easily embbedded into Moodle">
+    <meta name="author" content="T&M">
+    <title>Embed Doc + Doc to PDF</title>
+     <link rel="icon" href="https://mon-arts-ed-des.github.io/BEEST/dragon-solid%20favicon.png" type="image/gif">
+    <!-- external link to css file --> 
+    <!-- Bootstrap CSS -->   
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Arts CSS -->  
+    <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/adminPlusSetuBlockStyle.css" />
+    <!-- external link to js file -->  
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <!-- Bootstrap js file --> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- FontAwesome js file --> 
+    <script src="https://kit.fontawesome.com/3817feae52.js"></script> 
+    <!-- Tinymce js file -->   
+    <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+	<script src="advancedModeLocalStorage.js"></script>
+    <script type="text/javascript">
+        tinymce.init({
+        selector: '#tinyMCEdoc1',
+        menubar: false,
+        plugins : 'advlist autolink link lists charmap print preview code',
+          toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat'  
+      });
+	
+/*Function to generate and copy code for the responsive videos*/
+    function generateDocCode() {
+        // Get the HTML contents of the currently active editor
+        console.debug(tinyMCE.activeEditor.getContent());
+
+        //Retrieve the content by id of the tinyMCE textarea
+        var contextCode = tinyMCE.get('tinyMCEdoc1').getContent();
+        var gDocPubLink = document.getElementById('gDocPubLink').value;
+        var gDocShareLink = document.getElementById('gDocShareLink').value;
+        var gDocHeight = document.getElementById('docHeight').value;
+        var AorB = document.getElementById('aORb').value;
+        var docHeading = document.getElementById('docHeading').value;
+        var headSize = document.getElementById('headSize').value;
+        var faIcon = document.getElementById('faCode').value;
+        var iconNames = {
+		    "1":"calendar",
+            "2":"check-square",
+            "3":"check-square-o",
+            "4":"list-ol",
+            "5":"list-ul"
+        }
+
+        var iconName = iconNames[faIcon];
+		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
+		
+        if (faIcon == "noI"){
+          faIconCode = "";
+        }
+        var head_3="<h3>"
+        var endHead_3="</h3>"
+        var head_4="<h4>"
+        var endHead_4="</h4>"
+        var head_5="<h5>"
+        var endHead_5="</h5>"
+		var resizedHead;
+        //Resizing the heading text
+		switch(headSize){
+			case "noH":
+				resizedHead = "";
+				break;
+			case "h3":
+				resizedHead = head_3+faIconCode+docHeading+endHead_3;
+				break;
+			case "h4":
+				resizedHead = head_4+faIconCode+docHeading+endHead_4;
+				break;
+			case "h5":
+				resizedHead = head_5+faIconCode+docHeading+endHead_5;
+				break;
+		}
+        //window.alert(vPosition);
+        var divOpen="<div>"
+        var docFrame="<iframe src=\""+gDocPubLink+"\" width=\"100%\" height=\""+gDocHeight+"\" frameBorder=\"0\"></iframe>"
+        var divClose="</div>"
+        var dlPDFtext="<div><p><a href=\""+gDocShareLink+"\" target=\"_blank\">Download this document as a PDF</a></p></div>"
+
+        var textOutputDoc = resizedHead+divOpen+contextCode+dlPDFtext+docFrame+divClose;
+        if (AorB == "B") {
+        var textOutputDoc = resizedHead+divOpen+contextCode+docFrame+dlPDFtext+divClose;
+        }
+        
+        document.getElementById('txtareaDocCode').innerHTML=textOutputDoc;
+        SelectAll("txtareaDocCode");
+         //Add the html code after the div
+		$('#demo').nextAll('div, h3, h4, h5, i').remove();
+        $('#demo').after(textOutputDoc);
+        }
+        
+    function SelectAll(id){
+        document.getElementById(id).focus();
+        document.getElementById(id).select();
+        document.execCommand("copy");
+        var popup = document.getElementById("myPopup");
+        popup.classList.toggle("showPopup");
+      
+        //window.alert('test');
+    }
+ 
+
+    function submitform()
+    {
+        document.forms["myform"].submit();
+    }
+    $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+    </script>
+      <style>
+        .mce-notification-inner, .mce-close, .mce-notification-warning {
+        display:none !important;
+        }
+
+        /* Popup container - can be anything you want */
+    #popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    }
+
+    /* The actual popup */
+    #popup .popuptext {
+    visibility: hidden;
+    width: 220px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px 5px;
+    position: absolute;
+    z-index: 1;
+    bottom:100%;
+    left: 50%;
+    margin-left: -110px;
+    }
+
+    /* Popup arrow */
+    #popup .popuptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+    }
+
+    /* Toggle this class - hide and show the popup */
+    #popup .showPopup {
+    -webkit-animation: fadeinout 4s linear forwards;
+    animation: fadeinout 4s linear forwards;
+    visibility: visible;
+    }
+  
+    /* Add animation (fade in the popup) */
+@-webkit-keyframes fadeinout {
+  0%,100% { opacity: 0; }
+  10% {opacity: 1;}
+  66% { opacity: 1; }
+}
+
+@keyframes fadeinout {
+  0%,100% { opacity: 0; }
+  10% {opacity: 1;}
+  66% { opacity: 1; }
+}
+
+.tooltip-inner {
+  text-align: left;
+  padding: 15px;
+  font-size: 1.05rem;
+  max-width: 420px;
+}
+    </style> 
+    </head>
+    <body>
+    <div class="container-fluid">
+        <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
+          <div class="h5"><i class="fa fa-fw fa-3x fa-pull-left fa-exclamation-circle"></i>You can only generate the code for one Google doc at a time on this page. When you paste the link for your doc in the Publishing link and Share link space, that textbox will become read only. <strong>This means you cannot delete or edit the link in the box</strong>. This is to ensure the code generated is correct.</div>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+          </div>
+      <h1 class="text-center"><i class="fa fa-file-pdf-o"></i> Embed Doc + Doc to PDF ink </h1>
+     <h5>How to use this page</h5>
+     <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your doc paste the code into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle, <a data-toggle="modal" data-target=".html-paste-modal" href="">this short video will help</a> (it will open in an overlay on this screen).</p>
+     <div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+       <div class="modal-dialog modal-lg">
+         <div class="modal-content p-2">
+           <div class="modal-header">
+             <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+             </button>
+           </div>
+         <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe></div>
+         </div>
+       </div>
+     </div>
+     <ul>
+         <li>Find the publishing link</li>
+         <li>Find the share link</li>
+        </ul>
+     <h5>Refresh this page</h5>
+     <div class="row w-100">
+       <div class="col-lg">
+     <p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
+     <div class="col-lg-3"><div class="text-center">
+       <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
+     </div></div></div>
+     <form id="docEmbeddedPlusDocToPDF">    
+        <div class="row w-100 mx-auto mt-2">
+          <div class="col-lg-8">
+              <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in your Google Doc's publishing link. You can find this under File > Publish to the web > Link after you click the Publish button. If you are unsure of where to find this follow the instructions at the top of the page.">Step 1 - Paste the Docs Publishing link</h5>
+              <textarea class="rounded p-2 w-100" rows="1" name="gDocPubLink" id="gDocPubLink" placeholder="Paste the publish link here"></textarea>
+              </div>
+              </div> 
+              <div class="row w-100 mx-auto mt-2">
+                <div class="col-lg-8">
+                    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in your Google Doc's share link. You can find this by clicking the blue Share button in the top right of your doc, and then selecting Copy link.">Step 2 - Paste the Docs Share link</h5>
+                    <textarea class="rounded p-2 w-100" rows="1" name="gDocShareLink" id="gDocShareLink" placeholder="Paste the publish link here"></textarea>
+                    </div>
+                    </div> 
+                    <div class="row w-100 mx-auto  mt-2">
+                        <div class="col-lg-8">
+                          <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="This can take some trial and error depending on the content of your doc. We have defaulted this height to 800. Adjust this if the preview provides too much white space or does not display the entire contents of your doc.">Step 3 - Embedded Doc Height</h5>
+                          <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="docHeight" type="text" id="docHeight" placeholder="Type a heading here that will sit above your embed code.">800</textarea>
+                        </div>
+                      </div>
+                      <div class="row w-100 mx-auto  mt-2">
+                        <div class="col-lg-8">
+                          <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose whether the link to download your embedded doc as a PDF appears above OR below your embedded doc. Above is chosen by default.">Step 5 - Above or Below (optional)</h5>
+                                <select class="custom-select w-50 border border-dark" id="aORb" name="aORb" size="1">
+                                <option selected value="A">Above</option>
+                                <option value="B">Below</option>
+                               </select>
+                              </div> 
+                            </div>
+              <div class="row w-100 mx-auto  mt-2">
+                <div class="col-lg-8">
+                  <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="This is optional. If you have put a heading inside of your Google Doc, do not also put a heading here. If you do need a heading, type it here and ensure you choose a heading size in Step 5. 75 character maximum.">Step 4 - Heading (optional)</h5>
+                  <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="docHeading" type="text" id="docHeading" placeholder="Type a heading here that will sit above your embed code."></textarea>
+                </div>
+              </div>
+      <div class="row w-100 mx-auto mt-2">
+      <div class="col-lg-8">
+        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 5 - Heading size (optional)</h5>
+              <select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1">
+              <option selected value="noH">No heading</option>
+              <option value="h5">Small (h5)</option>
+              <option value="h4">Medium (h4)</option>
+              <option value="h3">Large (h3)</option>
+            </select>
+            </div> 
+          </div>   
+          <div class="row w-100 mx-auto mt-2">
+            <div class="col-lg-8">
+              <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 2) and choose a heading size (step 3) or the icon and heading will not display.">Step 6 - Select icon (optional)</h5>
+              <select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1">
+                <option selected value="noI">No icon</option>
+                  <option value="1">Calendar</option>
+                  <option value="2">White question mark in a black circle</option>
+                  <option value="3">Black question mark in a white circle</option>
+                  <option value="4">List with numbers</option>
+                  <option value="5">List with dots</option>
+                </select>
+              </div>
+            </div>
+    <div class="row w-100 mx-auto mt-2">
+    <div class="col-lg-8">
+        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="If you choose to write in this space, what you write will appear above your embedded document.">Step 7 - Write the context for your document (optional)</h5>
+        <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="3" name="doc_text" id="tinyMCEdoc1" placeholder="Write/paste the text for the button here"></textarea>
+      </div>
+    </div>
+        <div class="row w-100 mx-auto mt-2">
+        <div class="col-lg-8">
+          <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 7.">Step 8 - Generate/copy code</h5>
+        <div><p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span> <input type="button" class="m-1 btn btn-arts" name="copyCode" value="Click to generate and copy code" onClick=generateDocCode()></input></div>
+           <textarea readonly class="rounded p-2 w-100" id="txtareaDocCode" cols="70" rows="3" name="Result" placeholder="Code for your Google doc will appear here."></textarea>
+        </div>
+    </div>
+    <div class="row w-100 mx-auto mt-2 mb-3">
+      <div class="col-lg">
+        <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 8.">Step 9 - Preview</h5>
+        </div>
+        </div>
+      
+  <script>
+    var textarea = $('#docHeading');
+    var select = $('#headSize');
+    var addOrRemoveRequiredAttribute = function () {
+    if (textarea.val().length) {
+    select.val("h5")
+    }
+    };
+    
+    // Run now
+    addOrRemoveRequiredAttribute();
+    // And when textarea changes
+    textarea.on('change', addOrRemoveRequiredAttribute);
+    </script>
+    <script>
+        /*Change Share link to be the export link for the document*/
+    $('#gDocShareLink').on('input', function(event) {
+        var s = $('#gDocShareLink').val().toString();
+        
+        if (s.includes("google.com") == true) {
+        //code for converting Vimeo link from Viewer to Embed
+        var x = s.replace('edit?usp=sharing','export?format=pdf');
+        }
+        $('#gDocShareLink').val(x);
+        $('input[type="text"], textarea#gDocShareLink').attr('readonly','readonly');
+    });
+    $('#gDocPubLink').on('input', function(event) {
+        var p = $('#gDocPubLink').val().toString();
+        
+        if (p.includes("google.com") == true) {
+        //code for converting Vimeo link from Viewer to Embed
+        var y = p.replace('/pub','/pub?embedded=true');
+        }
+        
+        $('#gDocPubLink').val(y);
+        $('input[type="text"], textarea#gDocPubLink').attr('readonly','readonly');
+    });
+      </script>
+    </form>
+    <div id="demo"></div>
+    <p class="my-3"></p>
+  </div>
+  </body>
+</html>
