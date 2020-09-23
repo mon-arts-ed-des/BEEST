@@ -161,20 +161,80 @@
   font-size: 1.05rem;
   max-width: 400px;
 }
+.carousel-indicators li {
+border-radius: 50%;
+height: 30px;
+margin: 0 5px 0 5px;
+background: grey;
+}
+.carousel-indicators .active {
+	width:30px;
+	height:30px;
+	background:#006dae;
+	border-color:#006dae;
+}
+
   </style> 
   
        </head>
     <body>
       <div id="beestNav"></div>
         <div class="container-fluid">
-  <h1 class="text-center"><i class="fa fa-fw fa-dragon"></i> BEEST Project</h1>
-  <h3>What is BEEST?</h3>
-  <p>BEEST stands for <strong>B</strong>ootstrap <strong>E</strong>nhanced <strong>E</strong>lements <strong>S</strong>treamlining <strong>T</strong>ool. BEEST takes your input and combines it with pre-written HTML to create advanced HTML elements without the need for complex HTML skills.</p>
+          <h1 class="text-center"><i class="fa fa-fw fa-dragon"></i> BEEST Project</h1>
+          <div class="row w-100 my-3">
+            <div class="col-lg">
+  <h3>What is the BEEST?</h3>
+  <p>BEEST stands for <strong>B</strong>ootstrap <strong>E</strong>nhanced <strong>E</strong>lements <strong>S</strong>treamlining <strong>T</strong>ool. BEEST takes your input and combines it with pre-written HTML to generate advanced HTML elements without the need for complex HTML skills.</p>
   <h3>What can BEEST do that nothing else can?</h3>
-  <p>This tool, <strong>when used appropriately</strong>, can create <span class="text-primary font-weight-bold" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="Responsive design means web pages detect the user's screen size and orientation and change the layout accordingly. Therefore the elements here 'respond' to the user's device to work how that person expects them to work on that device.">responsive</span>, consistent, quality HTML elements that improve your Moodle site's user experience (UX) design while also meeting <span class="text-primary font-weight-bold" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="WCAG is the global body that produces guidelines to support making content accessible to a wider range of people with disabilities, including blindness, low vision, deafness, hearing loss, learning disabilities, cognitive limitations, limited movement, speech disabilities, photosensitivity and combinations of these.">WCAG accessibility standards</span>. As technology and the digital learning space continues to develop at a rapid pace, students are now not only expecting meaningful, applied, active learning approaches, they want the experience of interacting with the learning content to be an engaging, clear and easy to operate experience. This is why the BEEST was designed. So often, high-quality teachers and designers use up an incredible amount of time and effort manipulating HTML to make their learning sites a quality <span class="text-primary font-weight-bold" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="User experience encompasses all aspects of the end-user's interaction with the product including usability, clarity of instructions, accessibility, responsivity and formatting.">user experience</span> as well. BEEST can cut the time needed and the skills required to achieve this by a vast amount. This means more time for planning learning content, and more teachers having access to high-level design features they thought were out of reach.</p>
-  <h3>Why use BEEST?</h3> 
+  <p>Take a look at the videos on the right to see the BEEST in action. For the details, read on. This tool, <strong>when used appropriately</strong>, can create <span class="text-primary font-weight-bold" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="Responsive design means web pages detect the user's screen size and orientation and change the layout accordingly. Therefore the elements here 'respond' to the user's device to work how that person expects them to work on that device.">responsive</span>, consistent, quality HTML elements that improve your Moodle site's user experience (UX) design while also meeting <span class="text-primary font-weight-bold" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="WCAG is the global body that produces guidelines to support making content accessible to a wider range of people with disabilities, including blindness, low vision, deafness, hearing loss, learning disabilities, cognitive limitations, limited movement, speech disabilities, photosensitivity and combinations of these.">WCAG accessibility standards</span>. As technology and the digital learning space continues to develop at a rapid pace, students are now not only expecting meaningful, applied, active learning approaches, they want the experience of interacting with the learning content to be an engaging, clear and easy to operate experience. This is why the BEEST was designed. So often, high-quality teachers and designers use up an incredible amount of time and effort manipulating HTML to make their learning sites a quality <span class="text-primary font-weight-bold" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="User experience encompasses all aspects of the end-user's interaction with the product including usability, clarity of instructions, accessibility, responsivity and formatting.">user experience</span> as well. BEEST can cut the time needed and the skills required to achieve this by a vast amount. This means more time for planning learning content, and more teachers having access to high-level design features they thought were out of reach.</p>
+  </div>
+  <div class="col-lg-4">
+    <h3>What can the BEEST do?</h3>
+    <p>Take a look at what the BEEST can do for you. Click the circles under the videos to look through all our video examples.</p>
+    <div id="carouselvideo" class="carousel slide" data-ride="carousel">
+     
+    
+      <div class="carousel-inner" role="listbox">
+        <div class="carousel-item active">
+          <div class="embed-responsive embed-responsive-16by9">
+          <iframe class="embed-responsive-item" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=26ce12c9-615b-4791-b18f-ac3e005c08f1" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+        </div>
+        </div>
+        <div class="carousel-item">
+          <div class="embed-responsive embed-responsive-16by9">
+          <iframe class="embed-responsive-item" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=53e3ef90-79b6-42b5-b8d2-ac3f005056cd" frameborder="0" allowfullscreen></iframe>
+        </div>
+        </div>
+        <div class="carousel-item">
+          <div class="embed-responsive embed-responsive-16by9">
+          <iframe class="embed-responsive-item" src="https://www.youtube-nocookie.com/embed/xxx?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+        </div>
+        </div>
+        <div class="carousel-item">
+          <div class="embed-responsive embed-responsive-16by9">
+          <iframe class="embed-responsive-item" src="https://www.youtube-nocookie.com/embed/xxx?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+        </div>
+        </div>
+        <div class="carousel-item">
+          <div class="embed-responsive embed-responsive-16by9">
+          <iframe class="embed-responsive-item" src="https://www.youtube-nocookie.com/embed/xxx?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+        </div>
+        </div>
+      </div>
+    </div>
+<div> <ol class="carousel-indicators">
+  <li data-target="#carouselvideo" data-slide-to="0" class="active"></li>
+  <li data-target="#carouselvideo" data-slide-to="1"></li>
+  <li data-target="#carouselvideo" data-slide-to="2"></li>
+  <li data-target="#carouselvideo" data-slide-to="3"></li>
+  <li data-target="#carouselvideo" data-slide-to="4"></li>
+</ol></div>
+    </div>
+  </div>
+  
+  <h3>Why use the BEEST?</h3> 
    <p>If you are producing high quality teaching and learning in your Moodle site, and want to take it to the next level for your students, BEEST can help you reformat your existing content, and support a responsive, high-quality end-user learning product.</p>
-   <h3>How do I use BEEST?</h3> 
+   <h3>How do I use the BEEST?</h3> 
    <p>On each of the pages there are step by step instructions on what input you need to provide, and how to manipulate the respective element to produce the final result desired. Each page will also produce a preview. This is so you can take a sneak peek at what you have created before pasting it into Moodle and make and changes you feel are necessary.</p>
    <hr class="hr2">
    <h3>Creators and Support</h3>
@@ -207,7 +267,7 @@
 </div>  
 <hr class="hr2">
    <div>
-    <h1 class="text-center"><i class="fa fa-fw fa-laptop-medical"></i> Setting up to use BEEST in Moodle</h1>
+    <h1 class="text-center"><i class="fa fa-fw fa-laptop-medical"></i> Setup the BEEST in Moodle</h1>
     <h3>Why would I set this up in Moodle?</h5>
   <p class="mb-0">We have designed the BEEST to be used within Moodle through the following process of implenting code into a HTML block at Faculty Category level. This is so you can create the elements you need using BEEST without leaving Moodle. The HTML block, and the code generated through this process, <strong>needs to be put in place by a Moodle administrator</strong>, and some consideration needs to be given to the Moodle roles that your Faculty would like to have access to the BEEST tool. E.g. Do you only want Moodle administrators to have access? Or adminstrators, designers and lecturers? Or administrators, lecturers and tutors Below is an instructional video to assist in the setup of this for your Faculty.</p>
                 <div class="row w-100">
@@ -244,6 +304,31 @@
 
         </div>
         </div>
+        <script>
+        function getRandomUrl(videoURL) {
+          var minIndex = 0;
+          var maxIndex = videoURL.length - 1;
+          var randomIndex = Math.floor(Math.random() * (maxIndex - minIndex)) + minIndex;
+          return videoURL[randomIndex];
+      }
+      var videoURL = [
+      "",
+      "",
+      "",
+        "",
+      ];
+      var randomVideoURL = getRandomUrl(videoURL);
+      
+      $("#beestPlaylist").html(
+      "<iframe class=\"embed-responsive-item\" src=\""+randomVideoURL+"\" frameborder='0'></iframe>");
+      </script>
+      <script>$(".carousel").carousel({interval: false});</script>
+      <script>
+        $(".carousel-indicators li").on('click', function(){
+            $(this).siblings().removeClass('active')
+            $(this).addClass('active');
+        })
+        </script>
     <p class="my-3"></p>
         <div id="beestFooter"></div>
         </body>
