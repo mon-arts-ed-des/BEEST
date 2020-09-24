@@ -286,7 +286,7 @@
 			monAccOutput += monAccContent[secNum]
 			monAccOutput += monAcc_10
 		} 
-        document.getElementById('monAccCode').innerHTML=resizedHead+monAccOutput+monAcc_Close;
+        document.getElementById('monAccCode').innerHTML=monAccOutput+monAcc_Close;
         SelectAll("monAccCode");
         $('#demo').nextAll('div, h3, h4, h5, i').remove();
         $('#demo').after(monAccOutput);
