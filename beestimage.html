@@ -117,13 +117,11 @@
     }
 
     // The Browser API key obtained from the Google API Console.
-    // Replace with your own Browser API key, or your own key.
     var developerKey = 'AIzaSyDc_XZvzDg7_zvLL_yZXG-hoa_2QA6MU6E';
 
-    // The Client ID obtained from the Google API Console. Replace with your own Client ID.
+    // The Client ID obtained from the Google API Console.
     var clientId = "97361103722-bs8u1e0lp7rnati4703leav6b4nknhg7.apps.googleusercontent.com"
 
-    // Replace with your own project number from console.developers.google.com.
     // See "Project number" under "IAM & Admin" > "Settings"
     var appId = "97361103722";
 
@@ -138,7 +136,8 @@
       gapi.load('auth', {'callback': onAuthApiLoad});
       gapi.load('picker', {'callback': onPickerApiLoad});
     }
-
+    
+    // Load API key
     function onAuthApiLoad() {
       window.gapi.auth.authorize(
           {
@@ -148,7 +147,8 @@
           },
           handleAuthResult);
     }
-
+    
+    //Load Google Drive Picker
     function onPickerApiLoad() {
       pickerApiLoaded = true;
       createPicker();
@@ -188,6 +188,8 @@
         url = 'https://drive.google.com/uc?id=' + fileId + '&amp;export=download';
         //alert('the selected file id is: ' + fileId + ' and I am still fixing some bugs');
         document.getElementById('img').src = url;
+        var imagepreview = document.getElementById("imagepreview");
+        imagepreview.style.display = "block";
       }
     }
 
@@ -214,7 +216,7 @@
    	/*These different options have been absorbed into a javascript Object allowing a direct mapping and lookup of code to icon name*/
 	
 
-      /*Function to generate and copy code for the responsive videos*/
+    /*Function to generate and copy code for the responsive image*/
     function generateCode() {
         // Get the HTML contents of the currently active editor
         console.debug(tinyMCE.activeEditor.getContent());
@@ -227,7 +229,7 @@
         var headSize = document.getElementById('headSize').value;
         var faIcon = document.getElementById('faCode').value;
         var iconNames = {
-			      "1":"video-camera",
+			      "1":"image",
             "2":"play",
             "3":"eye" 
         }
@@ -255,7 +257,6 @@
 				resizedHead = head_5+faIconCode+vidHeading+endHead_5;
 				break;
 		}
-        //window.alert(vPosition);
 
         if (imgPosition == "left"){
             var textOutput = resizedHead+respImg_1+respImg_2r+url+respImg_3r+respImg_4+contextCode+respImg_5;
@@ -348,6 +349,9 @@
           <a class="nav-link" href="beestvideo.html">Responsive Video</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="beestimage.html">Responsive Image</a>
+        </li>
+        <li class="nav-item">
         <a class="nav-link" href="beestbuttons.html">Buttons</a>
         </li>
         <li class="nav-item">
@@ -369,7 +373,7 @@
     </div>
   </nav>
 
-  <h1 class="text-center"><i class="fa fa-image"></i> Responsive image + context</h1>
+<h1 class="text-center"><i class="fa fa-image"></i> Responsive image + context</h1>
 
 <form id="respImg">   
    <div class="row w-100 mx-auto">
@@ -403,6 +407,7 @@
    </div>
 
       <div class="col-lg-3">
+        <h5 id="imagepreview" class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" style="display:none;">Image Preview</h5>
         <img id="img" src="" style="max-width:100%;max-height:100%;">
       </div> 
     </div>
@@ -424,6 +429,7 @@
                 <textarea maxlength="50" class="rounded p-2 w-100" rows="1" name="respVid_heading" type="text" id="respImgHeading" placeholder="Type your image heading here"></textarea>
               </div>
             </div>
+
     <div class="row w-100 mx-auto">
     <div class="col-lg-8 mt-2">
       <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 5 - Heading size (optional)</h5>
@@ -445,7 +451,8 @@
                 <option value="3">Eye</option>
               </select>
             </div>
-          </div>  
+          </div> 
+
     <div class="row w-100 mx-auto">
             <div class="col-lg-8 mt-2">
     <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 7 - Generate/copy code</h5>
