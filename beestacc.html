@@ -15,6 +15,7 @@
       <!-- Arts CSS -->  
       <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/adminPlusSetuBlockStyle.css" />
       <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/artsAccordionStyle.css" />
+      <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/monashElements.css" />
       <!-- external link to js file -->  
       <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
       <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -476,7 +477,9 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
             </div>   
   <h1 class="text-center"><i class="fa fa-layer-group fa-fw"></i> Accordion</h1>
-<span class="hideableinstruct">  
+  <div class="row w-100 mx-auto">
+    <div class="col-lg mt-2">
+      <div class="hideableinstruct">
   <h5>The result of this process</h5>
   <p>This process will generate an accordion that can display information collapsed under heading buttons (drawers). It's important to note that accordions can easily be misused.</p>
   <p>
@@ -500,7 +503,7 @@
       </div>
     </div>
   </div>
-</span>
+</div>
   <h5>Refresh this page</h5>
   <div class="row w-100">
     <div class="col-lg">
@@ -516,6 +519,14 @@
         <div class="col-lg-3"><div class="text-center">
           <button onclick="flipTooltip()" class="btn btn-mu">Turn <span class="onoffswapinstr">off</span> instructions <i class="fa fa-fw fa-power-off"></i></a>
         </div></div></div>
+      </div>
+        <div class="col-lg-4 mt-2 hideableinstruct">
+          <h5>Video walkthrough - Creating an accordion (07:08)</h5>
+          <div class="embed-responsive embed-responsive-16by9">
+            <iframe src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=a3b32c11-7614-4ec4-8104-ac4000328f01" class="embed-responsive-item" frameborder="1" allowfullscreen="true"></iframe>
+          </div>
+          </div>
+        </div>
 <hr class="hr-3">
 <form id="monAccForm">
   <div class="row w-100 mx-auto">
@@ -534,6 +545,7 @@
 </div>
 </div>
 </div>
+
 <div class="row w-100 mx-auto">
   <div class="col-lg-6 mt-2">
     <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the main heading for this accordion that will sit above the element and indicate to students what is in the accordion. 75 character maximum.">Step 2 - Main heading (optional)</h5>
