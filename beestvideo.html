@@ -88,8 +88,14 @@
 				resizedHead = head_5+faIconCode+vidHeading+endHead_5;
 				break;
 		}
-        //window.alert(vPosition);
-
+        //Change size of column if requested
+        if (vWidth == "33" && vPosition == "left"){
+          firstCol=firstCol4;
+        }
+        else if (vWidth == "33" && vPosition== "right"){
+          secCol=secCol4;
+        }
+        //Change position of video and order of output
         if (vPosition == "left"){
             var textOutput = resizedHead+rowOpen+firstCol+respVid+closeCol+secCol+contextCode+closeRow;
         }
@@ -97,12 +103,6 @@
             var textOutput = resizedHead+rowOpen+firstCol+contextCode+closeCol+secCol+respVid+closeRow;
         }
 
-        if (vWidth == "33" && vPosition == "left"){
-          var textOutput = resizedHead+rowOpen+firstCol4+respVid+closeCol+secCol+contextCode+closeRow;
-        }
-        else if (vWidth == "33" && vPosition== "right"){
-          var textOutput = resizedHead+rowOpen+firstCol+contextCode+closeCol+secCol4+respVid+closeRow;
-        }
 
         document.getElementById('txtarearespVid').innerHTML=textOutput;
         SelectAll("txtarearespVid");
