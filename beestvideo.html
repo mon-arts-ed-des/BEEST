@@ -41,8 +41,24 @@
         var vidHeading = document.getElementById('respVidHeading').value;
         var respLink = document.getElementById('respVidSwitch').value;
         var vPosition = document.getElementById('videoPosition').value;
+        var vWidth = document.getElementById('videoWidth').value;
         var headSize = document.getElementById('headSize').value;
         var faIcon = document.getElementById('faCode').value;
+        var head_3="<h3>"
+    var endHead_3="</h3>"
+    var head_4="<h4>"
+    var endHead_4="</h4>"
+    var head_5="<h5>"
+    var endHead_5="</h5>"
+    var rowOpen="<div class=\"row w-100\">"
+    var firstCol="<div class=\"col-lg\">"
+    var firstCol4="<div class=\"col-lg-4\">"
+    var secCol="<div class=\"col-lg mt-2\">"
+    var secCol4="<div class=\"col-lg-4 mt-2\">"
+    var closeCol="</div>"
+    var closeRow="</div></div>"
+    var respVid="<div class=\"embed-responsive embed-responsive-16by9\"><iframe class=\"embed-responsive-item\" frameborder=\"0\" allowfullscreen=\"\" src=\""+respLink+"\"></iframe></div>"
+    var respVidYT="<div class=\"embed-responsive embed-responsive-16by9\"><iframe class=\"embed-responsive-item\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen src=\""+respLink+"\"></iframe></div>"
         var iconNames = {
 			      "1":"video-camera",
             "2":"play",
@@ -75,10 +91,17 @@
         //window.alert(vPosition);
 
         if (vPosition == "left"){
-            var textOutput = resizedHead+respVid_1+respVid_2r+respLink+respVid_3r+respVid_4+contextCode+respVid_5;
+            var textOutput = resizedHead+rowOpen+firstCol+respVid+closeCol+secCol+contextCode+closeRow;
         }
         else if (vPosition == "right"){
-            var textOutput = resizedHead+respVid_1+contextCode+respVid_2+respLink+respVid_3;
+            var textOutput = resizedHead+rowOpen+firstCol+contextCode+closeCol+secCol+respVid+closeRow;
+        }
+
+        if (vWidth == "33" && vPosition == "left"){
+          var textOutput = resizedHead+rowOpen+firstCol4+respVid+closeCol+secCol+contextCode+closeRow;
+        }
+        else if (vWidth == "33" && vPosition== "right"){
+          var textOutput = resizedHead+rowOpen+firstCol+contextCode+closeCol+secCol4+respVid+closeRow;
         }
 
         document.getElementById('txtarearespVid').innerHTML=textOutput;
@@ -114,21 +137,7 @@
     respVid = responsive Video Right (context left/video right)
 
     */
-    var head_3="<h3>"
-    var endHead_3="</h3>"
-    var head_4="<h4>"
-    var endHead_4="</h4>"
-    var head_5="<h5>"
-    var endHead_5="</h5>"
-    var respVid_1="<div class=\"row w-100\"><div class=\"col-lg\">"
-    var respVid_2="</div><div class=\"col-lg\"><div class=\"embed-responsive embed-responsive-16by9\"><iframe class=\"embed-responsive-item\" frameborder=\"0\" allowfullscreen=\"allowfullscreen\" src=\""
-    var respVid_2r="<div class=\"embed-responsive embed-responsive-16by9\"><iframe class=\"embed-responsive-item\" frameborder=\"0\" allowfullscreen=\"allowfullscreen\" src=\""
-    var respVid_3="\"></iframe></div></div></div>"
-    var respVid_3r="\"></iframe></div></div>"
-    var respVid_4="<div class=\"col-lg mt-2\">"
-    var respVid_5="</div></div>"
-    var respVidYoutu="</div><div class=\"col-lg\"><div class=\"embed-responsive embed-responsive-16by9\"><iframe class=\"embed-responsive-item\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen src=\""
-     var respVidYoutu2="<div class=\"embed-responsive embed-responsive-16by9\"><iframe class=\"embed-responsive-item\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen src=\""
+   
 		/*These different options have been absorbed into a javascript Object allowing a direct mapping and lookup of code to icon name*/
 		
     </script>
@@ -355,6 +364,15 @@
             </div> 
             <div class="row w-100 mx-auto">
               <div class="col-lg-8 mt-2">
+                <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose whether you want the video to be 50% (1/2) of the screen width or 33.3% (1/3) of the screen width.">Step 3 - Video width</h5>
+                      <select class="custom-select w-50 border border-dark" id="videoWidth" name="videoWidth" size="1">
+                      <option value="50" selected>50% (1/2)</option>
+                      <option value="33">33.3% (1/3)</option>
+                    </select>
+                    </div> 
+                  </div> 
+            <div class="row w-100 mx-auto">
+              <div class="col-lg-8 mt-2">
                 <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the heading for this video. 50 character maximum. If you want a heading, you must also complete step 5 or your heading will not display.">Step 4 - Heading (optional)</h5>
                 <textarea maxlength="50" class="rounded p-2 w-100" rows="1" name="respVid_heading" type="text" id="respVidHeading" placeholder="Type your video heading here"></textarea>
               </div>
@@ -364,9 +382,9 @@
       <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 5 - Heading size (optional)</h5>
             <select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1">
             <option selected value="noH">No heading</option>
-            <option value="h5">Small</option>
-            <option value="h4">Medium</option>
-            <option value="h3">Large</option>
+            <option value="h5">Small (h5)</option>
+            <option value="h4">Medium (h4)</option>
+            <option value="h3">Large (h3)</option>
           </select>
           </div> 
         </div>   
@@ -415,13 +433,11 @@
         else if (s.includes("youtube.com") == true) {
         //code for converting Youtube link from Viewer to Embed
         var x = s.replace('watch?v=','embed/').replace('&start','?start');
-        respVid_2=respVidYoutu;
-        respVid_2r=respVidYoutu2;
+        respVid=respVidYT;
         }
         else if (s.includes("youtu.be") == true) {
         var x = s.replace('youtu.be','www.youtube.com/embed').replace('t=','start=');
-        respVid_2=respVidYoutu;
-        respVid_2r=respVidYoutu2; 
+        respVid=respVidYT;
         }
         //code for converting Panopto link from Viewer to Embed
         else if (s.includes("monash-panopto") == true) {
