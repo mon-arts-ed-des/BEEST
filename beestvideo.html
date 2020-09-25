@@ -95,6 +95,12 @@
         else if (vWidth == "33" && vPosition== "right"){
           secCol=secCol4;
         }
+        $("#respVidSwitch").each(function() {
+        if ($('this:contains("youtu")')){
+          respVid=respVidYT;
+          }
+        });
+    
         //Change position of video and order of output
         if (vPosition == "left"){
             var textOutput = resizedHead+rowOpen+firstCol+respVid+closeCol+secCol+contextCode+closeRow;
@@ -102,8 +108,8 @@
         else if (vPosition == "right"){
             var textOutput = resizedHead+rowOpen+firstCol+contextCode+closeCol+secCol+respVid+closeRow;
         }
-
-
+       
+       
         document.getElementById('txtarearespVid').innerHTML=textOutput;
         SelectAll("txtarearespVid");
          //Add the html code after the div
@@ -422,7 +428,6 @@
                     <p class="my-3"></p>
                   </div>
          <script>
-         
         $('#respVidSwitch').on('input', function(event) {
         var s = $('#respVidSwitch').val().toString();
         
@@ -433,11 +438,9 @@
         else if (s.includes("youtube.com") == true) {
         //code for converting Youtube link from Viewer to Embed
         var x = s.replace('watch?v=','embed/').replace('&start','?start');
-        respVid=respVidYT;
         }
         else if (s.includes("youtu.be") == true) {
         var x = s.replace('youtu.be','www.youtube.com/embed').replace('t=','start=');
-        respVid=respVidYT;
         }
         //code for converting Panopto link from Viewer to Embed
         else if (s.includes("monash-panopto") == true) {
