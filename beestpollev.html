@@ -221,7 +221,9 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
             </div>     
           <h1 class="text-center"><i class="fa fa-poll fa-fw"></i> Embed Poll Everywhere Activities/Surveys</h1>
-		<span class="hideableinstruct">
+          <div class="row w-100 mx-auto">
+            <div class="col-lg mt-2">
+              <div class="hideableinstruct">
           <h5>The result of this process</h5>
           <p>This process will generate embed code for Poll Everywhere activites using the shareable link available in your Poll Everywhere account. To get the link for your poll activity <a href="" data-toggle="modal" data-target=".pollev-modal">follow these steps</a> (will appear as an overlay on this screen).</p>
 <div class="modal fade pollev-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -231,11 +233,10 @@
         <div class="col-lg-11">
           <h5><i class="fa fa-fw fa-link"></i> Get the shareable link for your poll</h5>
             <ol class="mb-0">
-                <li>Go to <a href="https://polleverywhere.com" target="_blank">Poll Everywhere</a> and login.</li>
-                <li>Create and save your single activity or click on the <strong>Edit</strong> menu of an already created item by hovering over it.</li>
-                <li>Go to the <strong>3. Present tab</strong> in the top right corner of the screen.</li>
-              <li>Click on the <strong>Share tab</strong> to reveal your options.</li>
-          <li>Copy the <strong>Shareable response link</strong> or click the <strong>hyperlink icon</strong> next to the heading to automatically copy the link.</li></ol>
+                <li>Go to <a href="https://www.polleverywhere.com/activities" target="_blank">Poll Everywhere</a> and login.</li>
+                <li>Click on the <strong>Actions</strong> menu of an already created item and choose <strong>Copy response link</strong>.</li>
+                <li>Return to the BEEST and paste this link in Step 1.</li>
+                </ol>
         </div>
             <div class="col-lg-1 p-0">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -259,7 +260,7 @@
               <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe></div>
               </div>
             </div>
-          </div>	</span>
+          </div>	</div>
           <h5>Refresh this page</h5>
           <div class="row w-100">
             <div class="col-lg">
@@ -274,12 +275,19 @@
         <p>Click this button to turn <span class="onoffswapinstr">off</span> the instructions that appear when you hover over the headings.<span class="hideableinstruct"> Only do this if you are completely familiar with how to use the tool.</span></p></div>
         <div class="col-lg-3"><div class="text-center">
           <button onclick="flipTooltip()" class="btn btn-mu">Turn <span class="onoffswapinstr">off</span> instructions <i class="fa fa-fw fa-power-off"></i></a>
-        </div></div></div>
+        </div></div></div></div>
+        <div class="col-lg-4 mt-2 hideableinstruct">
+          <h5>Video walkthrough - Creating a Poll Everywhere activity/survey embed code (2:36)</h5>
+          <div class="embed-responsive embed-responsive-16by9">
+            <iframe src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=8326f205-50f4-4495-94cd-ac3f0040366d" class="embed-responsive-item" frameborder="1" allowfullscreen="true"></iframe>
+          </div>
+          </div>
+        </div>
      <hr class="hr-3">
        <form id="pollEv">    
         <div class="row w-100 mx-auto mt-2">
           <div class="col-lg-8">
-              <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in your polls shareable link. You can get this link by following the instructions from the top of the page. Click on the text that says 'follow these steps' to reveal the instructions.">Step 1 - Paste shareable link URL</h5>
+              <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in your polls shareable link. You can get this link by following the instructions from the top of the page. Click on the text that says 'follow these steps' to reveal the instructions.">Step 1 - Paste response link URL</h5>
               <textarea class="rounded p-2 w-100" rows="1" name="pollEv_URL" id="pollEv_URL" placeholder="Write/paste the Shareable response link here"></textarea>
               </div>
               </div> 
