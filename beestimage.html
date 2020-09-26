@@ -221,7 +221,7 @@
     function iconpreview() {
         var faIcon = document.getElementById('faCode').value;
         var iconNames = {
-			      "1":"image",
+			      "1":"video-camera",
             "2":"play",
             "3":"eye" 
         }
@@ -231,21 +231,30 @@
 		
         if (faIcon == "noI"){
           faIconCode = "";
-        }
-        
-        if (document.getElementById("icon"))
-        {
-          var icon = document.getElementById("icon");
-          icon.parentNode.removeChild(icon);
+          if (document.getElementById("icon"))
+           {
+            var icon = document.getElementById("icon");
+            icon.parentNode.removeChild(icon);
+            var iconpreview = document.getElementById("iconpreview");
+            iconpreview.style.display = "none";
+           }
         }
 
-        var code = document.createElement("span");
-        code.innerHTML = faIconCode;
-        var iconpreview = document.getElementById("iconpreview");
-        iconpreview.style.display = "block";
-        iconpreview.parentNode.insertBefore(code,iconpreview.nextSibling);
+        else{
+          if (document.getElementById("icon"))
+          {
+            var icon = document.getElementById("icon");
+            icon.parentNode.removeChild(icon);
+          }
+
+          var code = document.createElement("span");
+          code.innerHTML = faIconCode;
+          var iconpreview = document.getElementById("iconpreview");
+          iconpreview.style.display = "block";
+          iconpreview.parentNode.insertBefore(code,iconpreview.nextSibling);
+        }
         generateCode();
-    }
+      }
 
     /*Function to generate and copy code for the responsive image*/
     function generateCode() {
