@@ -29,6 +29,48 @@
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
 	<script src="advancedModeLocalStorage.js"></script>
     <script type="text/javascript">
+
+    function iconpreview() {
+        var faIcon = document.getElementById('faCode').value;
+        var iconNames = {
+            "noI":"",
+			      "1":"arrow-right",
+            "2":"arrow-circle-o-right",
+            "3":"external-link",
+            "4":"hand-o-right",
+            "5":"play",
+            "6":"play-circle-o" 
+        }
+
+        var iconName = iconNames[faIcon];
+	     	var faIconCode = "<i id=\"icon\" class=\"fa fa-"+iconName+"\"></i> ";
+		
+        if (faIcon == "noI"){
+          faIconCode = "";
+          if (document.getElementById("icon"))
+           {
+            var icon = document.getElementById("icon");
+            icon.parentNode.removeChild(icon);
+            var iconpreview = document.getElementById("iconpreview");
+            iconpreview.style.display = "none";
+           }
+        }
+
+        else{
+          if (document.getElementById("icon"))
+          {
+            var icon = document.getElementById("icon");
+            icon.parentNode.removeChild(icon);
+          }
+
+        var code = document.createElement("span");
+        code.innerHTML = faIconCode;
+        var iconpreview = document.getElementById("iconpreview");
+        iconpreview.style.display = "block";
+        iconpreview.parentNode.insertBefore(code,iconpreview.nextSibling);
+        }
+      }
+
     function generateBtnCode() {
         //Retrieve the content by id of the textareas
         var btn_URL = document.getElementById('btn_URL').value;
@@ -325,9 +367,9 @@
             </div>
           </div>
           <div class="row w-100 mx-auto mt-2">
-            <div class="col-lg-8">
+            <div class="col-lg-5">
               <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="If you would like an icon to the right of your button text, choose one from this list. The default is no icon.">Step 3 - Choose icon</h5>
-              <select class="custom-select w-50 border border-dark" id="faCode" name="faCode">
+              <select class="custom-select w-50 border border-dark" id="faCode" name="faCode" onchange=iconpreview()>
                 <option selected value="noI">No icon</option>
                 <option value="1">Arrow right</option>
                 <option value="2">Arrow right in a circle</option>
@@ -336,10 +378,15 @@
                 <option value="5">Play</option>
                 <option value="6">Play in a circle</option>
               </select>
-                </div>
-              </div>
-              <div class="row w-100 mx-auto mt-2">
-                <div class="col-lg-8">
+            </div>
+
+            <div class="col-lg-2" >
+              <h5 id="iconpreview" class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" style="display:none;">Icon Preview</h5>
+            </div>
+          </div>
+          
+       <div class="row w-100 mx-auto mt-2">
+          <div class="col-lg-8">
           <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the colour of your button. Monash blue is selected by default.">Step 4 - Select button colour</h5>
           <select class="custom-select w-50 border border-dark" id="btnColour" name="btnColour">
               <option selected value="1">Monash blue</option>
