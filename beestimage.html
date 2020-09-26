@@ -180,16 +180,18 @@
       }
     }
 
+    var imageplaceholder ="https://drive.google.com/uc?id=1Tel_KpnwCcoRUMdMFyw-GJ-_MaqeaWYZ&export=download";
     var url;
+    url = imageplaceholder;
     // A simple callback implementation.
     function pickerCallback(data) {
       if (data.action == google.picker.Action.PICKED) {
         var fileId = data.docs[0].id;
         url = 'https://drive.google.com/uc?id=' + fileId + '&amp;export=download';
-        //alert('the selected file id is: ' + fileId + ' and I am still fixing some bugs');
         document.getElementById('img').src = url;
         var imagepreview = document.getElementById("imagepreview");
         imagepreview.style.display = "block";
+        generateCode();
       }
     }
 
@@ -206,6 +208,7 @@
     var endHead_4="</h4>"
     var head_5="<h5>"
     var endHead_5="</h5>"
+
     var respImg_1="<div class=\"row w-100\"><div class=\"col-lg\">"
     var respImg_2="</div><div class=\"col-lg\"><img class=\"img-fluid\" src=\""
     var respImg_2r="<img class=\"img-fluid\" src=\""
@@ -215,6 +218,34 @@
     var respImg_5="</div></div>"
    	/*These different options have been absorbed into a javascript Object allowing a direct mapping and lookup of code to icon name*/
 	
+    function iconpreview() {
+        var faIcon = document.getElementById('faCode').value;
+        var iconNames = {
+			      "1":"image",
+            "2":"play",
+            "3":"eye" 
+        }
+
+        var iconName = iconNames[faIcon];
+	     	var faIconCode = "<i id=\"icon\" class=\"fa fa-"+iconName+"\"></i> ";
+		
+        if (faIcon == "noI"){
+          faIconCode = "";
+        }
+        
+        if (document.getElementById("icon"))
+        {
+          var icon = document.getElementById("icon");
+          icon.parentNode.removeChild(icon);
+        }
+
+        var code = document.createElement("span");
+        code.innerHTML = faIconCode;
+        var iconpreview = document.getElementById("iconpreview");
+        iconpreview.style.display = "block";
+        iconpreview.parentNode.insertBefore(code,iconpreview.nextSibling);
+        generateCode();
+    }
 
     /*Function to generate and copy code for the responsive image*/
     function generateCode() {
@@ -248,15 +279,23 @@
 				resizedHead = "";
 				break;
 			case "h3":
-				resizedHead = head_3+faIconCode+vidHeading+endHead_3;
+				resizedHead = head_3+faIconCode+imgHeading+endHead_3;
 				break;
 			case "h4":
-				resizedHead = head_4+faIconCode+vidHeading+endHead_4;
+				resizedHead = head_4+faIconCode+imgHeading+endHead_4;
 				break;
 			case "h5":
-				resizedHead = head_5+faIconCode+vidHeading+endHead_5;
+				resizedHead = head_5+faIconCode+imgHeading+endHead_5;
 				break;
 		}
+
+          if (url !== imageplaceholder)
+          {
+          }
+          else
+          {
+            url = imageplaceholder;
+          }
 
         if (imgPosition == "left"){
             var textOutput = resizedHead+respImg_1+respImg_2r+url+respImg_3r+respImg_4+contextCode+respImg_5;
@@ -292,8 +331,6 @@
         document.execCommand("copy");
         var popup = document.getElementById("myPopup");
         popup.classList.toggle("showPopup");
-      
-        //window.alert('test');
     }
  
 
@@ -442,14 +479,18 @@
           </div> 
         </div>   
         <div class="row w-100 mx-auto">
-          <div class="col-lg-8 mt-2">
+          <div class="col-lg-5">
             <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 4) and choose a heading size (step 5) and or the icon and heading will not display.">Step 6 - Select icon (optional)</h5>
-            <select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1">
+            <select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1" onchange=iconpreview()>
               <option selected value="noI">No icon</option>
-                <option value="1">Video Camera</option>
+                <option value="1">Image</option>
                 <option value="2">Play</option>
                 <option value="3">Eye</option>
               </select>
+            </div>
+
+            <div class="col-lg-2" >
+            <h5 id="iconpreview" class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" style="display:none;">Icon Preview</h5>
             </div>
           </div> 
 
@@ -470,8 +511,7 @@
               </div>
     </form>
 
-    <div id="demo">
-                     
+    <div id="demo">                     
     </div>
     <p class="my-3"></p>
   </div>
