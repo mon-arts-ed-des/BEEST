@@ -32,6 +32,43 @@
         plugins : 'advlist autolink link lists charmap print preview code',
           toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat'  
       });
+
+    function iconpreview() {
+        var faIcon = document.getElementById('faCode').value;
+        var iconNames = {
+            "1":"exclamation-circle",
+            "2":"info-circle",
+            "3":"question-circle" 
+        }
+
+        var iconName = iconNames[faIcon];
+	     	var faIconCode = "<i id=\"icon\" class=\"fa fa-"+iconName+"\"></i> ";
+		
+        if (faIcon == "noI"){
+          faIconCode = "";
+          if (document.getElementById("icon"))
+           {
+            var icon = document.getElementById("icon");
+            icon.parentNode.removeChild(icon);
+            var iconpreview = document.getElementById("iconpreview");
+            iconpreview.style.display = "none";
+           }
+        }
+
+        else{
+          if (document.getElementById("icon"))
+          {
+            var icon = document.getElementById("icon");
+            icon.parentNode.removeChild(icon);
+          }
+
+        var code = document.createElement("span");
+        code.innerHTML = faIconCode;
+        var iconpreview = document.getElementById("iconpreview");
+        iconpreview.style.display = "block";
+        iconpreview.parentNode.insertBefore(code,iconpreview.nextSibling);
+        }
+      }  
    
     function generateAlertCode() {
         // Get the HTML contents of the currently active editor
@@ -295,20 +332,23 @@
         </div> 
         </div>
         <div class="row w-100 mx-auto">
-          <div class="col-lg-8 mt-2">
+          <div class="col-lg-5">
             <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="If you would like an icon to the left of your heading, select it here. The default is no icon. This is optional.">Step 4 - Select icon</h5>
-            <select class="custom-select w-50 border border-dark" id="faCode" name="faCode">
+            <select class="custom-select w-50 border border-dark" id="faCode" name="faCode" onchange=iconpreview()>
                 <option selected value="noI">No icon</option>
                 <option value="1">Exclamation circle</option>
                 <option value="2">Info circle</option>
                 <option value="3">Question mark</option>
               </select>
-            </div>
-            </div>
-              
-                 
-                <div class="row w-100 mx-auto">
-                  <div class="col-lg-8 mt-2">
+          </div>
+
+          <div class="col-lg-2" >
+            <h5 id="iconpreview" class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" style="display:none;">Icon Preview</h5>
+          </div>
+        </div>
+                   
+        <div class="row w-100 mx-auto">
+            <div class="col-lg-8 mt-2">
             <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the colour of your alert. Monash blue is selected by default.">Step 5 - Select alert colour</h5>
             <select class="custom-select w-50 border border-dark" id="alertColour" name="alertColour">
                 <option selected value="1">Monash blue</option>
