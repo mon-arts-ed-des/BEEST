@@ -362,8 +362,8 @@
   <script src="js/drive-service.js"></script>
   <script>   
     window.onload=function(){
-      $('#beestNav').load('https://mon-arts-ed-des.github.io/BEEST/beestnav.html');
-      $('#beestFooter').load('https://mon-arts-ed-des.github.io/BEEST/beestfooter.html');
+      $('#beestNav').load('common/beestnav.html');
+      $('#beestFooter').load('common/beestfooter.html');
       function activeNav() {
         var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
          $(".nav-link").each(function(){
@@ -527,5 +527,7 @@
 
 <script src="https://apis.google.com/js/client.js?onload=gapiLoaded"></script>
 <script type="text/javascript" src="https://apis.google.com/js/api.js"></script>
+
+<div id="beestFooter"></div>
 </body>
 </html>
