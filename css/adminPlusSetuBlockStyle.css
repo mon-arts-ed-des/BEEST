@@ -1,0 +1,212 @@
+/*inst2956050 is the Administration Menu all references affect the design of the Admin Block*/
+/*Changes the colour of the text and controls of the Admin Block to white*/
+#inst3234586 .action-menu, #inst3234586 .dropdown-toggle, #inst3234586 .moodle-core-dragdrop-draghandle, #inst484478 .action-menu,#inst484478 .dropdown-toggle, #inst484478 .moodle-core-dragdrop-handle {
+    color: #4a4a4a !important;
+    }
+    /*Changes the margin of the links within the block to 0, reducing space*/
+    #inst3234586 .card-text{
+    margin: 0 !important;
+    }
+    /*Changes the colour and size of the links within the block while also removing the underline of the links*/
+    #inst3234586 li a {
+    color: #006DAE !important;
+    text-decoration: none !important;
+    font-size: 1.1rem !important;
+    }
+    /*Changes the colour of the links within the block on hover to be slightly lighter, so people can see which link they're about to click*/
+    #inst3234586 li a:hover {
+    color: #3D90C2 !important;
+    text-decoration: none !important;
+    }
+    /*Changes the size and colour of the text in the sub menus of the block to match other links*/
+    #inst3234586 span {
+    font-size: 1.1rem !important;
+    color: #006DAE !important;
+    }
+    /*Changes the size and colour of the text on hover in the sub menus of the block to match other links*/
+    #inst3234586 span:hover {
+    color: #3D90C2 !important;
+    text-decoration: none !important;
+    }
+    /*Changes the colour of the background of the block header*/
+    #instance-3234586-header {
+    background: #f0f0f0 !important;
+    color: #4a4a4a !important;
+    }
+    
+    /*This adds a border the same colour as the header around the links*/
+    div#settingsnav {
+    border: 2px solid #f0f0f0 !important;
+    border-radius: 5px !important;
+    padding: 5px 0px 5px 0px !important;
+    }
+    /*the following three sets of styling hide this block that contains styling for the Admin block so that it isn't visible unless altered in the browser's inspector. Block instance-2373107*/
+    #inst3098311 {
+    box-shadow: none !important;
+    height: 0px !important;
+    margin: 0px !important;
+    }
+    #inst3098311 .action-menu, #inst3098311 .dropdown-toggle, #inst3098311 i {
+    background: #fff !important;
+    color: #fff !important;
+    }
+    #inst3098311 .card-title {
+    background: #fff !important;
+    display: none !important;
+    }
+    
+    /*instance-484478 refers to the SETU block*/
+    
+    /*This changes the colour of the SETU block header and text*/
+    #instance-484478-header {
+    background: #f0f0f0 !important;
+    color: #4a4a4a !important;
+    }
+    /*This adds a border the same colour as the header*/
+    #inst484478 .card-text {
+    border: 2px solid #f0f0f0 !important;
+    border-radius: 5px !important;
+    padding: 5px 0px 5px 0px !important;
+    margin: 0.7rem !important;
+    }
+    /*This hides the navigation auto generated in Moodle to jump between sections to stop the space at the top and bottom or the screen getting cluttered. It also removes the navigation between activites to achieve the same purpose in activites*/
+    #section-0 .addresourcemodchooser, #section-0 .addresourcedropdown, .activity-navigation {
+    display: none !important;
+    box-shadow: none !important;
+    background: none !important;
+    }
+    /*Hide the delete section option from the section action menu */
+    .section_action_menu .editing_delete {
+    display: none !important;
+    }
+    
+    .addresourcemodchooser {
+    display: inline-flex !important;
+    float: right !important;
+    line-height: 1.5;
+    vertical-align: middle;
+    text-align: center;
+    white-space: nowrap;
+    font-weight: 500;
+    border: 2px solid transparent;
+    text-decoration: none;
+    margin-bottom: 1.5rem;
+    }
+    .addresourcemodchooser a {
+    color: white !important;
+    text-decoration: none !important;
+    background: #006DAE;
+    line-height: 1.5;
+    padding: .5rem .75rem;
+    white-space: nowrap;
+    font-weight: 500;
+    border: 2px solid transparent;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.5); 
+    border-radius: 2px;
+    }
+    .addresourcemodchooser a:hover {
+    background: #3d90c2;
+    color: white !important;
+    cursor: pointer;
+    }
+    .addresourcemodchooser a:focus {
+    background: #3d90c2 !important;
+    color: white !important;
+    border-color: #3d90c2 !important;
+    box-shadow: none;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+    .addresourcemodchooser a:active {
+    background: #3d90c2 !important;
+    color: white !important;
+    box-shadow: 0 0 0 0.2rem rgba(61, 144, 194, .5);
+    border: 2px solid #3d90c2 !important;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+    .section-navigation .mdl-right, .section-navigation .mdl-left, .addresourcedropdown, .jumpmenu {
+    display: none !important;
+    color: #fff !important;
+    }
+    /*This changes the colour of the options in the nav drawer on the left*/
+    .list-group-item-action:hover, .list-group-item-action:focus, .list-group-item.active {
+    background: #006dae !important;
+    border-color: #006dae !important;
+      color: #fff !important;
+    }
+    .list-group-item-action {
+      color: #006dae !important;
+    }
+    /*This is the styling for a Bootstrap button that contains the colours used in the Arts Navigation Banner. It should be used in conjunction with the classes .btn and .btn-default to work similarly to Bootstrap buttons.*/
+    .btn-arts, .btn-mu {
+    background: #006DAE;
+    color: white !important;
+    font-size: 1rem;
+    line-height: 1.5;
+    padding: .375rem .75rem;
+    vertical-align: middle;
+    text-align: center;
+    white-space: nowrap;
+    border-radius: 2px;
+    font-weight: 500;
+    border: 2px solid transparent;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.5);
+    text-decoration: none;
+    }
+    .btn-arts:hover, .btn-mu:hover {
+    background: #3d90c2;
+    color: white !important;
+    cursor: pointer;
+    }
+    .btn-arts:focus, .btn-mu:focus {
+    background: #3d90c2 !important;
+    color: white !important;
+    border-color: #3d90c2 !important;
+    box-shadow: none;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+    .btn-arts:active, .btn-mu:active {
+    background: #3d90c2 !important;
+    color: white !important;
+    box-shadow: 0 0 0 0.2rem rgba(61, 144, 194, .5);
+    border: 2px solid #3d90c2 !important;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+    .bg-arts, .bg-mu {
+    background: #006DAE !important;
+    color: white !important;
+    }
+    .alert-arts, .alert-mu {
+    background: rgba(0, 109, 174, .25);
+    border: 1px solid #006DAE;
+    color: #000 !important;
+    }
+    .border-arts, .border-mu {
+    border: 1px solid #006DAE;
+    }
+    
+    .border-arts-3, .border-mu-3 {
+    border: 3px solid #006dae;
+    }
+    
+    .hr-3, .hr3 {
+    height: 3px; 
+    background-color: #000;
+    }
+    .hr2 {
+    background-color: #000; 
+    height:2px; 
+    }
+    .text-arts, .text-mu {
+    color: #006DAE !important;
+    }
+    
+    .mceLayout {
+      width:100% !important;
+    }
+    
+    .block .content {
+      margin-top: 0px !important;
+    }
+    .alert p:last-of-type {
+    margin-bottom: 0px !important;
+    }
