@@ -1,0 +1,14 @@
+.monTabs .nav-link:hover {
+    background: #006dae !important;
+    color: white !important;
+  }
+  .monTabs .nav-link.active {
+    background: #006dae !important;
+    color: white !important;
+  }
+  .monTabs .nav-link {
+  color: #006dae !important;
+  }
+  .tab-content p:last-of-type {
+  margin-bottom: 0px !important;
+  }
