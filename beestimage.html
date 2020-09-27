@@ -199,8 +199,13 @@
         selector: '#tinyMCEimage',
         menubar: false,
         plugins : 'advlist autolink link lists charmap print preview code',
-          toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat'  
-      });
+        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat',
+        setup : function(ed) {      
+        ed.on('change', function (e) {	
+          generateCode();
+          });					
+        }
+    });
     
     var head_3="<h3>"
     var endHead_3="</h3>"
@@ -256,13 +261,24 @@
         generateCode();
       }
 
+    function onchangeCode() {
+        generateCode();
+    }
+
+    var contextCode;
     /*Function to generate and copy code for the responsive image*/
     function generateCode() {
         // Get the HTML contents of the currently active editor
         console.debug(tinyMCE.activeEditor.getContent());
 
         //Retrieve the content by id of the tinyMCE textarea
-        var contextCode = tinyMCE.get('tinyMCEimage').getContent();
+        if (tinyMCE.get('tinyMCEimage').getContent() !== ""){
+        contextCode = tinyMCE.get('tinyMCEimage').getContent();
+        }
+        else{
+        contextCode = "[Placeholder for image context. The content you entered in step 2 will appear here.]";
+        }
+
         var imgHeading = document.getElementById('respImgHeading').value;
         
         var imgPosition = document.getElementById('imagePosition').value;
@@ -364,7 +380,6 @@
     window.onload=function(){
       $('#beestNav').load('common/beestnav.html');
       $('#beestFooter').load('common/beestfooter.html');
-
       function activeNav() {
         var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
          $(".nav-link").each(function(){
@@ -377,11 +392,13 @@
     setTimeout(function() {
         activeNav();
     }, 100);
+
   };
+
   </script>
 
 </head>
-<body>
+<body onload="generateCode()">
   <nav class="navbar navbar-expand-lg navbar-dark bg-arts mb-3">
     <a class="navbar-brand text-center border border-white p-2 rounded" href="index.html"><img src="img/dragon-solid-white.png" width="30" height="30" alt=""></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -464,7 +481,7 @@
       <div class="row w-100 mx-auto">
         <div class="col-lg-8 mt-2">
           <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose which half/side of screen you would prefer the video to appear by clicking on one of the options below. Video on the left is selected by default.">Step 3 - Image position</h5>
-                <select class="custom-select w-50 border border-dark" id="imagePosition" name="imagePosition" size="1">
+                <select class="custom-select w-50 border border-dark" id="imagePosition" name="imagePosition" size="1" onchange=onchangeCode()>
                 <option value="left" selected>Image on the left</option>
                 <option value="right">Image on the right</option>
               </select>
@@ -473,17 +490,17 @@
             <div class="row w-100 mx-auto">
               <div class="col-lg-8 mt-2">
                 <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the heading for this video. 50 character maximum. If you want a heading, you must also complete step 5 or your heading will not display.">Step 4 - Heading (optional)</h5>
-                <textarea maxlength="50" class="rounded p-2 w-100" rows="1" name="respVid_heading" type="text" id="respImgHeading" placeholder="Type your image heading here"></textarea>
+                <textarea maxlength="50" class="rounded p-2 w-100" rows="1" name="respVid_heading" type="text" id="respImgHeading" placeholder="Type your image heading here" onchange=onchangeCode()></textarea>
               </div>
             </div>
 
     <div class="row w-100 mx-auto">
     <div class="col-lg-8 mt-2">
       <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 5 - Heading size (optional)</h5>
-            <select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1">
-            <option selected value="noH">No heading</option>
+            <select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1" onchange=onchangeCode()>
+            <!--<option selected value="noH">No heading</option>-->
             <option value="h5">Small</option>
-            <option value="h4">Medium</option>
+            <option selected value="h4">Medium</option>
             <option value="h3">Large</option>
           </select>
           </div> 
@@ -505,18 +522,16 @@
           </div> 
 
     <div class="row w-100 mx-auto">
-            <div class="col-lg-8 mt-2">
-    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 7 - Generate/copy code</h5>
-               
-            <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Generate and copy code" onClick=generateCode() ></p>
-            <textarea readonly class="rounded p-2 w-100" id="txtarearespImg" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here"></textarea>
-           
-            </div>
-                   
-              </div>
+    <div class="col-lg-8 mt-2">
+        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="focus hover">Generated Code</h5>
+        <!--<h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 7 - Generate/copy code</h5>-->    
+        <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><!--<input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Generate and copy code" onClick=generateCode() >--></p>
+        <textarea readonly class="rounded p-2 w-100" id="txtarearespImg" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here"></textarea>
+        </div>
+    </div>
               <div class="row w-100 mb-3 mx-auto">
                 <div class="col-lg mt-2">
-                <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 7.">Step 8 - Preview</h5>
+                <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 7.">Step 7 - Preview</h5>
                 </div>
               </div>
     </form>
