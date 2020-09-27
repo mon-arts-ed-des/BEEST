@@ -13,9 +13,9 @@
 	  
 	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
       <!-- Arts CSS -->  
-      <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/adminPlusSetuBlockStyle.css" />
-      <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/artsAccordionStyle.css" />
-      <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/monashElements.css" />
+      <link rel="stylesheet" href="css/adminPlusSetuBlockStyle.css" />
+      <link rel="stylesheet" href="css/accordionStyle.css" />
+      <link rel="stylesheet" href="css/monashElements.css" />
       <!-- external link to js file -->  
       <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
       <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -314,7 +314,7 @@
 
     monAcc = button to toggle extended text
     */
-	var monAccStyle="<script> var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://mon-arts-ed-des.github.io/artsmoodlecode/artsAccordionStyle.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
+	var monAccStyle="<script> var L=document.createElement('link'); L.rel='stylesheet'; L.href='css/accordionStyle.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
     var monAcc_1="<div id=\"accordion\" class=\"mt-0 w-100 mx-auto\"><div class=\"card border-0\"><div class=\"rounded-top headingStyle text-white card-header p-0\" id=\"head"
     var monAcc_1a="<div id=\"accordion\" class=\"mt-0 w-100 mx-auto\"><div class=\"card border-0\"><div class=\"headingStyle text-white card-header p-0\" id=\"head"
     var monAcc_2="\" data-toggle=\"collapse\" data-target=\"#content"
@@ -340,8 +340,8 @@
     </script>
     <script>   
       window.onload=function(){
-        $('#beestNav').load('https://mon-arts-ed-des.github.io/BEEST/beestnav.html');
-        $('#beestFooter').load('https://mon-arts-ed-des.github.io/BEEST/beestfooter.html');
+        $('#beestNav').load('common/beestnav.html');
+        $('#beestFooter').load('common/beestfooter.html');
         function activeNav() {
           var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
            $(".nav-link").each(function(){
