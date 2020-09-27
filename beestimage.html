@@ -191,15 +191,30 @@
         document.getElementById('img').src = url;
         var imagepreview = document.getElementById("imagepreview");
         imagepreview.style.display = "block";
+        var imgpreview = document.getElementById("img2");
+        imgpreview.style.display = "none";
         generateCode();
       }
+    }
+    
+    function writeinMoodle() {
+      var win = window.open("https://lms.monash.edu/course/modedit.php?add=label&type=&course=36985&section=2&return=0&sr=0");
+      win.writeinTinyMCE = function () {
+          win.alert("Starting magic...");
+          win.tinyMCE.get('#id_introeditor').setContent("<p>test</p>");
+        }
+      win.writeinTinyMCE();
+      setTimeout(function () {
+        win.document.body.appendChild(element);
+        console.log('New script appended!')
+    }, 10000);
     }
 
     tinymce.init({
         selector: '#tinyMCEimage',
         menubar: false,
         plugins : 'advlist autolink link lists charmap print preview code',
-        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat',
+        toolbar: 'undo redo | styleselect | bold underline italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat',
         setup : function(ed) {      
         ed.on('change', function (e) {	
           generateCode();
@@ -266,6 +281,7 @@
     }
 
     var contextCode;
+
     /*Function to generate and copy code for the responsive image*/
     function generateCode() {
         // Get the HTML contents of the currently active editor
@@ -527,7 +543,10 @@
         <!--<h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 7 - Generate/copy code</h5>-->    
         <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><!--<input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Generate and copy code" onClick=generateCode() >--></p>
         <textarea readonly class="rounded p-2 w-100" id="txtarearespImg" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here"></textarea>
-        </div>
+        
+        <!--<input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Generate and copy code" onClick=writeinMoodle() >-->
+    
+      </div>
     </div>
               <div class="row w-100 mb-3 mx-auto">
                 <div class="col-lg mt-2">
