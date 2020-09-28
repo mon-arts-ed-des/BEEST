@@ -1,0 +1,22 @@
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script>
+window.onload = addToMCE();
+
+function addToMCE(){
+	if window.URL.includes("modedit.php"){
+		//is in an edit page
+		#("tinymce").each(function (here){
+			P = here.parents()
+			P = JSON.stringify(P)
+			if (P.includes("id=id_contentsection")){
+				here.innerHTML = "hello!!!!!!!!"
+			}
+			else{
+				return false
+			}
+		},this)
+	}
+}
+
+</script>
