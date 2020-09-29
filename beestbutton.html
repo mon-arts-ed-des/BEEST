@@ -69,12 +69,18 @@
         iconpreview.style.display = "block";
         iconpreview.parentNode.insertBefore(code,iconpreview.nextSibling);
         }
+        generateBtnCode();
       }
 
     function generateBtnCode() {
         //Retrieve the content by id of the textareas
         var btn_URL = document.getElementById('btn_URL').value;
         var btn_text = document.getElementById('btn_text').value;
+
+        if (btn_text == ""){
+          btn_text = "[Placeholder for button text]";
+        }
+
         var btnTarget = document.getElementById('buttonTarget').value;
         var btnAlign = document.getElementById('buttonAlign').value;
         var faIcon = document.getElementById('faCode').value;
@@ -215,6 +221,7 @@
       window.onload=function(){
         $('#beestNav').load('common/beestnav.html');
         $('#beestFooter').load('common/beestfooter.html');
+        generateBtnCode();
         function activeNav() {
           var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
            $(".nav-link").each(function(){
@@ -357,13 +364,13 @@
         <div class="row w-100 mx-auto mt-2">
         <div class="col-lg-8">
           <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL for the button below. This is where users will be directed to when clicking the button.">Step 1 - Paste URL</h5>
-           <textarea class="border border-dark rounded p-2 w-100" rows="1" id="btn_URL" name="btn_URL" placeholder="Paste the URL here"></textarea>
+           <textarea class="border border-dark rounded p-2 w-100" rows="1" id="btn_URL" name="btn_URL" placeholder="Paste the URL here" onchange=generateBtnCode()></textarea>
             </div>
           </div>
           <div class="row w-100 mx-auto mt-2">
             <div class="col-lg-8">
               <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Write the text that will appear on the button. This space is limited to 30 characters.">Step 2 - Button text</h5>
-              <textarea maxlength="30" class="border border-dark rounded p-2 w-100" cols="70" rows="1" id="btn_text" name="btn_text" placeholder="Button text here. 30 character maximum"></textarea>
+              <textarea maxlength="30" class="border border-dark rounded p-2 w-100" cols="70" rows="1" id="btn_text" name="btn_text" placeholder="Button text here. 30 character maximum" onchange=generateBtnCode()></textarea>
             </div>
           </div>
           <div class="row w-100 mx-auto mt-2">
@@ -388,7 +395,7 @@
        <div class="row w-100 mx-auto mt-2">
           <div class="col-lg-8">
           <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the colour of your button. Monash blue is selected by default.">Step 4 - Select button colour</h5>
-          <select class="custom-select w-50 border border-dark" id="btnColour" name="btnColour">
+          <select class="custom-select w-50 border border-dark" id="btnColour" name="btnColour" onchange=generateBtnCode()>
               <option selected value="1">Monash blue</option>
               <option value="2">Red</option>
               <option value="3">Yellow</option>
@@ -411,7 +418,7 @@
           <div class="row w-100 mx-auto mt-2">
             <div class="col-lg-8">
       <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your button. Regular is chosen by default.">Step 5 - Select button size</h5>
-      <select class="custom-select w-50 border border-dark" id="buttonSize" name="buttonSize">
+      <select class="custom-select w-50 border border-dark" id="buttonSize" name="buttonSize" onchange=generateBtnCode()>
           <option selected value="1">Regular</option>
           <option value="2">Large</option>
           <option value="3">Small</option>
@@ -424,7 +431,7 @@
           <div class="row w-100 mx-auto mt-2">
         <div class="col-lg-8">
           <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose whether to open link in a new window, or the same window users are on. New window is chosen by default.">Step 6 - New/Same window</h5>
-          <select class="custom-select w-50 border border-dark" id="buttonTarget" name="buttonTarget" size="1">
+          <select class="custom-select w-50 border border-dark" id="buttonTarget" name="buttonTarget" size="1" onchange=generateBtnCode()>
             <option selected value="newWin">New window</option>
              <option value="sameWin">Same window</option>               
           </select>
@@ -433,7 +440,7 @@
           <div class="row w-100 mx-auto mt-2">
             <div class="col-lg-8">
               <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose whether the button is left or centre-aligned. Left-align is chosen by default.">Step 7 - Left/Centre align</h5>
-              <select class="custom-select w-50 border border-dark" id="buttonAlign" name="buttonAlign" size="1">
+              <select class="custom-select w-50 border border-dark" id="buttonAlign" name="buttonAlign" size="1" onchange=generateBtnCode()>
                 <option selected value="leftAlign">Left align button</option>
                  <option value="centerAlign">Center align button</option>               
               </select>
