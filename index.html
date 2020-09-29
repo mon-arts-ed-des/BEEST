@@ -56,10 +56,10 @@
 				break;
 			*/
 		}
-		accessLevel = role_to_comment[role]+"<p><scrip"+"t src=\"js/beestForAnyRole_All_Lect_Admin.js\"></scrip"+"t></p><scrip"+"t>window.onload=function(){setup_beest(match_"+role+")}</scrip"+"t>"
+		accessLevel = role_to_comment[role]+"<p><scrip"+"t src=\"https://github.com/mon-arts-ed-des/BEEST/js/beestForAnyRole_All_Lect_Admin.js\"></scrip"+"t></p><scrip"+"t>window.onload=function(){setup_beest(match_"+role+")}</scrip"+"t>"
 		
-		var monElementStyle = "<scrip"+"t type=\"text/javascript\"> var cssRules = '#inst"+htmlBlockID+"{box-shadow:none !important;height:0px !important;margin:0px !important;}#inst"+htmlBlockID+" .action-menu, #inst"+htmlBlockID+" .dropdown-toggle, #inst"+htmlBlockID+" i {background: #fff !important;color: #fff !important;}#inst"+htmlBlockID+" .card-title {background: #fff !important;color: #fff !important;}'; var styleElement = document.createElement('style'); styleElement.appendChild(document.createTextNode(cssRules)); document.getElementsByTagName('head')[0].appendChild(styleElement);</scrip"+"t><p><link rel=\"stylesheet\" href=\"css/monashElements.css\"></p> "+accessLevel+"";
-		 
+		var monElementStyle = "<scrip"+"t type=\"text/javascript\"> var cssRules = '#inst"+htmlBlockID+"{box-shadow:none !important;height:0px !important;margin:0px !important;}#inst"+htmlBlockID+" .action-menu, #inst"+htmlBlockID+" .dropdown-toggle, #inst"+htmlBlockID+" i {background: #fff !important;color: #fff !important;}#inst"+htmlBlockID+" .card-title {background: #fff !important;color: #fff !important;}'; var styleElement = document.createElement('style'); styleElement.appendChild(document.createTextNode(cssRules)); document.getElementsByTagName('head')[0].appendChild(styleElement);</scrip"+"t><p><link rel=\"stylesheet\" href=\"https://github.com/mon-arts-ed-des/BEEST/css/monashElements.css\"></p> "+accessLevel+"";
+		
 		var textOutput = monElementStyle;
 		document.getElementById('beestInMoodle').innerHTML=textOutput;
 		SelectAll("beestInMoodle");
