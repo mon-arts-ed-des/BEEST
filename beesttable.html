@@ -97,7 +97,7 @@
 		}
 	
 		function newTextField(placeholder,id){
-			return "<textarea id=\""+id+"\" placeholder=\""+placeholder+"\" class=\"border border-dark rounded p-2 w-100\" cols=\"70\" rows=\"1\" name=\""+id+"\"></textarea>"
+			return "<textarea id=\""+id+"\" placeholder=\""+placeholder+"\" class=\"border border-dark rounded p-2 w-100\" cols=\"70\" rows=\"1\" name=\""+id+"\" onchange=generateTableCode()></textarea>"
 		}
 	
 		function newCellCode(rowNum,colNum,contents){
@@ -464,20 +464,20 @@
 			setRowToDisplayX(rNum,tableContents[rNum])
 		}
 	}
-	
+
     function generateTableCode() {
 	  
 		tableContents = getTableContentsFromPage(currRow,currCol)
 		var tableMainHeading = document.getElementById('tableMainHeading').value;
-    var headSize = document.getElementById('headSize').value;
-    var faIcon = document.getElementById('faCode').value;
-    var head_3="<h3>"
-    var endHead_3="</h3>"
-    var head_4="<h4>"
-    var endHead_4="</h4>"
-    var head_5="<h5>"
-    var endHead_5="</h5>"
-    var iconNames = {
+		var headSize = document.getElementById('headSize').value;
+		var faIcon = document.getElementById('faCode').value;
+		var head_3="<h3>"
+		var endHead_3="</h3>"
+		var head_4="<h4>"
+		var endHead_4="</h4>"
+		var head_5="<h5>"
+		var endHead_5="</h5>"
+		var iconNames = {
             "1":"calendar",
 		    "2":"list-ol",
             "3":"list-ul",
