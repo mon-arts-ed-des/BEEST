@@ -113,6 +113,56 @@
 			}
 			return cellCode
 		}
+
+		function iconpreview() {
+        var faIcon = document.getElementById('faCode').value;
+        var iconNames = {
+            "1":"calendar",
+		    "2":"list-ol",
+            "3":"list-ul",
+            "4":"table", 
+            "5":"info",
+            "6":"info-circle",
+            "7":"question",
+            "8":"question-circle",
+            "9":"question-circle-o",
+            "10":"check",
+            "11":"check-square",
+            "12":"check-square-o",
+			"13":"exclamation",
+            "14":"exclamation-triangle",
+			"15":"exclamation-circle"
+        }
+
+        var iconName = iconNames[faIcon];
+	     	var faIconCode = "<i id=\"icon\" class=\"fa fa-"+iconName+"\"></i> ";
+		
+        if (faIcon == "noI"){
+          faIconCode = "";
+          if (document.getElementById("icon"))
+           {
+            var icon = document.getElementById("icon");
+            icon.parentNode.removeChild(icon);
+            var iconpreview = document.getElementById("iconpreview");
+            iconpreview.style.display = "none";
+           }
+        }
+
+        else{
+          if (document.getElementById("icon"))
+          {
+            var icon = document.getElementById("icon");
+            icon.parentNode.removeChild(icon);
+          }
+
+          var code = document.createElement("span");
+          code.innerHTML = faIconCode;
+          var iconpreview = document.getElementById("iconpreview");
+          iconpreview.style.display = "block";
+          iconpreview.parentNode.insertBefore(code,iconpreview.nextSibling);
+        }
+        generateTableCode();
+      }
 		
 		function newRowCode(rowNum,contentsArray){
 		/*
@@ -136,7 +186,7 @@
 		/*
 		format should be [[r0c0,r0c1,r0c2,...],[r1c0,r1c1,c1c2,...],...]
 		*/
-			var tableCode = "<table class=\"table table-hover table-striped table-responsive-lg border border-dark\">"
+			var tableCode = "<table class=\"table table-bordered table-hover table-striped table-responsive-lg border border-dark\">"
 
 			for (var rowN=0;rowN<contentsArray.length;rowN++){
 				switch(rowN){
@@ -182,6 +232,7 @@
 			else{
 				alert("cannot delete only remaining row")
 			}
+			generateTableCode();
 		}
 		
 		function resetColDisplay(rowNum,colsToDisplay,maxCols){
@@ -240,7 +291,7 @@
 			else{
 				alert("too many rows -- consider the amount of information you are displaying")
 			}
-		
+			generateTableCode();
 		}
 		
 		function addCol(){
@@ -282,6 +333,7 @@
 			else{
 				alert("too many cols -- consider the amount of information you are displaying")
 			}
+			generateTableCode();
 		}
 		
 		function newCellAsDOMElem(cellCode){
@@ -321,7 +373,7 @@
 					)
 				)
 				editableTableHTML[rNum][colNum]=newColContent //keep it available for later
-				
+				generateTableCode();
 			}
 		}
 
@@ -355,6 +407,7 @@
 			else{
 				alert("cannot delete only remaining column")
 			}
+			generateTableCode();
 		}
 		
 		function setValuesInFields(maxRows,maxCols){
@@ -702,27 +755,32 @@
 	  </div> 
 	  </div>   
 	  <div class="row w-100 mx-auto">
-	  <div class="col-lg-6 mt-2">
-	  <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 2) and choose a heading size (step 3) or the icon and heading will not display.">Step 3 - Select icon (optional)</h5>
-	  <select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1">
-		<option selected value="noI">No icon</option>
-		<option value="1">Calendar</option>
-		<option value="2">Numbered list</option>
-		<option value="3">Dot point list</option>
-		<option value="4">Table</option>  
-		<option value="5">Information symbol</option>
-		<option value="6">White information symbol in a black circle</option>
-		<option value="7">Question mark</option>
-		<option value="8">White question mark in a black circle</option>
-		<option value="9">Black question mark in a white circle</option>
-		<option value="10">Tick/check</option>
-		<option value="11">White tick symbol in a black square</option>
-		<option value="12">Black tick symbol in a white square</option>
-		<option value="13">Exclamation mark</option>
-		<option value="14">White exclamation mark in a black triangle</option>
-		<option value="15">White exclamation mark in a black circle</option>	
-		</select>
+		<div class="col-lg-6">
+		<h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 2) and choose a heading size (step 3) or the icon and heading will not display.">Step 3 - Select icon (optional)</h5>
+		<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1" onchange="iconpreview()">
+			<option selected value="noI">No icon</option>
+			<option value="1">Calendar</option>
+			<option value="2">Numbered list</option>
+			<option value="3">Dot point list</option>
+			<option value="4">Table</option>  
+			<option value="5">Information symbol</option>
+			<option value="6">White information symbol in a black circle</option>
+			<option value="7">Question mark</option>
+			<option value="8">White question mark in a black circle</option>
+			<option value="9">Black question mark in a white circle</option>
+			<option value="10">Tick/check</option>
+			<option value="11">White tick symbol in a black square</option>
+			<option value="12">Black tick symbol in a white square</option>
+			<option value="13">Exclamation mark</option>
+			<option value="14">White exclamation mark in a black triangle</option>
+			<option value="15">White exclamation mark in a black circle</option>	
+			</select>
+		</div>
+
+	  <div class="col-lg-2" >
+		<h5 id="iconpreview" class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" style="display:none;">Icon Preview</h5>
 	  </div>
+
 	  </div>
 	  <div class="row w-100 mx-auto">
 		  <div class="col-lg mt-2">
@@ -731,9 +789,9 @@
 	<tr><td>	
 		<div class="btn-group btn-group-justified" role="group" id="addMinusButtons">
 		<div class="btn-group-lg" role="group">
-		<button id="plusbutton" onclick="addRow()" type="button" class="btn btn-success mr-2">Row <i class="fa fa-fw fa-plus"></i></button>
+		<button id="plusbutton" onclick="addRow()" type="button" class="btn btn-success mr-2" onchange=generateTableCode()>Row <i class="fa fa-fw fa-plus"></i></button>
 		</div><div class="btn-group-lg" role="group">
-		<button id="minusbutton" onclick="removeRow()" type="button" class="btn btn-danger">Row <i class="fa fa-fw fa-minus"></i></button>
+		<button id="minusbutton" onclick="removeRow()" type="button" class="btn btn-danger" onchange=generateTableCode()>Row <i class="fa fa-fw fa-minus"></i></button>
 		</div>
 		</div>
 	</div>
@@ -750,9 +808,9 @@
 	
 	</td><td><div class="btn-group btn-group-justified" role="group" id="addMinusColButtons">
 		<div class="btn-group-lg" role="group">
-		<button id="pluscolbutton" onclick="addCol()" type="button" class="btn btn-success mr-2">Col <i class="fa fa-fw fa-plus"></i></button>
+		<button id="pluscolbutton" onclick="addCol()" type="button" class="btn btn-success mr-2" onchange=generateTableCode()>Col <i class="fa fa-fw fa-plus"></i></button>
 		</div><div class="btn-group-lg" role="group">
-		<button id="minuscolbutton" onclick="removeCol()" type="button" class="btn btn-danger">Col <i class="fa fa-fw fa-minus"></i></button>
+		<button id="minuscolbutton" onclick="removeCol()" type="button" class="btn btn-danger" onchange=generateTableCode()>Col <i class="fa fa-fw fa-minus"></i></button>
 		</div>
 		</div>
 
