@@ -31,14 +31,24 @@
         selector: '#tinyMCEreadMoreBefore',
         menubar: false,
         plugins : 'advlist autolink link lists charmap print preview code',
-          toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat'  
+        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat',  
+        setup : function(ed) {      
+        ed.on('change', function (e) {	
+          generateReadMoreCode();
+          });					
+        }
       });
       
       tinymce.init({
         selector: '#tinyMCEreadMoreAfter',
         menubar: false,
         plugins : 'advlist autolink link lists charmap print preview code',
-          toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat'  
+        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat',
+        setup : function(ed) {      
+        ed.on('change', function (e) {	
+          generateReadMoreCode();
+          });					
+        }  
       });
       
        
@@ -92,6 +102,7 @@
       window.onload=function(){
         $('#beestNav').load('common/beestnav.html');
         $('#beestFooter').load('common/beestfooter.html');
+        generateReadMoreCode();
         function activeNav() {
           var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
            $(".nav-link").each(function(){
@@ -233,25 +244,25 @@
   <div class="row w-100 mx-auto">
     <div class="col-lg mt-3">
       <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="If you want to display one read more button on a page, simply put the number 1 in the box below. If you want to put more than one read more button on a page, you need to number them so that they work. For example. If you make two read more buttons that are both number one that display on the same page only the first read more button will open and close. Using more than 3 read more buttons on a page could result in poor useability for students. Currently this only accepts text and embed codes for videos.">Step 1 - Number your read more button</h5> 
-      <textarea class="border border-dark rounded p-2 w-50 mx-auto" rows="1" cols="70" placeholder="Input read more button number here" id="readMoreNumber"></textarea>
+      <textarea class="border border-dark rounded p-2 w-50 mx-auto" rows="1" cols="70" placeholder="Input read more button number here" id="readMoreNumber" onchange=generateReadMoreCode()></textarea>
     </div>
   </div>
   <div class="row w-100 mx-auto">
     <div class="col-lg mt-2">
       <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="The text on the read more button will always start with Show/hide. What you put in the text box below will appear after Show/hide. For example Show/hide full bio or Show/hide full text. Max length is 50 characters.">Step 2 - What are you showing/hiding?</h5> 
-      <textarea maxlength="50" class="border border-dark rounded p-2 w-50 mx-auto" rows="1" cols="70" placeholder="Input the text for your read more button here" id="readMoreBtnTxt"></textarea>
+      <textarea maxlength="50" class="border border-dark rounded p-2 w-50 mx-auto" rows="1" cols="70" placeholder="Input the text for your read more button here" id="readMoreBtnTxt" onchange=generateReadMoreCode()></textarea>
     </div>
   </div>
   <div class="row w-100 mx-auto">
     <div class="col-lg mt-2">
         <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="What you input in the box below will appear before the read more button. This should be an introduction and engage the reader enough to want to click the button to read the rest of the content.">Step 3 - Content <em>before</em> your read more button.</h5>      
-        <textarea id="tinyMCEreadMoreBefore" class="border border-dark rounded p-2 w-100" cols="70" rows="2" name="readMoreBefore" placeholder="Write the context for your video here"></textarea>
+        <textarea id="tinyMCEreadMoreBefore" class="border border-dark rounded p-2 w-100" cols="70" rows="2" name="readMoreBefore" placeholder="Write the context for your video here" onchange=generateReadMoreCode()></textarea>
         </div>
       </div>
       <div class="row w-100 mx-auto">
         <div class="col-lg mt-2">
         <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="What you input in the box below will appear after the read more button. This can be text, lists, headings, embedded video and images from public repositories such as unsplash.com or pixabay. This tool does not currently accept uploads of images or audio.">Step 4 - Content <em>after</em> your read more button.</h5>  
-        <textarea id="tinyMCEreadMoreAfter" class="border border-dark rounded p-2 w-100" cols="70" rows="4" name="readMoreAfter"></textarea>
+        <textarea id="tinyMCEreadMoreAfter" class="border border-dark rounded p-2 w-100" cols="70" rows="4" name="readMoreAfter" onchange=generateReadMoreCode()></textarea>
         </div></div>
         <div class="row w-100 mx-auto">
           <div class="col-lg mt-2">
@@ -259,7 +270,7 @@
         <div>
     <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy code" onClick=generateReadMoreCode()></p>
     </div>
-    <textarea readonly class="rounded p-2 w-100" id="readMoreCode" cols="70" rows="3" name="Result" placeholder="When you click the button above, it will create the code or your alert and copy it to the clipboard."></textarea>
+    <textarea readonly class="rounded p-2 w-100" id="readMoreCode" cols="70" rows="3" name="Result" placeholder="When you click the button above, it will create the code or your alert and copy it to the clipboard." onchange=generateReadMoreCode()></textarea>
   </div>
 </div>
     <div class="row w-100 mx-auto mb-3">
