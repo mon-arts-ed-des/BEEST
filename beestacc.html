@@ -35,7 +35,12 @@
         menubar: false,
         plugins : 'advlist autolink link lists charmap print preview code',
         toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
-        'undo redo | charmap | autolink link | code | removeformat' ]   
+        'undo redo | charmap | autolink link | code | removeformat' ],  
+        setup : function(ed) {      
+        ed.on('change', function (e) {	
+          generateAccCode();
+          });					
+        }
       });
 	
 	const COUNTER_ID = "accordCounter"
@@ -59,8 +64,8 @@
 		var idTiny = "tinyMCEmonAccContent"+num
 		var idBlock = "AccordSect"+num
 		
-		var headingHTML="<div id=\""+idBlock+"\" class=\"row w-100 mx-auto\"><div class=\"col-lg mt-3\"><h6>Heading "+num+"</h6><textarea maxlength=\"75\" class=\"border border-dark rounded p-2 w-100 mx-auto\" rows=\"1\" placeholder=\"Input the heading for your next accordion button here\" id=\""+idHead+"\"></textarea></div>"
-		var contentHTML = "<div class=\"col-lg mt-3\"><h6>Content "+num+"</h6><textarea id=\""+idTiny+"\"class=\"border border-dark rounded p-2 w-100\" rows=\"5\" name=\""+idCont+"\" placeholder=\"Write the content for your accordion here\"></textarea></div></div>"
+		var headingHTML="<div id=\""+idBlock+"\" class=\"row w-100 mx-auto\"><div class=\"col-lg mt-3\"><h6>Heading "+num+"</h6><textarea maxlength=\"75\" class=\"border border-dark rounded p-2 w-100 mx-auto\" rows=\"1\" placeholder=\"Input the heading for your next accordion button here\" id=\""+idHead+"\" onchange=generateAccCode()></textarea></div>"
+		var contentHTML = "<div class=\"col-lg mt-3\"><h6>Content "+num+"</h6><textarea id=\""+idTiny+"\"class=\"border border-dark rounded p-2 w-100\" rows=\"5\" name=\""+idCont+"\" placeholder=\"Write the content for your accordion here\" onchange=generateAccCode()></textarea></div></div>"
 		
 		return {
 			IDHead: idHead,
@@ -87,7 +92,56 @@
 	function showButton(id){
 		document.getElementById(id).disabled = false
 		showHTML(id)
-	}
+  }
+  
+  function iconpreview() {
+        var faIcon = document.getElementById('faCode').value;
+        var iconNames = {
+          "1":"database",
+			      "2":"question",
+            "3":"question-circle",
+            "4":"question-circle-o", 
+            "5":"info",
+            "6":"info-circle",
+            "7":"bars",
+            "8":"plus",
+            "9":"plus-square",
+            "10":"plus-square-o",
+            "11":"exclamation",
+            "12":"exclamation-triangle",
+            "13":"exclamation-circle",
+            "14":"life-ring"
+        }
+
+        var iconName = iconNames[faIcon];
+	     	var faIconCode = "<i id=\"icon\" class=\"fa fa-"+iconName+"\"></i> ";
+		
+        if (faIcon == "noI"){
+          faIconCode = "";
+          if (document.getElementById("icon"))
+           {
+            var icon = document.getElementById("icon");
+            icon.parentNode.removeChild(icon);
+            var iconpreview = document.getElementById("iconpreview");
+            iconpreview.style.display = "none";
+           }
+        }
+
+        else{
+          if (document.getElementById("icon"))
+          {
+            var icon = document.getElementById("icon");
+            icon.parentNode.removeChild(icon);
+          }
+
+          var code = document.createElement("span");
+          code.innerHTML = faIconCode;
+          var iconpreview = document.getElementById("iconpreview");
+          iconpreview.style.display = "block";
+          iconpreview.parentNode.insertBefore(code,iconpreview.nextSibling);
+        }
+        generateAccCode();
+      }
 	
 	function addSection(){
 	/*
@@ -113,7 +167,12 @@
 			menubar: false,
       plugins : 'advlist autolink link lists charmap print preview code',
         toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
-        'undo redo | charmap | autolink link | code | removeformat' ]   
+        'undo redo | charmap | autolink link | code | removeformat' ],
+        setup : function(ed) {      
+        ed.on('change', function (e) {	
+          generateAccCode();
+          });					
+        }   
       });
 			
 			accordianSectionsTotalMade+=1;
@@ -147,8 +206,10 @@
 		}
 		if (accordianSectionsCurr > absoluteMinAccord){
 			showButton("minusbutton")
-		}
-	}
+    }
+    generateAccCode();
+  }
+  
 	function removeSection(){
 	/*
 	hide an existing one (minimum absoluteMinAccord sections)
@@ -180,7 +241,8 @@
 		}
 		if (accordianSectionsCurr <= absoluteMinAccord){
 			hideButton("minusbutton")
-		}
+    }
+    generateAccCode();
 	}
 	
 	function accordListToIDs(accordList){
@@ -213,7 +275,7 @@
 		return {cont: monAccCont, btn: monAccBtn, length:idList.length}
 	}
 	
-    function generatemonAccCode() {
+    function generateAccCode() {
        	var IDs = getTextAreas(accordListToIDs(accordiansPostInit))
 		monAccBtnTxt = IDs.btn;
 		monAccContent = IDs.cont;
@@ -314,7 +376,7 @@
 
     monAcc = button to toggle extended text
     */
-	var monAccStyle="<script> var L=document.createElement('link'); L.rel='stylesheet'; L.href='css/accordionStyle.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
+	  var monAccStyle="<script> var L=document.createElement('link'); L.rel='stylesheet'; L.href='css/accordionStyle.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
     var monAcc_1="<div id=\"accordion\" class=\"mt-0 w-100 mx-auto\"><div class=\"card border-0\"><div class=\"rounded-top headingStyle text-white card-header p-0\" id=\"head"
     var monAcc_1a="<div id=\"accordion\" class=\"mt-0 w-100 mx-auto\"><div class=\"card border-0\"><div class=\"headingStyle text-white card-header p-0\" id=\"head"
     var monAcc_2="\" data-toggle=\"collapse\" data-target=\"#content"
@@ -342,6 +404,7 @@
       window.onload=function(){
         $('#beestNav').load('common/beestnav.html');
         $('#beestFooter').load('common/beestfooter.html');
+        generateAccCode();
         function activeNav() {
           var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
            $(".nav-link").each(function(){
@@ -549,24 +612,23 @@
 <div class="row w-100 mx-auto">
   <div class="col-lg-6 mt-2">
     <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the main heading for this accordion that will sit above the element and indicate to students what is in the accordion. 75 character maximum.">Step 2 - Main heading (optional)</h5>
-    <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="accMainHeading" type="text" id="accMainHeading" placeholder="Type your accordion heading here"></textarea>
+    <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="accMainHeading" type="text" id="accMainHeading" placeholder="Type your accordion heading here" onchange=generateAccCode()></textarea>
   </div>
 </div>
 <div class="row w-100 mx-auto">
 <div class="col-lg-6 mt-2">
 <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 3 - Heading size (optional)</h5>
-<select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1">
-<option selected value="noH">No heading</option>
-<option value="h5">Small (h5)</option>
+<select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1" onchange=generateAccCode()>
+<option selected value="h5">Small (h5)</option>
 <option value="h4">Medium (h4)</option>
 <option value="h3">Large (h3)</option>
 </select>
 </div> 
 </div>   
 <div class="row w-100 mx-auto">
-<div class="col-lg-6 mt-2">
+<div class="col-lg-5">
 <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 2) and choose a heading size (step 3) or the icon and heading will not display.">Step 4 - Select icon (optional)</h5>
-<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1">
+<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1" onchange=iconpreview()>
   <option selected value="noI">No icon</option>
   <option value="1">Layered circles - database symbol</option>  
   <option value="2">Question mark</option>
@@ -584,17 +646,20 @@
     <option value="14">Life ring</option>
   </select>
 </div>
+<div class="col-lg-2" >
+  <h5 id="iconpreview" class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" style="display:none;">Icon Preview</h5>
+  </div>
 </div>
   <div class="row w-100 mx-auto">
     <div class="col-lg mt-2">
       <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="This is the text that will appear on the accordion drawers (all text boxes on the left side of screen). This should give users a clear idea of what will appear if the button is clicked. Max length is 75 characters.">Step 5 - Drawer headings</h5> 
       <h6>Heading 1</h6>
-      <textarea maxlength="75" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" placeholder="Input the heading for your first accordion drawer here" id="monAccBtnTxt1"></textarea>
+      <textarea maxlength="75" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" placeholder="Input the heading for your first accordion drawer here" id="monAccBtnTxt1" onchange=generateAccCode()></textarea>
     </div>
     <div class="col-lg mt-2">
         <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="What you input in the box below will appear when the relative accordion drawer button is clicked (all rich text editors on the right of screen). This can include text, lists, videos and externally embedded media. You can click, hold and drag the bottom right corner of these boxes to make them bigger on this screen.">Step 6 - Content</h5>
         <h6>Content 1</h6>      
-        <textarea id="tinyMCEmonAccContent1" class="border border-dark rounded p-2 w-100" rows="5" name="monAccContent1" placeholder="Write the content for your accordion here"></textarea>
+        <textarea id="tinyMCEmonAccContent1" class="border border-dark rounded p-2 w-100" rows="5" name="monAccContent1" placeholder="Write the content for your accordion here" onchange=generateAccCode()></textarea>
         </div>
         </div>
                        <span id="newAccordArea"></span>       
@@ -602,9 +667,9 @@
           <div class="col-lg mt-3">
         <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 7 - Generate/copy code</h5>
         <div>
-    <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy code" onClick=generatemonAccCode()></p>
+    <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy code" onClick=generateAccCode()></p>
     </div>
-    <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="monAccCode" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code for your accordion and copy it to the clipboard."></textarea></p>
+    <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="monAccCode" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code for your accordion and copy it to the clipboard." onClick=generateAccCode()></textarea></p>
   </div>
 </div>
     <div class="row w-100 mx-auto mt-2 mb-3">
