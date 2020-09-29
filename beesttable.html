@@ -636,7 +636,7 @@
 }
     </style> 
     </head>
-  <body>
+  <body onload="generateTableCode()">
 	<nav class="navbar navbar-expand-lg navbar-dark bg-arts mb-3">
 		<a class="navbar-brand text-center border border-white p-2 rounded" href="index.html"><img src="img/dragon-solid-white.png" width="30" height="30" alt=""></a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -740,15 +740,14 @@
 	<div class="row w-100 mx-auto">
 		<div class="col-lg-6 mt-2">
 		  <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the main heading for this table that will sit above the element and indicate to students what is in the table. 75 character maximum.">Step 1 - Main heading (optional)</h5>
-		  <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="tableMainHeading" type="text" id="tableMainHeading" placeholder="Type your table heading here"></textarea>
+		  <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="tableMainHeading" type="text" id="tableMainHeading" placeholder="Type your table heading here" onchange=generateTableCode()></textarea>
 		</div>
 	  </div>
 	  <div class="row w-100 mx-auto">
 	  <div class="col-lg-6 mt-2">
 	  <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 2 - Heading size (optional)</h5>
-	  <select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1">
-	  <option selected value="noH">No heading</option>
-	  <option value="h5">Small (h5)</option>
+	  <select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1" onchange=generateTableCode()>
+	  <option selected value="h5">Small (h5)</option>
 	  <option value="h4">Medium (h4)</option>
 	  <option value="h3">Large (h3)</option>
 	  </select>
@@ -820,7 +819,7 @@
 	</tbody></table>
 	
 <div class="row w-100 mx-auto">
-        <div class="col-lg mt-3">
+      <div class="col-lg mt-3">
       <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 6.">Step 5 - Generate/copy code</h5>
       <div>
   <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Save and copy code" onClick=generateTableCode() >
@@ -829,6 +828,7 @@
   
   </p>
   </div>
+
   <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code for your table and copy it to the clipboard."></textarea></p>
 </div>
 </div>
