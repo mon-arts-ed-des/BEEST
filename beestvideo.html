@@ -110,7 +110,7 @@
         var closeRow="</div></div>"
         
         if (respLink == ""){
-          respLink = "https://www.youtube.com/embed/NpEaa2P7qZI";
+          respLink = "https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=5d23c190-f6c6-405d-968b-abab0095e7a4";
         }
 
         var respVid="<div class=\"embed-responsive embed-responsive-16by9\"><iframe class=\"embed-responsive-item\" frameborder=\"0\" allowfullscreen=\"\" src=\""+respLink+"\"></iframe></div>"
@@ -405,19 +405,16 @@
         <hr class="hr-3">
 <form id="respVid">   
   <div class="row w-100 mx-auto">
-    <div class="col-lg-8">
-      <div class="row w-100 mx-auto">
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your video. When you paste the link into this box it will automatically change the link to be the embed link required for the platform you are pasting from this process to work and you will not be able to edit this box.">Step 1 - Video link</h5>
+    <div class="col-lg-8 mt-2">
+    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your video. When you paste the link into this box it will automatically change the link to be the embed link required for the platform you are pasting from this process to work and you will not be able to edit this box.">Step 1 - Video link</h5>
         <textarea class="rounded p-2 w-100" rows="1" name="respVidSwitch" type="text" id="respVidSwitch" placeholder="Paste the Youtube/Panopto/Vimeo/TED Talks video link here" onchange=generateCode()></textarea>
-      </div>
-      <div class="row w-100 mx-auto">
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="It's recommended to have a few sentences or dot points explaining what is in the video students are about to watch. This helps in particular when students are looking back through your site for a specific video where you addressed certain concepts or theories. Instead of watching the entire video, they can read the context you have provided, and decide if they have found what they need without having to watch the entire video.">Step 2 - Video context</h5>
+      
+    <h5 class="w-50 mt-2" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="It's recommended to have a few sentences or dot points explaining what is in the video students are about to watch. This helps in particular when students are looking back through your site for a specific video where you addressed certain concepts or theories. Instead of watching the entire video, they can read the context you have provided, and decide if they have found what they need without having to watch the entire video.">Step 2 - Video context</h5>
         <textarea id="tinyMCEvideo" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="respVid_context" onchange=generateCode()></textarea>
       </div>
-    </div>
-
-    <div class="col-lg-4">
-      <h5 id="videopreview" class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" style="display:none;">Video Preview</h5>
+    <div class="col-lg-3 mt-2">
+      <h5 data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="When you paste your video URL in step 1 a preview of the video will appear here for you to ensure you have pasted the correct video.">Video preview</h5>
+      <span id="videopreview" style="display:none;"></span>
       <div class="embed-responsive embed-responsive-16by9">
       <iframe id="vid" class="embed-responsive-item" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen src=""></iframe>
     </div>
@@ -459,9 +456,9 @@
           </div> 
         </div>   
         <div class="row w-100 mx-auto">
-          <div class="col-lg-5">
-            <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 4) and choose a heading size (step 5) and or the icon and heading will not display.">Step 7 - Select icon (optional)</h5>
-            <select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1" onchange=iconpreview()>
+          <div class="col-lg-4 mt-2 pr-0">
+            <h5 class="w-100" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 4) and choose a heading size (step 5) and or the icon and heading will not display.">Step 7 - Select icon (optional)</h5>
+            <select class="custom-select w-100 border border-dark" id="faCode" name="faCode" size="1" onchange=iconpreview()>
               <option selected value="noI">No icon</option>
                 <option value="1">Video Camera</option>
                 <option value="2">Play</option>
@@ -469,8 +466,9 @@
               </select>
             </div>
 
-            <div class="col-lg-2" >
-              <h5 id="iconpreview" class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" style="display:none;">Icon Preview</h5>
+            <div class="col-lg-4 pl-4 mt-2">
+              <h5 data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="When you choose an icon in step 7, a preview of that icon will appear here for you to ensure the icon is what you would like to site with your heading.">Icon Preview</h5>
+              <p id="iconpreview" style="display:none;"></p>
               </div>
 
           </div> 
