@@ -474,6 +474,10 @@
 		}
 	}
 
+	function copyCode(){
+		SelectAll("txtareaBtn");
+    }
+
     function generateTableCode() {
 	  
 		tableContents = getTableContentsFromPage(currRow,currCol)
@@ -530,7 +534,7 @@
 		var textOutputTable = newTableCode(tableContents)
 	    
         document.getElementById('txtareaBtn').innerHTML= resizedHead+textOutputTable;
-        SelectAll("txtareaBtn");
+        //SelectAll("txtareaBtn");
         if (previewMode){
 			activatePreviewMode()
 		}
@@ -765,7 +769,7 @@
 	  <div class="row w-100 mx-auto">
 		<div class="col-lg-6">
 		<h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 2) and choose a heading size (step 3) or the icon and heading will not display.">Step 3 - Select icon (optional)</h5>
-		<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1" onchange="iconpreview()">
+		<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1" onchange="generateTableCode()">
 			<option selected value="noI">No icon</option>
 			<option value="1">Calendar</option>
 			<option value="2">Numbered list</option>
@@ -831,7 +835,7 @@
       <div class="col-lg mt-3">
       <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 6.">Step 5 - Generate/copy code</h5>
       <div>
-  <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Save and copy code" onClick=generateTableCode() >
+  <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Copy your code" onClick=copyCode() >
   
   <button id="edit" onClick=editMode()>Edit values</button>
   
