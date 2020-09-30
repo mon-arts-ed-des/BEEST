@@ -44,8 +44,12 @@
       menubar: false,
         plugins : 'advlist autolink link lists charmap print preview code',
         toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
-        'undo redo | charmap | autolink link | code | removeformat' ]
-   
+        'undo redo | charmap | autolink link | code | removeformat' ],
+        setup : function(ed) {      
+        ed.on('change', function (e) {	
+          generateTabbedContentCode();
+          });					
+        }
       });
 
 		var createdTabs = 1; //representing how many tabs are currently available on the page
@@ -64,7 +68,7 @@
 		
 		
 		function tabTemplate(tabNum){
-			var result = '<div id='+OUTER_BLOCK_ID_BASE+tabNum+' class="row w-100 mx-auto"><div class="col-lg mt-2"><h6>Tab '+tabNum+'</h6><textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button" id="'+HEADING_ID_BASE+tabNum+'"></textarea></div><div class="col-lg mt-2"><h6>Content '+tabNum+'</h6><textarea id="'+TINYMCE_ID_BASE+tabNum+'" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="'+INNER_HEADING_ID_BASE+tabNum+'"></textarea></div></div>'
+			var result = '<div id='+OUTER_BLOCK_ID_BASE+tabNum+' class="row w-100 mx-auto"><div class="col-lg mt-2"><h6>Tab '+tabNum+'</h6><textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button" id="'+HEADING_ID_BASE+tabNum+'" onchange=generateTabbedContentCode()></textarea></div><div class="col-lg mt-2"><h6>Content '+tabNum+'</h6><textarea id="'+TINYMCE_ID_BASE+tabNum+'" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="'+INNER_HEADING_ID_BASE+tabNum+'" onchange=generateTabbedContentCode()></textarea></div></div>'
 			return result
 		}
 		
@@ -79,7 +83,12 @@
         menubar: false,
         plugins : 'advlist autolink link lists charmap print preview code',
         toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
-        'undo redo | charmap | autolink link | code | removeformat' ]   
+        'undo redo | charmap | autolink link | code | removeformat' ],
+        setup : function(ed) {      
+        ed.on('change', function (e) {	
+          generateTabbedContentCode();
+          });					
+        }   
       });
 			}
 		
@@ -129,7 +138,8 @@
 			}
 			if (newVisCount > absoluteMinTab){
 				showButton("minusbutton")
-			}
+      }
+      generateTabbedContentCode();
 		}
 
 	function removeSection(){
@@ -155,7 +165,7 @@
 			if (visibleTabs < maxTabs){
 				showButton("plusbutton")
 			}
-			
+			generateTabbedContentCode();
 		}		
 		
 		function getTinyMCEText(tabNum){
@@ -180,9 +190,58 @@
 	function showButton(id){
 		document.getElementById(id).disabled = false
 		htmlStyle(id,"display","")
-	}
+  }
+  
+  function iconpreview() {
+        var faIcon = document.getElementById('faCode').value;
+        var iconNames = {
+            "1":"columns",
+			      "2":"question",
+            "3":"question-circle",
+            "4":"question-circle-o", 
+            "5":"info",
+            "6":"info-circle",
+            "7":"bars",
+            "8":"plus",
+            "9":"plus-square",
+            "10":"plus-square-o",
+            "11":"exclamation",
+            "12":"exclamation-triangle",
+            "13":"exclamation-circle",
+            "14":"life-ring"
+        }
+
+        var iconName = iconNames[faIcon];
+	     	var faIconCode = "<i id=\"icon\" class=\"fa fa-"+iconName+"\"></i> ";
+		
+        if (faIcon == "noI"){
+          faIconCode = "";
+          if (document.getElementById("icon"))
+           {
+            var icon = document.getElementById("icon");
+            icon.parentNode.removeChild(icon);
+            var iconpreview = document.getElementById("iconpreview");
+            iconpreview.style.display = "none";
+           }
+        }
+
+        else{
+          if (document.getElementById("icon"))
+          {
+            var icon = document.getElementById("icon");
+            icon.parentNode.removeChild(icon);
+          }
+
+          var code = document.createElement("span");
+          code.innerHTML = faIconCode;
+          var iconpreview = document.getElementById("iconpreview");
+          iconpreview.style.display = "block";
+          iconpreview.parentNode.insertBefore(code,iconpreview.nextSibling);
+        }
+        generateTabbedContentCode();
+      }
 			
-      function generateTabbedContentCode() {
+  function generateTabbedContentCode() {
     console.debug(tinyMCE.activeEditor.getContent());
 
 	var currTabs; //representing how many tabs are currently available on the page and seen by this method
@@ -346,6 +405,7 @@
       window.onload=function(){
         $('#beestNav').load('common/beestnav.html');
         $('#beestFooter').load('common/beestfooter.html');
+        generateTabbedContentCode();
         function activeNav() {
           var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
            $(".nav-link").each(function(){
@@ -553,24 +613,23 @@
 <div class="row w-100 mx-auto">
   <div class="col-lg-8 mt-2">
     <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type a heading for your Tabbed Content here that will sit above the element and indicate to the student what is contained within the tabs. 75 character maximum.">Step 2 - Main Heading (optional)</h5>
-    <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="tabbedMainHeading" type="text" id="tabbedMainHeading" placeholder="Type a main heading for your Tabbed Content here."></textarea>
+    <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="tabbedMainHeading" type="text" id="tabbedMainHeading" placeholder="Type a main heading for your Tabbed Content here." onchange=generateTabbedContentCode()></textarea>
   </div>
 </div>
 <div class="row w-100 mx-auto">
 <div class="col-lg-8 mt-2">
 <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 3 - Heading size (optional)</h5>
-<select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1">
-<option selected value="noH">No heading</option>
-<option value="h5">Small (h5)</option>
-<option value="h4">Medium (h4)</option>
-<option value="h3">Large (h3)</option>
+<select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1" onchange=generateTabbedContentCode()>
+  <option selected value="h5">Small (h5)</option>
+  <option value="h4">Medium (h4)</option>
+  <option value="h3">Large (h3)</option>
 </select>
 </div> 
 </div>   
 <div class="row w-100 mx-auto">
-<div class="col-lg-8 mt-2">
+<div class="col-lg-6">
 <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 1) and choose a heading size (step 2) or the icon and heading will not display.">Step 4 - Select icon (optional)</h5>
-<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1">
+<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1" onchange=iconpreview()>
   <option selected value="noI">No icon</option>
   <option value="1">Two columns</option>  
   <option value="2">Question mark</option>
@@ -588,17 +647,20 @@
     <option value="14">Life ring</option>
   </select>
 </div>
+<div class="col-lg-2" >
+  <h5 id="iconpreview" class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" style="display:none;">Icon Preview</h5>
+  </div>
 </div>
 <div class="row w-100 mx-auto">
   <div class="col-lg mt-2">
     <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="This is the text that will appear on the tab buttons (all text boxes on the left side of screen). This should give users a clear idea of what will appear if the button is clicked. Max length is 50 characters.">Step 5 - Tab headings</h5> 
     <h6>Tab 1</h6>
-    <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button here" id="monAccTabHeadingTxt1"></textarea>
+    <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button here" id="monAccTabHeadingTxt1" onchange=generateTabbedContentCode()></textarea>
   </div>
   <div class="col-lg mt-2">
       <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="What you input in the box below will appear when the relative tab button is clicked (all rich text editors on the right of screen). This can include text, lists, videos and externally embedded media..">Step 6 - Content</h5>
       <h6>Content 1</h6>      
-      <textarea id="tinyMCEmonTabContent1" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="monTabContent1"></textarea>
+      <textarea id="tinyMCEmonTabContent1" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="monTabContent1" onchange=generateTabbedContentCode()></textarea>
       </div>
       </div>
 
@@ -610,7 +672,7 @@
       <div>
   <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy code" onClick=generateTabbedContentCode() ></p>
   </div>
-  <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code for your accordion and copy it to the clipboard."></textarea></p>
+  <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code for your accordion and copy it to the clipboard." onchange=generateTabbedContentCode()></textarea></p>
 </div>
 </div>
   <div class="row w-100 mx-auto mt-2 mb-3">
