@@ -354,6 +354,7 @@
         $('#demo').nextAll('div, h3, h4, h5, i').remove();
         $('#demo').after(monAccOutput);
         }
+        
     function SelectAll(id){
         document.getElementById(id).focus();
         document.getElementById(id).select();
@@ -667,7 +668,7 @@
           <div class="col-lg mt-3">
         <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 7 - Generate/copy code</h5>
         <div>
-    <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy code" onClick=generateAccCode()></p>
+    <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Copy code" onClick=generateAccCode()></p>
     </div>
     <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="monAccCode" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code for your accordion and copy it to the clipboard." onClick=generateAccCode()></textarea></p>
   </div>

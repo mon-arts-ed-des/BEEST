@@ -29,22 +29,22 @@
         selector: '#tinyMCEpollEv',
         menubar: false,
         plugins : 'advlist autolink link lists charmap print preview code',
-          toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat'  
+        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat'  
       });
     function generatePollEvCode() {
          console.debug(tinyMCE.activeEditor.getContent());
 
         //Retrieve the content by id of the tinyMCE textarea
-    var contextCode = tinyMCE.get('tinyMCEpollEv').getContent();
-    var pollHeading = document.getElementById('pollHeading').value;
-    var headSize = document.getElementById('headSize').value;
-    var faIcon = document.getElementById('faCode').value;
-    var head_3="<h3>"
-    var endHead_3="</h3>"
-    var head_4="<h4>"
-    var endHead_4="</h4>"
-    var head_5="<h5>"
-    var endHead_5="</h5>"
+        var contextCode = tinyMCE.get('tinyMCEpollEv').getContent();
+        var pollHeading = document.getElementById('pollHeading').value;
+        var headSize = document.getElementById('headSize').value;
+        var faIcon = document.getElementById('faCode').value;
+        var head_3="<h3>"
+        var endHead_3="</h3>"
+        var head_4="<h4>"
+        var endHead_4="</h4>"
+        var head_5="<h5>"
+        var endHead_5="</h5>"
         var iconNames = {
 			      "1":"question",
             "2":"question-circle",
@@ -123,6 +123,7 @@
       window.onload=function(){
         $('#beestNav').load('common/beestnav.html');
         $('#beestFooter').load('common/beestfooter.html');
+        generatePollEvCode();
         function activeNav() {
           var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
            $(".nav-link").each(function(){
@@ -288,21 +289,20 @@
         <div class="row w-100 mx-auto mt-2">
           <div class="col-lg-8">
               <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in your polls shareable link. You can get this link by following the instructions from the top of the page. Click on the text that says 'follow these steps' to reveal the instructions.">Step 1 - Paste response link URL</h5>
-              <textarea class="rounded p-2 w-100" rows="1" name="pollEv_URL" id="pollEv_URL" placeholder="Write/paste the Shareable response link here"></textarea>
+              <textarea class="rounded p-2 w-100" rows="1" name="pollEv_URL" id="pollEv_URL" placeholder="Write/paste the Shareable response link here" onchange=generatePollEvCode()></textarea>
               </div>
               </div> 
               <div class="row w-100 mx-auto">
                 <div class="col-lg-8 mt-2">
                   <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the heading for this poll. 75 character maximum.">Step 2 - Heading (optional)</h5>
-                  <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="pollHeading" type="text" id="pollHeading" placeholder="Type your poll heading here"></textarea>
+                  <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="pollHeading" type="text" id="pollHeading" placeholder="Type your poll heading here" onchange=generatePollEvCode()></textarea>
                 </div>
               </div>
       <div class="row w-100 mx-auto">
       <div class="col-lg-8 mt-2">
         <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 3 - Heading size (optional)</h5>
-              <select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1">
-              <option selected value="noH">No heading</option>
-              <option value="h5">Small (h5)</option>
+              <select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1" onchange=generatePollEvCode()>
+              <option selected value="h5">Small (h5)</option>
               <option value="h4">Medium (h4)</option>
               <option value="h3">Large (h3)</option>
             </select>
@@ -311,7 +311,7 @@
           <div class="row w-100 mx-auto">
             <div class="col-lg-8 mt-2">
               <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 2) and choose a heading size (step 3) or the icon and heading will not display.">Step 4 - Select icon (optional)</h5>
-              <select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1">
+              <select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1" onchange=generatePollEvCode()>
                 <option selected value="noI">No icon</option>
                   <option value="1">Question mark</option>
                   <option value="2">White question mark in a black circle</option>
@@ -330,7 +330,7 @@
     <div class="row w-100 mx-auto mt-2">
     <div class="col-lg-8">
         <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="If you already have written the context for your poll in Moodle, skip this step, generate the embed code for your poll and paste it after your context in Moodle. Otherwise, writing some instructions, or context for students on your poll will help the students to respond correctly. Write your context in the space below. You can use headings, bold, italics and lists if needed in your instructions.">Step 5 - Write the context for the poll (optional)</h5>
-        <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="3" name="pollEv_text" id="tinyMCEpollEv" placeholder="Write/paste the text for the button here"></textarea>
+        <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="3" name="pollEv_text" id="tinyMCEpollEv" placeholder="Write/paste the text for the button here" onchange=generatePollEvCode()></textarea>
       </div>
     </div>
         
