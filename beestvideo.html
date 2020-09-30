@@ -428,7 +428,7 @@
         <textarea id="tinyMCEvideo" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="respVid_context" onchange=generateCode()></textarea>
       </div>
     <div class="col-lg-4 mt-2">
-      <h5 data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="When you paste your video URL in step 1 a preview of the video will appear here for you to ensure you have pasted the correct video.">Video preview</h5>
+      <h5 id="videoPreviewText" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="When you paste your video URL in step 1 a preview of the video will appear here for you to ensure you have pasted the correct video." style="display:none;">Quick Video preview</h5>
       <span id="videopreview" style="display:none;"></span>
       <div class="embed-responsive embed-responsive-16by9">
       <iframe id="vid" class="embed-responsive-item" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen src=""></iframe>
@@ -530,7 +530,17 @@
         
         document.getElementById('vid').src = x;
         var videopreview = document.getElementById('videopreview');
-        videopreview.style.display = "block";
+
+        var videoPreviewText = document.getElementById('videoPreviewText');
+
+        if (s !== ""){
+          videopreview.style.display = "block";
+          videoPreviewText.style.display = "block";
+        }
+        else{
+          videopreview.style.display = "none";
+          videoPreviewText.style.display = "none";          
+        }
 
         $('#respVidSwitch').val(x);
         //$('input[type="text"], textarea#respVidSwitch').attr('readonly','readonly');
