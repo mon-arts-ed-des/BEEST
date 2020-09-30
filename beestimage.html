@@ -199,16 +199,7 @@
     }
     
     function writeinMoodle() {
-      var win = window.open("https://lms.monash.edu/course/modedit.php?add=label&type=&course=36985&section=2&return=0&sr=0");
-      win.writeinTinyMCE = function () {
-          win.alert("Starting magic...");
-          win.tinyMCE.get('#id_introeditor').setContent("<p>test</p>");
-        }
-      win.writeinTinyMCE();
-      setTimeout(function () {
-        win.document.body.appendChild(element);
-        console.log('New script appended!')
-    }, 10000);
+      tinyMCE.get('#id_introeditor').setContent(textOutput);
     }
 
     tinymce.init({
