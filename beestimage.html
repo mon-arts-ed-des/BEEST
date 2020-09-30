@@ -183,6 +183,7 @@
     var imageplaceholder ="https://drive.google.com/uc?id=1Tel_KpnwCcoRUMdMFyw-GJ-_MaqeaWYZ&export=download";
     var url;
     url = imageplaceholder;
+
     // A simple callback implementation.
     function pickerCallback(data) {
       if (data.action == google.picker.Action.PICKED) {
@@ -191,8 +192,8 @@
         document.getElementById('img').src = url;
         var imagepreview = document.getElementById("imagepreview");
         imagepreview.style.display = "block";
-        var imgpreview = document.getElementById("img2");
-        imgpreview.style.display = "none";
+        //var imgpreview = document.getElementById("img2");
+        //imgpreview.style.display = "none";
         generateCode();
       }
     }
@@ -214,7 +215,7 @@
         selector: '#tinyMCEimage',
         menubar: false,
         plugins : 'advlist autolink link lists charmap print preview code',
-        toolbar: 'undo redo | styleselect | bold underline italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat',
+        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat',
         setup : function(ed) {      
         ed.on('change', function (e) {	
           generateCode();
@@ -222,20 +223,20 @@
         }
     });
     
-    var head_3="<h3>"
-    var endHead_3="</h3>"
-    var head_4="<h4>"
-    var endHead_4="</h4>"
-    var head_5="<h5>"
-    var endHead_5="</h5>"
+        var head_3="<h3>"
+        var endHead_3="</h3>"
+        var head_4="<h4>"
+        var endHead_4="</h4>"
+        var head_5="<h5>"
+        var endHead_5="</h5>"
 
-    var respImg_1="<div class=\"row w-100\"><div class=\"col-lg\">"
-    var respImg_2="</div><div class=\"col-lg\"><img class=\"img-fluid\" src=\""
-    var respImg_2r="<img class=\"img-fluid\" src=\""
-    var respImg_3="\"></div></div>"
-    var respImg_3r="\"></div>"
-    var respImg_4="<div class=\"col-lg mt-2\">"
-    var respImg_5="</div></div>"
+        var respImg_1="<div class=\"row w-100\"><div class=\"col-lg\">"
+        var respImg_2="</div><div class=\"col-lg\"><img class=\"img-fluid\" src=\""
+        var respImg_2r="<img class=\"img-fluid\" src=\""
+        var respImg_3="\"></div></div>"
+        var respImg_3r="\"></div>"
+        var respImg_4="<div class=\"col-lg mt-2\">"
+        var respImg_5="</div></div>"
    	/*These different options have been absorbed into a javascript Object allowing a direct mapping and lookup of code to icon name*/
 	
     function iconpreview() {
@@ -276,16 +277,16 @@
         generateCode();
       }
 
-    function onchangeCode() {
-        generateCode();
-    }
-
     var contextCode;
 
     /*Function to generate and copy code for the responsive image*/
     function generateCode() {
         // Get the HTML contents of the currently active editor
         console.debug(tinyMCE.activeEditor.getContent());
+
+        if (document.getElementById('respImgSwitch').value !== ""){
+        url = document.getElementById('respImgSwitch').value;
+        }
 
         //Retrieve the content by id of the tinyMCE textarea
         if (tinyMCE.get('tinyMCEimage').getContent() !== ""){
@@ -346,7 +347,7 @@
         }
 
         document.getElementById('txtarearespImg').innerHTML=textOutput;
-        SelectAll("txtarearespImg");
+        //SelectAll("txtarearespImg");
          //Add the html code after the div
 		    var demoDiv = document.getElementById("demo");
 		    demoDiv.innerHTML = textOutput;
@@ -416,6 +417,7 @@
 </head>
 <body onload="generateCode()">
   <nav class="navbar navbar-expand-lg navbar-dark bg-arts mb-3">
+
     <a class="navbar-brand text-center border border-white p-2 rounded" href="index.html"><img src="img/dragon-solid-white.png" width="30" height="30" alt=""></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -426,16 +428,16 @@
           <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="beestvideo.html">Responsive Video</a>
+          <a class="nav-link" href="beestvideo.html">Video</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="beestimage.html">Responsive Image</a>
+          <a class="nav-link" href="beestimage.html">Image</a>
         </li>
         <li class="nav-item">
-        <a class="nav-link" href="beestbutton.html">Buttons</a>
+        <a class="nav-link" href="beestbutton.html">Button</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="beestalert.html">Alerts</a>
+          <a class="nav-link" href="beestalert.html">Alert</a>
         </li>
            <li class="nav-item">
           <a class="nav-link" href="beestpollev.html">Poll Everywhere</a>
@@ -444,7 +446,7 @@
           <a class="nav-link" href="beestreadmore.html">Read More Button</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="beestacc.html">Accordion</a>
+          <a class="nav-link" href="beestaccordion.html">Accordion</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="beestquote.html">Quote</a>
@@ -459,16 +461,21 @@
    <div class="row w-100 mx-auto">
     <div class="col-lg-8 mt-2">
     <div class="row w-100 mx-auto">
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your video. When you paste the link into this box it will automatically change the link to be the embed link required for the platform you are pasting from this process to work and you will not be able to edit this box.">Step 1 - Upload an image</h5>
-        [Placeholder] You can upload an image from your computer or choose an existing image from your Google Drive. Please note that the image you upload will store in the Google Drive
+        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your video. When you paste the link into this box it will automatically change the link to be the embed link required for the platform you are pasting from this process to work and you will not be able to edit this box.">Step 1 - Image link</h5>
+        <div class="row w-100 mx-auto">
+        <p>Please find your image from <a href="https://unsplash.com">https://unsplash.com</a> and paste the URL here</p>
+        <textarea class="rounded p-2 w-100" rows="1" name="respImgSwitch" type="text" id="respImgSwitch" placeholder="Paste the Unsplash image link here" onchange=generateCode()></textarea>
+        </div>
         <div ng-controller="driveController">        
           <!--<div ng-show="checkingLogin">Checking login status...</div>
           Login status:{{loggedIn}}
           <button ng-disabled="checkingLogin || loggedIn" ng-click="login()">Log In</button>-->
         
           <div ng-show="loggedIn">
-            <button ng-disabled="uploading" ng-click="clickFileUpload()">Upload image</button>
-            <button onclick="loadPicker()">Choose Image from Google Drive</button>
+            <input ng-disabled="uploading" ng-click="clickFileUpload()" type="button" class="btn btn-arts m-1" name="uploadImage" value="Upload image" >
+            <!--<button ng-disabled="uploading" ng-click="clickFileUpload()">Upload image</button>-->
+            <input type="button" class="btn btn-arts m-1" name="uploadImage" value="Choose Image from Google Drive" onclick="loadPicker()">
+            <!--<button onclick="loadPicker()">Choose Image from Google Drive</button>-->
             <input type="file" id="uploadImage" accept="image/*" onchange="angular.element(this).scope().upload()" style="display:none;">
             <div ng-show="uploading">Uploading image to your Google Drive ...</div>    
             <!--<div ng-show="!images.length">No uploaded images yet</div>-->
@@ -476,9 +483,6 @@
               <img id ="img2" ng-src="{{image}}" style="max-width: 100%;max-height: 100%;">
             </div>
           </div>
-
-        </div>
-      </div>
 
     <div class="row w-100 mx-auto">
         <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="It's recommended to have a few sentences or dot points explaining what is in the video students are about to watch. This helps in particular when students are looking back through your site for a specific video where you addressed certain concepts or theories. Instead of watching the entire video, they can read the context you have provided, and decide if they have found what they need without having to watch the entire video.">Step 2 - Image context</h5>
@@ -497,7 +501,7 @@
       <div class="row w-100 mx-auto">
         <div class="col-lg-8 mt-2">
           <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose which half/side of screen you would prefer the video to appear by clicking on one of the options below. Video on the left is selected by default.">Step 3 - Image position</h5>
-                <select class="custom-select w-50 border border-dark" id="imagePosition" name="imagePosition" size="1" onchange=onchangeCode()>
+                <select class="custom-select w-50 border border-dark" id="imagePosition" name="imagePosition" size="1" onchange=generateCode()>
                 <option value="left" selected>Image on the left</option>
                 <option value="right">Image on the right</option>
               </select>
@@ -506,17 +510,17 @@
             <div class="row w-100 mx-auto">
               <div class="col-lg-8 mt-2">
                 <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the heading for this video. 50 character maximum. If you want a heading, you must also complete step 5 or your heading will not display.">Step 4 - Heading (optional)</h5>
-                <textarea maxlength="50" class="rounded p-2 w-100" rows="1" name="respVid_heading" type="text" id="respImgHeading" placeholder="Type your image heading here" onchange=onchangeCode()></textarea>
+                <textarea maxlength="50" class="rounded p-2 w-100" rows="1" name="respVid_heading" type="text" id="respImgHeading" placeholder="Type your image heading here" onchange=generateCode()></textarea>
               </div>
             </div>
 
     <div class="row w-100 mx-auto">
     <div class="col-lg-8 mt-2">
       <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 5 - Heading size (optional)</h5>
-            <select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1" onchange=onchangeCode()>
+            <select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1" onchange=generateCode()>
             <!--<option selected value="noH">No heading</option>-->
-            <option value="h5">Small</option>
-            <option selected value="h4">Medium</option>
+            <option selected value="h5">Small</option>
+            <option value="h4">Medium</option>
             <option value="h3">Large</option>
           </select>
           </div> 
@@ -524,7 +528,7 @@
         <div class="row w-100 mx-auto">
           <div class="col-lg-5">
             <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 4) and choose a heading size (step 5) and or the icon and heading will not display.">Step 6 - Select icon (optional)</h5>
-            <select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1" onchange=iconpreview()>
+            <select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1" onchange=generateCode()>
               <option selected value="noI">No icon</option>
                 <option value="1">Image</option>
                 <option value="2">Play</option>
@@ -539,12 +543,11 @@
 
     <div class="row w-100 mx-auto">
     <div class="col-lg-8 mt-2">
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="focus hover">Generated Code</h5>
-        <!--<h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 7 - Generate/copy code</h5>-->    
-        <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><!--<input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Generate and copy code" onClick=generateCode() >--></p>
+        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 7 - Copy code and paste them into Moodle</h5>
+        <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Copy your code" onClick=generateCode() ></p>
         <textarea readonly class="rounded p-2 w-100" id="txtarearespImg" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here"></textarea>
         
-        <!--<input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Generate and copy code" onClick=writeinMoodle() >-->
+        <!--<input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Write back to Moodle" onClick=writeinMoodle() >-->
     
       </div>
     </div>
@@ -562,6 +565,33 @@
 
 <script src="https://apis.google.com/js/client.js?onload=gapiLoaded"></script>
 <script type="text/javascript" src="https://apis.google.com/js/api.js"></script>
+
+<script>
+    $('#respImgSwitch').on('input', function(event) {
+    var s = $('#respImgSwitch').val().toString();
+    
+    if (s.includes("unsplash.com") == true) {
+    //code for converting Vimeo link from Viewer to Embed
+    var x = s.replace('https://unsplash.com/photos','https://source.unsplash.com');
+    }
+
+    $('#respImgSwitch').val(x);
+    //$('input[type="text"], textarea#respVidSwitch').attr('readonly','readonly');
+  }); 
+  var textarea = $('#respImgHeading');
+  var select = $('#headSize');
+  var addOrRemoveRequiredAttribute = function () {
+  if (textarea.val().length) {
+    select.val("h5")
+  }
+  };
+
+  // Run now
+  addOrRemoveRequiredAttribute();
+
+  // And when textarea changes
+  textarea.on('change', addOrRemoveRequiredAttribute);
+</script>
 
 <div id="beestFooter"></div>
 </body>
