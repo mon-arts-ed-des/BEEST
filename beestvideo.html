@@ -23,6 +23,7 @@
     <!-- Tinymce js file -->   
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
 	  <script src="js/advancedModeLocalStorage.js"></script>
+    <!-- Script to init the tinyMCE editor --> 
     <script type="text/javascript">
         tinymce.init({
         selector: '#tinyMCEvideo',
@@ -74,7 +75,7 @@
         generateCode();
       }
 	
-/*Function to generate and copy code for the responsive videos*/
+    /*Function to generate and copy code for the responsive videos*/
     function generateCode() {
         // Get the HTML contents of the currently active editor
         console.debug(tinyMCE.activeEditor.getContent());
@@ -128,22 +129,22 @@
           faIconCode = "";
         }
 		
-		var resizedHead;
-        //Resizing the heading text
-		switch(headSize){
-			case "noH":
-				resizedHead = "";
-				break;
-			case "h3":
-				resizedHead = head_3+faIconCode+vidHeading+endHead_3;
-				break;
-			case "h4":
-				resizedHead = head_4+faIconCode+vidHeading+endHead_4;
-				break;
-			case "h5":
-				resizedHead = head_5+faIconCode+vidHeading+endHead_5;
-				break;
-		}
+        var resizedHead;
+            //Resizing the heading text
+        switch(headSize){
+          case "noH":
+            resizedHead = "";
+            break;
+          case "h3":
+            resizedHead = head_3+faIconCode+vidHeading+endHead_3;
+            break;
+          case "h4":
+            resizedHead = head_4+faIconCode+vidHeading+endHead_4;
+            break;
+          case "h5":
+            resizedHead = head_5+faIconCode+vidHeading+endHead_5;
+            break;
+        }
         //Change size of column if requested
         if (vWidth == "33" && vPosition == "left"){
           firstCol=firstCol4;
@@ -167,11 +168,15 @@
        
        
         document.getElementById('txtarearespVid').innerHTML=textOutput;
-        SelectAll("txtarearespVid");
+        //SelectAll("txtarearespVid");
          //Add the html code after the div
-		var demoDiv = document.getElementById("demo");
-		demoDiv.innerHTML = textOutput;
+        var demoDiv = document.getElementById("demo");
+        demoDiv.innerHTML = textOutput;
         }
+
+    function copyCode(){
+      SelectAll("txtarearespVid");
+    }
 
     function SelectAll(id){
         document.getElementById(id).focus();
@@ -477,7 +482,7 @@
             <div class="col-lg-8 mt-2">
     <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 8 - Generate/copy code</h5>
                
-            <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Generate and copy code" onClick=generateCode() ></p>
+            <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Copy code" onClick=copyCode() ></p>
             <textarea readonly class="rounded p-2 w-100" id="txtarearespVid" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here"></textarea>
            
             </div>
