@@ -48,6 +48,10 @@
         }
       });
 
+    function copyCode(){
+      SelectAll("monAlertCode");
+    }
+
     function iconpreview() {
         var faIcon = document.getElementById('faCode').value;
         var iconNames = {
@@ -158,7 +162,7 @@
         }
  
         document.getElementById('monAlertCode').innerHTML=textOutput;
-        SelectAll("monAlertCode");
+        //SelectAll("monAlertCode");
         $('#demo').nextAll('div').remove();
         $('#demo').after(textOutput);
         }
@@ -358,7 +362,7 @@
         <div class="row w-100 mx-auto">
           <div class="col-lg-5">
             <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="If you would like an icon to the left of your heading, select it here. The default is no icon. This is optional.">Step 4 - Select icon</h5>
-            <select class="custom-select w-50 border border-dark" id="faCode" name="faCode" onchange=iconpreview()>
+            <select class="custom-select w-50 border border-dark" id="faCode" name="faCode" onchange=generateAlertCode()>
                 <option selected value="noI">No icon</option>
                 <option value="1">Exclamation circle</option>
                 <option value="2">Info circle</option>
@@ -399,7 +403,7 @@
     <div class="row w-100 mx-auto">
           <div class="col-lg-8 mt-2"> 
    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 7 - Generate/copy code</h5>
-        <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy code </>" onClick=generateAlertCode()></p>
+        <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Copy your code </>" onClick=copyCode()></p>
         <textarea readonly class="border border-dark rounded p-2 w-100" id="monAlertCode" cols="70" rows="4" name="Result" placeholder="Code for your element will appear here." onchange=generateAlertCode()></textarea></p>
         </div></div>
     </form>   
