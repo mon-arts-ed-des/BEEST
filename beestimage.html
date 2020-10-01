@@ -214,20 +214,6 @@
         }
     });
     
-        var head_3="<h3>"
-        var endHead_3="</h3>"
-        var head_4="<h4>"
-        var endHead_4="</h4>"
-        var head_5="<h5>"
-        var endHead_5="</h5>"
-
-        var respImg_1="<div class=\"row w-100\"><div class=\"col-lg\">"
-        var respImg_2="</div><div class=\"col-lg\"><img class=\"img-fluid\" src=\""
-        var respImg_2r="<img class=\"img-fluid\" src=\""
-        var respImg_3="\"></div></div>"
-        var respImg_3r="\"></div>"
-        var respImg_4="<div class=\"col-lg mt-2\">"
-        var respImg_5="</div></div>"
    	/*These different options have been absorbed into a javascript Object allowing a direct mapping and lookup of code to icon name*/
 	
     function iconpreview() {
@@ -288,10 +274,37 @@
         }
 
         var imgHeading = document.getElementById('respImgHeading').value;
-        
+        var imgWidth = document.getElementById('imageWidth').value;
         var imgPosition = document.getElementById('imagePosition').value;
         var headSize = document.getElementById('headSize').value;
         var faIcon = document.getElementById('faCode').value;
+
+        var head_3="<h3>"
+        var endHead_3="</h3>"
+        var head_4="<h4>"
+        var endHead_4="</h4>"
+        var head_5="<h5>"
+        var endHead_5="</h5>"
+
+        var rowOpen="<div class=\"row w-100\">"
+        var firstCol="<div class=\"col-lg\">"
+        var imgTag = "<img class=\"img-fluid\" src=\""
+        var firstCol4="<div class=\"col-lg-4\">"
+        var secCol="<div class=\"col-lg mt-2\">"
+        var secCol4="<div class=\"col-lg-4 mt-2\">"
+        var closeCol="\"></div>"
+        var closeCol_r="</div>"
+        var closeRow="</div></div>"
+        var closeRow_r="\"></div></div>"
+
+        var respImg_1="<div class=\"row w-100\"><div class=\"col-lg\">"
+        var respImg_2="</div><div class=\"col-lg\"><img class=\"img-fluid\" src=\""
+        var respImg_2r="<img class=\"img-fluid\" src=\""
+        var respImg_3="\"></div></div>"
+        var respImg_3r="\"></div>"
+        var respImg_4="<div class=\"col-lg mt-2\">"
+        var respImg_5="</div></div>"
+
         var iconNames = {
 			      "1":"image",
             "2":"play",
@@ -320,7 +333,15 @@
 			case "h5":
 				resizedHead = head_5+faIconCode+imgHeading+endHead_5;
 				break;
-		}
+    }
+    
+        //Change size of column if requested
+        if (imgWidth == "33" && imgPosition == "left"){
+          firstCol=firstCol4;
+        }
+        else if (imgWidth == "33" && imgPosition== "right"){
+          secCol=secCol4;
+        }
 
           if (url !== imageplaceholder)
           {
@@ -331,10 +352,12 @@
           }
 
         if (imgPosition == "left"){
-            var textOutput = resizedHead+respImg_1+respImg_2r+url+respImg_3r+respImg_4+contextCode+respImg_5;
+            //var textOutput = resizedHead+respImg_1+respImg_2r+url+respImg_3r+respImg_4+contextCode+respImg_5;
+            var textOutput = resizedHead+rowOpen+firstCol+imgTag+url+closeCol+secCol+contextCode+closeRow;
         }
         else if (imgPosition == "right"){
-            var textOutput = resizedHead+respImg_1+contextCode+respImg_2+url+respImg_3;
+            //var textOutput = resizedHead+respImg_1+contextCode+respImg_2+url+respImg_3;
+            var textOutput = resizedHead+rowOpen+firstCol+contextCode+closeCol_r+secCol+imgTag+url+closeRow_r;
         }
 
         document.getElementById('txtarearespImg').innerHTML=textOutput;
@@ -498,16 +521,27 @@
               </select>
               </div> 
             </div> 
+
             <div class="row w-100 mx-auto">
               <div class="col-lg-8 mt-2">
-                <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the heading for this video. 50 character maximum. If you want a heading, you must also complete step 5 or your heading will not display.">Step 4 - Heading (optional)</h5>
+                <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose whether you want the video to be 50% (1/2) of the screen width or 33.3% (1/3) of the screen width.">Step 4 - Image width</h5>
+                      <select class="custom-select w-50 border border-dark" id="imageWidth" name="imageWidth" size="1" onchange=generateCode()>
+                      <option value="50" selected>50% (1/2)</option>
+                      <option value="33">33.3% (1/3)</option>
+                    </select>
+                    </div> 
+                  </div> 
+
+            <div class="row w-100 mx-auto">
+              <div class="col-lg-8 mt-2">
+                <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the heading for this video. 50 character maximum. If you want a heading, you must also complete step 5 or your heading will not display.">Step 5 - Heading (optional)</h5>
                 <textarea maxlength="50" class="rounded p-2 w-100" rows="1" name="respVid_heading" type="text" id="respImgHeading" placeholder="Type your image heading here" onchange=generateCode()></textarea>
               </div>
             </div>
 
     <div class="row w-100 mx-auto">
     <div class="col-lg-8 mt-2">
-      <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 5 - Heading size (optional)</h5>
+      <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 6 - Heading size (optional)</h5>
             <select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1" onchange=generateCode()>
             <!--<option selected value="noH">No heading</option>-->
             <option selected value="h5">Small</option>
@@ -518,7 +552,7 @@
         </div>   
         <div class="row w-100 mx-auto">
           <div class="col-lg-5">
-            <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 4) and choose a heading size (step 5) and or the icon and heading will not display.">Step 6 - Select icon (optional)</h5>
+            <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 4) and choose a heading size (step 5) and or the icon and heading will not display.">Step 7 - Select icon (optional)</h5>
             <select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1" onchange=generateCode()>
               <option selected value="noI">No icon</option>
                 <option value="1">Image</option>
@@ -534,7 +568,7 @@
 
     <div class="row w-100 mx-auto">
     <div class="col-lg-8 mt-2">
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 7 - Copy code and paste them into Moodle</h5>
+        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 8 - Copy code and paste them into Moodle</h5>
         <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Copy your code" onClick=generateCode() ></p>
         <textarea readonly class="rounded p-2 w-100" id="txtarearespImg" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here"></textarea>
         
@@ -544,7 +578,7 @@
     </div>
               <div class="row w-100 mb-3 mx-auto">
                 <div class="col-lg mt-2">
-                <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 7.">Step 7 - Preview</h5>
+                <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 7.">Step 9 - Preview</h5>
                 </div>
               </div>
     </form>
