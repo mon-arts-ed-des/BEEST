@@ -36,138 +36,136 @@
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
 	  <script src="js/advancedModeLocalStorage.js"></script>
     <script type="text/javascript">
-      tinymce.init({
-        selector: '#tinyMCEalert',
-        menubar: false,
-        plugins : 'advlist autolink link lists charmap print preview code',
-        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat',  
-        setup : function(ed) {      
-        ed.on('change', function (e) {	
-          generateAlertCode();
-          });					
-        }
-      });
+    
+    /* Variable Key
+    These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
 
-    function copyCode(){
-      SelectAll("monAlertCode");
+    monAlert = Monash themed alert
+    monAlertD = Monash themed alert that can be dismissed
+    */
+    
+    tinymce.init({
+    selector: "#tinyMCEalert",
+    menubar: false,
+    plugins: "advlist autolink link lists charmap print preview code",
+    toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat",
+    setup: function (ed) {
+        ed.on("change", function (e) {
+            generateAlertCode();
+        });
+    },
+});
+
+    function copyCode() {
+        SelectAll("monAlertCode");
     }
 
     function iconpreview() {
-        var faIcon = document.getElementById('faCode').value;
+        var faIcon = document.getElementById("faCode").value;
         var iconNames = {
-            "1":"exclamation-circle",
-            "2":"info-circle",
-            "3":"question-circle" 
-        }
+            "1": "exclamation-circle",
+            "2": "info-circle",
+            "3": "question-circle",
+        };
 
         var iconName = iconNames[faIcon];
-	     	var faIconCode = "<i id=\"icon\" class=\"fa fa-"+iconName+"\"></i> ";
-		
-        if (faIcon == "noI"){
-          faIconCode = "";
-          if (document.getElementById("icon"))
-           {
-            var icon = document.getElementById("icon");
-            icon.parentNode.removeChild(icon);
+        var faIconCode = '<i id="icon" class="fa fa-' + iconName + '"></i> ';
+
+        if (faIcon == "noI") {
+            faIconCode = "";
+            if (document.getElementById("icon")) {
+                var icon = document.getElementById("icon");
+                icon.parentNode.removeChild(icon);
+                var iconpreview = document.getElementById("iconpreview");
+                iconpreview.style.display = "none";
+            }
+        } else {
+            if (document.getElementById("icon")) {
+                var icon = document.getElementById("icon");
+                icon.parentNode.removeChild(icon);
+            }
+
+            var code = document.createElement("span");
+            code.innerHTML = faIconCode;
             var iconpreview = document.getElementById("iconpreview");
-            iconpreview.style.display = "none";
-           }
-        }
-
-        else{
-          if (document.getElementById("icon"))
-          {
-            var icon = document.getElementById("icon");
-            icon.parentNode.removeChild(icon);
-          }
-
-        var code = document.createElement("span");
-        code.innerHTML = faIconCode;
-        var iconpreview = document.getElementById("iconpreview");
-        iconpreview.style.display = "block";
-        iconpreview.parentNode.insertBefore(code,iconpreview.nextSibling);
+            iconpreview.style.display = "block";
+            iconpreview.parentNode.insertBefore(code, iconpreview.nextSibling);
         }
         generateAlertCode();
-      }  
+    }
 
     var alertCode;
-   
+
     function generateAlertCode() {
         // Get the HTML contents of the currently active editor
         console.debug(tinyMCE.activeEditor.getContent());
 
         //Retrieve the content by id of the tinyMCE textarea
-        if (tinyMCE.get('tinyMCEalert').getContent() !== ""){
-          alertCode = tinyMCE.get('tinyMCEalert').getContent();
+        if (tinyMCE.get("tinyMCEalert").getContent() !== "") {
+            alertCode = tinyMCE.get("tinyMCEalert").getContent();
+        } else {
+            alertCode = "[Placeholder for alert context. The content you entered in step 2 will appear here.]";
         }
-        else{
-          alertCode = "[Placeholder for alert context. The content you entered in step 2 will appear here.]";
-        }
-        
-        var dmoption = document.getElementById('dmoption').value;
-        var alertHeading = document.getElementById('alertHeading').value;
-        var headSize = document.getElementById('headSize').value;
-        var bsColour = document.getElementById('alertColour').value;
-        var faIcon = document.getElementById('faCode').value;
+
+        var dmoption = document.getElementById("dmoption").value;
+        var alertHeading = document.getElementById("alertHeading").value;
+        var headSize = document.getElementById("headSize").value;
+        var bsColour = document.getElementById("alertColour").value;
+        var faIcon = document.getElementById("faCode").value;
         var iconNames = {
-			      "1":"exclamation-circle",
-            "2":"info-circle",
-            "3":"question-circle" 
-             }
+            "1": "exclamation-circle",
+            "2": "info-circle",
+            "3": "question-circle",
+        };
         var iconName = iconNames[faIcon];
-		    var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> "
-        if (faIcon == "noI"){
-          faIconCode = "";
+        var faIconCode = '<i class="fa fa-' + iconName + '"></i> ';
+        if (faIcon == "noI") {
+            faIconCode = "";
         }
         var colourNames = {
-			      "1":"mu",
-            "2":"danger",
-            "3":"warning", 
-            "4":"success", 
-            "5":"primary", 
-            "6":"info", 
-            "7":"dark",
-            "8":"secondary" 
-             }
+            "1": "mu",
+            "2": "danger",
+            "3": "warning",
+            "4": "success",
+            "5": "primary",
+            "6": "info",
+            "7": "dark",
+            "8": "secondary",
+        };
         var colourName = colourNames[bsColour];
-        
-		    var alertPColourCode = "<div class=\"alert alert-"+colourName+" border border-"+colourName+" rounded\" role=\"alert\">";
-        var alertDMColourCode = "<div class=\"alert alert-"+colourName+" border border-"+colourName+" rounded alert-dismissible fade show\" role=\"alert\">";
-        var monAlertP_Close="</div>";
-        var monAlertD_Close="<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>";
-        if (colourName == "mu"){
-        var alertPColourCode = "<div class=\"alert alert-"+colourName+" rounded\" role=\"alert\">";
-        var alertDMColourCode = "<div class=\"alert alert-"+colourName+" rounded alert-dismissible fade show\" role=\"alert\">";
+
+        var alertPColourCode = '<div class="alert alert-' + colourName + " border border-" + colourName + ' rounded" role="alert">';
+        var alertDMColourCode = '<div class="alert alert-' + colourName + " border border-" + colourName + ' rounded alert-dismissible fade show" role="alert">';
+        var monAlertP_Close = "</div>";
+        var monAlertD_Close = '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+        if (colourName == "mu") {
+            var alertPColourCode = '<div class="alert alert-' + colourName + ' rounded" role="alert">';
+            var alertDMColourCode = '<div class="alert alert-' + colourName + ' rounded alert-dismissible fade show" role="alert">';
         }
         //Resizing the heading text
-        if (headSize == "noH"){
-        var resizedHead = "";
+        if (headSize == "noH") {
+            var resizedHead = "";
+        } else if (headSize == "h3") {
+            var resizedHead = '<h3 class="text-' + colourName + '"> ' + faIconCode + alertHeading + "</h3>";
+        } else if (headSize == "h4") {
+            var resizedHead = '<h4class="text-' + colourName + '"> ' + faIconCode + alertHeading + "</h4>";
+        } else if (headSize == "h5") {
+            var resizedHead = '<h5 class="text-' + colourName + '"> ' + faIconCode + alertHeading + "</h3>";
         }
 
-        else if (headSize == "h3"){
-        var resizedHead = "<h3 class=\"text-"+colourName+"\"> "+faIconCode+alertHeading+"</h3>";
+        if (dmoption == "dismissable") {
+            var textOutput = alertDMColourCode + resizedHead + alertCode + monAlertD_Close;
+        } else if (dmoption == "permanent") {
+            var textOutput = alertPColourCode + resizedHead + alertCode + monAlertP_Close;
         }
-        else if (headSize == "h4"){
-        var resizedHead = "<h4class=\"text-"+colourName+"\"> "+faIconCode+alertHeading+"</h4>";
-        }
-        else if (headSize == "h5"){
-        var resizedHead = "<h5 class=\"text-"+colourName+"\"> "+faIconCode+alertHeading+"</h3>";
-        }
-    
-        if (dmoption == "dismissable"){
-            var textOutput = alertDMColourCode+resizedHead+alertCode+monAlertD_Close;
-        }
-        else if (dmoption == "permanent"){
-            var textOutput = alertPColourCode+resizedHead+alertCode+monAlertP_Close;
-        }
- 
-        document.getElementById('monAlertCode').innerHTML=textOutput;
+
+        document.getElementById("monAlertCode").innerHTML = textOutput;
         //SelectAll("monAlertCode");
-        $('#demo').nextAll('div').remove();
-        $('#demo').after(textOutput);
-        }
+        $("#demo").nextAll("div").remove();
+        $("#demo").after(textOutput);
+    }
 
-    function SelectAll(id){
+    function SelectAll(id) {
         document.getElementById(id).focus();
         document.getElementById(id).select();
         document.execCommand("copy");
@@ -176,22 +174,13 @@
         popup.classList.toggle("showPopup");
         //window.alert('test');
     }
-    
-    function submitform()
-    {
+
+    function submitform() {
         document.forms["myform"].submit();
     }
     $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
-    /* Variable Key
-    These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
-
-    monAlert = Monash themed alert
-    monAlertD = Monash themed alert that can be dismissed
-    */
-    
-   
+        $('[data-toggle="tooltip"]').tooltip();
+    });
     </script>
     <script>   
       window.onload=function(){
@@ -211,13 +200,28 @@
           activeNav();
       }, 100);
     };
-    </script>
-       <style>
-        .mce-notification-inner, .mce-close, .mce-notification-warning {
-        display:none !important;
-        }
 
-        /* Popup container - can be anything you want */
+    var textarea = $("#alertHeading");
+    var select = $("#headSize");
+    var addOrRemoveRequiredAttribute = function () {
+        if (textarea.val().length) {
+            select.val("h5");
+        }
+    };
+
+    // Run now
+    addOrRemoveRequiredAttribute();
+
+    // And when textarea changes
+    textarea.on("change", addOrRemoveRequiredAttribute);
+    </script>
+
+    <style>
+    .mce-notification-inner, .mce-close, .mce-notification-warning {
+    display:none !important;
+    }
+
+    /* Popup container - can be anything you want */
     #popup {
     position: relative;
     display: inline-block;
@@ -264,55 +268,57 @@
     }
   
     /* Add animation (fade in the popup) */
-@-webkit-keyframes fadeinout {
-  0%,100% { opacity: 0; }
-  10% {opacity: 1;}
-  66% { opacity: 1; }
-}
+    @-webkit-keyframes fadeinout {
+      0%,100% { opacity: 0; }
+      10% {opacity: 1;}
+      66% { opacity: 1; }
+    }
 
-@keyframes fadeinout {
-  0%,100% { opacity: 0; }
-  10% {opacity: 1;}
-  66% { opacity: 1; }
-}
-.tooltip-inner {
-  text-align: left;
-  padding: 15px;
-  font-size: 1.05rem;
-  max-width: 400px;
-}
-
+    @keyframes fadeinout {
+      0%,100% { opacity: 0; }
+      10% {opacity: 1;}
+      66% { opacity: 1; }
+    }
+    .tooltip-inner {
+      text-align: left;
+      padding: 15px;
+      font-size: 1.05rem;
+      max-width: 400px;
+    }
     </style> 
-    </head>
-    <body>
-      <div id="beestNav"></div>
-<div class="container-fluid">
-  <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
-    <div class="h6"><i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle"></i>Overuse of alerts on a page can become like OHS signage. They simply fade into the background, and all of a sudden the 'important' information you want students to notice, becomes less important than the rest of the text on the screen. Use them sparingly.</div>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+  </head>
+<body>
+  <div id="beestNav"></div>
+  <div class="row w-100 mb-5"></div>
+  <div class="row w-100 mb-4"></div>
+  <div class="container-fluid">
+    <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
+      <div class="h6"><i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle"></i>Overuse of alerts on a page can become like OHS signage. They simply fade into the background, and all of a sudden the 'important' information you want students to notice, becomes less important than the rest of the text on the screen. Use them sparingly.</div>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
     </div>
-  <h1 class="text-center"><i class="fa fa-exclamation-circle fa-fw"></i> Alert</h1>
+    <h1 class="text-center"><i class="fa fa-exclamation-circle fa-fw"></i> Alert</h1>
+    
     <div class="row w-100">
       <div class="col-lg mt-2">
         <div class="hideableinstruct">
-  <h5>The result of this process</h5>
-  <p>This process will generate what is termed an 'alert'. It is a box that 'sticks out' from the rest of the text to alert students to important information on the page. You can choose whether to make this alert permanent, or add the option to dismiss/close it.</p>
-  <h5>How to use this page</h5>
-  <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle, <a data-toggle="modal" data-target=".bhhd-example-modal-lg" href="">this short video will help</a> (it will open in an overlay on this screen).</p>
-  <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content p-2">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>   
+          <h5>The result of this process</h5>
+          <p>This process will generate what is termed an 'alert'. It is a box that 'sticks out' from the rest of the text to alert students to important information on the page. You can choose whether to make this alert permanent, or add the option to dismiss/close it.</p>
+          <h5>How to use this page</h5>
+          <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle, <a data-toggle="modal" data-target=".bhhd-example-modal-lg" href="">this short video will help</a> (it will open in an overlay on this screen).</p>
+          <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content p-2">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>   
+                </div>
+              <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe></div>
+              </div>
+            </div>
+          </div>
         </div>
-      <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe></div>
-      </div>
-    </div>
-  </div>
-  </div>
   <h5>Refresh this page</h5>
   <div class="row w-100">
     <div class="col-lg">
@@ -415,21 +421,7 @@
         <div id="demo"></div>
         <p class="my-3"></p>
         </div>
-        <script>
-          var textarea = $('#alertHeading');
-          var select = $('#headSize');
-          var addOrRemoveRequiredAttribute = function () {
-          if (textarea.val().length) {
-          select.val("h5")
-          }
-          };
-          
-          // Run now
-          addOrRemoveRequiredAttribute();
-          
-          // And when textarea changes
-          textarea.on('change', addOrRemoveRequiredAttribute);
-          </script>
+
         <div id="beestFooter"></div>
         </body>
         </html>
