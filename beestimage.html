@@ -560,10 +560,18 @@
 <script>
     $('#respImgSwitch').on('input', function(event) {
     var s = $('#respImgSwitch').val().toString();
-    
+
     if (s.includes("unsplash.com") == true) {
-    //code for converting Vimeo link from Viewer to Embed
+    //code for replacing unplash link with embed code
     var x = s.replace('https://unsplash.com/photos','https://source.unsplash.com');
+    }
+
+    else if (s.includes("pexels.com") == true) {
+    //code for replacing stocksnap link with embed code
+    var y = s.replace('https://www.pexels.com/photo/','');
+    var x = y.replace('/','');
+    var pexelsid = x.match(/\d+/)[0];
+    var x = "https://images.pexels.com/photos/" + pexelsid + "/pexels-photo-" + pexelsid + ".jpeg";
     }
 
     $('#respImgSwitch').val(x);
