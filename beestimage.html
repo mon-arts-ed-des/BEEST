@@ -427,6 +427,7 @@
       $('#beestNav').load('common/beestnav.html');
       $('#beestFooter').load('common/beestfooter.html');
       function activeNav() {
+        //retrieve the file name from the url
         var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
          $(".nav-link").each(function(){
               if($(this).attr("href") == pgurl || $(this).attr("href") == '' )
@@ -458,6 +459,9 @@
 			</li>
 			<li class="nav-item">
 			  <a class="nav-link" href="beestvideo.html">Video</a>
+      </li>
+      <li class="nav-item">
+			  <a class="nav-link" href="beestimage.html">Image<span class="sr-only">(current)</span></a>
 			</li>
 			<li class="nav-item">
 			<a class="nav-link" href="beestbutton.html">Button</a>
@@ -466,7 +470,7 @@
 			  <a class="nav-link" href="beestalert.html">Alert</a>
 			</li>
 			<li class="nav-item">
-			  <a class="nav-link active" href="beesttable.html">Table <span class="sr-only">(current)</span></a>
+			  <a class="nav-link active" href="beesttable.html">Table</a>
 			</li>
 			   <li class="nav-item">
 			  <a class="nav-link" href="beestpollev.html">Poll Everywhere</a>
