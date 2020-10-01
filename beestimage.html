@@ -492,8 +492,8 @@
     <div class="row w-100 mx-auto">
         <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your image. When you paste the link into this box it will automatically change the link to be the embed link required for the platform you are pasting from this process to work.">Step 1 - Image link</h5>
         <div class="row w-100 mx-auto">
-        <p>Please find your image from <a href="https://unsplash.com" target="_blank">Unsplash</a>/<a href="https://www.pexels.com" target="_blank">Pexels</a> and paste the URL here</p>
-        <textarea class="rounded p-2 w-100" rows="1" name="respImgSwitch" type="text" id="respImgSwitch" placeholder="Paste the Unsplash/Pexels image link here" onchange=generateCode()></textarea>
+        <p>Please find your image from <a href="https://unsplash.com" target="_blank">Unsplash</a>/<a href="https://www.pexels.com" target="_blank">Pexels</a>/<a href="https://stocksnap.io/" target="_blank">StockSnap</a> and paste the URL here</p>
+        <textarea class="rounded p-2 w-100" rows="1" name="respImgSwitch" type="text" id="respImgSwitch" placeholder="Paste the Unsplash/Pexels/StockSnap image link here" onchange=generateCode()></textarea>
         </div>
         <div ng-controller="driveController">        
           <!--<div ng-show="checkingLogin">Checking login status...</div>
@@ -619,8 +619,16 @@
     //code for replacing stocksnap link with embed code
     var y = s.replace('https://www.pexels.com/photo/','');
     var x = y.replace('/','');
+    //use regular expression to find the id number
     var pexelsid = x.match(/\d+/)[0];
     var x = "https://images.pexels.com/photos/" + pexelsid + "/pexels-photo-" + pexelsid + ".jpeg";
+    }
+
+    else if (s.includes("stocksnap.io") == true) {
+    //code for replacing unplash link with embed code
+    var y = s.replace('https://stocksnap.io/photo/','https://cdn.stocksnap.io/img-thumbs/960w/');
+    //use regular expression to convert the last - to _
+    var x = y.replace(/-([^-]*)$/,'_$1') + ".jpg"
     }
 
     $('#respImgSwitch').val(x);
