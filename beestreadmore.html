@@ -200,6 +200,8 @@
     </head>
     <body>
       <div id="beestNav"></div>
+      <div class="row w-100 mb-5"></div>
+      <div class="row w-100 mb-4"></div>
         <div class="container-fluid">
           <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
             <div class="h6 mb-0"><i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle"></i>You can produce multiple read more buttons on this page. It is important to number the buttons differently if you are planning on embedding them in the same page. If two buttons have the same number assigned to them, the second button will not work correctly.</div>
@@ -278,7 +280,7 @@
           <div class="col-lg mt-2">
         <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 6.">Step 5 - Generate/copy code</h5>
         <div>
-    <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy code" onClick=generateReadMoreCode()></p>
+    <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Copy your code" onClick=copyCode()></p>
     </div>
     <textarea readonly class="rounded p-2 w-100" id="readMoreCode" cols="70" rows="3" name="Result" placeholder="When you click the button above, it will create the code or your alert and copy it to the clipboard." onchange=generateReadMoreCode()></textarea>
   </div>
