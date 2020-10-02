@@ -72,11 +72,14 @@
         var readMoreBtnTxt = document.getElementById('readMoreBtnTxt').value;
         var readMoreOutput = readMoreContainer+readMoreBefore+readMore_1+readMoreNumber+readMore_2+readMoreAfter+readMore_3+readMoreNumber+readMore_4+readMoreBtnTxt+readMore_5+readMoreClose;
         document.getElementById('readMoreCode').innerHTML=readMoreOutput;
-        SelectAll("readMoreCode");
+        //SelectAll("readMoreCode");
         $('#demo').nextAll('div').remove();
         $('#demo').after(readMoreOutput);
         }
-    
+
+    function copyCode(){
+      SelectAll("readMoreCode");
+    }
 
     function SelectAll(id){
         document.getElementById(id).focus();
@@ -278,7 +281,7 @@
         </div></div>
         <div class="row w-100 mx-auto">
           <div class="col-lg mt-2">
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 6.">Step 5 - Generate/copy code</h5>
+        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 6.">Step 5 - Copy code and paste them into Moodle</h5>
         <div>
     <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Copy your code" onClick=copyCode()></p>
     </div>
