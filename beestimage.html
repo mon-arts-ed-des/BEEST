@@ -309,8 +309,10 @@
         var firstCol="<div class=\"col-lg\">"
         var imgTag = "<img class=\"img-fluid\" src=\""
         var firstCol4="<div class=\"col-lg-4\">"
+        var firstCol3="<div class=\"col-lg-3\">"
         var secCol="<div class=\"col-lg mt-2\">"
         var secCol4="<div class=\"col-lg-4 mt-2\">"
+        var secCol3="<div class=\"col-lg-3 mt-2\">"
         var closeCol="\"></div>"
         var closeCol_r="</div>"
         var closeRow="</div></div>"
@@ -360,6 +362,12 @@
         }
         else if (imgWidth == "33" && imgPosition== "right"){
           secCol=secCol4;
+        }
+        else if (imgWidth == "25" && imgPosition== "left"){
+          firstCol=firstCol3;
+        }
+        else if (imgWidth == "25" && imgPosition== "right"){
+          secCol=secCol3;
         }
 
           if (url !== imageplaceholder)
@@ -708,6 +716,7 @@
                       <select class="custom-select w-50 border border-dark" id="imageWidth" name="imageWidth" size="1" onchange=generateCode()>
                       <option value="50" selected>50% (1/2)</option>
                       <option value="33">33.3% (1/3)</option>
+                      <option value="25">25% (1/4)</option>
                     </select>
                     </div> 
                   </div> 
@@ -749,7 +758,7 @@
     <div class="row w-100 mx-auto">
     <div class="col-lg-8 mt-2">
         <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 8 - Copy code and paste them into Moodle</h5>
-        <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Copy your code</>" onClick=copyCode() ></p>
+        <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Copy your code </>" onClick=copyCode() ></p>
         <textarea readonly class="rounded p-2 w-100" id="txtarearespImg" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here"></textarea>
         
         <!--<input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Write back to Moodle" onClick=writeinMoodle() >-->
