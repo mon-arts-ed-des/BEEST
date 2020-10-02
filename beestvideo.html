@@ -144,21 +144,28 @@
         }
 		
         var resizedHead;
-            //Resizing the heading text
-        switch(headSize){
-          case "noH":
-            resizedHead = "";
-            break;
-          case "h3":
-            resizedHead = head_3+faIconCode+vidHeading+endHead_3;
-            break;
-          case "h4":
-            resizedHead = head_4+faIconCode+vidHeading+endHead_4;
-            break;
-          case "h5":
-            resizedHead = head_5+faIconCode+vidHeading+endHead_5;
-            break;
+
+        if(vidHeading == ""){
+          resizedHead = "";
         }
+        else{
+            //Resizing the heading text
+          switch(headSize){
+            case "noH":
+              resizedHead = "";
+              break;
+            case "h3":
+              resizedHead = head_3+faIconCode+vidHeading+endHead_3;
+              break;
+            case "h4":
+              resizedHead = head_4+faIconCode+vidHeading+endHead_4;
+              break;
+            case "h5":
+              resizedHead = head_5+faIconCode+vidHeading+endHead_5;
+              break;
+          }
+        }
+
         //Change size of column if requested
         if (vWidth == "33" && vPosition == "left"){
           firstCol=firstCol4;
