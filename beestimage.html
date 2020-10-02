@@ -337,24 +337,27 @@
 		
         if (faIcon == "noI"){
           faIconCode = "";
+        }  
+
+    		var resizedHead;  
+    
+        if(imgHeading == ""){
+          resizedHead = "";
         }
-		
-		var resizedHead;
-        //Resizing the heading text
-		switch(headSize){
-			case "noH":
-				resizedHead = "";
-				break;
-			case "h3":
-				resizedHead = head_3+faIconCode+imgHeading+endHead_3;
-				break;
-			case "h4":
-				resizedHead = head_4+faIconCode+imgHeading+endHead_4;
-				break;
-			case "h5":
-				resizedHead = head_5+faIconCode+imgHeading+endHead_5;
-				break;
-    }
+        else{
+            //Resizing the heading text
+        switch(headSize){
+          case "h3":
+            resizedHead = head_3+faIconCode+imgHeading+endHead_3;
+            break;
+          case "h4":
+            resizedHead = head_4+faIconCode+imgHeading+endHead_4;
+            break;
+          case "h5":
+            resizedHead = head_5+faIconCode+imgHeading+endHead_5;
+            break;
+        }
+      }
     
         //Change size of column if requested
         if (imgWidth == "33" && imgPosition == "left"){
