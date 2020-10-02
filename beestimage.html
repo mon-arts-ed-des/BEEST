@@ -642,6 +642,22 @@
         <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your image. When you paste the link into this box it will automatically change the link to be the embed link required for the platform you are pasting from this process to work.">Step 1 - Image link</h5>
         <div class="row w-100 mx-auto">
         <p>Please find your image from <a href="https://unsplash.com" target="_blank">Unsplash</a>/<a href="https://www.pexels.com" target="_blank">Pexels</a>/<a href="https://stocksnap.io/" target="_blank">StockSnap</a> and paste the URL here</p>
+
+        <!--<a data-toggle="modal" data-target=".panopto-modal" href="">search an image here</a>
+            <div class="modal fade panopto-modal" tabindex="-1" role="dialog" aria-labelledby="panopto-modal" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content p-2">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=b84fa926-7531-4321-8f0b-ac2c0000d69d"></iframe></div>
+              </div>
+            </div>
+          </div>-->
+
         <textarea class="rounded p-2 w-100" rows="1" name="respImgSwitch" type="text" id="respImgSwitch" placeholder="Paste the Unsplash/Pexels/StockSnap image link here" onchange=generateCode()></textarea>
         </div>
         <div ng-controller="driveController">        
@@ -733,7 +749,7 @@
     <div class="row w-100 mx-auto">
     <div class="col-lg-8 mt-2">
         <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 8 - Copy code and paste them into Moodle</h5>
-        <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Copy your code" onClick=copyCode() ></p>
+        <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Copy your code</>" onClick=copyCode() ></p>
         <textarea readonly class="rounded p-2 w-100" id="txtarearespImg" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here"></textarea>
         
         <!--<input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Write back to Moodle" onClick=writeinMoodle() >-->
