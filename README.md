@@ -10,8 +10,8 @@ If you are producing high quality teaching and learning in your Moodle site, and
 ## How do I use the BEEST?
 On each of the pages there are step by step instructions on what input you need to provide, and how to manipulate the respective element to produce the final result desired. Each page will also produce a preview. This is so you can take a sneak peek at what you have created before pasting it into Moodle and make and changes you feel are necessary.
 
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
+<!--## License
+[MIT](https://choosealicense.com/licenses/mit/)-->
 <!--# BEEST
 
 <script type="text/javascript">
