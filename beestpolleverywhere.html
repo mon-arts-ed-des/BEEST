@@ -16,7 +16,7 @@
     <meta name="description" content="A simple element creator to generate responsive code that can be easily embbedded into Moodle">
     <meta name="author" content="T&M">
     <title>BEEST Poll Everywhere</title>
-<link rel="icon" href="img/dragon-solid-favicon.png" type="image/gif">
+    <link rel="icon" href="img/dragon-solid-favicon.png" type="image/gif">
     <!-- external link to css file --> 
     <!-- Bootstrap CSS -->   
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -33,12 +33,15 @@
     <script src="https://kit.fontawesome.com/3817feae52.js"></script> 
     <!-- Tinymce js file -->   
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
-	  <script src="js/advancedModeLocalStorage.js"></script>
+    <script src="js/advancedModeLocalStorage.js"></script>
+    <!-- TinyMCE placeholder plugin file -->
+    <script src="js/placeholder.js"></script> 
     <script type="text/javascript">
    tinymce.init({
         selector: '#tinyMCEpollEv',
         menubar: false,
-        plugins : 'advlist autolink link lists charmap print preview code',
+        plugins : 'advlist autolink link lists charmap print preview code placeholder',
+        placeholder: '[Placeholder for poll context.]',
         toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat'  
       });
     function generatePollEvCode() {
@@ -346,7 +349,7 @@
     <div class="row w-100 mx-auto mt-2">
     <div class="col-lg-8">
         <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="If you already have written the context for your poll in Moodle, skip this step, generate the embed code for your poll and paste it after your context in Moodle. Otherwise, writing some instructions, or context for students on your poll will help the students to respond correctly. Write your context in the space below. You can use headings, bold, italics and lists if needed in your instructions.">Step 5 - Write the context for the poll (optional)</h5>
-        <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="3" name="pollEv_text" id="tinyMCEpollEv" placeholder="Write/paste the text for the button here" onchange=generatePollEvCode()></textarea>
+        <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="3" name="pollEv_text" id="tinyMCEpollEv" onchange=generatePollEvCode()></textarea>
       </div>
     </div>
         
