@@ -516,20 +516,26 @@
         }
 		
 		var resizedHead;
+
+		if(tableMainHeading == ""){
+          resizedHead = "";
+		}
+		else{
         //Resizing the heading text
-		switch(headSize){
-			case "noH":
-				resizedHead = "";
-				break;
-			case "h3":
-				resizedHead = head_3+faIconCode+tableMainHeading+endHead_3;
-				break;
-			case "h4":
-				resizedHead = head_4+faIconCode+tableMainHeading+endHead_4;
-				break;
-			case "h5":
-				resizedHead = head_5+faIconCode+tableMainHeading+endHead_5;
-				break;
+			switch(headSize){
+				case "noH":
+					resizedHead = "";
+					break;
+				case "h3":
+					resizedHead = head_3+faIconCode+tableMainHeading+endHead_3;
+					break;
+				case "h4":
+					resizedHead = head_4+faIconCode+tableMainHeading+endHead_4;
+					break;
+				case "h5":
+					resizedHead = head_5+faIconCode+tableMainHeading+endHead_5;
+					break;
+			}
 		}
 		var textOutputTable = newTableCode(tableContents)
 	    
@@ -774,7 +780,7 @@
 	  <div class="row w-100 mx-auto">
 		<div class="col-lg-6">
 		<h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 2) and choose a heading size (step 3) or the icon and heading will not display.">Step 3 - Select icon (optional)</h5>
-		<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1" onchange="iconpreview()">
+		<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1" onchange="generateTableCode()">
 			<option selected value="noI">No icon</option>
 			<option value="1">Calendar</option>
 			<option value="2">Numbered list</option>
