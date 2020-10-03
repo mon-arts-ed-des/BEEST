@@ -23,6 +23,8 @@
     <!-- Tinymce js file -->   
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
     <script src="js/advancedModeLocalStorage.js"></script>
+    <!-- TinyMCE placeholder plugin file -->
+    <script src="js/placeholder.js"></script> 
     <script>
     window.gapiCallbacks=[];
 
@@ -136,23 +138,22 @@
 
     tinymce.init({
         selector: '#tinyMCEimage',
-        plugins: 'Write or paste your image context here',
         menubar: false,
-        plugins : 'advlist autolink link lists charmap print preview code',
+        plugins : 'advlist autolink link lists charmap print preview code placeholder',
+        placeholder:'[Placeholder for image context. The content you entered in step 2 will appear here.]',
         toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat',
         setup : function(ed) {      
         ed.on('change', function (e) {	
           generateCode();
           });	
-        /* ed.on('init', function(e){
+        /*ed.on('init', function(e){
           if (tinymce.get('tinyMCEimage').getContent() == ''){
           tinymce.get('tinyMCEimage').setContent("<p id='#imThePlaceholder' style='opacity:0.6'>[Placeholder for image context. The content you entered in step 2 will appear here.]</p>");
           }
         });
         //and remove it on focus
         ed.on('focus',function(e){
-          //imThePlaceholder.parentNode.removeChild(imThePlaceholder);
-          $('iframe').contents().find('#imThePlaceholder').remove();
+            $('iframe').contents().find('#imThePlaceholder').remove();
         })*/			
       }
     });
