@@ -37,30 +37,33 @@
     <!-- Tinymce js file -->   
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
     <script src="js/advancedModeLocalStorage.js"></script>
-    
+    <!-- TinyMCE placeholder plugin file -->
+    <script src="js/placeholder.js"></script> 
+
     <script type="text/javascript">
-	const maxTabs = 10 //when to stop creating - I think min 3 max 10 like accordions is the best for consistency.
-	const requiredInitialTabs = 3; //the default number of tabs to start with
-	const TINYMCE_ID_BASE = "tinyMCEmonTabContent"
-	const HEADING_ID_BASE = "monAccTabHeadingTxt"
-	const INNER_HEADING_ID_BASE = "monTabContent"
-	const OUTER_BLOCK_ID_BASE = "outerblock"
-	const DO_NOT_USE = "DO_NOT_USE"
-	const COUNTER_ID="tabCounter"
-	const absoluteMinTab = 3;
+    const maxTabs = 10 //when to stop creating - I think min 3 max 10 like accordions is the best for consistency.
+    const requiredInitialTabs = 3; //the default number of tabs to start with
+    const TINYMCE_ID_BASE = "tinyMCEmonTabContent"
+    const HEADING_ID_BASE = "monAccTabHeadingTxt"
+    const INNER_HEADING_ID_BASE = "monTabContent"
+    const OUTER_BLOCK_ID_BASE = "outerblock"
+    const DO_NOT_USE = "DO_NOT_USE"
+    const COUNTER_ID="tabCounter"
+    const absoluteMinTab = 3;
 	
- 	tinymce.init({
-			selector: '#'+TINYMCE_ID_BASE+'1',
-      menubar: false,
-        plugins : 'advlist autolink link lists charmap print preview code',
-        toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
-        'undo redo | charmap | autolink link | code | removeformat' ],
-        setup : function(ed) {      
-        ed.on('change', function (e) {	
-          generateTabbedContentCode();
-          });					
-        }
-      });
+    tinymce.init({
+        selector: '#'+TINYMCE_ID_BASE+'1',
+        menubar: false,
+          plugins : 'advlist autolink link lists charmap print preview code placeholder',
+          placeholder: 'Input the context for your tab button here',
+          toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
+          'undo redo | charmap | autolink link | code | removeformat' ],
+          setup : function(ed) {      
+          ed.on('change', function (e) {	
+            generateTabbedContentCode();
+            });					
+          }
+        });
 
 		var createdTabs = 1; //representing how many tabs are currently available on the page
 		var visibleTabs = 1;
@@ -91,7 +94,8 @@
 			tinymce.init({
 				selector: '#'+TINYMCE_ID_BASE+tabNum,
         menubar: false,
-        plugins : 'advlist autolink link lists charmap print preview code',
+        plugins : 'advlist autolink link lists charmap print preview code placeholder',
+        placeholder: 'Input the context for your tab button here',
         toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
         'undo redo | charmap | autolink link | code | removeformat' ],
         setup : function(ed) {      
