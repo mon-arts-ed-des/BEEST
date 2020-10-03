@@ -104,7 +104,7 @@
         if (tinyMCE.get("tinyMCEalert").getContent() !== "") {
             alertCode = tinyMCE.get("tinyMCEalert").getContent();
         } else {
-            alertCode = "[Placeholder for alert context. The content you entered in step 2 will appear here.]";
+            alertCode = "[Placeholder for alert context. The content you entered in step 1 will appear here.]";
         }
 
         var dmoption = document.getElementById("dmoption").value;
@@ -142,15 +142,30 @@
             var alertPColourCode = '<div class="alert alert-' + colourName + ' rounded" role="alert">';
             var alertDMColourCode = '<div class="alert alert-' + colourName + ' rounded alert-dismissible fade show" role="alert">';
         }
+
+        var head_3="<h3>";
+        var endHead_3="</h3>";
+        var head_4="<h4>";
+        var endHead_4="</h4>";
+        var head_5="<h5>";
+        var endHead_5="</h5>";
+
+        if(alertHeading == ""){
+          resizedHead = "";
+        }
+        else{
         //Resizing the heading text
-        if (headSize == "noH") {
-            var resizedHead = "";
-        } else if (headSize == "h3") {
-            var resizedHead = '<h3 class="text-' + colourName + '"> ' + faIconCode + alertHeading + "</h3>";
-        } else if (headSize == "h4") {
-            var resizedHead = '<h4class="text-' + colourName + '"> ' + faIconCode + alertHeading + "</h4>";
-        } else if (headSize == "h5") {
-            var resizedHead = '<h5 class="text-' + colourName + '"> ' + faIconCode + alertHeading + "</h3>";
+          switch(headSize){
+          case "h3":
+              resizedHead = head_3+faIconCode+alertHeading+endHead_3;
+              break;
+            case "h4":
+              resizedHead = head_4+faIconCode+alertHeading+endHead_4;
+              break;
+            case "h5":
+              resizedHead = head_5+faIconCode+alertHeading+endHead_5;
+              break;
+          }
         }
 
         if (dmoption == "dismissable") {
