@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Arts CSS -->  
     <link rel="stylesheet" href="css/adminPlusSetuBlockStyle.css" />
+    <link rel="stylesheet" href="css/main.css" />
     <!-- external link to js file -->  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -22,76 +23,6 @@
     <!-- Tinymce js file -->   
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
     <script src="js/advancedModeLocalStorage.js"></script>
-    <style>
-        .mce-notification-inner, .mce-close, .mce-notification-warning {
-        display:none !important;
-        }
-              /* Popup container - can be anything you want */
-    #popup {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    }
-
-    /* The actual popup */
-    #popup .popuptext {
-    visibility: hidden;
-    width: 220px;
-    background-color: #222222;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 10px 5px;
-    position: absolute;
-    z-index: 1;
-    bottom:100%;
-    left: 50%;
-    margin-left: -110px;
-    }
-
-    /* Popup arrow */
-    #popup .popuptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-    }
-
-    /* Toggle this class - hide and show the popup */
-    #popup .showPopup {
-    -webkit-animation: fadeinout 4s linear forwards;
-    animation: fadeinout 4s linear forwards;
-    visibility: visible;
-    }
-
-    /* Add animation (fade in the popup) */
-    @-webkit-keyframes fadeinout {
-      0%,100% { opacity: 0; }
-      10% {opacity: 1;}
-      66% { opacity: 1; }
-    }
-
-    @keyframes fadeinout {
-      0%,100% { opacity: 0; }
-      10% {opacity: 1;}
-      66% { opacity: 1; }
-    }
-    .tooltip-inner {
-      text-align: left;
-      padding: 15px;
-      font-size: 1.05rem;
-      max-width: 480px;
-    }
-
-    </style>
     <script>
     window.gapiCallbacks=[];
 
@@ -439,31 +370,28 @@
   <script src="js/drive-service.js"></script>
   <script>   
     window.onload=function(){
+      generateCode();
       $('#beestNav').load('common/beestnav.html');
       $('#beestFooter').load('common/beestfooter.html');
       function activeNav() {
-        //retrieve the file name from the url
         var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
          $(".nav-link").each(function(){
               if($(this).attr("href") == pgurl || $(this).attr("href") == '' )
               $(this).addClass("active");
-              $(this).append('<span class="sr-only">(current)</span>')
+              $(this).append('<span class="sr-only">(current)</span>');
          });
     }
     
-    activeNav();
-    /*setTimeout(function() {
+    setTimeout(function() {
         activeNav();
-    }, 100);*/
-
+    }, 100);
   };
-
   </script>
 
 </head>
-<body onload="generateCode()">
+<body>
+    <div id="beestNav"></div>
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-arts mb-3">
-  <!--<nav class="navbar navbar-expand-lg navbar-dark bg-arts mb-3">-->
 		<a class="navbar-brand text-center border border-white p-2 rounded" href="index.html"><img src="img/dragon-solid-white.png" width="30" height="30" alt=""></a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 		  <span class="navbar-toggler-icon"></span>
@@ -509,7 +437,6 @@
 		  </ul>
     </div>
 	  </nav>
-  <div id="beestNav"></div>
   <div class="row w-100 mb-5"></div>
   <div class="row w-100 mb-4"></div>
 <div class="container-fluid">
