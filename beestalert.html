@@ -34,7 +34,9 @@
     <script src="https://kit.fontawesome.com/3817feae52.js"></script> 
     <!-- Tinymce js file -->   
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
-	  <script src="js/advancedModeLocalStorage.js"></script>
+    <script src="js/advancedModeLocalStorage.js"></script>
+    <!-- TinyMCE placeholder plugin file -->
+    <script src="js/placeholder.js"></script> 
     <script type="text/javascript">
     
     /* Variable Key
@@ -47,7 +49,8 @@
     tinymce.init({
     selector: "#tinyMCEalert",
     menubar: false,
-    plugins: "advlist autolink link lists charmap print preview code",
+    plugins: "advlist autolink link lists charmap print preview code placeholder",
+    placeholder: "[Placeholder for alert context. The content you entered in step 1 will appear here.]",
     toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat",
     setup: function (ed) {
         ed.on("change", function (e) {
@@ -437,6 +440,5 @@
         <p class="my-3"></p>
         </div>
 
-        <div id="beestFooter"></div>
         </body>
         </html>
