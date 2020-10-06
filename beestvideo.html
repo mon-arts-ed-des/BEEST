@@ -526,6 +526,7 @@
         else if (s.includes("ted.com") == true) {
           var x = s.replace('www.ted.com','embed.ted.com');
         }
+        $('#respVidSwitch').val(x);
         
         document.getElementById('vid').src = x;
         var videopreview = document.getElementById('videopreview');
@@ -541,7 +542,6 @@
           videoPreviewText.style.display = "none";          
         }
 
-        $('#respVidSwitch').val(x);
         //$('input[type="text"], textarea#respVidSwitch').attr('readonly','readonly');
       }); 
       var textarea = $('#respVidHeading');
