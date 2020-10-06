@@ -55,6 +55,7 @@
         }
       });
 	
+	const ACCORD_HIST = "history_accordion"
 	const COUNTER_ID = "accordCounter"
 	const absoluteMaxAccord = 10;
 	const absoluteMinAccord = 3;
@@ -342,7 +343,7 @@
 				break;
 		}
 		
-		var monAccOutput = monAccStyle+resizedHead;
+		var monAccOutput = resizedHead;
 		
 		// loop over every accordion block
 		for (var secNum = 1; secNum <= accordianSectionsCurr; secNum++){
@@ -362,14 +363,100 @@
 			monAccOutput += monAccContent[secNum]
 			monAccOutput += monAcc_10
 		} 
-        document.getElementById('monAccCode').innerHTML=monAccOutput+monAcc_Close;
+		
+		monAccOutput+=monAcc_Close
+        document.getElementById('monAccCode').innerHTML=monAccStyle+monAccOutput;
         //SelectAll("monAccCode");
         $('#demo').nextAll('div, h3, h4, h5, i').remove();
         $('#demo').after(monAccOutput);
         }
 
+class accordDraw{
+	constructor(head,content){
+		this.head = head
+		this.content = content
+	}
+	toObj(){
+		var out = {}
+		out.head = this.head
+		out.content = this.content
+		return out
+	}
+	
+	fromObj(objectForm){
+		this.head = out.head
+		this.content = out.content
+	}
+
+	toString(){
+		return JSON.stringify(this.toObj())
+	}
+}
+
+class accordion{
+	constructor(mainHead,headSize,icon,drawerList){
+		this.mainHead = mainHead
+		this.headSize = headSize
+		this.icon = icon
+		this.drawerList = this.PDO_drawerListToDrawers(drawerList)
+	}
+	
+	PDO_drawerListToDrawers(drawerList){
+		var res = []
+		for (var dCount = 0; dCount < drawerList.length; dCount++){
+			res.push(new accordDraw(null,null))
+			res[dCount].fromObj(drawerList[dCount])
+		}
+		return res
+	}
+	
+	toObj(){
+		var out = {}
+		out.mainHead = this.mainHead
+		out.headSize = this.headSize
+		out.icon = this.icon
+		var publicDraw = []
+		for (var drawI=0;drawI<this.drawerList.length; drawI++){
+			publicDraw.push(this.drawerList[drawI].toObj())
+		}
+		out.drawerList = publicDraw
+		return out
+	}
+	
+	toString(){
+		return JSON.stringify(this.toObj())
+	}
+	
+	fromObj(PDOObj){
+		this.mainHead = PDOObj.mainHead
+		this.headSize = PDOObj.headSize
+		this.icon = PDOObj.icon
+		this.drawerList = this.PDO_drawerListToDrawers(PDOObj.drawerList)
+	}
+
+}
+
+function addToHistory(currAccord){
+	var localCurr = localStorage.getItem(ACCORD_HIST)
+	if (localCurr == undefined){
+		localCurr = "[]"
+		localStorage.setItem(ACCORD_HIST,localCurr)
+	}
+	localCurr = JSON.parse(localCurr) //now an array of objects
+	localCurr.push(currAccord)
+	localCurr = JSON.stringify(localCurr) //now a string again -- currAccord should have had its toString method called
+	localStorage.setItem(ACCORD_HIST,localCurr)
+}
+
+function recoverHistory(index){
+	/*get from local then populate the text fields*/
+}
+
     function copyCode(){
       SelectAll("monAccCode");
+	  /*
+	  TRIGGER save to local storage
+	  */
     }
         
     function SelectAll(id){
