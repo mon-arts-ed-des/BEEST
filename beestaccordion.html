@@ -59,6 +59,7 @@
 	const COUNTER_ID = "accordCounter"
 	const absoluteMaxAccord = 10;
 	const absoluteMinAccord = 3;
+	var classAccord = null
 	var accordianSectionsCurr = 1;
 	var accordianSectionsTotalMade = 1;
 	var accordiansPostInit = []
@@ -289,6 +290,25 @@
 		return {cont: monAccCont, btn: monAccBtn, length:idList.length}
 	}
 	
+	function accordionDataToClass(heading,size,icon,heads,conts){
+		/*
+		accordion{
+	constructor(mainHead,headSize,icon,drawerList){
+		this.mainHead = mainHead
+		this.headSize = headSize
+		this.icon = icon
+		this.drawerList = this.PDO_drawerListToDrawers(drawerList)
+	}
+		*/
+		var accordData = new accordion(heading,size,icon,[])
+		
+		for (var hcCt=1;hcCt < heads.length; hcCt++){
+			accordData.addDrawer(heads[hcCt],conts[hcCt])
+		}
+		
+		return accordData
+	}
+	
     function generateAccCode() {
     var IDs = getTextAreas(accordListToIDs(accordiansPostInit))
 		monAccBtnTxt = IDs.btn;
@@ -296,6 +316,9 @@
     var accMainHeading = document.getElementById('accMainHeading').value;
     var headSize = document.getElementById('headSize').value;
     var faIcon = document.getElementById('faCode').value;
+	
+	classAccord = accordionDataToClass(accMainHeading,headSize,faIcon,monAccBtnTxt,monAccContent)
+	
     var head_3="<h3>"
     var endHead_3="</h3>"
     var head_4="<h4>"
@@ -401,6 +424,10 @@ class accordion{
 		this.drawerList = this.PDO_drawerListToDrawers(drawerList)
 	}
 	
+	addDrawer(head,cont){
+		this.drawerList.push(new accordDraw(head,cont))
+	}
+	
 	PDO_drawerListToDrawers(drawerList){
 		var res = []
 		for (var dCount = 0; dCount < drawerList.length; dCount++){
@@ -454,9 +481,7 @@ function recoverHistory(index){
 
     function copyCode(){
       SelectAll("monAccCode");
-	  /*
-	  TRIGGER save to local storage
-	  */
+	  addToHistory(classAccord)
     }
         
     function SelectAll(id){
