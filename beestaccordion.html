@@ -124,9 +124,10 @@
 	function showRecoveryDate(index,history){
 		try{
 			var element = history[index]
+			var heading = element.mainHead
 			var time = new Date(element.timestamp)
 			time = time.toLocaleDateString()+" "+time.toLocaleTimeString()
-			document.getElementById("recoveryDate").innerHTML = time
+			document.getElementById("recoveryDate").innerHTML = heading+" ("+time+")"
 		}
 		catch{
 			document.getElementById("recoveryDate").innerHTML = "no history available"
