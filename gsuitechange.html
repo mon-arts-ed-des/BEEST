@@ -60,38 +60,29 @@
         if (faIcon == "noI"){
           faIconCode = "";
         }
-        var head_3="<h3>"
-        var endHead_3="</h3>"
-        var head_4="<h4>"
-        var endHead_4="</h4>"
-        var head_5="<h5>"
-        var endHead_5="</h5>"
-		var resizedHead;
-        //Resizing the heading text
-		switch(headSize){
-			case "noH":
-				resizedHead = "";
-				break;
-			case "h3":
-				resizedHead = head_3+faIconCode+docHeading+endHead_3;
-				break;
-			case "h4":
-				resizedHead = head_4+faIconCode+docHeading+endHead_4;
-				break;
-			case "h5":
-				resizedHead = head_5+faIconCode+docHeading+endHead_5;
-				break;
+		var headingMap = {
+			"noH":{head:"",icon:"",val:"",end:""},
+			"h3":{head:"<h3>",icon:faIconCode,val:docHeading,end:"</h3>"},
+			"h4":{head:"<h4>",icon:faIconCode,val:docHeading,end:"</h4>"},
+			"h5":{head:"<h5>",icon:faIconCode,val:docHeading,end:"</h5>"}
 		}
+		var opt = headingMap[headSize]
+		var resizedHead = opt.head+opt.icon+opt.val+opt.end
+        //Resizing the heading text
         //window.alert(vPosition);
         var divOpen="<div>"
         var docFrame="<iframe src=\""+gDocPubLink+"\" width=\"100%\" height=\""+gDocHeight+"\" frameBorder=\"0\"></iframe>"
         var divClose="</div>"
         var dlPDFtext="<div><p><a href=\""+gDocShareLink+"\" target=\"_blank\">Download this document as a PDF</a></p></div>"
 
-        var textOutputDoc = resizedHead+divOpen+contextCode+dlPDFtext+docFrame+divClose;
+        var textOutputDoc = resizedHead+divOpen+contextCode
         if (AorB == "B") {
-        var textOutputDoc = resizedHead+divOpen+contextCode+docFrame+dlPDFtext+divClose;
+			textOutputDoc += docFrame+dlPDFtext;
         }
+		else{
+			textOutputDoc += dlPDFtext+docFrame;
+		}
+		textOutputDoc+=divClose
         
         document.getElementById('txtareaDocCode').innerHTML=textOutputDoc;
         SelectAll("txtareaDocCode");
