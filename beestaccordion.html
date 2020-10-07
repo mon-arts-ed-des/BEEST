@@ -74,8 +74,33 @@
 		/*END REQUIRED FOR HISTORY*/
 	})
 	
+	function changeDrawerCount(){
+		var revisedCount = document.getElementById(COUNTER_ID).value
+		if (isNaN(revisedCount)){
+			revisedCount = accordianSectionsCurr
+		}
+		else{
+			if (!(Number.isInteger(revisedCount))){
+				revisedCount = Number.parseInt(revisedCount)
+			}
+			if (revisedCount > absoluteMaxAccord){
+				revisedCount = absoluteMaxAccord
+			}
+			if (revisedCount < absoluteMinAccord){
+				revisedCount = absoluteMinAccord
+			}
+			while (accordianSectionsCurr < revisedCount){
+				addSection()
+			}
+			while (accordianSectionsCurr > revisedCount){
+				removeSection()
+			}
+		}
+		updatePageCounter(COUNTER_ID,revisedCount)
+	}
+	
 	function updatePageCounter(ID,currCounter){
-		document.getElementById(ID).innerHTML = currCounter;
+		document.getElementById(ID).value = currCounter;
 	}
 	
 	function accordianSectionTemplate(num){
@@ -803,7 +828,7 @@ function getHistoryI(index,history){
 <button id="minusbutton" style="display:none;" onclick="removeSection()" type="button" class="btn btn-danger">Remove drawer <i class="fa fa-fw fa-times"></i></button>
 </div>
 <div class="btn-group-lg" role="group"><span class="ml-3 h5">Current number of drawers</span>
-  <div class="border border-dark px-3 py-2 h5 rounded ml-1 btn" style="cursor:default ;"><div><span id="accordCounter">0</span></div></div>
+  <input class="border border-dark px-3 py-2 h5 rounded ml-1 btn" style="cursor:default ;" id="accordCounter" onchange="changeDrawerCount()" value=0>
   </div>  
 </div>
 </div>
