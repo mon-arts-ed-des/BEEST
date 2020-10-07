@@ -76,32 +76,50 @@
 		else{
 			histIndex = historicalData.length-1
 			showRecoveryDate(histIndex,historicalData)
-			hideButton("nextHist") //as we should already be at most recent
-			
-			if (histIndex==0){
-				hideButton("prevHist")
-			}
 		}
 	})
+	function delHistI(){
+		if (confirm("This will delete the selected record, click 'OK' to proceed")){		
+			historicalData = recoverHistory()
+			historicalData.splice(histIndex,1)
+			setLocal(JSON.stringify(historicalData))
+			if (histIndex>0){
+				histIndex-=1
+			}
+		}
+		showRecoveryDate(histIndex,historicalData)
+	}
+	
 	function nextHistI(){
 		histIndex++; 
 		showRecoveryDate(histIndex,historicalData);
-		if (histIndex >= historicalData.length-1){
-			hideButton("nextHist")
-		}
-		if (histIndex>0){
-			showButton("prevHist")
-		}
+		resetNextPrevDelHistButtons()
 	}
-	function prevHistI(){
-		histIndex--; 
-		showRecoveryDate(histIndex,historicalData);
-		if (histIndex < historicalData.length){
+	function resetNextPrevDelHistButtons(){
+		if ((historicalData==null)||(historicalData.length==0)){
+			hideButton("nextHist")
+			hideButton("prevHist")
+			hideButton("delHist")
+			return
+		}
+		if (histIndex < historicalData.length-1){
 			showButton("nextHist")
+		}
+		else{
+			hideButton("nextHist")
 		}
 		if (histIndex<=0){
 			hideButton("prevHist")
 		}
+		else{
+			showButton("prevHist")
+		}
+	}
+	
+	function prevHistI(){
+		histIndex--; 
+		showRecoveryDate(histIndex,historicalData);
+		resetNextPrevDelHistButtons()
 	}	
 	function showRecoveryDate(index,history){
 		try{
@@ -113,6 +131,7 @@
 		catch{
 			document.getElementById("recoveryDate").innerHTML = "no history available"
 		}
+		resetNextPrevDelHistButtons()
 	}
 	
 	function updatePageCounter(ID,currCounter){
@@ -324,6 +343,24 @@
 		return output
 	}
 	
+	function setTextAreas(idList,dataSet){
+	/*
+	dataSet should be an instance of the accordion class
+	*/
+		document.getElementById('accMainHeading').value = dataSet.main;
+		document.getElementById('headSize').value = dataSet.size;
+		document.getElementById('faCode').value = dataSet.icon;
+		
+		
+		tinyMCE.get('tinyMCEmonAccContent1').setContent(dataSet.drawer[0].content)
+		document.getElementById('monAccBtnTxt1').value = dataSet.drawer[0].heading
+		
+		for (var idNum=0; idNum<idList.length; idNum++){
+			tinyMCE.get(idList.tiny[idNum]).setContent(dataSet.drawer[idNum+1].content)
+			document.getElementById(idList.btn[idNum]).value = dataSet.drawer[idNum+1].heading
+		}	
+	}
+	
 	function getTextAreas(idList){
 		var monAccContent1 = tinyMCE.get('tinyMCEmonAccContent1').getContent();
 		var monAccBtnTxt1 = document.getElementById('monAccBtnTxt1').value;
@@ -357,22 +394,22 @@
 	}
 	
     function generateAccCode() {
-    var IDs = getTextAreas(accordListToIDs(accordiansPostInit))
-		monAccBtnTxt = IDs.btn;
-		monAccContent = IDs.cont;
-    var accMainHeading = document.getElementById('accMainHeading').value;
-    var headSize = document.getElementById('headSize').value;
-    var faIcon = document.getElementById('faCode').value;
-	
-	classAccord = accordionDataToClass(accMainHeading,headSize,faIcon,monAccBtnTxt,monAccContent)
-	
-    var head_3="<h3>"
-    var endHead_3="</h3>"
-    var head_4="<h4>"
-    var endHead_4="</h4>"
-    var head_5="<h5>"
-    var endHead_5="</h5>"
-    var iconNames = {
+		var IDs = getTextAreas(accordListToIDs(accordiansPostInit))
+			monAccBtnTxt = IDs.btn;
+			monAccContent = IDs.cont;
+		var accMainHeading = document.getElementById('accMainHeading').value;
+		var headSize = document.getElementById('headSize').value;
+		var faIcon = document.getElementById('faCode').value;
+		
+		classAccord = accordionDataToClass(accMainHeading,headSize,faIcon,monAccBtnTxt,monAccContent)
+		
+		var head_3="<h3>"
+		var endHead_3="</h3>"
+		var head_4="<h4>"
+		var endHead_4="</h4>"
+		var head_5="<h5>"
+		var endHead_5="</h5>"
+		var iconNames = {
             "1":"database",
 			      "2":"question",
             "3":"question-circle",
@@ -444,18 +481,25 @@
 class accordDraw{
 	constructor(head,content){
 		this.head = head
-		this.content = content
+		this._content = content
 	}
+	get heading(){
+		return this.head
+	}
+	get content(){
+		return this._content
+	}
+	
 	toObj(){
 		var out = {}
 		out.head = this.head
-		out.content = this.content
+		out._content = this._content
 		return out
 	}
 	
 	fromObj(objectForm){
-		this.head = out.head
-		this.content = out.content
+		this.head = objectForm.head
+		this._content = objectForm._content
 	}
 
 	toString(){
@@ -467,9 +511,30 @@ class accordion{
 	constructor(mainHead,headSize,icon,drawerList){
 		this.mainHead = mainHead
 		this.headSize = headSize
-		this.icon = icon
-		this.drawerList = this.PDO_drawerListToDrawers(drawerList)
+		this._icon = icon
+		if ((drawerList == undefined)||(drawerList == null)){
+			this.drawerList = null
+		}
+		else{
+			this.drawerList = this.PDO_drawerListToDrawers(drawerList)
+		}
 		this.timestamp = new Date()
+	}
+	
+	get main(){
+		return this.mainHead
+	}
+	set main(value){this.mainHead = value}
+	get size(){
+		return this.headSize
+	}
+	set size(value){this.headSize = value}
+	get icon(){
+		return this._icon
+	}
+	set icon(value){this._icon = value}
+	get drawer(){
+		return this.drawerList
 	}
 	
 	addDrawer(head,cont){
@@ -489,7 +554,7 @@ class accordion{
 		var out = {}
 		out.mainHead = this.mainHead
 		out.headSize = this.headSize
-		out.icon = this.icon
+		out._icon = this._icon
 		out.timestamp = this.timestamp
 		var publicDraw = []
 		for (var drawI=0;drawI<this.drawerList.length; drawI++){
@@ -506,31 +571,38 @@ class accordion{
 	fromObj(PDOObj){
 		this.mainHead = PDOObj.mainHead
 		this.headSize = PDOObj.headSize
-		this.icon = PDOObj.icon
+		this._icon = PDOObj._icon
 		this.drawerList = this.PDO_drawerListToDrawers(PDOObj.drawerList)
 		this.timestamp = PDOObj.timestamp
 	}
 
 }
+function getLocal(){
+	return localStorage.getItem(ACCORD_HIST)
+}
+function setLocal(value){
+	localStorage.setItem(ACCORD_HIST,value)
+}
 
 function addToHistory(currAccord){
-	var localCurr = localStorage.getItem(ACCORD_HIST)
+	var localCurr = getLocal()
 	if ((localCurr == undefined)||(localCurr=="")){
 		localCurr = "[]"
-		localStorage.setItem(ACCORD_HIST,localCurr)
+		setLocal(localCurr)
 	}
 	localCurr = JSON.parse(localCurr) //now an array of objects
 	localCurr.push(currAccord)
 	localCurr = JSON.stringify(localCurr) //now a string again -- currAccord should have had its toString method called
-	localStorage.setItem(ACCORD_HIST,localCurr)
+	setLocal(localCurr)
 	historicalData = recoverHistory()
 	histIndex = historicalData.length-1
 	showRecoveryDate(histIndex,historicalData);
+	showButton("delHist")
 }
 
 function recoverHistory(){
 	/*get from local then populate the text fields*/
-	var localSet = localStorage.getItem(ACCORD_HIST)
+	var localSet = getLocal()
 	if (localSet == undefined){
 		return null
 	}
@@ -539,9 +611,12 @@ function recoverHistory(){
 } //set to trigger on load
 
 function getHistoryI(index,history){
-	var selectedAccordion = localSet[index]
+	var selectedAccordion = history[index]
 	classAccord = new accordion()
 	classAccord.fromObj(selectedAccordion) // classAccord now holds the data of this index
+	
+	setTextAreas(accordListToIDs(accordiansPostInit),classAccord)
+	generateAccCode()
 }
 
     function copyCode(){
@@ -732,8 +807,11 @@ function getHistoryI(index,history){
 	</div>
 	<div class="col-lg">
 	<button id="prevHist" onclick="prevHistI()" type="button" class="btn btn-primary mr-2"><i class="fa fa-fw fa-angle-left"></i></button>
+	  <button id="nextHist" onclick="nextHistI()" type="button" class="btn btn-primary mr-2"><i class="fa fa-fw fa-angle-right"></i></button>
   <div class="border border-dark px-3 py-2 h5 rounded ml-1 btn" style="cursor:default ;"><span id="recoveryDate">please wait</span></div>
-  <button id="nextHist" onclick="nextHistI()" type="button" class="btn btn-primary mr-2"><i class="fa fa-fw fa-angle-right"></i></button>
+
+
+  <button id="delHist" onclick="delHistI()" type="button" class="btn btn-danger mr-2"><i class="fa fa-fw fa-trash"></i></button>
   
   
   </div>
@@ -742,6 +820,8 @@ function getHistoryI(index,history){
           <button onclick="getHistoryI(histIndex,historicalData)" class="btn btn-mu">Recover <i class="fa fa-fw fa-undo"></i></a>
         </div></div>
   </div>
+
+
 
 
   <h5>Reset this page</h5>
