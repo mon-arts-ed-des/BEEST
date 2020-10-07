@@ -86,7 +86,7 @@
 		if (confirm("This will delete the selected record, click 'OK' to proceed")){
 			historicalData = recoverHistory()
 			historicalData.splice(histIndex,1)
-			setLocal(JSON.stringify(historicalData))
+			setHistory(JSON.stringify(historicalData))
 			histIndex= (historicalData.length>0 ? historicalData.length-1 : 0)
 		}
 		showRecoveryDate(histIndex,historicalData)
@@ -616,23 +616,23 @@ class accordion{
 	}
 
 }
-function getLocal(){
+function getHistory(){
 	return localStorage.getItem(ACCORD_HIST)
 }
-function setLocal(value){
+function setHistory(value){
 	localStorage.setItem(ACCORD_HIST,value)
 }
 
 function addToHistory(currAccord){
-	var localCurr = getLocal()
+	var localCurr = getHistory()
 	if ((localCurr == undefined)||(localCurr=="")){
 		localCurr = "[]"
-		setLocal(localCurr)
+		setHistory(localCurr)
 	}
 	localCurr = JSON.parse(localCurr) //now an array of objects
 	localCurr.push(currAccord)
 	localCurr = JSON.stringify(localCurr) //now a string again -- currAccord should have had its toString method called
-	setLocal(localCurr)
+	setHistory(localCurr)
 	historicalData = recoverHistory()
 	histIndex = historicalData.length-1
 	showRecoveryDate(histIndex,historicalData);
@@ -641,7 +641,7 @@ function addToHistory(currAccord){
 
 function recoverHistory(){
 	/*get from local then populate the text fields*/
-	var localSet = getLocal()
+	var localSet = getHistory()
 	if (localSet == undefined){
 		return null
 	}
