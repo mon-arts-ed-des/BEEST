@@ -236,13 +236,6 @@
         var headSize = document.getElementById('headSize').value;
         var faIcon = document.getElementById('faCode').value;
 
-        var head_3="<h3>"
-        var endHead_3="</h3>"
-        var head_4="<h4>"
-        var endHead_4="</h4>"
-        var head_5="<h5>"
-        var endHead_5="</h5>"
-
         var rowOpen="<div class=\"row w-100\">"
         var firstCol="<div class=\"col-lg\">"
         var imgTag = "<img class=\"img-fluid\" src=\""
@@ -283,18 +276,16 @@
           resizedHead = "";
         }
         else{
-            //Resizing the heading text
-        switch(headSize){
-          case "h3":
-            resizedHead = head_3+faIconCode+imgHeading+endHead_3;
-            break;
-          case "h4":
-            resizedHead = head_4+faIconCode+imgHeading+endHead_4;
-            break;
-          case "h5":
-            resizedHead = head_5+faIconCode+imgHeading+endHead_5;
-            break;
-        }
+			
+			var headingMap = {
+				"noH":{head:"",icon:"",val:"",end:""},
+				"h3":{head:"<h3>",icon:faIconCode,val:imgHeading,end:"</h3>"},
+				"h4":{head:"<h4>",icon:faIconCode,val:imgHeading,end:"</h4>"},
+				"h5":{head:"<h5>",icon:faIconCode,val:imgHeading,end:"</h5>"}
+			}
+			var opt = headingMap[headSize]
+			resizedHead = opt.head+opt.icon+opt.val+opt.end
+				//Resizing the heading text
       }
     
         //Change size of column if requested
@@ -338,9 +329,9 @@
       var textarea = $('#respImgHeading');
       var select = $('#headSize');
       var addOrRemoveRequiredAttribute = function () {
-      if (textarea.val().length) {
-        select.val("h5")
-      }
+		  if (textarea.val()=="") {
+			select.val("h5")
+		  }
       };
 
       // Run now

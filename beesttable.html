@@ -504,12 +504,6 @@
 		var tableMainHeading = document.getElementById('tableMainHeading').value;
 		var headSize = document.getElementById('headSize').value;
 		var faIcon = document.getElementById('faCode').value;
-		var head_3="<h3>"
-		var endHead_3="</h3>"
-		var head_4="<h4>"
-		var endHead_4="</h4>"
-		var head_5="<h5>"
-		var endHead_5="</h5>"
 		var iconNames = {
             "1":"calendar",
 		    "2":"list-ol",
@@ -541,21 +535,15 @@
           resizedHead = "";
 		}
 		else{
-        //Resizing the heading text
-			switch(headSize){
-				case "noH":
-					resizedHead = "";
-					break;
-				case "h3":
-					resizedHead = head_3+faIconCode+tableMainHeading+endHead_3;
-					break;
-				case "h4":
-					resizedHead = head_4+faIconCode+tableMainHeading+endHead_4;
-					break;
-				case "h5":
-					resizedHead = head_5+faIconCode+tableMainHeading+endHead_5;
-					break;
+			var headingMap = {
+				"noH":{head:"",icon:"",val:"",end:""},
+				"h3":{head:"<h3>",icon:faIconCode,val:tableMainHeading,end:"</h3>"},
+				"h4":{head:"<h4>",icon:faIconCode,val:tableMainHeading,end:"</h4>"},
+				"h5":{head:"<h5>",icon:faIconCode,val:tableMainHeading,end:"</h5>"}
 			}
+			var opt = headingMap[headSize]
+			resizedHead = opt.head+opt.icon+opt.val+opt.end
+        //Resizing the heading text
 		}
 		var textOutputTable = newTableCode(tableContents)
 	    

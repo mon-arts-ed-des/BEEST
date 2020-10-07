@@ -146,29 +146,18 @@
             var alertDMColourCode = '<div class="alert alert-' + colourName + ' rounded alert-dismissible fade show" role="alert">';
         }
 
-        var head_3="<h3>";
-        var endHead_3="</h3>";
-        var head_4="<h4>";
-        var endHead_4="</h4>";
-        var head_5="<h5>";
-        var endHead_5="</h5>";
-
         if(alertHeading == ""){
           resizedHead = "";
         }
         else{
         //Resizing the heading text
-          switch(headSize){
-          case "h3":
-              resizedHead = head_3+faIconCode+alertHeading+endHead_3;
-              break;
-            case "h4":
-              resizedHead = head_4+faIconCode+alertHeading+endHead_4;
-              break;
-            case "h5":
-              resizedHead = head_5+faIconCode+alertHeading+endHead_5;
-              break;
-          }
+			var headingMap = {
+				"h3":{head:"<h3>",end:"</h3>"},
+				"h4":{head:"<h4>",end:"</h4>"},
+				"h5":{head:"<h5>",end:"</h5>"}
+			}
+			var opt = headingMap[headSize]
+			resizedHead = opt.head+faIconCode+alertHeading+opt.end
         }
 
         if (dmoption == "dismissable") {
