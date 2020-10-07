@@ -184,96 +184,49 @@ background: grey;
 	border-color:#006dae;
 }
 
-     </style> 
-  </head>
+  </style> 
+  
+       </head>
+    <body>
+      <div id="beestNav"></div>
+        <div class="container-fluid">
+             <div>
+    <h1 class="text-center"><i class="fa fa-fw fa-laptop-medical"></i> Setup the BEEST in Moodle</h1>
+    <h3>Why would I set this up in Moodle?</h5>
+  <p class="mb-0">We have designed the BEEST to be used within Moodle through the following process of implenting code into a HTML block at Faculty Category level. This is so you can create the elements you need using BEEST without leaving Moodle. The HTML block, and the code generated through this process, <strong>needs to be put in place by a Moodle administrator</strong>, and some consideration needs to be given to the Moodle roles that your Faculty would like to have access to the BEEST tool. E.g. Do you only want Moodle administrators to have access? Or adminstrators, designers and lecturers? Or administrators, lecturers and tutors Below is an instructional video to assist in the setup of this for your Faculty.</p>
+                <div class="row w-100">
+            <div class="col-lg mt-2">
+              <h3>Video walkthrough for setting up Monash blue elements</h3>
+              <p>This video will walk you through the steps to use the code generated on the right correctly in your Faculty level category. <strong>N.B. This requires a staff member with administrator access to Moodle.</strong></p>
+              <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item mt-3" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=bc32c84c-599c-4698-bd8c-ac0601883fb9"></iframe></div>
+            </div>
+            <div class="col-lg mt-2">
+              <h3>Script + CSS to make BEEST operate within Moodle</h3>
+              <div><h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose which level of Moodle role you want to have access to the BEEST.">Step 1 - Choose access level</h5>
+              <select class="custom-select w-50 border border-dark" id="accessToBeest" name="accessToBeest" size="1">
+              <option selected value="1">Moodle administrators only</option>
+              <option value="2">Administrators, lecturers and non-primary lecturers</option><!--
+              <option value="3">Administrators, lecturers, non-primary lecturers and tutors</option>-->
+            </select>
+          </div>
+          <div class="mt-2">
+              <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Once you have created your Faculty Category level block, find its 7 digit ID in the browser inspector (see walkthrough video) and input those 7 digits in the text area below.">Step 2 - Category level HTML block ID</h5>
+            </div>
+              <div>
+              <textarea id="htmlBlockID" class="rounded p-2 w-100" maxlength="7" cols="70" rows="1" placeholder="Input your 7 digit HTML block id number here."></textarea>
+            </div>
+            <div class="mt-2">
+              <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Once you have created completed step 1 and 2, click the button below to generate the code required to paste into your Faculty Category HTML block.">Step 3 - Generate/copy code</h5>
+<p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy the below code &lt;/&gt;" onClick=generateAccessCode()></p>
+<p class="text-left"><textarea readonly placeholder="Your code will appear here when you click the button above this text area." class="rounded p-2 w-100" id="beestInMoodle" cols="10" rows="10" name="Result">
+</textarea>
+</p>  
+</div>
+</div>
+</div>
 
-  <body>
-    <div id="beestNav"></div>
-    <div class="row w-100 mb-5"></div>
-    <div class="row w-100 mb-5"></div>
-    <div class="container-fluid">
-          <h1 class="text-center"><i class="fa fa-fw fa-dragon"></i> BEEST Project</h1>
-          <div class="row w-100 my-3">
-            <div class="col-lg">
-  <h3>What is the BEEST?</h3>
-  <p>BEEST stands for <strong>B</strong>ootstrap <strong>E</strong>nhanced <strong>E</strong>lements <strong>S</strong>treamlining <strong>T</strong>ool. BEEST takes your input and combines it with pre-written HTML to generate advanced HTML elements without the need for complex HTML skills.</p>
-  <h3>What can BEEST do that nothing else can?</h3>
-  <p>Take a look at the videos on the right to see the BEEST in action. For the details, read on. This tool, <strong>when used appropriately</strong>, can create <span class="text-success font-weight-bold" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="Responsive design means web pages detect the user's screen size and orientation and change the layout accordingly. Therefore the elements here 'respond' to the user's device to work how that person expects them to work on that device.">responsive</span>, consistent, quality HTML elements that improve your Moodle site's user experience (UX) design while also meeting <span class="text-success font-weight-bold" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="WCAG is the global body that produces guidelines to support making content accessible to a wider range of people with disabilities, including blindness, low vision, deafness, hearing loss, learning disabilities, cognitive limitations, limited movement, speech disabilities, photosensitivity and combinations of these.">WCAG accessibility standards</span>. As technology and the digital learning space continues to develop at a rapid pace, students are now not only expecting meaningful, applied, active learning approaches, they want the experience of interacting with the learning content to be an engaging, clear and easy to operate experience. This is why the BEEST was designed. So often, high-quality teachers and designers use up an incredible amount of time and effort manipulating HTML to make their learning sites a quality <span class="text-success font-weight-bold" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="User experience encompasses all aspects of the end-user's interaction with the product including usability, clarity of instructions, accessibility, responsivity and formatting.">user experience</span> as well. BEEST can cut the time needed and the skills required to achieve this by a vast amount. This means more time for planning learning content, and more teachers having access to high-level design features they thought were out of reach.</p>
-   <h3>Why use the BEEST?</h3> 
-   <p>If you are producing high quality teaching and learning in your Moodle site, and want to take it to the next level for your students, BEEST can help you reformat your existing content, and support a responsive, high-quality end-user learning product.</p>
-   <h3>How do I use the BEEST?</h3> 
-   <p>On each of the pages there are step by step instructions on what input you need to provide, and how to manipulate the respective element to produce the final result desired. Each page will also produce a preview. This is so you can take a sneak peek at what you have created before pasting it into Moodle and make and changes you feel are necessary.</p>
-  </div>
-   <div class="col-lg-4">
-    <h3>What can the BEEST do?</h3>
-    <p>Take a look at what the BEEST can do for you. Click the circles under the videos to look through all our video examples.</p>
-    <div id="carouselvideo" class="carousel slide" data-ride="carousel">    
-      <div class="carousel-inner" role="listbox">
-        <div class="carousel-item active">
-          <div class="embed-responsive embed-responsive-16by9">
-          <iframe class="embed-responsive-item" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=26ce12c9-615b-4791-b18f-ac3e005c08f1" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+
         </div>
-        </div>
-        <div class="carousel-item">
-          <div class="embed-responsive embed-responsive-16by9">
-          <iframe class="embed-responsive-item" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=53e3ef90-79b6-42b5-b8d2-ac3f005056cd" frameborder="0" allowfullscreen></iframe>
-        </div>
-        </div>
-        <div class="carousel-item">
-          <div class="embed-responsive embed-responsive-16by9">
-          <iframe class="embed-responsive-item" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=9ab8c122-2316-4a02-aaaf-ac40005cd8f7" frameborder="0" allowfullscreen></iframe>
-        </div>
-        </div>
-        <div class="carousel-item">
-          <div class="embed-responsive embed-responsive-16by9">
-          <iframe class="embed-responsive-item" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=0b05ea43-04dd-404e-8322-ac3f016cb1ad" frameborder="0" allowfullscreen></iframe>
-        </div>
-        </div>
-        <div class="carousel-item">
-          <div class="embed-responsive embed-responsive-16by9">
-          <iframe class="embed-responsive-item" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=a3b32c11-7614-4ec4-8104-ac4000328f01" frameborder="0" allowfullscreen></iframe>
-        </div>
-        </div>
-        </div> 
-    </div>  
-<div> 
-  <ol class="carousel-indicators">
-  <li data-target="#carouselvideo" data-slide-to="0" class="active"></li>
-  <li data-target="#carouselvideo" data-slide-to="1"></li>
-  <li data-target="#carouselvideo" data-slide-to="2"></li>
-  <li data-target="#carouselvideo" data-slide-to="3"></li>
-  <li data-target="#carouselvideo" data-slide-to="4"></li>
-</ol></div>
-    </div>
-  </div>
-   <h3>Creators and Support</h3>
-<p>Should you require any assistance with the Moodle setup and the use of the BEEST elements, please email the creators on <a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=beest@monash.edu&su=Question%20about%20BEEST%20tool" target="_blank">beest@monash.edu</a>. The creators and current managers of the BEEST project are:</p>
-<div class="row w-50 mx-auto">
-    <div class="col-lg text-center h5 mt-2">
-      <div class="border border-dark rounded p-2">
-    <img src="img/tim.png" class="img-fluid w-100 mb-3" />
-   <p class="font-weight-bold">Timothy Scholl</p>
-   <p>Educational Designer</p>
-   <p>Faculty of Arts</p>
-  </div>
-  </div>
-    <div class="col-lg text-center h5 mt-2">
-    <div class="border border-dark rounded p-2">
-    <img src="img/matt.png" class="img-fluid mb-3" />
-    <p class="font-weight-bold">Matt Chen</p>
-    <p>Educational Designer</p>
-    <p>Faculty of IT</p>
-      </div>
-    </div>
-    <div class="col-lg text-center h5 mt-2">
-      <div class="border border-dark rounded p-2">
-    <img src="img/phil.png" class="img-fluid mb-3" />
-    <p class="font-weight-bold">Phillip Abramson</p>
-    <p>Educational Designer</p>
-    <p>Faculty of IT</p>
-     </div>
-</div> 
-</div>  
         </div>
         <script>
         function getRandomUrl(videoURL) {
@@ -317,7 +270,7 @@ $('.carousel-indicators li').each(function(){
 });
 
 $('.carousel').carousel({
-  interval: 6000,
+  interval: false,
   pause: "false"
 });
 $('a[data-slide="prev"]').click(function() {
