@@ -464,7 +464,7 @@
               </div>
               <div class="mt-2">
                 <h5 class="w-100 mt-5" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Preview as you update your preferences for the element.">Step 8: Copy code <span class="hideableinstruct text-success font-weight-bold">| Help</span> <span class="hideableinstruct"></h5></span>   
-                      <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-mu btn-lg m-1" name="GenerateWrap" value="Copy your code </>" onClick=copyCode() >
+                     <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied" type="button" class="btn btn-mu btn-lg m-1" id="copyCodeBtn" name="GenerateWrap" value="Copy your code </>" onClick=copyCode() >
                         <span class="hideableinstruct"><a data-toggle="modal" data-target=".html-paste-modal" href="">How to paste this into Moodle</a>
                   <div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
@@ -543,7 +543,22 @@ addOrRemoveRequiredAttribute();
 // And when textarea changes
 textarea.on('change', addOrRemoveRequiredAttribute);
       </script>
-
+<script>
+$(function () {
+  $(document).on('shown.bs.tooltip', function (e) {
+     setTimeout(function () {
+       $(e.target).tooltip('hide');
+     }, 10000);
+  });
+});</script>
+<script>
+  $(function () {
+    $('#copyCodeBtn').on('shown.bs.tooltip', function (e) {
+       setTimeout(function () {
+         $(e.target).tooltip('hide');
+       }, 2000);
+    });
+  });</script>
         <div id="beestFooter"></div>
         </body>
         </html>
