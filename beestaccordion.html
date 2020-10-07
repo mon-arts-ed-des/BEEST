@@ -63,11 +63,58 @@
 	var accordianSectionsCurr = 1;
 	var accordianSectionsTotalMade = 1;
 	var accordiansPostInit = []
+	var historicalData = null
+	var histIndex = 0;
 	$(document).ready(function() { //create the tinyMCE areas after the first
 		while (accordianSectionsCurr < absoluteMinAccord){
 			addSection()
 		}
+		historicalData = recoverHistory();
+		if (historicalData == null){
+			showRecoveryDate(0,historicalData) //should trigger 'none available'
+		}
+		else{
+			histIndex = historicalData.length-1
+			showRecoveryDate(histIndex,historicalData)
+			hideButton("nextHist") //as we should already be at most recent
+			
+			if (histIndex==0){
+				hideButton("prevHist")
+			}
+		}
 	})
+	function nextHistI(){
+		histIndex++; 
+		showRecoveryDate(histIndex,historicalData);
+		if (histIndex >= historicalData.length-1){
+			hideButton("nextHist")
+		}
+		if (histIndex>0){
+			showButton("prevHist")
+		}
+	}
+	function prevHistI(){
+		histIndex--; 
+		showRecoveryDate(histIndex,historicalData);
+		if (histIndex < historicalData.length){
+			showButton("nextHist")
+		}
+		if (histIndex<=0){
+			hideButton("prevHist")
+		}
+	}	
+	function showRecoveryDate(index,history){
+		try{
+			var element = history[index]
+			var time = new Date(element.timestamp)
+			time = time.toLocaleDateString()+" "+time.toLocaleTimeString()
+			document.getElementById("recoveryDate").innerHTML = time
+		}
+		catch{
+			document.getElementById("recoveryDate").innerHTML = "no history available"
+		}
+	}
+	
 	function updatePageCounter(ID,currCounter){
 		document.getElementById(ID).innerHTML = currCounter;
 	}
@@ -422,6 +469,7 @@ class accordion{
 		this.headSize = headSize
 		this.icon = icon
 		this.drawerList = this.PDO_drawerListToDrawers(drawerList)
+		this.timestamp = new Date()
 	}
 	
 	addDrawer(head,cont){
@@ -442,6 +490,7 @@ class accordion{
 		out.mainHead = this.mainHead
 		out.headSize = this.headSize
 		out.icon = this.icon
+		out.timestamp = this.timestamp
 		var publicDraw = []
 		for (var drawI=0;drawI<this.drawerList.length; drawI++){
 			publicDraw.push(this.drawerList[drawI].toObj())
@@ -459,13 +508,14 @@ class accordion{
 		this.headSize = PDOObj.headSize
 		this.icon = PDOObj.icon
 		this.drawerList = this.PDO_drawerListToDrawers(PDOObj.drawerList)
+		this.timestamp = PDOObj.timestamp
 	}
 
 }
 
 function addToHistory(currAccord){
 	var localCurr = localStorage.getItem(ACCORD_HIST)
-	if (localCurr == undefined){
+	if ((localCurr == undefined)||(localCurr=="")){
 		localCurr = "[]"
 		localStorage.setItem(ACCORD_HIST,localCurr)
 	}
@@ -473,10 +523,25 @@ function addToHistory(currAccord){
 	localCurr.push(currAccord)
 	localCurr = JSON.stringify(localCurr) //now a string again -- currAccord should have had its toString method called
 	localStorage.setItem(ACCORD_HIST,localCurr)
+	historicalData = recoverHistory()
+	histIndex = historicalData.length-1
+	showRecoveryDate(histIndex,historicalData);
 }
 
-function recoverHistory(index){
+function recoverHistory(){
 	/*get from local then populate the text fields*/
+	var localSet = localStorage.getItem(ACCORD_HIST)
+	if (localSet == undefined){
+		return null
+	}
+	localSet = JSON.parse(localSet) //converted the string to an array of public objects
+	return localSet
+} //set to trigger on load
+
+function getHistoryI(index,history){
+	var selectedAccordion = localSet[index]
+	classAccord = new accordion()
+	classAccord.fromObj(selectedAccordion) // classAccord now holds the data of this index
 }
 
     function copyCode(){
@@ -657,6 +722,28 @@ function recoverHistory(index){
     </div>
   </div>
 </div>
+<h5> Recover past data </h5>
+
+<div class="row w-100">
+    <div class="col-lg">
+	<p>
+	Use this button to retrieve data previously entered
+	</p>
+	</div>
+	<div class="col-lg">
+	<button id="prevHist" onclick="prevHistI()" type="button" class="btn btn-primary mr-2"><i class="fa fa-fw fa-angle-left"></i></button>
+  <div class="border border-dark px-3 py-2 h5 rounded ml-1 btn" style="cursor:default ;"><span id="recoveryDate">please wait</span></div>
+  <button id="nextHist" onclick="nextHistI()" type="button" class="btn btn-primary mr-2"><i class="fa fa-fw fa-angle-right"></i></button>
+  
+  
+  </div>
+  
+  <div class="col-lg-3"><div class="text-center">
+          <button onclick="getHistoryI(histIndex,historicalData)" class="btn btn-mu">Recover <i class="fa fa-fw fa-undo"></i></a>
+        </div></div>
+  </div>
+
+
   <h5>Reset this page</h5>
   <div class="row w-100">
     <div class="col-lg">
@@ -694,7 +781,7 @@ function recoverHistory(index){
 </div>
 <div class="btn-group-lg" role="group"><span class="ml-3 h5">Current number of drawers</span>
   <div class="border border-dark px-3 py-2 h5 rounded ml-1 btn" style="cursor:default ;"><div><span id="accordCounter">0</span></div></div>
-  </div>
+  </div>  
 </div>
 </div>
 </div>
@@ -757,7 +844,7 @@ function recoverHistory(index){
           <div class="col-lg mt-3">
         <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 7 - Copy code and paste them into Moodle</h5>
         <div>
-    <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Copy your code " onClick=copyCode()></p>
+    <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now and saved to the history</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Copy your code" onClick=copyCode()></p>
     </div>
     <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="monAccCode" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code for your accordion and copy it to the clipboard." onClick=generateAccCode()></textarea></p>
   </div>
