@@ -90,7 +90,7 @@ function activateDeactivateAdvancedMode(newMode){
   else{
 	tooltipmode = 'enable'; //show tool tips
 	statusText = "off"
-	displayMode = "block" //block meaning show
+	displayMode = "inline-block" //inline-block meaning show
 	AdvancedMode = setAdvancedModeInStorage(OFF_STATE) // turn *OFF* advanced mode
   }
 	$('h5').tooltip(tooltipmode)
