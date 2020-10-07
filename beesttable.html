@@ -7,9 +7,27 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'UA-152392632-3');
 </script>
+<script>   
+	window.onload=function(){
+	  generateTableCode();
+	  $('#beestNav').load('common/beestnav.html');
+	  $('#beestFooter').load('common/beestfooter.html');
+	  function activeNav() {
+		var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
+		 $(".nav-link").each(function(){
+			  if($(this).attr("href") == pgurl || $(this).attr("href") == '' )
+			  $(this).addClass("active");
+			  $(this).append('<span class="sr-only">(current)</span>')
+		 });
+	}
+	
+	setTimeout(function() {
+		activeNav();
+	}, 100);
+  };
+  </script>
 
     <meta charset="utf-8"></meta>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -36,7 +54,9 @@
     <!-- Tinymce js file -->   
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
     <script src="js/advancedModeLocalStorage.js"></script>
-    <script type="text/javascript">
+	<script type="text/javascript">
+
+
 	var rowsWithData = 3
 	var colsWithData = 3
 	var currRow = 3
@@ -474,6 +494,10 @@
 		}
 	}
 
+	function copyCode(){
+		SelectAll("txtareaBtn");
+    }
+
     function generateTableCode() {
 	  
 		tableContents = getTableContentsFromPage(currRow,currCol)
@@ -512,25 +536,31 @@
         }
 		
 		var resizedHead;
+
+		if(tableMainHeading == ""){
+          resizedHead = "";
+		}
+		else{
         //Resizing the heading text
-		switch(headSize){
-			case "noH":
-				resizedHead = "";
-				break;
-			case "h3":
-				resizedHead = head_3+faIconCode+tableMainHeading+endHead_3;
-				break;
-			case "h4":
-				resizedHead = head_4+faIconCode+tableMainHeading+endHead_4;
-				break;
-			case "h5":
-				resizedHead = head_5+faIconCode+tableMainHeading+endHead_5;
-				break;
+			switch(headSize){
+				case "noH":
+					resizedHead = "";
+					break;
+				case "h3":
+					resizedHead = head_3+faIconCode+tableMainHeading+endHead_3;
+					break;
+				case "h4":
+					resizedHead = head_4+faIconCode+tableMainHeading+endHead_4;
+					break;
+				case "h5":
+					resizedHead = head_5+faIconCode+tableMainHeading+endHead_5;
+					break;
+			}
 		}
 		var textOutputTable = newTableCode(tableContents)
 	    
         document.getElementById('txtareaBtn').innerHTML= resizedHead+textOutputTable;
-        SelectAll("txtareaBtn");
+        //SelectAll("txtareaBtn");
         if (previewMode){
 			activatePreviewMode()
 		}
@@ -645,8 +675,9 @@
 }
     </style> 
     </head>
-  <body onload="generateTableCode()">
-	<nav class="navbar navbar-expand-lg navbar-dark bg-arts mb-3">
+  <body>
+	<div id="beestNav"></div>
+	<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-arts mb-3">
 		<a class="navbar-brand text-center border border-white p-2 rounded" href="index.html"><img src="img/dragon-solid-white.png" width="30" height="30" alt=""></a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 		  <span class="navbar-toggler-icon"></span>
@@ -660,6 +691,9 @@
 			  <a class="nav-link" href="beestvideo.html">Video</a>
 			</li>
 			<li class="nav-item">
+				<a class="nav-link" href="beestimage.html">Image</a>
+			  </li>
+			<li class="nav-item">
 			<a class="nav-link" href="beestbutton.html">Button</a>
 			</li>
 			<li class="nav-item">
@@ -669,16 +703,16 @@
 			  <a class="nav-link active" href="beesttable.html">Table <span class="sr-only">(current)</span></a>
 			</li>
 			   <li class="nav-item">
-			  <a class="nav-link" href="beestpollev.html">Poll Everywhere</a>
+			  <a class="nav-link" href="beestpolleverywhere.html">Poll Everywhere</a>
 			</li>
 			   <li class="nav-item">
 			  <a class="nav-link" href="beestreadmore.html">Read More Button</a>
 			</li>
 			<li class="nav-item">
-			  <a class="nav-link" href="beestacc.html">Accordion</a>
+			  <a class="nav-link" href="beestaccordion.html">Accordion</a>
 			</li>
 			<li class="nav-item">
-			  <a class="nav-link" href="beesttabbed.html">Tabbed Content</a>
+			  <a class="nav-link" href="beesttabbedcontent.html">Tabbed Content</a>
 			</li>
 			<li class="nav-item">
 			  <a class="nav-link" href="beestquote.html">Quote</a>
@@ -689,6 +723,8 @@
 		  </ul>
 		</div>
 	  </nav>
+	  <div class="row w-100 mb-5"></div>
+	  <div class="row w-100 mb-4"></div>
       <div class="container-fluid">
         <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
           <i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle my-auto"></i><div class="h6 mb-0">The table element works a little differently. We have built it so you can see what your text will look like in the table interface before you produce it. We have limited this element to <strong>6 columns and 15 rows maximum</strong>. This is because working with any more columns makes it difficult to work on the screen and produce your element. If you need to resize the text boxes you are typing into, you can click and drag the bottom right corner of them to resize as needed.</div>
@@ -756,16 +792,16 @@
 	  <div class="col-lg-6 mt-2">
 	  <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 2 - Heading size (optional)</h5>
 	  <select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1" onchange=generateTableCode()>
-	  <option selected value="h5">Small (h5)</option>
-	  <option value="h4">Medium (h4)</option>
-	  <option value="h3">Large (h3)</option>
+	  <option selected value="h5">Small (heading 5)</option>
+	  <option value="h4">Medium (heading 4)</option>
+	  <option value="h3">Large (heading 3)</option>
 	  </select>
 	  </div> 
 	  </div>   
 	  <div class="row w-100 mx-auto">
 		<div class="col-lg-6">
 		<h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 2) and choose a heading size (step 3) or the icon and heading will not display.">Step 3 - Select icon (optional)</h5>
-		<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1" onchange="iconpreview()">
+		<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1" onchange="generateTableCode()">
 			<option selected value="noI">No icon</option>
 			<option value="1">Calendar</option>
 			<option value="2">Numbered list</option>
@@ -821,17 +857,15 @@
 		<button id="minuscolbutton" onclick="removeCol()" type="button" class="btn btn-danger" onchange=generateTableCode()>Col <i class="fa fa-fw fa-minus"></i></button>
 		</div>
 		</div>
-
 	</td></tr>
-	
-	
+
 	</tbody></table>
 	
 <div class="row w-100 mx-auto">
-      <div class="col-lg mt-3">
-      <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 6.">Step 5 - Generate/copy code</h5>
+      <div class="col-lg mt-4">
+      <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 6.">Step 5 - Copy code and paste into Moodle</h5>
       <div>
-  <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Save and copy code" onClick=generateTableCode() >
+  <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Copy your code </>" onClick=copyCode() >
   
   <button id="edit" onClick=editMode()>Edit values</button>
   
@@ -881,5 +915,6 @@
             </ul>
             </nav>
   </footer>
+  <div id="beestFooter"></div>
       </body>
       </html>

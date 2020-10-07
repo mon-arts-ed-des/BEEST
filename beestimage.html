@@ -1,3 +1,10 @@
+<!--
+==========================================
+ Title:       Image Page
+ Creator:     @mattchen
+ Last Update: 3 Oct 2020
+==========================================
+-->
 <html ng-app="driveApp">
 <head>
   <meta charset="utf-8">
@@ -11,6 +18,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Arts CSS -->  
     <link rel="stylesheet" href="css/adminPlusSetuBlockStyle.css" />
+    <link rel="stylesheet" href="css/main.css" />
     <!-- external link to js file -->  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -21,76 +29,8 @@
     <!-- Tinymce js file -->   
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
     <script src="js/advancedModeLocalStorage.js"></script>
-    <style>
-        .mce-notification-inner, .mce-close, .mce-notification-warning {
-        display:none !important;
-        }
-              /* Popup container - can be anything you want */
-    #popup {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    }
-
-    /* The actual popup */
-    #popup .popuptext {
-    visibility: hidden;
-    width: 220px;
-    background-color: #222222;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 10px 5px;
-    position: absolute;
-    z-index: 1;
-    bottom:100%;
-    left: 50%;
-    margin-left: -110px;
-    }
-
-    /* Popup arrow */
-    #popup .popuptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-    }
-
-    /* Toggle this class - hide and show the popup */
-    #popup .showPopup {
-    -webkit-animation: fadeinout 4s linear forwards;
-    animation: fadeinout 4s linear forwards;
-    visibility: visible;
-    }
-
-    /* Add animation (fade in the popup) */
-    @-webkit-keyframes fadeinout {
-      0%,100% { opacity: 0; }
-      10% {opacity: 1;}
-      66% { opacity: 1; }
-    }
-
-    @keyframes fadeinout {
-      0%,100% { opacity: 0; }
-      10% {opacity: 1;}
-      66% { opacity: 1; }
-    }
-    .tooltip-inner {
-      text-align: left;
-      padding: 15px;
-      font-size: 1.05rem;
-      max-width: 480px;
-    }
-
-    </style>
+    <!-- TinyMCE placeholder plugin file -->
+    <script src="js/placeholder.js"></script> 
     <script>
     window.gapiCallbacks=[];
 
@@ -183,6 +123,7 @@
     var imageplaceholder ="https://drive.google.com/uc?id=1Tel_KpnwCcoRUMdMFyw-GJ-_MaqeaWYZ&export=download";
     var url;
     url = imageplaceholder;
+
     // A simple callback implementation.
     function pickerCallback(data) {
       if (data.action == google.picker.Action.PICKED) {
@@ -191,51 +132,38 @@
         document.getElementById('img').src = url;
         var imagepreview = document.getElementById("imagepreview");
         imagepreview.style.display = "block";
-        var imgpreview = document.getElementById("img2");
-        imgpreview.style.display = "none";
+        //var imgpreview = document.getElementById("img2");
+        //imgpreview.style.display = "none";
         generateCode();
       }
     }
     
     function writeinMoodle() {
-      var win = window.open("https://lms.monash.edu/course/modedit.php?add=label&type=&course=36985&section=2&return=0&sr=0");
-      win.writeinTinyMCE = function () {
-          win.alert("Starting magic...");
-          win.tinyMCE.get('#id_introeditor').setContent("<p>test</p>");
-        }
-      win.writeinTinyMCE();
-      setTimeout(function () {
-        win.document.body.appendChild(element);
-        console.log('New script appended!')
-    }, 10000);
+      tinyMCE.get('#id_introeditor').setContent(textOutput);
     }
 
     tinymce.init({
         selector: '#tinyMCEimage',
         menubar: false,
-        plugins : 'advlist autolink link lists charmap print preview code',
-        toolbar: 'undo redo | styleselect | bold underline italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat',
+        plugins : 'advlist autolink link lists charmap print preview code placeholder',
+        placeholder:'[Placeholder for image context. The content you entered in step 2 will appear here.]',
+        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat',
         setup : function(ed) {      
         ed.on('change', function (e) {	
           generateCode();
-          });					
-        }
+          });	
+        /*ed.on('init', function(e){
+          if (tinymce.get('tinyMCEimage').getContent() == ''){
+          tinymce.get('tinyMCEimage').setContent("<p id='#imThePlaceholder' style='opacity:0.6'>[Placeholder for image context. The content you entered in step 2 will appear here.]</p>");
+          }
+        });
+        //and remove it on focus
+        ed.on('focus',function(e){
+            $('iframe').contents().find('#imThePlaceholder').remove();
+        })*/			
+      }
     });
     
-    var head_3="<h3>"
-    var endHead_3="</h3>"
-    var head_4="<h4>"
-    var endHead_4="</h4>"
-    var head_5="<h5>"
-    var endHead_5="</h5>"
-
-    var respImg_1="<div class=\"row w-100\"><div class=\"col-lg\">"
-    var respImg_2="</div><div class=\"col-lg\"><img class=\"img-fluid\" src=\""
-    var respImg_2r="<img class=\"img-fluid\" src=\""
-    var respImg_3="\"></div></div>"
-    var respImg_3r="\"></div>"
-    var respImg_4="<div class=\"col-lg mt-2\">"
-    var respImg_5="</div></div>"
    	/*These different options have been absorbed into a javascript Object allowing a direct mapping and lookup of code to icon name*/
 	
     function iconpreview() {
@@ -276,8 +204,8 @@
         generateCode();
       }
 
-    function onchangeCode() {
-        generateCode();
+    function copyCode(){
+      SelectAll("txtarearespImg");
     }
 
     var contextCode;
@@ -286,6 +214,13 @@
     function generateCode() {
         // Get the HTML contents of the currently active editor
         console.debug(tinyMCE.activeEditor.getContent());
+
+        if (document.getElementById('respImgSwitch').value !== ""){
+        url = document.getElementById('respImgSwitch').value;
+        }
+        else{
+        url = "https://drive.google.com/uc?id=1Tel_KpnwCcoRUMdMFyw-GJ-_MaqeaWYZ&export=download";
+        }
 
         //Retrieve the content by id of the tinyMCE textarea
         if (tinyMCE.get('tinyMCEimage').getContent() !== ""){
@@ -296,10 +231,39 @@
         }
 
         var imgHeading = document.getElementById('respImgHeading').value;
-        
+        var imgWidth = document.getElementById('imageWidth').value;
         var imgPosition = document.getElementById('imagePosition').value;
         var headSize = document.getElementById('headSize').value;
         var faIcon = document.getElementById('faCode').value;
+
+        var head_3="<h3>"
+        var endHead_3="</h3>"
+        var head_4="<h4>"
+        var endHead_4="</h4>"
+        var head_5="<h5>"
+        var endHead_5="</h5>"
+
+        var rowOpen="<div class=\"row w-100\">"
+        var firstCol="<div class=\"col-lg\">"
+        var imgTag = "<img class=\"img-fluid\" src=\""
+        var firstCol4="<div class=\"col-lg-4\">"
+        var firstCol3="<div class=\"col-lg-3\">"
+        var secCol="<div class=\"col-lg mt-2\">"
+        var secCol4="<div class=\"col-lg-4 mt-2\">"
+        var secCol3="<div class=\"col-lg-3 mt-2\">"
+        var closeCol="\"></div>"
+        var closeCol_r="</div>"
+        var closeRow="</div></div>"
+        var closeRow_r="\"></div></div>"
+
+        var respImg_1="<div class=\"row w-100\"><div class=\"col-lg\">"
+        var respImg_2="</div><div class=\"col-lg\"><img class=\"img-fluid\" src=\""
+        var respImg_2r="<img class=\"img-fluid\" src=\""
+        var respImg_3="\"></div></div>"
+        var respImg_3r="\"></div>"
+        var respImg_4="<div class=\"col-lg mt-2\">"
+        var respImg_5="</div></div>"
+
         var iconNames = {
 			      "1":"image",
             "2":"play",
@@ -311,24 +275,41 @@
 		
         if (faIcon == "noI"){
           faIconCode = "";
+        }  
+
+    		var resizedHead;  
+    
+        if(imgHeading == ""){
+          resizedHead = "";
         }
-		
-		var resizedHead;
-        //Resizing the heading text
-		switch(headSize){
-			case "noH":
-				resizedHead = "";
-				break;
-			case "h3":
-				resizedHead = head_3+faIconCode+imgHeading+endHead_3;
-				break;
-			case "h4":
-				resizedHead = head_4+faIconCode+imgHeading+endHead_4;
-				break;
-			case "h5":
-				resizedHead = head_5+faIconCode+imgHeading+endHead_5;
-				break;
-		}
+        else{
+            //Resizing the heading text
+        switch(headSize){
+          case "h3":
+            resizedHead = head_3+faIconCode+imgHeading+endHead_3;
+            break;
+          case "h4":
+            resizedHead = head_4+faIconCode+imgHeading+endHead_4;
+            break;
+          case "h5":
+            resizedHead = head_5+faIconCode+imgHeading+endHead_5;
+            break;
+        }
+      }
+    
+        //Change size of column if requested
+        if (imgWidth == "33" && imgPosition == "left"){
+          firstCol=firstCol4;
+        }
+        else if (imgWidth == "33" && imgPosition== "right"){
+          secCol=secCol4;
+        }
+        else if (imgWidth == "25" && imgPosition== "left"){
+          firstCol=firstCol3;
+        }
+        else if (imgWidth == "25" && imgPosition== "right"){
+          secCol=secCol3;
+        }
 
           if (url !== imageplaceholder)
           {
@@ -339,14 +320,16 @@
           }
 
         if (imgPosition == "left"){
-            var textOutput = resizedHead+respImg_1+respImg_2r+url+respImg_3r+respImg_4+contextCode+respImg_5;
+            //var textOutput = resizedHead+respImg_1+respImg_2r+url+respImg_3r+respImg_4+contextCode+respImg_5;
+            var textOutput = resizedHead+rowOpen+firstCol+imgTag+url+closeCol+secCol+contextCode+closeRow;
         }
         else if (imgPosition == "right"){
-            var textOutput = resizedHead+respImg_1+contextCode+respImg_2+url+respImg_3;
+            //var textOutput = resizedHead+respImg_1+contextCode+respImg_2+url+respImg_3;
+            var textOutput = resizedHead+rowOpen+firstCol+contextCode+closeCol_r+secCol+imgTag+url+closeRow_r;
         }
 
         document.getElementById('txtarearespImg').innerHTML=textOutput;
-        SelectAll("txtarearespImg");
+        //SelectAll("txtarearespImg");
          //Add the html code after the div
 		    var demoDiv = document.getElementById("demo");
 		    demoDiv.innerHTML = textOutput;
@@ -394,6 +377,7 @@
   <script src="js/drive-service.js"></script>
   <script>   
     window.onload=function(){
+      generateCode();
       $('#beestNav').load('common/beestnav.html');
       $('#beestFooter').load('common/beestfooter.html');
       function activeNav() {
@@ -401,74 +385,198 @@
          $(".nav-link").each(function(){
               if($(this).attr("href") == pgurl || $(this).attr("href") == '' )
               $(this).addClass("active");
-              $(this).append('<span class="sr-only">(current)</span>')
+              $(this).append('<span class="sr-only">(current)</span>');
          });
     }
     
     setTimeout(function() {
         activeNav();
     }, 100);
-
   };
-
   </script>
 
 </head>
-<body onload="generateCode()">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-arts mb-3">
-    <a class="navbar-brand text-center border border-white p-2 rounded" href="index.html"><img src="img/dragon-solid-white.png" width="30" height="30" alt=""></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="beestvideo.html">Responsive Video</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="beestimage.html">Responsive Image</a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" href="beestbutton.html">Buttons</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="beestalert.html">Alerts</a>
-        </li>
-           <li class="nav-item">
-          <a class="nav-link" href="beestpollev.html">Poll Everywhere</a>
-        </li>
-           <li class="nav-item">
-          <a class="nav-link" href="beestreadmore.html">Read More Button</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="beestacc.html">Accordion</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="beestquote.html">Quote</a>
-        </li>
-      </ul>
+<body>
+    <div id="beestNav"></div>
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-arts mb-3">
+		<a class="navbar-brand text-center border border-white p-2 rounded" href="index.html"><img src="img/dragon-solid-white.png" width="30" height="30" alt=""></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+		  <span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNavDropdown">
+		  <ul class="navbar-nav">
+			<li class="nav-item">
+			  <a class="nav-link" href="index.html">Home</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" href="beestvideo.html">Video</a>
+      </li>
+      <li class="nav-item">
+			  <a class="nav-link active" href="beestimage.html">Image <span class="sr-only">(current)</span></a>
+			</li>
+			<li class="nav-item">
+			<a class="nav-link" href="beestbutton.html">Button</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" href="beestalert.html">Alert</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" href="beesttable.html">Table</a>
+			</li>
+			   <li class="nav-item">
+			  <a class="nav-link" href="beestpolleverywhere.html">Poll Everywhere</a>
+			</li>
+			   <li class="nav-item">
+			  <a class="nav-link" href="beestreadmore.html">Read More Button</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" href="beestaccordion.html">Accordion</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" href="beesttabbedcontent.html">Tabbed Content</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" href="beestquote.html">Quote</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" href="https://docs.google.com/forms/d/e/1FAIpQLSeojgdmy3o6gUq1ZzuV3Q2YflUDfxH4TKKzz5lbpTJLmLOm5w/viewform?usp=sf_link" target="_blank">Feedback</a>
+			</li>
+		  </ul>
     </div>
-  </nav>
-
+	  </nav>
+  <div class="row w-100 mb-5"></div>
+  <div class="row w-100 mb-4"></div>
+<div class="container-fluid">
+  <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
+    <div class="h6"><i class="fa fa-fw fa-3x fa-pull-left fa-exclamation-circle"></i>You can only generate the code for one element at a time on this page. When you paste the link for your image (Unsplash/Pexels/StockSnap) that box will become read only. This means you cannot delete or edit the link in the box. If you need more elements, copy and paste each element into Moodle, refresh the page and create your next element. If you make an error you will need to refresh the page and start again.</div>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+    </div>
 <h1 class="text-center"><i class="fa fa-image"></i> Responsive image + context</h1>
-
+  <div class="row w-100">
+    <div class="col-lg mt-2">
+      <div class="hideableinstruct">
+<h5>The result of this process</h5>
+        <p>This process will generate a responsive image element that is side by side with the context for what students can expect to know/see with the image. A responsive image changes size with the size of the browser window you are in and when the screen gets small enough, the image and text in this combo will 'collapse' underneath one another. This tool will change your image link into the embed link for the respective platform. This tool currently accepts the following image links - Unsplash, Pexels, StockSnap. <strong>Click on the links below to reveal which link you require for the BEEST responsive image tool Step 1. If you click play on the video and exit the overlay, the video will continue to play. Ensure you stop the video once you have finished viewing it.</strong></p>
+        <ul>
+          <li><a data-toggle="modal" data-target=".unsplash-modal" href="">Unsplash</a>
+            <div class="modal fade panopto-modal" tabindex="-1" role="dialog" aria-labelledby="panopto-modal" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content p-2">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=b84fa926-7531-4321-8f0b-ac2c0000d69d"></iframe></div>
+              </div>
+            </div>
+          </div></li>
+          <li><a data-toggle="modal" data-target=".pexels-modal" href="">Pexels</a>
+            <div class="modal fade youtube-modal" tabindex="-1" role="dialog" aria-labelledby="youtube-modal" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content p-2">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=98282461-8b14-48fb-a4d2-ac2c0000d672"></iframe></div>
+                </div>
+              </div>
+            </div></li>
+          <li><a data-toggle="modal" data-target=".stocksnap-modal" href="">StockSnap</a>
+            <div class="modal fade ted-modal" tabindex="-1" role="dialog" aria-labelledby="ted-modal" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content p-2">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d27cc54b-dd5e-4436-b862-ac2c0000d623"></iframe></div>
+                </div>
+              </div>
+            </div></li>
+        </ul>
+        <h5>How to use this page</h5>
+        <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle, <a data-toggle="modal" data-target=".html-paste-modal" href="">this short video will help</a> (it will open in an overlay on this screen).</p>
+        <div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content p-2">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe></div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <h5>Refresh this page</h5>
+        <div class="row w-100">
+          <div class="col-lg">
+        <p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
+        <div class="col-lg-3"><div class="text-center">
+          <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
+        </div></div></div>
+        <h5 class="mt-2">Advanced mode - turn <span class="onoffswapinstr">off</span> instructions</h5>
+        <div class="row w-100">
+          <div class="col-lg">
+        <p>Click this button to turn <span class="onoffswapinstr">off</span> the instructions that appear when you hover over the headings.<span class="hideableinstruct"> Only do this if you are completely familiar with how to use the tool.</span></p></div>
+        <div class="col-lg-3"><div class="text-center">
+          <button onclick="flipTooltip()" class="btn btn-mu">Turn <span class="onoffswapinstr">off</span> instructions <i class="fa fa-fw fa-power-off"></i></a>
+        </div></div></div>
+      </div>
+        <div class="col-lg-4 mt-2 hideableinstruct">
+          <h5>Video walkthrough - Creating responsive image (Placeholder)</h5>
+          <div class="embed-responsive embed-responsive-16by9">
+            <iframe src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=cef099bc-a7e9-4211-be3c-ac3e005c0924" class="embed-responsive-item" frameborder="1" allowfullscreen="true"></iframe>
+          </div>
+        </div>
+      </div>
+        <hr class="hr-3">
+  
 <form id="respImg">   
    <div class="row w-100 mx-auto">
     <div class="col-lg-8 mt-2">
     <div class="row w-100 mx-auto">
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your video. When you paste the link into this box it will automatically change the link to be the embed link required for the platform you are pasting from this process to work and you will not be able to edit this box.">Step 1 - Upload an image</h5>
-        [Placeholder] You can upload an image from your computer or choose an existing image from your Google Drive. Please note that the image you upload will store in the Google Drive
+        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your image. When you paste the link into this box it will automatically change the link to be the embed link required for the platform you are pasting from this process to work.">Step 1 - Image link</h5>
+        <div class="row w-100 mx-auto">
+        <p>Please find your image from <a href="https://unsplash.com" target="_blank">Unsplash</a>/<a href="https://www.pexels.com" target="_blank">Pexels</a>/<a href="https://stocksnap.io/" target="_blank">StockSnap</a> and paste the URL here</p>
+
+        <!--<a data-toggle="modal" data-target=".panopto-modal" href="">search an image here</a>
+            <div class="modal fade panopto-modal" tabindex="-1" role="dialog" aria-labelledby="panopto-modal" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content p-2">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=b84fa926-7531-4321-8f0b-ac2c0000d69d"></iframe></div>
+              </div>
+            </div>
+          </div>-->
+
+        <p id="popup"><span class="popuptext" id="myPopup">Please paste a valid link from Unsplash/Pexels/StockSnap</span></p>
+        <textarea class="rounded p-2 w-100" rows="1" name="respImgSwitch" type="text" id="respImgSwitch" placeholder="Paste the Unsplash/Pexels/StockSnap image link here" onchange=generateCode()></textarea>
+        </div>
         <div ng-controller="driveController">        
           <!--<div ng-show="checkingLogin">Checking login status...</div>
           Login status:{{loggedIn}}
           <button ng-disabled="checkingLogin || loggedIn" ng-click="login()">Log In</button>-->
         
           <div ng-show="loggedIn">
-            <button ng-disabled="uploading" ng-click="clickFileUpload()">Upload image</button>
-            <button onclick="loadPicker()">Choose Image from Google Drive</button>
+            <input ng-disabled="uploading" ng-click="clickFileUpload()" type="button" class="btn btn-arts m-1" name="uploadImage" value="Upload image" >
+            <!--<button ng-disabled="uploading" ng-click="clickFileUpload()">Upload image</button>-->
+            <input type="button" class="btn btn-arts m-1" name="uploadImage" value="Choose Image from Google Drive" onclick="loadPicker()">
+            <!--<button onclick="loadPicker()">Choose Image from Google Drive</button>-->
             <input type="file" id="uploadImage" accept="image/*" onchange="angular.element(this).scope().upload()" style="display:none;">
             <div ng-show="uploading">Uploading image to your Google Drive ...</div>    
             <!--<div ng-show="!images.length">No uploaded images yet</div>-->
@@ -476,9 +584,6 @@
               <img id ="img2" ng-src="{{image}}" style="max-width: 100%;max-height: 100%;">
             </div>
           </div>
-
-        </div>
-      </div>
 
     <div class="row w-100 mx-auto">
         <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="It's recommended to have a few sentences or dot points explaining what is in the video students are about to watch. This helps in particular when students are looking back through your site for a specific video where you addressed certain concepts or theories. Instead of watching the entire video, they can read the context you have provided, and decide if they have found what they need without having to watch the entire video.">Step 2 - Image context</h5>
@@ -497,34 +602,46 @@
       <div class="row w-100 mx-auto">
         <div class="col-lg-8 mt-2">
           <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose which half/side of screen you would prefer the video to appear by clicking on one of the options below. Video on the left is selected by default.">Step 3 - Image position</h5>
-                <select class="custom-select w-50 border border-dark" id="imagePosition" name="imagePosition" size="1" onchange=onchangeCode()>
+                <select class="custom-select w-50 border border-dark" id="imagePosition" name="imagePosition" size="1" onchange=generateCode()>
                 <option value="left" selected>Image on the left</option>
                 <option value="right">Image on the right</option>
               </select>
               </div> 
             </div> 
+
             <div class="row w-100 mx-auto">
               <div class="col-lg-8 mt-2">
-                <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the heading for this video. 50 character maximum. If you want a heading, you must also complete step 5 or your heading will not display.">Step 4 - Heading (optional)</h5>
-                <textarea maxlength="50" class="rounded p-2 w-100" rows="1" name="respVid_heading" type="text" id="respImgHeading" placeholder="Type your image heading here" onchange=onchangeCode()></textarea>
+                <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose whether you want the video to be 50% (1/2) of the screen width or 33.3% (1/3) of the screen width.">Step 4 - Image width</h5>
+                      <select class="custom-select w-50 border border-dark" id="imageWidth" name="imageWidth" size="1" onchange=generateCode()>
+                      <option value="50" selected>50% (1/2)</option>
+                      <option value="33">33.3% (1/3)</option>
+                      <option value="25">25% (1/4)</option>
+                    </select>
+                    </div> 
+                  </div> 
+
+            <div class="row w-100 mx-auto">
+              <div class="col-lg-8 mt-2">
+                <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the heading for this video. 50 character maximum. If you want a heading, you must also complete step 5 or your heading will not display.">Step 5 - Heading (optional)</h5>
+                <textarea maxlength="50" class="rounded p-2 w-100" rows="1" name="respVid_heading" type="text" id="respImgHeading" placeholder="Type your image heading here" onchange=generateCode()></textarea>
               </div>
             </div>
 
     <div class="row w-100 mx-auto">
     <div class="col-lg-8 mt-2">
-      <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 5 - Heading size (optional)</h5>
-            <select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1" onchange=onchangeCode()>
+      <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 6 - Heading size (optional)</h5>
+            <select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1" onchange=generateCode()>
             <!--<option selected value="noH">No heading</option>-->
-            <option value="h5">Small</option>
-            <option selected value="h4">Medium</option>
-            <option value="h3">Large</option>
+            <option selected value="h5">Small (heading 5)</option>
+            <option value="h4">Medium (heading 4)</option>
+            <option value="h3">Large (heading 3)</option>
           </select>
           </div> 
         </div>   
         <div class="row w-100 mx-auto">
           <div class="col-lg-5">
-            <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 4) and choose a heading size (step 5) and or the icon and heading will not display.">Step 6 - Select icon (optional)</h5>
-            <select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1" onchange=iconpreview()>
+            <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 4) and choose a heading size (step 5) and or the icon and heading will not display.">Step 7 - Select icon (optional)</h5>
+            <select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1" onchange=generateCode()>
               <option selected value="noI">No icon</option>
                 <option value="1">Image</option>
                 <option value="2">Play</option>
@@ -537,31 +654,93 @@
             </div>
           </div> 
 
+          <div class="row w-100 mb-3 mx-auto">
+            <div class="col-lg mt-2">
+            <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 7.">Step 8 - Preview</h5>
+            </div>
+          </div>
+          <div id="demo" class="row w-100 mb-3 mx-auto">                     
+          </div>
     <div class="row w-100 mx-auto">
     <div class="col-lg-8 mt-2">
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="focus hover">Generated Code</h5>
-        <!--<h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 7 - Generate/copy code</h5>-->    
-        <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><!--<input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Generate and copy code" onClick=generateCode() >--></p>
+        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 9 - Copy code and paste them into Moodle</h5>
+        <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Copy your code </>" onClick=copyCode() ></p>
         <textarea readonly class="rounded p-2 w-100" id="txtarearespImg" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here"></textarea>
         
-        <!--<input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Generate and copy code" onClick=writeinMoodle() >-->
+        <!--<input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Write back to Moodle" onClick=writeinMoodle() >-->
     
       </div>
     </div>
-              <div class="row w-100 mb-3 mx-auto">
-                <div class="col-lg mt-2">
-                <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 7.">Step 7 - Preview</h5>
-                </div>
-              </div>
     </form>
 
-    <div id="demo">                     
-    </div>
     <p class="my-3"></p>
   </div>
 
 <script src="https://apis.google.com/js/client.js?onload=gapiLoaded"></script>
 <script type="text/javascript" src="https://apis.google.com/js/api.js"></script>
+
+<script>
+    $('#respImgSwitch').on('input', function(event) {
+    var s = $('#respImgSwitch').val().toString();
+
+    if (s.includes("unsplash.com") == true) {
+    //code for replacing unplash link with embed code
+    var x = s.replace('https://unsplash.com/photos','https://source.unsplash.com');
+    }
+
+    else if (s.includes("pexels.com") == true) {
+    //code for replacing stocksnap link with embed code
+    var y = s.replace('https://www.pexels.com/photo/','');
+    var x = y.replace('/','');
+    //use regular expression to find the id number
+    var pexelsid = x.match(/\d+/)[0];
+    var x = "https://images.pexels.com/photos/" + pexelsid + "/pexels-photo-" + pexelsid + ".jpeg";
+    }
+
+    else if (s.includes("stocksnap.io") == true) {
+    //code for replacing unplash link with embed code
+    var y = s.replace('https://stocksnap.io/photo/','https://cdn.stocksnap.io/img-thumbs/960w/');
+    //use regular expression to convert the last - to _
+    var x = y.replace(/-([^-]*)$/,'_$1') + ".jpg"
+    }
+
+    else{
+    var popup2 = document.getElementById("myPopup2");
+    popup2.classList.toggle("showPopup");
+    }
+
+    $('#respImgSwitch').val(x);
+    //$('input[type="text"], textarea#respVidSwitch').attr('readonly','readonly');
+  }); 
+  var textarea = $('#respImgHeading');
+  var select = $('#headSize');
+  var addOrRemoveRequiredAttribute = function () {
+  if (textarea.val().length) {
+    select.val("h5")
+  }
+  };
+
+  // Run now
+  addOrRemoveRequiredAttribute();
+
+  // And when textarea changes
+  textarea.on('change', addOrRemoveRequiredAttribute);
+</script>
+
+<footer class="bg-arts text-white w-100">
+  <nav class="navbar navbar-expand navbar-dark bg-arts">   
+      <a class="navbar-brand text-center border border-white p-2 rounded" href="index.html"><img src="img/dragon-solid-white.png" width="30" height="30" alt=""></a>  
+        <ul class="navbar-nav">
+          <span class="navbar-text"><i class="fa fa-copyright" aria-hidden="true"></i> Monash University 2020</span>
+          <li class="nav-item mx-2">
+              <a class="nav-link" href="https://docs.google.com/forms/d/e/1FAIpQLSeojgdmy3o6gUq1ZzuV3Q2YflUDfxH4TKKzz5lbpTJLmLOm5w/viewform?usp=sf_link" target="_blank">Feedback/Improvements/Issues</a>
+          </li>
+           <li class="nav-item">
+              <a class="nav-link" href="https://mail.google.com/mail/u/0/?view=cm&amp;fs=1&amp;to=beest@monash.edu&amp;su=Question%20about%20BEEST%20tool" target="_blank">Contact BEEST support<span class="sr-only">(current)</span></a>
+          </li>
+          </ul>
+  </nav>
+</footer>
 
 <div id="beestFooter"></div>
 </body>

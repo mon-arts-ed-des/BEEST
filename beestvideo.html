@@ -32,13 +32,16 @@
     <script src="https://kit.fontawesome.com/3817feae52.js"></script> 
     <!-- Tinymce js file -->   
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
-	  <script src="js/advancedModeLocalStorage.js"></script>
+    <script src="js/advancedModeLocalStorage.js"></script>
+    <!-- TinyMCE placeholder plugin file -->
+    <script src="js/placeholder.js"></script> 
     <!-- Script to init the tinyMCE editor --> 
     <script type="text/javascript">
         tinymce.init({
         selector: '#tinyMCEvideo',
         menubar: false,
-        plugins : 'advlist autolink link lists charmap print preview code',
+        plugins : 'advlist autolink link lists charmap print preview code placeholder',
+        placeholder:'[Placeholder for video context]',
         toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat',  
         setup : function(ed) {      
         ed.on('change', function (e) {	
@@ -46,6 +49,10 @@
           });					
         }
       });
+
+      function writeinMoodle() {
+      tinyMCE.get('#id_introeditor').setContent(textOutput);
+       }
     
       function iconpreview() {
         var faIcon = document.getElementById('faCode').value;
@@ -140,21 +147,28 @@
         }
 		
         var resizedHead;
-            //Resizing the heading text
-        switch(headSize){
-          case "noH":
-            resizedHead = "";
-            break;
-          case "h3":
-            resizedHead = head_3+faIconCode+vidHeading+endHead_3;
-            break;
-          case "h4":
-            resizedHead = head_4+faIconCode+vidHeading+endHead_4;
-            break;
-          case "h5":
-            resizedHead = head_5+faIconCode+vidHeading+endHead_5;
-            break;
+
+        if(vidHeading == ""){
+          resizedHead = "";
         }
+        else{
+            //Resizing the heading text
+          switch(headSize){
+            case "noH":
+              resizedHead = "";
+              break;
+            case "h3":
+              resizedHead = head_3+faIconCode+vidHeading+endHead_3;
+              break;
+            case "h4":
+              resizedHead = head_4+faIconCode+vidHeading+endHead_4;
+              break;
+            case "h5":
+              resizedHead = head_5+faIconCode+vidHeading+endHead_5;
+              break;
+          }
+        }
+
         //Change size of column if requested
         if (vWidth == "33" && vPosition == "left"){
           firstCol=firstCol4;
@@ -310,6 +324,8 @@
     </head>
 <body>
   <div id="beestNav"></div>
+  <div class="row w-100 mb-5"></div>
+  <div class="row w-100 mb-4"></div>
 <div class="container-fluid">
   <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
     <div class="h6"><i class="fa fa-fw fa-3x fa-pull-left fa-exclamation-circle"></i>You can only generate the code for one element at a time on this page. When you paste the link for your video (Panopto/Vimeo/Youtube/TED) that box will become read only. This means you cannot delete or edit the link in the box. If you need more elements, copy and paste each element into Moodle, refresh the page and create your next element. If you make an error you will need to refresh the page and start again.</div>
@@ -418,60 +434,46 @@
         </div>
       </div>
         <hr class="hr-3">
-<form id="respVid">   
-  <div class="row w-100 mx-auto">
-    <div class="col-lg-8 mt-2">
-    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your video. When you paste the link into this box it will automatically change the link to be the embed link required for the platform you are pasting from this process to work and you will not be able to edit this box.">Step 1 - Video link</h5>
-        <textarea class="rounded p-2 w-100" rows="1" name="respVidSwitch" type="text" id="respVidSwitch" placeholder="Paste the Youtube/Panopto/Vimeo/TED Talks video link here" onchange=generateCode()></textarea>
-      
-    <h5 class="w-50 mt-2" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="It's recommended to have a few sentences or dot points explaining what is in the video students are about to watch. This helps in particular when students are looking back through your site for a specific video where you addressed certain concepts or theories. Instead of watching the entire video, they can read the context you have provided, and decide if they have found what they need without having to watch the entire video.">Step 2 - Video context</h5>
-        <textarea id="tinyMCEvideo" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="respVid_context" onchange=generateCode()></textarea>
+<form id="respVid">  
+  <div class="row w-100 mb-3 mx-auto">
+    <div class="col-lg-6 mt-2">
+      <div>
+        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your video. When you paste the link into this box it will automatically change the link to be the embed link required for the platform you are pasting from this process to work and you will not be able to edit this box.">Step 1 - Video link</h5>
+            <textarea class="rounded p-2 w-100" rows="1" name="respVidSwitch" type="text" id="respVidSwitch" placeholder="Paste the Youtube/Panopto/Vimeo/TED Talks video link here" onchange=generateCode()></textarea>
+        <h5 class="w-50 mt-2" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="It's recommended to have a few sentences or dot points explaining what is in the video students are about to watch. This helps in particular when students are looking back through your site for a specific video where you addressed certain concepts or theories. Instead of watching the entire video, they can read the context you have provided, and decide if they have found what they need without having to watch the entire video.">Step 2 - Video context</h5>
+            <textarea id="tinyMCEvideo" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="respVid_context" onchange=generateCode()></textarea>
       </div>
-    <div class="col-lg-4 mt-2">
-      <h5 id="videoPreviewText" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="When you paste your video URL in step 1 a preview of the video will appear here for you to ensure you have pasted the correct video." style="display:none;">Quick Video preview</h5>
-      <span id="videopreview" style="display:none;"></span>
-      <div class="embed-responsive embed-responsive-16by9">
-      <iframe id="vid" class="embed-responsive-item" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen src=""></iframe>
-    </div>
-    </div>
-  </div> 
-
-      <div class="row w-100 mx-auto">
-        <div class="col-lg-8 mt-2">
-          <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose which half/side of screen you would prefer the video to appear by clicking on one of the options below. Video on the left is selected by default.">Step 3 - Video position</h5>
-                <select class="custom-select w-50 border border-dark" id="videoPosition" name="videoPosition" size="1" onchange=generateCode()>
-                <option value="left" selected>Video on the left</option>
-                <option value="right">Video on the right</option>
+        <div class="row w-100">
+          <div class="col-lg mt-2 w-50">
+          <h5 class="mt-2" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose which half/side of screen you would prefer the video to appear by clicking on one of the options below. Video on the left is selected by default.">Step 3 - Video position</h5>
+              <select class="custom-select w-100 border border-dark p-2" id="videoPosition" name="videoPosition" size="1" onchange=generateCode()>
+                  <option value="left" selected>Video on the left</option>
+                  <option value="right">Video on the right</option>
               </select>
-              </div> 
-            </div> 
-            <div class="row w-100 mx-auto">
-              <div class="col-lg-8 mt-2">
-                <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose whether you want the video to be 50% (1/2) of the screen width or 33.3% (1/3) of the screen width.">Step 4 - Video width</h5>
-                      <select class="custom-select w-50 border border-dark" id="videoWidth" name="videoWidth" size="1" onchange=generateCode()>
-                      <option value="50" selected>50% (1/2)</option>
-                      <option value="33">33.3% (1/3)</option>
-                    </select>
-                    </div> 
-                  </div> 
-            <div class="row w-100 mx-auto">
-              <div class="col-lg-8 mt-2">
-                <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the heading for this video. 50 character maximum. If you want a heading, you must also complete step 5 or your heading will not display.">Step 5 - Heading (optional)</h5>
-                <textarea maxlength="50" class="rounded p-2 w-100" rows="1" name="respVid_heading" type="text" id="respVidHeading" placeholder="Type your video heading here" onchange=generateCode()></textarea>
-              </div>
-            </div>
-    <div class="row w-100 mx-auto">
-    <div class="col-lg-8 mt-2">
-      <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 6 - Heading size (optional)</h5>
-            <select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1" onchange=generateCode()>
-            <option selected value="h5">Small (h5)</option>
-            <option value="h4">Medium (h4)</option>
-            <option value="h3">Large (h3)</option>
+          </div>
+          <div class="col-lg mt-2 w-50">
+          <h5 class="mt-2" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose whether you want the video to be 50% (1/2) of the screen width or 33.3% (1/3) of the screen width.">Step 4 - Video width</h5>
+              <select class="custom-select w-100 border border-dark" id="videoWidth" name="videoWidth" size="1" onchange=generateCode()>
+                  <option value="50" selected>50% (1/2)</option>
+                  <option value="33">33.3% (1/3)</option>
+              </select>
+          </div>
+        </div> 
+        <div class="w-100 mt-2">
+        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the heading for this video. 50 character maximum. If you want a heading, you must also complete step 5 or your heading will not display.">Step 5 - Heading (optional)</h5>
+            <textarea maxlength="50" class="rounded p-2 w-100" rows="1" name="respVid_heading" type="text" id="respVidHeading" placeholder="Type your video heading here" onchange=generateCode()></textarea>
+        </div>
+      <div class="row w-100">
+      <div class="col-lg mt-2 pr-0">
+      <h5 class="w-100" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 6 - Heading size (optional)</h5>
+            <select class="custom-select w-100 border border-dark" id="headSize" name="headSize" size="1" onchange=generateCode()>
+            <option selected value="h5">Small (heading 5)</option>
+            <option value="h4">Medium (heading 4)</option>
+            <option value="h3">Large (heading 3)</option>
           </select>
-          </div> 
-        </div>   
-        <div class="row w-100 mx-auto">
-          <div class="col-lg-4 mt-2 pr-0">
+          </div>    
+
+          <div class="col-lg mt-2 pr-0">
             <h5 class="w-100" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 4) and choose a heading size (step 5) and or the icon and heading will not display.">Step 7 - Select icon (optional)</h5>
             <select class="custom-select w-100 border border-dark" id="faCode" name="faCode" size="1" onchange=generateCode()>
               <option selected value="noI">No icon</option>
@@ -480,28 +482,25 @@
                 <option value="3">Eye</option>
               </select>
             </div>
-          </div> 
+          </div>
+
           
-    <div class="row w-100 mx-auto">
-            <div class="col-lg-8 mt-2">
-    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 8 - Copy code and paste them into Moodle</h5>
-               
-            <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Copy code" onClick=copyCode() ></p>
-            <textarea readonly class="rounded p-2 w-100" id="txtarearespVid" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here"></textarea>
-           
-            </div>
-                   
+              </div>   
+
+              <div class="col-lg-6 mt-2">
+                <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in here.">Preview</h5>
+              <div id="demo" class="mt-2">    
               </div>
-              <div class="row w-100 mb-3 mx-auto">
-                <div class="col-lg mt-2">
-                <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 7.">Step 9 - Preview</h5>
+              <div class="mt-2">
+                <h5 class="w-100 mt-5" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 8: Copy code and paste them into Moodle</h5>   
+                      <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Copy your code </>" onClick=copyCode() >
+                          <!--<input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Display in Moodle" onClick=writeinMoodle() ></p>-->
+                        <textarea readonly class="rounded p-2 w-100 mt-2" id="txtarearespVid" cols="70" rows="6" name="Result" placeholder="Code for your element will appear here"></textarea>  
                 </div>
-              </div>
-             
-                           </form>
-                    <div id="demo">
-                     
-                    </div>
+            </div>
+          </div>  
+      </form>
+
                     <p class="my-3"></p>
                   </div>
          <script>
@@ -527,6 +526,7 @@
         else if (s.includes("ted.com") == true) {
           var x = s.replace('www.ted.com','embed.ted.com');
         }
+        $('#respVidSwitch').val(x);
         
         document.getElementById('vid').src = x;
         var videopreview = document.getElementById('videopreview');
@@ -542,7 +542,6 @@
           videoPreviewText.style.display = "none";          
         }
 
-        $('#respVidSwitch').val(x);
         //$('input[type="text"], textarea#respVidSwitch').attr('readonly','readonly');
       }); 
       var textarea = $('#respVidHeading');

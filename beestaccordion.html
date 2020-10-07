@@ -10,7 +10,7 @@
 
   gtag('config', 'UA-152392632-3');
 </script>
-
+<script src="js/pageHistory.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="A simple element creator to generate responsive code that can be easily embbedded into Moodle">
@@ -36,14 +36,16 @@
       <script src="https://kit.fontawesome.com/3817feae52.js"></script> 
       <!-- Tinymce js file -->   
       <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
-     
+      <!-- TinyMCE placeholder plugin file -->
+      <script src="js/placeholder.js"></script> 
 	  
 	    <script src="js/advancedModeLocalStorage.js"></script>
-    <script type="text/javascript">
+      <script type="text/javascript">
        tinymce.init({
         selector: '#tinyMCEmonAccContent1',
         menubar: false,
-        plugins : 'advlist autolink link lists charmap print preview code',
+        plugins : 'advlist autolink link lists charmap print preview code placeholder',
+        placeholder: 'Input the content for your accordin drawer here',
         toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
         'undo redo | charmap | autolink link | code | removeformat' ],  
         setup : function(ed) {      
@@ -52,20 +54,53 @@
           });					
         }
       });
-	
+/*REQUIRED FOR HISTORY*/	
+	const ACCORD_HIST = "history_accordion"
+/*END REQUIRED FOR HISTORY*/	
 	const COUNTER_ID = "accordCounter"
 	const absoluteMaxAccord = 10;
 	const absoluteMinAccord = 3;
+	var classAccord = null
 	var accordianSectionsCurr = 1;
 	var accordianSectionsTotalMade = 1;
 	var accordiansPostInit = []
+
 	$(document).ready(function() { //create the tinyMCE areas after the first
 		while (accordianSectionsCurr < absoluteMinAccord){
 			addSection()
 		}
+		/*REQUIRED FOR HISTORY*/
+		initHistory()
+		/*END REQUIRED FOR HISTORY*/
 	})
+	
+	function changeDrawerCount(){
+		var revisedCount = document.getElementById(COUNTER_ID).value
+		if (isNaN(revisedCount)){
+			revisedCount = accordianSectionsCurr
+		}
+		else{
+			if (!(Number.isInteger(revisedCount))){
+				revisedCount = Number.parseInt(revisedCount)
+			}
+			if (revisedCount > absoluteMaxAccord){
+				revisedCount = absoluteMaxAccord
+			}
+			if (revisedCount < absoluteMinAccord){
+				revisedCount = absoluteMinAccord
+			}
+			while (accordianSectionsCurr < revisedCount){
+				addSection()
+			}
+			while (accordianSectionsCurr > revisedCount){
+				removeSection()
+			}
+		}
+		updatePageCounter(COUNTER_ID,revisedCount)
+	}
+	
 	function updatePageCounter(ID,currCounter){
-		document.getElementById(ID).innerHTML = currCounter;
+		document.getElementById(ID).value = currCounter;
 	}
 	
 	function accordianSectionTemplate(num){
@@ -175,10 +210,11 @@
 			tinymce.init({
 			selector: '#'+newAccordian.IDTiny,
 			menubar: false,
-      plugins : 'advlist autolink link lists charmap print preview code',
-        toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
+      plugins : 'advlist autolink link lists charmap print preview code placeholder',
+      placeholder: 'Input the content for your accordin drawer here',
+      toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
         'undo redo | charmap | autolink link | code | removeformat' ],
-        setup : function(ed) {      
+      setup : function(ed) {      
         ed.on('change', function (e) {	
           generateAccCode();
           });					
@@ -272,6 +308,38 @@
 		return output
 	}
 	
+	function setTextAreas(idList,dataSet){
+	/*
+	dataSet should be an instance of the accordion class
+	*/
+		document.getElementById('accMainHeading').value = dataSet.main;
+		document.getElementById('headSize').value = dataSet.size;
+		document.getElementById('faCode').value = dataSet.icon;
+		
+		
+		tinyMCE.get('tinyMCEmonAccContent1').setContent(dataSet.drawer[0].content)
+		document.getElementById('monAccBtnTxt1').value = dataSet.drawer[0].heading
+		
+		for (var idNum=0; idNum<idList.length; idNum++){
+			var thisContent
+			var thisHeading = ""
+			try{
+				thisContent=dataSet.drawer[idNum+1].content
+			}
+			catch{
+				thisContent = ""
+			}
+			try{
+				thisHeading=dataSet.drawer[idNum+1].heading
+			}
+			catch{
+				thisHeading = ""
+			}
+			tinyMCE.get(idList.tiny[idNum]).setContent(thisContent)
+			document.getElementById(idList.btn[idNum]).value = thisHeading
+		}	
+	}
+	
 	function getTextAreas(idList){
 		var monAccContent1 = tinyMCE.get('tinyMCEmonAccContent1').getContent();
 		var monAccBtnTxt1 = document.getElementById('monAccBtnTxt1').value;
@@ -285,20 +353,42 @@
 		return {cont: monAccCont, btn: monAccBtn, length:idList.length}
 	}
 	
+	function accordionDataToClass(heading,size,icon,heads,conts){
+		/*
+		accordion{
+	constructor(mainHead,headSize,icon,drawerList){
+		this.mainHead = mainHead
+		this.headSize = headSize
+		this.icon = icon
+		this.drawerList = this.PDO_drawerListToDrawers(drawerList)
+	}
+		*/
+		var accordData = new accordion(heading,size,icon,[])
+		
+		for (var hcCt=1;hcCt < heads.length; hcCt++){
+			accordData.addDrawer(heads[hcCt],conts[hcCt])
+		}
+		
+		return accordData
+	}
+	
     function generateAccCode() {
-       	var IDs = getTextAreas(accordListToIDs(accordiansPostInit))
-		monAccBtnTxt = IDs.btn;
-		monAccContent = IDs.cont;
-    var accMainHeading = document.getElementById('accMainHeading').value;
-    var headSize = document.getElementById('headSize').value;
-    var faIcon = document.getElementById('faCode').value;
-    var head_3="<h3>"
-    var endHead_3="</h3>"
-    var head_4="<h4>"
-    var endHead_4="</h4>"
-    var head_5="<h5>"
-    var endHead_5="</h5>"
-    var iconNames = {
+		var IDs = getTextAreas(accordListToIDs(accordiansPostInit))
+			monAccBtnTxt = IDs.btn;
+			monAccContent = IDs.cont;
+		var accMainHeading = document.getElementById('accMainHeading').value;
+		var headSize = document.getElementById('headSize').value;
+		var faIcon = document.getElementById('faCode').value;
+		
+		classAccord = accordionDataToClass(accMainHeading,headSize,faIcon,monAccBtnTxt,monAccContent)
+		
+		var head_3="<h3>"
+		var endHead_3="</h3>"
+		var head_4="<h4>"
+		var endHead_4="</h4>"
+		var head_5="<h5>"
+		var endHead_5="</h5>"
+		var iconNames = {
             "1":"database",
 			      "2":"question",
             "3":"question-circle",
@@ -339,7 +429,7 @@
 				break;
 		}
 		
-		var monAccOutput = monAccStyle+resizedHead;
+		var monAccOutput = resizedHead;
 		
 		// loop over every accordion block
 		for (var secNum = 1; secNum <= accordianSectionsCurr; secNum++){
@@ -359,11 +449,146 @@
 			monAccOutput += monAccContent[secNum]
 			monAccOutput += monAcc_10
 		} 
-        document.getElementById('monAccCode').innerHTML=monAccOutput+monAcc_Close;
-        SelectAll("monAccCode");
+		
+		monAccOutput+=monAcc_Close
+        document.getElementById('monAccCode').innerHTML=monAccStyle+monAccOutput;
+        //SelectAll("monAccCode");
         $('#demo').nextAll('div, h3, h4, h5, i').remove();
         $('#demo').after(monAccOutput);
         }
+
+class accordDraw{
+	constructor(head,content){
+		this.head = head
+		this._content = content
+	}
+	get heading(){
+		return this.head
+	}
+	get content(){
+		return this._content
+	}
+	
+	toObj(){
+		var out = {}
+		out.head = this.head
+		out._content = this._content
+		return out
+	}
+	
+	fromObj(objectForm){
+		this.head = objectForm.head
+		this._content = objectForm._content
+	}
+
+	toString(){
+		return JSON.stringify(this.toObj())
+	}
+}
+
+class accordion{
+	constructor(mainHead,headSize,icon,drawerList){
+		this.mainHead = mainHead
+		this.headSize = headSize
+		this._icon = icon
+		if ((drawerList == undefined)||(drawerList == null)){
+			this.drawerList = null
+		}
+		else{
+			this.drawerList = this.PDO_drawerListToDrawers(drawerList)
+		}
+		this.timestamp = new Date()
+	}
+	
+	get main(){
+		return this.mainHead
+	}
+	set main(value){this.mainHead = value}
+	get size(){
+		return this.headSize
+	}
+	get drawerCount(){
+		return this.drawerList.length
+	}
+	
+	set size(value){this.headSize = value}
+	get icon(){
+		return this._icon
+	}
+	set icon(value){this._icon = value}
+	get drawer(){
+		return this.drawerList
+	}
+	
+	addDrawer(head,cont){
+		this.drawerList.push(new accordDraw(head,cont))
+	}
+	
+	PDO_drawerListToDrawers(drawerList){
+		var res = []
+		for (var dCount = 0; dCount < drawerList.length; dCount++){
+			res.push(new accordDraw(null,null))
+			res[dCount].fromObj(drawerList[dCount])
+		}
+		return res
+	}
+	
+	toObj(){
+		var out = {}
+		out.mainHead = this.mainHead
+		out.headSize = this.headSize
+		out._icon = this._icon
+		out.timestamp = this.timestamp
+		var publicDraw = []
+		for (var drawI=0;drawI<this.drawerList.length; drawI++){
+			publicDraw.push(this.drawerList[drawI].toObj())
+		}
+		out.drawerList = publicDraw
+		return out
+	}
+	
+	toString(){
+		return JSON.stringify(this.toObj())
+	}
+	
+	fromObj(PDOObj){
+		this.mainHead = PDOObj.mainHead
+		this.headSize = PDOObj.headSize
+		this._icon = PDOObj._icon
+		this.drawerList = this.PDO_drawerListToDrawers(PDOObj.drawerList)
+		this.timestamp = PDOObj.timestamp
+	}
+
+}
+/*REQUIRED FOR HISTORY*/
+function getHistory(){
+	return localStorage.getItem(ACCORD_HIST)
+}
+function setHistory(value){
+	localStorage.setItem(ACCORD_HIST,value)
+}
+
+function getHistoryI(index,history){
+	var selectedAccordion = history[index]
+	classAccord = new accordion()
+	classAccord.fromObj(selectedAccordion) // classAccord now holds the data of this index
+	var refToClassAccord = classAccord
+	
+	while (accordianSectionsCurr < refToClassAccord.drawerCount){
+		addSection()
+	} // add required sections
+	while (accordianSectionsCurr > refToClassAccord.drawerCount){
+		removeSection()
+	} // remove extra sections
+	
+	setTextAreas(accordListToIDs(accordiansPostInit),refToClassAccord)
+	generateAccCode()
+}
+/*END REQUIRED FOR HISTORY*/
+    function copyCode(){
+      SelectAll("monAccCode");
+	  addToHistory(classAccord)
+    }
         
     function SelectAll(id){
         document.getElementById(id).focus();
@@ -387,7 +612,7 @@
 
     monAcc = button to toggle extended text
     */
-	  var monAccStyle="<script> var L=document.createElement('link'); L.rel='stylesheet'; L.href='css/accordionStyle.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
+	  var monAccStyle="<script> var L=document.createElement('link'); L.rel='stylesheet'; L.href='http://mon-arts-ed-des.github.io/BEEST/css/accordionStyle.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
     var monAcc_1="<div id=\"accordion\" class=\"mt-0 w-100 mx-auto\"><div class=\"card border-0\"><div class=\"rounded-top headingStyle text-white card-header p-0\" id=\"head"
     var monAcc_1a="<div id=\"accordion\" class=\"mt-0 w-100 mx-auto\"><div class=\"card border-0\"><div class=\"headingStyle text-white card-header p-0\" id=\"head"
     var monAcc_2="\" data-toggle=\"collapse\" data-target=\"#content"
@@ -502,49 +727,9 @@
     </style> 
     </head>
     <body>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-arts mb-3">
-        <a class="navbar-brand text-center border border-white p-2 rounded" href="index.html"><img src="img/dragon-solid-white.png" width="30" height="30" alt=""></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="index.html">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="beestvideo.html">Video</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="beestbutton.html">Button</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="beestalert.html">Alert</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="beesttable.html">Table</a>
-            </li>
-               <li class="nav-item">
-              <a class="nav-link" href="beestpollev.html">Poll Everywhere</a>
-            </li>
-               <li class="nav-item">
-              <a class="nav-link" href="beestreadmore.html">Read More Button</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" href="beestacc.html">Accordion <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="beesttabbed.html">Tabbed Content</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="beestquote.html">Quote</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="https://docs.google.com/forms/d/e/1FAIpQLSeojgdmy3o6gUq1ZzuV3Q2YflUDfxH4TKKzz5lbpTJLmLOm5w/viewform?usp=sf_link" target="_blank">Feedback</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
+      <div id="beestNav"></div>
+      <div class="row w-100 mb-5"></div>
+      <div class="row w-100 mb-4"></div>
         <div class="container-fluid">
           <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
             <i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle my-auto"></i><div class="h6 mb-0">You can only have one accordion on a page because of the way the HTML works. <strong>Please make sure you only produce, copy and paste one accordion per Moodle page maximum</strong>. If you try to put two or more accordions on a page, none of them will work correctly.</div>
@@ -578,12 +763,41 @@
     </div>
   </div>
 </div>
-  <h5>Refresh this page</h5>
+<h5> Recover past data </h5>
+
+<div class="row w-100">
+    <div class="col-lg">
+	<p>
+	Use this button to retrieve data previously copied (Please note this will only work in the same browser for the time being)
+	</p>
+	</div>
+	<div class="col-lg">
+	<!--<button id="prevHist" onclick="prevHistI()" type="button" class="btn btn-primary mr-2"><i class="fa fa-fw fa-angle-left"></i></button>
+	  <button id="nextHist" onclick="nextHistI()" type="button" class="btn btn-primary mr-2"><i class="fa fa-fw fa-angle-right"></i></button>-->
+  <select class="custom-select w-50 border border-dark" size="1" id="recoveryDate" onchange="idSelectedRecData()">
+  <option selected value=0>please wait</option>
+  </select>
+
+
+  <button id="delHist" onclick="delHistI()" type="button" class="btn btn-danger mr-2"><i class="fa fa-fw fa-trash"></i></button>
+  
+  
+  </div>
+  
+  <div class="col-lg-3"><div class="text-center">
+          <button onclick="getHistoryI(histIndex,historicalData)" class="btn btn-mu">Recover <i class="fa fa-fw fa-undo"></i></a>
+        </div></div>
+  </div>
+
+
+
+
+  <h5>Reset this page</h5>
   <div class="row w-100">
     <div class="col-lg">
   <p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
   <div class="col-lg-3"><div class="text-center">
-    <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
+    <a href="javascript:window.location.reload()" class="btn btn-mu">Reset the page <i class="fa fa-fw fa-refresh"></i></a>
   </div></div></div>
   
         <h5>Advanced mode - turn <span class="onoffswapinstr">off</span> instructions</h5>
@@ -614,8 +828,8 @@
 <button id="minusbutton" style="display:none;" onclick="removeSection()" type="button" class="btn btn-danger">Remove drawer <i class="fa fa-fw fa-times"></i></button>
 </div>
 <div class="btn-group-lg" role="group"><span class="ml-3 h5">Current number of drawers</span>
-  <div class="border border-dark px-3 py-2 h5 rounded ml-1 btn" style="cursor:default ;"><div><span id="accordCounter">0</span></div></div>
-  </div>
+  <input class="border border-dark px-3 py-2 h5 rounded ml-1 btn" style="cursor:default ;" id="accordCounter" onchange="changeDrawerCount()" value=0>
+  </div>  
 </div>
 </div>
 </div>
@@ -628,11 +842,11 @@
 </div>
 <div class="row w-100 mx-auto">
 <div class="col-lg-6 mt-2">
-<h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 3 - Heading size (optional)</h5>
+<h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 3 - Main Heading size (optional)</h5>
 <select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1" onchange=generateAccCode()>
-<option selected value="h5">Small (h5)</option>
-<option value="h4">Medium (h4)</option>
-<option value="h3">Large (h3)</option>
+<option selected value="h5">Small (heading 5)</option>
+<option value="h4">Medium (heading 4)</option>
+<option value="h3">Large (heading 3)</option>
 </select>
 </div> 
 </div>   
@@ -676,9 +890,9 @@
                        <span id="newAccordArea"></span>       
 <div class="row w-100 mx-auto">
           <div class="col-lg mt-3">
-        <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 7 - Generate/copy code</h5>
+        <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 7 - Copy code and paste them into Moodle</h5>
         <div>
-    <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Copy code" onClick=generateAccCode()></p>
+    <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now and saved to the history</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Copy your code" onClick=copyCode()></p>
     </div>
     <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="monAccCode" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code for your accordion and copy it to the clipboard." onClick=generateAccCode()></textarea></p>
   </div>
@@ -707,19 +921,7 @@
       // And when textarea changes
       textarea.on('change', addOrRemoveRequiredAttribute);
       </script>
-    <footer class="bg-arts text-white w-100">
-      <nav class="navbar navbar-expand navbar-dark bg-arts">    
-          <a class="navbar-brand text-center border border-white p-2 rounded" href="index.html"><img src="img/dragon-solid-white.png" width="30" height="30" alt=""></a>  
-            <ul class="navbar-nav">
-              <span class="navbar-text"><i class="fa fa-copyright" aria-hidden="true"></i> Monash University 2020</span>
-              <li class="nav-item mx-2">
-                  <a class="nav-link" href="https://docs.google.com/forms/d/e/1FAIpQLSeojgdmy3o6gUq1ZzuV3Q2YflUDfxH4TKKzz5lbpTJLmLOm5w/viewform?usp=sf_link" target="_blank">Feedback/Improvements/Issues</a>
-              </li>
-               <li class="nav-item">
-                  <a class="nav-link" href="https://mail.google.com/mail/u/0/?view=cm&amp;fs=1&amp;to=beest@monash.edu&amp;su=Question%20about%20BEEST%20tool" target="_blank">Contact BEEST support<span class="sr-only">(current)</span></a>
-              </li>
-              </ul>
-              </nav>
-    </footer>
+
+    <div id="beestFooter"></div>
         </body>
         </html>
