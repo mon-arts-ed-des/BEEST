@@ -246,9 +246,8 @@ background: grey;
 </ol></div>
     </div>
   </div>
-   <hr class="hr2">
    <h3>Creators and Support</h3>
-<p>Should you require any assistance with the use of the BEEST elements, please email the creators on <a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=beest@monash.edu&su=Question%20about%20BEEST%20tool" target="_blank">beest@monash.edu</a>. The creators and current managers of the BEEST project are:</p>
+<p>Should you require any assistance with the Moodle setup and the use of the BEEST elements, please email the creators on <a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=beest@monash.edu&su=Question%20about%20BEEST%20tool" target="_blank">beest@monash.edu</a>. The creators and current managers of the BEEST project are:</p>
 <div class="row w-50 mx-auto">
     <div class="col-lg text-center h5 mt-2">
       <div class="border border-dark rounded p-2">
@@ -275,44 +274,6 @@ background: grey;
      </div>
 </div> 
 </div>  
-<hr class="hr2">
-   <div>
-    <h1 class="text-center"><i class="fa fa-fw fa-laptop-medical"></i> Setup the BEEST in Moodle</h1>
-    <h3>Why would I set this up in Moodle?</h5>
-  <p class="mb-0">We have designed the BEEST to be used within Moodle through the following process of implenting code into a HTML block at Faculty Category level. This is so you can create the elements you need using BEEST without leaving Moodle. The HTML block, and the code generated through this process, <strong>needs to be put in place by a Moodle administrator</strong>, and some consideration needs to be given to the Moodle roles that your Faculty would like to have access to the BEEST tool. E.g. Do you only want Moodle administrators to have access? Or adminstrators, designers and lecturers? Or administrators, lecturers and tutors Below is an instructional video to assist in the setup of this for your Faculty.</p>
-                <div class="row w-100">
-            <div class="col-lg mt-2">
-              <h3>Video walkthrough for setting up Monash blue elements</h3>
-              <p>This video will walk you through the steps to use the code generated on the right correctly in your Faculty level category. <strong>N.B. This requires a staff member with administrator access to Moodle.</strong></p>
-              <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item mt-3" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=bc32c84c-599c-4698-bd8c-ac0601883fb9"></iframe></div>
-            </div>
-            <div class="col-lg mt-2">
-              <h3>Script + CSS to make BEEST operate within Moodle</h3>
-              <div><h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose which level of Moodle role you want to have access to the BEEST.">Step 1 - Choose access level</h5>
-              <select class="custom-select w-50 border border-dark" id="accessToBeest" name="accessToBeest" size="1">
-              <option selected value="1">Moodle administrators only</option>
-              <option value="2">Administrators, lecturers and non-primary lecturers</option><!--
-              <option value="3">Administrators, lecturers, non-primary lecturers and tutors</option>-->
-            </select>
-          </div>
-          <div class="mt-2">
-              <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Once you have created your Faculty Category level block, find its 7 digit ID in the browser inspector (see walkthrough video) and input those 7 digits in the text area below.">Step 2 - Category level HTML block ID</h5>
-            </div>
-              <div>
-              <textarea id="htmlBlockID" class="rounded p-2 w-100" maxlength="7" cols="70" rows="1" placeholder="Input your 7 digit HTML block id number here."></textarea>
-            </div>
-            <div class="mt-2">
-              <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Once you have created completed step 1 and 2, click the button below to generate the code required to paste into your Faculty Category HTML block.">Step 3 - Generate/copy code</h5>
-<p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Generate and copy the below code &lt;/&gt;" onClick=generateAccessCode()></p>
-<p class="text-left"><textarea readonly placeholder="Your code will appear here when you click the button above this text area." class="rounded p-2 w-100" id="beestInMoodle" cols="10" rows="10" name="Result">
-</textarea>
-</p>  
-</div>
-</div>
-</div>
-
-
-        </div>
         </div>
         <script>
         function getRandomUrl(videoURL) {
