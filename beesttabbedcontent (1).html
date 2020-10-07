@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-152392632-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-152392632-3');
+</script>
+
+    <meta charset="utf-8"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A simple element creator to generate responsive code that can be easily embedded into Moodle">
+    <meta name="author" content="T&M">
+    <title>BEEST Tabbed Content</title>
+     <link rel="icon" href="img/dragon-solid-favicon.png" type="image/gif">
+
+    <!-- external link to css file --> 
+    <!-- Bootstrap CSS -->   
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Arts CSS -->  
+    <link rel="stylesheet" href="css/adminPlusSetuBlockStyle.css" />
+    <link rel="stylesheet" href="css/monTabs.css" />
+    <!-- external link to js file -->  
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+  
+    <!-- Bootstrap js file --> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- FontAwesome js file --> 
+    <script src="https://kit.fontawesome.com/3817feae52.js"></script> 
+    <!-- Tinymce js file -->   
+    <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+    <script src="js/advancedModeLocalStorage.js"></script>
+    <!-- TinyMCE placeholder plugin file -->
+    <script src="js/placeholder.js"></script> 
+
+    <script type="text/javascript">
+    const maxTabs = 10 //when to stop creating - I think min 3 max 10 like accordions is the best for consistency.
+    const requiredInitialTabs = 3; //the default number of tabs to start with
+    const TINYMCE_ID_BASE = "tinyMCEmonTabContent"
+    const HEADING_ID_BASE = "monAccTabHeadingTxt"
+    const INNER_HEADING_ID_BASE = "monTabContent"
+    const OUTER_BLOCK_ID_BASE = "outerblock"
+    const DO_NOT_USE = "DO_NOT_USE"
+    const COUNTER_ID="tabCounter"
+    const absoluteMinTab = 3;
+	
+    tinymce.init({
+        selector: '#'+TINYMCE_ID_BASE+'1',
+        menubar: false,
+          plugins : 'advlist autolink link lists charmap print preview code placeholder',
+          placeholder: 'Input the context for your tab button here',
+          toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
+          'undo redo | charmap | autolink link | code | removeformat' ],
+          setup : function(ed) {      
+          ed.on('change', function (e) {	
+            generateTabbedContentCode();
+            });					
+          }
+        });
+
+		var createdTabs = 1; //representing how many tabs are currently available on the page
+		var visibleTabs = 1;
+		
+		$(document).ready(function() { 
+			while (createdTabs < requiredInitialTabs)
+			{
+				addTab(createdTabs+1); //if have 1, next one to create is 2
+				//hence if have X need to make X+1
+				createdTabs++
+				visibleTabs++
+			}
+			updatePageCounter(COUNTER_ID,visibleTabs)
+		})
+		
+		
+		function tabTemplate(tabNum){
+			var result = '<div id='+OUTER_BLOCK_ID_BASE+tabNum+' class="row w-100 mx-auto"><div class="col-lg mt-2"><h6>Tab '+tabNum+'</h6><textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button" id="'+HEADING_ID_BASE+tabNum+'" onchange=generateTabbedContentCode()></textarea></div><div class="col-lg mt-2"><h6>Content '+tabNum+'</h6><textarea id="'+TINYMCE_ID_BASE+tabNum+'" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="'+INNER_HEADING_ID_BASE+tabNum+'" onchange=generateTabbedContentCode()></textarea></div></div>'
+			return result
+		}
+		
+		function addTab(tabNum){
+			var newTab = tabTemplate(tabNum)
+			
+			var newArea = document.getElementById("newTabArea")
+			newArea.insertAdjacentHTML('beforeend', newTab)
+			
+			tinymce.init({
+				selector: '#'+TINYMCE_ID_BASE+tabNum,
+        menubar: false,
+        plugins : 'advlist autolink link lists charmap print preview code placeholder',
+        placeholder: 'Input the context for your tab button here',
+        toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
+        'undo redo | charmap | autolink link | code | removeformat' ],
+        setup : function(ed) {      
+        ed.on('change', function (e) {	
+          generateTabbedContentCode();
+          });					
+        }   
+      });
+			}
+		
+			
+		function showTab(tabNum){
+			var thisouter = getOuterBlock(tabNum)
+			thisouter.style.display=""
+			thisouter[DO_NOT_USE]=undefined
+				
+			getHeadingText(tabNum)[DO_NOT_USE]=undefined
+			getTinyMCEText(tabNum)[DO_NOT_USE]=undefined
+		}
+		function hideTab(tabNum){
+			var thisouter = getOuterBlock(tabNum)
+			thisouter.style.display="none"
+			thisouter[DO_NOT_USE]=true
+				
+			getHeadingText(tabNum)[DO_NOT_USE]=true
+			getTinyMCEText(tabNum)[DO_NOT_USE]=true
+		}
+			
+		function addSection(){
+		/*
+		use the addTab to construct a new tab (or show existing)
+		(maximum maxTabs tabs)
+		*/	
+			var newVisCount = visibleTabs+1
+			if (newVisCount > maxTabs){
+				alert("maximum accordion sections reached") //just in case button is still clicked despite being hidden
+				return
+			}
+		
+			if (newVisCount > createdTabs){
+			
+				addTab(newVisCount)
+				visibleTabs++
+				createdTabs++
+				updatePageCounter(COUNTER_ID,visibleTabs)
+			}
+			else{
+				showTab(newVisCount)
+				visibleTabs++
+				updatePageCounter(COUNTER_ID,visibleTabs)
+			}
+			if (newVisCount >= maxTabs){
+				hideButton("plusbutton")
+			}
+			if (newVisCount > absoluteMinTab){
+				showButton("minusbutton")
+      }
+      generateTabbedContentCode();
+		}
+
+	function removeSection(){
+		/*
+		hide an existing one (minimum absoluteMinAccord sections)
+		TBC change arrays at end
+		*/
+			if (visibleTabs <= absoluteMinTab){
+				alert("minimum accordion sections reached") //just in case button is still clicked despite being hidden
+				return
+			}
+		
+			var tabToHide = getOuterBlock(visibleTabs)
+			hideTab(visibleTabs)
+		
+			visibleTabs -= 1;
+			updatePageCounter(COUNTER_ID,visibleTabs)
+			if (visibleTabs <= absoluteMinTab)
+			{
+				hideButton("minusbutton")
+			}
+			
+			if (visibleTabs < maxTabs){
+				showButton("plusbutton")
+			}
+			generateTabbedContentCode();
+		}		
+		
+		function getTinyMCEText(tabNum){
+			return tinyMCE.get(TINYMCE_ID_BASE+tabNum)
+		}
+		function getOuterBlock(tabNum){
+			return getHTMLBlock(OUTER_BLOCK_ID_BASE,tabNum)
+		}
+		function getHTMLBlock(base,num){
+			return document.getElementById(base+num)
+		}	
+		function getHeadingText(tabNum){
+			return getHTMLBlock(HEADING_ID_BASE,tabNum)
+		}
+	function htmlStyle(id,styleName,styleResult){
+		document.getElementById(id).style[styleName]=styleResult
+	}
+	function hideButton(id){
+		document.getElementById(id).disabled = true
+		htmlStyle(id,"display","none")
+	}
+	function showButton(id){
+		document.getElementById(id).disabled = false
+		htmlStyle(id,"display","")
+  }
+  
+  function iconpreview() {
+        var faIcon = document.getElementById('faCode').value;
+        var iconNames = {
+            "1":"columns",
+			      "2":"question",
+            "3":"question-circle",
+            "4":"question-circle-o", 
+            "5":"info",
+            "6":"info-circle",
+            "7":"bars",
+            "8":"plus",
+            "9":"plus-square",
+            "10":"plus-square-o",
+            "11":"exclamation",
+            "12":"exclamation-triangle",
+            "13":"exclamation-circle",
+            "14":"life-ring"
+        }
+
+        var iconName = iconNames[faIcon];
+	     	var faIconCode = "<i id=\"icon\" class=\"fa fa-"+iconName+"\"></i> ";
+		
+        if (faIcon == "noI"){
+          faIconCode = "";
+          if (document.getElementById("icon"))
+           {
+            var icon = document.getElementById("icon");
+            icon.parentNode.removeChild(icon);
+            var iconpreview = document.getElementById("iconpreview");
+            iconpreview.style.display = "none";
+           }
+        }
+
+        else{
+          if (document.getElementById("icon"))
+          {
+            var icon = document.getElementById("icon");
+            icon.parentNode.removeChild(icon);
+          }
+
+          var code = document.createElement("span");
+          code.innerHTML = faIconCode;
+          var iconpreview = document.getElementById("iconpreview");
+          iconpreview.style.display = "block";
+          iconpreview.parentNode.insertBefore(code,iconpreview.nextSibling);
+        }
+        generateTabbedContentCode();
+      }
+			
+  function generateTabbedContentCode() {
+    console.debug(tinyMCE.activeEditor.getContent());
+
+	var currTabs; //representing how many tabs are currently available on the page and seen by this method
+	var tabContentTxt = [] //an extendible array to hold the text content in any tab
+	var tabHTxt = [] //to hold the heading text for each tab
+	var tabIDs = [] //to hold the IDs we'll assign to the tags
+	var moreTabs = true
+
+	currTabs = 1; //assume there's at least one
+	while ((currTabs <= maxTabs) && (moreTabs)){
+	//repeat until we've captured all of the tabs in the page (currTabs becomes maxTabs OR it breaks not finding one)
+		var tinyObj = getTinyMCEText(currTabs)
+		var headingObj = getHeadingText(currTabs)
+		//assumes each follow the same ID format -- see globals for format
+		
+		if ((tinyObj == null)||(headingObj == null)||(headingObj[DO_NOT_USE]!=undefined)||(tinyObj[DO_NOT_USE]!=undefined)){ // stop looping if one couldn't find the id OR you could but the tab is invisible on the page
+		// NOTE: the order of this condition is important! checking tinyObj and headingObj are null must happen before accessing an attribute within them
+			moreTabs = false
+			currTabs--; //to cancel out advancing one too far and discovering no tabbed area
+		}
+		else{
+			//put the content/value/ids into this spot in the array
+			tabContentTxt[currTabs] = tinyObj.getContent()
+			tabHTxt[currTabs] = headingObj.value
+			tabIDs[currTabs] = {head:"tab"+currTabs, cont:"t"+currTabs}
+			currTabs++;
+		}
+	}
+	if (currTabs==(maxTabs+1)){currTabs = maxTabs}
+	//at this point currTabs represents the total number of tabs on the page
+	
+	var tabHeadingHTMLs = [] //to hold the HTML of the headings
+	var tabContentHTMLs = [] //to hold the HTML of the content
+	//looping to generate the headings1,2,etc. and content1,2,etc.
+	for (var headContI=1;headContI<=currTabs;headContI++){
+		tabHeadingHTMLs[headContI] = "<a class=\"nav-link"
+		if (headContI==1){//only for the first one
+			tabHeadingHTMLs[headContI]+=" active show"
+		}
+		//since headContI changes each time we go through the loop it talks about the next tabbed section and then the next one
+		tabHeadingHTMLs[headContI]+="\" id=\""+tabIDs[headContI].head+"\" data-toggle=\"pill\" href=\"#"+tabIDs[headContI].cont+"\" role=\"tab\" aria-controls=\"v-tabs-"+tabIDs[headContI].cont+"\" aria-selected=\""
+		tabHeadingHTMLs[headContI]+=(headContI==1)+"\">"+tabHTxt[headContI]+"</a>"; //instead of if x==1 --> y=true we can say y=(x==1)
+		
+		tabContentHTMLs[headContI]="<div class=\"tab-pane p-3 fade"
+		if (headContI==1){//only for the first one
+			tabContentHTMLs[headContI]+=" active show"
+		}
+		tabContentHTMLs[headContI]+="\" id=\""+tabIDs[headContI].cont+"\" role=\"tabpanel\" aria-labelledby=\"v-tabs-"+tabIDs[headContI].cont+"-tab\">";
+	}
+
+    //Heading variables
+    var tabbedMainHeading = document.getElementById('tabbedMainHeading').value;
+    var headSize = document.getElementById('headSize').value;
+    var faIcon = document.getElementById('faCode').value;
+    var head_3="<h3>"
+    var endHead_3="</h3>"
+    var head_4="<h4>"
+    var endHead_4="</h4>"
+    var head_5="<h5>"
+    var endHead_5="</h5>"
+    var iconNames = {
+            "1":"columns",
+			      "2":"question",
+            "3":"question-circle",
+            "4":"question-circle-o", 
+            "5":"info",
+            "6":"info-circle",
+            "7":"bars",
+            "8":"plus",
+            "9":"plus-square",
+            "10":"plus-square-o",
+            "11":"exclamation",
+            "12":"exclamation-triangle",
+            "13":"exclamation-circle",
+            "14":"life-ring"
+        }
+
+        var iconName = iconNames[faIcon];
+		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
+		
+        if (faIcon == "noI"){
+          faIconCode = "";
+        }
+		
+		var resizedHead;
+        //Resizing the heading text
+		switch(headSize){
+			case "noH":
+				resizedHead = "";
+				break;
+			case "h3":
+				resizedHead = head_3+faIconCode+tabbedMainHeading+endHead_3;
+				break;
+			case "h4":
+				resizedHead = head_4+faIconCode+tabbedMainHeading+endHead_4;
+				break;
+			case "h5":
+				resizedHead = head_5+faIconCode+tabbedMainHeading+endHead_5;
+				break;
+		}
+	var monTabHeading_Open = "<script> var L=document.createElement('link'); L.rel='stylesheet'; L.href='http://mon-arts-ed-des.github.io/BEEST/css/monTabs.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t><div class=\"row w-100 mx-auto mb-3\"><div class=\"col-3\"><div class=\"nav monTabs flex-column nav-pills border-arts rounded\" id=\"v-tabs-tab\" role=\"tablist\" aria-orientation=\"vertical\">";
+  var monTabHeading_Close="</div></div>";
+  //Content variables
+  var monTabContent_Open="<div class=\"col-9\"><div class=\"tab-content border-arts-3 rounded\" id=\"v-tabs-tabContent\">";
+  var monTabContent_Close="</div>";
+  var monTabContent_Final="</div></div>";//triple div close to double div close and the final product can stop with +close+final instead of +final to simplify looping
+
+  //Retrieve the content by id of the textareas
+  var textOutputTabbedContent = monTabHeading_Open+resizedHead
+	
+	for (var headingIndex=1;headingIndex<=currTabs;headingIndex++){
+		textOutputTabbedContent+=tabHeadingHTMLs[headingIndex]
+	} //add in as many tabHeadingHTMLs as there are
+	
+	textOutputTabbedContent+=monTabHeading_Close+monTabContent_Open //add the close and open for the contents of the tab
+	
+	for (var contentIndex=1;contentIndex<=currTabs;contentIndex++){
+		textOutputTabbedContent+=tabContentHTMLs[contentIndex]+tabContentTxt[contentIndex]+monTabContent_Close
+		//add in tabhtml + contents of tab + close the tab's html
+	}
+	textOutputTabbedContent+=monTabContent_Final //close the html (double div end instead of triple as _Close includes a div end)
+	
+        document.getElementById('txtareaBtn').innerHTML=textOutputTabbedContent;
+        //SelectAll("txtareaBtn");
+        $('#demo').nextAll('div, h3, h4, h5, i').remove();
+        $('#demo').after(textOutputTabbedContent);
+      }
+
+    function copyCode(){
+      SelectAll("txtareaBtn");
+    }
+        
+  function SelectAll(id){
+        document.getElementById(id).focus();
+        document.getElementById(id).select();
+        document.execCommand("copy");
+        //window.alert('test');
+        var popup = document.getElementById("myPopup");
+        popup.classList.toggle("showPopup");
+    }
+
+	function changeTabCount(){
+		var revisedCount = document.getElementById(COUNTER_ID).value
+		if (isNaN(revisedCount)){
+			revisedCount = visibleTabs
+		}
+		else{
+			if (!(Number.isInteger(revisedCount))){
+				revisedCount = Number.parseInt(revisedCount)
+			}
+			if (revisedCount > maxTabs){
+				revisedCount = maxTabs
+			}
+			if (revisedCount < absoluteMinTab){
+				revisedCount = absoluteMinTab
+			}
+			while (visibleTabs < revisedCount){
+				addSection()
+			}
+			while (visibleTabs > revisedCount){
+				removeSection()
+			}
+		}
+		updatePageCounter(COUNTER_ID,revisedCount)
+	}
+
+	function updatePageCounter(ID,currCounter){
+		document.getElementById(ID).value = currCounter;
+	}
+
+    function submitform()
+    {
+        document.forms["myform"].submit();
+    }
+    $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+    /* Variable Key
+    These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
+
+    btnNW = btn open in new window
+    btnSW = btn open in same window
+  
+    */
+    </script>
+    <script>   
+      window.onload=function(){
+        $('#beestNav').load('common/beestnav.html');
+        $('#beestFooter').load('common/beestfooter.html');
+        generateTabbedContentCode();
+        function activeNav() {
+          var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
+           $(".nav-link").each(function(){
+                if($(this).attr("href") == pgurl || $(this).attr("href") == '' )
+                $(this).addClass("active");
+                $(this).append('<span class="sr-only">(current)</span>')
+           });
+      }
+      
+      setTimeout(function() {
+          activeNav();
+      }, 100);
+    };
+    </script>
+    <style>
+    .mce-notification-inner, .mce-close, .mce-notification-warning {
+        display:none !important;
+        }
+
+        /* Popup container - can be anything you want */
+    #popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    }
+
+    /* The actual popup */
+    #popup .popuptext {
+    visibility: hidden;
+    width: 160px;
+    background-color: #222222;
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 12px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -80px;
+    }
+
+    /* Popup arrow */
+    #popup .popuptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #222222 transparent transparent transparent;
+    }
+
+    /* Toggle this class - hide and show the popup */
+    #popup .showPopup {
+    -webkit-animation: fadeinout 3s linear  forwards;
+    animation: fadeinout 3s linear forwards;
+    visibility: visible;
+    }
+
+    /* Add animation (fade in the popup) */
+@-webkit-keyframes fadeinout {
+  0%,100% { opacity: 0; }
+  10% {opacity: 1;}
+  66% { opacity: 1; }
+}
+
+@keyframes fadeinout {
+  0%,100% { opacity: 0; }
+  10% {opacity: 1;}
+  66% { opacity: 1; }
+}
+
+.tooltip-inner {
+  text-align: left;
+  padding: 15px;
+  font-size: 1.05rem;
+  max-width: 400px;
+}
+    </style> 
+    </head>
+  <body>
+    <div id="beestNav"></div>
+
+    <div class="row w-100 mb-5"></div>
+    <div class="row w-100 mb-4"></div>
+      <div class="container-fluid">
+        <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
+          <i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle my-auto"></i><div class="h6 mb-0">You can only have one accordion on a page because of the way the HTML works. Please make sure you only produce, copy and paste one accordion per Moodle page maximum. If you try to put two accordions on a page, neither will work correctly.</div>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+          </div>   
+<h1 class="text-center"><i class="fa fa-columns fa-fw"></i> Tabbed Content</h1>
+<div class="row w-100">
+  <div class="col-lg mt-2">
+    <div class="hideableinstruct">
+<h5>The result of this process</h5>
+<p>This process will generate a set of vertical tabs on the left that alternate content displayed on the right when clicked. Tabbed content can be easily misused.
+</p>
+<p>
+<ul>
+  <li>Tabs should be used to contain information such as frequently asked questions (FAQs), or putting together important unit information such a Synopsis, Learning Outcomes, Assessment Summary all in the one place. Or as a recap of the important aspects of the content from the lesson/week/topic/module.</li>
+  <li>If they get used on every single page they end up frustrating users who constantly have to click to reveal information.</li>
+  <li>if you put too much information in the content on the right, the user will have to scroll which defeats the purpose of keeping information concise.</li>
+</ul></p>
+<h5>How to use this page</h5>
+<p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. These text editors differ slightly from the other BEEST pages. They allow you to input HTML. So if you want to embed a video or other external content, or even content from another BEEST page (video, alert, button) you can. If you are unsure of how to paste HTML into these text editors or into Moodle, <a data-toggle="modal" data-target=".htmlModal" href="">this short video will help</a> (it will open in an overlay on this screen).</p>
+<div class="modal fade htmlModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content p-2">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe></div>
+    </div>
+  </div>
+</div>
+</div>
+<h5>Refresh this page</h5>
+<div class="row w-100">
+  <div class="col-lg">
+<p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
+<div class="col-lg-3"><div class="text-center">
+  <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
+</div></div></div>
+      <h5 class="mt-2">Advanced mode - turn <span class="onoffswapinstr">off</span> instructions</h5>
+      <div class="row w-100">
+        <div class="col-lg">
+      <p>Click this button to turn <span class="onoffswapinstr">off</span> the instructions that appear when you hover over the headings.<span class="hideableinstruct"> Only do this if you are completely familiar with how to use the tool.</span></p></div>
+      <div class="col-lg-3"><div class="text-center">
+        <button onclick="flipTooltip()" class="btn btn-mu">Turn <span class="onoffswapinstr">off</span> instructions <i class="fa fa-fw fa-power-off"></i></a>
+      </div></div></div>
+    </div>
+      <div class="col-lg-4 mt-2 hideableinstruct">
+        <h5>Video walkthrough - Creating tabbed content (05:06)</h5>
+        <div class="embed-responsive embed-responsive-16by9">
+          <iframe src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=8dfb93b6-72ef-4a80-975f-ac3f01742309" class="embed-responsive-item" frameborder="1" allowfullscreen="true"></iframe>
+        </div>
+        </div></div>
+       
+<hr class="hr-3">
+<form id="monTabsForm">
+<div class="row w-100 mx-auto">
+  <div class="col-lg">
+ <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="The page defaults to start with 3 tabs plus their content. If you only need 3 tabs you can skip this step. If you require 4 or more tabs, click the add button below to add more tabs. You can have a maximum of 10, and you can remove tabs to a minimum of 3.">Step 1 - Add/Remove tab + content</h5>
+<div class="btn-group btn-group-justified" role="group" id="addMinusButtons">
+<div class="btn-group-lg" role="group">
+<button id="plusbutton" onclick="addSection()" type="button" class="btn btn-success mr-2">Add tab/content <i class="fa fa-fw fa-plus"></i></button>
+</div><div class="btn-group-lg" role="group">
+<button id="minusbutton" style="display:none;" onclick="removeSection()" type="button" class="btn btn-danger">Remove tab/content <i class="fa fa-fw fa-times"></i></button>
+</div>
+<div class="btn-group-lg" role="group"><span class="ml-3 h5">Current number of tabs</span>
+  <input class="border border-dark px-3 py-2 h5 rounded ml-1 btn" style="cursor:default ;" id="tabCounter" value=0 onchange="changeTabCount()">
+  </div>
+</div>
+</div>
+</div>
+<div id="drawerCurrentNumber"></div>
+<div class="row w-100 mx-auto">
+  <div class="col-lg-8 mt-2">
+    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type a heading for your Tabbed Content here that will sit above the element and indicate to the student what is contained within the tabs. 75 character maximum.">Step 2 - Main Heading (optional)</h5>
+    <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="tabbedMainHeading" type="text" id="tabbedMainHeading" placeholder="Type a main heading for your Tabbed Content here." onchange=generateTabbedContentCode()></textarea>
+  </div>
+</div>
+<div class="row w-100 mx-auto">
+<div class="col-lg-8 mt-2">
+<h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 3 - Heading size (optional)</h5>
+<select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1" onchange=generateTabbedContentCode()>
+  <option selected value="h5">Small (heading 5)</option>
+  <option value="h4">Medium (heading 4)</option>
+  <option value="h3">Large (heading 3)</option>
+</select>
+</div> 
+</div>   
+<div class="row w-100 mx-auto">
+<div class="col-lg-6">
+<h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 1) and choose a heading size (step 2) or the icon and heading will not display.">Step 4 - Select icon (optional)</h5>
+<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1" onchange=iconpreview()>
+  <option selected value="noI">No icon</option>
+  <option value="1">Two columns</option>  
+  <option value="2">Question mark</option>
+    <option value="3">White question mark in a black circle</option>
+    <option value="4">Black question mark in a white circle</option>
+    <option value="5">Information symbol</option>
+    <option value="6">White information symbol in a black circle</option>
+    <option value="7">Three (3) horizontal bars</option>
+    <option value="8">Plus symbol</option>
+    <option value="9">White plus symbol in a black square</option>
+    <option value="10">Black plus symbol in a white square</option>
+    <option value="11">Exclamation mark</option>
+    <option value="12">White exclamation mark in a black triangle</option>
+    <option value="13">White exclamation mark in a black circle</option>
+    <option value="14">Life ring</option>
+  </select>
+</div>
+<div class="col-lg-2" >
+  <h5 id="iconpreview" class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" style="display:none;">Icon Preview</h5>
+  </div>
+</div>
+<div class="row w-100 mx-auto">
+  <div class="col-lg mt-2">
+    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="This is the text that will appear on the tab buttons (all text boxes on the left side of screen). This should give users a clear idea of what will appear if the button is clicked. Max length is 50 characters.">Step 5 - Tab headings</h5> 
+    <h6>Tab 1</h6>
+    <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button here" id="monAccTabHeadingTxt1" onchange=generateTabbedContentCode()></textarea>
+  </div>
+  <div class="col-lg mt-2">
+      <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="What you input in the box below will appear when the relative tab button is clicked (all rich text editors on the right of screen). This can include text, lists, videos and externally embedded media..">Step 6 - Content</h5>
+      <h6>Content 1</h6>      
+      <textarea id="tinyMCEmonTabContent1" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="monTabContent1" onchange=generateTabbedContentCode()></textarea>
+      </div>
+      </div>
+
+      <span id="newTabArea"></span>   
+    
+<div class="row w-100 mx-auto">
+        <div class="col-lg mt-3">
+      <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 7 - Copy code and paste them into Moodle</h5>
+      <div>
+  <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Copy your code </>" onClick=copyCode() ></p>
+  </div>
+  <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code for your accordion and copy it to the clipboard." onchange=generateTabbedContentCode()></textarea></p>
+</div>
+</div>
+  <div class="row w-100 mx-auto mt-2 mb-3">
+    <div class="col-lg">
+      <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 7.">Step 8 - Preview</h5>
+      </div>
+      </div>
+  </form>
+  <div id="demo"></div>
+  <p class="my-3"></p>
+</div>
+
+<div id="beestFooter"></div>
+<script>
+var textarea = $('#tabbedMainHeading');
+var select = $('#headSize');
+var addOrRemoveRequiredAttribute = function () {
+if (textarea.val().length) {
+select.val("h5")
+}
+};
+
+// Run now
+addOrRemoveRequiredAttribute();
+
+// And when textarea changes
+textarea.on('change', addOrRemoveRequiredAttribute);
+</script>
+      </body>
+      </html>
