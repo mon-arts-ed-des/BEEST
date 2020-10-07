@@ -11,7 +11,7 @@ i.e.
 
 */
 
-
+	const LOCAL_AVAIL = "is_local_storage_available"
 	const ADV_MODE_KEY = "Advanced_Mode"
 	const ON_STATE = true
 	const OFF_STATE = false
@@ -49,9 +49,9 @@ $(document).ready(function() {activateDeactivateAdvancedMode(AdvancedMode)}) //t
 	function localStorageAvailable(){
 		if (typeof localStorage !== 'undefined') {
 			try {
-				localStorage.setItem('is_local_storage_available', 'yes');
-				if (localStorage.getItem('is_local_storage_available') === 'yes') {
-					localStorage.removeItem('is_local_storage_available');
+				localStorage.setItem(LOCAL_AVAIL, true);
+				if (localStorage.getItem(LOCAL_AVAIL)) {
+					localStorage.removeItem(LOCAL_AVAIL);
 					return true;
 				} else {
 					return false;
@@ -90,7 +90,7 @@ function activateDeactivateAdvancedMode(newMode){
   else{
 	tooltipmode = 'enable'; //show tool tips
 	statusText = "off"
-	displayMode = "block" //block meaning show
+	displayMode = "inline-block" //block/inline/inline-block meaning show
 	AdvancedMode = setAdvancedModeInStorage(OFF_STATE) // turn *OFF* advanced mode
   }
 	$('h5').tooltip(tooltipmode)
