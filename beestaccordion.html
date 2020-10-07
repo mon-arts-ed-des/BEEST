@@ -78,61 +78,81 @@
 			showRecoveryDate(histIndex,historicalData)
 		}
 	})
+	function idSelectedRecData(){
+		histIndex = document.getElementById("recoveryDate").value
+	}
+	
 	function delHistI(){
-		if (confirm("This will delete the selected record, click 'OK' to proceed")){		
+		if (confirm("This will delete the selected record, click 'OK' to proceed")){
 			historicalData = recoverHistory()
 			historicalData.splice(histIndex,1)
 			setLocal(JSON.stringify(historicalData))
-			if (histIndex>0){
-				histIndex-=1
-			}
+			histIndex= (historicalData.length>0 ? historicalData.length-1 : 0)
 		}
 		showRecoveryDate(histIndex,historicalData)
 	}
-	
-	function nextHistI(){
-		histIndex++; 
-		showRecoveryDate(histIndex,historicalData);
-		resetNextPrevDelHistButtons()
-	}
-	function resetNextPrevDelHistButtons(){
-		if ((historicalData==null)||(historicalData.length==0)){
-			hideButton("nextHist")
-			hideButton("prevHist")
-			hideButton("delHist")
-			return
+
+	class recoveryData{
+		constructor(name,timestamp){
+			this.name = name
+			this.timestamp = timestamp
 		}
-		if (histIndex < historicalData.length-1){
-			showButton("nextHist")
-		}
-		else{
-			hideButton("nextHist")
-		}
-		if (histIndex<=0){
-			hideButton("prevHist")
-		}
-		else{
-			showButton("prevHist")
+		toString(){
+			var time = this.timestamp
+			time = time.toLocaleDateString()+" "+time.toLocaleTimeString()
+			return this.name+" ("+time+")"
 		}
 	}
+	class recoveryDataSet{
+		constructor(recoveryDataArray){
+			var element;
+			var time;
+			var heading;
+			this.length=0
+			for (var recoveryI=0;recoveryI<recoveryDataArray.length;recoveryI++){
+				element = recoveryDataArray[recoveryI]
+				heading = element.mainHead
+				time = new Date(element.timestamp)
+				this[recoveryI] = new recoveryData(heading,time)
+				this.length++
+			}
+		}
+		toString(){
+			return JSON.stringify(this.dataSet)
+		}
+	}
 	
-	function prevHistI(){
-		histIndex--; 
-		showRecoveryDate(histIndex,historicalData);
-		resetNextPrevDelHistButtons()
-	}	
+	function HTMLOption(value,inner,selected){
+		return "<option "+(selected ? "selected " : "")+"value=\""+value+"\">"+inner+"</option>"
+	}
+	
+	function recoveryOptionGenerator(selectedIndex,aRecoveryDataSet){
+		var outputHTML = ""
+		var element;
+		var HTMLElement;
+		for (var dataI = 0; dataI<aRecoveryDataSet.length; dataI++){
+			element = aRecoveryDataSet[dataI].toString()
+			HTMLElement = HTMLOption(dataI,element,dataI==selectedIndex)
+			outputHTML+=HTMLElement
+		}
+		return outputHTML
+	}
+	
 	function showRecoveryDate(index,history){
 		try{
-			var element = history[index]
-			var heading = element.mainHead
-			var time = new Date(element.timestamp)
-			time = time.toLocaleDateString()+" "+time.toLocaleTimeString()
-			document.getElementById("recoveryDate").innerHTML = heading+" ("+time+")"
+			if (history.length==0){
+				throw Error("localStorage is empty")
+			}
+			var recHistSet = new recoveryDataSet(history)
+			var element = recHistSet[index]
+			document.getElementById("recoveryDate").innerHTML = recoveryOptionGenerator(index,recHistSet)
 		}
-		catch{
-			document.getElementById("recoveryDate").innerHTML = "no history available"
+		catch (error){
+			console.error(error)
+			document.getElementById("recoveryDate").innerHTML = HTMLOption(null,"no history available",true)
+			hideButton("delHist")
 		}
-		resetNextPrevDelHistButtons()
+		//resetNextPrevDelHistButtons()
 	}
 	
 	function updatePageCounter(ID,currCounter){
@@ -833,9 +853,11 @@ function getHistoryI(index,history){
 	</p>
 	</div>
 	<div class="col-lg">
-	<button id="prevHist" onclick="prevHistI()" type="button" class="btn btn-primary mr-2"><i class="fa fa-fw fa-angle-left"></i></button>
-	  <button id="nextHist" onclick="nextHistI()" type="button" class="btn btn-primary mr-2"><i class="fa fa-fw fa-angle-right"></i></button>
-  <div class="border border-dark px-3 py-2 h5 rounded ml-1 btn" style="cursor:default ;"><span id="recoveryDate">please wait</span></div>
+	<!--<button id="prevHist" onclick="prevHistI()" type="button" class="btn btn-primary mr-2"><i class="fa fa-fw fa-angle-left"></i></button>
+	  <button id="nextHist" onclick="nextHistI()" type="button" class="btn btn-primary mr-2"><i class="fa fa-fw fa-angle-right"></i></button>-->
+  <select class="custom-select w-50 border border-dark" size="1" id="recoveryDate" onchange="idSelectedRecData()">
+  <option selected value=0>please wait</option>
+  </select>
 
 
   <button id="delHist" onclick="delHistI()" type="button" class="btn btn-danger mr-2"><i class="fa fa-fw fa-trash"></i></button>
