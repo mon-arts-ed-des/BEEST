@@ -397,8 +397,33 @@
         popup.classList.toggle("showPopup");
     }
 
+	function changeTabCount(){
+		var revisedCount = document.getElementById(COUNTER_ID).value
+		if (isNaN(revisedCount)){
+			revisedCount = visibleTabs
+		}
+		else{
+			if (!(Number.isInteger(revisedCount))){
+				revisedCount = Number.parseInt(revisedCount)
+			}
+			if (revisedCount > maxTabs){
+				revisedCount = maxTabs
+			}
+			if (revisedCount < absoluteMinTab){
+				revisedCount = absoluteMinTab
+			}
+			while (visibleTabs < revisedCount){
+				addSection()
+			}
+			while (visibleTabs > revisedCount){
+				removeSection()
+			}
+		}
+		updatePageCounter(COUNTER_ID,revisedCount)
+	}
+
 	function updatePageCounter(ID,currCounter){
-		document.getElementById(ID).innerHTML = currCounter;
+		document.getElementById(ID).value = currCounter;
 	}
 
     function submitform()
@@ -581,7 +606,7 @@
 <button id="minusbutton" style="display:none;" onclick="removeSection()" type="button" class="btn btn-danger">Remove tab/content <i class="fa fa-fw fa-times"></i></button>
 </div>
 <div class="btn-group-lg" role="group"><span class="ml-3 h5">Current number of tabs</span>
-  <div class="border border-dark px-3 py-2 h5 rounded ml-1 btn" style="cursor:default ;"><div><span id="tabCounter">0</span></div></div>
+  <input class="border border-dark px-3 py-2 h5 rounded ml-1 btn" style="cursor:default ;" id="tabCounter" value=0 onchange="changeTabCount()">
   </div>
 </div>
 </div>
