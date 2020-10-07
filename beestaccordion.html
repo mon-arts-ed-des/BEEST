@@ -356,8 +356,22 @@
 		document.getElementById('monAccBtnTxt1').value = dataSet.drawer[0].heading
 		
 		for (var idNum=0; idNum<idList.length; idNum++){
-			tinyMCE.get(idList.tiny[idNum]).setContent(dataSet.drawer[idNum+1].content)
-			document.getElementById(idList.btn[idNum]).value = dataSet.drawer[idNum+1].heading
+			var thisContent
+			var thisHeading = ""
+			try{
+				thisContent=dataSet.drawer[idNum+1].content
+			}
+			catch{
+				thisContent = ""
+			}
+			try{
+				thisHeading=dataSet.drawer[idNum+1].heading
+			}
+			catch{
+				thisHeading = ""
+			}
+			tinyMCE.get(idList.tiny[idNum]).setContent(thisContent)
+			document.getElementById(idList.btn[idNum]).value = thisHeading
 		}	
 	}
 	
@@ -528,6 +542,10 @@ class accordion{
 	get size(){
 		return this.headSize
 	}
+	get drawerCount(){
+		return this.drawerList.length
+	}
+	
 	set size(value){this.headSize = value}
 	get icon(){
 		return this._icon
@@ -614,8 +632,16 @@ function getHistoryI(index,history){
 	var selectedAccordion = history[index]
 	classAccord = new accordion()
 	classAccord.fromObj(selectedAccordion) // classAccord now holds the data of this index
+	var refToClassAccord = classAccord
 	
-	setTextAreas(accordListToIDs(accordiansPostInit),classAccord)
+	while (accordianSectionsCurr < refToClassAccord.drawerCount){
+		addSection()
+	} // add required sections
+	while (accordianSectionsCurr > refToClassAccord.drawerCount){
+		removeSection()
+	} // remove extra sections
+	
+	setTextAreas(accordListToIDs(accordiansPostInit),refToClassAccord)
 	generateAccCode()
 }
 
