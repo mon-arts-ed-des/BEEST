@@ -154,20 +154,14 @@
         }
         else{
             //Resizing the heading text
-          switch(headSize){
-            case "noH":
-              resizedHead = "";
-              break;
-            case "h3":
-              resizedHead = head_3+faIconCode+vidHeading+endHead_3;
-              break;
-            case "h4":
-              resizedHead = head_4+faIconCode+vidHeading+endHead_4;
-              break;
-            case "h5":
-              resizedHead = head_5+faIconCode+vidHeading+endHead_5;
-              break;
-          }
+			var headingMap = {
+				"noH":{head:"",icon:"",val:"",end:""},
+				"h3":{head:"<h3>",icon:faIconCode,val:vidHeading,end:"</h3>"},
+				"h4":{head:"<h4>",icon:faIconCode,val:vidHeading,end:"</h4>"},
+				"h5":{head:"<h5>",icon:faIconCode,val:vidHeading,end:"</h5>"}
+			}
+			var opt = headingMap[headSize]
+			resizedHead = opt.head+opt.icon+opt.val+opt.end
         }
 
         //Change size of column if requested
@@ -184,12 +178,14 @@
         });
     
         //Change position of video and order of output
+		var textOutput = resizedHead+rowOpen+firstCol
         if (vPosition == "left"){
-            var textOutput = resizedHead+rowOpen+firstCol+respVid+closeCol+secCol+contextCode+closeRow;
+            textOutput += respVid+closeCol+secCol+contextCode;
         }
         else if (vPosition == "right"){
-            var textOutput = resizedHead+rowOpen+firstCol+contextCode+closeCol+secCol+respVid+closeRow;
+            textOutput += contextCode+closeCol+secCol+respVid;
         }
+		textOutput+= closeRow
        
        
         document.getElementById('txtarearespVid').innerHTML=textOutput;
