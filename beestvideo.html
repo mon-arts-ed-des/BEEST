@@ -114,17 +114,17 @@
         var vWidth = document.getElementById('videoWidth').value;
         var headSize = document.getElementById('headSize').value;
         var faIcon = document.getElementById('faCode').value;
-        var head_3="<h3>"
-        var endHead_3="</h3>"
-        var head_4="<h4>"
-        var endHead_4="</h4>"
-        var head_5="<h5>"
-        var endHead_5="</h5>"
+        var head_3="<div id=\"heading\"><h3>"
+        var endHead_3="</h3></div>"
+        var head_4="<div id=\"heading\"><h4>"
+        var endHead_4="</h4></div>"
+        var head_5="<div id=\"heading\"><h5>"
+        var endHead_5="</h5></div>"
         var rowOpen="<div class=\"row w-100\">"
         var firstCol="<div class=\"col-lg\" id=\"video-context\">"
         var firstCol4="<div class=\"col-lg-4\">"
-        var secCol="<div class=\"col-lg mt-2\" id=\"vidwidth50\">"
-        var secCol4="<div class=\"col-lg-4 mt-2\" id=\"vidwidth33\">"
+        var secCol="<div class=\"col-lg mt-2\" id=\"vidwid50\">"
+        var secCol4="<div class=\"col-lg-4 mt-2\" id=\"vidwid33\">"
         var closeCol="</div>"
         var closeRow="</div></div>"
         
@@ -212,20 +212,19 @@
         document.getElementById('respVidSwitch').value = videoLink;
         }
 
-        var vidHeading = $(retrieveCode).closest('h5').text();
-        if (vidHeading){
-        document.getElementById('respVidHeading').value = vidHeading;
+        if ($(retrieveCode).find('h3').text()){
+        document.getElementById('headSize').value = "h3";
+        document.getElementById('respVidHeading').value = $(retrieveCode).find('h3').text();
+        }
+        
+        else if ($(retrieveCode).find('h4').text()){
+        document.getElementById('headSize').value = "h4";
+        document.getElementById('respVidHeading').value = $(retrieveCode).find('h4').text();
         }
 
-        //set heading size
-        if ($(retrieveCode).closest('h3')){
-          document.getElementById('headSize').value = "h3";
-        }
-        else if ($(retrieveCode).closest('h4')){
-          document.getElementById('headSize').value = "h4";
-        }
-        else if ($(retrieveCode).closest('h5')){
-          document.getElementById('headSize').value = "h5";
+        else if ($(retrieveCode).find('h5').text()){
+        document.getElementById('headSize').value = "h5";
+        document.getElementById('respVidHeading').value = $(retrieveCode).find('h5').text();
         }
 
         //set icon
@@ -241,13 +240,13 @@
         }
 
         //set video width
-        if ($(retrieveCode).find('#vidwidth33')){
+        if ($(retrieveCode).find('#vidwid33')){
           document.getElementById('videoWidth').value = 33;
         }
-        else if ($(retrieveCode).find('#vidwidth50')){
+        else if ($(retrieveCode).find('#vidwid50')){
           document.getElementById('videoWidth').value = 50;
         }
-
+        generateCode();
     }
 
     function copyCode(){
