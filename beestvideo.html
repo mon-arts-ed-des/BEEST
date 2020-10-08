@@ -156,9 +156,9 @@
             //Resizing the heading text
 			var headingMap = {
 				"noH":{head:"",icon:"",val:"",end:""},
-				"h3":{head:"<h3>",icon:faIconCode,val:vidHeading,end:"</h3>"},
-				"h4":{head:"<h4>",icon:faIconCode,val:vidHeading,end:"</h4>"},
-				"h5":{head:"<h5>",icon:faIconCode,val:vidHeading,end:"</h5>"}
+				"h3":{head:"<div id=\"heading\"><h3>",icon:faIconCode,val:vidHeading,end:"</h3></div>"},
+				"h4":{head:"<div id=\"heading\"><h4>",icon:faIconCode,val:vidHeading,end:"</h4></div>"},
+				"h5":{head:"<div id=\"heading\"><h5>",icon:faIconCode,val:vidHeading,end:"</h5></div>"}
 			}
 			var opt = headingMap[headSize]
 			resizedHead = opt.head+opt.icon+opt.val+opt.end
