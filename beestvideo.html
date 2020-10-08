@@ -38,7 +38,21 @@
     <script src="js/placeholder.js"></script> 
     <!-- Script to init the tinyMCE editor --> 
     <script type="text/javascript">
-        tinymce.init({
+	class videoPage{
+		constructor(link,context,position,width,heading,headingSize,icon){
+			this.link = link
+			this.context = context
+			this.position = position
+			this.width = width
+			this.heading = heading
+			this.headingSize = headingSize
+			this.icon = icon
+		}
+	}
+	
+	var videoPageInstance;
+
+    tinymce.init({
         selector: '#tinyMCEvideo',
         menubar: false,
         plugins : 'advlist autolink link lists charmap print preview code placeholder',
@@ -102,10 +116,10 @@
         var contextCode = tinyMCE.get('tinyMCEvideo').getContent();
 
         if (tinyMCE.get('tinyMCEvideo').getContent() !== ""){
-        contextCode = tinyMCE.get('tinyMCEvideo').getContent();
-        }
+			contextCode = tinyMCE.get('tinyMCEvideo').getContent();
+			}
         else{
-        contextCode = "[Placeholder for video context. The content you entered in step 2 will appear here.]";
+			contextCode = "[Placeholder for video context. The content you entered in step 2 will appear here.]";
         }
 
         var vidHeading = document.getElementById('respVidHeading').value;
@@ -195,54 +209,90 @@
         demoDiv.innerHTML = textOutput;
         }
 
+	function setPageContents(pageInstance){
+		var updates = [
+			{id:'faCode',value:pageInstance.icon},
+			{id:'videoWidth',value:pageInstance.width},
+			{id:'respVidSwitch',value:pageInstance.link},
+			{id:'headSize',value:pageInstance.headingSize},
+			{id:'respVidHeading',value:pageInstance.heading}
+		]
+		tinyMCEUpdates = [
+			{id:'tinyMCEvideo',value:pageInstance.context},
+		]
+		var thisId;
+		var thisVal;
+		
+		for (var upI=0;upI<updates.length;upI++){
+			thisId = updates[upI].id
+			thisVal = updates[upI].value
+			if (thisVal){
+				document.getElementById(thisId).value = thisVal;
+			}
+		}	
+		for (var upTi=0;upTi<tinyMCEUpdates.length;upTi++){
+			thisId = tinyMCEUpdates[upTi].id
+			thisVal = tinyMCEUpdates[upTi].value
+			if (thisVal){
+				tinyMCE.get(thisId).setContent(thisVal);
+			}
+		}
+		/*TODO -- populate with Matt's code*/
+
+        generateCode();
+	}
+
     function recoverCode(){
         //Get the code from Step 0
+		var iconValue;
+		var vidWidth;
+		var videoContext;
+		var videoLink;
+		var headSize;
+		var headText;
+		
         var retrieveCode = document.getElementById('retrieveCode').value;
-        var videoContext = $(retrieveCode).find('#video-context').text();
-        if (videoContext){
-        tinyMCE.get('tinyMCEvideo').setContent(videoContext);
-        }
+        videoContext = $(retrieveCode).find('#video-context').text();
 
-        var videoLink = $(retrieveCode).find('.embed-responsive-item').attr('src');
-        if (videoLink){
+        videoLink = $(retrieveCode).find('.embed-responsive-item').attr('src');
+        /*if (videoLink){
         document.getElementById('respVidSwitch').value = videoLink;
-        }
+        }*/
 
         if ($(retrieveCode).find('h3').text()){
-        document.getElementById('headSize').value = "h3";
-        document.getElementById('respVidHeading').value = $(retrieveCode).find('h3').text();
+			headSize = "h3";
         }
-        
         else if ($(retrieveCode).find('h4').text()){
-        document.getElementById('headSize').value = "h4";
-        document.getElementById('respVidHeading').value = $(retrieveCode).find('h4').text();
+			headSize = "h4";
         }
-
         else if ($(retrieveCode).find('h5').text()){
-        document.getElementById('headSize').value = "h5";
-        document.getElementById('respVidHeading').value = $(retrieveCode).find('h5').text();
+			headSize = "h5";
         }
+		headText = $(retrieveCode).find(headSize).text();
 
         //set icon
         var headingIcon = $(retrieveCode).find('i').attr('class');
-        if (headingIcon == "fa fa-video-camera"){
-          document.getElementById('faCode').value = 1;
-        }
-        else if (headingIcon == "fa fa-play"){
-          document.getElementById('faCode').value = 2;
-        }
-        else if (headingIcon == "fa fa-eye"){
-          document.getElementById('faCode').value = 3;
-        }
+		var iconMap = {
+			"fa fa-video-camera":1,
+			"fa fa-play":2,
+			"fa fa-eye":3
+		};
+		iconValue = iconMap[headingIcon]
 
         //set video width
         if ($(retrieveCode).find('#vidwid33')){
-          document.getElementById('videoWidth').value = 33;
+          vidWidth = 33
         }
         else if ($(retrieveCode).find('#vidwid50')){
-          document.getElementById('videoWidth').value = 50;
+          vidWidth = 50
         }
-        generateCode();
+				
+		videoPageInstance = new videoPage(
+			videoLink,videoContext,
+			"right",
+			vidWidth,headText,headSize,iconValue
+		) // default to right in absence of way to collect right/left
+		setPageContents(videoPageInstance);
     }
 
     function copyCode(){
@@ -539,45 +589,78 @@
                   </div>
          <script>
         $('#respVidSwitch').on('input', function(event) {
-        var s = $('#respVidSwitch').val().toString();
-        
-        if (s.includes("vimeo.com") == true) {
-        //code for converting Vimeo link from Viewer to Embed
-        var x = s.replace('https://vimeo.com/','https://player.vimeo.com/video/');
-        }
-        else if (s.includes("youtube.com") == true) {
-        //code for converting Youtube link from Viewer to Embed
-        var x = s.replace('watch?v=','embed/').replace('&start','?start');
-        }
-        else if (s.includes("youtu.be") == true) {
-        var x = s.replace('youtu.be','www.youtube.com/embed').replace('t=','start=');
-        }
-        //code for converting Panopto link from Viewer to Embed
-        else if (s.includes("monash-panopto") == true) {
-          var x = s.replace('Viewer','Embed');
-        }
-        //code for converting TED Talks link from Viewer to Embed
-        else if (s.includes("ted.com") == true) {
-          var x = s.replace('www.ted.com','embed.ted.com');
-        }
-        $('#respVidSwitch').val(x);
-        
-        document.getElementById('vid').src = x;
-        var videopreview = document.getElementById('videopreview');
+			var vidString = $('#respVidSwitch').val().toString();
+			var videoLink;
+			var vidTypeReplace = [
+				{	include:"vimeo.com",
+					replace:'https://vimeo.com/',
+					repWith:'https://player.vimeo.com/video/',
+					replace2:'',
+					repWith2:''},
+				{	include:"youtube.com",
+					replace:'watch?v=',
+					repWith:'embed/',
+					replace2:'&start',
+					repWith2:'?start'},
+				{	include:"youtu.be",
+					replace:'youtu.be',
+					repWith:'www.youtube.com/embed',
+					replace2:'t=',
+					repWith2:'start='},
+				{	include:"monash-panopto",
+					replace:'Viewer',
+					repWith:'Embed',
+					replace2:'',
+					repWith2:''},
+				{	include:"ted.com",
+					replace:'www.ted.com',
+					repWith:'embed.ted.com',
+					replace2:'',
+					repWith2:''}
+			]
+			for(var vidI=0;vidI<vidTypeReplace.length;vidI++){
+				item = vidTypeReplace[vidI]
+				if (vidString.includes(item.include)){
+					videoLink = vidString.replace(item.replace,item.repWith).replace(item.replace2,item.repWith2)
+				}
+			}
+/*			if (vidString.includes("vimeo.com")) {
+			//code for converting Vimeo link from Viewer to Embed
+				videoLink = vidString.replace('https://vimeo.com/','https://player.vimeo.com/video/');
+			}
+			else if (vidString.includes("youtube.com")) {
+			//code for converting Youtube link from Viewer to Embed
+				videoLink = vidString.replace('watch?v=','embed/').replace('&start','?start');
+			}
+			else if (vidString.includes("youtu.be")) {
+				videoLink = vidString.replace('youtu.be','www.youtube.com/embed').replace('t=','start=');
+			}
+			//code for converting Panopto link from Viewer to Embed
+			else if (vidString.includes("monash-panopto")) {
+				videoLink = vidString.replace('Viewer','Embed');
+			}
+			//code for converting TED Talks link from Viewer to Embed
+			else if (vidString.includes("ted.com")) {
+				videoLink = vidString.replace('www.ted.com','embed.ted.com');
+			}
+*/
+			$('#respVidSwitch').val(videoLink);
+			
+			document.getElementById('vid').src = videoLink;
+			var videopreview = document.getElementById('videopreview');
 
-        var videoPreviewText = document.getElementById('videoPreviewText');
+			var videoPreviewText = document.getElementById('videoPreviewText');
 
-        if (s !== ""){
-          videopreview.style.display = "block";
-          videoPreviewText.style.display = "block";
-        }
-        else{
-          videopreview.style.display = "none";
-          videoPreviewText.style.display = "none";          
-        }
-
-        //$('input[type="text"], textarea#respVidSwitch').attr('readonly','readonly');
-      }); 
+			if (vidString !== ""){
+			  videopreview.style.display = "block";
+			  videoPreviewText.style.display = "block";
+			}
+			else{
+			  videopreview.style.display = "none";
+			  videoPreviewText.style.display = "none";          
+			}
+			//$('input[type="text"], textarea#respVidSwitch').attr('readonly','readonly');
+		}); 
       var textarea = $('#respVidHeading');
       var select = $('#headSize');
       var addOrRemoveRequiredAttribute = function () {
