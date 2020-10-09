@@ -38,6 +38,31 @@
     <script src="js/placeholder.js"></script> 
     <!-- Script to init the tinyMCE editor --> 
     <script type="text/javascript">
+    //Get the window width dynamically  
+    var width = $(window).width();
+    $(window).on('resize', function() {
+      if ($(this).width() !== width) {
+        width = $(this).width();
+      }
+    });
+
+    //Float the preview when the window size is large than 992
+    $(window).scroll(function () { 
+      if($(this).scrollTop() > 50 && width > 992)
+      {      
+          $('#preview').addClass('scrolling');
+          $('#preview').addClass('col-lg-6 mt-2');
+          $('#copy').removeClass('mt-5');
+          $('#previewDiv').removeClass('mt-2');
+      } 
+      else {
+          $('#preview').removeClass('scrolling');
+          $('#preview').removeClass('col-lg-6 mt-2');
+          $('#copy').addClass('mt-5');
+          $('#previewDiv').addClass('mt-2');
+      }
+    });
+
 	class videoPage{
 		constructor(link,context,position,width,heading,headingSize,icon){
 			this.link = link
@@ -347,9 +372,18 @@
       }, 100);
     };
     </script>
-       <style>
-        .mce-notification-inner, .mce-close, .mce-notification-warning {
-        display:none !important;
+    <style>
+    #preview {
+    position:static;
+    }
+    #preview.scrolling {
+    position:fixed;
+    top:50%;
+    right:0px;
+    }
+
+    .mce-notification-inner, .mce-close, .mce-notification-warning {
+    display:none !important;
         }
 
         /* Popup container - can be anything you want */
@@ -552,12 +586,14 @@
             </div>
           </div>
               </div>   
-              <div class="col-lg-6 mt-2">
+              <div id="previewDiv" class="col-lg-6 mt-2">
+              <div id="preview">
                 <h5 data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below as you update steps 1-7.">Preview <span class="hideableinstruct text-success font-weight-bold">| Help</span></h5>
-              <div id="demo" class="mt-2">    
+                <div id="demo" class="mt-2">    
+                </div>
               </div>
               <div class="mt-2">
-                <h5 class="w-100 mt-5" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Preview as you update your preferences for the element.">Step 8: Copy code <span class="hideableinstruct text-success font-weight-bold">| Help</span> <span class="hideableinstruct"></h5></span>   
+                <h5 id="copy" class="w-100 mt-5" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Preview as you update your preferences for the element.">Step 8 - Copy code <span class="hideableinstruct text-success font-weight-bold">| Help</span> <span class="hideableinstruct"></h5></span>   
                      <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied" type="button" class="btn btn-mu btn-lg m-1" id="copyCodeBtn" name="GenerateWrap" value="Copy your code </>" onClick=copyCode() >
                         <span class="hideableinstruct"><a data-toggle="modal" data-target=".html-paste-modal" href="">How to paste this into Moodle</a>
                   <div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
