@@ -146,11 +146,11 @@
             var alertDMColourCode = '<div class="alert alert-' + colourName + ' rounded alert-dismissible fade show" role="alert">';
         }
 
-        var head_3="<h3>";
+        var head_3='<h3 class="text-'+colourName+'">';
         var endHead_3="</h3>";
-        var head_4="<h4>";
+        var head_4='<h4 class="text-'+colourName+'">';
         var endHead_4="</h4>";
-        var head_5="<h5>";
+        var head_5='<h5 class="text-'+colourName+'">';
         var endHead_5="</h5>";
 
         if(alertHeading == ""){
@@ -309,78 +309,89 @@
   <div id="beestNav"></div>
   <div class="row w-100 mb-5"></div>
   <div class="row w-100 mb-4"></div>
-  <div class="container-fluid">
-    <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
-      <div class="h6"><i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle"></i>Overuse of alerts on a page can become like OHS signage. They simply fade into the background, and all of a sudden the 'important' information you want students to notice, becomes less important than the rest of the text on the screen. Use them sparingly.</div>
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+  <div class="container-fluid mt-5">
+    <h1 class="text-center pt-5"><i class="fa fa-exclamation-circle fa-fw"></i> Alert<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Alerts are used to draw the user's attention to something important, or to highlight information. You would be familiar with these on most websites (including Moodle), red alerts are used for errors or for incorrect actions, green ones for correct actions and blue to highlight important information on a page. Overuse of these alerts will most likely result in them being ignored. So use them sparingly and only when necessary." class="hideableinstruct text-success font-weight-bold"> | What does this page do?</span></h1>
+    <h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".respVidWalkthrough" href="">Create an alert walkthrough (3:38)</a></h5>
+      <div class="modal fade respVidWalkthrough" tabindex="-1" role="dialog" aria-labelledby="panopto-modal" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content p-2 bg-dark">
+          <div class="modal-header">
+            <h5 class="modal-title text-white" id="exampleModalLabel">Click close or click outside this box to return to the BEEST.</h5>
+            <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">Close &times;</span>
+            </button>
+          </div>
+        <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=ea6f0e20-e305-4edd-bfe0-ac40003b3d04"></iframe></div>
+        </div>
+      </div>
     </div>
-    <h1 class="text-center"><i class="fa fa-exclamation-circle fa-fw"></i> Alert</h1>
-    
-    <div class="row w-100">
-      <div class="col-lg mt-2">
-        <div class="hideableinstruct">
-          <h5>The result of this process</h5>
-          <p>This process will generate what is termed an 'alert'. It is a box that 'sticks out' from the rest of the text to alert students to important information on the page. You can choose whether to make this alert permanent, or add the option to dismiss/close it.</p>
-          <h5>How to use this page</h5>
-          <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle, <a data-toggle="modal" data-target=".bhhd-example-modal-lg" href="">this short video will help</a> (it will open in an overlay on this screen).</p>
-          <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content p-2">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>   
-                </div>
-              <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe></div>
-              </div>
+      <div class="row w-50 mx-auto text-center mt-3">
+        <div class="col-lg">
+              <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-mu btn-lg" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
             </div>
-          </div>
-        </div>
-  <h5>Refresh this page</h5>
-  <div class="row w-100">
-    <div class="col-lg">
-  <p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
-  <div class="col-lg-3"><div class="text-center">
-    <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
-  </div></div></div>
-        <h5 class="mt-2">Advanced mode - turn <span class="onoffswapinstr">off</span> instructions</h5>
-        <div class="row w-100">
-          <div class="col-lg">
-        <p>Click this button to turn <span class="onoffswapinstr">off</span> the instructions that appear when you hover over the headings.<span class="hideableinstruct"> Only do this if you are completely familiar with how to use the tool.</span></p></div>
-        <div class="col-lg-3"><div class="text-center">
-          <button onclick="flipTooltip()" class="btn btn-mu">Turn <span class="onoffswapinstr">off</span> instructions <i class="fa fa-fw fa-power-off"></i></a>
-        </div></div></div>
-      </div>
-        <div class="col-lg-4 mt-2 hideableinstruct">
-          <h5>Video walkthrough - Creating an alert (03:38)</h5>
-          <div class="embed-responsive embed-responsive-16by9">
-            <iframe src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=ea6f0e20-e305-4edd-bfe0-ac40003b3d04" class="embed-responsive-item" frameborder="1" allowfullscreen="true"></iframe>
-          </div>
-        </div>
-      </div>
+            <div class="col-lg">
+              <button data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-mu btn-lg">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
+            </div></div>
   <hr class="hr-3">
   <form id="monashAlert">
     <div class="row w-100 mx-auto">
-      <div class="col-lg-8 mt-2">
-    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type in the text you would like to appear in your alert. You can use headings, lists, bold, italics to accent text within the alert just as you would any other text editor. These alerts both highlight important information, and meet WCAG AA Accessibility Standards.">Step 1 - Write the alert</h5>
-    <textarea id="tinyMCEalert" class="border border-dark rounded p-2 w-100" cols="70" rows="3" onchange=generateAlertCode()></textarea>
-</div>
-</div>
-<div class="row w-100 mx-auto">
-  <div class="col-lg-8 mt-2">
-    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the heading for this alert. 75 character maximum.">Step 2 - Heading</h5>
-    <textarea maxlength="75" class="rounded p-2 w-100 border border-dark" rows="1" name="alertHeading" type="text" id="alertHeading" placeholder="If you do not want a heading, leave this blank. Otherwise, type your alert heading here." onchange=generateAlertCode()></textarea>
+      <div class="col-lg-6">
+        <div class="row w-100 mx-auto">
+          <div class="col-lg-3 mt-2">
+            <div class="text-center">
+              <h6>Write the alert</h6>
+    <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type in the text you would like to appear in your alert." class="hideableinstruct h6 text-success font-weight-bold text-center">Hover for help</div>
   </div>
   </div>
+    <div class="col-lg mt-2">
+    <textarea id="tinyMCEalert" class="border border-dark rounded w-100" rows="3" onchange=generateAlertCode()></textarea>
+  </div>
+</div>
+<hr>
 <div class="row w-100 mx-auto">
-  <div class="col-lg-8 mt-2">
-    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Only choose the size of your heading if you want to create a heading with this element. If you don't pick a heading size, but write a heading, the heading will not appear. No heading is chosen by default">Step 3 - Heading size</h5>
-          <select class="custom-select w-50 border border-dark" id="headSize" name="headSize" onchange=generateAlertCode()>
-          <option selected value="h5">Small (heading 5)</option>
-          <option value="h4">Medium (heading 4)</option>
-          <option value="h3">Large (heading 3)</option>
+  <div class="col-lg-3">
+    <div class="text-center">
+    <h6>Alert heading</h6>
+      <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type the heading for this alert. 75 character maximum." class="hideableinstruct h6 text-success font-weight-bold text-center">Hover for help</div> 
+    </div> 
+  </div>
+  <div class="col-lg mt-2">
+    <textarea maxlength="75" class="rounded p-2 w-100 border border-dark" rows="1" name="alertHeading" type="text" id="alertHeading" placeholder="Type a heading for your alert here." onchange=generateAlertCode()></textarea>
+  </div>
+  </div>
+  <hr>
+<div class="row w-100 mx-auto">
+  <div class="col-lg-3">
+    <div class="text-center">
+    <h6>Heading size</h6>
+    <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose the size of your heading." class="hideableinstruct h6 text-success font-weight-bold text-center">Hover for help</div> 
+  </div>
+  </div>
+  <div class="col-lg mt-2">
+         <select size="3" class="px-1 border border-dark" id="headSize" name="headSize" onchange=generateAlertCode()>
+          <option class="h5 mb-0" selected value="h5">Small (heading 5)</option>
+          <option class="h4 mb-0" value="h4">Medium (heading 4)</option>
+          <option class="h3 mb-0" value="h3">Large (heading 3)</option>
         </select>
+        <!--<div class="form-check" id="headSize">
+          <input class="form-check-input" type="radio" value="h5" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+          <label class="form-check-label" for="headSize">
+            Small (heading 5)
+          </label>
+          </div>
+          <div class="form-check" id="headSize">
+          <input class="form-check-input" name="exampleRadios" id="exampleRadios2" type="radio" value="h4">
+          <label class="form-check-label" for="headSize2">
+            Medium (heading 4)
+          </label>
+          </div>
+          <div class="form-check" id="headSize">
+          <input class="form-check-input" name="exampleRadios" id="exampleRadios3" type="radio" value="h3">
+          <label class="form-check-label" for="headSize3">
+            Large (heading 3)
+          </label>
+        </div>-->
+        
         </div> 
         </div>
         <div class="row w-100 mx-auto">
