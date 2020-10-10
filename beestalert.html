@@ -112,7 +112,7 @@
 
         var dmoption = document.getElementById("dmoption").value;
         var alertHeading = document.getElementById("alertHeading").value;
-        var headSize = document.getElementById("headSize").value;
+        var headSize = $('input[name="headSize"]:checked').val();
         var bsColour = document.getElementById("alertColour").value;
         var faIcon = document.getElementById("faCode").value;
         var iconNames = {
@@ -219,19 +219,7 @@
       }, 100);
     };
 
-    var textarea = $("#alertHeading");
-    var select = $("#headSize");
-    var addOrRemoveRequiredAttribute = function () {
-        if (textarea.val().length) {
-            select.val("h5");
-        }
-    };
-
-    // Run now
-    addOrRemoveRequiredAttribute();
-
-    // And when textarea changes
-    textarea.on("change", addOrRemoveRequiredAttribute);
+    
     </script>
 
     <style>
@@ -368,30 +356,23 @@
   </div>
   </div>
   <div class="col-lg mt-2">
-         <select size="3" class="px-1 border border-dark" id="headSize" name="headSize" onchange=generateAlertCode()>
+         <!--<select size="3" class="px-1 border border-dark" id="headSize" name="headSize" >
           <option class="h5 mb-0" selected value="h5">Small (heading 5)</option>
           <option class="h4 mb-0" value="h4">Medium (heading 4)</option>
           <option class="h3 mb-0" value="h3">Large (heading 3)</option>
-        </select>
-        <!--<div class="form-check" id="headSize">
-          <input class="form-check-input" type="radio" value="h5" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-          <label class="form-check-label" for="headSize">
-            Small (heading 5)
-          </label>
+        </select>-->
+          <div class="form-check form-check-inline" id="headSize" onchange=generateAlertCode()>
+            <input class="form-check-input" name="headSize" id="headSize1" type="radio" value="h5">
+            <label class="form-check-label" for="headSize1">Small (heading 5)</label>
           </div>
-          <div class="form-check" id="headSize">
-          <input class="form-check-input" name="exampleRadios" id="exampleRadios2" type="radio" value="h4">
-          <label class="form-check-label" for="headSize2">
-            Medium (heading 4)
-          </label>
+          <div class="form-check form-check-inline" id="headSize" onchange=generateAlertCode()>
+          <input class="form-check-input" name="headSize" id="headSize2" type="radio" value="h4">
+          <label class="form-check-label" for="headSize2">Medium (heading 4)</label>
           </div>
-          <div class="form-check" id="headSize">
-          <input class="form-check-input" name="exampleRadios" id="exampleRadios3" type="radio" value="h3">
-          <label class="form-check-label" for="headSize3">
-            Large (heading 3)
-          </label>
-        </div>-->
-        
+          <div class="form-check form-check-inline" id="headSize" onchange=generateAlertCode()>
+          <input class="form-check-input" name="headSize" id="exampleRadios3" type="radio" value="h3">
+          <label class="form-check-label" for="headSize3">Large (heading 3)</label>
+        </div>
         </div> 
         </div>
         <div class="row w-100 mx-auto">
@@ -450,6 +431,19 @@
         <div id="demo"></div>
         <p class="my-3"></p>
         </div>
+        <script>var textarea = $("#alertHeading");
+          var radioBtn = $("#headSize1");
+          var checkRadio = function(){
+              if (textarea.val().length) {
+                $("#headSize1").prop("checked", true);
+                generateAlertCode();
+              };
+          };
+      
+          // Run now
+          // And when textarea changes
+          textarea.on("change", checkRadio);
+          </script>
       <div id="beestFooter"></div>
         </body>
         </html>
