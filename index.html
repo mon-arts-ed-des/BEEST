@@ -94,7 +94,7 @@
       $('#beestFooter').load('common/beestfooter.html');
       function activeNav() {
           var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
-           $(".nav-link").each(function(){
+           $(".nav-link a").each(function(){
                 if($(this).attr("href") == pgurl || $(this).attr("href") == '' )
                 $(this).addClass("active");
                 $(this).append('<span class="sr-only">(current)</span>')
@@ -209,31 +209,31 @@ background: grey;
     <p>Take a look at what the BEEST can do for you. Click the circles under the videos to look through all our video examples.</p>
     <div id="carouselvideo" class="carousel slide" data-ride="carousel">    
       <div class="carousel-inner" role="listbox">
-        <div class="carousel-item active">
+        <span class="carousel-item active">
           <div class="embed-responsive embed-responsive-16by9">
           <iframe class="embed-responsive-item" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=26ce12c9-615b-4791-b18f-ac3e005c08f1" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
         </div>
-        </div>
-        <div class="carousel-item">
+        </span>
+        <span class="carousel-item">
           <div class="embed-responsive embed-responsive-16by9">
           <iframe class="embed-responsive-item" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=53e3ef90-79b6-42b5-b8d2-ac3f005056cd" frameborder="0" allowfullscreen></iframe>
         </div>
-        </div>
-        <div class="carousel-item">
+        </span>
+        <span class="carousel-item">
           <div class="embed-responsive embed-responsive-16by9">
           <iframe class="embed-responsive-item" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=9ab8c122-2316-4a02-aaaf-ac40005cd8f7" frameborder="0" allowfullscreen></iframe>
         </div>
-        </div>
-        <div class="carousel-item">
+        </span>
+        <span class="carousel-item">
           <div class="embed-responsive embed-responsive-16by9">
           <iframe class="embed-responsive-item" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=0b05ea43-04dd-404e-8322-ac3f016cb1ad" frameborder="0" allowfullscreen></iframe>
         </div>
-        </div>
-        <div class="carousel-item">
+        </span>
+        <span class="carousel-item">
           <div class="embed-responsive embed-responsive-16by9">
           <iframe class="embed-responsive-item" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=a3b32c11-7614-4ec4-8104-ac4000328f01" frameborder="0" allowfullscreen></iframe>
         </div>
-        </div>
+        </span>
         </div> 
     </div>  
 <div> 
@@ -300,9 +300,9 @@ background: grey;
         })
         </script>
         <script>
-var $item = $('.carousel-item');
+var $item = $('.carousel-item span');
 
-var $numberofSlides = $('.carousel-item').length;
+var $numberofSlides = $item.length;
 var $currentSlide = Math.floor((Math.random() * $numberofSlides));
 
 $('.carousel-indicators li').each(function(){
@@ -313,10 +313,11 @@ $('.carousel-indicators li').each(function(){
   } else {
     $(this).removeClass('active');
     $item.eq($slideValue).removeClass('active');
+	return false // only one should ever by active at once -- no need to review ALL remaining li tags
   }
 });
 
-$('.carousel').carousel({
+$('#carouselvideo').carousel({
   interval: false,
   pause: "false"
 });
