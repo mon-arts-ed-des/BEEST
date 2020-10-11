@@ -235,7 +235,6 @@
   </head>
 <body>
   <div id="beestNav"></div>
-  <div class="row w-100 mb-5"></div>
   <div class="row w-100 mb-4"></div>
   <div class="container-fluid mt-5">
     <h1 class="text-center pt-5"><i class="fa fa-exclamation-circle fa-fw"></i> Alert<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Alerts are used to draw the user's attention to something important, or to highlight information. You would be familiar with these on most websites (including Moodle), red alerts are used for errors or for incorrect actions, green ones for correct actions and blue to highlight important information on a page. Overuse of these alerts will most likely result in them being ignored. So use them sparingly and only when necessary." class="hideableinstruct text-success font-weight-bold"> | What does this page do?</span></h1>
@@ -426,15 +425,14 @@
   </div>
             <div class="col-lg mt-2">
              <div class="sticky-top" style="top:80px;">
-              <h6>Preview</h6>
+              <h6><strong>Preview</strong></h6>
               <div data-toggle="tooltip" data-placement="left" data-trigger="hover focus" title="A live preview of your element will appear below as you update your preferences for your alert." class="hideableinstruct h6 text-success font-weight-bold text-center">Hover for help</div>
                 <div id="demo"></div>
                 <p class="my-3"></p>
    <h6>Copy code</h6>
    <p data-toggle="tooltip" data-placement="left" data-trigger="hover focus" title="Click the copy code button below once you have finished creating your alert." class="hideableinstruct h6 text-success font-weight-bold text-center">Hover for help</p>
-   
+   <textarea readonly class="border border-dark rounded p-2 w-100" id="monAlertCode" cols="70" rows="4" name="Result" placeholder="Code for your element will appear here."></textarea>  
         <input type="button" class="btn btn-mu btn-block btn-lg my-2 text-center" name="GenerateWrap" value="Copy code </>" onClick=copyCode() id="copyCodeBtn" data-toggle="tooltip" data-placement="left" data-trigger="click focus" title="Your code has been copied.">
-        <textarea readonly class="border border-dark rounded p-2 w-100" id="monAlertCode" cols="70" rows="4" name="Result" placeholder="Code for your element will appear here."></textarea>
        </div>
       </div>
     </form>   
