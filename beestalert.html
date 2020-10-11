@@ -23,6 +23,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Arts CSS -->  
     <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/adminPlusSetuBlockStyle.css" />
+    <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/BEEST/css/monashElements.css" />
+
     
     <!-- external link to js file -->  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -110,11 +112,11 @@
             alertCode = "[Placeholder for alert context. The content you entered in step 1 will appear here.]";
         }
 
-        var dmoption = document.getElementById("dmoption").value;
+        var dmoption = $('input[name="dmoption"]:checked').val();
         var alertHeading = document.getElementById("alertHeading").value;
         var headSize = $('input[name="headSize"]:checked').val();
-        var bsColour = document.getElementById("alertColour").value;
-        var faIcon = document.getElementById("faCode").value;
+        var bsColour = $('input[name="alertColour"]:checked').val();
+        var faIcon = $('input[name="faCode"]:checked').val();
         var iconNames = {
             "1": "exclamation-circle",
             "2": "info-circle",
@@ -218,72 +220,10 @@
           activeNav();
       }, 100);
     };
-
-    
     </script>
-
     <style>
     .mce-notification-inner, .mce-close, .mce-notification-warning {
     display:none !important;
-    }
-
-    /* Popup container - can be anything you want */
-    #popup {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    }
-
-    /* The actual popup */
-    #popup .popuptext {
-    visibility: hidden;
-    width: 220px;
-    background-color: #222222;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 10px 5px;
-    position: absolute;
-    z-index: 1;
-    bottom:100%;
-    left: 50%;
-    margin-left: -110px;
-    }
-
-    /* Popup arrow */
-    #popup .popuptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-    }
-
-    /* Toggle this class - hide and show the popup */
-    #popup .showPopup {
-    -webkit-animation: fadeinout 4s linear forwards;
-    animation: fadeinout 4s linear forwards;
-    visibility: visible;
-    }
-  
-    /* Add animation (fade in the popup) */
-    @-webkit-keyframes fadeinout {
-      0%,100% { opacity: 0; }
-      10% {opacity: 1;}
-      66% { opacity: 1; }
-    }
-
-    @keyframes fadeinout {
-      0%,100% { opacity: 0; }
-      10% {opacity: 1;}
-      66% { opacity: 1; }
     }
     .tooltip-inner {
       text-align: left;
@@ -315,10 +255,10 @@
     </div>
       <div class="row w-50 mx-auto text-center mt-3">
         <div class="col-lg">
-              <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-mu btn-lg" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
+              <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-mu btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
             </div>
             <div class="col-lg">
-              <button data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-mu btn-lg">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
+              <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-mu btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
             </div></div>
   <hr class="hr-3">
   <form id="monashAlert">
@@ -326,10 +266,10 @@
       <div class="col-lg-6">
         <div class="row w-100 mx-auto">
           <div class="col-lg-3 mt-2">
-            <div class="text-center">
+       
               <h6>Write the alert</h6>
-    <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type in the text you would like to appear in your alert." class="hideableinstruct h6 text-success font-weight-bold text-center">Hover for help</div>
-  </div>
+    <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type in the text you would like to appear in your alert." class="hideableinstruct h6 text-success font-weight-bold">Hover for help</div>
+  
   </div>
     <div class="col-lg mt-2">
     <textarea id="tinyMCEalert" class="border border-dark rounded w-100" rows="3" onchange=generateAlertCode()></textarea>
@@ -338,10 +278,8 @@
 <hr>
 <div class="row w-100 mx-auto">
   <div class="col-lg-3">
-    <div class="text-center">
     <h6>Alert heading</h6>
       <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type the heading for this alert. 75 character maximum." class="hideableinstruct h6 text-success font-weight-bold text-center">Hover for help</div> 
-    </div> 
   </div>
   <div class="col-lg mt-2">
     <textarea maxlength="75" class="rounded p-2 w-100 border border-dark" rows="1" name="alertHeading" type="text" id="alertHeading" placeholder="Type a heading for your alert here." onchange=generateAlertCode()></textarea>
@@ -350,10 +288,8 @@
   <hr>
 <div class="row w-100 mx-auto">
   <div class="col-lg-3">
-    <div class="text-center">
     <h6>Heading size</h6>
-    <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose the size of your heading." class="hideableinstruct h6 text-success font-weight-bold text-center">Hover for help</div> 
-  </div>
+    <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose the size of your heading." class="hideableinstruct h6 text-success font-weight-bold text-center">Hover for help</div>
   </div>
   <div class="col-lg mt-2">
          <!--<select size="3" class="px-1 border border-dark" id="headSize" name="headSize" >
@@ -375,26 +311,46 @@
         </div>
         </div> 
         </div>
+        <hr>
         <div class="row w-100 mx-auto">
-          <div class="col-lg-5">
-            <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="If you would like an icon to the left of your heading, select it here. The default is no icon. This is optional.">Step 4 - Select icon</h5>
-            <select class="custom-select w-50 border border-dark" id="faCode" name="faCode" onchange=generateAlertCode()>
+          <div class="col-lg-3">
+            <h6>Select icon</h6>
+            <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Select an icon to go with your heading." class="hideableinstruct h6 text-success font-weight-bold text-center">Hover for help</div>
+            </div>
+            <div class="col-lg">
+            <!--<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" onchange=generateAlertCode()>
                 <option selected value="noI">No icon</option>
                 <option value="1">Exclamation circle</option>
                 <option value="2">Info circle</option>
                 <option value="3">Question mark</option>
-              </select>
-          </div>
-
-          <div class="col-lg-2" >
-            <h5 id="iconpreview" class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" style="display:none;">Icon Preview</h5>
-          </div>
-        </div>
-                   
+              </select>-->
+              <div class="form-check form-check-inline" id="faCode" onchange=generateAlertCode()>
+                <input class="form-check-input" name="faCode" id="faCode1" type="radio" value="noI" checked>
+                <label class="form-check-label" for="faCode1">No icon</label>
+              </div>
+              <div class="form-check form-check-inline" id="faCode" onchange=generateAlertCode()>
+                <input class="form-check-input" name="faCode" id="faCode2" type="radio" value="1">
+                <label class="form-check-label" for="faCode2"><i class="fa fa-exclamation-circle fa-2x"></i></label>
+              </div>
+              <div class="form-check form-check-inline" id="faCode" onchange=generateAlertCode()>
+              <input class="form-check-input" name="faCode" id="faCode3" type="radio" value="2">
+              <label class="form-check-label" for="faCode3"><i class="fa fa-info-circle fa-2x"></i></label>
+              </div>
+              <div class="form-check form-check-inline" id="faCode" onchange=generateAlertCode()>
+              <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="3">
+              <label class="form-check-label" for="faCode4"><i class="fa fa-question-circle fa-2x"></i></label>
+            </div>
+            </div> 
+            </div>
+            <hr>                   
         <div class="row w-100 mx-auto">
-            <div class="col-lg-8 mt-2">
-            <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the colour of your alert. Monash blue is selected by default.">Step 5 - Select alert colour</h5>
-            <select class="custom-select w-50 border border-dark" id="alertColour" name="alertColour" onchange=generateAlertCode()>
+            <div class="col-lg-3 mt-2">
+
+            <h6>Alert colour</h6>
+            <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Select the background colour of your alert." class="hideableinstruct h6 text-success font-weight-bold text-center">Hover for help</div>
+          </div>
+        <div class="col-lg">
+            <!--<select class="custom-select w-50 border border-dark" id="alertColour" name="alertColour" onchange=generateAlertCode()>
                 <option selected value="1">Monash blue</option>
                 <option value="2">Red</option>
                 <option value="3">Yellow</option>
@@ -403,33 +359,85 @@
                 <option value="6">Light blue</option>
                 <option value="7">Black</option>
                 <option value="8">Grey</option>
-              </select>
+              </select>-->
+              <div class="row w-100">
+                <div class="col-lg">
+              <div class="form-check form-check-inline" id="alertColour" onchange=generateAlertCode()>
+                <input class="form-check-input" name="alertColour" id="alertColour1" type="radio" value="1" checked>
+                <label class="form-check-label alert alert-mu rounded my-auto" for="alertColour1">Monash blue</label>
+              </div>
+              <div class="form-check form-check-inline" id="alertColour" onchange=generateAlertCode()>
+                <input class="form-check-input" name="alertColour" id="alertColour2" type="radio" value="2">
+                <label class="form-check-label alert alert-danger border border-danger rounded my-auto" for="alertColour2">Red</label>
+              </div>
+              <div class="form-check form-check-inline" id="alertColour" onchange=generateAlertCode()>
+              <input class="form-check-input" name="alertColour" id="alertColour3" type="radio" value="3">
+              <label class="form-check-label alert alert-warning border border-warning my-auto" for="alertColour3">Yellow</label>
+              </div>
+              <div class="form-check form-check-inline" id="alertColour" onchange=generateAlertCode()>
+              <input class="form-check-input" name="alertColour" id="alertColour4" type="radio" value="4">
+              <label class="form-check-label alert alert-success border border-success my-auto" for="alertColour4">Green</label>
             </div>
+          </div>
+        </div>
+        <div class="col-lg">
+          <div class="row w-100 mt-3">
+          <div class="form-check form-check-inline" id="alertColour" onchange=generateAlertCode()>
+          <input class="form-check-input" name="alertColour" id="alertColour5" type="radio" value="5">
+          <label class="form-check-label alert alert-primary border border-primary my-auto" for="alertColour5">Dark blue</label>
+        </div>
+        <div class="form-check form-check-inline" id="alertColour" onchange=generateAlertCode()>
+          <input class="form-check-input" name="alertColour" id="alertColour6" type="radio" value="6">
+          <label class="form-check-label alert alert-info border border-info my-auto" for="alertColour6">Light blue</label>
+        </div>
+        <div class="form-check form-check-inline" id="alertColour" onchange=generateAlertCode()>
+          <input class="form-check-input" name="alertColour" id="alertColour7" type="radio" value="7">
+          <label class="form-check-label alert alert-dark border border-dark my-auto" for="alertColour7">Black</label>
+        </div>
+        <div class="form-check form-check-inline" id="alertColour" onchange=generateAlertCode()>
+          <input class="form-check-input" name="alertColour" id="alertColour8" type="radio" value="8">
+          <label class="form-check-label alert alert-secondary border border-secondary my-auto" for="alertColour8">Grey</label>
+        </div>
+      </div>
+    </div>
+            </div> 
             </div>
+            <hr>
             <div class="row w-100 mx-auto">
-     <div class="col-lg-8 mt-2">
-      <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose whether to leave the alert as a permanent alert (cannot be closed) or make it dismissable (a close button will appear for users to close the alert). Dismissable is chosen by default">Step 6 - Permanent or Dismissable</h5>
-      <select class="custom-select w-50 border border-dark" id="dmoption" name="dmoption" onchange=generateAlertCode()>
+     <div class="col-lg-3 mt-2">
+      <h6>Permanent or dismissable</h6>
+      <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Dismissable means the alert can be temporarily closed by the user." class="hideableinstruct h6 text-success font-weight-bold text-center">Hover for help</div>
+      </div>
+      <!--<select class="custom-select w-50 border border-dark" id="dmoption" name="dmoption" onchange=generateAlertCode()>
       <option value="dismissable" selected>Dismissable</option>
       <option value="permanent">Permanent</option>
-    </select>
+    </select>-->
+    <div class="col-lg">
+    <div class="form-check form-check-inline" id="dmoption" onchange=generateAlertCode()>
+      <input class="form-check-input" name="dmoption" id="dmoption1" type="radio" value="dismissable" checked>
+      <label class="form-check-label" for="dmoption1">Dismissable</label>
+    </div>
+    <div class="form-check form-check-inline" id="dmoption" onchange=generateAlertCode()>
+      <input class="form-check-input" name="dmoption" id="dmoption2" type="radio" value="8">
+      <label class="form-check-label" for="dmoption2">Permanent</label>
     </div>
     </div>
-             
-    <div class="row w-100 mx-auto">
-          <div class="col-lg-8 mt-2"> 
-   <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 7 - Copy code and paste them into Moodle</h5>
-        <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Copy your code </>" onClick=copyCode()></p>
-        <textarea readonly class="border border-dark rounded p-2 w-100" id="monAlertCode" cols="70" rows="4" name="Result" placeholder="Code for your element will appear here." onchange=generateAlertCode()></textarea></p>
-        </div></div>
+    </div>
+  </div>
+            <div class="col-lg mt-2">
+             <div class="sticky-top">
+              <h6>Preview</h6>
+              <div data-toggle="tooltip" data-placement="left" data-trigger="hover focus" title="A live preview of your element will appear below as you update your preferences for your alert." class="hideableinstruct h6 text-success font-weight-bold text-center">Hover for help</div>
+                <div id="demo"></div>
+                <p class="my-3"></p>
+   <h6>Copy code</h6>
+   <p data-toggle="tooltip" data-placement="left" data-trigger="hover focus" title="Click the copy code button below once you have finished creating your alert." class="hideableinstruct h6 text-success font-weight-bold text-center">Hover for help</p>
+   
+        <input type="button" class="btn btn-mu btn-block btn-lg my-2 text-center" name="GenerateWrap" value="Copy code </>" onClick=copyCode() id="copyCodeBtn" data-toggle="tooltip" data-placement="left" data-trigger="click focus" title="Your code has been copied.">
+        <textarea readonly class="border border-dark rounded p-2 w-100" id="monAlertCode" cols="70" rows="4" name="Result" placeholder="Code for your element will appear here."></textarea>
+       </div>
+      </div>
     </form>   
-    <div class="row w-100 mx-auto mb-3">  
-      <div class="col-lg mt-2">
-      <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 7.">Step 8 - Preview the alert</h5>
-      </div>  
-        </div>
-        <div id="demo"></div>
-        <p class="my-3"></p>
         </div>
         <script>var textarea = $("#alertHeading");
           var radioBtn = $("#headSize1");
@@ -439,11 +447,34 @@
                 generateAlertCode();
               };
           };
-      
           // Run now
           // And when textarea changes
           textarea.on("change", checkRadio);
           </script>
+          <script>
+            $(function () {
+              $(document).on('shown.bs.tooltip', function (e) {
+                 setTimeout(function () {
+                   $(e.target).tooltip('hide');
+                 }, 10000);
+              });
+            });</script>
+            <script>
+              $(function () {
+                $('#copyCodeBtn').on('click', function (e) {
+                   setTimeout(function () {
+                     $(e.target).tooltip('hide');
+                   }, 2000);
+                });
+              });
+              $(function () {
+                $('#toggleHelp').on('click', function (e) {
+                   setTimeout(function () {
+                     $(e.target).tooltip('hide');
+                   }, 2000);
+                });
+              });
+              </script>
       <div id="beestFooter"></div>
         </body>
         </html>
