@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<!--
+==========================================
+ Title:       BEEST Alert
+ Creator:     @timscholl
+ Last Update: 11 Oct 2020
+==========================================
+-->
 <html lang="en">
 
 <head>
@@ -138,7 +145,7 @@
             "8": "secondary",
         };
         var colourName = colourNames[bsColour];
-
+        var alertScript = "<script> var L=document.createElement('link'); L.rel='stylesheet'; L.href='http://mon-arts-ed-des.github.io/BEEST/css/monashElements.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
         var alertPColourCode = '<div class="alert alert-' + colourName + " border border-" + colourName + ' rounded" role="alert">';
         var alertDMColourCode = '<div class="alert alert-' + colourName + " border border-" + colourName + ' rounded alert-dismissible fade show" role="alert">';
         var monAlertP_Close = "</div>";
@@ -179,7 +186,7 @@
             var textOutput = alertPColourCode + resizedHead + alertCode + monAlertP_Close;
         }
 
-        document.getElementById("monAlertCode").innerHTML = textOutput;
+        document.getElementById("monAlertCode").innerHTML = alertScript+textOutput;
         //SelectAll("monAlertCode");
         $("#demo").nextAll("div").remove();
         $("#demo").after(textOutput);

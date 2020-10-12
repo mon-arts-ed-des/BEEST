@@ -106,106 +106,26 @@
       }, 100);
     };
   </script>
-    <style>
-      /* Popup container - can be anything you want */
-  #popup {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  }
-
-  /* The actual popup */
-  #popup .popuptext {
-  visibility: hidden;
-  width: 220px;
-  background-color: #222222;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 10px 5px;
-  position: absolute;
-  z-index: 1;
-  bottom:100%;
-  left: 50%;
-  margin-left: -110px;
-  }
-
-  /* Popup arrow */
-  #popup .popuptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
-  }
-
-  /* Toggle this class - hide and show the popup */
-  #popup .showPopup {
-  -webkit-animation: fadeinout 4s linear forwards;
-  animation: fadeinout 4s linear forwards;
-  visibility: visible;
-  }
-
-  /* Add animation (fade in the popup) */
-@-webkit-keyframes fadeinout {
-0%,100% { opacity: 0; }
-10% {opacity: 1;}
-66% { opacity: 1; }
-}
-
-@keyframes fadeinout {
-0%,100% { opacity: 0; }
-10% {opacity: 1;}
-66% { opacity: 1; }
-}
-.tooltip-inner {
-  text-align: left;
-  padding: 15px;
-  font-size: 1.05rem;
-  max-width: 400px;
-}
-.carousel-indicators li {
-border-radius: 50%;
-height: 30px;
-margin: 0 5px 0 5px;
-background: grey;
-}
-.carousel-indicators .active {
-	width:30px;
-	height:30px;
-	background:#006dae;
-	border-color:#006dae;
-}
-
-     </style> 
   </head>
 
   <body>
     <div id="beestNav"></div>
-    <div class="row w-100 mb-5"></div>
-    <div class="row w-100 mb-5"></div>
+    <div class="py-5"></div>
     <div class="container-fluid">
-          <h1 class="text-center"><i class="fa fa-fw fa-dragon"></i> BEEST Project</h1>
+          <h3 class="text-center"><i class="fa fa-fw fa-dragon"></i> BEEST Project</h3>
           <div class="row w-100 my-3">
             <div class="col-lg">
-  <h3>What is the BEEST?</h3>
-  <p>BEEST stands for <strong>B</strong>ootstrap <strong>E</strong>nhanced <strong>E</strong>lements <strong>S</strong>treamlining <strong>T</strong>ool. BEEST takes your input and combines it with pre-written HTML to generate advanced HTML elements without the need for complex HTML skills.</p>
-  <h3>What can BEEST do that nothing else can?</h3>
-  <p>Take a look at the videos on the right to see the BEEST in action. For the details, read on. This tool, <strong>when used appropriately</strong>, can create <span class="text-success font-weight-bold" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="Responsive design means web pages detect the user's screen size and orientation and change the layout accordingly. Therefore the elements here 'respond' to the user's device to work how that person expects them to work on that device.">responsive</span>, consistent, quality HTML elements that improve your Moodle site's user experience (UX) design while also meeting <span class="text-success font-weight-bold" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="WCAG is the global body that produces guidelines to support making content accessible to a wider range of people with disabilities, including blindness, low vision, deafness, hearing loss, learning disabilities, cognitive limitations, limited movement, speech disabilities, photosensitivity and combinations of these.">WCAG accessibility standards</span>. As technology and the digital learning space continues to develop at a rapid pace, students are now not only expecting meaningful, applied, active learning approaches, they want the experience of interacting with the learning content to be an engaging, clear and easy to operate experience. This is why the BEEST was designed. So often, high-quality teachers and designers use up an incredible amount of time and effort manipulating HTML to make their learning sites a quality <span class="text-success font-weight-bold" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="User experience encompasses all aspects of the end-user's interaction with the product including usability, clarity of instructions, accessibility, responsivity and formatting.">user experience</span> as well. BEEST can cut the time needed and the skills required to achieve this by a vast amount. This means more time for planning learning content, and more teachers having access to high-level design features they thought were out of reach.</p>
-   <h3>Why use the BEEST?</h3> 
-   <p>If you are producing high quality teaching and learning in your Moodle site, and want to take it to the next level for your students, BEEST can help you reformat your existing content, and support a responsive, high-quality end-user learning product.</p>
-   <h3>How do I use the BEEST?</h3> 
-   <p>On each of the pages there are step by step instructions on what input you need to provide, and how to manipulate the respective element to produce the final result desired. Each page will also produce a preview. This is so you can take a sneak peek at what you have created before pasting it into Moodle and make and changes you feel are necessary.</p>
+  <h5>What is the BEEST?</h5>
+  <p>BEEST stands for <strong>B</strong>ootstrap <strong>E</strong>nhanced <strong>E</strong>lements <strong>S</strong>treamlining <strong>T</strong>ool. BEEST takes your input and combines it with pre-written HTML to generate advanced HTML elements for Moodle without the need for complex HTML skills.</p>
+  <h5>How do I use BEEST to help me in Moodle?</h5>
+  <p>Use the step by step instructions on each page to create your element. The steps are accompanied by <span class="font-weight-bold text-success" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="When you hover over me, help appears. When you move your mouse away I disappear.">help instructions in green</span> on what input you need to provide. There are video walkthroughs for each element, and the examples page to show you the what each of the finished products looks like. Each page also has a preview that updates as you make changes to ensure you reach your desired result before copying your code ready to paste into Moodle.</p>
+  <h5>What can BEEST do that nothing else can?</h5>
+  <p>Take a look at the videos on the right to see the BEEST in action. For the details, read on. This tool, <strong>when used appropriately</strong>, can create <span class="text-success font-weight-bold" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="Responsive design means web pages detect the user's screen size and orientation and change the layout accordingly. Therefore the elements here 'respond' to the user's device to work how that person expects them to work on that device.">responsive</span>, consistent, quality HTML elements that improve your Moodle site's <span class="text-success font-weight-bold" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="User experience encompasses all aspects of the end-user's interaction with the product including usability, clarity of instructions, accessibility, responsivity and formatting.">user experience (UX) design</span> while also meeting <span class="text-success font-weight-bold" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="WCAG is the global body that produces guidelines to support making content accessible to a wider range of people with disabilities, including blindness, low vision, deafness, hearing loss, learning disabilities, cognitive limitations, limited movement, speech disabilities, photosensitivity and combinations of these.">WCAG accessibility standards</span>. BEEST can cut the time needed and the skills required to achieve this by a vast amount.</p>
+   <h5>Why use the BEEST?</h5> 
+   <p>If you are producing high quality teaching and learning in your Moodle site, and want to take it to the next level for your students, BEEST can help you reformat your existing content, and support a responsive, high-quality end-user learning product.</p>   
   </div>
    <div class="col-lg-4">
-    <h3>What can the BEEST do?</h3>
+    <h5>What can the BEEST do?</h5>
     <p>Take a look at what the BEEST can do for you. Click the circles under the videos to look through all our video examples.</p>
     <div id="carouselvideo" class="carousel slide" data-ride="carousel">    
       <div class="carousel-inner" role="listbox">
@@ -246,34 +166,7 @@ background: grey;
 </ol></div>
     </div>
   </div>
-   <h3>Creators and Support</h3>
-<p>Should you require any assistance with the Moodle setup and the use of the BEEST elements, please email the creators on <a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=beest@monash.edu&su=Question%20about%20BEEST%20tool" target="_blank">beest@monash.edu</a>. The creators and current managers of the BEEST project are:</p>
-<div class="row w-50 mx-auto">
-    <div class="col-lg text-center h5 mt-2">
-      <div class="border border-dark rounded p-2">
-    <img src="img/tim.png" class="img-fluid w-100 mb-3" />
-   <p class="font-weight-bold">Timothy Scholl</p>
-   <p>Educational Designer</p>
-   <p>Faculty of Arts</p>
-  </div>
-  </div>
-    <div class="col-lg text-center h5 mt-2">
-    <div class="border border-dark rounded p-2">
-    <img src="img/matt.png" class="img-fluid mb-3" />
-    <p class="font-weight-bold">Matt Chen</p>
-    <p>Educational Designer</p>
-    <p>Faculty of IT</p>
-      </div>
-    </div>
-    <div class="col-lg text-center h5 mt-2">
-      <div class="border border-dark rounded p-2">
-    <img src="img/phil.png" class="img-fluid mb-3" />
-    <p class="font-weight-bold">Phillip Abramson</p>
-    <p>Educational Designer</p>
-    <p>Faculty of IT</p>
-     </div>
-</div> 
-</div>  
+   
         </div>
         <script>
         function getRandomUrl(videoURL) {
