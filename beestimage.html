@@ -336,19 +336,19 @@
 		    demoDiv.innerHTML = textOutput;
         }
 
-      var textarea = $('#respImgHeading');
-      var select = $('#headSize');
-      var addOrRemoveRequiredAttribute = function () {
-      if (textarea.val().length) {
-        select.val("h5")
-      }
-      };
+      //var textarea = $('#respImgHeading');
+      //var select = $('#headSize');
+      //var addOrRemoveRequiredAttribute = function () {
+      //if (textarea.val().length) {
+      //  select.val("h5")
+     // }
+      //};
 
       // Run now
-      addOrRemoveRequiredAttribute();
+     // addOrRemoveRequiredAttribute();
 
       // And when textarea changes
-      textarea.on('change', addOrRemoveRequiredAttribute);
+    //  textarea.on('change', addOrRemoveRequiredAttribute);
 
     function SelectAll(id){
         document.getElementById(id).focus();
@@ -365,7 +365,7 @@
     }
     $(function () {
   $('[data-toggle="tooltip"]').tooltip()
-})
+});
 
   </script>
   <!-- Load the Google API Loader script. -->
@@ -395,7 +395,20 @@
     }, 100);
   };
   </script>-->
-
+  <style>
+    .mce-notification-inner, .mce-close, .mce-notification-warning {
+    display:none !important;
+    }
+    .tooltip-inner {
+      text-align: left;
+      padding: 15px;
+      font-size: 1.05rem;
+      max-width: 400px;
+    }
+    .modal-backdrop {
+      z-index: 0 !important;
+    }
+    </style> 
 </head>
 <body>
     <div id="beestNav"></div>
@@ -467,12 +480,12 @@
   </div>
 </div>
 </div>
-<div class="row w-50 mx-auto text-center mt-3">
-  <div class="col-lg">
-        <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-mu btn-lg btn-block">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
+<div class="row w-50 mx-auto text-center mt-2">
+  <div class="col-lg mt-2">
+        <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-mu btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
       </div>
-      <div class="col-lg">
-        <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page." onclick="flipTooltip()" class="btn btn-mu btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
+      <div class="col-lg mt-2">
+        <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-mu btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
       </div></div>
         <!--<ul>
           <li><a data-toggle="modal" data-target=".unsplash-modal" href="">Unsplash</a>
@@ -522,11 +535,14 @@
   
 <form id="respImg">   
    <div class="row w-100 mx-auto">
-    <div class="col-lg-8 mt-2">
+    <div class="col-lg-6 mt-2">
     <div class="row w-100 mx-auto">
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your image. When you paste the link into this box it will automatically change the link to be the embed link required for the platform you are pasting from this process to work.">Step 1 - Image link</h5>
-        <div class="row w-100 mx-auto">
-        <p>Please find your image from <a href="https://unsplash.com" target="_blank">Unsplash</a>/<a href="https://www.pexels.com" target="_blank">Pexels</a>/<a href="https://stocksnap.io/" target="_blank">StockSnap</a> and paste the URL here</p>
+      <div class="col-lg-3">
+        <h6>Image link</h6>
+        <div data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your image." class="font-weight-bold text-success hideableinstruct">Hover for help</div>
+        </div>
+        <div class="col-lg">
+        <p>Find your image from <a href="https://unsplash.com" target="_blank">Unsplash</a>/<a href="https://www.pexels.com" target="_blank">Pexels</a>/<a href="https://stocksnap.io/" target="_blank">StockSnap</a> and paste the URL here</p>
         <!--<a data-toggle="modal" data-target=".panopto-modal" href="">search an image here</a>
             <div class="modal fade panopto-modal" tabindex="-1" role="dialog" aria-labelledby="panopto-modal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -541,9 +557,10 @@
               </div>
             </div>
           </div>-->
-        <p id="popup"><span class="popuptext" id="myPopup">Please paste a valid link from Unsplash/Pexels/StockSnap</span></p>
-        <textarea class="rounded p-2 w-100" rows="1" name="respImgSwitch" type="text" id="respImgSwitch" placeholder="Paste the Unsplash/Pexels/StockSnap image link here" onchange=generateCode()></textarea>
+          <textarea class="rounded p-2 w-100" rows="1" name="respImgSwitch" type="text" id="respImgSwitch" placeholder="Paste the Unsplash/Pexels/StockSnap image link here" onchange=generateCode()></textarea>
+       <!-- <p id="popup"><span class="popuptext" id="myPopup">Please paste a valid link from Unsplash/Pexels/StockSnap</span></p>-->
         </div>
+        
         <div ng-controller="driveController">        
           <!--<div ng-show="checkingLogin">Checking login status...</div>
           Login status:{{loggedIn}}
@@ -561,53 +578,68 @@
               <img id ="img2" ng-src="{{image}}" style="max-width: 100%;max-height: 100%;">
             </div>
           </div>
-
+          <hr>
     <div class="row w-100 mx-auto">
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="It's recommended to have a few sentences or dot points explaining what is in the video students are about to watch. This helps in particular when students are looking back through your site for a specific video where you addressed certain concepts or theories. Instead of watching the entire video, they can read the context you have provided, and decide if they have found what they need without having to watch the entire video.">Step 2 - Image context</h5>
-            <textarea id="tinyMCEimage" class="border border-dark rounded p-2 w-100" cols="70" rows="5" name="respVid_context"></textarea>
+      <div class="col-lg-3">
+        <h6>Image context</h6>
+        <div class="font-weight-bold text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Giving the image some context helps users to understand what the image is trying to communicate. Or you can type text you would like to go alongside the image.">Hover for help</div>
+      </div>
+      <div class="col-lg">
+            <textarea id="tinyMCEimage" class="border border-dark rounded p-2 w-100" cols="70" rows="3" name="respVid_context"></textarea>
     </div>
    </div>
 
-      <div class="col-lg-3">
+      <!--<div class="col-lg-3">
         <h5 id="imagepreview" class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" style="display:none;">Image Preview</h5>
         <img id="img" src="" style="max-width:100%;max-height:100%;">
-      </div> 
+      </div>-->
     </div>
   </div>
-    
-   
+  <hr>
       <div class="row w-100 mx-auto">
-        <div class="col-lg-8 mt-2">
-          <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose which half/side of screen you would prefer the video to appear by clicking on one of the options below. Video on the left is selected by default.">Step 3 - Image position</h5>
-                <select class="custom-select w-50 border border-dark" id="imagePosition" name="imagePosition" size="1" onchange=generateCode()>
-                <option value="left" selected>Image on the left</option>
-                <option value="right">Image on the right</option>
+        <div class="col-lg-3">
+          <h6>Image position</h6>
+          <div class="font-weight-bold text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose which side of screen you would prefer the image to appear on.">Hover for help</div>
+          </div>
+          <div class="col-lg">
+                <select class="custom-select border border-dark" id="imagePosition" name="imagePosition" size="1" onchange=generateCode()>
+                <option value="right" selected>Image on the right</option>
+                <option value="left">Image on the left</option>
               </select>
               </div> 
             </div> 
-
+<hr>
             <div class="row w-100 mx-auto">
-              <div class="col-lg-8 mt-2">
-                <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose whether you want the video to be 50% (1/2) of the screen width or 33.3% (1/3) of the screen width.">Step 4 - Image width</h5>
-                      <select class="custom-select w-50 border border-dark" id="imageWidth" name="imageWidth" size="1" onchange=generateCode()>
+              <div class="col-lg-3">
+                <h6>Image width</h6>
+                <div class="font-weight-bold text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose whether you want the image to be 50% (1/2) of the screen width or 33.3% (1/3) of the screen width.">Hover for help</div>
+              </div>
+              <div class="col-lg">
+                      <select class="custom-select border border-dark" id="imageWidth" name="imageWidth" size="1" onchange=generateCode()>
                       <option value="50" selected>50% (1/2)</option>
                       <option value="33">33.3% (1/3)</option>
                       <option value="25">25% (1/4)</option>
                     </select>
                     </div> 
                   </div> 
-
+<hr>
             <div class="row w-100 mx-auto">
-              <div class="col-lg-8 mt-2">
-                <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the heading for this video. 50 character maximum. If you want a heading, you must also complete step 5 or your heading will not display.">Step 5 - Heading (optional)</h5>
+              <div class="col-lg-3">
+                <h6>Heading</h6>
+                <div class="font-weight-bold text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the heading for this image. 50 character maximum. If you want a heading, you must also complete step 5 or your heading will not display.">Hover for help</div>
+                </div>
+                <div class="col-lg">
                 <textarea maxlength="50" class="rounded p-2 w-100" rows="1" name="respVid_heading" type="text" id="respImgHeading" placeholder="Type your image heading here" onchange=generateCode()></textarea>
               </div>
             </div>
-
+<hr>
     <div class="row w-100 mx-auto">
-    <div class="col-lg-8 mt-2">
-      <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 6 - Heading size (optional)</h5>
-            <select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1" onchange=generateCode()>
+    <div class="col-lg-3">
+      <h6>Heading size</h6>
+      <div class="font-weight-bold text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. If you do not choose a heading size, your heading will not display.">Hover for help</div>
+    </div>
+    <div class="col-lg">
+            <select class="custom-select border border-dark" id="headSize" name="headSize" size="1" onchange=generateCode()>
             <!--<option selected value="noH">No heading</option>-->
             <option selected value="h5">Small (heading 5)</option>
             <option value="h4">Medium (heading 4)</option>
@@ -615,34 +647,50 @@
           </select>
           </div> 
         </div>   
+        <hr>
         <div class="row w-100 mx-auto">
-          <div class="col-lg-5">
-            <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 4) and choose a heading size (step 5) and or the icon and heading will not display.">Step 7 - Select icon (optional)</h5>
-            <select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1" onchange=generateCode()>
+          <div class="col-lg-3">
+            <h6>Select heading icon</h6>
+            <div class="font-weight-bold text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. If you want an icon, you must also write a heading and choose a heading size or the icon and heading will not display.">Hover for help</div>
+            </div>
+            <div class="col-lg">
+            <select class="custom-select border border-dark" id="faCode" name="faCode" size="1" onchange=generateCode()>
               <option selected value="noI">No icon</option>
                 <option value="1">Image</option>
                 <option value="2">Play</option>
                 <option value="3">Eye</option>
               </select>
             </div>
-
-            <div class="col-lg-2" >
-            <h5 id="iconpreview" class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" style="display:none;">Icon Preview</h5>
             </div>
           </div> 
-
-          <div class="row w-100 mb-3 mx-auto">
-            <div class="col-lg mt-2">
-            <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 7.">Step 8 - Preview</h5>
-            </div>
-          </div>
+<div class="col-lg-6 mt-2">
+  <div class="sticky-top" style="top:80px;">
+            <h6>Preview</h6>
+            <div class="font-weight-bold text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear here as you update your preferences on the page.">Hover for help</div>
           <div id="demo" class="row w-100 mb-3 mx-auto">                     
           </div>
-    <div class="row w-100 mx-auto">
-    <div class="col-lg-8 mt-2">
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 9 - Copy code and paste them into Moodle</h5>
-        <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Copy your code </>" onClick=copyCode() ></p>
-        <textarea readonly class="rounded p-2 w-100" id="txtarearespImg" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here"></textarea>
+          <hr>
+       <h6>Copy code</h6>
+       <div class="font-weight-bold text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to copy the code for your element ready for pasting in Moodle.">Hover for help</div>
+       
+        <textarea readonly class="rounded p-2 w-100 mt-2" id="txtarearespImg" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here"></textarea>
+        <input type="button" class="btn btn-lg btn-block btn-arts mt-3" name="GenerateWrap" value="Copy your code </>" onClick=copyCode() />
+        <div class="text-center h5 mt-4">
+          <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
+          <div class="modal fade html-paste-modal mt-5" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content p-2 bg-dark">
+                <div class="modal-header">
+                  <h5 class="modal-title text-white">Click close or click outside this box to return to the BEEST.</h5>
+                  <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">Close &times;</span>
+                  </button>
+                </div>
+              <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe>
+              </div>
+              </div>
+            </div>
+          </div></div>
         
         <!--<input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Write back to Moodle" onClick=writeinMoodle() >-->
     
@@ -689,20 +737,19 @@
     $('#respImgSwitch').val(x);
     //$('input[type="text"], textarea#respVidSwitch').attr('readonly','readonly');
   }); 
-  var textarea = $('#respImgHeading');
-  var select = $('#headSize');
-  var addOrRemoveRequiredAttribute = function () {
-  if (textarea.val().length) {
-    select.val("h5")
-  }
-  };
-
-  // Run now
-  addOrRemoveRequiredAttribute();
-
-  // And when textarea changes
-  textarea.on('change', addOrRemoveRequiredAttribute);
 </script>
+<!--<script>var textarea = $("#alertHeading");
+  var radioBtn = $("#headSize1");
+  var checkRadio = function(){
+      if (textarea.val().length) {
+        $("#headSize1").prop("checked", true);
+        generateAlertCode();
+      };
+  };
+  // Run now
+  // And when textarea changes
+  textarea.on("change", checkRadio);
+  </script>-->
 <script>
   $(function () {
     $(document).on('shown.bs.tooltip', function (e) {
@@ -728,7 +775,7 @@
     });
     </script>
 <footer class="bg-arts text-white w-100">
-  <nav class="navbar navbar-expand navbar-dark bg-arts">   
+  <nav class="navbar navbar-expand navbar-dark bg-arts fixed-bottom">   
       <a class="navbar-brand text-center border border-white p-2 rounded" href="index.html"><img src="img/dragon-solid-white.png" width="30" height="30" alt=""></a>  
         <ul class="navbar-nav">
           <span class="navbar-text"><i class="fa fa-copyright" aria-hidden="true"></i> Monash University 2020</span>
