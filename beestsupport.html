@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-152392632-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-152392632-3');
+</script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A simple element creator to generate responsive code that can be easily embbedded into Moodle">
+    <meta name="author" content="T&M">
+    <title>BEEST support</title>
+    <link rel="icon" href="img/dragon-solid-favicon.png" type="image/gif">
+    <!-- external link to css file --> 
+    <!-- Bootstrap CSS -->   
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> 
+    <!-- Arts CSS -->  
+    <link rel="stylesheet" href="css/adminPlusSetuBlockStyle.css">
+    <!-- external link to js file -->  
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    
+    <!-- Bootstrap js file --> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- FontAwesome js file --> 
+    <script src="https://kit.fontawesome.com/3817feae52.js"></script> 
+    <!-- Tinymce js file -->   
+    <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+    <script>
+    function generateAccessCode() {
+		var htmlBlockID = document.getElementById('htmlBlockID').value;
+		var accessToBeest = document.getElementById('accessToBeest').value;
+		var role_to_comment = {
+				admin:"<!--BEEST for Moodle administrators only-->",
+				lect:"<!--BEEST for Moodle administrator, lecturer, non-primary lecturer and designer roles-->",
+				tutor:"<!--BEEST for Moodle administrator, lecturer, non-primary lecturer, designer and tutor roles-->"
+			}
+		/*
+		var beestForMoodleAdmin = "<!--BEEST for Moodle administrators only--><p><scrip"+"t src=\"js/beestForMoodleAdmin.js\"></scrip"+"t></p>";
+		var beestForMoodleLect = "<!--BEEST for Moodle administrator, lecturer, non-primary lecturer and designer roles--><p><scrip"+"t src=\"js/beestForMoodleLect.js\"></scrip"+"t></p>";
+		var beestForAllStaff = "<!--BEEST for Moodle administrator, lecturer, non-primary lecturer, designer and tutor roles--><p><scrip"+"t src=\"js/beestForAllStaff.js\"></scrip"+"t></p>";*/
+		var accessLevel;
+		var role;
+		//Adjusting the BEEST Moodle javascript to match the access level
+		switch(accessToBeest){
+			case "1":
+				role="admin"
+				//accessLevel = beestForMoodleAdmin;
+				break;
+			case "2":
+				role="lect"
+				//accessLevel = beestForMoodleLect;
+				break;
+			/*
+			case "3": //unreachable code now that tutor access has been removed from scope
+				role="tutor"
+				//accessLevel = beestForAllStaff;
+				break;
+			*/
+		}
+		accessLevel = role_to_comment[role]+"<p><scrip"+"t src=\"https://github.com/mon-arts-ed-des/BEEST/js/beestForAnyRole_All_Lect_Admin.js\"></scrip"+"t></p><scrip"+"t>window.onload=function(){setup_beest(match_"+role+")}</scrip"+"t>"
+		
+		var monElementStyle = "<scrip"+"t type=\"text/javascript\"> var cssRules = '#inst"+htmlBlockID+"{box-shadow:none !important;height:0px !important;margin:0px !important;}#inst"+htmlBlockID+" .action-menu, #inst"+htmlBlockID+" .dropdown-toggle, #inst"+htmlBlockID+" i {background: #fff !important;color: #fff !important;}#inst"+htmlBlockID+" .card-title {background: #fff !important;color: #fff !important;}'; var styleElement = document.createElement('style'); styleElement.appendChild(document.createTextNode(cssRules)); document.getElementsByTagName('head')[0].appendChild(styleElement);</scrip"+"t><p><link rel=\"stylesheet\" href=\"https://github.com/mon-arts-ed-des/BEEST/css/monashElements.css\"></p> "+accessLevel+"";
+		
+		var textOutput = monElementStyle;
+		document.getElementById('beestInMoodle').innerHTML=textOutput;
+		SelectAll("beestInMoodle");
+    }
+    function SelectAll(id){
+        document.getElementById(id).focus();
+        document.getElementById(id).select();
+        document.execCommand("copy");
+
+        var popup = document.getElementById("myPopup");
+        popup.classList.toggle("showPopup");
+        //window.alert('test');
+    }        
+         
+    $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+  </script>
+  <script>   
+    window.onload=function(){
+      $('#beestNav').load('common/beestnav.html');
+      $('#beestFooter').load('common/beestfooter.html');
+      function activeNav() {
+          var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
+           $(".nav-link").each(function(){
+                if($(this).attr("href") == pgurl || $(this).attr("href") == '' )
+                $(this).addClass("active");
+                $(this).append('<span class="sr-only">(current)</span>')
+           });
+      }
+      
+      setTimeout(function() {
+          activeNav();
+      }, 100);
+    };
+  </script>
+    <style>
+      /* Popup container - can be anything you want */
+  #popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  }
+
+  /* The actual popup */
+  #popup .popuptext {
+  visibility: hidden;
+  width: 220px;
+  background-color: #222222;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 10px 5px;
+  position: absolute;
+  z-index: 1;
+  bottom:100%;
+  left: 50%;
+  margin-left: -110px;
+  }
+
+  /* Popup arrow */
+  #popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+  }
+
+  /* Toggle this class - hide and show the popup */
+  #popup .showPopup {
+  -webkit-animation: fadeinout 4s linear forwards;
+  animation: fadeinout 4s linear forwards;
+  visibility: visible;
+  }
+
+  /* Add animation (fade in the popup) */
+@-webkit-keyframes fadeinout {
+0%,100% { opacity: 0; }
+10% {opacity: 1;}
+66% { opacity: 1; }
+}
+
+@keyframes fadeinout {
+0%,100% { opacity: 0; }
+10% {opacity: 1;}
+66% { opacity: 1; }
+}
+.tooltip-inner {
+  text-align: left;
+  padding: 15px;
+  font-size: 1.05rem;
+  max-width: 400px;
+}
+.carousel-indicators li {
+border-radius: 50%;
+height: 30px;
+margin: 0 5px 0 5px;
+background: grey;
+}
+.carousel-indicators .active {
+	width:30px;
+	height:30px;
+	background:#006dae;
+	border-color:#006dae;
+}
+
+     </style> 
+     </head>
+     <body>
+        <div id="beestNav"></div>
+        <div class="py-5"></div>
+        <div class="container-fluid">
+<h3>Support</h3>     
+<p>Should you require any assistance with the Moodle setup and the use of the BEEST elements, please email the creators on <a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=beest@monash.edu&su=Question%20about%20BEEST%20tool" target="_blank">beest@monash.edu</a>.</p>   
+<h3>Creators and Support</h3>
+ The creators and current managers of the BEEST project are:</p>
+
+<div class="row w-100 mx-auto">
+    <div class="col-lg border border-dark rounded p-2 mx-2">
+        <div class="row w-100 mx-auto">
+        <div class="col-lg-7">
+    <img src="img/tim.png" class="img-fluid w-100" />
+      </div>
+      <div class="col-lg my-auto">
+   <p class="font-weight-bold">Timothy Scholl</p>
+   <p>Educational Designer</p>
+   <p>Faculty of Arts</p>
+  </div>
+</div>
+</div>
+<div class="col-lg border border-dark rounded p-2 mx-2">
+    <div class="row w-100 mx-auto">
+    <div class="col-lg-7">
+    <img src="img/matt.png" class="img-fluid" />
+    </div>
+    <div class="col-lg my-auto">
+    <p class="font-weight-bold">Matt Chen</p>
+    <p>Educational Designer</p>
+    <p>Faculty of IT</p>
+      </div>
+    </div>
+</div>
+    <div class="col-lg border border-dark rounded p-2 mx-2">
+        <div class="row w-100">
+        <div class="col-lg-7">
+    <img src="img/phil.png" class="img-fluid" />
+</div>
+<div class="col-lg my-auto">
+    <p class="font-weight-bold">Phillip Abramson</p>
+    <p>Educational Designer</p>
+    <p>Faculty of IT</p>
+     </div>
+</div> 
+</div>
+</div>
+</div>
+</body>
+</html>
