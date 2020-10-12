@@ -19,6 +19,7 @@
     <!-- Arts CSS -->  
     <link rel="stylesheet" href="css/adminPlusSetuBlockStyle.css" />
     <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/monashElements.css" />
     <!-- external link to js file -->  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -375,7 +376,7 @@
   <script src="js/drive-controller.js"></script>
   <script src="js/gapi-auth-service.js"></script>
   <script src="js/drive-service.js"></script>
-  <script>   
+  <!--<script>   
     window.onload=function(){
       generateCode();
       $('#beestNav').load('common/beestnav.html');
@@ -393,7 +394,7 @@
         activeNav();
     }, 100);
   };
-  </script>
+  </script>-->
 
 </head>
 <body>
@@ -468,14 +469,14 @@
 </div>
 <div class="row w-50 mx-auto text-center mt-3">
   <div class="col-lg">
-        <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-mu btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
+        <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-mu btn-lg btn-block">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
       </div>
       <div class="col-lg">
-        <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-mu btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
+        <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page." onclick="flipTooltip()" class="btn btn-mu btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
       </div></div>
-        <ul>
+        <!--<ul>
           <li><a data-toggle="modal" data-target=".unsplash-modal" href="">Unsplash</a>
-            <div class="modal fade panopto-modal" tabindex="-1" role="dialog" aria-labelledby="panopto-modal" aria-hidden="true">
+            <div class="modal fade unsplash-modal" tabindex="-1" role="dialog" aria-labelledby="panopto-modal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
               <div class="modal-content p-2">
                 <div class="modal-header">
@@ -489,7 +490,7 @@
             </div>
           </div></li>
           <li><a data-toggle="modal" data-target=".pexels-modal" href="">Pexels</a>
-            <div class="modal fade youtube-modal" tabindex="-1" role="dialog" aria-labelledby="youtube-modal" aria-hidden="true">
+            <div class="modal fade pexels-modal" tabindex="-1" role="dialog" aria-labelledby="youtube-modal" aria-hidden="true">
               <div class="modal-dialog modal-lg">
                 <div class="modal-content p-2">
                   <div class="modal-header">
@@ -503,7 +504,7 @@
               </div>
             </div></li>
           <li><a data-toggle="modal" data-target=".stocksnap-modal" href="">StockSnap</a>
-            <div class="modal fade ted-modal" tabindex="-1" role="dialog" aria-labelledby="ted-modal" aria-hidden="true">
+            <div class="modal fade stocksnap-modal" tabindex="-1" role="dialog" aria-labelledby="ted-modal" aria-hidden="true">
               <div class="modal-dialog modal-lg">
                 <div class="modal-content p-2">
                   <div class="modal-header">
@@ -516,45 +517,7 @@
                 </div>
               </div>
             </div></li>
-        </ul>
-        <h5>How to use this page</h5>
-        <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle, <a data-toggle="modal" data-target=".html-paste-modal" href="">this short video will help</a> (it will open in an overlay on this screen).</p>
-        <div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content p-2">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-            <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe></div>
-            </div>
-          </div>
-        </div>
-      </div>
-        <h5>Refresh this page</h5>
-        <div class="row w-100">
-          <div class="col-lg">
-        <p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
-        <div class="col-lg-3"><div class="text-center">
-          <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
-        </div></div></div>
-        <h5 class="mt-2">Advanced mode - turn <span class="onoffswapinstr">off</span> instructions</h5>
-        <div class="row w-100">
-          <div class="col-lg">
-        <p>Click this button to turn <span class="onoffswapinstr">off</span> the instructions that appear when you hover over the headings.<span class="hideableinstruct"> Only do this if you are completely familiar with how to use the tool.</span></p></div>
-        <div class="col-lg-3"><div class="text-center">
-          <button onclick="flipTooltip()" class="btn btn-mu">Turn <span class="onoffswapinstr">off</span> instructions <i class="fa fa-fw fa-power-off"></i></a>
-        </div></div></div>
-      </div>
-        <div class="col-lg-4 mt-2 hideableinstruct">
-          <h5>Video walkthrough - Creating responsive image (Placeholder)</h5>
-          <div class="embed-responsive embed-responsive-16by9">
-            <iframe src="" class="embed-responsive-item" frameborder="1" allowfullscreen="true"></iframe>
-          </div>
-        </div>
-      </div>
+        </ul>-->
         <hr class="hr-3">
   
 <form id="respImg">   
@@ -564,7 +527,6 @@
         <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your image. When you paste the link into this box it will automatically change the link to be the embed link required for the platform you are pasting from this process to work.">Step 1 - Image link</h5>
         <div class="row w-100 mx-auto">
         <p>Please find your image from <a href="https://unsplash.com" target="_blank">Unsplash</a>/<a href="https://www.pexels.com" target="_blank">Pexels</a>/<a href="https://stocksnap.io/" target="_blank">StockSnap</a> and paste the URL here</p>
-
         <!--<a data-toggle="modal" data-target=".panopto-modal" href="">search an image here</a>
             <div class="modal fade panopto-modal" tabindex="-1" role="dialog" aria-labelledby="panopto-modal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -579,7 +541,6 @@
               </div>
             </div>
           </div>-->
-
         <p id="popup"><span class="popuptext" id="myPopup">Please paste a valid link from Unsplash/Pexels/StockSnap</span></p>
         <textarea class="rounded p-2 w-100" rows="1" name="respImgSwitch" type="text" id="respImgSwitch" placeholder="Paste the Unsplash/Pexels/StockSnap image link here" onchange=generateCode()></textarea>
         </div>
