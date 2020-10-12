@@ -188,7 +188,7 @@
 
         document.getElementById("monAlertCode").innerHTML = alertScript+textOutput;
         //SelectAll("monAlertCode");
-        $("#demo").nextAll("div").remove();
+        $("#demo").nextAll("div .alert").remove();
         $("#demo").after(textOutput);
     }
 
@@ -238,13 +238,16 @@
       font-size: 1.05rem;
       max-width: 400px;
     }
+    .modal-backdrop {
+      z-index: 0 !important;
+    }
     </style> 
   </head>
 <body>
   <div id="beestNav"></div>
   <div class="row w-100 mb-4"></div>
   <div class="container-fluid mt-5">
-    <h1 class="text-center pt-5"><i class="fa fa-exclamation-circle fa-fw"></i> Alert<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Alerts are used to draw the user's attention to something important, or to highlight information. You would be familiar with these on most websites (including Moodle), red alerts are used for errors or for incorrect actions, green ones for correct actions and blue to highlight important information on a page. Overuse of these alerts will most likely result in them being ignored. So use them sparingly and only when necessary." class="hideableinstruct text-success font-weight-bold"> | What does this page do?</span></h1>
+    <h3 class="text-center pt-5"><i class="fa fa-exclamation-circle fa-fw"></i> Alert<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Alerts are used to draw the user's attention to something important, or to highlight information. You would be familiar with these on most websites (including Moodle), red alerts are used for errors or for incorrect actions, green ones for correct actions and blue to highlight important information on a page. Overuse of these alerts will most likely result in them being ignored. So use them sparingly and only when necessary." class="hideableinstruct text-success font-weight-bold"> | What does this page do?</span></h3>
     <h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".respVidWalkthrough" href="">Create an alert walkthrough (3:38)</a></h5>
       <div class="modal fade respVidWalkthrough" tabindex="-1" role="dialog" aria-labelledby="panopto-modal" aria-hidden="true">
       <div class="modal-dialog modal-lg">
@@ -312,7 +315,7 @@
           <label class="form-check-label" for="headSize2">Medium (heading 4)</label>
           </div>
           <div class="form-check form-check-inline" id="headSize" onchange=generateAlertCode()>
-          <input class="form-check-input" name="headSize" id="exampleRadios3" type="radio" value="h3">
+          <input class="form-check-input" name="headSize" id="headSize3" type="radio" value="h3">
           <label class="form-check-label" for="headSize3">Large (heading 3)</label>
         </div>
         </div> 
@@ -366,33 +369,33 @@
                 <option value="7">Black</option>
                 <option value="8">Grey</option>
               </select>-->
-              <div class="row w-100">
-                <div class="col-lg">
-              <div class="form-check form-check-inline" id="alertColour" onchange=generateAlertCode()>
+              <div class="row w-100 mb-0">
+                <div class="col-lg mb-0">
+              <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateAlertCode()>
                 <input class="form-check-input" name="alertColour" id="alertColour1" type="radio" value="1" checked>
                 <label class="form-check-label alert alert-mu rounded my-auto" for="alertColour1">Monash blue</label>
               </div>
-              <div class="form-check form-check-inline" id="alertColour" onchange=generateAlertCode()>
+              <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateAlertCode()>
                 <input class="form-check-input" name="alertColour" id="alertColour2" type="radio" value="2">
                 <label class="form-check-label alert alert-danger border border-danger rounded my-auto" for="alertColour2">Red</label>
               </div>
-              <div class="form-check form-check-inline" id="alertColour" onchange=generateAlertCode()>
+              <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateAlertCode()>
               <input class="form-check-input" name="alertColour" id="alertColour3" type="radio" value="3">
               <label class="form-check-label alert alert-warning border border-warning my-auto" for="alertColour3">Yellow</label>
               </div>
-              <div class="form-check form-check-inline" id="alertColour" onchange=generateAlertCode()>
+              <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateAlertCode()>
               <input class="form-check-input" name="alertColour" id="alertColour4" type="radio" value="4">
               <label class="form-check-label alert alert-success border border-success my-auto" for="alertColour4">Green</label>
             </div>
           </div>
         </div>
         <div class="col-lg">
-          <div class="row w-100 mt-3">
-          <div class="form-check form-check-inline" id="alertColour" onchange=generateAlertCode()>
+          <div class="row w-100">
+          <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateAlertCode()>
           <input class="form-check-input" name="alertColour" id="alertColour5" type="radio" value="5">
           <label class="form-check-label alert alert-primary border border-primary my-auto" for="alertColour5">Dark blue</label>
         </div>
-        <div class="form-check form-check-inline" id="alertColour" onchange=generateAlertCode()>
+        <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateAlertCode()>
           <input class="form-check-input" name="alertColour" id="alertColour6" type="radio" value="6">
           <label class="form-check-label alert alert-info border border-info my-auto" for="alertColour6">Light blue</label>
         </div>
@@ -432,14 +435,30 @@
   </div>
             <div class="col-lg mt-2">
              <div class="sticky-top" style="top:80px;">
-              <h6><strong>Preview</strong></h6>
-              <div data-toggle="tooltip" data-placement="left" data-trigger="hover focus" title="A live preview of your element will appear below as you update your preferences for your alert." class="hideableinstruct h6 text-success font-weight-bold text-center">Hover for help</div>
+              <h6>Preview<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A live preview of your element will appear below as you update your preferences for your alert." class="hideableinstruct h6 text-success font-weight-bold text-center">&nbsp;| Hover for help</span></h6>
+              
                 <div id="demo"></div>
                 <p class="my-3"></p>
-   <h6>Copy code</h6>
-   <p data-toggle="tooltip" data-placement="left" data-trigger="hover focus" title="Click the copy code button below once you have finished creating your alert." class="hideableinstruct h6 text-success font-weight-bold text-center">Hover for help</p>
+   <h6>Copy code<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click the copy code button below once you have finished creating your alert." class="hideableinstruct h6 text-success font-weight-bold text-center">&nbsp;| Hover for help</span></h6>
+   
    <textarea readonly class="border border-dark rounded p-2 w-100" id="monAlertCode" cols="70" rows="4" name="Result" placeholder="Code for your element will appear here."></textarea>  
-        <input type="button" class="btn btn-mu btn-block btn-lg my-2 text-center" name="GenerateWrap" value="Copy code </>" onClick=copyCode() id="copyCodeBtn" data-toggle="tooltip" data-placement="left" data-trigger="click focus" title="Your code has been copied.">
+        <input type="button" class="btn btn-mu btn-block btn-lg my-2 text-center" name="GenerateWrap" value="Copy code </>" onClick=copyCode() id="copyCodeBtn" data-toggle="tooltip" data-placement="left" data-trigger="click focus" title="Your code has been copied." />
+        <div class="text-center h5 mt-4">
+          <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
+          <div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content p-2 bg-dark">
+                <div class="modal-header">
+                  <h5 class="modal-title text-white">Click close or click outside this box to return to the BEEST.</h5>
+                  <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">Close &times;</span>
+                  </button>
+                </div>
+              <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe>
+              </div>
+              </div>
+            </div>
+          </div></div></div>
        </div>
       </div>
     </form>   

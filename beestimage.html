@@ -449,19 +449,30 @@
 		  </ul>
     </div>
 	  </nav>
-  <div class="row w-100 mb-5"></div>
-  <div class="row w-100 mb-4"></div>
+  <div class="py-5"></div>
 <div class="container-fluid">
-  <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
-    <div class="h6"><i class="fa fa-fw fa-3x fa-pull-left fa-exclamation-circle"></i>You can only generate the code for one element at a time on this page. When you paste the link for your image (Unsplash/Pexels/StockSnap) that box will become read only. This means you cannot delete or edit the link in the box. If you need more elements, copy and paste each element into Moodle, refresh the page and create your next element. If you make an error you will need to refresh the page and start again.</div>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+<h3 class="text-center"><i class="fa fa-image"></i> Responsive image + context <span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Upload an image from one of the listed platforms and input some context or text around the image. Then choose the size of the image, and which side of the screen you would like it on." class="hideableinstruct text-success font-weight-bold"> | What does this page do?</span></h3>
+<h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".respImgWalkthrough" href="">Create a responsive image & context</a></h5>
+<div class="modal fade respImgWalkthrough" tabindex="-1" role="dialog" aria-labelledby="panopto-modal" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+  <div class="modal-content p-2 bg-dark">
+    <div class="modal-header">
+      <h5 class="modal-title text-white" id="exampleModalLabel">Click close or click outside this box to return to the BEEST.</h5>
+      <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">Close &times;</span>
+      </button>
     </div>
-<h1 class="text-center"><i class="fa fa-image"></i> Responsive image + context</h1>
-  <div class="row w-100">
-    <div class="col-lg mt-2">
-      <div class="hideableinstruct">
-<h5>The result of this process</h5>
-        <p>This process will generate a responsive image element that is side by side with the context for what students can expect to know/see with the image. A responsive image changes size with the size of the browser window you are in and when the screen gets small enough, the image and text in this combo will 'collapse' underneath one another. This tool will change your image link into the embed link for the respective platform. This tool currently accepts the following image links - Unsplash, Pexels, StockSnap. <strong>Click on the links below to reveal which link you require for the BEEST responsive image tool Step 1. If you click play on the video and exit the overlay, the video will continue to play. Ensure you stop the video once you have finished viewing it.</strong></p>
+  <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=cef099bc-a7e9-4211-be3c-ac3e005c0924"></iframe></div>
+  </div>
+</div>
+</div>
+<div class="row w-50 mx-auto text-center mt-3">
+  <div class="col-lg">
+        <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-mu btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
+      </div>
+      <div class="col-lg">
+        <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-mu btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
+      </div></div>
         <ul>
           <li><a data-toggle="modal" data-target=".unsplash-modal" href="">Unsplash</a>
             <div class="modal fade panopto-modal" tabindex="-1" role="dialog" aria-labelledby="panopto-modal" aria-hidden="true">
@@ -540,7 +551,7 @@
         <div class="col-lg-4 mt-2 hideableinstruct">
           <h5>Video walkthrough - Creating responsive image (Placeholder)</h5>
           <div class="embed-responsive embed-responsive-16by9">
-            <iframe src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=cef099bc-a7e9-4211-be3c-ac3e005c0924" class="embed-responsive-item" frameborder="1" allowfullscreen="true"></iframe>
+            <iframe src="" class="embed-responsive-item" frameborder="1" allowfullscreen="true"></iframe>
           </div>
         </div>
       </div>
@@ -731,7 +742,30 @@
   // And when textarea changes
   textarea.on('change', addOrRemoveRequiredAttribute);
 </script>
-
+<script>
+  $(function () {
+    $(document).on('shown.bs.tooltip', function (e) {
+       setTimeout(function () {
+         $(e.target).tooltip('hide');
+       }, 10000);
+    });
+  });</script>
+  <script>
+    $(function () {
+      $('#copyCodeBtn').on('click', function (e) {
+         setTimeout(function () {
+           $(e.target).tooltip('hide');
+         }, 2000);
+      });
+    });
+    $(function () {
+      $('#toggleHelp').on('click', function (e) {
+         setTimeout(function () {
+           $(e.target).tooltip('hide');
+         }, 2000);
+      });
+    });
+    </script>
 <footer class="bg-arts text-white w-100">
   <nav class="navbar navbar-expand navbar-dark bg-arts">   
       <a class="navbar-brand text-center border border-white p-2 rounded" href="index.html"><img src="img/dragon-solid-white.png" width="30" height="30" alt=""></a>  
