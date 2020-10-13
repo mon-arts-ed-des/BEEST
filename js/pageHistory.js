@@ -1,3 +1,4 @@
+const MAX_HIST = 2;
 var historicalData = null
 var histIndex = 0;
 
@@ -64,7 +65,9 @@ function recoveryOptionGenerator(selectedIndex,aRecoveryDataSet){
 	var outputHTML = ""
 	var element;
 	var HTMLElement;
-	for (var dataI = 0; dataI<aRecoveryDataSet.length; dataI++){
+	var startAt = aRecoveryDataSet.length-1
+	var stopAt = Math.max(0,aRecoveryDataSet.length-MAX_HIST)
+	for (var dataI = startAt; dataI>=stopAt; dataI--){
 		element = aRecoveryDataSet[dataI].toString()
 		HTMLElement = HTMLOption(dataI,element,dataI==selectedIndex)
 		outputHTML+=HTMLElement
