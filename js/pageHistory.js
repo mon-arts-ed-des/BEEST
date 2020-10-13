@@ -1,4 +1,4 @@
-const MAX_HIST = 2;
+const MAX_HIST = 20;
 var historicalData = null
 var histIndex = 0;
 
