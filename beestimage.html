@@ -727,7 +727,7 @@
        <div class="font-weight-bold text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to copy the code for your element ready for pasting in Moodle.">Hover for help</div>
        
         <textarea readonly class="rounded p-2 w-100 mt-2" id="txtarearespImg" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here"></textarea>
-        <input type="button" class="btn btn-lg btn-block btn-arts mt-3" name="GenerateWrap" value="Copy your code </>" onClick=copyCode() />
+        <input type="button" class="btn btn-lg btn-block btn-arts mt-3" id="copyCodeBtn" name="GenerateWrap" value="Copy your code </>" onClick=copyCode() data-toggle="tooltip" data-placement="top" data-trigger="click focus" title="Your code has been copied." />
         <div class="text-center h5 mt-4">
           <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
           <div class="modal fade html-paste-modal mt-5" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -816,14 +816,14 @@
       $('#copyCodeBtn').on('click', function (e) {
          setTimeout(function () {
            $(e.target).tooltip('hide');
-         }, 2000);
+         }, 2500);
       });
     });
     $(function () {
       $('#toggleHelp').on('click', function (e) {
          setTimeout(function () {
            $(e.target).tooltip('hide');
-         }, 2000);
+         }, 2500);
       });
     });
     </script>
