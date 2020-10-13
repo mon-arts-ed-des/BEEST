@@ -11,6 +11,7 @@
 <head>
   <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152392632-3"></script>
+<script src="js/pageHistory.js"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -54,7 +55,45 @@
     monAlert = Monash themed alert
     monAlertD = Monash themed alert that can be dismissed
     */
-    
+
+/*REQUIRED FOR HISTORY*/    
+	const ALERT_HIST = "history_alert"
+	var classAlert = null
+	
+	$(document).ready(function(){initHistory()})
+	
+	class alert{
+		constructor(content,heading,headSize,icon,colour,permanent){
+			this.content = content
+			this.mainHead = heading
+			this.headSize = headSize
+			this.icon = icon
+			this.colour = colour
+			this.permanent = permanent
+		}
+		toPDO(){
+			var result = {}
+			result.content = this.content
+			result.mainHead = this.mainHead
+			result.headSize = this.headSize
+			result.icon = this.icon
+			result.colour = this.colour
+			result.permanent = this.permanent
+			return result
+		}	
+		toString(){
+			return JSON.stringify(this.toPDO())
+		}
+		fromObj(PDO){
+			this.content = PDO.content
+			this.mainHead = PDO.mainHead
+			this.headSize = PDO.headSize
+			this.icon = PDO.icon
+			this.colour = PDO.colour
+			this.permanent = PDO.permanent
+		}
+	}
+/*END REQUIRED FOR HISTORY*/	
     tinymce.init({
     selector: "#tinyMCEalert",
     menubar: false,
@@ -69,7 +108,10 @@
 });
 
     function copyCode() {
-        SelectAll("monAlertCode");
+        /*REQUIRED FOR HISTORY*/	  
+		addToHistory(classAlert)
+		/*END REQUIRED FOR HISTORY*/
+		SelectAll("monAlertCode");
     }
 
     function iconpreview() {
@@ -83,17 +125,18 @@
         var iconName = iconNames[faIcon];
         var faIconCode = '<i id="icon" class="fa fa-' + iconName + '"></i> ';
 
+		var getIcon = document.getElementById("icon")
         if (faIcon == "noI") {
             faIconCode = "";
-            if (document.getElementById("icon")) {
-                var icon = document.getElementById("icon");
+            if (getIcon) {
+                var icon = getIcon;
                 icon.parentNode.removeChild(icon);
                 var iconpreview = document.getElementById("iconpreview");
                 iconpreview.style.display = "none";
             }
         } else {
-            if (document.getElementById("icon")) {
-                var icon = document.getElementById("icon");
+            if (getIcon) {
+                var icon = getIcon;
                 icon.parentNode.removeChild(icon);
             }
 
@@ -108,22 +151,49 @@
 
     var alertCode;
 
+	function getRadioOption(id){
+		return $('div #'+id).find('input[name="'+id+'"]:checked').val()
+	}
+	
+	function setRadios(id,selectedIndex){
+		selectedIndex = selectedIndex * 1 //type cast as number
+		$('div #'+id).find('input[name="'+id+'"]').each(function(index,value){
+			if ((index+1) == selectedIndex){
+				$(this).prop("checked",true)
+			}
+			else{
+				$(this).prop("checked",false)
+			}
+		});
+	}
+	
+	function setTinyContent(id,value){
+		tiny = tinyMCE.get(id)
+		tiny.setContent(value)
+	}
+	function getTinyContent(id,placeholder){
+		var tiny = tinyMCE.get(id).getContent()
+		if (tiny !== "") {
+            content = tiny;
+        } else {
+            content = placeholder;
+        }
+		return content
+	}
+	function getId(id){return document.getElementById(id)}
+
     function generateAlertCode() {
         // Get the HTML contents of the currently active editor
         console.debug(tinyMCE.activeEditor.getContent());
 
         //Retrieve the content by id of the tinyMCE textarea
-        if (tinyMCE.get("tinyMCEalert").getContent() !== "") {
-            alertCode = tinyMCE.get("tinyMCEalert").getContent();
-        } else {
-            alertCode = "[Placeholder for alert context. The content you entered in step 1 will appear here.]";
-        }
+        alertCode = getTinyContent("tinyMCEalert","[Placeholder for alert context. The content you entered in step 1 will appear here.]")
 
-        var dmoption = $('input[name="dmoption"]:checked').val();
-        var alertHeading = document.getElementById("alertHeading").value;
-        var headSize = $('input[name="headSize"]:checked').val();
-        var bsColour = $('input[name="alertColour"]:checked').val();
-        var faIcon = $('input[name="faCode"]:checked').val();
+        var dmoption = getRadioOption('dmoption');
+        var alertHeading = getId("alertHeading").value;
+        var headSize = getRadioOption("headSize");
+        var bsColour = getRadioOption("alertColour")
+        var faIcon = getRadioOption("faCode")
         var iconNames = {
             "1": "exclamation-circle",
             "2": "info-circle",
@@ -146,45 +216,31 @@
         };
         var colourName = colourNames[bsColour];
         var alertScript = "<script> var L=document.createElement('link'); L.rel='stylesheet'; L.href='http://mon-arts-ed-des.github.io/BEEST/css/monashElements.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
-        var alertPColourCode = '<div class="alert alert-' + colourName + " border border-" + colourName + ' rounded" role="alert">';
-        var alertDMColourCode = '<div class="alert alert-' + colourName + " border border-" + colourName + ' rounded alert-dismissible fade show" role="alert">';
+		var colourCodes = '<div class="alert alert-' + colourName + ((colourName == "mu") ? "" : " border border-" + colourName) + ' rounded' + ( (dmoption=="dismissable") ? ' alert-dismissible fade show': '') + '" role="alert">'
+
         var monAlertP_Close = "</div>";
         var monAlertD_Close = '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
-        if (colourName == "mu") {
-            var alertPColourCode = '<div class="alert alert-' + colourName + ' rounded" role="alert">';
-            var alertDMColourCode = '<div class="alert alert-' + colourName + ' rounded alert-dismissible fade show" role="alert">';
-        }
-
-        var head_3='<h3 class="text-'+colourName+'">';
-        var endHead_3="</h3>";
-        var head_4='<h4 class="text-'+colourName+'">';
-        var endHead_4="</h4>";
-        var head_5='<h5 class="text-'+colourName+'">';
-        var endHead_5="</h5>";
 
         if(alertHeading == ""){
           resizedHead = "";
         }
         else{
         //Resizing the heading text
-          switch(headSize){
-          case "h3":
-              resizedHead = head_3+faIconCode+alertHeading+endHead_3;
-              break;
-            case "h4":
-              resizedHead = head_4+faIconCode+alertHeading+endHead_4;
-              break;
-            case "h5":
-              resizedHead = head_5+faIconCode+alertHeading+endHead_5;
-              break;
-          }
-        }
+		
+			var sizes = {"h3":3,"h4":4,"h5":5}
+			resizedHead = '<h'+sizes[headSize]+' class="text-'+colourName+'">'+faIconCode+alertHeading+"</h"+sizes[headSize]+">"
 
-        if (dmoption == "dismissable") {
-            var textOutput = alertDMColourCode + resizedHead + alertCode + monAlertD_Close;
-        } else if (dmoption == "permanent") {
-            var textOutput = alertPColourCode + resizedHead + alertCode + monAlertP_Close;
         }
+		var textOutput = colourCodes + resizedHead + alertCode
+        if (dmoption == "dismissable") {
+            textOutput+= monAlertD_Close;
+        } else if (dmoption == "permanent") {
+            textOutput += monAlertP_Close;
+        }
+		var dmOpts = {"dismissable":1,"permanent":2}
+		var sizeToStorate = {"h5":1,"h4":2,"h3":3}
+		var iconStorage = ( (faIcon=="noI") ? 1 : faIcon*1+1)
+		classAlert = new alert(alertCode,alertHeading,sizeToStorate[headSize],iconStorage,bsColour,dmOpts[dmoption])
 
         document.getElementById("monAlertCode").innerHTML = alertScript+textOutput;
         //SelectAll("monAlertCode");
@@ -197,6 +253,7 @@
         document.getElementById(id).select();
         document.execCommand("copy");
 
+		/***this is triggering an error -- no myPopup exists ***/
         var popup = document.getElementById("myPopup");
         popup.classList.toggle("showPopup");
         //window.alert('test');
@@ -208,6 +265,35 @@
     $(function () {
         $('[data-toggle="tooltip"]').tooltip();
     });
+	
+	/*REQUIRED FOR HISTORY*/
+function getHistory(){
+	return localStorage.getItem(ALERT_HIST)
+}
+function setHistory(value){
+	localStorage.setItem(ALERT_HIST,value)
+}
+
+function setTextAreas(classData){
+	getId("alertHeading").value = classData.mainHead
+	setRadios("headSize",classData.headSize)
+	setRadios("alertColour",classData.colour)
+	setRadios("faCode",classData.icon)
+	setRadios("dmoption",classData.permanent)
+	setTinyContent("tinyMCEalert",classData.content)
+}
+
+function getHistoryI(index,history){
+	if (history.length>0){
+		var selectedItem = history[index]
+		classAlert = new alert()
+		classAlert.fromObj(selectedItem)
+		refToClassAlert = classAlert
+		setTextAreas(refToClassAlert)
+		generateAlertCode()
+	}
+}
+/*END REQUIRED FOR HISTORY*/
     </script>
     <script>   
       window.onload=function(){
@@ -262,13 +348,23 @@
         </div>
       </div>
     </div>
-      <div class="row w-50 mx-auto text-center mt-3">
+      <div class="row w-50 mx-auto text-center mt-3">	  
         <div class="col-lg">
               <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-mu btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
             </div>
             <div class="col-lg">
               <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-mu btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
             </div></div>
+<div class="row w-50 mx-auto text-center mt-3">
+<div class="col-lg">
+<h4>Recover past data</h4></div><div class="col-lg">
+  <select class="custom-select w-50 border border-dark" size="1" id="recoveryDate" onchange="idSelectedRecData()">
+  <option selected value=0>please wait</option>
+  </select>
+  <button id="delHist" onclick="delHistI()" type="button" class="btn btn-danger mr-2"><i class="fa fa-fw fa-trash"></i></button>
+
+  <button id="loadHist" onclick="getHistoryI(histIndex,historicalData)" class="btn btn-mu">Recover <i class="fa fa-fw fa-undo"></i></a>
+        </div></div>
   <hr class="hr-3">
   <form id="monashAlert">
     <div class="row w-100 mx-auto">
@@ -308,15 +404,15 @@
         </select>-->
           <div class="form-check form-check-inline" id="headSize" onchange=generateAlertCode()>
             <input class="form-check-input" name="headSize" id="headSize1" type="radio" value="h5">
-            <label class="form-check-label" for="headSize1">Small (heading 5)</label>
+            <label class="form-check-label" for="headSize1"><h5>Small</h5></label>
           </div>
           <div class="form-check form-check-inline" id="headSize" onchange=generateAlertCode()>
           <input class="form-check-input" name="headSize" id="headSize2" type="radio" value="h4">
-          <label class="form-check-label" for="headSize2">Medium (heading 4)</label>
+          <label class="form-check-label" for="headSize2"><h4>Medium</h4></label>
           </div>
           <div class="form-check form-check-inline" id="headSize" onchange=generateAlertCode()>
           <input class="form-check-input" name="headSize" id="headSize3" type="radio" value="h3">
-          <label class="form-check-label" for="headSize3">Large (heading 3)</label>
+          <label class="form-check-label" for="headSize3"><h3>Large</h3></label>
         </div>
         </div> 
         </div>
@@ -463,17 +559,18 @@
       </div>
     </form>   
         </div>
-        <script>var textarea = $("#alertHeading");
+        <script>
+		/*var textarea = $("#alertHeading");
           var radioBtn = $("#headSize1");
           var checkRadio = function(){
-              if (textarea.val().length) {
+              if (textarea.val()!="") {
                 $("#headSize1").prop("checked", true);
                 generateAlertCode();
               };
           };
           // Run now
           // And when textarea changes
-          textarea.on("change", checkRadio);
+          textarea.on("change", checkRadio);*/
           </script>
           <script>
             $(function () {

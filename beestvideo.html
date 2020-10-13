@@ -354,22 +354,18 @@
 		
     </script>
     <script>   
-      window.onload=function(){
-        $('#beestNav').load('common/beestnav.html');
-        $('#beestFooter').load('common/beestfooter.html');
-        generateCode();
-        function activeNav() {
+    window.onload=function(){
+      $('#beestNav').load('common/beestnav.html');
+      $('#beestFooter').load('common/beestfooter.html');
+      function activeNav() {
           var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
-           $(".nav-link").each(function(){
+           $(".nav-link a").each(function(){
                 if($(this).attr("href") == pgurl || $(this).attr("href") == '' )
                 $(this).addClass("active");
                 $(this).append('<span class="sr-only">(current)</span>')
            });
       }
-      
-      setTimeout(function() {
-          activeNav();
-      }, 100);
+      activeNav();
     };
     </script>
     <style>

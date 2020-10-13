@@ -120,24 +120,7 @@
 			output: headingHTML+contentHTML
 		}
 	}
-	
-	function htmlStyle(id,styleName,styleResult){
-		document.getElementById(id).style[styleName]=styleResult
-	}
-	function showHTML(id){
-		htmlStyle(id,"display","")
-	}
-	function hideHTML(id){
-		htmlStyle(id,"display","none")
-	}
-	function hideButton(id){
-		document.getElementById(id).disabled = true
-		hideHTML(id)
-	}
-	function showButton(id){
-		document.getElementById(id).disabled = false
-		showHTML(id)
-  }
+
   
   function iconpreview() {
         var faIcon = document.getElementById('faCode').value;
@@ -497,7 +480,6 @@ class accordion{
 		else{
 			this.drawerList = this.PDO_drawerListToDrawers(drawerList)
 		}
-		this.timestamp = new Date()
 	}
 	
 	get main(){
@@ -538,7 +520,6 @@ class accordion{
 		out.mainHead = this.mainHead
 		out.headSize = this.headSize
 		out._icon = this._icon
-		out.timestamp = this.timestamp
 		var publicDraw = []
 		for (var drawI=0;drawI<this.drawerList.length; drawI++){
 			publicDraw.push(this.drawerList[drawI].toObj())
@@ -556,7 +537,6 @@ class accordion{
 		this.headSize = PDOObj.headSize
 		this._icon = PDOObj._icon
 		this.drawerList = this.PDO_drawerListToDrawers(PDOObj.drawerList)
-		this.timestamp = PDOObj.timestamp
 	}
 
 }
@@ -587,7 +567,9 @@ function getHistoryI(index,history){
 /*END REQUIRED FOR HISTORY*/
     function copyCode(){
       SelectAll("monAccCode");
+	  /*REQUIRED FOR HISTORY*/
 	  addToHistory(classAccord)
+	  /*END REQUIRED FOR HISTORY*/
     }
         
     function SelectAll(id){
@@ -785,7 +767,7 @@ function getHistoryI(index,history){
   </div>
   
   <div class="col-lg-3"><div class="text-center">
-          <button onclick="getHistoryI(histIndex,historicalData)" class="btn btn-mu">Recover <i class="fa fa-fw fa-undo"></i></a>
+          <button id="loadHist" onclick="getHistoryI(histIndex,historicalData)" class="btn btn-mu">Recover <i class="fa fa-fw fa-undo"></i></a>
         </div></div>
   </div>
 

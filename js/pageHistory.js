@@ -74,7 +74,7 @@ function recoveryOptionGenerator(selectedIndex,aRecoveryDataSet){
 
 function showRecoveryDate(index,history){
 	try{
-		if (history.length==0){
+		if ((history==null)||(!history.hasOwnProperty("length"))||(history.length==0)){
 			throw Error("localStorage is empty")
 		}
 		var recHistSet = new recoveryDataSet(history)
@@ -85,6 +85,7 @@ function showRecoveryDate(index,history){
 		console.error(error)
 		document.getElementById("recoveryDate").innerHTML = HTMLOption(null,"no history available",true)
 		hideButton("delHist")
+		hideButton("loadHist")
 	}
 }
 	
@@ -99,6 +100,27 @@ function recoverHistory(){
 	return localSet
 }
 
+	function hideButton(id){
+		document.getElementById(id).disabled = true
+		hideHTML(id)
+	}
+	function showButton(id){
+		document.getElementById(id).disabled = false
+		showHTML(id)
+  }
+  
+  
+	function showHTML(id){
+		htmlStyle(id,"display","")
+	}
+	function hideHTML(id){
+		htmlStyle(id,"display","none")
+	}
+		
+	function htmlStyle(id,styleName,styleResult){
+		document.getElementById(id).style[styleName]=styleResult
+	}
+
 function addToHistory(currAccord){
 	var localCurr = getHistory()
 	if ((localCurr == undefined)||(localCurr=="")){
@@ -106,6 +128,7 @@ function addToHistory(currAccord){
 		setHistory(localCurr)
 	}
 	localCurr = JSON.parse(localCurr) //now an array of objects
+	currAccord.timestamp = new Date()
 	localCurr.push(currAccord)
 	localCurr = JSON.stringify(localCurr) //now a string again -- currAccord should have had its toString method called
 	setHistory(localCurr)
@@ -113,4 +136,5 @@ function addToHistory(currAccord){
 	histIndex = historicalData.length-1
 	showRecoveryDate(histIndex,historicalData);
 	showButton("delHist")
+	showButton("loadHist")
 }
