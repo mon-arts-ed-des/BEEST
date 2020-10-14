@@ -39,9 +39,10 @@
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
 	  <script src="js/advancedModeLocalStorage.js"></script>
     <script type="text/javascript">
-function getRadioOption(id){
-		return $('div #'+id).find('input[name="'+id+'"]:checked').val();
-	}
+    function getRadioOption(id){
+        return $('div #'+id).find('input[name="'+id+'"]:checked').val();
+      }
+
     function generateBtnCode() {
         //Retrieve the content by id of the textareas
         var btn_URL = document.getElementById('btn_URL').value;
@@ -98,19 +99,42 @@ function getRadioOption(id){
             "6":"info", 
             "7":"dark",
             "8":"secondary",
-            "9":"outline-mu",
-            "10":"outline-danger",
-            "11":"outline-warning",
-            "12":"outline-success",
-            "13":"outline-primary",
-            "14":"outline-info",
-            "15":"outline-dark",
-            "16":"outline-secondary"
+            "1y":"outline-mu",
+            "2y":"outline-danger",
+            "3y":"outline-warning",
+            "4y":"outline-success",
+            "5y":"outline-primary",
+            "6y":"outline-info",
+            "7y":"outline-dark",
+            "8y":"outline-secondary"
              }
+
+        var invertColour = getRadioOption("invertColour");
+
+        if (invertColour == "y"){
+          $('#monashBlue').removeClass('btn-mu').addClass('btn-outline-mu');
+          $('#red').removeClass('btn-danger').addClass('btn-outline-danger');
+          $('#yellow').removeClass('btn-warning').addClass('btn-outline-warning');
+          $('#green').removeClass('btn-success').addClass('btn-outline-success');
+          $('#darkBlue').removeClass('btn-primary').addClass('btn-outline-primary');
+          $('#lightBlue').removeClass('btn-info').addClass('btn-outline-info');
+          $('#black').removeClass('btn-dark').addClass('btn-outline-dark');
+          $('#grey').removeClass('btn-secondary').addClass('btn-outline-secondary');
+          bsColour = bsColour + "y";
+        }
+        else if(invertColour == "n"){
+          $('#monashBlue').removeClass('btn-outline-mu').addClass('btn-mu');
+          $('#red').removeClass('btn-outline-danger').addClass('btn-danger');
+          $('#yellow').removeClass('btn-outline-warning').addClass('btn-warning');
+          $('#green').removeClass('btn-outline-success').addClass('btn-success');
+          $('#darkBlue').removeClass('btn-outline-primary').addClass('btn-primary');
+          $('#lightBlue').removeClass('btn-outline-info').addClass('btn-info');
+          $('#black').removeClass('btn-outline-dark').addClass('btn-dark');
+          $('#grey').removeClass('btn-outline-secondary').addClass('btn-secondary');
+        }
+
         var colourName = colourNames[bsColour];
         btnClrCode = "<a class=\"btn btn-"+colourName+btnSize+"m-1\" role=\"button\" href=\"";
-
-
 
         if (faIcon == "noI"){
           faIconCode = "";
@@ -301,7 +325,8 @@ function getRadioOption(id){
           <div class="row w-100">
             <div class="col-lg-3">
               <h5 class="font-weight-bold">Choose icon</h5>
-              <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="If you would like an icon to the right of your button text, choose one from this list." class="hideableinstruct text-success">Hover for help</div>
+              <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="If you would like an icon to the right of your button text, choose one from this list." class="hideableinstruct text-success">Hover for help
+              </div>
             </div>
             <div class="col-lg">
               <!--<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" onchange=generateBtnCode()>
@@ -392,25 +417,25 @@ function getRadioOption(id){
               <div class="col-lg">
             <div class="form-check form-check-inline" id="btnColour" onchange=generateBtnCode()>
               <input class="form-check-input" name="btnColour" id="btnColour1" type="radio" value="1" checked>
-              <label class="form-check-label" for="btnColour1"><span class="btn btn-mu">Monash blue</span></label>
+              <label class="form-check-label" for="btnColour1"><span id="monashBlue" class="btn btn-mu">Monash blue</span></label>
             </div>
           </div>
           <div class="col-lg">
             <div class="form-check form-check-inline" id="btnColour" onchange=generateBtnCode()>
             <input class="form-check-input" name="btnColour" id="btnColour2" type="radio" value="2">
-            <label class="form-check-label" for="btnColour2"><span class="btn btn-danger">Red</span></label>
+            <label class="form-check-label" for="btnColour2"><span id="red" class="btn btn-danger">Red</span></label>
             </div>
           </div>
           <div class="col-lg">
             <div class="form-check form-check-inline" id="btnColour" onchange=generateBtnCode()>
               <input class="form-check-input" name="btnColour" id="btnColour3" type="radio" value="3">
-              <label class="form-check-label" for="btnColour3"><span class="btn btn-warning">Yellow</span></label>
+              <label class="form-check-label" for="btnColour3"><span id="yellow" class="btn btn-warning">Yellow</span></label>
               </div>
             </div>
             <div class="col-lg">
             <div class="form-check form-check-inline" id="btnColour" onchange=generateBtnCode()>
             <input class="form-check-input" name="btnColour" id="btnColour4" type="radio" value="4">
-            <label class="form-check-label" for="btnColour4"><span class="btn btn-success">Green</span></label>
+            <label class="form-check-label" for="btnColour4"><span id="green" class="btn btn-success">Green</span></label>
           </div>
         </div>
       </div>
@@ -418,82 +443,51 @@ function getRadioOption(id){
           <div class="col-lg">
           <div class="form-check form-check-inline" id="btnColour" onchange=generateBtnCode()>
             <input class="form-check-input" name="btnColour" id="btnColour5" type="radio" value="5">
-            <label class="form-check-label" for="btnColour5"><span class="btn btn-primary">Dark blue</span></label>
+            <label class="form-check-label" for="btnColour5"><span id="darkBlue" class="btn btn-primary">Dark blue</span></label>
           </div>
         </div>
         <div class="col-lg">
           <div class="form-check form-check-inline" id="btnColour" onchange=generateBtnCode()>
             <input class="form-check-input" name="btnColour" id="btnColour6" type="radio" value="6">
-            <label class="form-check-label" for="btnColour6"><span class="btn btn-info">Light blue</span></label>
+            <label class="form-check-label" for="btnColour6"><span id="lightBlue" class="btn btn-info">Light blue</span></label>
           </div>
         </div>
         <div class="col-lg">
           <div class="form-check form-check-inline" id="btnColour" onchange=generateBtnCode()>
             <input class="form-check-input" name="btnColour" id="btnColour7" type="radio" value="7">
-            <label class="form-check-label" for="btnColour7"><span class="btn btn-dark">Black</span></label>
+            <label class="form-check-label" for="btnColour7"><span id="black" class="btn btn-dark">Black</span></label>
           </div>
         </div>
         <div class="col-lg">
           <div class="form-check form-check-inline" id="btnColour" onchange=generateBtnCode()>
             <input class="form-check-input" name="btnColour" id="btnColour8" type="radio" value="8">
-            <label class="form-check-label" for="btnColour8"><span class="btn btn-secondary">Grey</span></label>
-          </div>
-        </div>
-      </div>
-        <div class="row w-100 mt-2">
-          <div class="col-lg">
-          <div class="form-check form-check-inline" id="btnColour" onchange=generateBtnCode()>
-            <input class="form-check-input" name="btnColour" id="btnColour9" type="radio" value="9">
-            <label class="form-check-label" for="btnColour9"><span class="btn btn-outline-mu">Monash blue</span></label>
-          </div>
-        </div>
-        <div class="col-lg">
-          <div class="form-check form-check-inline" id="btnColour" onchange=generateBtnCode()>
-            <input class="form-check-input" name="btnColour" id="btnColour10" type="radio" value="10">
-            <label class="form-check-label" for="btnColour10"><span class="btn btn-outline-danger">Red</span></label>
-          </div>
-        </div>
-        <div class="col-lg">
-          <div class="form-check form-check-inline" id="btnColour" onchange=generateBtnCode()>
-            <input class="form-check-input" name="btnColour" id="btnColour11" type="radio" value="11">
-            <label class="form-check-label" for="btnColour11"><span class="btn btn-outline-warning">Yellow</span></label>
-          </div>
-        </div>
-        <div class="col-lg">
-          <div class="form-check form-check-inline" id="btnColour" onchange=generateBtnCode()>
-            <input class="form-check-input" name="btnColour" id="btnColour12" type="radio" value="12">
-            <label class="form-check-label" for="btnColour12"><span class="btn btn-outline-success">Green</span></label>
-          </div>
-        </div>
-      </div>
-        <div class="row w-100 mt-2">
-          <div class="col-lg">
-          <div class="form-check form-check-inline" id="btnColour" onchange=generateBtnCode()>
-            <input class="form-check-input" name="btnColour" id="btnColour13" type="radio" value="13">
-            <label class="form-check-label" for="btnColour13"><span class="btn btn-outline-primary">Dark blue</span></label>
-          </div>
-        </div>
-        <div class="col-lg">
-          <div class="form-check form-check-inline" id="btnColour" onchange=generateBtnCode()>
-            <input class="form-check-input" name="btnColour" id="btnColour14" type="radio" value="14">
-            <label class="form-check-label" for="btnColour14"><span class="btn btn-outline-info">Light blue</span></label>
-          </div>
-        </div>
-        <div class="col-lg">
-          <div class="form-check form-check-inline" id="btnColour" onchange=generateBtnCode()>
-            <input class="form-check-input" name="btnColour" id="btnColour15" type="radio" value="15">
-            <label class="form-check-label" for="btnColour15"><span class="btn btn-outline-dark">Black</span></label>
-          </div>
-        </div>
-          <div class="col-lg">
-          <div class="form-check form-check-inline" id="btnColour" onchange=generateBtnCode()>
-            <input class="form-check-input" name="btnColour" id="btnColour16" type="radio" value="16">
-            <label class="form-check-label" for="btnColour16"><span class="btn btn-outline-secondary">Grey</span></label>
+            <label class="form-check-label" for="btnColour8"><span id="grey" class="btn btn-secondary">Grey</span></label>
           </div>
         </div>
       </div>
     </div>
+    
+    <div class="col-lg-3 mt-2">
+      <h5>Invert colour</h5>
+      <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Swap the button colour with the text colour" class="hideableinstruct text-success">Hover for help
+      </div>
+    </div>
+    <div class="col-lg">
+      <div class="row w-100 mt-2">
+        <div class="col-lg">
+          <div class="form-check form-check-inline" id="invertColour" onchange=generateBtnCode()>
+            <input class="form-check-input" name="invertColour" id="invertColour1" type="radio" value="y">
+            <label class="form-check-label" for="invertColour1">Yes</label>
+          </div>
+          <div class="form-check form-check-inline" id="invertColour" onchange=generateBtnCode()>
+          <input class="form-check-input" name="invertColour" id="invertColour2" type="radio" value="n" checked>
+          <label class="form-check-label" for="invertColour2">No</label>
+          </div>
+      </div>
+    </div>
   </div>
+
+</div>
           <hr>
           <div class="row w-100">
             <div class="col-lg-3">
