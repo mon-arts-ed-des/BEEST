@@ -349,10 +349,10 @@ function getHistoryI(index,history){
     </div>
       <div class="row w-50 mx-auto text-center mt-3">	  
         <div class="col-lg">
-              <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-mu btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
+              <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-danger btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
             </div>
             <div class="col-lg">
-              <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-mu btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
+              <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-success btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
             </div></div>
 <div class="row w-50 mx-auto text-center mt-3">
 <div class="col-lg">
@@ -426,20 +426,20 @@ function getHistoryI(index,history){
                 <option value="1">Exclamation circle</option>
                 <option value="2">Info circle</option>
                 <option value="3">Question mark</option>
-              </select>-->
+              </select>
               <div class="form-check form-check-inline" id="faCode" onchange=generateAlertCode()>
                 <input class="form-check-input" name="faCode" id="faCode1" type="radio" value="noI" checked>
                 <label class="form-check-label" for="faCode1">No icon</label>
-              </div>
+              </div>-->
               <div class="form-check form-check-inline" id="faCode" onchange=generateAlertCode()>
                 <input class="form-check-input" name="faCode" id="faCode2" type="radio" value="1">
                 <label class="form-check-label" for="faCode2"><i class="fa fa-exclamation-circle fa-2x"></i></label>
               </div>
-              <div class="form-check form-check-inline" id="faCode" onchange=generateAlertCode()>
+              <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateAlertCode()>
               <input class="form-check-input" name="faCode" id="faCode3" type="radio" value="2">
               <label class="form-check-label" for="faCode3"><i class="fa fa-info-circle fa-2x"></i></label>
               </div>
-              <div class="form-check form-check-inline" id="faCode" onchange=generateAlertCode()>
+              <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateAlertCode()>
               <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="3">
               <label class="form-check-label" for="faCode4"><i class="fa fa-question-circle fa-2x"></i></label>
             </div>
