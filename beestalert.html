@@ -193,18 +193,15 @@
         var dmoption = getRadioOption('dmoption');
         var alertHeading = getId("alertHeading").value;
         var headSize = getRadioOption("headSize");
-        var bsColour = getRadioOption("alertColour")
+        var bsColour = getRadioOption("alertColour");
         var faIcon = getRadioOption("faCode")
         var iconNames = {
             "1": "exclamation-circle",
             "2": "info-circle",
             "3": "question-circle",
-        };
+        }
         var iconName = iconNames[faIcon];
         var faIconCode = '<i class="fa fa-' + iconName + '"></i> ';
-        if (faIcon == "noI") {
-            faIconCode = "";
-        }
         var colourNames = {
             "1": "mu",
             "2": "danger",
@@ -532,7 +529,7 @@ function getHistoryI(index,history){
     </div>
   </div>
             <div class="col-lg mt-2">
-             <div class="sticky-top" style="top:80px;">
+             <div class="sticky-top" style="top:100px;">
               <h6>Preview<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A live preview of your element will appear below as you update your preferences for your alert." class="hideableinstruct h6 text-success font-weight-bold text-center">&nbsp;| Hover for help</span></h6>
               
                 <div id="demo"></div>
