@@ -95,11 +95,13 @@
           $('#btnSmall').addClass('btn-block');
           $('#btnRegular').addClass('btn-block');
           $('#btnLarge').addClass('btn-block');
+          $('#alignment').hide();
         }
         else if (fullWidth == "n"){
           $('#btnSmall').removeClass('btn-block');
           $('#btnRegular').removeClass('btn-block');
           $('#btnLarge').removeClass('btn-block');
+          $('#alignment').show();
         }
 
         var btnSize = buttonSize[bsBtnSize];
@@ -357,23 +359,23 @@
                 <div class="col-lg">
               <div class="form-check form-check-inline" id="faCode" onchange=generateBtnCode()>
                 <input class="form-check-input" name="faCode" id="faCode1" type="radio" value="1">
-                <label class="form-check-label" for="faCode1"><i class="fa fa-arrow-right fa-lg"></i></label>
+                <label class="form-check-label" for="faCode1"><i class="fa fa-arrow-right fa-2x"></i></label>
               </div>
-              <div class="form-check form-check-inline" id="faCode" onchange=generateBtnCode()>
+              <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateBtnCode()>
               <input class="form-check-input" name="faCode" id="faCode2" type="radio" value="2">
-              <label class="form-check-label" for="faCode2"><i class="fa fa-arrow-circle-right fa-lg"></i></label>
+              <label class="form-check-label" for="faCode2"><i class="fa fa-arrow-circle-right fa-2x"></i></label>
               </div>
-              <div class="form-check form-check-inline" id="faCode" onchange=generateBtnCode()>
+              <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateBtnCode()>
                 <input class="form-check-input" name="faCode" id="faCode3" type="radio" value="3">
-                <label class="form-check-label" for="faCode3"><i class="fa fa-arrow-circle-o-right fa-lg"></i></label>
+                <label class="form-check-label" for="faCode3"><i class="fa fa-arrow-circle-o-right fa-2x"></i></label>
                 </div>
-              <div class="form-check form-check-inline" id="faCode" onchange=generateBtnCode()>
+              <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateBtnCode()>
               <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="4">
-              <label class="form-check-label" for="faCode4"><i class="fa fa-external-link-square fa-lg"></i></label>
+              <label class="form-check-label" for="faCode4"><i class="fa fa-external-link-square fa-2x"></i></label>
             </div>
-            <div class="form-check form-check-inline" id="faCode" onchange=generateBtnCode()>
+            <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateBtnCode()>
               <input class="form-check-input" name="faCode" id="faCode5" type="radio" value="5">
-              <label class="form-check-label" for="faCode5"><i class="fa fa-external-link fa-lg"></i></label>
+              <label class="form-check-label" for="faCode5"><i class="fa fa-external-link fa-2x"></i></label>
             </div>
           </div>
         </div>
@@ -381,23 +383,23 @@
               <div class="col-lg">
             <div class="form-check form-check-inline" id="faCode" onchange=generateBtnCode()>
               <input class="form-check-input" name="faCode" id="faCode6" type="radio" value="6">
-              <label class="form-check-label" for="faCode6"><i class="fa fa-hand-o-right fa-lg"></i></label>
+              <label class="form-check-label" for="faCode6"><i class="fa fa-hand-o-right fa-2x"></i></label>
             </div>
-            <div class="form-check form-check-inline" id="faCode" onchange=generateBtnCode()>
+            <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateBtnCode()>
               <input class="form-check-input" name="faCode" id="faCode7" type="radio" value="7">
-              <label class="form-check-label" for="faCode7"><i class="fa fa-play fa-lg"></i></label>
+              <label class="form-check-label" for="faCode7"><i class="fa fa-play fa-2x"></i></label>
             </div>
-            <div class="form-check form-check-inline" id="faCode" onchange=generateBtnCode()>
+            <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateBtnCode()>
               <input class="form-check-input" name="faCode" id="faCode8" type="radio" value="8">
-              <label class="form-check-label" for="faCode8"><i class="fa fa-play-circle fa-lg"></i></label>
+              <label class="form-check-label" for="faCode8"><i class="fa fa-play-circle fa-2x"></i></label>
             </div>
-            <div class="form-check form-check-inline" id="faCode" onchange=generateBtnCode()>
+            <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateBtnCode()>
               <input class="form-check-input" name="faCode" id="faCode9" type="radio" value="9">
-              <label class="form-check-label" for="faCode9"><i class="fa fa-play-circle-o fa-lg"></i></label>
+              <label class="form-check-label" for="faCode9"><i class="fa fa-play-circle-o fa-2x"></i></label>
             </div>
-            <div class="form-check form-check-inline" id="faCode" onchange=generateBtnCode()>
+            <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateBtnCode()>
               <input class="form-check-input" name="faCode" id="faCod10" type="radio" value="10">
-              <label class="form-check-label" for="faCode10"><i class="fa fa-link fa-lg"></i></label>
+              <label class="form-check-label" for="faCode10"><i class="fa fa-link fa-2x"></i></label>
             </div>
           </div>
         </div>
@@ -588,7 +590,7 @@
             </div>
           </div>  
           <hr>  
-          <div class="row w-100">
+          <div id="alignment" class="row w-100">
             <div class="col-lg-3">
               <h5 class="font-weight-bold">Alignment</h5>
               <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose whether the button is left or centre-aligned. Left-align is chosen by default." class="hideableinstruct text-success">Hover for help</div>
