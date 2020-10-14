@@ -1,6 +1,7 @@
 const MAX_HIST = 20;
+const UNSELECTED = "Select the item you wish to load..."
 var historicalData = null
-var histIndex = 0;
+var histIndex = null;
 
 function initHistory(){
 	historicalData = recoverHistory();
@@ -11,14 +12,27 @@ function initHistory(){
 		histIndex = historicalData.length-1
 		showRecoveryDate(histIndex,historicalData)
 	}
+	hideButton("loadHist")
+	hideButton("delHist")
 }
 
 function idSelectedRecData(){
-	histIndex = document.getElementById("recoveryDate").value
+	histIndex = JSON.parse(document.getElementById("recoveryDate").value)
+	if (histIndex == null){
+		hideButton("delHist")
+		return
+	}
+	else{
+		showButton("delHist")
+		getHistoryI(histIndex,historicalData)	
+	}
 }
 
 function delHistI(){
-	if (confirm("This will delete the selected record, click 'OK' to proceed")){
+	if (histIndex==null){
+		console.error("unable to delete non-data from history")
+	}
+	else if (confirm("This will delete the selected record, click 'OK' to proceed")){
 		historicalData = recoverHistory()
 		historicalData.splice(histIndex,1)
 		setHistory(JSON.stringify(historicalData))
@@ -67,9 +81,12 @@ function recoveryOptionGenerator(selectedIndex,aRecoveryDataSet){
 	var HTMLElement;
 	var startAt = aRecoveryDataSet.length-1
 	var stopAt = Math.max(0,aRecoveryDataSet.length-MAX_HIST)
+	if (aRecoveryDataSet.length>0){
+		outputHTML += HTMLOption(null,UNSELECTED,true)
+	}
 	for (var dataI = startAt; dataI>=stopAt; dataI--){
 		element = aRecoveryDataSet[dataI].toString()
-		HTMLElement = HTMLOption(dataI,element,dataI==selectedIndex)
+		HTMLElement = HTMLOption(dataI,element,false)//dataI==selectedIndex)
 		outputHTML+=HTMLElement
 	}
 	return outputHTML
@@ -139,5 +156,5 @@ function addToHistory(currAccord){
 	histIndex = historicalData.length-1
 	showRecoveryDate(histIndex,historicalData);
 	showButton("delHist")
-	showButton("loadHist")
+	//showButton("loadHist")
 }
