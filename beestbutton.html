@@ -96,6 +96,7 @@
           $('#btnRegular').addClass('btn-block');
           $('#btnLarge').addClass('btn-block');
           $('#alignment').hide();
+          
         }
         else if (fullWidth == "n"){
           $('#btnSmall').removeClass('btn-block');
@@ -319,7 +320,7 @@
                 <button data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to delete the item you have selected in the dropdown." id="delHist" onclick="delHistI()" type="button" class="btn btn-danger"><i class="fa fa-fw fa-trash"></i></button>     
                 </div>
               </div>
-              <textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Or recover it by pasting existing code from Moodle (working in progress)" onchange=recoverCode()></textarea>
+              <textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Or recover it by pasting existing code from Moodle (work in progress)" onchange=recoverCode()></textarea>
           </div>
         </div>
           <hr>
@@ -487,28 +488,25 @@
         </div>
       </div>
     </div>
-    
-    <div class="col-lg-3 mt-3">
-      <h6>Invert button colour</h6>
+  </div>
+    <hr>
+    <div class="row w-100">
+    <div class="col-lg-3"> 
+      <h5 class="font-weight-bold">Invert colours</h5>
       <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Swap the button colour with the text colour" class="hideableinstruct text-success">Hover for help
       </div>
     </div>
     <div class="col-lg">
-      <div class="row w-100 mt-3">
-        <div class="col-lg">
+          <div class="form-check form-check-inline" id="invertColour" onchange=generateBtnCode()>
+            <input class="form-check-input" name="invertColour" id="invertColour2" type="radio" value="n" checked>
+            <label class="form-check-label" for="invertColour2">Regular colours</label>
+            </div>
           <div class="form-check form-check-inline" id="invertColour" onchange=generateBtnCode()>
             <input class="form-check-input" name="invertColour" id="invertColour1" type="radio" value="y">
-            <label class="form-check-label" for="invertColour1">Yes</label>
-          </div>
-          <div class="form-check form-check-inline" id="invertColour" onchange=generateBtnCode()>
-          <input class="form-check-input" name="invertColour" id="invertColour2" type="radio" value="n" checked>
-          <label class="form-check-label" for="invertColour2">No</label>
+            <label class="form-check-label" for="invertColour1">Inverted colours</label>
           </div>
       </div>
     </div>
-  </div>
-
-</div>
           <hr>
           <div class="row w-100">
             <div class="col-lg-3">
@@ -550,23 +548,25 @@
       </div>-->
       </div>
       </div>
+      <hr>
       <div class="row w-100">
       <div class="col-lg-3 mt-2">
-        <h6>Full width of screen</h6>
-        <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Swap the button colour with the text colour" class="hideableinstruct text-success">Hover for help
+        <h5 class="font-weight-bold">Width</h6>
+        <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Increase the button width to full width of screen. Please look to the preview to see how this affects your button." class="hideableinstruct text-success">Hover for help
         </div>
       </div>
       <div class="col-lg">
         <div class="row w-100 mt-2">
           <div class="col-lg">
             <div class="form-check form-check-inline" id="fullWidth" onchange=generateBtnCode()>
-              <input class="form-check-input" name="fullWidth" id="fullWidth1" type="radio" value="y">
-              <label class="form-check-label" for="fullWidth1">Yes</label>
-            </div>
+              <input class="form-check-input" name="fullWidth" id="fullWidth2" type="radio" value="n" checked>
+              <label class="form-check-label" for="fullWidth2">Regular width</label>
+              </div>
             <div class="form-check form-check-inline" id="fullWidth" onchange=generateBtnCode()>
-            <input class="form-check-input" name="fullWidth" id="fullWidth2" type="radio" value="n" checked>
-            <label class="form-check-label" for="fullWidth2">No</label>
+              <input class="form-check-input" name="fullWidth" id="fullWidth1" type="radio" value="y">
+              <label class="form-check-label" for="fullWidth1">Full width</label>
             </div>
+            
         </div>
       </div>
     </div>
