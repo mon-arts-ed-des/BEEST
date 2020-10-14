@@ -81,13 +81,29 @@
         var faIconCode = ' <i class="fa fa-' + iconName + '"></i> ';
 
         var buttonSize = {
-          "1":" ",
-          "2":" btn-lg ",
-          "3":" btn-sm ",
-          "4":" btn-block ",
-          "5":" btn-lg btn-block ",
-          "6":" btn-sm btn-block "
+          "1":" btn-sm ",
+          "2":" ",
+          "3":" btn-lg ",
+          "1y":" btn-sm btn-block ",
+          "2y":" btn-block ",
+          "3y":" btn-lg btn-block "
         }
+
+        var fullWidth = getRadioOption("fullWidth");
+        if (fullWidth == "y"){
+          bsBtnSize = bsBtnSize + "y";
+          $('#btnSmall').addClass('btn-block');
+          $('#btnRegular').addClass('btn-block');
+          $('#btnLarge').addClass('btn-block');
+          $('#alignment').hide();
+        }
+        else if (fullWidth == "n"){
+          $('#btnSmall').removeClass('btn-block');
+          $('#btnRegular').removeClass('btn-block');
+          $('#btnLarge').removeClass('btn-block');
+          $('#alignment').show();
+        }
+
         var btnSize = buttonSize[bsBtnSize];
        
         var colourNames = {
@@ -109,8 +125,8 @@
             "8y":"outline-secondary"
              }
 
+        //swap the class to invert the colour
         var invertColour = getRadioOption("invertColour");
-
         if (invertColour == "y"){
           $('#monashBlue').removeClass('btn-mu').addClass('btn-outline-mu');
           $('#red').removeClass('btn-danger').addClass('btn-outline-danger');
@@ -122,6 +138,7 @@
           $('#grey').removeClass('btn-secondary').addClass('btn-outline-secondary');
           bsColour = bsColour + "y";
         }
+        //if not, change back to solid colour
         else if(invertColour == "n"){
           $('#monashBlue').removeClass('btn-outline-mu').addClass('btn-mu');
           $('#red').removeClass('btn-outline-danger').addClass('btn-danger');
@@ -302,6 +319,7 @@
                 <button data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to delete the item you have selected in the dropdown." id="delHist" onclick="delHistI()" type="button" class="btn btn-danger"><i class="fa fa-fw fa-trash"></i></button>     
                 </div>
               </div>
+              <textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Or recover it by pasting existing code from Moodle (working in progress)" onchange=recoverCode()></textarea>
           </div>
         </div>
           <hr>
@@ -345,23 +363,23 @@
                 <div class="col-lg">
               <div class="form-check form-check-inline" id="faCode" onchange=generateBtnCode()>
                 <input class="form-check-input" name="faCode" id="faCode1" type="radio" value="1">
-                <label class="form-check-label" for="faCode1"><i class="fa fa-arrow-right fa-lg"></i></label>
+                <label class="form-check-label" for="faCode1"><i class="fa fa-arrow-right fa-2x"></i></label>
               </div>
-              <div class="form-check form-check-inline" id="faCode" onchange=generateBtnCode()>
+              <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateBtnCode()>
               <input class="form-check-input" name="faCode" id="faCode2" type="radio" value="2">
-              <label class="form-check-label" for="faCode2"><i class="fa fa-arrow-circle-right fa-lg"></i></label>
+              <label class="form-check-label" for="faCode2"><i class="fa fa-arrow-circle-right fa-2x"></i></label>
               </div>
-              <div class="form-check form-check-inline" id="faCode" onchange=generateBtnCode()>
+              <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateBtnCode()>
                 <input class="form-check-input" name="faCode" id="faCode3" type="radio" value="3">
-                <label class="form-check-label" for="faCode3"><i class="fa fa-arrow-circle-o-right fa-lg"></i></label>
+                <label class="form-check-label" for="faCode3"><i class="fa fa-arrow-circle-o-right fa-2x"></i></label>
                 </div>
-              <div class="form-check form-check-inline" id="faCode" onchange=generateBtnCode()>
+              <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateBtnCode()>
               <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="4">
-              <label class="form-check-label" for="faCode4"><i class="fa fa-external-link-square fa-lg"></i></label>
+              <label class="form-check-label" for="faCode4"><i class="fa fa-external-link-square fa-2x"></i></label>
             </div>
-            <div class="form-check form-check-inline" id="faCode" onchange=generateBtnCode()>
+            <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateBtnCode()>
               <input class="form-check-input" name="faCode" id="faCode5" type="radio" value="5">
-              <label class="form-check-label" for="faCode5"><i class="fa fa-external-link fa-lg"></i></label>
+              <label class="form-check-label" for="faCode5"><i class="fa fa-external-link fa-2x"></i></label>
             </div>
           </div>
         </div>
@@ -369,23 +387,23 @@
               <div class="col-lg">
             <div class="form-check form-check-inline" id="faCode" onchange=generateBtnCode()>
               <input class="form-check-input" name="faCode" id="faCode6" type="radio" value="6">
-              <label class="form-check-label" for="faCode6"><i class="fa fa-hand-o-right fa-lg"></i></label>
+              <label class="form-check-label" for="faCode6"><i class="fa fa-hand-o-right fa-2x"></i></label>
             </div>
-            <div class="form-check form-check-inline" id="faCode" onchange=generateBtnCode()>
+            <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateBtnCode()>
               <input class="form-check-input" name="faCode" id="faCode7" type="radio" value="7">
-              <label class="form-check-label" for="faCode7"><i class="fa fa-play fa-lg"></i></label>
+              <label class="form-check-label" for="faCode7"><i class="fa fa-play fa-2x"></i></label>
             </div>
-            <div class="form-check form-check-inline" id="faCode" onchange=generateBtnCode()>
+            <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateBtnCode()>
               <input class="form-check-input" name="faCode" id="faCode8" type="radio" value="8">
-              <label class="form-check-label" for="faCode8"><i class="fa fa-play-circle fa-lg"></i></label>
+              <label class="form-check-label" for="faCode8"><i class="fa fa-play-circle fa-2x"></i></label>
             </div>
-            <div class="form-check form-check-inline" id="faCode" onchange=generateBtnCode()>
+            <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateBtnCode()>
               <input class="form-check-input" name="faCode" id="faCode9" type="radio" value="9">
-              <label class="form-check-label" for="faCode9"><i class="fa fa-play-circle-o fa-lg"></i></label>
+              <label class="form-check-label" for="faCode9"><i class="fa fa-play-circle-o fa-2x"></i></label>
             </div>
-            <div class="form-check form-check-inline" id="faCode" onchange=generateBtnCode()>
+            <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateBtnCode()>
               <input class="form-check-input" name="faCode" id="faCod10" type="radio" value="10">
-              <label class="form-check-label" for="faCode10"><i class="fa fa-link fa-lg"></i></label>
+              <label class="form-check-label" for="faCode10"><i class="fa fa-link fa-2x"></i></label>
             </div>
           </div>
         </div>
@@ -470,13 +488,13 @@
       </div>
     </div>
     
-    <div class="col-lg-3 mt-2">
-      <h5>Invert colour</h5>
+    <div class="col-lg-3 mt-3">
+      <h6>Invert button colour</h6>
       <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Swap the button colour with the text colour" class="hideableinstruct text-success">Hover for help
       </div>
     </div>
     <div class="col-lg">
-      <div class="row w-100 mt-2">
+      <div class="row w-100 mt-3">
         <div class="col-lg">
           <div class="form-check form-check-inline" id="invertColour" onchange=generateBtnCode()>
             <input class="form-check-input" name="invertColour" id="invertColour1" type="radio" value="y">
@@ -507,18 +525,18 @@
         </select>-->
         <div class="col-lg">
           <div class="form-check form-check-inline" id="buttonSize" onchange=generateBtnCode()>
-            <input class="form-check-input" name="buttonSize" id="buttonSize3" type="radio" value="3">
-            <label class="form-check-label" for="buttonSize3"><span class="btn btn-sm btn-dark">Small</span></label>
+            <input class="form-check-input" name="buttonSize" id="buttonSize3" type="radio" value="1">
+            <label class="form-check-label" for="buttonSize3"><span id="btnSmall" class="btn btn-sm btn-dark">Small</span></label>
           </div>
         <div class="form-check form-check-inline" id="buttonSize" onchange=generateBtnCode()>
-          <input class="form-check-input" name="buttonSize" id="buttonSize1" type="radio" value="1" checked>
-          <label class="form-check-label" for="buttonSize1"><span class="btn btn-dark">Regular</span></label>
+          <input class="form-check-input" name="buttonSize" id="buttonSize1" type="radio" value="2" checked>
+          <label class="form-check-label" for="buttonSize1"><span id="btnRegular" class="btn btn-dark">Regular</span></label>
         </div>
         <div class="form-check form-check-inline" id="buttonSize" onchange=generateBtnCode()>
-        <input class="form-check-input" name="buttonSize" id="buttonSize2" type="radio" value="2">
-        <label class="form-check-label" for="buttonSize2"><span class="btn btn-lg btn-dark">Large</span></label>
+        <input class="form-check-input" name="buttonSize" id="buttonSize2" type="radio" value="3">
+        <label class="form-check-label" for="buttonSize2"><span id="btnLarge" class="btn btn-lg btn-dark">Large</span></label>
         </div>
-          <div class="form-check mt-2" id="buttonSize" onchange=generateBtnCode()>
+          <!--<div class="form-check mt-2" id="buttonSize" onchange=generateBtnCode()>
             <input class="form-check-input" name="buttonSize" id="buttonSize6" type="radio" value="6">
             <label class="form-check-label w-100" for="buttonSize6"><div class="btn btn-block btn-sm btn-dark">Small + full width of screen</div></label>
           </div>
@@ -529,13 +547,35 @@
       <div class="form-check mt-2" id="buttonSize" onchange=generateBtnCode()>
         <input class="form-check-input" name="buttonSize" id="buttonSize5" type="radio" value="5">
         <label class="form-check-label w-100" for="buttonSize5"><div class="btn btn-block btn-lg btn-dark btn-default">Large + full width of screen</div></label>
+      </div>-->
       </div>
       </div>
+      <div class="row w-100">
+      <div class="col-lg-3 mt-2">
+        <h6>Full width of screen</h6>
+        <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Swap the button colour with the text colour" class="hideableinstruct text-success">Hover for help
+        </div>
       </div>
+      <div class="col-lg">
+        <div class="row w-100 mt-2">
+          <div class="col-lg">
+            <div class="form-check form-check-inline" id="fullWidth" onchange=generateBtnCode()>
+              <input class="form-check-input" name="fullWidth" id="fullWidth1" type="radio" value="y">
+              <label class="form-check-label" for="fullWidth1">Yes</label>
+            </div>
+            <div class="form-check form-check-inline" id="fullWidth" onchange=generateBtnCode()>
+            <input class="form-check-input" name="fullWidth" id="fullWidth2" type="radio" value="n" checked>
+            <label class="form-check-label" for="fullWidth2">No</label>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
       <hr>
           <div class="row w-100">
         <div class="col-lg-3">
-          <h5>Open link in</h5>
+          <h5 class="font-weight-bold">Open link in</h5>
           <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose whether to open link in a new window, or the same window users are on. New window is chosen by default." class="hideableinstruct text-success">Hover for help</div>
       </div>
       <div class="col-lg">
@@ -554,9 +594,9 @@
             </div>
           </div>  
           <hr>  
-          <div class="row w-100">
+          <div id="alignment" class="row w-100">
             <div class="col-lg-3">
-              <h5>Alignment</h5>
+              <h5 class="font-weight-bold">Alignment</h5>
               <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose whether the button is left or centre-aligned. Left-align is chosen by default." class="hideableinstruct text-success">Hover for help</div>
               </div>
               <div class="col-lg">
@@ -583,6 +623,7 @@
                   <p class="my-3"></p>
                 <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click the button below to copy your code, ready to paste into Moodle." class="hideableinstruct text-success"><small>&nbsp;| Hover for help</small></span></h5>
                 <textarea readonly class="rounded p-2 w-100 border border-dark" id="txtareaBtn" cols="70" rows="2" name="Result" placeholder="Code for your element will appear here"></textarea>
+<<<<<<< HEAD
                 <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." id="copyCodeBtn" class="btn btn-success btn-lg btn-block mt-2" name="GenerateWrap" value="Copy your code </>" OnClick=copyCode() >
                 <div class="text-center h5 mt-4">
                   <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
@@ -600,6 +641,9 @@
                       </div>
                     </div>
                   </div></div>
+=======
+                <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." id="copyCodeBtn" class="btn btn-mu btn-lg btn-block mt-2" name="GenerateWrap" value="Copy your code </>" OnClick=copyCode() >
+>>>>>>> bb20047d5f65ffa77c74c0d01aea5b4dad38a2ac
                   </div>
                 </div>
               </div>
