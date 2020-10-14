@@ -509,6 +509,10 @@ function getRadioOption(id){
           <option value="6">Small + full width of screen</option>
         </select>-->
         <div class="col-lg">
+          <div class="form-check form-check-inline" id="buttonSize" onchange=generateBtnCode()>
+            <input class="form-check-input" name="buttonSize" id="buttonSize3" type="radio" value="3">
+            <label class="form-check-label" for="buttonSize3"><span class="btn btn-sm btn-dark">Small</span></label>
+          </div>
         <div class="form-check form-check-inline" id="buttonSize" onchange=generateBtnCode()>
           <input class="form-check-input" name="buttonSize" id="buttonSize1" type="radio" value="1" checked>
           <label class="form-check-label" for="buttonSize1"><span class="btn btn-dark">Regular</span></label>
@@ -517,10 +521,6 @@ function getRadioOption(id){
         <input class="form-check-input" name="buttonSize" id="buttonSize2" type="radio" value="2">
         <label class="form-check-label" for="buttonSize2"><span class="btn btn-lg btn-dark">Large</span></label>
         </div>
-        <div class="form-check form-check-inline" id="buttonSize" onchange=generateBtnCode()>
-          <input class="form-check-input" name="buttonSize" id="buttonSize3" type="radio" value="3">
-          <label class="form-check-label" for="buttonSize3"><span class="btn btn-sm btn-dark">Small</span></label>
-          </div>
           <div class="form-check mt-2" id="buttonSize" onchange=generateBtnCode()>
             <input class="form-check-input" name="buttonSize" id="buttonSize6" type="radio" value="6">
             <label class="form-check-label w-100" for="buttonSize6"><div class="btn btn-block btn-sm btn-dark">Small + full width of screen</div></label>
