@@ -39,7 +39,7 @@
     <!-- Script to init the tinyMCE editor --> 
     <script type="text/javascript">
     //Get the window width dynamically  
-    var width = $(window).width();
+ /* var width = $(window).width();
     $(window).on('resize', function() {
       if ($(this).width() !== width) {
         width = $(this).width();
@@ -61,7 +61,7 @@
           $('#copy').addClass('mt-5');
           $('#previewDiv').addClass('mt-2');
       }
-    });
+    }); */
 
 	class videoPage{
 		constructor(link,context,position,width,heading,headingSize,icon){
@@ -355,6 +355,7 @@
     </script>
     <script>   
     window.onload=function(){
+      generateCode();
       $('#beestNav').load('common/beestnav.html');
       $('#beestFooter').load('common/beestfooter.html');
       function activeNav() {
@@ -369,6 +370,7 @@
     };
     </script>
     <style>
+    /*
     #preview {
     position:static;
     }
@@ -376,7 +378,8 @@
     position:fixed;
     top:50%;
     right:0px;
-    }
+    } 
+    */
 
     .mce-notification-inner, .mce-close, .mce-notification-warning {
     display:none !important;
