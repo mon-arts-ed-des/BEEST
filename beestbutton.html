@@ -177,7 +177,7 @@
              
         document.getElementById('txtareaBtn').value=textOutput;
         //SelectAll("txtareaBtn");
-        $('#demo').nextAll('div').remove();
+        $('#demo').next('div').remove();
         $('#demo').after(textOutput);
         }
 
@@ -246,15 +246,18 @@
   text-align: left;
   padding: 15px;
   font-size: 1.05rem;
-  max-width: 280px;
+  max-width: 400px;
 }
+.modal-backdrop {
+      z-index: 0 !important;
+    }
     </style> 
     </head>
     <body>
       <div id="beestNav"></div>
       <div class="py-5"></div>
         <div class="container-fluid">
-            <h3 class="text-center"><i class="fa fa-fw fa-mouse-pointer"></i> Buttons<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Buttons are a great way to draw the user's focus to an important link and differentiate URLs you consider the most important from just simple hyperlinks. Use buttons in a consistent manner with consistent colours and sizes for each purpose. Too many combinations can result in user confusion." class="hideableinstruct text-success font-weight-bold"> | What does this page do?</span></h3>
+            <h3 class="text-center font-weight-bold"><i class="fa fa-fw fa-mouse-pointer"></i> Buttons<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Buttons are a great way to draw the user's focus to an important link and differentiate URLs you consider the most important from just simple hyperlinks. Use buttons in a consistent manner with consistent colours and sizes for each purpose. Too many combinations can result in user confusion." class="hideableinstruct text-success font-weight-normal">&nbsp;| What does this page do?</span></h3>
             <h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".btnWalkthrough" href="">Video walkthrough - Creating a button (04:26)</a></h5>
             <div class="modal fade btnWalkthrough" tabindex="-1" role="dialog" aria-labelledby="btn-modal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -271,10 +274,10 @@
           </div>
             <div class="row w-50 mx-auto text-center mt-3">	  
               <div class="col-lg">
-                    <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-mu btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
+                    <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-danger btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
                   </div>
                   <div class="col-lg">
-                    <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-mu btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
+                    <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-success btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
                   </div></div>
   <hr class="hr-3">
            <form id="btn">           
@@ -287,15 +290,15 @@
             </div>              
               <div class="col-lg">
                 <div class="row w-100">
-                <div class="col-lg-6">
+                <div class="col-lg-7">
                 <select class="custom-select border border-dark" size="1" id="recoveryDate" onchange="idSelectedRecData()">
                 <option selected value=0>please wait</option>
                 </select>
               </div>
-              <div class="col-lg-4">
-                <button data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to recover the item you have selected in the dropdown." id="loadHist" onclick="getHistoryI(histIndex,historicalData)" class="btn btn-success w-100">Recover <i class="fa fa-fw fa-undo"></i></a></button>
+              <div class="col-lg-4 text-center">
+                <button data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to recover the item you have selected in the dropdown. This will remove any changes you have currently made on this page." id="loadHist" onclick="getHistoryI(histIndex,historicalData)" class="btn btn-outline-dark w-100">Recover <i class="fa fa-fw fa-undo"></i></a></button>
                 </div>
-                <div class="col-lg-2 text-center">
+                <div class="col-lg-1 text-center">
                 <button data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to delete the item you have selected in the dropdown." id="delHist" onclick="delHistI()" type="button" class="btn btn-danger"><i class="fa fa-fw fa-trash"></i></button>     
                 </div>
               </div>
@@ -304,11 +307,11 @@
           <hr>
           <div class="row w-100">
             <div class="col-lg-3">
-          <h5 class="font-weight-bold">Paste URL</h5>
+          <h5 class="font-weight-bold">Paste destination</h5>
           <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Paste in the link/URL for your button. This is where users will be directed to when clicking the button." class="hideableinstruct text-success">Hover for help</div>
             </div>
             <div class="col-lg">
-              <textarea class="border border-dark rounded p-2 w-100" rows="1" id="btn_URL" name="btn_URL" placeholder="Paste the URL here" onchange=generateBtnCode()></textarea>
+              <textarea class="border border-dark rounded p-2 w-100" rows="1" id="btn_URL" name="btn_URL" placeholder="Paste your link/URL here" onchange=generateBtnCode()></textarea>
             </div>
           </div>
           <hr>
@@ -580,7 +583,23 @@
                   <p class="my-3"></p>
                 <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click the button below to copy your code, ready to paste into Moodle." class="hideableinstruct text-success"><small>&nbsp;| Hover for help</small></span></h5>
                 <textarea readonly class="rounded p-2 w-100 border border-dark" id="txtareaBtn" cols="70" rows="2" name="Result" placeholder="Code for your element will appear here"></textarea>
-                <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." id="copyCodeBtn" class="btn btn-dark btn-lg btn-block mt-2" name="GenerateWrap" value="Copy your code </>" OnClick=copyCode() >
+                <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." id="copyCodeBtn" class="btn btn-success btn-lg btn-block mt-2" name="GenerateWrap" value="Copy your code </>" OnClick=copyCode() >
+                <div class="text-center h5 mt-4">
+                  <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
+                  <div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                      <div class="modal-content p-2 bg-dark">
+                        <div class="modal-header">
+                          <h5 class="modal-title text-white">Click close or click outside this box to return to the BEEST.</h5>
+                          <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">Close &times;</span>
+                          </button>
+                        </div>
+                      <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe>
+                      </div>
+                      </div>
+                    </div>
+                  </div></div>
                   </div>
                 </div>
               </div>
