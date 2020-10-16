@@ -330,9 +330,9 @@ function getHistoryI(index,history){
   </head>
 <body>
   <div id="beestNav"></div>
-  <div class="row w-100 mb-4"></div>
-  <div class="container-fluid mt-5">
-    <h3 class="text-center pt-5"><i class="fa fa-exclamation-circle fa-fw"></i> Alert<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Alerts are used to draw the user's attention to something important, or to highlight information. You would be familiar with these on most websites (including Moodle), red alerts are used for errors or for incorrect actions, green ones for correct actions and blue to highlight important information on a page. Overuse of these alerts will most likely result in them being ignored. So use them sparingly and only when necessary." class="hideableinstruct text-success font-weight-bold"> | What does this page do?</span></h3>
+  <div class="py-5"></div>
+  <div class="container-fluid">
+    <h3 class="text-center font-weight-bold">Alert<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Alerts are used to draw the user's attention to something important, or to highlight information. You would be familiar with these on most websites (including Moodle), red alerts are used for errors or for incorrect actions, green ones for correct actions and blue to highlight important information on a page. Overuse of these alerts will most likely result in them being ignored. So use them sparingly and only when necessary." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h3>
     <h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".respVidWalkthrough" href="">Create an alert walkthrough (3:38)</a></h5>
       <div class="modal fade respVidWalkthrough" tabindex="-1" role="dialog" aria-labelledby="panopto-modal" aria-hidden="true">
       <div class="modal-dialog modal-lg">
@@ -349,10 +349,10 @@ function getHistoryI(index,history){
     </div>
       <div class="row w-50 mx-auto text-center mt-3">	  
         <div class="col-lg">
-              <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-danger btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
+              <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-danger btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
             </div>
             <div class="col-lg">
-              <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-success btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
+              <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click to toggle the help instructions on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-success btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
             </div></div>
 <div class="row w-50 mx-auto text-center mt-3">
 <div class="col-lg">
@@ -371,7 +371,7 @@ function getHistoryI(index,history){
         <div class="row w-100 mx-auto">
           <div class="col-lg-3 mt-2">  
      <h5 class="font-weight-bold">Write the alert</h5>
-    <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type in the text you would like to appear in your alert." class="hideableinstruct h6 text-success font-weight-bold">Hover for help</div>
+    <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type in the text you would like to appear in your alert." class="hideableinstruct text-success">Hover for help</div>
   
   </div>
     <div class="col-lg mt-2">
@@ -382,7 +382,7 @@ function getHistoryI(index,history){
 <div class="row w-100 mx-auto">
   <div class="col-lg-3">
     <h5 class="font-weight-bold">Alert heading</h5>
-      <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type the heading for this alert. 75 character maximum." class="hideableinstruct h6 text-success font-weight-bold text-center">Hover for help</div> 
+      <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type the heading for this alert. 75 character maximum." class="hideableinstruct text-success">Hover for help</div> 
   </div>
   <div class="col-lg mt-2">
     <textarea maxlength="75" class="rounded p-2 w-100 border border-dark" rows="1" name="alertHeading" type="text" id="alertHeading" placeholder="Type a heading for your alert here." onchange=generateAlertCode()></textarea>
@@ -392,7 +392,7 @@ function getHistoryI(index,history){
 <div class="row w-100 mx-auto">
   <div class="col-lg-3">
     <h5 class="font-weight-bold">Heading size</h5>
-    <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose the size of your heading." class="hideableinstruct h6 text-success font-weight-bold text-center">Hover for help</div>
+    <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose the size of your heading." class="hideableinstruct text-success">Hover for help</div>
   </div>
   <div class="col-lg mt-2">
          <!--<select size="3" class="px-1 border border-dark" id="headSize" name="headSize" >
@@ -418,7 +418,7 @@ function getHistoryI(index,history){
         <div class="row w-100 mx-auto">
           <div class="col-lg-3">
             <h5 class="font-weight-bold">Select icon</h5>
-            <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Select an icon to go with your heading." class="hideableinstruct h6 text-success font-weight-bold text-center">Hover for help</div>
+            <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Select an icon to go with your heading." class="hideableinstruct text-success">Hover for help</div>
             </div>
             <div class="col-lg">
             <!--<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" onchange=generateAlertCode()>
@@ -450,7 +450,7 @@ function getHistoryI(index,history){
             <div class="col-lg-3 mt-2">
 
             <h5 class="font-weight-bold">Alert colour</h5>
-            <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Select the background colour of your alert." class="hideableinstruct h6 text-success font-weight-bold text-center">Hover for help</div>
+            <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Select the background colour of your alert." class="hideableinstruct text-success">Hover for help</div>
           </div>
         <div class="col-lg">
             <!--<select class="custom-select w-50 border border-dark" id="alertColour" name="alertColour" onchange=generateAlertCode()>
@@ -509,7 +509,7 @@ function getHistoryI(index,history){
             <div class="row w-100 mx-auto">
      <div class="col-lg-3 mt-2">
       <h5 class="font-weight-bold">Permanent or dismissable</h5>
-      <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Dismissable means the alert can be temporarily closed by the user." class="hideableinstruct h6 text-success font-weight-bold text-center">Hover for help</div>
+      <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Dismissable means the alert can be temporarily closed by the user." class="hideableinstruct text-success">Hover for help</div>
       </div>
       <!--<select class="custom-select w-50 border border-dark" id="dmoption" name="dmoption" onchange=generateAlertCode()>
       <option value="dismissable" selected>Dismissable</option>
@@ -529,11 +529,11 @@ function getHistoryI(index,history){
   </div>
             <div class="col-lg mt-2">
              <div class="sticky-top" style="top:100px;">
-              <h5 class="font-weight-bold">Preview<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A live preview of your element will appear below as you update your preferences for your alert." class="hideableinstruct h6 text-success font-weight-bold text-center">&nbsp;| Hover for help</span></h5>
+              <h5 class="font-weight-bold">Preview<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A live preview of your element will appear below as you update your preferences for your alert." class="small hideableinstruct text-success font-weight-normal">&nbsp;| Hover for help</span></h5>
               
                 <div id="demo"></div>
                 <p class="my-3"></p>
-   <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click the copy code button below once you have finished creating your alert." class="hideableinstruct h6 text-success font-weight-bold text-center">&nbsp;| Hover for help</span></h5>
+   <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click the copy code button below once you have finished creating your alert." class="hideableinstruct text-success font-weight-normal small">&nbsp;| Hover for help</span></h5>
    
    <textarea readonly class="border border-dark rounded p-2 w-100" id="monAlertCode" cols="70" rows="4" name="Result" placeholder="Code for your element will appear here."></textarea>  
         <input type="button" class="btn btn-mu btn-block btn-lg my-2 text-center" name="GenerateWrap" value="Copy code </>" onClick=copyCode() id="copyCodeBtn" data-toggle="tooltip" data-placement="left" data-trigger="click focus" title="Your code has been copied." />
@@ -558,7 +558,7 @@ function getHistoryI(index,history){
     </form>   
         </div>
         <script>
-		/*var textarea = $("#alertHeading");
+		var textarea = $("#alertHeading");
           var radioBtn = $("#headSize1");
           var checkRadio = function(){
               if (textarea.val()!="") {
@@ -568,7 +568,7 @@ function getHistoryI(index,history){
           };
           // Run now
           // And when textarea changes
-          textarea.on("change", checkRadio);*/
+          textarea.on("change", checkRadio);
           </script>
           <script>
             $(function () {
