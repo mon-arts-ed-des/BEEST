@@ -354,26 +354,40 @@ function getHistoryI(index,history){
             <div class="col-lg">
               <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click to toggle the help instructions on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-success btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
             </div></div>
-<div class="row w-50 mx-auto text-center mt-3">
+<!--<div class="row w-50 mx-auto text-center mt-3">
 <div class="col-lg">
-<h4>Recover past data</h4></div><div class="col-lg">
+<h4>Recover past data</h4></div>
+<div class="col-lg">
   <select class="custom-select w-50 border border-dark" size="1" id="recoveryDate" onchange="idSelectedRecData()">
   <option selected value=0>please wait</option>
   </select>
   <button id="delHist" onclick="delHistI()" type="button" class="btn btn-danger mr-2"><i class="fa fa-fw fa-trash"></i></button>
 
-  <button id="loadHist" onclick="getHistoryI(histIndex,historicalData)" class="btn btn-mu">Recover <i class="fa fa-fw fa-undo"></i></a>
-        </div></div>
+  <button id="loadHist" onclick="getHistoryI(histIndex,historicalData)" class="btn btn-mu">Recover <i class="fa fa-fw fa-undo"></i></button>
+        </div></div>-->
   <hr class="hr-3">
   <form id="monashAlert">
     <div class="row w-100 mx-auto">
       <div class="col-lg-6">
         <div class="row w-100 mx-auto">
-          <div class="col-lg-3 mt-2">  
-     <h5 class="font-weight-bold">Write the alert</h5>
-    <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type in the text you would like to appear in your alert." class="hideableinstruct text-success">Hover for help</div>
-  
-  </div>
+          <div class="col-lg-3"> 
+            <h5 class="font-weight-bold">Recover past data<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Recover recently created items. This will only become operational once you have created at least one alert. If you change browsers or clear your browser history, you will lose this history as well." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+          </div>
+          <div class="col-lg-8">
+            <select class="custom-select border border-dark" size="1" id="recoveryDate" onchange="idSelectedRecData()">
+              <option selected value=0>please wait</option>
+              </select>
+            </div>
+            <div class="col-lg-1 text-center">
+              <button id="delHist" onclick="delHistI()" type="button" class="btn btn-danger mr-2" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Delete the currently selected historical data."><i class="fa fa-fw fa-trash"></i></button>
+              <button id="loadHist" onclick="getHistoryI(histIndex,historicalData)" class="btn btn-mu">Recover <i class="fa fa-fw fa-undo"></i></button>
+          </div>
+        </div>
+        <hr>
+        <div class="row w-100 mx-auto">
+          <div class="col-lg-3">  
+     <h5 class="font-weight-bold">Write the alert<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type in the text you would like to appear in your alert." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+          </div>
     <div class="col-lg mt-2">
     <textarea id="tinyMCEalert" class="border border-dark rounded w-100" rows="3" onchange=generateAlertCode()></textarea>
   </div>
@@ -381,20 +395,18 @@ function getHistoryI(index,history){
 <hr>
 <div class="row w-100 mx-auto">
   <div class="col-lg-3">
-    <h5 class="font-weight-bold">Alert heading</h5>
-      <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type the heading for this alert. 75 character maximum." class="hideableinstruct text-success">Hover for help</div> 
+    <h5 class="font-weight-bold">Alert heading<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type the heading for this alert. 75 character maximum." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
   </div>
-  <div class="col-lg mt-2">
+  <div class="col-lg">
     <textarea maxlength="75" class="rounded p-2 w-100 border border-dark" rows="1" name="alertHeading" type="text" id="alertHeading" placeholder="Type a heading for your alert here." onchange=generateAlertCode()></textarea>
   </div>
   </div>
   <hr>
 <div class="row w-100 mx-auto">
   <div class="col-lg-3">
-    <h5 class="font-weight-bold">Heading size</h5>
-    <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose the size of your heading." class="hideableinstruct text-success">Hover for help</div>
+    <h5 class="font-weight-bold">Heading size<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose the size of your heading." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
   </div>
-  <div class="col-lg mt-2">
+  <div class="col-lg">
          <!--<select size="3" class="px-1 border border-dark" id="headSize" name="headSize" >
           <option class="h5 mb-0" selected value="h5">Small (heading 5)</option>
           <option class="h4 mb-0" value="h4">Medium (heading 4)</option>
@@ -417,8 +429,7 @@ function getHistoryI(index,history){
         <hr>
         <div class="row w-100 mx-auto">
           <div class="col-lg-3">
-            <h5 class="font-weight-bold">Select icon</h5>
-            <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Select an icon to go with your heading." class="hideableinstruct text-success">Hover for help</div>
+            <h5 class="font-weight-bold">Select icon<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Select an icon to go with your heading." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
             </div>
             <div class="col-lg">
             <!--<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" onchange=generateAlertCode()>
@@ -447,10 +458,9 @@ function getHistoryI(index,history){
             </div>
             <hr>                   
         <div class="row w-100 mx-auto">
-            <div class="col-lg-3 mt-2">
+            <div class="col-lg-3">
 
-            <h5 class="font-weight-bold">Alert colour</h5>
-            <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Select the background colour of your alert." class="hideableinstruct text-success">Hover for help</div>
+            <h5 class="font-weight-bold">Alert colour<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Select the background colour of your alert." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
           </div>
         <div class="col-lg">
             <!--<select class="custom-select w-50 border border-dark" id="alertColour" name="alertColour" onchange=generateAlertCode()>
@@ -507,9 +517,8 @@ function getHistoryI(index,history){
             </div>
             <hr>
             <div class="row w-100 mx-auto">
-     <div class="col-lg-3 mt-2">
-      <h5 class="font-weight-bold">Permanent or dismissable</h5>
-      <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Dismissable means the alert can be temporarily closed by the user." class="hideableinstruct text-success">Hover for help</div>
+     <div class="col-lg-3">
+      <h5 class="font-weight-bold">Permanent or dismissable<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Dismissable means the alert can be temporarily closed by the user." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
       </div>
       <!--<select class="custom-select w-50 border border-dark" id="dmoption" name="dmoption" onchange=generateAlertCode()>
       <option value="dismissable" selected>Dismissable</option>
@@ -527,16 +536,16 @@ function getHistoryI(index,history){
     </div>
     </div>
   </div>
-            <div class="col-lg mt-2">
+            <div class="col-lg">
              <div class="sticky-top" style="top:100px;">
-              <h5 class="font-weight-bold">Preview<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A live preview of your element will appear below as you update your preferences for your alert." class="small hideableinstruct text-success font-weight-normal">&nbsp;| Hover for help</span></h5>
+              <h5 class="font-weight-bold">Preview<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="A live preview of your element will appear below as you update your preferences for your alert." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
               
                 <div id="demo"></div>
                 <p class="my-3"></p>
-   <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click the copy code button below once you have finished creating your alert." class="hideableinstruct text-success font-weight-normal small">&nbsp;| Hover for help</span></h5>
+   <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click the copy code button below once you have finished creating your alert, ready for pasting into Moodle." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></h5>
    
    <textarea readonly class="border border-dark rounded p-2 w-100" id="monAlertCode" cols="70" rows="4" name="Result" placeholder="Code for your element will appear here."></textarea>  
-        <input type="button" class="btn btn-mu btn-block btn-lg my-2 text-center" name="GenerateWrap" value="Copy code </>" onClick=copyCode() id="copyCodeBtn" data-toggle="tooltip" data-placement="left" data-trigger="click focus" title="Your code has been copied." />
+        <input type="button" class="btn btn-success btn-block btn-lg my-2 text-center" name="GenerateWrap" value="Copy code </>" onClick=copyCode() id="copyCodeBtn" data-toggle="tooltip" data-placement="left" data-trigger="click focus" title="Your code has been copied." />
         <div class="text-center h5 mt-4">
           <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
           <div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
