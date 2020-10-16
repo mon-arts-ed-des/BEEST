@@ -4,6 +4,7 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152392632-3"></script>
 <script src="js/pageHistory.js"></script>
+<script src="js/helperFunctions.js"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -40,6 +41,52 @@
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
 	  <script src="js/advancedModeLocalStorage.js"></script>
     <script type="text/javascript">
+/*REQUIRED FOR HISTORY*/    
+	const BUTTON_HIST = "history_button"
+	var localStorageHistory = BUTTON_HIST
+	var classButton = null
+	
+	$(document).ready(function(){initHistory()})
+	
+	class button{
+		constructor(content,destination,buttonSize,icon,colour,width,newWindow,alignment){
+			this.mainHead = content
+			this.destination = destination
+			this.buttonSize = buttonSize
+			this.icon = icon
+			this.colour = colour
+			this.width = width
+			this.newWindow = newWindow
+			this.alignment = alignment
+		}
+		toPDO(){
+			var result = {}
+			result.destination = this.destination
+			result.mainHead = this.mainHead
+			result.buttonSize = this.buttonSize
+			result.icon = this.icon
+			result.colour = this.colour
+			result.width = this.width
+			result.newWindow = this.newWindow
+			result.alignment = this.alignment
+			return result
+		}	
+		toString(){
+			return JSON.stringify(this.toPDO())
+		}
+		fromObj(PDO){
+			this.mainHead = PDO.mainHead
+			this.destination = PDO.destination
+			this.buttonSize = PDO.buttonSize
+			this.icon = PDO.icon
+			this.colour = PDO.colour
+			this.width = PDO.width
+			this.newWindow = PDO.newWindow
+			this.alignment = PDO.alignment
+		}
+	}
+/*END REQUIRED FOR HISTORY*/
+
     function getRadioOption(id){
         return $('div #'+id).find('input[name="'+id+'"]:checked').val();
       }
@@ -214,6 +261,9 @@
         }
 
     function copyCode(){
+		/*REQUIRED FOR HISTORY*/	  
+		addToHistory(classButton)
+		/*END REQUIRED FOR HISTORY*/
       SelectAll("txtareaBtn");
     }
         
@@ -249,6 +299,28 @@
     
     var btnSW_1="\">"
     var btnSW_2="</a></p></div>"
+
+/*REQUIRED FOR HISTORY*/
+function setTextAreas(classData){
+	getId("alertHeading").value = classData.mainHead
+	setRadios("headSize",classData.headSize)
+	setRadios("alertColour",classData.colour)
+	setRadios("faCode",classData.icon)
+	setRadios("dmoption",classData.permanent)
+	setTinyContent("tinyMCEalert",classData.content)
+}
+
+function getHistoryI(index,history){
+	if (history.length>0){
+		var selectedItem = history[index]
+		classButton = new button()
+		classButton.fromObj(selectedItem)
+		refToClassButton = classButton
+		setTextAreas(refToClassButton)
+		generateAlertCode()
+	}
+}
+/*END REQUIRED FOR HISTORY*/
 
     </script>
     <script>   

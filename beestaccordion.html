@@ -56,6 +56,7 @@
       });
 /*REQUIRED FOR HISTORY*/	
 	const ACCORD_HIST = "history_accordion"
+	var localStorageHistory = ACCORD_HIST
 /*END REQUIRED FOR HISTORY*/	
 	const COUNTER_ID = "accordCounter"
 	const absoluteMaxAccord = 10;
@@ -541,13 +542,6 @@ class accordion{
 
 }
 /*REQUIRED FOR HISTORY*/
-function getHistory(){
-	return localStorage.getItem(ACCORD_HIST)
-}
-function setHistory(value){
-	localStorage.setItem(ACCORD_HIST,value)
-}
-
 function getHistoryI(index,history){
 	var selectedAccordion = history[index]
 	classAccord = new accordion()

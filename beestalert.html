@@ -12,6 +12,8 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152392632-3"></script>
 <script src="js/pageHistory.js"></script>
+<script src="js/helperFunctions.js"></script>
+
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -59,6 +61,7 @@
 	const PLACEHOLDER = "[Placeholder for alert context. The content you entered in step 1 will appear here.]"
 /*REQUIRED FOR HISTORY*/    
 	const ALERT_HIST = "history_alert"
+	localStorageHistory = ALERT_HIST
 	var classAlert = null
 	
 	$(document).ready(function(){initHistory()})
@@ -152,37 +155,7 @@
 
     var alertCode;
 
-	function getRadioOption(id){
-		return $('div #'+id).find('input[name="'+id+'"]:checked').val()
-	}
 	
-	function setRadios(id,selectedIndex){
-		selectedIndex = selectedIndex * 1 //type cast as number
-		$('div #'+id).find('input[name="'+id+'"]').each(function(index,value){
-			if ((index+1) == selectedIndex){
-				$(this).prop("checked",true)
-			}
-			else{
-				$(this).prop("checked",false)
-			}
-		});
-	}
-	
-	function setTinyContent(id,value){
-		tiny = tinyMCE.get(id)
-		tiny.setContent(value)
-	}
-	function getTinyContent(id,placeholder){
-		var tiny = tinyMCE.get(id).getContent()
-		if (tiny !== "") {
-            content = tiny;
-        } else {
-            content = placeholder;
-        }
-		return content
-	}
-	function getId(id){return document.getElementById(id)}
-
     function generateAlertCode() {
         // Get the HTML contents of the currently active editor
         console.debug(tinyMCE.activeEditor.getContent());
@@ -273,12 +246,6 @@
     });
 	
 	/*REQUIRED FOR HISTORY*/
-function getHistory(){
-	return localStorage.getItem(ALERT_HIST)
-}
-function setHistory(value){
-	localStorage.setItem(ALERT_HIST,value)
-}
 
 function setTextAreas(classData){
 	getId("alertHeading").value = classData.mainHead

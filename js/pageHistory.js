@@ -3,6 +3,13 @@ const UNSELECTED = "Select the item you wish to load..."
 var historicalData = null
 var histIndex = null;
 
+function getHistory(){
+	return localStorage.getItem(localStorageHistory)
+}
+function setHistory(value){
+	localStorage.setItem(localStorageHistory,value)
+}
+
 function initHistory(){
 	historicalData = recoverHistory();
 	if (historicalData == null){
