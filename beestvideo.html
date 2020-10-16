@@ -93,44 +93,10 @@
       function writeinMoodle() {
       tinyMCE.get('#id_introeditor').setContent(textOutput);
        }
-    
-      function iconpreview() {
-        var faIcon = document.getElementById('faCode').value;
-        var iconNames = {
-			      "1":"video-camera",
-            "2":"play",
-            "3":"eye" 
-        }
 
-        var iconName = iconNames[faIcon];
-	     	var faIconCode = "<i id=\"icon\" class=\"fa fa-"+iconName+"\"></i> ";
-		
-        if (faIcon == "noI"){
-          faIconCode = "";
-          if (document.getElementById("icon"))
-           {
-            var icon = document.getElementById("icon");
-            icon.parentNode.removeChild(icon);
-            var iconpreview = document.getElementById("iconpreview");
-            iconpreview.style.display = "none";
-           }
-        }
-
-        else{
-          if (document.getElementById("icon"))
-          {
-            var icon = document.getElementById("icon");
-            icon.parentNode.removeChild(icon);
-          }
-
-        var code = document.createElement("span");
-        code.innerHTML = faIconCode;
-        var iconpreview = document.getElementById("iconpreview");
-        iconpreview.style.display = "block";
-        iconpreview.parentNode.insertBefore(code,iconpreview.nextSibling);
-        }
-        generateCode();
-      }
+       function getRadioOption(id){
+		return $('div #'+id).find('input[name="'+id+'"]:checked').val()
+	}
 	
     /*Function to generate and copy code for the responsive videos*/
     function generateCode() {
@@ -149,10 +115,10 @@
 
         var vidHeading = document.getElementById('respVidHeading').value;
         var respLink = document.getElementById('respVidSwitch').value;
-        var vPosition = document.getElementById('videoPosition').value;
-        var vWidth = document.getElementById('videoWidth').value;
-        var headSize = document.getElementById('headSize').value;
-        var faIcon = document.getElementById('faCode').value;
+        var vPosition = getRadioOption('videoPosition')
+        var vWidth = getRadioOption('videoWidth');
+        var headSize = getRadioOption('headSize');
+        var faIcon = getRadioOption('faCode');
         var head_3="<div id=\"heading\"><h3>"
         var endHead_3="</h3></div>"
         var head_4="<div id=\"heading\"><h4>"
@@ -182,7 +148,7 @@
         var iconName = iconNames[faIcon];
     		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
 		
-        if (faIcon == "noI"){
+        if (faIcon == null){
           faIconCode = "";
         }
 		
@@ -449,12 +415,16 @@
   font-size: 1.05rem;
   max-width: 480px;
 }
+.modal-backdrop {
+      z-index: 0 !important;
+    }
     </style> 
     </head>
 <body>
   <div id="beestNav"></div>
-<div class="container-fluid mt-5">
-<h3 class="text-center pt-5"><i class="fa fa-video-camera"></i> Responsive video + context <span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="This page takes a video URL, text input and other choices and combines them to make a video that is responsive across device sizes. Resize your screen to see the effect on the Preview placeholder video. Once the screen is small enough the text/video will collapse under one another on small devices for optimal use." class="hideableinstruct text-success font-weight-bold">| What does this page do?</span></h3>
+  <div class="py-5"></div>
+<div class="container-fluid">
+<h3 class="text-center font-weight-bold">Responsive video + context <span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="This page takes a video URL, text input and other choices and combines them to make a video that is responsive across device sizes. Resize your screen to see the effect on the Preview placeholder video. Once the screen is small enough the text/video will collapse under one another on small devices for optimal use." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h3>
 <h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".respVidWalkthrough" href="">Create a responsive video walkthrough (5:55)</a></h5>
   <div class="modal fade respVidWalkthrough" tabindex="-1" role="dialog" aria-labelledby="panopto-modal" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -474,17 +444,41 @@
           <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-danger btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
         </div>
         <div class="col-lg">
-          <button data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-success btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
+          <button data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" id="toggleHelp" class="btn btn-success btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
         </div></div>
         <hr class="hr2">
 <form id="respVid">  
-  <div class="row w-100 mb-3 mx-auto">
-    <div class="col-lg-6 mt-2">
-      <div>
-        <h5 data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your video.">Step 0 - Copy generated code from Moodle <span class="hideableinstruct text-success font-weight-bold">| Help</span></h5>
-        <textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Copy the generated code from Moodle and paste it here" onchange=recoverCode()></textarea>
-
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your video.">Step 1 - Link <span class="hideableinstruct text-success font-weight-bold">| Help</span></h5>
+  <div class="row w-100 mx-auto">
+    <div class="col-lg-6">
+      <div class="row w-100 mx-auto">
+        <div class="col-lg-3"> 
+          <h5 class="font-weight-bold">Recover past data<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Recover recently created items. This will only become operational once you have created at least one alert. If you change browsers or clear your browser history, you will lose this history as well." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+        </div>
+        <div class="col-lg-8">
+          <select class="custom-select border border-dark" size="1" id="recoveryDate" onchange="idSelectedRecData()">
+            <option selected value=0>please wait</option>
+            </select>
+          </div>
+          <div class="col-lg-1 text-center">
+            <button id="delHist" onclick="delHistI()" type="button" class="btn btn-danger mr-2" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Delete the currently selected historical data."><i class="fa fa-fw fa-trash"></i></button>
+            <button id="loadHist" onclick="getHistoryI(histIndex,historicalData)" class="btn btn-mu d-none">Recover <i class="fa fa-fw fa-undo"></i></button>
+        </div>
+      </div>
+      <hr>
+      <div class="row w-100 mx-auto">
+        <div class="col-lg-3">
+        <h5 class="font-weight-bold">Paste code from Moodle<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Paste in the code you previously generated from BEEST and pasted into Moodle to recover and redesign the element." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+      </div>
+      <div class="col-lg">
+        <textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Copy previously generated BEEST code from Moodle and paste it here" onchange=recoverCode()></textarea>
+      </div>
+    </div>
+    <hr>
+    <div class="row w-100 mx-auto">
+      <div class="col-lg-3">
+        <h5 class="font-weight-bold">Video link<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your video." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+      </div>
+      <div class="col-lg">
         <div class="hideableinstruct"><strong>Which video link do you need?</strong> Walkthroughs (30 secs approx.) - <a data-toggle="modal" data-target=".panopto-modal" href="">Panopto</a>
           <div class="modal fade panopto-modal" tabindex="-1" role="dialog" aria-labelledby="panopto-modal" aria-hidden="true">
           <div class="modal-dialog modal-lg">
@@ -538,61 +532,130 @@
             </div>
           </div>
         </div> </div>
+        
             <textarea class="rounded p-2 w-100 mt-2" rows="1" name="respVidSwitch" type="text" id="respVidSwitch" placeholder="Paste the Youtube/Panopto/Vimeo/TED Talks video link here" onchange=generateCode()></textarea>
-        <h5 class="mt-2 w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="It's recommended to have a few sentences or dot points explaining what is in the video students are about to watch. This helps in particular when students are reviewing material for assessment.">Step 2 - Context <span class="hideableinstruct text-success font-weight-bold">| Help</span></h5>
+      </div>
+    </div>
+    <hr>
+    <div class="row w-100 mx-auto">
+      <div class="col-lg-3">
+        <h5 class="font-weight-bold">Context<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="It's recommended to have a few sentences or dot points explaining what is in the video students are about to watch. This helps in particular when students are reviewing material for assessment." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+        </div>
+        <div class="col-lg">
             <textarea id="tinyMCEvideo" class="border border-dark rounded p-2 w-100" cols="70" rows="3" name="respVid_context" onchange=generateCode()></textarea>
       </div>
-        <div class="row w-100">
-          <div class="col-lg mt-2 pr-0">
-          <h5 class="mt-2" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose which side of screen you would prefer the video to appear by clicking on one of the options below. Video on the right is selected by default.">Step 3 - Position <span class="hideableinstruct text-success font-weight-bold">| Help</span></h5>
-              <select class="custom-select w-100 border border-dark" id="videoPosition" name="videoPosition" size="1" onchange=generateCode()>
+    </div>
+    <hr>
+    <div class="row w-100 mx-auto">
+      <div class="col-lg-3">
+      <h5 class="font-weight-bold">Position <span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose which side of screen you would prefer the video to appear by clicking on one of the options below. Video on the right is selected by default." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+      </div>
+      <div class="col-lg">
+              <!--<select class="custom-select w-100 border border-dark" id="videoPosition" name="videoPosition" size="1" onchange=generateCode()>
                 <option value="right" selected>Video on the right</option>
                 <option value="left">Video on the left</option>
-              </select>
+              </select>-->
+              <div class="form-check form-check-inline" id="videoPosition" onchange=generateCode()>
+                <input class="form-check-input" name="videoPosition" id="videoPosition1" type="radio" value="left">
+                <label class="form-check-label" for="videoPosition1">Left</label>
+              </div>
+              <div class="form-check form-check-inline" id="videoPosition" onchange=generateCode()>
+              <input class="form-check-input" name="videoPosition" id="videoPosition2" type="radio" value="right" checked>
+              <label class="form-check-label" for="videoPosition2">Right</label>
+              </div>
           </div>
-          <div class="col-lg mt-2 pr-0">
-          <h5 class="mt-2" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose whether you want the video to be 50% (1/2) of the screen width or 33.3% (1/3) of the screen width.">Step 4 - Width <span class="hideableinstruct text-success font-weight-bold">| Help</span></h5>
-              <select class="custom-select w-100 border border-dark" id="videoWidth" name="videoWidth" size="1" onchange=generateCode()>
+        </div>
+        <hr>
+        <div class="row w-100 mx-auto">
+          <div class="col-lg-3">
+          <h5 class="font-weight-bold">Width <span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose whether you want the video to be 50% (1/2) of the screen width or 33.3% (1/3) of the screen width." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+          </div>
+          <div class="col-lg">
+              <!--<select class="custom-select w-100 border border-dark" id="videoWidth" name="videoWidth" size="1" onchange=generateCode()>
                   <option value="50" selected>50% (1/2)</option>
                   <option value="33">33.3% (1/3)</option>
-              </select>
+              </select>-->
+              <div class="form-check form-check-inline" id="videoWidth" onchange=generateCode()>
+                <input class="form-check-input" name="videoWidth" id="videoWidth1" type="radio" value="50" checked>
+                <label class="form-check-label" for="videoWidth1">50% (1/2 of the screen width)</label>
+              </div>
+              <div class="form-check form-check-inline" id="videoWidth" onchange=generateCode()>
+              <input class="form-check-input" name="videoWidth" id="videoWidth2" type="radio" value="33">
+              <label class="form-check-label" for="videoWidth2">33.3% (1/3 of the screen width)</label>
+              </div>
           </div>
         </div> 
-        <div class="w-100 mt-3">
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type a heading for this video. 75 character maximum. This will site above the video and context. If you want an icon to display you must also type a heading.">Step 5 - Heading (optional) <span class="hideableinstruct text-success font-weight-bold">| Help</span></h5>
+        <hr>
+        <div class="row w-100 mx-auto">
+          <div class="col-lg-3">
+        <h5 class="font-weight-bold">Heading<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type a heading for this video. 75 character maximum. This will site above the video and context. If you want an icon to display you must also type a heading." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+          </div>
+          <div class="col-lg">
             <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="respVid_heading" type="text" id="respVidHeading" placeholder="Type your video heading here" onchange=generateCode()></textarea>
+          </div>
         </div>
-      <div class="row w-100">
-      <div class="col-lg mt-2 pr-0">
-      <h5 class="w-100" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading.">Step 6 - Heading size (optional) <span class="hideableinstruct text-success font-weight-bold">| Help</span></h5>
-            <select class="custom-select w-100 border border-dark" id="headSize" name="headSize" size="1" onchange=generateCode()>
+        <hr>
+        <div class="row w-100 mx-auto">
+          <div class="col-lg-3">
+      <h5 class="font-weight-bold">Heading size<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose the size of your heading. Will default to small on entering a heading above" class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+          </div>
+          <div class="col-lg">
+            <!--<select class="custom-select w-100 border border-dark" id="headSize" name="headSize" size="1" onchange=generateCode()>
             <option selected value="h5">Small (heading 5)</option>
             <option value="h4">Medium (heading 4)</option>
             <option value="h3">Large (heading 3)</option>
-          </select>
-          </div>    
-
-          <div class="col-lg mt-2 pr-0">
-            <h5 class="w-100" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. If you choose an icon without typing a heading, it will not display">Step 7 - Heading icon (optional) <span class="hideableinstruct text-success font-weight-bold">| Help</span></h5>
-            <select class="custom-select w-100 border border-dark" id="faCode" name="faCode" size="1" onchange=generateCode()>
+          </select>-->
+          <div class="form-check form-check-inline" id="headSize" onchange=generateCode()>
+            <input class="form-check-input" name="headSize" id="headSize1" type="radio" value="h5">
+            <label class="form-check-label" for="headSize1"><h5>Small</h5></label>
+          </div>
+          <div class="form-check form-check-inline" id="headSize" onchange=generateCode()>
+          <input class="form-check-input" name="headSize" id="headSize2" type="radio" value="h4">
+          <label class="form-check-label" for="headSize2"><h4>Medium</h4></label>
+          </div>
+          <div class="form-check form-check-inline" id="headSize" onchange=generateCode()>
+          <input class="form-check-input" name="headSize" id="headSize3" type="radio" value="h3">
+          <label class="form-check-label" for="headSize3"><h3>Large</h3></label>
+        </div>
+      </div>
+    </div>   
+    <hr>
+    <div class="row w-100 mx-auto">
+      <div class="col-lg-3">
+            <h5 class="font-weight-bold">Heading icon<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose an icon to go with your heading. If you choose an icon without typing a heading, it will not display" class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+      </div>
+      <div class="col-lg">
+            <!--<select class="custom-select w-100 border border-dark" id="faCode" name="faCode" size="1" onchange=generateCode()>
               <option selected value="noI">No icon</option>
                 <option value="1">Video Camera</option>
                 <option value="2">Play</option>
                 <option value="3">Eye</option>
-              </select>
+              </select>-->
+              <div class="form-check form-check-inline" id="faCode" onchange=generateCode()>
+                <input class="form-check-input" name="faCode" id="faCode2" type="radio" value="1">
+                <label class="form-check-label" for="faCode2"><i class="fa fa-exclamation-circle fa-2x"></i></label>
+              </div>
+              <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateCode()>
+              <input class="form-check-input" name="faCode" id="faCode3" type="radio" value="2">
+              <label class="form-check-label" for="faCode3"><i class="fa fa-info-circle fa-2x"></i></label>
+              </div>
+              <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateCode()>
+              <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="3">
+              <label class="form-check-label" for="faCode4"><i class="fa fa-question-circle fa-2x"></i></label>
+            </div>
             </div>
           </div>
-              </div>   
-              <div id="previewDiv" class="col-lg-6 mt-2">
-              <div id="preview">
-                <h5 data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below as you update steps 1-7.">Preview <span class="hideableinstruct text-success font-weight-bold">| Help</span></h5>
+            <hr>
+        </div>
+              <div class="col-lg-6">
+              <div class="sticky-top" style="top:100px;">
+                <h5 class="font-weight-bold">Preview<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="A live preview will update here as you update your preferences on the page for your video element." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
                 <div id="demo" class="mt-2">    
                 </div>
-              </div>
-              <div class="mt-2">
-                <h5 id="copy" class="w-100 mt-5" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Preview as you update your preferences for the element.">Step 8 - Copy code <span class="hideableinstruct text-success font-weight-bold">| Help</span> <span class="hideableinstruct"></h5></span>   
+             
+              <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click the copy code button below once you have finished building your video element, ready to paste into Moodle." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>  
                 <textarea readonly class="rounded p-2 w-100 mt-2" id="txtarearespVid" cols="70" rows="6" name="Result" placeholder="Code for your element will appear here"></textarea>  
-                     <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied" type="button" class="btn btn-mu btn-block btn-lg m-1" id="copyCodeBtn" name="GenerateWrap" value="Copy your code </>" onClick=copyCode() >
+                     <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied" type="button" class="btn btn-success btn-block btn-lg my-2" id="copyCodeBtn" name="GenerateWrap" id="copyCodeBtn" value="Copy your code </>" onClick=copyCode() >
                         <div class="text-center mt-4 h5"><a data-toggle="modal" data-target=".html-paste-modal" href="">How do I paste this into Moodle</a>
                   <div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
@@ -606,7 +669,9 @@
                       <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe></div>
                       </div>
                     </div>
-                  </div></div>
+                  </div>
+                </div>
+              </div>
                           <!--<input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Display in Moodle" onClick=writeinMoodle() ></p>-->
                         
                 </div>
@@ -689,19 +754,6 @@
 			}
 			//$('input[type="text"], textarea#respVidSwitch').attr('readonly','readonly');
 		}); 
-      var textarea = $('#respVidHeading');
-      var select = $('#headSize');
-      var addOrRemoveRequiredAttribute = function () {
-      if (textarea.val().length) {
-        select.val("h5")
-      }
-};
-
-// Run now
-addOrRemoveRequiredAttribute();
-
-// And when textarea changes
-textarea.on('change', addOrRemoveRequiredAttribute);
       </script>
 <script>
 $(function () {
@@ -716,9 +768,30 @@ $(function () {
     $('#copyCodeBtn').on('shown.bs.tooltip', function (e) {
        setTimeout(function () {
          $(e.target).tooltip('hide');
-       }, 2000);
+       }, 2500);
     });
   });</script>
+  <script>
+    $(function () {
+      $('#toggleHelp').on('shown.bs.tooltip', function (e) {
+         setTimeout(function () {
+           $(e.target).tooltip('hide');
+         }, 2500);
+      });
+    });</script>
+    <script>
+      var textarea = $("#respVidHeading");
+            var radioBtn = $("#headSize1");
+            var checkRadio = function(){
+                if (textarea.val()!="") {
+                  $("#headSize1").prop("checked", true);
+                  generateCode();
+                };
+            };
+            // Run now
+            // And when textarea changes
+            textarea.on("change", checkRadio);
+            </script>
         <div id="beestFooter"></div>
         </body>
         </html>
