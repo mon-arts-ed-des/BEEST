@@ -13,6 +13,13 @@ function getRadioOption(id){
 			}
 		});
 	}
+
+	function getCheckBox(id){
+		return $("#"+id)[0].checked
+	}
+	function setCheckBox(id,isChecked){
+		$("#"+id).prop("checked",isChecked)
+	}
 	
 	function setTinyContent(id,value){
 		tiny = tinyMCE.get(id)

@@ -49,12 +49,13 @@
 	$(document).ready(function(){initHistory()})
 	
 	class button{
-		constructor(content,destination,buttonSize,icon,colour,width,newWindow,alignment){
+		constructor(content,destination,buttonSize,icon,colour,width,newWindow,alignment,invert){
 			this.mainHead = content
 			this.destination = destination
 			this.buttonSize = buttonSize
 			this.icon = icon
 			this.colour = colour
+			this.invert = invert
 			this.width = width
 			this.newWindow = newWindow
 			this.alignment = alignment
@@ -69,6 +70,7 @@
 			result.width = this.width
 			result.newWindow = this.newWindow
 			result.alignment = this.alignment
+			result.invert = this.invert
 			return result
 		}	
 		toString(){
@@ -83,19 +85,13 @@
 			this.width = PDO.width
 			this.newWindow = PDO.newWindow
 			this.alignment = PDO.alignment
+			this.invert = PDO.invert
+
 		}
 	}
 /*END REQUIRED FOR HISTORY*/
 
-    function getRadioOption(id){
-        return $('div #'+id).find('input[name="'+id+'"]:checked').val();
-      }
-	function getCheckBox(id){
-		return $("#"+id)[0].checked
-	}
-	function setCheckBox(id,isChecked){
-		$("#"+id).prop("checked",isChecked)
-	}
+
 
     function generateBtnCode() {
         //Retrieve the content by id of the textareas
@@ -253,7 +249,9 @@
 				alert("button target option chosen not covered by 'generateBtnCode()'")
 			break;
 		}
-             
+           
+
+		classButton = new button(btn_text,btn_URL,bsBtnSize,faIcon,bsColour,fullWidth,btnTarget,btnAlign,invertColour);
         document.getElementById('txtareaBtn').value=textOutput;
         //SelectAll("txtareaBtn");
         $('#demo').next('div').remove();
@@ -302,13 +300,20 @@
 
 /*REQUIRED FOR HISTORY*/
 function setTextAreas(classData){
-	getId("alertHeading").value = classData.mainHead
-	setRadios("headSize",classData.headSize)
-	setRadios("alertColour",classData.colour)
+	getId("btn_URL").value = classData.destination
+	getId("btn_text").value = classData.mainHead
 	setRadios("faCode",classData.icon)
-	setRadios("dmoption",classData.permanent)
-	setTinyContent("tinyMCEalert",classData.content)
+	setRadios("btnColour",classData.colour)
+	setRadios("invertColour",classData.invert)
+	setRadios("buttonTarget",classData.newWindow)
+	setRadios("buttonSize",classData.buttonSize)
+	setRadios("buttonAlign",classData.alignment)
+	setCheckBox("fullWidth2",classData.width)
+
 }
+/*
+
+*/
 
 function getHistoryI(index,history){
 	if (history.length>0){
