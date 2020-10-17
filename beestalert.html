@@ -115,41 +115,6 @@
 		SelectAll("monAlertCode");
     }
 
-    function iconpreview() {
-        var faIcon = document.getElementById("faCode").value;
-        var iconNames = {
-            "1": "exclamation-circle",
-            "2": "info-circle",
-            "3": "question-circle",
-        };
-
-        var iconName = iconNames[faIcon];
-        var faIconCode = '<i id="icon" class="fa fa-' + iconName + '"></i> ';
-
-		var getIcon = document.getElementById("icon")
-        if (faIcon == "noI") {
-            faIconCode = "";
-            if (getIcon) {
-                var icon = getIcon;
-                icon.parentNode.removeChild(icon);
-                var iconpreview = document.getElementById("iconpreview");
-                iconpreview.style.display = "none";
-            }
-        } else {
-            if (getIcon) {
-                var icon = getIcon;
-                icon.parentNode.removeChild(icon);
-            }
-
-            var code = document.createElement("span");
-            code.innerHTML = faIconCode;
-            var iconpreview = document.getElementById("iconpreview");
-            iconpreview.style.display = "block";
-            iconpreview.parentNode.insertBefore(code, iconpreview.nextSibling);
-        }
-        generateAlertCode();
-    }
-
     var alertCode;
 
 	function getRadioOption(id){
@@ -473,8 +438,8 @@ function getHistoryI(index,history){
                 <option value="7">Black</option>
                 <option value="8">Grey</option>
               </select>-->
-              <div class="row w-100 mb-0">
-                <div class="col-lg mb-0">
+              <div class="row w-100">
+                <div class="col-lg">
               <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateAlertCode()>
                 <input class="form-check-input" name="alertColour" id="alertColour1" type="radio" value="1" checked>
                 <label class="form-check-label alert alert-mu rounded my-auto" for="alertColour1">Monash blue</label>
@@ -592,14 +557,14 @@ function getHistoryI(index,history){
                 $('#copyCodeBtn').on('click', function (e) {
                    setTimeout(function () {
                      $(e.target).tooltip('hide');
-                   }, 2000);
+                   }, 2500);
                 });
               });
               $(function () {
                 $('#toggleHelp').on('click', function (e) {
                    setTimeout(function () {
                      $(e.target).tooltip('hide');
-                   }, 2000);
+                   }, 2500);
                 });
               });
               </script>
