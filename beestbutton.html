@@ -3,6 +3,7 @@
 <head>
   <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152392632-3"></script>
+<script src="js/pageHistory.js"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -42,6 +43,12 @@
     function getRadioOption(id){
         return $('div #'+id).find('input[name="'+id+'"]:checked').val();
       }
+	function getCheckBox(id){
+		return $("#"+id)[0].checked
+	}
+	function setCheckBox(id,isChecked){
+		$("#"+id).prop("checked",isChecked)
+	}
 
     function generateBtnCode() {
         //Retrieve the content by id of the textareas
@@ -77,9 +84,16 @@
            "10":"link"
         }
 
-        var iconName = iconNames[faIcon];
-        var faIconCode = ' <i class="fa fa-' + iconName + '"></i> ';
-
+		var iconName;
+		var faIconCode;
+		if (faIcon==undefined){
+			faIconCode = ""
+		}
+		else{
+			iconName = iconNames[faIcon];
+			faIconCode = ' <i class="fa fa-' + iconName + '"></i> ';
+		}
+        
         var buttonSize = {
           "1":" btn-sm ",
           "2":" ",
@@ -88,20 +102,20 @@
           "2y":" btn-block ",
           "3y":" btn-lg btn-block "
         }
+		var buttonSpan = ['#btnSmall','#btnRegular','#btnLarge']
 
-        var fullWidth = getRadioOption("fullWidth");
-        if (fullWidth == "y"){
-          bsBtnSize = bsBtnSize + "y";
-          $('#btnSmall').addClass('btn-block');
-          $('#btnRegular').addClass('btn-block');
-          $('#btnLarge').addClass('btn-block');
+        var fullWidth = getCheckBox("fullWidth2");
+        if (fullWidth){
+          for (var _buttonSize of buttonSpan){
+			$(_buttonSize).addClass('btn-block');
+		  }
+		  bsBtnSize = bsBtnSize + "y";
           $('#alignment').hide();
-          
         }
-        else if (fullWidth == "n"){
-          $('#btnSmall').removeClass('btn-block');
-          $('#btnRegular').removeClass('btn-block');
-          $('#btnLarge').removeClass('btn-block');
+        else {
+          for (var _buttonSize of buttonSpan){
+			$(_buttonSize).removeClass('btn-block');
+		  }
           $('#alignment').show();
         }
 
@@ -558,15 +572,10 @@
       <div class="col-lg">
         <div class="row w-100 mt-2">
           <div class="col-lg">
-            <div class="form-check form-check-inline" id="fullWidth" onchange=generateBtnCode()>
-              <input class="form-check-input" name="fullWidth" id="fullWidth2" type="radio" value="n" checked>
-              <label class="form-check-label" for="fullWidth2">Regular width</label>
-              </div>
-            <div class="form-check form-check-inline" id="fullWidth" onchange=generateBtnCode()>
-              <input class="form-check-input" name="fullWidth" id="fullWidth1" type="radio" value="y">
-              <label class="form-check-label" for="fullWidth1">Full width</label>
-            </div>
-            
+            <div class="form-check form-check-inline" id="fullWidth">
+              <input class="form-check-input" name="fullWidth" id="fullWidth2" type="checkbox" onchange=generateBtnCode()>
+              <label class="form-check-label" for="fullWidth2">full width</label>
+              </div>            
         </div>
       </div>
     </div>

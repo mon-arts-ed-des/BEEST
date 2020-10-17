@@ -165,8 +165,15 @@
             "2": "info-circle",
             "3": "question-circle",
         }
-        var iconName = iconNames[faIcon];
-        var faIconCode = '<i class="fa fa-' + iconName + '"></i> ';
+		var iconName;
+		var faIconCode;
+		if (faIcon==undefined){
+			faIconCode = ""
+		}
+		else{
+			iconName = iconNames[faIcon];
+			faIconCode = ' <i class="fa fa-' + iconName + '"></i> ';
+		}
         var colourNames = {
             "1": "mu",
             "2": "danger",
