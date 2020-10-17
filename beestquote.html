@@ -168,9 +168,6 @@
   font-size: 1.05rem;
   max-width: 480px;
 }
-/*.modal-backdrop {
-      z-index: 0 !important;
-    }*/
     </style> 
     </head>
     <body>
@@ -179,6 +176,8 @@
 <div class="container-fluid">
   <h3 class="text-center font-weight-bold">Quote <span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Quotes are alerts that are formatted with Font Awesome quotation icons, and can be used to emphasize an important quote from a reading or video." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h3>
   <h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".quoteWalkthrough" href="">Create a quote (1:30)</a></h5>
+  <!--All modals for the page must go towards to the top to display correctly-->
+      <!--Quote walkthrough modal-->
       <div class="modal fade quoteWalkthrough" tabindex="-1" role="dialog" aria-labelledby="quote-modal" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content p-2 bg-dark">
@@ -192,6 +191,7 @@
         </div>
       </div>
     </div>
+        <!--How to paste HTML in Moodle modal-->
     <div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="html-paste-modal" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content p-2 bg-dark">
@@ -206,6 +206,7 @@
         </div>
       </div>
     </div>
+    <!--End of modals for this page-->
       <div class="row w-50 mx-auto text-center mt-3">	  
         <div class="col-lg">
               <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-danger btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
