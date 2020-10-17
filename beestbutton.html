@@ -108,6 +108,8 @@
         if (fullWidth){
           for (var _buttonSize of buttonSpan){
 			$(_buttonSize).addClass('btn-block');
+      $('#buttonSize label').addClass('w-100');
+      $('#buttonSize .btn').addClass('btn-block');
 		  }
 		  bsBtnSize = bsBtnSize + "y";
           $('#alignment').hide();
@@ -115,6 +117,8 @@
         else {
           for (var _buttonSize of buttonSpan){
 			$(_buttonSize).removeClass('btn-block');
+      $('#buttonSize label').removeClass('w-100');
+      $('#buttonSize .btn').removeClass('btn-block');
 		  }
           $('#alignment').show();
         }
@@ -289,7 +293,7 @@
       <div id="beestNav"></div>
       <div class="py-5"></div>
         <div class="container-fluid">
-            <h3 class="text-center font-weight-bold"><i class="fa fa-fw fa-mouse-pointer"></i> Buttons<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Buttons are a great way to draw the user's focus to an important link and differentiate URLs you consider the most important from just simple hyperlinks. Use buttons in a consistent manner with consistent colours and sizes for each purpose. Too many combinations can result in user confusion." class="hideableinstruct text-success font-weight-normal">&nbsp;| What does this page do?</span></h3>
+            <h3 class="text-center font-weight-bold">Buttons<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Buttons are a great way to draw the user's focus to an important link and differentiate URLs you consider the most important from just simple hyperlinks. Use buttons in a consistent manner with consistent colours and sizes for each purpose. Too many combinations can result in user confusion." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h3>
             <h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".btnWalkthrough" href="">Video walkthrough - Creating a button (04:26)</a></h5>
             <div class="modal fade btnWalkthrough" tabindex="-1" role="dialog" aria-labelledby="btn-modal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -313,12 +317,12 @@
                   </div></div>
   <hr class="hr-3">
            <form id="btn">           
-        <div class="row w-100 mx-auto mt-2">
+        <div class="row w-100 mx-auto">
         <div class="col-lg-6">
-          <div class="row w-100">
+          <div class="row w-100 mx-auto">
             <div class="col-lg-3">
-              <h5 class="font-weight-bold">Recover</h5>
-              <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Retrieve your previous button configuration. Only works once you have created at least 1 button. Then the next 20 configurations will be available until you clear your internet browser history or change internet browsers or create more than 20 buttons." class="hideableinstruct text-success">Hover for help</div>
+              <h5 class="font-weight-bold">Recover<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Retrieve your previous button configuration. Only works once you have created at least 1 button. Then the next 20 configurations will be available until you clear your internet browser history or change internet browsers or create more than 20 buttons." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-fw fa-question-circle"></i></h5>
+              
             </div>              
               <div class="col-lg">
                 <div class="row w-100">
@@ -334,35 +338,41 @@
                 <button data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to delete the item you have selected in the dropdown." id="delHist" onclick="delHistI()" type="button" class="btn btn-danger"><i class="fa fa-fw fa-trash"></i></button>     
                 </div>
               </div>
+            </div>
+          </div>
+            <hr>
+            <div class="row w-100 mx-auto">
+              <div class="col-lg-3">
+              <h5 class="font-weight-bold">Paste code from Moodle<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Paste in the code you previously generated from BEEST and pasted into Moodle to recover and redesign the element." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+              </div>
+              <div class="col-lg">
               <textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Or recover it by pasting existing code from Moodle (work in progress)" onchange=recoverCode()></textarea>
           </div>
         </div>
           <hr>
-          <div class="row w-100">
+          <div class="row w-100 mx-auto">
             <div class="col-lg-3">
-          <h5 class="font-weight-bold">Paste destination</h5>
-          <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Paste in the link/URL for your button. This is where users will be directed to when clicking the button." class="hideableinstruct text-success">Hover for help</div>
+          <h5 class="font-weight-bold">Destination<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Paste in the link/URL for your button. This is where users will be directed to when clicking the button." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+          
             </div>
             <div class="col-lg">
               <textarea class="border border-dark rounded p-2 w-100" rows="1" id="btn_URL" name="btn_URL" placeholder="Paste your link/URL here" onchange=generateBtnCode()></textarea>
             </div>
           </div>
           <hr>
-          <div class="row w-100">
+          <div class="row w-100 mx-auto">
             <div class="col-lg-3">
-              <h5 class="font-weight-bold">Button text</h5>
-              <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Write the text that will appear on the button. This space is limited to 50 characters." class="hideableinstruct text-success">Hover for help</div>
+              <h5 class="font-weight-bold">Button text<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Write the text that will appear on the button. This space is limited to 50 characters." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>     
             </div>
             <div class="col-lg">
               <textarea maxlength="50" class="border border-dark rounded p-2 w-100" cols="70" rows="1" id="btn_text" name="btn_text" placeholder="Insert button text here. 50 character maximum" onchange=generateBtnCode()></textarea>
             </div>
           </div>
           <hr>
-          <div class="row w-100">
+          <div class="row w-100 mx-auto">
             <div class="col-lg-3">
-              <h5 class="font-weight-bold">Choose icon</h5>
-              <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="If you would like an icon to the right of your button text, choose one from this list." class="hideableinstruct text-success">Hover for help
-              </div>
+              <h5 class="font-weight-bold">Choose icon<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="If you would like an icon to the right of your button text, choose one from this list." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+              
             </div>
             <div class="col-lg">
               <!--<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" onchange=generateBtnCode()>
@@ -425,10 +435,10 @@
       </div>
     </div>
           <hr>
-       <div class="row w-100">
+       <div class="row w-100 mx-auto">
           <div class="col-lg-3">
-          <h5 class="font-weight-bold">Button colour</h5>
-          <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose the colour of your button. Monash blue is selected by default." class="hideableinstruct text-success">Hover for help</div>
+          <h5 class="font-weight-bold">Button colour<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose the colour of your button. Monash blue is selected by default." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+          
         </div>
         <div class="col-lg-9">
           <!--<select class="custom-select w-50 border border-dark" id="btnColour" name="btnColour" onchange=generateBtnCode()>
@@ -504,11 +514,9 @@
     </div>
   </div>
     <hr>
-    <div class="row w-100">
+    <div class="row w-100 mx-auto">
     <div class="col-lg-3"> 
-      <h5 class="font-weight-bold">Invert colours</h5>
-      <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Swap the button colour with the text colour" class="hideableinstruct text-success">Hover for help
-      </div>
+      <h5 class="font-weight-bold">Invert colours<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Swap the button colour with the text colour" class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>      
     </div>
     <div class="col-lg">
           <div class="form-check form-check-inline" id="invertColour" onchange=generateBtnCode()>
@@ -522,10 +530,9 @@
       </div>
     </div>
           <hr>
-          <div class="row w-100">
+          <div class="row w-100 mx-auto">
             <div class="col-lg-3">
-      <h5 class="font-weight-bold">Button size</h5>
-      <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose the size of your button. Regular is chosen by default." class="hideableinstruct text-success">Hover for help</div>
+      <h5 class="font-weight-bold">Button size<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose the size of your button. Regular is chosen by default." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>      
       </div>
       <!--<select class="custom-select w-50 border border-dark" id="buttonSize" name="buttonSize" onchange=generateBtnCode()>
           <option selected value="1">Regular</option>
@@ -536,15 +543,15 @@
           <option value="6">Small + full width of screen</option>
         </select>-->
         <div class="col-lg">
-          <div class="form-check form-check-inline" id="buttonSize" onchange=generateBtnCode()>
+          <div class="form-check" id="buttonSize" onchange=generateBtnCode()>
             <input class="form-check-input" name="buttonSize" id="buttonSize3" type="radio" value="1">
             <label class="form-check-label" for="buttonSize3"><span id="btnSmall" class="btn btn-sm btn-dark">Small</span></label>
           </div>
-        <div class="form-check form-check-inline" id="buttonSize" onchange=generateBtnCode()>
+        <div class="form-check mt-2" id="buttonSize" onchange=generateBtnCode()>
           <input class="form-check-input" name="buttonSize" id="buttonSize1" type="radio" value="2" checked>
           <label class="form-check-label" for="buttonSize1"><span id="btnRegular" class="btn btn-dark">Regular</span></label>
         </div>
-        <div class="form-check form-check-inline" id="buttonSize" onchange=generateBtnCode()>
+        <div class="form-check mt-2" id="buttonSize" onchange=generateBtnCode()>
         <input class="form-check-input" name="buttonSize" id="buttonSize2" type="radio" value="3">
         <label class="form-check-label" for="buttonSize2"><span id="btnLarge" class="btn btn-lg btn-dark">Large</span></label>
         </div>
@@ -563,18 +570,17 @@
       </div>
       </div>
       <hr>
-      <div class="row w-100">
-      <div class="col-lg-3 mt-2">
-        <h5 class="font-weight-bold">Width</h6>
-        <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Increase the button width to full width of screen. Please look to the preview to see how this affects your button." class="hideableinstruct text-success">Hover for help
-        </div>
+      <div class="row w-100 mx-auto">
+      <div class="col-lg-3">
+        <h5 class="font-weight-bold">Width<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Toggle whether to increase the button width to full width of screen." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+        
       </div>
       <div class="col-lg">
-        <div class="row w-100 mt-2">
+        <div class="row w-100">
           <div class="col-lg">
             <div class="form-check form-check-inline" id="fullWidth">
               <input class="form-check-input" name="fullWidth" id="fullWidth2" type="checkbox" onchange=generateBtnCode()>
-              <label class="form-check-label" for="fullWidth2">full width</label>
+              <label class="form-check-label" for="fullWidth2">Full width</label>
               </div>            
         </div>
       </div>
@@ -582,10 +588,9 @@
   </div>
 
       <hr>
-          <div class="row w-100">
+          <div class="row w-100 mx-auto">
         <div class="col-lg-3">
-          <h5 class="font-weight-bold">Open link in</h5>
-          <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose whether to open link in a new window, or the same window users are on. New window is chosen by default." class="hideableinstruct text-success">Hover for help</div>
+          <h5 class="font-weight-bold">Open link in<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose whether to open link in a new window, or the same window users are on. New window is chosen by default." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
       </div>
       <div class="col-lg">
           <!--<select class="custom-select w-50 border border-dark" id="buttonTarget" name="buttonTarget" size="1" onchange=generateBtnCode()>
@@ -603,10 +608,10 @@
             </div>
           </div>  
           <hr>  
-          <div id="alignment" class="row w-100">
+          <div id="alignment" class="row w-100 mx-auto">
             <div class="col-lg-3">
-              <h5 class="font-weight-bold">Alignment</h5>
-              <div data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose whether the button is left or centre-aligned. Left-align is chosen by default." class="hideableinstruct text-success">Hover for help</div>
+              <h5 class="font-weight-bold">Alignment<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose whether the button is left or centre-aligned. Left-align is chosen by default." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+              
               </div>
               <div class="col-lg">
               <!--<select class="custom-select w-50 border border-dark" id="buttonAlign" name="buttonAlign" size="1" onchange=generateBtnCode()>
@@ -627,10 +632,10 @@
                <hr>
                 <div class="col-lg-6">
                   <div class="sticky-top" style="top:100px;">
-                  <h5 class="font-weight-bold">Preview<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below as you update your preferences for your button." class="hideableinstruct text-success"><small>&nbsp;| Hover for help</small></span></h5>
+                  <h5 class="font-weight-bold">Preview<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below as you update your preferences for your button." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
                   <div id="demo"></div>
                   <p class="my-3"></p>
-                <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click the button below to copy your code, ready to paste into Moodle." class="hideableinstruct text-success"><small>&nbsp;| Hover for help</small></span></h5>
+                <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click the button below to copy your code, ready to paste into Moodle." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
                 <textarea readonly class="rounded p-2 w-100 border border-dark" id="txtareaBtn" cols="70" rows="2" name="Result" placeholder="Code for your element will appear here"></textarea>
                 <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." id="copyCodeBtn" class="btn btn-success btn-lg btn-block mt-2" name="GenerateWrap" value="Copy your code </>" OnClick=copyCode() >
                 <div class="text-center h5 mt-4">

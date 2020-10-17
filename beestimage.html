@@ -467,8 +467,10 @@
 	  </nav>
   <div class="py-5"></div>
 <div class="container-fluid">
-<h3 class="text-center"><i class="fa fa-image"></i> Responsive image + context <span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Upload an image from one of the listed platforms and input some context or text around the image. Then choose the size of the image, and which side of the screen you would like it on." class="hideableinstruct text-success font-weight-bold"> | What does this page do?</span></h3>
-<h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".respImgWalkthrough" href="">Create a responsive image & context</a></h5>
+<h3 class="text-center font-weight-bold">Responsive image + context<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Upload an image from one of the listed platforms and input some context or text around the image. Then choose the size of the image, and which side of the screen you would like it on." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></h3>
+<h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".respImgWalkthrough" href="">Create a responsive image & context walkthrough</a></h5>
+<!--Start of modal content-->
+<!--Responsive image walkthrough modal-->
 <div class="modal fade respImgWalkthrough" tabindex="-1" role="dialog" aria-labelledby="panopto-modal" aria-hidden="true">
 <div class="modal-dialog modal-lg">
   <div class="modal-content p-2 bg-dark">
@@ -534,17 +536,15 @@
             </div></li>
         </ul>-->
         <hr class="hr-3">
-  
 <form id="respImg">   
    <div class="row w-100 mx-auto">
     <div class="col-lg-6 mt-2">
     <div class="row w-100 mx-auto">
       <div class="col-lg-3">
-        <h5 class="font-weight-bold">Image link</h5>
-        <div data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your image." class="font-weight-bold text-success hideableinstruct">Hover for help</div>
+        <h5 class="font-weight-bold">Link<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your image." class="small text-success hideableinstruct">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
         </div>
         <div class="col-lg">
-        <p>Find your image from <a href="https://unsplash.com" target="_blank">Unsplash</a>/<a href="https://www.pexels.com" target="_blank">Pexels</a>/<a href="https://stocksnap.io/" target="_blank">StockSnap</a> and paste the URL here</p>
+        <p>Find your image from <a href="https://unsplash.com" target="_blank">Unsplash</a> | <a href="https://www.pexels.com" target="_blank">Pexels</a> | <a href="https://stocksnap.io/" target="_blank">StockSnap</a></p>
         <!--<a data-toggle="modal" data-target=".panopto-modal" href="">search an image here</a>
             <div class="modal fade panopto-modal" tabindex="-1" role="dialog" aria-labelledby="panopto-modal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -586,8 +586,8 @@
           <hr>
     <div class="row w-100 mx-auto">
       <div class="col-lg-3">
-        <h5 class="font-weight-bold">Image context</h5>
-        <div class="font-weight-bold text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Giving the image some context helps users to understand what the image is trying to communicate. Or you can type text you would like to go alongside the image.">Hover for help</div>
+        <h5 class="font-weight-bold">Context<span class="small text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Giving the image some context helps users to understand what the image is trying to communicate. Or you can type text you would like to go alongside the image.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+       
       </div>
       <div class="col-lg">
             <textarea id="tinyMCEimage" class="border border-dark rounded p-2 w-100" cols="70" rows="3" name="respVid_context"></textarea>
@@ -602,8 +602,8 @@
   <hr>
       <div class="row w-100 mx-auto">
         <div class="col-lg-3">
-          <h5 class="font-weight-bold">Image position</h5>
-          <div class="font-weight-bold text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose which side of screen you would prefer the image to appear on.">Hover for help</div>
+          <h5 class="font-weight-bold">Position<span class="small text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose which side of screen you would prefer the image to appear on.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+          
           </div>
           <div class="col-lg">
                 <!--<select class="custom-select border border-dark" id="imagePosition" name="imagePosition" size="1" onchange=generateCode()>
@@ -611,20 +611,20 @@
                 <option value="left">Image on the left</option>
               </select>-->
               <div class="form-check form-check-inline" id="imagePosition" onchange=generateCode()>
-                <input class="form-check-input" name="imagePosition" id="imagePosition1" type="radio" value="right" checked>
-                <label class="form-check-label" for="imagePosition1">Right</label>
-              </div>
-              <div class="form-check form-check-inline" id="imagePosition" onchange=generateCode()>
                 <input class="form-check-input" name="imagePosition" id="imagePosition2" type="radio" value="left">
                 <label class="form-check-label" for="imagePosition2">Left</label>
+              </div>
+              <div class="form-check form-check-inline" id="imagePosition" onchange=generateCode()>
+                <input class="form-check-input" name="imagePosition" id="imagePosition1" type="radio" value="right" checked>
+                <label class="form-check-label" for="imagePosition1">Right</label>
               </div>
               </div> 
             </div> 
 <hr>
             <div class="row w-100 mx-auto">
               <div class="col-lg-3">
-                <h5 class="font-weight-bold">Image width</h5>
-                <div class="font-weight-bold text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose whether you want the image to be 50% (1/2) of the screen width or 33.3% (1/3) of the screen width.">Hover for help</div>
+                <h5 class="font-weight-bold">Image width<span class="small text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose whether you want the image to be 50% (1/2) of the screen width or 33.3% (1/3) of the screen width.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+                
               </div>
               <div class="col-lg">
                       <!--<select class="custom-select border border-dark" id="imageWidth" name="imageWidth" size="1" onchange=generateCode()>
@@ -649,8 +649,7 @@
 <hr>
             <div class="row w-100 mx-auto">
               <div class="col-lg-3">
-                <h5 class="font-weight-bold">Heading</h5>
-                <div class="font-weight-bold text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the heading for this image. 50 character maximum. If you want a heading, you must also complete step 5 or your heading will not display.">Hover for help</div>
+                <h5 class="font-weight-bold">Heading<span class="small text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the heading for this image. 50 character maximum. If you want a heading, you must also complete step 5 or your heading will not display.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
                 </div>
                 <div class="col-lg">
                 <textarea maxlength="50" class="rounded p-2 w-100" rows="1" name="respVid_heading" type="text" id="respImgHeading" placeholder="Type your image heading here" onchange=generateCode()></textarea>
@@ -659,8 +658,8 @@
 <hr>
     <div class="row w-100 mx-auto">
     <div class="col-lg-3">
-      <h5 class="font-weight-bold">Heading size</h5>
-      <div class="font-weight-bold text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. If you do not choose a heading size, your heading will not display.">Hover for help</div>
+      <h5 class="font-weight-bold">Heading size<span class="small text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. If you do not choose a heading size, your heading will not display.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+      
     </div>
     <div class="col-lg">
             <!--<select class="custom-select border border-dark" id="headSize" name="headSize" size="1" onchange=generateCode()>
@@ -671,23 +670,23 @@
           </select>-->
           <div class="form-check form-check-inline" id="headSize" onchange=generateCode()>
             <input class="form-check-input" name="headSize" id="headSize1" type="radio" value="h5">
-            <label class="form-check-label" for="headSize1">Small (heading 5)</label>
+            <label class="form-check-label" for="headSize1"><h5>Small</h5></label>
           </div>
           <div class="form-check form-check-inline" id="headSize" onchange=generateCode()>
             <input class="form-check-input" name="headSize" id="headSize2" type="radio" value="h4">
-            <label class="form-check-label" for="headSize2">Medium (heading 4)</label>
+            <label class="form-check-label" for="headSize2"><h4>Medium</h4></label>
           </div>
           <div class="form-check form-check-inline" id="headSize" onchange=generateCode()>
             <input class="form-check-input" name="headSize" id="headSize3" type="radio" value="h3">
-            <label class="form-check-label" for="headSize3">Large (heading 3)</label>
+            <label class="form-check-label" for="headSize3"><h3>Large</h3></label>
           </div>
           </div> 
         </div>   
         <hr>
         <div class="row w-100 mx-auto">
           <div class="col-lg-3">
-            <h5 class="font-weight-bold">Select heading icon</h5>
-            <div class="font-weight-bold text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. If you want an icon, you must also write a heading and choose a heading size or the icon and heading will not display.">Hover for help</div>
+            <h5 class="font-weight-bold">Heading icon<span class="small text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. If you want an icon, you must also write a heading and choose a heading size or the icon and heading will not display.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+            
             </div>
             <div class="col-lg">
             <!--<select class="custom-select border border-dark" id="faCode" name="faCode" size="1" onchange=generateCode()>
@@ -698,19 +697,19 @@
               </select>-->
               <div class="form-check form-check-inline" id="faCode" onchange=generateCode()>
                 <input class="form-check-input" name="faCode" id="faCode1" type="radio" value="1">
-                <label class="form-check-label" for="faCode1"><i class="fa fa-picture-o"></i></label>
+                <label class="form-check-label" for="faCode1"><i class="fa fa-picture-o fa-2x"></i></label>
               </div>
               <div class="form-check form-check-inline" id="faCode" onchange=generateCode()>
                 <input class="form-check-input" name="faCode" id="faCode2" type="radio" value="2">
-                <label class="form-check-label" for="faCode2"><i class="fa fa-play"></i></label>
+                <label class="form-check-label" for="faCode2"><i class="fa fa-play fa-2x"></i></label>
               </div>
               <div class="form-check form-check-inline" id="faCode" onchange=generateCode()>
                 <input class="form-check-input" name="faCode" id="faCode3" type="radio" value="3">
-                <label class="form-check-label" for="faCode3"><i class="fa fa-eye"></i></label>
+                <label class="form-check-label" for="faCode3"><i class="fa fa-eye fa-2x"></i></label>
               </div>
               <div class="form-check form-check-inline" id="faCode" onchange=generateCode()>
                 <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="4">
-                <label class="form-check-label" for="faCode4"><i class="fa fa-camera"></i></label>
+                <label class="form-check-label" for="faCode4"><i class="fa fa-camera fa-2x"></i></label>
               </div>
             </div>
             </div>
@@ -718,13 +717,12 @@
           
 <div class="col-lg-6 mt-2">
   <div class="sticky-top" style="top:100px;">
-            <h5 class="font-weight-bold">Preview</h5>
-            <div class="font-weight-bold text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear here as you update your preferences on the page.">Hover for help</div>
+            <h5 class="font-weight-bold">Preview<span class="small text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear here as you update your preferences on the page.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
           <div id="demo" class="row w-100 mb-3 mx-auto">                     
           </div>
           <hr>
-       <h5 class="font-weight-bold">Copy code</h5>
-       <div class="font-weight-bold text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to copy the code for your element ready for pasting in Moodle.">Hover for help</div>
+       <h5 class="font-weight-bold">Copy code<span class="small text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to copy the code for your element ready for pasting in Moodle.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+       
        
         <textarea readonly class="rounded p-2 w-100 mt-2" id="txtarearespImg" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here"></textarea>
         <input type="button" class="btn btn-lg btn-block btn-arts mt-3" id="copyCodeBtn" name="GenerateWrap" value="Copy your code </>" onClick=copyCode() data-toggle="tooltip" data-placement="top" data-trigger="click focus" title="Your code has been copied." />
