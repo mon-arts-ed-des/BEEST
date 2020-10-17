@@ -168,9 +168,9 @@
   font-size: 1.05rem;
   max-width: 480px;
 }
-.modal-backdrop {
+/*.modal-backdrop {
       z-index: 0 !important;
-    }
+    }*/
     </style> 
     </head>
     <body>
@@ -178,17 +178,31 @@
       <div class="py-5"></div>
 <div class="container-fluid">
   <h3 class="text-center font-weight-bold">Quote <span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Quotes are alerts that are formatted with Font Awesome quotation icons, and can be used to emphasize an important quote from a reading or video." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h3>
-  <h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".respVidWalkthrough" href="">Create a quote (1:30)</a></h5>
-      <div class="modal fade respVidWalkthrough" tabindex="-1" role="dialog" aria-labelledby="panopto-modal" aria-hidden="true">
+  <h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".quoteWalkthrough" href="">Create a quote (1:30)</a></h5>
+      <div class="modal fade quoteWalkthrough" tabindex="-1" role="dialog" aria-labelledby="quote-modal" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content p-2 bg-dark">
           <div class="modal-header">
-            <h5 class="modal-title text-white" id="exampleModalLabel">Click close or click outside this box to return to the BEEST.</h5>
+            <h5 class="modal-title text-white">Click close or click outside this box to return to the BEEST.</h5>
             <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">Close &times;</span>
             </button>
           </div>
         <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=0b05ea43-04dd-404e-8322-ac3f016cb1ad"></iframe></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="html-paste-modal" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content p-2 bg-dark">
+          <div class="modal-header">
+            <h5 class="modal-title text-white">Click close or click outside this box to return to the BEEST.</h5>
+            <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">Close &times;</span>
+            </button>
+          </div>
+        <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe>
+        </div>
         </div>
       </div>
     </div>
@@ -315,20 +329,7 @@
        <input type="button" id="copyCodeBtn" class="btn btn-success btn-lg btn-block mt-2 text-center" name="GenerateWrap" value="Copy your code </>" data-toggle="tooltip" data-placement="bottom" data-trigger="click focus" title="Your code has been copied." onClick=copyCode()>
        <div class="text-center h5 mt-4">
         <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
-        <div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content p-2 bg-dark">
-              <div class="modal-header">
-                <h5 class="modal-title text-white">Click close or click outside this box to return to the BEEST.</h5>
-                <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">Close &times;</span>
-                </button>
-              </div>
-            <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe>
-            </div>
-            </div>
-          </div>
-        </div></div>
+        </div>
         </div></div>
     </form>   
         </div>
