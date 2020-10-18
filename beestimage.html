@@ -415,9 +415,6 @@
       font-size: 1.05rem;
       max-width: 400px;
     }
-    .modal-backdrop {
-      z-index: 0 !important;
-    }
     </style> 
 </head>
 <body onload="generateCode()">
@@ -480,18 +477,34 @@
 <!--Start of modal content-->
 <!--Responsive image walkthrough modal-->
 <div class="modal fade respImgWalkthrough" tabindex="-1" role="dialog" aria-labelledby="panopto-modal" aria-hidden="true">
-<div class="modal-dialog modal-lg">
-  <div class="modal-content p-2 bg-dark">
-    <div class="modal-header">
-      <h5 class="modal-title text-white" id="exampleModalLabel">Click close or click outside this box to return to the BEEST.</h5>
-      <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">Close &times;</span>
-      </button>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content p-2 bg-dark">
+      <div class="modal-header">
+        <h5 class="modal-title text-white" id="exampleModalLabel">Click close or click outside this box to return to the BEEST.</h5>
+          <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">Close &times;</span>
+          </button>
+      </div>
+      <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=cef099bc-a7e9-4211-be3c-ac3e005c0924"></iframe></div>
     </div>
-  <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=cef099bc-a7e9-4211-be3c-ac3e005c0924"></iframe></div>
   </div>
 </div>
+<!--How to paste HTML into Moodle modal-->
+<div class="modal fade html-paste-modal mt-5" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content p-2 bg-dark">
+      <div class="modal-header">
+        <h5 class="modal-title text-white">Click close or click outside this box to return to the BEEST.</h5>
+        <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">Close &times;</span>
+        </button>
+      </div>
+    <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe>
+    </div>
+    </div>
+  </div>
 </div>
+<!--End of modal content for this page-->
 <div class="row w-50 mx-auto text-center mt-2">
   <div class="col-lg mt-2">
         <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-danger btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
@@ -744,20 +757,7 @@
         <input type="button" class="btn btn-lg btn-block btn-success mt-3" id="copyCodeBtn" name="GenerateWrap" value="Copy your code </>" onClick=copyCode() data-toggle="tooltip" data-placement="top" data-trigger="click focus" title="Your code has been copied." />
         <div class="text-center h5 mt-4">
           <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
-          <div class="modal fade html-paste-modal mt-5" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content p-2 bg-dark">
-                <div class="modal-header">
-                  <h5 class="modal-title text-white">Click close or click outside this box to return to the BEEST.</h5>
-                  <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">Close &times;</span>
-                  </button>
-                </div>
-              <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe>
-              </div>
-              </div>
-            </div>
-          </div></div>
+          </div>
         
         <!--<input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Write back to Moodle" onClick=writeinMoodle() >-->
     
