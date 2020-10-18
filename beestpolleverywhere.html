@@ -88,7 +88,7 @@
         //Resizing the heading text
 		switch(headSize){
 			case "noH":
-				resizedHead = "<h5><i class=\"fa fa-fw fa-font-awesome\"></i> Placeholder icon + small heading</h5>";
+				resizedHead = "";
 				break;
 			case "h3":
 				resizedHead = head_3+faIconCode+pollHeading+endHead_3;
@@ -460,15 +460,17 @@
       <!--Checks the small heading size option when a heading is entered-->
       <script>
         var textarea = $("#pollHeading");
-              var radioBtn = $("#headSize2");
-              var checkRadio = function(){
-                  if (textarea.val()!=="") {
-                    $("#headSize2").prop("checked", true);
-                    generatePollEvCode();
-                  }
-                  
+        var radioBtn = $("#headSize2");
+        var checkRadio = function(){
+          if (textarea.val()!=="") {
+            $("#headSize2").prop("checked", true);
+            generatePollEvCode();
+            }
+          else {
+            $("#headSize1").prop("checked", true);
+            generatePollEvCode();
+            } 
                 };
-              // Run now
               // And when textarea changes
               textarea.on("change", checkRadio);
               </script>
