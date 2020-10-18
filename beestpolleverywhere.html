@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Arts CSS -->  
     <link rel="stylesheet" href="css/adminPlusSetuBlockStyle.css" />
-    
+    <link rel="stylesheet" href="css/monashElements.css" />
     <!-- external link to js file -->  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -44,14 +44,17 @@
         placeholder: '[Placeholder for poll context.]',
         toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat'  
       });
+      function getRadioOption(id){
+        return $('div #'+id).find('input[name="'+id+'"]:checked').val();
+      }
     function generatePollEvCode() {
          console.debug(tinyMCE.activeEditor.getContent());
-
         //Retrieve the content by id of the tinyMCE textarea
         var contextCode = tinyMCE.get('tinyMCEpollEv').getContent();
+       
         var pollHeading = document.getElementById('pollHeading').value;
-        var headSize = document.getElementById('headSize').value;
-        var faIcon = document.getElementById('faCode').value;
+        var headSize = getRadioOption('headSize')
+        var faIcon = getRadioOption('faCode')
         var head_3="<h3>"
         var endHead_3="</h3>"
         var head_4="<h4>"
@@ -59,23 +62,25 @@
         var head_5="<h5>"
         var endHead_5="</h5>"
         var iconNames = {
-			      "1":"question",
-            "2":"question-circle",
-            "3":"question-circle-o", 
-            "4":"bar-chart",
-            "5":"pie-chart",
-            "6":"line-chart",
-            "7":"area-chart",
-            "8":"bullhorn",
-            "9":"balance-scale",
-            "10":"comments-o",
-            "11":"gavel",
+			      "1":"bar-chart",
+            "2":"line-chart",
+            "3":"pie-chart", 
+            "4":"thumbs-o-up",
+            "5":"hand-paper-o",
+            "6":"balance-scale",
+            "7":"question",
+            "8":"question-circle",
+            "9":"question-circle-o",
+            "10":"share",
+            "11":"share-alt",
+            "12":"bullhorn",
+            "13":"gavel"
         }
 
         var iconName = iconNames[faIcon];
 		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
 		
-        if (faIcon == "noI"){
+        if (faIcon == "none"){
           faIconCode = "";
         }
 		
@@ -83,7 +88,7 @@
         //Resizing the heading text
 		switch(headSize){
 			case "noH":
-				resizedHead = "";
+				resizedHead = "<h5><i class=\"fa fa-fw fa-font-awesome\"></i> Placeholder icon + small heading</h5>";
 				break;
 			case "h3":
 				resizedHead = head_3+faIconCode+pollHeading+endHead_3;
@@ -95,9 +100,26 @@
 				resizedHead = head_5+faIconCode+pollHeading+endHead_5;
 				break;
 		}
-
         //Retrieve the content by id of the textareas
     var pollEv_URL = document.getElementById('pollEv_URL').value;
+    if (document.getElementById('pollEv_URL').value !== ""){
+      pollEv_URL = document.getElementById('pollEv_URL').value;
+   }
+   else {
+     pollEv_URL = "https://pollev.com/free_text_polls/Uzz31kGxHw6BRIoWbXtbl/respond"
+   }
+   var divContainer="<div>"
+        var pollEv_1="<iframe src=\""
+       
+        var closeContainer="</div>"
+   var frameHeight= document.getElementById('frameHeight').value;
+   if (document.getElementById('frameHeight').value !== ""){
+      frameHeight = document.getElementById('frameHeight').value;
+   }
+   else {
+     frameHeight = "500"
+   }
+   var pollEv_2="\" width=\"100%\" height=\""+frameHeight+"\" frameBorder=\"0\"></iframe>"
         var textOutputPollEv = resizedHead+divContainer+contextCode+pollEv_1+pollEv_URL+pollEv_2+closeContainer;
         document.getElementById('txtareapollEv').innerHTML=textOutputPollEv;
         //SelectAll("txtareapollEv");
@@ -113,10 +135,6 @@
         document.getElementById(id).focus();
         document.getElementById(id).select();
         document.execCommand("copy");
-
-        var popup = document.getElementById("myPopup");
-        popup.classList.toggle("showPopup");
-        //window.alert('test');
     }
 
     function submitform()
@@ -131,10 +149,7 @@
 
    pollEv=poll everywhere
     */
-    var divContainer="<div>"
-    var pollEv_1="<iframe src=\""
-    var pollEv_2="\" width=\"100%\" height=\"600\" frameBorder=\"0\"></iframe>"
-    var closeContainer="</div>"
+   
     </script>
     <script>   
       window.onload=function(){
@@ -155,101 +170,38 @@
       }, 100);
     };
     </script>
-    <script>   
-      
-     
-    </script>
-      <style>
-        .mce-notification-inner, .mce-close, .mce-notification-warning {
-        display:none !important;
-        }
-
-        /* Popup container - can be anything you want */
-    #popup {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    }
-
-    /* The actual popup */
-    #popup .popuptext {
-    visibility: hidden;
-    width: 220px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 10px 5px;
-    position: absolute;
-    z-index: 1;
-    bottom:100%;
-    left: 50%;
-    margin-left: -110px;
-    }
-
-    /* Popup arrow */
-    #popup .popuptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-    }
-
-    /* Toggle this class - hide and show the popup */
-    #popup .showPopup {
-    -webkit-animation: fadeinout 4s linear forwards;
-    animation: fadeinout 4s linear forwards;
-    visibility: visible;
-    }
-  
-    /* Add animation (fade in the popup) */
-@-webkit-keyframes fadeinout {
-  0%,100% { opacity: 0; }
-  10% {opacity: 1;}
-  66% { opacity: 1; }
-}
-
-@keyframes fadeinout {
-  0%,100% { opacity: 0; }
-  10% {opacity: 1;}
-  66% { opacity: 1; }
-}
+<style>
+.mce-notification-inner, .mce-close, .mce-notification-warning {
+  display:none !important;
+  }
 
 .tooltip-inner {
   text-align: left;
   padding: 15px;
   font-size: 1.05rem;
   max-width: 420px;
-}
+  }
     </style>  
     </head>
     <body>
- <div id="beestNav"></div>
- <div class="row w-100 mb-5"></div>
- <div class="row w-100 mb-4"></div>
-      <div class="container-fluid">
-        <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
-            <div class="h6"><i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle"></i>You can only produce the embed code for one (1) poll at a time on this page. You will need to paste the code for each poll into Moodle, then come back to this page, refresh it and start again.</div>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
-            </div>     
-          <h1 class="text-center"><i class="fa fa-poll fa-fw"></i> Embed Poll Everywhere Activities/Surveys</h1>
-          <div class="row w-100 mx-auto">
-            <div class="col-lg mt-2">
-              <div class="hideableinstruct">
-          <h5>The result of this process</h5>
-          <p>This process will generate embed code for Poll Everywhere activites using the shareable link available in your Poll Everywhere account. To get the link for your poll activity <a href="" data-toggle="modal" data-target=".pollev-modal">follow these steps</a> (will appear as an overlay on this screen).</p>
-<div class="modal fade pollev-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-lg modal-dialog-centered">
-<div class="modal-content">
-    <div class="row w-100 p-3 mx-auto">
+<div id="beestNav"></div>
+<div class="py-5"></div>
+<div class="container-fluid">   
+  <h3 class="text-center font-weight-bold">Embed Poll Everywhere Activities/Surveys<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Take a poll everywhere activity or survey response link and turn it into an embeddable activity in Moodle." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></h3>
+  <h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".pollevWalkthrough" href="">Video walkthrough - Creating a Poll Everywhere activity/survey embed code (2:36)</a></h5>
+  <div class="row w-50 mx-auto text-center mt-2">
+    <div class="col-lg mt-2">
+          <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-danger btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
+        </div>
+        <div class="col-lg mt-2">
+          <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-success btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
+        </div></div>
+<!--Modal content for this page-->
+<!--Get the correct link for your poll activity or survey modal-->
+<div class="modal fade pollev-modal" tabindex="-1" role="dialog" aria-labelledby="pollev-modal" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="row w-100 p-3 mx-auto">
         <div class="col-lg-11">
           <h5><i class="fa fa-fw fa-link"></i> Get the shareable link for your poll</h5>
             <ol class="mb-0">
@@ -261,14 +213,28 @@
             <div class="col-lg-1 p-0">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
       <p class="mr-2" style="font-size: 2rem;" aria-hidden="true">&times;</p>
-    </button></div>
-        </div>
+    </button>
+            </div>
+      </div>
+    </div>
+  </div>
+</div>  
+<!--Create a poll everywhere embed code walkthrough modal-->
+<div class="modal fade pollevWalkthrough" tabindex="-1" role="dialog" aria-labelledby="pollevWalkthrough-modal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content p-2 bg-dark">
+      <div class="modal-header">
+        <h5 class="modal-title text-white" id="exampleModalLabel">Click close or click outside this box to return to the BEEST.</h5>
+        <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">Close &times;</span>
+        </button>
+      </div>
+    <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=8326f205-50f4-4495-94cd-ac3f0040366d"></iframe></div>
+    </div>
+  </div>
 </div>
-</div>
-</div>     
-          <h5>How to use this page</h5>
-          <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle,  <a data-toggle="modal" data-target=".bd-example-modal-lg" href="">this short video will help</a> (it will open in an overlay on this screen).</p>
-          <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<!--How to paste HTML into Moodle modal-->
+          <div class="modal fade paste-html-modal" tabindex="-1" role="dialog" aria-labelledby="paste-html-modal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
               <div class="modal-content p-2">
                 <div class="modal-header">
@@ -280,57 +246,70 @@
               <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe></div>
               </div>
             </div>
-          </div>	</div>
-          <h5>Refresh this page</h5>
-          <div class="row w-100">
-            <div class="col-lg">
-          <p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
-          <div class="col-lg-3"><div class="text-center">
-            <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
-          </div></div></div>
-
-	<h5>Advanced mode - turn <span class="onoffswapinstr">off</span> instructions</h5>
-        <div class="row w-100">
-          <div class="col-lg">
-        <p>Click this button to turn <span class="onoffswapinstr">off</span> the instructions that appear when you hover over the headings.<span class="hideableinstruct"> Only do this if you are completely familiar with how to use the tool.</span></p></div>
-        <div class="col-lg-3"><div class="text-center">
-          <button onclick="flipTooltip()" class="btn btn-mu">Turn <span class="onoffswapinstr">off</span> instructions <i class="fa fa-fw fa-power-off"></i></a>
-        </div></div></div></div>
-        <div class="col-lg-4 mt-2 hideableinstruct">
-          <h5>Video walkthrough - Creating a Poll Everywhere activity/survey embed code (2:36)</h5>
-          <div class="embed-responsive embed-responsive-16by9">
-            <iframe src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=8326f205-50f4-4495-94cd-ac3f0040366d" class="embed-responsive-item" frameborder="1" allowfullscreen="true"></iframe>
           </div>
-          </div>
-        </div>
+<!--End of modal content for this page-->
      <hr class="hr-3">
        <form id="pollEv">    
-        <div class="row w-100 mx-auto mt-2">
-          <div class="col-lg-8">
-              <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in your polls shareable link. You can get this link by following the instructions from the top of the page. Click on the text that says 'follow these steps' to reveal the instructions.">Step 1 - Paste response link URL</h5>
-              <textarea class="rounded p-2 w-100" rows="1" name="pollEv_URL" id="pollEv_URL" placeholder="Write/paste the Shareable response link here" onchange=generatePollEvCode()></textarea>
+        <div class="row w-100 mx-auto">
+          <div class="col-lg-6">
+            <div class="row w-100 mx-auto">
+              <div class="col-lg-3">
+              <h5 class="font-weight-bold">Response link<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Paste in your poll's shareable link. Follow the steps on the link on the right 'Which link do I need?' if you are not sure which link you require." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+            </div>
+            <div class="col-lg">
+              <a href="" data-toggle="modal" data-target=".pollev-modal">Which link do I need?</a>
+              <textarea class="rounded p-2 w-100 mt-2" rows="1" name="pollEv_URL" id="pollEv_URL" placeholder="Write/paste the Shareable response link here" onchange=generatePollEvCode()></textarea>
               </div>
-              </div> 
+              </div>
+              <hr> 
               <div class="row w-100 mx-auto">
-                <div class="col-lg-8 mt-2">
-                  <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the heading for this poll. 75 character maximum.">Step 2 - Heading (optional)</h5>
+                <div class="col-lg-3">
+                <h5 class="font-weight-bold">Frame height<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="The poll everywhere activity sits in an iframe which is 100% the width of the screen. We've defaulted the height to 500px, but it you would like it bigger or smaller, change this number" class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+              </div>
+              <div class="col-lg">
+                 <textarea class="rounded p-2 w-100 mt-2" rows="1" name="frameHeight" id="frameHeight" placeholder="Type in your preferred height for the iframe." onchange=generatePollEvCode()></textarea>
+                </div>
+                </div>
+                <hr>
+              <div class="row w-100 mx-auto">
+                <div class="col-lg-3">
+                  <h5 class="font-weight-bold">Heading<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type the heading for this poll. 75 character maximum." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+                    </div>
+                    <div class="col-lg">
                   <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="pollHeading" type="text" id="pollHeading" placeholder="Type your poll heading here" onchange=generatePollEvCode()></textarea>
                 </div>
               </div>
+              <hr>
       <div class="row w-100 mx-auto">
-      <div class="col-lg-8 mt-2">
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 3 - Heading size (optional)</h5>
-              <select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1" onchange=generatePollEvCode()>
-              <option selected value="h5">Small (heading 5)</option>
-              <option value="h4">Medium (heading 4)</option>
-              <option value="h3">Large (heading 3)</option>
-            </select>
-            </div> 
-          </div>   
-          <div class="row w-100 mx-auto">
-            <div class="col-lg-8 mt-2">
-              <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 2) and choose a heading size (step 3) or the icon and heading will not display.">Step 4 - Select icon (optional)</h5>
-              <select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1" onchange=generatePollEvCode()>
+        <div class="col-lg-3">
+          <h5 class="font-weight-bold">Heading size<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+        </div>
+        <div class="col-lg">
+          <!--<select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1" onchange=generatePollEvCode()>
+              <option selected value="h5"><h5>Small</h5></option>
+              <option value="h4"><h4>Medium</h4></option>
+              <option value="h3"><h3>Large</h3></option>
+          </select>-->
+          <div class="form-check form-check-inline" id="headSize" onchange=generatePollEvCode()>
+            <input class="form-check-input" name="headSize" id="headSize1" type="radio" value="noH" checked>
+            <label class="form-check-label" for="headSize1">No heading</label>
+         </div>
+          <div class="form-check form-check-inline" id="headSize" onchange=generatePollEvCode()>
+            <input class="form-check-input" name="headSize" id="headSize2" type="radio" value="h5">
+            <label class="form-check-label" for="headSize2"><h5>Small</h5></label>
+         </div>
+          <div class="form-check form-check-inline" id="headSize" onchange=generatePollEvCode()>
+            <input class="form-check-input" name="headSize" id="headSize3" type="radio" value="h4">
+            <label class="form-check-label" for="headSize3"><h4>Medium</h4></label>
+          </div>
+          <div class="form-check form-check-inline" id="headSize" onchange=generatePollEvCode()>
+            <input class="form-check-input" name="headSize" id="headSize4" type="radio" value="h3">
+            <label class="form-check-label" for="headSize4"><h3>Large</h3></label>
+          </div>
+        </div>
+      </div>
+        <hr>
+              <!--<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1" onchange=generatePollEvCode()>
                 <option selected value="noI">No icon</option>
                   <option value="1">Question mark</option>
                   <option value="2">White question mark in a black circle</option>
@@ -343,37 +322,109 @@
                   <option value="9">Set of scales</option>
                   <option value="10">Two speech bubbles</option>
                   <option value="11">Gavel</option>
-                </select>
+                </select>-->
+                <div class="row w-100 mx-auto">
+                  <div class="col-lg-3">
+                    <h5 class="font-weight-bold">Choose icon<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="If you would like an icon to the left of your heading, choose one below." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5>  
+                  </div>
+                  <div class="col-lg-1 my-auto">
+                    <!--<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" onchange=generatePollEvCode()>
+                      <option selected value="noI">No icon</option>
+                      <option value="1">Arrow right</option>
+                      <option value="2">Arrow right in a circle</option>
+                      <option value="3">External link square</option>
+                      <option value="4">Finger pointing right</option>
+                      <option value="5">Play</option>
+                      <option value="6">Play in a circle</option>
+                    </select>-->
+                     <div class="form-check form-check-inline" id="faCode" onchange=generatePollEvCode()>
+                          <input class="form-check-input" name="faCode" id="faCodeNone" type="radio" value="none" checked>
+                          <label class="form-check-label" for="faCodeNone">None</label>
+                        </div>
+          </div>
+          <div class="col-lg">
+                      <div class="row w-100">
+                        <div class="col-lg">
+                    <div class="form-check form-check-inline mx-2" id="faCode" onchange=generatePollEvCode()>
+                      <input class="form-check-input" name="faCode" id="faCode1" type="radio" value="1">
+                      <label class="form-check-label" for="faCode1"><i class="fa fa-fw fa-bar-chart fa-2x"></i></label>
+                    </div>
+                    <div class="form-check form-check-inline mx-2" id="faCode" onchange=generatePollEvCode()>
+                    <input class="form-check-input" name="faCode" id="faCode2" type="radio" value="2">
+                    <label class="form-check-label" for="faCode2"><i class="fa fa-fw fa-line-chart fa-2x"></i></label>
+                    </div>
+                    <div class="form-check form-check-inline mx-2" id="faCode" onchange=generatePollEvCode()>
+                      <input class="form-check-input" name="faCode" id="faCode3" type="radio" value="3">
+                      <label class="form-check-label" for="faCode3"><i class="fa fa-fw fa-pie-chart fa-2x"></i></label>
+                      </div>
+                    <div class="form-check form-check-inline mx-2" id="faCode" onchange=generatePollEvCode()>
+                    <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="4">
+                    <label class="form-check-label" for="faCode4"><i class="fa fa-fw fa-thumbs-o-up fa-2x"></i></label>
+                  </div>
+                  <div class="form-check form-check-inline mx-2" id="faCode" onchange=generatePollEvCode()>
+                    <input class="form-check-input" name="faCode" id="faCode5" type="radio" value="5">
+                    <label class="form-check-label" for="faCode5"><i class="fa fa-fw fa-hand-paper-o fa-2x"></i></label>
+                  </div>
+                  <div class="form-check form-check-inline mx-2" id="faCode" onchange=generatePollEvCode()>
+                    <input class="form-check-input" name="faCode" id="faCode6" type="radio" value="6">
+                    <label class="form-check-label" for="faCode6"><i class="fa fa-fw fa-balance-scale fa-2x"></i></label>
+                  </div>
+                </div>
+              </div>
+                  <div class="row w-100 mt-2">
+                    <div class="col-lg">
+                      <div class="form-check form-check-inline mx-2" id="faCode" onchange=generatePollEvCode()>
+                        <input class="form-check-input" name="faCode" id="faCode13" type="radio" value="12">
+                        <label class="form-check-label" for="faCode13"><i class="fa fa-fw fa-exchange fa-2x"></i></label>
+                      </div>
+                      <div class="form-check form-check-inline mx-2" id="faCode" onchange=generatePollEvCode()>
+                        <input class="form-check-input" name="faCode" id="faCode12" type="radio" value="11">
+                        <label class="form-check-label" for="faCode12"><i class="fa fa-fw fa-bullhorn fa-2x"></i></label>
+                      </div>
+                  <div class="form-check form-check-inline mx-2" id="faCode" onchange=generatePollEvCode()>
+                    <input class="form-check-input" name="faCode" id="faCode7" type="radio" value="7">
+                    <label class="form-check-label" for="faCode7"><i class="fa fa-fw fa-question fa-2x"></i></label>
+                  </div>
+                  <div class="form-check form-check-inline mx-2" id="faCode" onchange=generatePollEvCode()>
+                    <input class="form-check-input" name="faCode" id="faCode8" type="radio" value="8">
+                    <label class="form-check-label" for="faCode8"><i class="fa fa-fw fa-question-circle fa-2x"></i></label>
+                  </div>
+                  <div class="form-check form-check-inline mx-2" id="faCode" onchange=generatePollEvCode()>
+                    <input class="form-check-input" name="faCode" id="faCode9" type="radio" value="9">
+                    <label class="form-check-label" for="faCode9"><i class="fa fa-fw fa-question-circle-o fa-2x"></i></label>
+                  </div>
+                  <div class="form-check form-check-inline mx-2" id="faCode" onchange=generatePollEvCode()>
+                    <input class="form-check-input" name="faCode" id="faCode10" type="radio" value="10">
+                    <label class="form-check-label" for="faCode10"><i class="fa fa-fw fa-share fa-2x"></i></label>
+                  </div>
+                  
+                 
+                </div>
               </div>
             </div>
-    <div class="row w-100 mx-auto mt-2">
-    <div class="col-lg-8">
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="If you already have written the context for your poll in Moodle, skip this step, generate the embed code for your poll and paste it after your context in Moodle. Otherwise, writing some instructions, or context for students on your poll will help the students to respond correctly. Write your context in the space below. You can use headings, bold, italics and lists if needed in your instructions.">Step 5 - Write the context for the poll (optional)</h5>
-        <textarea class="mb-3 rounded p-2 w-100" cols="70" rows="3" name="pollEv_text" id="tinyMCEpollEv" onchange=generatePollEvCode()></textarea>
+          </div>
+          <hr>
+    <div class="row w-100 mx-auto">
+    <div class="col-lg-3">
+        <h5 class="font-weight-bold">Context<span class="hideableinstruct text-success small" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Writing some instructions, or context for students on your poll will help the students to respond correctly.">&nbsp;<i class="fa fa-question-circle"></i></h5>
+          </div>
+          <div class="col-lg">
+        <textarea class="mb-3 rounded p-2 w-100" name="pollEv_text" id="tinyMCEpollEv" onchange=generatePollEvCode()></textarea>
       </div>
-    </div>
-        
-       
-      
-        <div class="row w-100 mx-auto mt-2">
-        <div class="col-lg-8">
-          <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 7.">Step 6 - Generate/copy code</h5>
-        <div><p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span> <input type="button" class="m-1 btn btn-arts" name="copyCode" value="Copy your code" onClick=copyCode()></input></div>
+    </div>  
+  </div>
+  <div class="col-lg-6">
+    <div class="sticky-top" style="top:100px;">
+      <h5 class="font-weight-bold">Preview<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below as you update your preferences for your poll." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+      <div id="demo"></div>
+        <p class="my-3"></p>
+          <h5 class="font-weight-bold">Copy code<span class="hideableinstruct text-success small" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click the button below to copy your code, ready to paste into Moodle.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+        <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." type="button" class="m-1 btn btn-arts" id="copyCodeBtn" name="copyCode" value="Copy your code" onClick=copyCode()></input>
            <textarea readonly class="rounded p-2 w-100" id="txtareapollEv" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here."></textarea>
         </div>
     </div>
-    <div class="row w-100 mx-auto mt-2 mb-3">
-      <div class="col-lg">
-        <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 6.">Step 7 - Preview</h5>
-        </div>
-        </div>
-      
-    <script>//code for converting textarea to readonly on paste
-    $('#pollEv_URL').on('input', function(event) {
-    
-    $('input[type="text"], #pollEv_URL').attr('readonly','readonly');
-  }); 
-  </script>
+    </div>
+  </div>
   <script>
     var textarea = $('#pollHeading');
     var select = $('#headSize');
@@ -393,7 +444,44 @@
     <div id="demo"></div>
     <span class="my-3"></span>
   </div>
-
+  <script>
+    $(function () {
+      $(document).on('shown.bs.tooltip', function (e) {
+         setTimeout(function () {
+           $(e.target).tooltip('hide');
+         }, 7000);
+      });
+    });</script>
+    <script>
+      $(function () {
+        $('#copyCodeBtn').on('click', function (e) {
+           setTimeout(function () {
+             $(e.target).tooltip('hide');
+           }, 2500);
+        });
+      });
+      $(function () {
+        $('#toggleHelp').on('click', function (e) {
+           setTimeout(function () {
+             $(e.target).tooltip('hide');
+           }, 2500);
+        });
+      });
+      </script>
+      <!--Checks the small heading size option when a heading is entered-->
+      <script>
+        var textarea = $("#pollHeading");
+              var radioBtn = $("#headSize2");
+              var checkRadio = function(){
+                  if (textarea.val()!="") {
+                    $("#headSize2").prop("checked", true);
+                    generatePollEvCode();
+                  };
+              };
+              // Run now
+              // And when textarea changes
+              textarea.on("change", checkRadio);
+              </script>
     <div id="beestFooter"></div> 
   </body>
     </html>
