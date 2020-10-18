@@ -49,7 +49,7 @@
 	function setCheckBox(id,isChecked){
 		$("#"+id).prop("checked",isChecked)
 	}
-
+// Function that generates code for live preview as page is updated
     function generateBtnCode() {
         //Retrieve the content by id of the textareas
         var btn_URL = document.getElementById('btn_URL').value;
@@ -216,7 +216,64 @@
         $('#demo').next('div').remove();
         $('#demo').after(textOutput);
         }
+// end of generateBtnCode function
 
+//function to recover previously generated code that is pasted back into BEEST
+function recoverCode(){
+        //Get the code from Step 0
+		var iconValue;
+		var vidWidth;
+		var videoContext;
+		var videoLink;
+		var headSize;
+		var headText;
+		
+        var retrieveCode = document.getElementById('retrieveCode').value;
+        videoContext = $(retrieveCode).find('#video-context').text();
+
+        videoLink = $(retrieveCode).find('.embed-responsive-item').attr('src');
+        /*if (videoLink){
+        document.getElementById('respVidSwitch').value = videoLink;
+        }*/
+
+        if ($(retrieveCode).find('h3').text()){
+			headSize = "h3";
+        }
+        else if ($(retrieveCode).find('h4').text()){
+			headSize = "h4";
+        }
+        else if ($(retrieveCode).find('h5').text()){
+			headSize = "h5";
+        }
+		headText = $(retrieveCode).find(headSize).text();
+
+        //set icon
+        var headingIcon = $(retrieveCode).find('i').attr('class');
+		var iconMap = {
+			"fa fa-video-camera":1,
+			"fa fa-play":2,
+			"fa fa-eye":3
+		};
+		iconValue = iconMap[headingIcon]
+
+        //set video width
+        if ($(retrieveCode).find('#vidwid33')){
+          vidWidth = 33
+        }
+        else if ($(retrieveCode).find('#vidwid50')){
+          vidWidth = 50
+        }
+				
+		videoPageInstance = new videoPage(
+			videoLink,videoContext,
+			"right",
+			vidWidth,headText,headSize,iconValue
+		) // default to right in absence of way to collect right/left
+		setPageContents(videoPageInstance);
+    }
+    //End of recoverCode function
+
+// function to copy generated code 
     function copyCode(){
       SelectAll("txtareaBtn");
     }

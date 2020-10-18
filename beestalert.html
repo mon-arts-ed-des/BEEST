@@ -362,6 +362,15 @@ function getHistoryI(index,history){
         </div>
         <hr>
         <div class="row w-100 mx-auto">
+          <div class="col-lg-3">
+          <h5 class="font-weight-bold">Paste code from Moodle<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Paste in the code you previously generated from BEEST and pasted into Moodle to recover and redesign the element." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+          </div>
+          <div class="col-lg">
+          <textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Or recover it by pasting existing code from Moodle (work in progress)" onchange=recoverCode()></textarea>
+      </div>
+    </div>
+    <hr>
+        <div class="row w-100 mx-auto">
           <div class="col-lg-3">  
      <h5 class="font-weight-bold">Write the alert<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type in the text you would like to appear in your alert." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
           </div>

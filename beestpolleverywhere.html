@@ -47,6 +47,7 @@
       function getRadioOption(id){
         return $('div #'+id).find('input[name="'+id+'"]:checked').val();
       }
+      //function to generate HTML code output
     function generatePollEvCode() {
          console.debug(tinyMCE.activeEditor.getContent());
         //Retrieve the content by id of the tinyMCE textarea
@@ -125,7 +126,62 @@
         $('#demo').nextAll('div, h3, h4, h5, i').remove();
         $('#demo').after(textOutputPollEv);
         }
+//end of generatePollEvCode
 
+//function to recover code previously generated in BEEST and set the page preferences to that item.
+function recoverCode(){
+        //Get the code from Step 0
+		var iconValue;
+		var vidWidth;
+		var videoContext;
+		var videoLink;
+		var headSize;
+		var headText;
+		
+        var retrieveCode = document.getElementById('retrieveCode').value;
+        videoContext = $(retrieveCode).find('#video-context').text();
+
+        videoLink = $(retrieveCode).find('.embed-responsive-item').attr('src');
+        /*if (videoLink){
+        document.getElementById('respVidSwitch').value = videoLink;
+        }*/
+
+        if ($(retrieveCode).find('h3').text()){
+			headSize = "h3";
+        }
+        else if ($(retrieveCode).find('h4').text()){
+			headSize = "h4";
+        }
+        else if ($(retrieveCode).find('h5').text()){
+			headSize = "h5";
+        }
+		headText = $(retrieveCode).find(headSize).text();
+
+        //set icon
+        var headingIcon = $(retrieveCode).find('i').attr('class');
+		var iconMap = {
+			"fa fa-video-camera":1,
+			"fa fa-play":2,
+			"fa fa-eye":3
+		};
+		iconValue = iconMap[headingIcon]
+
+        //set video width
+        if ($(retrieveCode).find('#vidwid33')){
+          vidWidth = 33
+        }
+        else if ($(retrieveCode).find('#vidwid50')){
+          vidWidth = 50
+        }
+				
+		videoPageInstance = new videoPage(
+			videoLink,videoContext,
+			"right",
+			vidWidth,headText,headSize,iconValue
+		) // default to right in absence of way to collect right/left
+		setPageContents(videoPageInstance);
+    }
+    //end of recoverCode
     function copyCode(){
       SelectAll("txtareapollEv");
     }    
@@ -250,6 +306,34 @@
        <form id="pollEv">    
         <div class="row w-100 mx-auto">
           <div class="col-lg-6">
+            <div class="row w-100 mx-auto">
+              <div class="col-lg-3">
+                <h5 class="font-weight-bold">Recover<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Retrieve your previous button configuration. Only works once you have created at least 1 button. Then the next 20 configurations will be available until you clear your internet browser history or change internet browsers or create more than 20 buttons." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-fw fa-question-circle"></i></h5>
+              </div>              
+                <div class="col-lg">
+                  <div class="row w-100">
+                  <div class="col-lg-11">
+                  <select class="custom-select border border-dark" size="1" id="recoveryDate" onchange="idSelectedRecData()">
+                  <option selected value=0>please wait</option>
+                  </select>
+                </div>
+            
+                  <div class="col-lg-1 text-center">
+                  <button data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to delete the item you have selected in the dropdown." id="delHist" onclick="delHistI()" type="button" class="btn btn-danger"><i class="fa fa-fw fa-trash"></i></button>     
+                  </div>
+                </div>
+              </div>
+            </div>
+              <hr>
+              <div class="row w-100 mx-auto">
+                <div class="col-lg-3">
+                <h5 class="font-weight-bold">Paste code from Moodle<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Paste in the code you previously generated from BEEST and pasted into Moodle to recover and redesign the element." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+                </div>
+                <div class="col-lg">
+                <textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Or recover it by pasting existing code from Moodle (work in progress)" onchange=recoverCode()></textarea>
+            </div>
+          </div>
+            <hr>  
             <div class="row w-100 mx-auto">
               <div class="col-lg-3">
               <h5 class="font-weight-bold">Response link<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Paste in your poll's shareable link. Follow the steps on the link on the right 'Which link do I need?' if you are not sure which link you require." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
