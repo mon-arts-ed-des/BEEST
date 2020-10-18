@@ -117,7 +117,7 @@
       frameHeight = document.getElementById('frameHeight').value;
    }
    else {
-     frameHeight = "500"
+     frameHeight = "400"
    }
    var pollEv_2="\" width=\"100%\" height=\""+frameHeight+"\" frameBorder=\"0\"></iframe>"
         var textOutputPollEv = resizedHead+divContainer+contextCode+pollEv_1+pollEv_URL+pollEv_2+closeContainer;
@@ -263,7 +263,7 @@
               <hr> 
               <div class="row w-100 mx-auto">
                 <div class="col-lg-3">
-                <h5 class="font-weight-bold">Frame height<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="The poll everywhere activity sits in an iframe which is 100% the width of the screen. We've defaulted the height to 500px, but it you would like it bigger or smaller, change this number" class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+                <h5 class="font-weight-bold">Frame height<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="The poll everywhere activity sits in an iframe which is 100% the width of the screen. We've defaulted the height to 400px, but it you would like it bigger or smaller, change this number and the preview and code will update after clicking outside of the text input area." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
               </div>
               <div class="col-lg">
                  <textarea class="rounded p-2 w-100 mt-2" rows="1" name="frameHeight" id="frameHeight" placeholder="Type in your preferred height for the iframe." onchange=generatePollEvCode()></textarea>
@@ -428,21 +428,7 @@
     </div>
     </div>
   </div>
-  <script>
-    var textarea = $('#pollHeading');
-    var select = $('#headSize');
-    var addOrRemoveRequiredAttribute = function () {
-    if (textarea.val().length) {
-    select.val("h5")
-    }
-    };
-    
-    // Run now
-    addOrRemoveRequiredAttribute();
-    
-    // And when textarea changes
-    textarea.on('change', addOrRemoveRequiredAttribute);
-    </script>
+
     </form>
     <div id="demo"></div>
     <span class="my-3"></span>
@@ -476,16 +462,17 @@
         var textarea = $("#pollHeading");
               var radioBtn = $("#headSize2");
               var checkRadio = function(){
-                  if (textarea.val()!="") {
+                  if (textarea.val()!=="") {
                     $("#headSize2").prop("checked", true);
                     generatePollEvCode();
-                  };
-              };
+                  }
+                  
+                };
               // Run now
               // And when textarea changes
               textarea.on("change", checkRadio);
               </script>
-              
+
     <div id="beestFooter"></div> 
   </body>
     </html>
