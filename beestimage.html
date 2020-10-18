@@ -282,12 +282,17 @@
 
     		var resizedHead;  
     
-        if(imgHeading == ""){
-          resizedHead = "";
-        }
-        else{
+       if(resizedHead == ""){
+          $("#headSizeNone").prop("checked", true);
+       }
+
+      else{
             //Resizing the heading text
+            
         switch(headSize){
+          case "noH":
+            resizedHead = "";
+            break
           case "h3":
             resizedHead = head_3+faIconCode+imgHeading+endHead_3;
             break;
@@ -298,7 +303,10 @@
             resizedHead = head_5+faIconCode+imgHeading+endHead_5;
             break;
         }
+  
       }
+    
+
     
         //Change size of column if requested
         if (imgWidth == "33" && imgPosition == "left"){
@@ -669,6 +677,10 @@
             <option value="h3">Large (heading 3)</option>
           </select>-->
           <div class="form-check form-check-inline" id="headSize" onchange=generateCode()>
+            <input class="form-check-input" name="headSize" id="headSizeNone" type="radio" value="noH" checked>
+            <label class="form-check-label" for="headSizeNone">No heading</label>
+          </div>
+          <div class="form-check form-check-inline" id="headSize" onchange=generateCode()>
             <input class="form-check-input" name="headSize" id="headSize1" type="radio" value="h5">
             <label class="form-check-label" for="headSize1"><h5>Small</h5></label>
           </div>
@@ -695,6 +707,10 @@
                 <option value="2">Play</option>
                 <option value="3">Eye</option>
               </select>-->
+              <div class="form-check form-check-inline" id="faCode" onchange=generateCode()>
+                <input class="form-check-input" name="faCode" id="faCodeNone" type="radio" value="noI" checked>
+                <label class="form-check-label" for="faCodeNone">No icon</label>
+              </div>
               <div class="form-check form-check-inline" id="faCode" onchange=generateCode()>
                 <input class="form-check-input" name="faCode" id="faCode1" type="radio" value="1">
                 <label class="form-check-label" for="faCode1"><i class="fa fa-picture-o fa-2x"></i></label>
@@ -725,7 +741,7 @@
        
        
         <textarea readonly class="rounded p-2 w-100 mt-2" id="txtarearespImg" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here"></textarea>
-        <input type="button" class="btn btn-lg btn-block btn-arts mt-3" id="copyCodeBtn" name="GenerateWrap" value="Copy your code </>" onClick=copyCode() data-toggle="tooltip" data-placement="top" data-trigger="click focus" title="Your code has been copied." />
+        <input type="button" class="btn btn-lg btn-block btn-success mt-3" id="copyCodeBtn" name="GenerateWrap" value="Copy your code </>" onClick=copyCode() data-toggle="tooltip" data-placement="top" data-trigger="click focus" title="Your code has been copied." />
         <div class="text-center h5 mt-4">
           <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
           <div class="modal fade html-paste-modal mt-5" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -824,6 +840,22 @@
          }, 2500);
       });
     });
+    </script>
+    <script>
+           var textarea = $("#respImgHeading");
+   //     var radioBtn = $("#headSize2");
+   var checkRadio = function(){
+          if (textarea.val()!=="") {
+            $("#headSize1").prop("checked", true);
+            generateCode();
+            }
+          else {
+            $("#headSizeNone").prop("checked", true);
+            generateCode();
+            } 
+                };
+              // And when textarea changes
+              textarea.on("change", checkRadio);
     </script>
     <div class="py-5"></div>
 <footer class="bg-arts text-white w-100">
