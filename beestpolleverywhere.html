@@ -200,22 +200,20 @@
 <!--Get the correct link for your poll activity or survey modal-->
 <div class="modal fade pollev-modal" tabindex="-1" role="dialog" aria-labelledby="pollev-modal" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-      <div class="row w-100 p-3 mx-auto">
-        <div class="col-lg-11">
-          <h5><i class="fa fa-fw fa-link"></i> Get the shareable link for your poll</h5>
+    <div class="modal-content p-2 bg-dark text-white">
+      <div class="modal-header">
+        <h5 class="modal-title text-white" id="exampleModalLabel">Click close or click outside this box to return to the BEEST.</h5>
+        <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">Close &times;</span>
+        </button>
+      </div>
+          <h5 class="m-3"><i class="fa fa-fw fa-link"></i> Get the shareable link for your poll</h5>
             <ol class="mb-0">
-                <li>Go to <a href="https://www.polleverywhere.com/activities" target="_blank">Poll Everywhere</a> and login.</li>
+                <li>Go to <a href="https://www.polleverywhere.com/activities" target="_blank" class="text-white">Poll Everywhere <i class="fa fa-fw fa-external-link-square"></i></a> (opens in a new window) and login.</li>
                 <li>Click on the <strong>Actions</strong> menu of an already created item and choose <strong>Copy response link</strong>.</li>
                 <li>Return to the BEEST and paste this link in Step 1.</li>
                 </ol>
-        </div>
-            <div class="col-lg-1 p-0">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-      <p class="mr-2" style="font-size: 2rem;" aria-hidden="true">&times;</p>
-    </button>
-            </div>
-      </div>
+   
     </div>
   </div>
 </div>  
@@ -234,19 +232,20 @@
   </div>
 </div>
 <!--How to paste HTML into Moodle modal-->
-          <div class="modal fade paste-html-modal" tabindex="-1" role="dialog" aria-labelledby="paste-html-modal" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content p-2">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-              <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe></div>
-              </div>
-            </div>
-          </div>
+<div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content p-2 bg-dark">
+      <div class="modal-header">
+        <h5 class="modal-title text-white">Click close or click outside this box to return to the BEEST.</h5>
+        <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">Close &times;</span>
+        </button>
+      </div>
+    <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe>
+    </div>
+    </div>
+  </div>
+</div>
 <!--End of modal content for this page-->
      <hr class="hr-3">
        <form id="pollEv">    
@@ -419,8 +418,12 @@
       <div id="demo"></div>
         <p class="my-3"></p>
           <h5 class="font-weight-bold">Copy code<span class="hideableinstruct text-success small" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click the button below to copy your code, ready to paste into Moodle.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
-        <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." type="button" class="m-1 btn btn-arts" id="copyCodeBtn" name="copyCode" value="Copy your code" onClick=copyCode()></input>
+        
            <textarea readonly class="rounded p-2 w-100" id="txtareapollEv" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here."></textarea>
+           <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." type="button" class="m-1 btn btn-success btn-block btn-lg" id="copyCodeBtn" name="copyCode" value="Copy your code &lt;/&gt;" onClick=copyCode()></input>
+           <p class="text-center h5 mt-4">
+            <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
+           </p>
         </div>
     </div>
     </div>
@@ -482,6 +485,7 @@
               // And when textarea changes
               textarea.on("change", checkRadio);
               </script>
+              
     <div id="beestFooter"></div> 
   </body>
     </html>
