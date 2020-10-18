@@ -389,6 +389,10 @@ function getHistoryI(index,history){
           <option class="h4 mb-0" value="h4">Medium (heading 4)</option>
           <option class="h3 mb-0" value="h3">Large (heading 3)</option>
         </select>-->
+        <div class="form-check form-check-inline" id="headSize" onchange=generateAlertCode()>
+          <input class="form-check-input" name="headSize" id="headSizeNone" type="radio" value="noH" checked>
+          <label class="form-check-label" for="headSizeNone">No heading</label>
+        </div>
           <div class="form-check form-check-inline" id="headSize" onchange=generateAlertCode()>
             <input class="form-check-input" name="headSize" id="headSize1" type="radio" value="h5">
             <label class="form-check-label" for="headSize1"><h5>Small</h5></label>
@@ -420,16 +424,20 @@ function getHistoryI(index,history){
                 <label class="form-check-label" for="faCode1">No icon</label>
               </div>-->
               <div class="form-check form-check-inline" id="faCode" onchange=generateAlertCode()>
-                <input class="form-check-input" name="faCode" id="faCode2" type="radio" value="1">
-                <label class="form-check-label" for="faCode2"><i class="fa fa-exclamation-circle fa-2x"></i></label>
+                <input class="form-check-input" name="faCode" id="faCodeNone" type="radio" value="noI" checked>
+                <label class="form-check-label" for="faCodeNone">No icon</label>
+              </div>
+              <div class="form-check form-check-inline" id="faCode" onchange=generateAlertCode()>
+                <input class="form-check-input" name="faCode" id="faCode1" type="radio" value="1">
+                <label class="form-check-label" for="faCode1"><i class="fa fa-exclamation-circle fa-2x"></i></label>
               </div>
               <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateAlertCode()>
-              <input class="form-check-input" name="faCode" id="faCode3" type="radio" value="2">
-              <label class="form-check-label" for="faCode3"><i class="fa fa-info-circle fa-2x"></i></label>
+              <input class="form-check-input" name="faCode" id="faCode2" type="radio" value="2">
+              <label class="form-check-label" for="faCode2"><i class="fa fa-info-circle fa-2x"></i></label>
               </div>
               <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateAlertCode()>
-              <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="3">
-              <label class="form-check-label" for="faCode4"><i class="fa fa-question-circle fa-2x"></i></label>
+              <input class="form-check-input" name="faCode" id="faCode3" type="radio" value="3">
+              <label class="form-check-label" for="faCode3"><i class="fa fa-question-circle fa-2x"></i></label>
             </div>
             </div> 
             </div>
@@ -532,17 +540,20 @@ function getHistoryI(index,history){
     </form>   
         </div>
         <script>
-		var textarea = $("#alertHeading");
-          var radioBtn = $("#headSize1");
-          var checkRadio = function(){
-              if (textarea.val()!="") {
-                $("#headSize1").prop("checked", true);
-                generateAlertCode();
-              };
-          };
-          // Run now
-          // And when textarea changes
-          textarea.on("change", checkRadio);
+	 var textarea = $("#alertHeading");
+      //  var radioBtn = $("#headSize2");
+        var checkRadio = function(){
+          if (textarea.val()!=="") {
+            $("#headSize1").prop("checked", true);
+            generateAlertCode();
+            }
+          else {
+            $("#headSizeNone").prop("checked", true);
+            generateAlertCode();
+            } 
+                };
+              // And when textarea changes
+              textarea.on("change", checkRadio);
           </script>
           <script>
             $(function () {
