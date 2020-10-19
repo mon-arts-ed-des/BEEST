@@ -142,28 +142,26 @@
         var iconNames = {
 			      "1":"video-camera",
             "2":"play",
-            "3":"eye" 
+            "3":"play-circle",
+            "4":"play-circle-o",
+            "5":"eye"
         }
-
         var iconName = iconNames[faIcon];
     		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
-		
-        if ((faIcon == null) || (faIcon == undefined)){
+        if (faIcon == "noI"){
           faIconCode = "";
         }
-		
         var resizedHead;
-
         if(vidHeading == ""){
           resizedHead = "";
         }
-        else{
+        else {
             //Resizing the heading text
 			var headingMap = {
 				"noH":{head:"",icon:"",val:"",end:""},
 				"h3":{head:"<div id=\"heading\"><h3>",icon:faIconCode,val:vidHeading,end:"</h3></div>"},
 				"h4":{head:"<div id=\"heading\"><h4>",icon:faIconCode,val:vidHeading,end:"</h4></div>"},
-				"h5":{head:"<div id=\"heading\"><h5>",icon:faIconCode,val:vidHeading,end:"</h5></div>"}
+				"h5":{head:"<div id=\"heading\"><h5>",icon:faIconCode,val:vidHeading,end:"</h5></div>"},
 			}
 			var opt = headingMap[headSize]
 			resizedHead = opt.head+opt.icon+opt.val+opt.end
@@ -176,12 +174,9 @@
         else if (vWidth == "33" && vPosition== "right"){
           secCol=secCol4;
         }
-        $("#respVidSwitch").each(function() {
-        if ($('this:contains("youtu")')){
-          respVid=respVidYT;
-          }
-        });
-    
+        if (respLink.includes("youtu")){
+          respVid=respVidYT
+        }    
         //Change position of video and order of output
 		var textOutput = resizedHead+rowOpen+firstCol
         if (vPosition == "left"){
@@ -228,7 +223,6 @@
 				tinyMCE.get(thisId).setContent(thisVal);
 			}
 		}
-		
         generateCode();
 	}
 
@@ -556,12 +550,16 @@
           <div class="col-lg-3">
       <h5 class="font-weight-bold">Heading size<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose the size of your heading. Will default to small on entering a heading above" class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
           </div>
-          <div class="col-lg">
+          <div class="col-lg my-auto">
             <!--<select class="custom-select w-100 border border-dark" id="headSize" name="headSize" size="1" onchange=generateCode()>
             <option selected value="h5">Small (heading 5)</option>
             <option value="h4">Medium (heading 4)</option>
             <option value="h3">Large (heading 3)</option>
           </select>-->
+          <div class="form-check form-check-inline" id="headSize" onchange=generateCode()>
+            <input class="form-check-input" name="headSize" id="headSizeNone" type="radio" value="noH" checked>
+            <label class="form-check-label" for="headSizeNone">None</label>
+          </div>
           <div class="form-check form-check-inline" id="headSize" onchange=generateCode()>
             <input class="form-check-input" name="headSize" id="headSize1" type="radio" value="h5">
             <label class="form-check-label" for="headSize1"><h5>Small</h5></label>
@@ -581,7 +579,7 @@
       <div class="col-lg-3">
             <h5 class="font-weight-bold">Heading icon<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose an icon to go with your heading. If you choose an icon without typing a heading, it will not display" class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
       </div>
-      <div class="col-lg">
+      <div class="col-lg my-auto">
             <!--<select class="custom-select w-100 border border-dark" id="faCode" name="faCode" size="1" onchange=generateCode()>
               <option selected value="noI">No icon</option>
                 <option value="1">Video Camera</option>
@@ -589,16 +587,28 @@
                 <option value="3">Eye</option>
               </select>-->
               <div class="form-check form-check-inline" id="faCode" onchange=generateCode()>
-                <input class="form-check-input" name="faCode" id="faCode2" type="radio" value="1">
-                <label class="form-check-label" for="faCode2"><i class="fa fa-exclamation-circle fa-2x"></i></label>
+                <input class="form-check-input" name="faCode" id="faCodeNone" type="radio" value="noI" checked>
+                <label class="form-check-label" for="faCodeNone">None</label>
               </div>
-              <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateCode()>
-              <input class="form-check-input" name="faCode" id="faCode3" type="radio" value="2">
-              <label class="form-check-label" for="faCode3"><i class="fa fa-info-circle fa-2x"></i></label>
+              <div class="form-check form-check-inline" id="faCode" onchange=generateCode()>
+                <input class="form-check-input" name="faCode" id="faCode1" type="radio" value="1">
+                <label class="form-check-label" for="faCode1"><i class="fa fa-fw fa-video-camera fa-2x"></i></label>
               </div>
-              <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateCode()>
-              <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="3">
-              <label class="form-check-label" for="faCode4"><i class="fa fa-question-circle fa-2x"></i></label>
+              <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateCode()>
+              <input class="form-check-input" name="faCode" id="faCode2" type="radio" value="2">
+              <label class="form-check-label" for="faCode2"><i class="fa fa-fw fa-play fa-2x"></i></label>
+              </div>
+              <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateCode()>
+              <input class="form-check-input" name="faCode" id="faCode3" type="radio" value="3">
+              <label class="form-check-label" for="faCode3"><i class="fa fa-fw fa-play-circle fa-2x"></i></label>
+            </div>
+            <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateCode()>
+              <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="4">
+              <label class="form-check-label" for="faCode4"><i class="fa fa-fw fa-play-circle-o fa-2x"></i></label>
+            </div>
+            <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateCode()>
+              <input class="form-check-input" name="faCode" id="faCode5" type="radio" value="5">
+              <label class="form-check-label" for="faCode5"><i class="fa fa-fw fa-eye fa-2x"></i></label>
             </div>
             </div>
           </div>
@@ -724,19 +734,21 @@ $(function () {
          }, 2500);
       });
     });</script>
-    <script>
-      var textarea = $("#respVidHeading");
-            var radioBtn = $("#headSize1");
-            var checkRadio = function(){
-                if (textarea.val()!="") {
-                  $("#headSize1").prop("checked", true);
-                  generateCode();
-                };
+   <script>
+    var textarea = $("#respVidHeading");
+    var checkRadio = function(){
+      if (textarea.val()!=="") {
+        $("#headSize1").prop("checked", true);
+        generateCode();
+        }
+      else {
+        $("#headSizeNone").prop("checked", true);
+        generateCode();
+        } 
             };
-            // Run now
-            // And when textarea changes
-            textarea.on("change", checkRadio);
-            </script>
+          // And when textarea changes
+          textarea.on("change", checkRadio);
+          </script>
         <div id="beestFooter"></div>
         </body>
         </html>

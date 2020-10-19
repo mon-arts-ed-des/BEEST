@@ -37,6 +37,55 @@
     <!-- TinyMCE placeholder plugin file -->
     <script src="js/placeholder.js"></script> 
     <script type="text/javascript">
+    /*REQUIRED FOR HISTORY  
+	const BUTTON_HIST = "history_button"
+	var localStorageHistory = BUTTON_HIST
+	var classButton = null
+	
+	$(document).ready(function(){initHistory()})
+	
+	class button{
+		constructor(content,destination,buttonSize,icon,colour,width,newWindow,alignment,invert){
+			this.mainHead = content
+			this.destination = destination
+			this.buttonSize = buttonSize
+			this.icon = icon
+			this.colour = colour
+			this.invert = invert
+			this.width = width
+			this.newWindow = newWindow
+			this.alignment = alignment
+		}
+		toPDO(){
+			var result = {}
+			result.destination = this.destination
+			result.mainHead = this.mainHead
+			result.buttonSize = this.buttonSize
+			result.icon = this.icon
+			result.colour = this.colour
+			result.width = this.width
+			result.newWindow = this.newWindow
+			result.alignment = this.alignment
+			result.invert = this.invert
+			return result
+		}	
+		toString(){
+			return JSON.stringify(this.toPDO())
+		}
+		fromObj(PDO){
+			this.mainHead = PDO.mainHead
+			this.destination = PDO.destination
+			this.buttonSize = PDO.buttonSize
+			this.icon = PDO.icon
+			this.colour = PDO.colour
+			this.width = PDO.width
+			this.newWindow = PDO.newWindow
+			this.alignment = PDO.alignment
+			this.invert = PDO.invert
+
+		}
+	}
+/*END REQUIRED FOR HISTORY*/
    tinymce.init({
         selector: '#tinyMCEpollEv',
         menubar: false,
@@ -129,7 +178,7 @@
 //end of generatePollEvCode
 
 //function to recover code previously generated in BEEST and set the page preferences to that item.
-function recoverCode(){
+/*function recoverCode(){
         //Get the code from Step 0
 		var iconValue;
 		var vidWidth;
@@ -144,7 +193,7 @@ function recoverCode(){
         videoLink = $(retrieveCode).find('.embed-responsive-item').attr('src');
         /*if (videoLink){
         document.getElementById('respVidSwitch').value = videoLink;
-        }*/
+        }
 
         if ($(retrieveCode).find('h3').text()){
 			headSize = "h3";
@@ -180,7 +229,7 @@ function recoverCode(){
 			vidWidth,headText,headSize,iconValue
 		) // default to right in absence of way to collect right/left
 		setPageContents(videoPageInstance);
-    }
+    }*/
     //end of recoverCode
     function copyCode(){
       SelectAll("txtareapollEv");
@@ -427,27 +476,27 @@ function recoverCode(){
           <div class="col-lg">
                       <div class="row w-100">
                         <div class="col-lg">
-                    <div class="form-check form-check-inline mx-2" id="faCode" onchange=generatePollEvCode()>
+                    <div class="form-check form-check-inline mx-1" id="faCode" onchange=generatePollEvCode()>
                       <input class="form-check-input" name="faCode" id="faCode1" type="radio" value="1">
                       <label class="form-check-label" for="faCode1"><i class="fa fa-fw fa-bar-chart fa-2x"></i></label>
                     </div>
-                    <div class="form-check form-check-inline mx-2" id="faCode" onchange=generatePollEvCode()>
+                    <div class="form-check form-check-inline mx-1" id="faCode" onchange=generatePollEvCode()>
                     <input class="form-check-input" name="faCode" id="faCode2" type="radio" value="2">
                     <label class="form-check-label" for="faCode2"><i class="fa fa-fw fa-line-chart fa-2x"></i></label>
                     </div>
-                    <div class="form-check form-check-inline mx-2" id="faCode" onchange=generatePollEvCode()>
+                    <div class="form-check form-check-inline mx-1" id="faCode" onchange=generatePollEvCode()>
                       <input class="form-check-input" name="faCode" id="faCode3" type="radio" value="3">
                       <label class="form-check-label" for="faCode3"><i class="fa fa-fw fa-pie-chart fa-2x"></i></label>
                       </div>
-                    <div class="form-check form-check-inline mx-2" id="faCode" onchange=generatePollEvCode()>
+                    <div class="form-check form-check-inline mx-1" id="faCode" onchange=generatePollEvCode()>
                     <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="4">
                     <label class="form-check-label" for="faCode4"><i class="fa fa-fw fa-thumbs-o-up fa-2x"></i></label>
                   </div>
-                  <div class="form-check form-check-inline mx-2" id="faCode" onchange=generatePollEvCode()>
+                  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generatePollEvCode()>
                     <input class="form-check-input" name="faCode" id="faCode5" type="radio" value="5">
                     <label class="form-check-label" for="faCode5"><i class="fa fa-fw fa-hand-paper-o fa-2x"></i></label>
                   </div>
-                  <div class="form-check form-check-inline mx-2" id="faCode" onchange=generatePollEvCode()>
+                  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generatePollEvCode()>
                     <input class="form-check-input" name="faCode" id="faCode6" type="radio" value="6">
                     <label class="form-check-label" for="faCode6"><i class="fa fa-fw fa-balance-scale fa-2x"></i></label>
                   </div>
@@ -455,32 +504,30 @@ function recoverCode(){
               </div>
                   <div class="row w-100 mt-2">
                     <div class="col-lg">
-                      <div class="form-check form-check-inline mx-2" id="faCode" onchange=generatePollEvCode()>
+                      <div class="form-check form-check-inline mx-1" id="faCode" onchange=generatePollEvCode()>
                         <input class="form-check-input" name="faCode" id="faCode13" type="radio" value="12">
                         <label class="form-check-label" for="faCode13"><i class="fa fa-fw fa-exchange fa-2x"></i></label>
                       </div>
-                      <div class="form-check form-check-inline mx-2" id="faCode" onchange=generatePollEvCode()>
+                      <div class="form-check form-check-inline mx-1" id="faCode" onchange=generatePollEvCode()>
                         <input class="form-check-input" name="faCode" id="faCode12" type="radio" value="11">
                         <label class="form-check-label" for="faCode12"><i class="fa fa-fw fa-bullhorn fa-2x"></i></label>
                       </div>
-                  <div class="form-check form-check-inline mx-2" id="faCode" onchange=generatePollEvCode()>
+                  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generatePollEvCode()>
                     <input class="form-check-input" name="faCode" id="faCode7" type="radio" value="7">
                     <label class="form-check-label" for="faCode7"><i class="fa fa-fw fa-question fa-2x"></i></label>
                   </div>
-                  <div class="form-check form-check-inline mx-2" id="faCode" onchange=generatePollEvCode()>
+                  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generatePollEvCode()>
                     <input class="form-check-input" name="faCode" id="faCode8" type="radio" value="8">
                     <label class="form-check-label" for="faCode8"><i class="fa fa-fw fa-question-circle fa-2x"></i></label>
                   </div>
-                  <div class="form-check form-check-inline mx-2" id="faCode" onchange=generatePollEvCode()>
+                  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generatePollEvCode()>
                     <input class="form-check-input" name="faCode" id="faCode9" type="radio" value="9">
                     <label class="form-check-label" for="faCode9"><i class="fa fa-fw fa-question-circle-o fa-2x"></i></label>
                   </div>
-                  <div class="form-check form-check-inline mx-2" id="faCode" onchange=generatePollEvCode()>
+                  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generatePollEvCode()>
                     <input class="form-check-input" name="faCode" id="faCode10" type="radio" value="10">
                     <label class="form-check-label" for="faCode10"><i class="fa fa-fw fa-share fa-2x"></i></label>
                   </div>
-                  
-                 
                 </div>
               </div>
             </div>

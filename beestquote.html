@@ -39,7 +39,55 @@
     <script src="js/placeholder.js"></script> 
 
     <script type="text/javascript">
+/*REQUIRED FOR HISTORY  
+const ALERT_HIST = "history_quote"
+	var localStorageHistory = QUOTE_HIST
+	var classQuote = null
+	
+	$(document).ready(function(){initHistory()})
+	
+	class quote{
+		constructor(content,destination,buttonSize,icon,colour,width,newWindow,alignment,invert){
+			this.mainHead = content
+			this.destination = destination
+			this.buttonSize = buttonSize
+			this.icon = icon
+			this.colour = colour
+			this.invert = invert
+			this.width = width
+			this.newWindow = newWindow
+			this.alignment = alignment
+		}
+		toPDO(){
+			var result = {}
+			result.destination = this.destination
+			result.mainHead = this.mainHead
+			result.buttonSize = this.buttonSize
+			result.icon = this.icon
+			result.colour = this.colour
+			result.width = this.width
+			result.newWindow = this.newWindow
+			result.alignment = this.alignment
+			result.invert = this.invert
+			return result
+		}	
+		toString(){
+			return JSON.stringify(this.toPDO())
+		}
+		fromObj(PDO){
+			this.mainHead = PDO.mainHead
+			this.destination = PDO.destination
+			this.buttonSize = PDO.buttonSize
+			this.icon = PDO.icon
+			this.colour = PDO.colour
+			this.width = PDO.width
+			this.newWindow = PDO.newWindow
+			this.alignment = PDO.alignment
+			this.invert = PDO.invert
 
+		}
+	}
+/*END REQUIRED FOR HISTORY*/
     tinymce.init({
             selector: '#quoteText',
             menubar: false,
@@ -119,7 +167,7 @@
   //end generateQuoteCode
   
   //function to recover code previously generated in BEEST
-  function recoverCode(){
+  /*function recoverCode(){
         //Get the code from Step 0
 		var iconValue;
 		var vidWidth;
@@ -134,7 +182,7 @@
         videoLink = $(retrieveCode).find('.embed-responsive-item').attr('src');
         /*if (videoLink){
         document.getElementById('respVidSwitch').value = videoLink;
-        }*/
+        }
 
         if ($(retrieveCode).find('h3').text()){
 			headSize = "h3";
@@ -170,12 +218,16 @@
 			vidWidth,headText,headSize,iconValue
 		) // default to right in absence of way to collect right/left
 		setPageContents(videoPageInstance);
-    }
+    }*/
     //end of recoverCode
 
     //function to copy generated HTML output
-    function copyCode(){
-      SelectAll("monQuoteCode");
+   
+    function copyCode() {
+        /*REQUIRED FOR HISTORY*/	  
+		//addToHistory(classQuote)
+		/*END REQUIRED FOR HISTORY*/
+		SelectAll("monQuoteCode");
     }
 
     //select all the generated HTML
