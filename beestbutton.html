@@ -175,20 +175,39 @@
             "5":"primary",
             "6":"info", 
             "7":"dark",
-            "8":"secondary",
-            "1y":"outline-mu",
-            "2y":"outline-danger",
-            "3y":"outline-warning",
-            "4y":"outline-success",
-            "5y":"outline-primary",
-            "6y":"outline-info",
-            "7y":"outline-dark",
-            "8y":"outline-secondary"
-             }
+            "8":"secondary"}
+		for (prop in colourNames){
+			colourNames[prop+"y"] = "outline-"+colourNames[prop]
+		} // as inverts are just outline- followed by the name doing this by a loop
 
+		var buttonIds = [,'#monashBlue','#red','#yellow','#green','#darkBlue','#lightBlue','#black','#grey']
+		var nameMapping = {}
+		for (var id_i = 1; id_i<buttonIds.length; id_i++){
+			nameMapping[buttonIds[id_i]] = colourNames[id_i+""]
+			nameMapping[buttonIds[id_i]+"y"] = colourNames[id_i+"y"]
+		}
         //swap the class to invert the colour
         var invertColour = getRadioOption("invertColour");
-        if (invertColour == "y"){
+		
+		if (invertColour == "y"){
+			btnColClassAdd = "y" //to allow invert/non invert class to be added
+			btnColClassRem = "" //flipped to get the class NOT added to be removed
+			bsColour = bsColour + "y";
+		}
+		else{
+			btnColClassAdd = ""
+			btnColClassRem = "y"
+		}
+				
+		for (var btnId_i = 1; btnId_i < buttonIds.length; btnId_i++){
+				elementId = buttonIds[btnId_i] //get each button ID
+				elemColCodeAdd = nameMapping[elementId+btnColClassAdd] //find the corresponding colour code to add
+				elemColCodeRem = nameMapping[elementId+btnColClassRem] //find the corresponding colour code to remove
+				$(elementId).removeClass('btn-'+elemColCodeRem)
+				$(elementId).addClass('btn-'+elemColCodeAdd)
+		}
+		/*
+        if (invertColour == "y"){	
           $('#monashBlue').removeClass('btn-mu').addClass('btn-outline-mu');
           $('#red').removeClass('btn-danger').addClass('btn-outline-danger');
           $('#yellow').removeClass('btn-warning').addClass('btn-outline-warning');
@@ -209,7 +228,7 @@
           $('#lightBlue').removeClass('btn-outline-info').addClass('btn-info');
           $('#black').removeClass('btn-outline-dark').addClass('btn-dark');
           $('#grey').removeClass('btn-outline-secondary').addClass('btn-secondary');
-        }
+        }*/
 
         var colourName = colourNames[bsColour];
         btnClrCode = "<a class=\"btn btn-"+colourName+btnSize+"m-1\" role=\"button\" href=\"";
