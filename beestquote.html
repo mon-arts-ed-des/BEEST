@@ -11,7 +11,6 @@
 
   gtag('config', 'UA-152392632-3');
 </script>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="A simple element creator to generate responsive code that can be easily embbedded into Moodle">
@@ -45,7 +44,7 @@
             selector: '#quoteText',
             menubar: false,
             plugins : 'advlist autolink link lists charmap print preview code placeholder',
-            placeholder:'[Placeholder for image context. The content you entered in step 2 will appear here.]',
+            placeholder:'[Placeholder for quote. The content you enter for your quote will appear here.]',
             toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat',
             setup : function(ed) {      
             ed.on('change', function (e) {	
@@ -53,20 +52,46 @@
               });			
           }
         });
-   
+        //extraction for radio button variables
+        function getRadioOption(id){
+		return $('div #'+id).find('input[name="'+id+'"]:checked').val()
+	}
+  //placeholder for tinyMCE
+  const PLACEHOLDER = "[Placeholder for quote. The content you enter for your quote will appear here.]"
+	
+  //sets tinyMCE content to placeholder or input value
+  function setTinyContent(id,value){
+		tiny = tinyMCE.get(id)
+		tiny.setContent(value)
+	}
+	function getTinyContent(id,placeholder){
+		var tiny = tinyMCE.get(id).getContent()
+		if (tiny !== "") {
+            content = tiny;
+        } else {
+            content = placeholder;
+        }
+		return content
+	}
+  function getId(id){return document.getElementById(id)}
+
+  //generates code as page preferences are updated
     function generateQuoteCode() {
-        var quote_Text = document.getElementById('quoteText').value;
+        console.debug(tinyMCE.activeEditor.getContent());
+        quote_Text = getTinyContent("quoteText", PLACEHOLDER)
+      //var quote_Text = document.getElementById('quoteText').value;
         var reference_text = document.getElementById('referenceText').value
-        var bsColour = document.getElementById('bgColour').value;
-        var textSize = document.getElementById('textSize').value;
+        var bsColour = getRadioOption('bgColour')
+        var textSize = getRadioOption('textSize')
+        
         if (textSize == "h5"){
-        var resizedText = "<p>";
+        var resizedText = "<div style=\"font-size:1.2rem;\">";
         }
         else if (textSize == "h3"){
-        var resizedText = "<p style=\"font-size:1.55rem;\">";
+        var resizedText = "<div style=\"font-size:1.55rem;\">";
         }
         else if (textSize == "h4"){
-        var resizedText = "<p style=\"font-size:1.4rem;\">";
+        var resizedText = "<div style=\"font-size:1.4rem;\">";
         }
         
         var colourNames = {
@@ -91,18 +116,73 @@
         $('#demoQuote').nextAll('blockquote').remove();
         $('#demoQuote').after(quoteOutput);
         }
+  //end generateQuoteCode
+  
+  //function to recover code previously generated in BEEST
+  function recoverCode(){
+        //Get the code from Step 0
+		var iconValue;
+		var vidWidth;
+		var videoContext;
+		var videoLink;
+		var headSize;
+		var headText;
+		
+        var retrieveCode = document.getElementById('retrieveCode').value;
+        videoContext = $(retrieveCode).find('#video-context').text();
 
+        videoLink = $(retrieveCode).find('.embed-responsive-item').attr('src');
+        /*if (videoLink){
+        document.getElementById('respVidSwitch').value = videoLink;
+        }*/
+
+        if ($(retrieveCode).find('h3').text()){
+			headSize = "h3";
+        }
+        else if ($(retrieveCode).find('h4').text()){
+			headSize = "h4";
+        }
+        else if ($(retrieveCode).find('h5').text()){
+			headSize = "h5";
+        }
+		headText = $(retrieveCode).find(headSize).text();
+
+        //set icon
+        var headingIcon = $(retrieveCode).find('i').attr('class');
+		var iconMap = {
+			"fa fa-video-camera":1,
+			"fa fa-play":2,
+			"fa fa-eye":3
+		};
+		iconValue = iconMap[headingIcon]
+
+        //set video width
+        if ($(retrieveCode).find('#vidwid33')){
+          vidWidth = 33
+        }
+        else if ($(retrieveCode).find('#vidwid50')){
+          vidWidth = 50
+        }
+				
+		videoPageInstance = new videoPage(
+			videoLink,videoContext,
+			"right",
+			vidWidth,headText,headSize,iconValue
+		) // default to right in absence of way to collect right/left
+		setPageContents(videoPageInstance);
+    }
+    //end of recoverCode
+
+    //function to copy generated HTML output
     function copyCode(){
       SelectAll("monQuoteCode");
     }
 
+    //select all the generated HTML
     function SelectAll(id){
         document.getElementById(id).focus();
         document.getElementById(id).select();
         document.execCommand("copy");
-
-        var popup = document.getElementById("myPopup");
-        popup.classList.toggle("showPopup");
         //window.alert('test');
     }
     
@@ -110,6 +190,8 @@
     {
         document.forms["myform"].submit();
     }
+
+    //initialise tooltips
     $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
@@ -119,12 +201,8 @@
     quotes = predefined code to create Font Awesome quotes
     */
     
-    var quotes_1="</p><i aria-hidden=\"true\" class=\"fa fa-fw fa-quote-right fa-2x fa-pull-right\"></i><div class=\"blockquote-footer mt-2\">"
+    var quotes_1="</div><i aria-hidden=\"true\" class=\"fa fa-fw fa-quote-right fa-2x fa-pull-right\"></i><div class=\"blockquote-footer mt-2\">"
     var quotes_2="</div></blockquote>"
-
-    var card_1="<div class=\"w-50 mx-auto\"><div class=\"card text-white bg-mu mb-3\"><div class=\"card-header h5\">"
-    var card_2="</div><div class=\"card-body\"><p class=\"card-text\">"
-    var card_3="</p></div></div>"
     </script>
     <script>   
       window.onload=function(){
@@ -149,154 +227,141 @@
         .mce-notification-inner, .mce-close, .mce-notification-warning {
         display:none !important;
         }
-
-        /* Popup container - can be anything you want */
-    #popup {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    }
-
-    /* The actual popup */
-    #popup .popuptext {
-    visibility: hidden;
-    width: 220px;
-    background-color: #222222;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 10px 5px;
-    position: absolute;
-    z-index: 1;
-    bottom:100%;
-    left: 50%;
-    margin-left: -110px;
-    }
-
-    /* Popup arrow */
-    #popup .popuptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-    }
-
-    /* Toggle this class - hide and show the popup */
-    #popup .showPopup {
-    -webkit-animation: fadeinout 4s linear forwards;
-    animation: fadeinout 4s linear forwards;
-    visibility: visible;
-    }
-  
-    /* Add animation (fade in the popup) */
-@-webkit-keyframes fadeinout {
-  0%,100% { opacity: 0; }
-  10% {opacity: 1;}
-  66% { opacity: 1; }
-}
-
-@keyframes fadeinout {
-  0%,100% { opacity: 0; }
-  10% {opacity: 1;}
-  66% { opacity: 1; }
-}
 .tooltip-inner {
   text-align: left;
   padding: 15px;
   font-size: 1.05rem;
-  max-width: 400px;
+  max-width: 480px;
 }
-
     </style> 
     </head>
     <body>
       <div id="beestNav"></div>
-      <div class="row w-100 mb-5"></div>
-      <div class="row w-100 mb-4"></div>
+      <div class="py-5"></div>
 <div class="container-fluid">
-  <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
-    <div class="h6"><i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle"></i>When using these pre-designed Font Awesome snippets of code it's important to not overuse them. Too much colour and different font on the page can make pages difficult to read and inaccessible for those who may have visual or learning difficulties.</div>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span> </button>
-    </div>
- <form id="monQuote">
-  <h1 class="text-center"><i class="fa fa-quote-left fa-fw"></i> Quote <i class="fa fa-quote-right fa-fw"></i></h1>
-  <div class="row w-100 mx-auto">
-    <div class="col-lg mt-2">
-      <div class="hideableinstruct">
-  <h5>The result of this process</h5>
-  <p>This process will combine your input with Font Awesome (icons) and Bootstrap to create prebuilt direct quotes that stand out from your normal text. All you need to do is input your direct quotation and citation.</p>
-  <h5>How to use this page</h5>
-  <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle, <a data-toggle="modal" data-target=".bd-example-modal-lg" href="">this short video will help</a> (it will open in an overlay on this screen).</p>
-  <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content p-2">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+  <h3 class="text-center font-weight-bold">Quote <span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Quotes are alerts that are formatted with Font Awesome quotation icons, and can be used to emphasize an important quote from a reading or video." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h3>
+  <h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".quoteWalkthrough" href="">Create a quote (1:30)</a></h5>
+  <!--All modals for the page must go towards to the top to display correctly-->
+      <!--Quote walkthrough modal-->
+      <div class="modal fade quoteWalkthrough" tabindex="-1" role="dialog" aria-labelledby="quote-modal" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content p-2 bg-dark">
+          <div class="modal-header">
+            <h5 class="modal-title text-white">Click close or click outside this box to return to the BEEST.</h5>
+            <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">Close &times;</span>
+            </button>
+          </div>
+        <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=0b05ea43-04dd-404e-8322-ac3f016cb1ad"></iframe></div>
         </div>
-      <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe></div>
       </div>
     </div>
-  </div>
-</div>
-  <h5>Refresh this page</h5>
-  <div class="row w-100">
-    <div class="col-lg">
-  <p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
-  <div class="col-lg-3"><div class="text-center">
-    <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
-  </div></div></div>
-  <h5>Advanced mode - turn <span class="onoffswapinstr">off</span> instructions</h5>
-        <div class="row w-100">
-          <div class="col-lg">
-        <p>Click this button to turn <span class="onoffswapinstr">off</span> the instructions that appear when you hover over the headings.<span class="hideableinstruct"> Only do this if you are completely familiar with how to use the tool.</span></p></div>
-        <div class="col-lg-3"><div class="text-center">
-          <button onclick="flipTooltip()" class="btn btn-mu">Turn <span class="onoffswapinstr">off</span> instructions <i class="fa fa-fw fa-power-off"></i></a>
-        </div></div></div></div>
-        <div class="col-lg-4 mt-2 hideableinstruct">
-          <h5>Video walkthrough - Creating a quote (1:30)</h5>
-          <div class="embed-responsive embed-responsive-16by9">
-            <iframe src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=0b05ea43-04dd-404e-8322-ac3f016cb1ad" class="embed-responsive-item" frameborder="1" allowfullscreen="true"></iframe>
+        <!--How to paste HTML in Moodle modal-->
+    <div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="html-paste-modal" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content p-2 bg-dark">
+          <div class="modal-header">
+            <h5 class="modal-title text-white">Click close or click outside this box to return to the BEEST.</h5>
+            <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">Close &times;</span>
+            </button>
           </div>
+        <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe>
+        </div>
+        </div>
+      </div>
+    </div>
+    <!--End of modals for this page-->
+      <div class="row w-50 mx-auto text-center mt-3">	  
+        <div class="col-lg">
+              <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-danger btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
+            </div>
+            <div class="col-lg">
+              <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click to toggle the help instructions on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-success btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
+            </div></div>
+  <hr class="hr-3">
+  <form id="monQuote">
+    <div class="row w-100 mx-auto">
+      <div class="col-lg-6">
+        <div class="row w-100 mx-auto">
+          <div class="col-lg-3">
+            <h5 class="font-weight-bold">Recover<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Retrieve your previous button configuration. Only works once you have created at least 1 button. Then the next 20 configurations will be available until you clear your internet browser history or change internet browsers or create more than 20 buttons." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-fw fa-question-circle"></i></h5>
+          </div>              
+            <div class="col-lg">
+              <div class="row w-100">
+              <div class="col-lg-11">
+              <select class="custom-select border border-dark" size="1" id="recoveryDate" onchange="idSelectedRecData()">
+              <option selected value=0>please wait</option>
+              </select>
+            </div>
+        
+              <div class="col-lg-1 text-center">
+              <button data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to delete the item you have selected in the dropdown." id="delHist" onclick="delHistI()" type="button" class="btn btn-danger"><i class="fa fa-fw fa-trash"></i></button>     
+              </div>
+            </div>
           </div>
         </div>
-  <hr class="hr-3">
+          <hr>
+          <div class="row w-100 mx-auto">
+            <div class="col-lg-3">
+            <h5 class="font-weight-bold">Paste code from Moodle<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Paste in the code you previously generated from BEEST and pasted into Moodle to recover and redesign the element." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+            </div>
+            <div class="col-lg">
+            <textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Or recover it by pasting existing code from Moodle (work in progress)" onchange=recoverCode()></textarea>
+        </div>
+      </div>
+        <hr>
         <div class="row w-100 mx-auto">
-          <div class="col-lg-8 mt-2">
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="This is the box where you should put your quote. You can copy and paste or type the quote.">Step 1 - Input quote</h5>
-        <textarea class="border border-dark rounded p-2 w-100" cols="70" rows="2" id="quoteText" name="quoteText" placeholder="Write the content for your quote here."></textarea>
+          <div class="col-lg-3">
+        <h5 class="font-weight-bold">Quote<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Copy and paste or type your quote." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+      </div>
+      <div class="col-lg">
+        <textarea class="border border-dark rounded w-100" id="quoteText" name="quoteText" placeholder="Write the content for your quote here."></textarea>
     </div>
   </div>
-    <div class="row w-100 mx-auto">
-     <div class="col-lg-8 mt-2">
-      <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Input the reference/citation into this box and it will appear under the quote.">Step 2 - Input citation</h5>
-      <textarea class="border border-dark rounded p-2 w-100" cols="70" rows="1" id="referenceText" name="referenceText" placeholder="Write the citation for your quote here."></textarea>
+  <hr>
+  <div class="row w-100 mx-auto">
+    <div class="col-lg-3">
+      <h5 class="font-weight-bold">Citation<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Input the reference/citation into this box and it will appear under the quote." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+      </div>
+      <div class="col-lg">
+      <textarea class="border border-dark rounded p-2 w-100" rows="1" id="referenceText" name="referenceText" placeholder="Write the citation for your quote here." onchange=generateQuoteCode()></textarea>
     </div>
   </div>
-    <div class="row w-100 mx-auto">
-      <div class="col-lg-8 mt-2">
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your quote text. Regular size is chosen by default.">Step 3 - Quote text size</h5>
-              <select class="custom-select w-50 border border-dark" id="textSize" name="textSize">
+  <hr>
+  <div class="row w-100 mx-auto">
+    <div class="col-lg-3">
+        <h5 class="font-weight-bold">Text size<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose the size of your quote text. Small is chosen by default." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+        </div>
+        <div class="col-lg">
+              <!--<select class="custom-select w-50 border border-dark" id="textSize" name="textSize">
                 <option selected value="h5">Small (heading 5)</option>
                 <option value="h4">Medium (heading 4)</option>
                 <option value="h3">Large (heading 3)</option>
-            </select>
+            </select>-->
+            <div class="form-check form-check-inline" id="textSize" onchange=generateQuoteCode()>
+              <input class="form-check-input" name="textSize" id="textSize1" type="radio" value="h5" checked>
+              <label class="form-check-label" for="textSize1"><h5>Small</h5></label>
+            </div>
+            <div class="form-check form-check-inline" id="textSize" onchange=generateQuoteCode()>
+            <input class="form-check-input" name="textSize" id="textSize2" type="radio" value="h4">
+            <label class="form-check-label" for="textSize2"><h4>Medium</h4></label>
+            </div>
+            <div class="form-check form-check-inline" id="textSize" onchange=generateQuoteCode()>
+            <input class="form-check-input" name="textSize" id="textSize3" type="radio" value="h3">
+            <label class="form-check-label" for="textSize3"><h3>Large</h3></label>
+          </div>
             </div> 
             </div>
+            <hr>
             <div class="row w-100 mx-auto">
-              <div class="col-lg-8 mt-2">
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the colour of your quote background. Monash blue is chosen by default.">Step 4 - Select background colour</h5>
-        <select class="custom-select w-50 border border-dark" id="bgColour" name="bgColour">
+              <div class="col-lg-3">
+        <h5 class="font-weight-bold">Colour<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose the colour of your quote background. Monash blue is chosen by default." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+              </div>
+              <div class="col-lg">
+                <div class="row w-100">
+                  <div class="col-lg">
+        <!--<select class="custom-select w-50 border border-dark" id="bgColour" name="bgColour">
             <option class="h5 bg-mu text-white" selected value="1">Monash blue</option>
             <option class="h5 bg-danger text-white" value="2">Red</option>
             <option class="h5 bg-warning text-dark" value="3">Yellow</option>
@@ -305,24 +370,87 @@
             <option class="h5 bg-info text-white" value="6">Light blue</option>
             <option class="h5 bg-dark text-white" value="7">Black</option>
             <option class="h5 bg-secondary text-dark" value="8">Grey</option>
-          </select>
+          </select>-->
+          <div class="form-check form-check-inline mb-3" id="bgColour" onchange=generateQuoteCode()>
+            <input class="form-check-input" name="bgColour" id="bgColour1" type="radio" value="1" checked>
+            <label class="form-check-label alert alert-mu rounded my-auto" for="bgColour1">Monash blue</label>
+          </div>
+          <div class="form-check form-check-inline mb-3" id="bgColour" onchange=generateQuoteCode()>
+            <input class="form-check-input" name="bgColour" id="bgColour2" type="radio" value="2">
+            <label class="form-check-label alert alert-danger border border-danger rounded my-auto" for="bgColour2">Red</label>
+          </div>
+          <div class="form-check form-check-inline mb-3" id="bgColour" onchange=generateQuoteCode()>
+          <input class="form-check-input" name="bgColour" id="bgColour3" type="radio" value="3">
+          <label class="form-check-label alert alert-warning border border-warning my-auto" for="bgColour3">Yellow</label>
+          </div>
+          <div class="form-check form-check-inline mb-3" id="bgColour" onchange=generateQuoteCode()>
+          <input class="form-check-input" name="bgColour" id="bgColour4" type="radio" value="4">
+          <label class="form-check-label alert alert-success border border-success my-auto" for="bgColour4">Green</label>
         </div>
+      </div>
+    </div>
+   
+      <div class="row w-100">
+        <div class="col-lg">
+      <div class="form-check form-check-inline mb-3" id="bgColour" onchange=generateQuoteCode()>
+      <input class="form-check-input" name="bgColour" id="bgColour5" type="radio" value="5">
+      <label class="form-check-label alert alert-primary border border-primary my-auto" for="bgColour5">Dark blue</label>
+    </div>
+    <div class="form-check form-check-inline mb-3" id="bgColour" onchange=generateQuoteCode()>
+      <input class="form-check-input" name="bgColour" id="bgColour6" type="radio" value="6">
+      <label class="form-check-label alert alert-info border border-info my-auto" for="bgColour6">Light blue</label>
+    </div>
+    <div class="form-check form-check-inline mb-3" id="bgColour" onchange=generateQuoteCode()>
+      <input class="form-check-input" name="bgColour" id="bgColour7" type="radio" value="7">
+      <label class="form-check-label alert alert-dark border border-dark my-auto" for="bgColour7">Black</label>
+    </div>
+    <div class="form-check form-check-inline mb-3" id="bgColour" onchange=generateQuoteCode()>
+      <input class="form-check-input" name="bgColour" id="bgColour8" type="radio" value="8">
+      <label class="form-check-label alert alert-secondary border border-secondary my-auto" for="bgColour8">Grey</label>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-lg-6">
+  <div class="sticky-top" style="top:100px;">
+  <h5 class="font-weight-bold">Preview<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="A live preview of your element will appear below as you update your preferences for your quote." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+  <div id="demoQuote"></div>
+  <p class="my-3"></p>
+   <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click the copy code button below once you have finished creating your quote, ready for pasting into Moodle." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+   <textarea readonly class="rounded p-2 w-100" id="monQuoteCode" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here."></textarea>
+       <input type="button" id="copyCodeBtn" class="btn btn-success btn-lg btn-block mt-2 text-center" name="GenerateWrap" value="Copy your code </>" data-toggle="tooltip" data-placement="bottom" data-trigger="click focus" title="Your code has been copied." onClick=copyCode()>
+       <div class="text-center h5 mt-4">
+        <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
         </div>
-        <div class="row w-100 mx-auto">
-          <div class="col-lg-8 mt-2"> 
-   <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 6."> Step 5 - Generate/copy code</h5>
-        <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Copy your code </>" onClick=copyCode()></p>
-        <textarea readonly class="rounded p-2 w-100" id="monQuoteCode" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here."></textarea>
         </div></div>
     </form>   
-    <div class="row w-100 mx-auto mb-3">  
-      <div class="col-lg mt-2">
-      <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 5.">Step 6 - Preview</h5>
-      </div>  
         </div>
-        <div id="demoQuote"></div>
-        <p class="my-3"></p>
-        </div>
+                <script>
+                  $(function () {
+                    $(document).on('shown.bs.tooltip', function (e) {
+                       setTimeout(function () {
+                         $(e.target).tooltip('hide');
+                       }, 10000);
+                    });
+                  });</script>
+                  <script>
+                    $(function () {
+                      $('#copyCodeBtn').on('click', function (e) {
+                         setTimeout(function () {
+                           $(e.target).tooltip('hide');
+                         }, 2500);
+                      });
+                    });
+                    $(function () {
+                      $('#toggleHelp').on('click', function (e) {
+                         setTimeout(function () {
+                           $(e.target).tooltip('hide');
+                         }, 2500);
+                      });
+                    });
+                    </script>
         <div id="beestFooter"></div>
         </body>
         </html>

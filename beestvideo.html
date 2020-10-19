@@ -292,10 +292,7 @@
     function SelectAll(id){
         document.getElementById(id).focus();
         document.getElementById(id).select();
-        document.execCommand("copy");
-        var popup = document.getElementById("myPopup");
-        popup.classList.toggle("showPopup");
-      
+        document.execCommand("copy");      
         //window.alert('test');
     }
  
@@ -350,74 +347,12 @@
     .mce-notification-inner, .mce-close, .mce-notification-warning {
     display:none !important;
         }
-
-        /* Popup container - can be anything you want */
-    #popup {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    }
-
-    /* The actual popup */
-    #popup .popuptext {
-    visibility: hidden;
-    width: 220px;
-    background-color: #222222;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 10px 5px;
-    position: absolute;
-    z-index: 1;
-    bottom:100%;
-    left: 50%;
-    margin-left: -110px;
-    }
-
-    /* Popup arrow */
-    #popup .popuptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-    }
-
-    /* Toggle this class - hide and show the popup */
-    #popup .showPopup {
-    -webkit-animation: fadeinout 4s linear forwards;
-    animation: fadeinout 4s linear forwards;
-    visibility: visible;
-    }
-  
-    /* Add animation (fade in the popup) */
-@-webkit-keyframes fadeinout {
-  0%,100% { opacity: 0; }
-  10% {opacity: 1;}
-  66% { opacity: 1; }
-}
-
-@keyframes fadeinout {
-  0%,100% { opacity: 0; }
-  10% {opacity: 1;}
-  66% { opacity: 1; }
-}
 .tooltip-inner {
   text-align: left;
   padding: 15px;
   font-size: 1.05rem;
   max-width: 480px;
 }
-.modal-backdrop {
-      z-index: 0 !important;
-    }
     </style> 
     </head>
 <body>
@@ -426,6 +361,8 @@
 <div class="container-fluid">
 <h3 class="text-center font-weight-bold">Responsive video + context <span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="This page takes a video URL, text input and other choices and combines them to make a video that is responsive across device sizes. Resize your screen to see the effect on the Preview placeholder video. Once the screen is small enough the text/video will collapse under one another on small devices for optimal use." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h3>
 <h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".respVidWalkthrough" href="">Create a responsive video walkthrough (5:55)</a></h5>
+<!--Modal content for this page-->
+    <!--Responsive video walkthrough modal-->
   <div class="modal fade respVidWalkthrough" tabindex="-1" role="dialog" aria-labelledby="panopto-modal" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content p-2 bg-dark">
@@ -439,6 +376,21 @@
     </div>
   </div>
 </div>
+   <!--How to paste HTML into Moodle modal-->
+<div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="html-paste-modal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content p-2 bg-dark">
+      <div class="modal-header">
+        <h5 class="modal-title text-white" id="exampleModalLabel">Click close or click outside this box to return to the BEEST.</h5>
+        <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">Close &times;</span>
+        </button>
+      </div>
+    <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe></div>
+    </div>
+  </div>
+</div>
+<!--End of modal content-->
   <div class="row w-50 mx-auto text-center mt-3">
     <div class="col-lg">
           <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-danger btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
@@ -479,7 +431,9 @@
         <h5 class="font-weight-bold">Video link<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your video." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
       </div>
       <div class="col-lg">
-        <div class="hideableinstruct"><strong>Which video link do you need?</strong> Walkthroughs (30 secs approx.) - <a data-toggle="modal" data-target=".panopto-modal" href="">Panopto</a>
+        <div class="hideableinstruct"><strong>Which video link do you need?</strong> Walkthroughs (30 secs approx.)</div>
+        <div> <a data-toggle="modal" data-target=".panopto-modal" href="">Panopto</a>
+             <!--Panopto link walkthrough modal-->
           <div class="modal fade panopto-modal" tabindex="-1" role="dialog" aria-labelledby="panopto-modal" aria-hidden="true">
           <div class="modal-dialog modal-lg">
             <div class="modal-content p-2 bg-dark">
@@ -493,6 +447,7 @@
             </div>
           </div>
         </div> | <a data-toggle="modal" data-target=".youtube-modal" href="">YouTube</a>
+           <!--YouTube link walkthrough modal-->
         <div class="modal fade youtube-modal" tabindex="-1" role="dialog" aria-labelledby="youtube-modal" aria-hidden="true">
           <div class="modal-dialog modal-lg">
             <div class="modal-content p-2 bg-dark">
@@ -506,6 +461,7 @@
             </div>
           </div>
         </div> | <a data-toggle="modal" data-target=".ted-modal" href="">TED Talks</a>
+           <!--TED Talks link walkthrough modal-->
         <div class="modal fade ted-modal" tabindex="-1" role="dialog" aria-labelledby="ted-modal" aria-hidden="true">
           <div class="modal-dialog modal-lg">
             <div class="modal-content p-2 bg-dark">
@@ -519,6 +475,7 @@
             </div>
           </div>
         </div> | <a data-toggle="modal" data-target=".vimeo-modal" href="">Vimeo</a>
+           <!--Vimeo link walkthrough modal-->
         <div class="modal fade vimeo-modal" tabindex="-1" role="dialog" aria-labelledby="vimeo-modal" aria-hidden="true">
           <div class="modal-dialog modal-lg">
             <div class="modal-content p-2 bg-dark">
@@ -652,24 +609,12 @@
                 <h5 class="font-weight-bold">Preview<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="A live preview will update here as you update your preferences on the page for your video element." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
                 <div id="demo" class="mt-2">    
                 </div>
-             
+             <hr>
               <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click the copy code button below once you have finished building your video element, ready to paste into Moodle." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>  
                 <textarea readonly class="rounded p-2 w-100 mt-2" id="txtarearespVid" cols="70" rows="6" name="Result" placeholder="Code for your element will appear here"></textarea>  
                      <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied" type="button" class="btn btn-success btn-block btn-lg my-2" id="copyCodeBtn" name="GenerateWrap" id="copyCodeBtn" value="Copy your code </>" onClick=copyCode() >
                         <div class="text-center mt-4 h5"><a data-toggle="modal" data-target=".html-paste-modal" href="">How do I paste this into Moodle</a>
-                  <div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                      <div class="modal-content p-2 bg-dark">
-                        <div class="modal-header">
-                          <h5 class="modal-title text-white" id="exampleModalLabel">Click close or click outside this box to return to the BEEST.</h5>
-                          <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">Close &times;</span>
-                          </button>
-                        </div>
-                      <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe></div>
-                      </div>
-                    </div>
-                  </div>
+                 
                 </div>
               </div>
                           <!--<input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Display in Moodle" onClick=writeinMoodle() ></p>-->

@@ -118,41 +118,6 @@
 		SelectAll("monAlertCode");
     }
 
-    function iconpreview() {
-        var faIcon = document.getElementById("faCode").value;
-        var iconNames = {
-            "1": "exclamation-circle",
-            "2": "info-circle",
-            "3": "question-circle",
-        };
-
-        var iconName = iconNames[faIcon];
-        var faIconCode = '<i id="icon" class="fa fa-' + iconName + '"></i> ';
-
-		var getIcon = document.getElementById("icon")
-        if (faIcon == "noI") {
-            faIconCode = "";
-            if (getIcon) {
-                var icon = getIcon;
-                icon.parentNode.removeChild(icon);
-                var iconpreview = document.getElementById("iconpreview");
-                iconpreview.style.display = "none";
-            }
-        } else {
-            if (getIcon) {
-                var icon = getIcon;
-                icon.parentNode.removeChild(icon);
-            }
-
-            var code = document.createElement("span");
-            code.innerHTML = faIconCode;
-            var iconpreview = document.getElementById("iconpreview");
-            iconpreview.style.display = "block";
-            iconpreview.parentNode.insertBefore(code, iconpreview.nextSibling);
-        }
-        generateAlertCode();
-    }
-
     var alertCode;
 
 	
@@ -297,9 +262,7 @@ function getHistoryI(index,history){
       font-size: 1.05rem;
       max-width: 400px;
     }
-    .modal-backdrop {
-      z-index: 0 !important;
-    }
+ 
     </style> 
   </head>
 <body>
@@ -308,6 +271,8 @@ function getHistoryI(index,history){
   <div class="container-fluid">
     <h3 class="text-center font-weight-bold">Alert<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Alerts are used to draw the user's attention to something important, or to highlight information. You would be familiar with these on most websites (including Moodle), red alerts are used for errors or for incorrect actions, green ones for correct actions and blue to highlight important information on a page. Overuse of these alerts will most likely result in them being ignored. So use them sparingly and only when necessary." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h3>
     <h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".respVidWalkthrough" href="">Create an alert walkthrough (3:38)</a></h5>
+    <!--Begin modal content for this page-->
+    <!--Alert walkthrough modal-->
       <div class="modal fade respVidWalkthrough" tabindex="-1" role="dialog" aria-labelledby="panopto-modal" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content p-2 bg-dark">
@@ -321,6 +286,22 @@ function getHistoryI(index,history){
         </div>
       </div>
     </div>
+    <!--How to paste HTML in Moodle modal-->
+    <div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="html-paste-modal" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content p-2 bg-dark">
+          <div class="modal-header">
+            <h5 class="modal-title text-white">Click close or click outside this box to return to the BEEST.</h5>
+            <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">Close &times;</span>
+            </button>
+          </div>
+        <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe>
+        </div>
+        </div>
+      </div>
+    </div>
+    <!--End of modal content for this page-->
       <div class="row w-50 mx-auto text-center mt-3">	  
         <div class="col-lg">
               <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-danger btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
@@ -328,24 +309,13 @@ function getHistoryI(index,history){
             <div class="col-lg">
               <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click to toggle the help instructions on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-success btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
             </div></div>
-<!--<div class="row w-50 mx-auto text-center mt-3">
-<div class="col-lg">
-<h4>Recover past data</h4></div>
-<div class="col-lg">
-  <select class="custom-select w-50 border border-dark" size="1" id="recoveryDate" onchange="idSelectedRecData()">
-  <option selected value=0>please wait</option>
-  </select>
-  <button id="delHist" onclick="delHistI()" type="button" class="btn btn-danger mr-2"><i class="fa fa-fw fa-trash"></i></button>
-
-  <button id="loadHist" onclick="getHistoryI(histIndex,historicalData)" class="btn btn-mu">Recover <i class="fa fa-fw fa-undo"></i></button>
-        </div></div>-->
   <hr class="hr-3">
   <form id="monashAlert">
     <div class="row w-100 mx-auto">
       <div class="col-lg-6">
         <div class="row w-100 mx-auto">
           <div class="col-lg-3"> 
-            <h5 class="font-weight-bold">Recover past data<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Recover recently created items. This will only become operational once you have created at least one alert. If you change browsers or clear your browser history, you will lose this history as well." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+            <h5 class="font-weight-bold">Recover<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Recover recently created items. This will only become operational once you have created at least one alert. If you change browsers or clear your browser history, you will lose this history as well." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
           </div>
           <div class="col-lg-8">
             <select class="custom-select border border-dark" size="1" id="recoveryDate" onchange="idSelectedRecData()">
@@ -358,6 +328,15 @@ function getHistoryI(index,history){
           </div>
         </div>
         <hr>
+        <div class="row w-100 mx-auto">
+          <div class="col-lg-3">
+          <h5 class="font-weight-bold">Paste code from Moodle<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Paste in the code you previously generated from BEEST and pasted into Moodle to recover and redesign the element." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+          </div>
+          <div class="col-lg">
+          <textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Or recover it by pasting existing code from Moodle (work in progress)" onchange=recoverCode()></textarea>
+      </div>
+    </div>
+    <hr>
         <div class="row w-100 mx-auto">
           <div class="col-lg-3">  
      <h5 class="font-weight-bold">Write the alert<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type in the text you would like to appear in your alert." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
@@ -386,6 +365,10 @@ function getHistoryI(index,history){
           <option class="h4 mb-0" value="h4">Medium (heading 4)</option>
           <option class="h3 mb-0" value="h3">Large (heading 3)</option>
         </select>-->
+        <div class="form-check form-check-inline" id="headSize" onchange=generateAlertCode()>
+          <input class="form-check-input" name="headSize" id="headSizeNone" type="radio" value="noH" checked>
+          <label class="form-check-label" for="headSizeNone">No heading</label>
+        </div>
           <div class="form-check form-check-inline" id="headSize" onchange=generateAlertCode()>
             <input class="form-check-input" name="headSize" id="headSize1" type="radio" value="h5">
             <label class="form-check-label" for="headSize1"><h5>Small</h5></label>
@@ -417,16 +400,20 @@ function getHistoryI(index,history){
                 <label class="form-check-label" for="faCode1">No icon</label>
               </div>-->
               <div class="form-check form-check-inline" id="faCode" onchange=generateAlertCode()>
-                <input class="form-check-input" name="faCode" id="faCode2" type="radio" value="1">
-                <label class="form-check-label" for="faCode2"><i class="fa fa-exclamation-circle fa-2x"></i></label>
+                <input class="form-check-input" name="faCode" id="faCodeNone" type="radio" value="noI" checked>
+                <label class="form-check-label" for="faCodeNone">No icon</label>
+              </div>
+              <div class="form-check form-check-inline" id="faCode" onchange=generateAlertCode()>
+                <input class="form-check-input" name="faCode" id="faCode1" type="radio" value="1">
+                <label class="form-check-label" for="faCode1"><i class="fa fa-exclamation-circle fa-2x"></i></label>
               </div>
               <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateAlertCode()>
-              <input class="form-check-input" name="faCode" id="faCode3" type="radio" value="2">
-              <label class="form-check-label" for="faCode3"><i class="fa fa-info-circle fa-2x"></i></label>
+              <input class="form-check-input" name="faCode" id="faCode2" type="radio" value="2">
+              <label class="form-check-label" for="faCode2"><i class="fa fa-info-circle fa-2x"></i></label>
               </div>
               <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateAlertCode()>
-              <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="3">
-              <label class="form-check-label" for="faCode4"><i class="fa fa-question-circle fa-2x"></i></label>
+              <input class="form-check-input" name="faCode" id="faCode3" type="radio" value="3">
+              <label class="form-check-label" for="faCode3"><i class="fa fa-question-circle fa-2x"></i></label>
             </div>
             </div> 
             </div>
@@ -447,8 +434,8 @@ function getHistoryI(index,history){
                 <option value="7">Black</option>
                 <option value="8">Grey</option>
               </select>-->
-              <div class="row w-100 mb-0">
-                <div class="col-lg mb-0">
+              <div class="row w-100">
+                <div class="col-lg">
               <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateAlertCode()>
                 <input class="form-check-input" name="alertColour" id="alertColour1" type="radio" value="1" checked>
                 <label class="form-check-label alert alert-mu rounded my-auto" for="alertColour1">Monash blue</label>
@@ -516,42 +503,33 @@ function getHistoryI(index,history){
               
                 <div id="demo"></div>
                 <p class="my-3"></p>
+                <hr>
    <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click the copy code button below once you have finished creating your alert, ready for pasting into Moodle." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></h5>
    
    <textarea readonly class="border border-dark rounded p-2 w-100" id="monAlertCode" cols="70" rows="4" name="Result" placeholder="Code for your element will appear here."></textarea>  
         <input type="button" class="btn btn-success btn-block btn-lg my-2 text-center" name="GenerateWrap" value="Copy code </>" onClick=copyCode() id="copyCodeBtn" data-toggle="tooltip" data-placement="left" data-trigger="click focus" title="Your code has been copied." />
         <div class="text-center h5 mt-4">
           <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
-          <div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content p-2 bg-dark">
-                <div class="modal-header">
-                  <h5 class="modal-title text-white">Click close or click outside this box to return to the BEEST.</h5>
-                  <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">Close &times;</span>
-                  </button>
-                </div>
-              <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe>
-              </div>
-              </div>
-            </div>
-          </div></div></div>
+          </div></div>
        </div>
       </div>
     </form>   
         </div>
         <script>
-		var textarea = $("#alertHeading");
-          var radioBtn = $("#headSize1");
-          var checkRadio = function(){
-              if (textarea.val()!="") {
-                $("#headSize1").prop("checked", true);
-                generateAlertCode();
-              };
-          };
-          // Run now
-          // And when textarea changes
-          textarea.on("change", checkRadio);
+	 var textarea = $("#alertHeading");
+      //  var radioBtn = $("#headSize2");
+        var checkRadio = function(){
+          if (textarea.val()!=="") {
+            $("#headSize1").prop("checked", true);
+            generateAlertCode();
+            }
+          else {
+            $("#headSizeNone").prop("checked", true);
+            generateAlertCode();
+            } 
+                };
+              // And when textarea changes
+              textarea.on("change", checkRadio);
           </script>
           <script>
             $(function () {
@@ -566,14 +544,14 @@ function getHistoryI(index,history){
                 $('#copyCodeBtn').on('click', function (e) {
                    setTimeout(function () {
                      $(e.target).tooltip('hide');
-                   }, 2000);
+                   }, 2500);
                 });
               });
               $(function () {
                 $('#toggleHelp').on('click', function (e) {
                    setTimeout(function () {
                      $(e.target).tooltip('hide');
-                   }, 2000);
+                   }, 2500);
                 });
               });
               </script>
