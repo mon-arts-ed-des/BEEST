@@ -41,7 +41,7 @@
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
 	  <script src="js/advancedModeLocalStorage.js"></script>
     <script type="text/javascript">
-/*REQUIRED FOR HISTORY    
+/*REQUIRED FOR HISTORY*/    
 	const BUTTON_HIST = "history_button"
 	var localStorageHistory = BUTTON_HIST
 	var classButton = null
@@ -246,7 +246,7 @@
 		}
            
 
-	//	classButton = new button(btn_text,btn_URL,bsBtnSize,faIcon,bsColour,fullWidth,btnTarget,btnAlign,invertColour);
+		classButton = new button(btn_text,btn_URL,bsBtnSize,faIcon,bsColour,fullWidth,btnTarget,btnAlign,invertColour);
         document.getElementById('txtareaBtn').value=textOutput;
         //SelectAll("txtareaBtn");
         $('#demo').next('div').remove();
@@ -255,7 +255,7 @@
 // end of generateBtnCode function
 
 //function to recover previously generated code that is pasted back into BEEST
-/*
+
 function recoverCode(){
         //Get the code from Step 0
 		var iconValue;
@@ -269,7 +269,7 @@ function recoverCode(){
         videoContext = $(retrieveCode).find('#video-context').text();
 
         videoLink = $(retrieveCode).find('.embed-responsive-item').attr('src');
-        /*if (videoLink){
+        if (videoLink){
         document.getElementById('respVidSwitch').value = videoLink;
         }
 
@@ -307,14 +307,14 @@ function recoverCode(){
 			vidWidth,headText,headSize,iconValue
 		) // default to right in absence of way to collect right/left
 		setPageContents(videoPageInstance);
-    }*/
+    }
     //End of recoverCode function
 
 
 // function to copy generated code 
     function copyCode(){
 		/*REQUIRED FOR HISTORY*/	  
-	//	addToHistory(classButton)
+		addToHistory(classButton)
 		/*END REQUIRED FOR HISTORY*/
       SelectAll("txtareaBtn");
     }
@@ -353,11 +353,11 @@ function recoverCode(){
     var btnSW_2="</a></p></div>"
 
 /*REQUIRED FOR HISTORY*/
-/*function setTextAreas(classData){
+function setTextAreas(classData){
 	getId("btn_URL").value = classData.destination
 	getId("btn_text").value = classData.mainHead
 	setRadios("faCode",classData.icon)
-	setRadios("btnColour",classData.colour)
+	setRadios("btnColour",classData.colour.replace("y",""))
 	setRadios("invertColour",classData.invert)
 	setRadios("buttonTarget",classData.newWindow)
 	setRadios("buttonSize",classData.buttonSize)
@@ -365,18 +365,18 @@ function recoverCode(){
 	setCheckBox("fullWidth2",classData.width)
 
 }
-/*
 
-*/
 
-/*function getHistoryI(index,history){
+
+
+function getHistoryI(index,history){
 	if (history.length>0){
 		var selectedItem = history[index]
 		classButton = new button()
 		classButton.fromObj(selectedItem)
 		refToClassButton = classButton
 		setTextAreas(refToClassButton)
-		generateAlertCode()
+		generateBtnCode()
 	}
 }
 /*END REQUIRED FOR HISTORY*/
