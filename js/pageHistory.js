@@ -19,8 +19,12 @@ function initHistory(){
 		histIndex = historicalData.length-1
 		showRecoveryDate(histIndex,historicalData)
 	}
-	hideButton("loadHist")
+	try{
+		hideButton("loadHist")
+	}catch{}
+	try{
 	hideButton("delHist")
+	}catch{}
 }
 
 function idSelectedRecData(){
