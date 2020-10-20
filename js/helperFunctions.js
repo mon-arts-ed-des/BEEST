@@ -3,9 +3,12 @@ function getRadioOption(id){
 	}
 	
 	function setRadios(id,selectedIndex){
-		selectedIndex = selectedIndex * 1 //type cast as number
-		$('div #'+id).find('input[name="'+id+'"]').each(function(index,value){
-			if ((index+1) == selectedIndex){
+		//type cast if you can
+		var casted = selectedIndex * 1
+		if (!(isNaN(casted))){selectedIndex = casted}
+		
+		$('div #'+id).find('input[name="'+id+'"]').each(function(index){
+			if (((index+1) == selectedIndex)||($(this).val() == selectedIndex)){
 				$(this).prop("checked",true)
 			}
 			else{
