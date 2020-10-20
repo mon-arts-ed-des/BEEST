@@ -497,24 +497,15 @@ function getHistoryI(index,history){
             <div class="col-lg-3">
               <h5 class="font-weight-bold">Choose icon<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="If you would like an icon to the right of your button text, choose one from this list." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
             </div>
-            <div class="col-lg-1 my-auto">
+            <div class="col-lg-1 my-auto mr-3">
             <div class="form-check form-check-inline" id="faCode" onchange=generateBtnCode()>
               <input class="form-check-input" name="faCode" id="faCodeNone" type="radio" value="noI" checked>
               <label class="form-check-label" for="faCodeNone">None</label>
             </div>
           </div>
             <div class="col-lg">
-              <!--<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" onchange=generateBtnCode()>
-                <option selected value="noI">No icon</option>
-                <option value="1">Arrow right</option>
-                <option value="2">Arrow right in a circle</option>
-                <option value="3">External link square</option>
-                <option value="4">Finger pointing right</option>
-                <option value="5">Play</option>
-                <option value="6">Play in a circle</option>
-              </select>-->
               <div class="row w-100">
-                <div class="col-lg">
+                <div class="col-lg d-flex justify-content-between">
               <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateBtnCode()>
                 <input class="form-check-input" name="faCode" id="faCode1" type="radio" value="1">
                 <label class="form-check-label" for="faCode1"><i class="fa fa-fw fa-arrow-right fa-2x"></i></label>
@@ -538,7 +529,7 @@ function getHistoryI(index,history){
           </div>
         </div>
             <div class="row w-100 mt-2">
-              <div class="col-lg">
+              <div class="col-lg d-flex justify-content-between">
             <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateBtnCode()>
               <input class="form-check-input" name="faCode" id="faCode6" type="radio" value="6">
               <label class="form-check-label" for="faCode6"><i class="fa fa-fw fa-hand-o-right fa-2x"></i></label>
@@ -570,44 +561,20 @@ function getHistoryI(index,history){
           
         </div>
         <div class="col-lg-9">
-          <!--<select class="custom-select w-50 border border-dark" id="btnColour" name="btnColour" onchange=generateBtnCode()>
-              <option selected value="1">Monash blue</option>
-              <option value="2">Red</option>
-              <option value="3">Yellow</option>
-              <option value="4">Green</option>
-              <option value="5">Dark blue</option>
-              <option value="6">Light blue</option>
-              <option value="7">Black</option>
-              <option value="8">Grey</option>
-              <option value="9">Monash blue outline</option>
-              <option value="10">Red outline</option>
-              <option value="11">Yellow outline</option>
-              <option value="12">Green outline</option>
-              <option value="13">Dark blue outline</option>
-              <option value="14">Light blue outline</option>
-              <option value="15">Black outline</option>
-              <option value="16">Grey outline</option>
-            </select>-->
             <div class="row w-100">
-              <div class="col-lg">
+              <div class="col-lg d-flex justify-content-between">
             <div class="form-check form-check-inline" id="btnColour" onchange=generateBtnCode()>
               <input class="form-check-input" name="btnColour" id="btnColour1" type="radio" value="1" checked>
               <label class="form-check-label" for="btnColour1"><span id="monashBlue" class="btn btn-mu">Monash blue</span></label>
             </div>
-          </div>
-          <div class="col-lg">
             <div class="form-check form-check-inline" id="btnColour" onchange=generateBtnCode()>
             <input class="form-check-input" name="btnColour" id="btnColour2" type="radio" value="2">
             <label class="form-check-label" for="btnColour2"><span id="red" class="btn btn-danger">Red</span></label>
             </div>
-          </div>
-          <div class="col-lg">
             <div class="form-check form-check-inline" id="btnColour" onchange=generateBtnCode()>
               <input class="form-check-input" name="btnColour" id="btnColour3" type="radio" value="3">
               <label class="form-check-label" for="btnColour3"><span id="yellow" class="btn btn-warning">Yellow</span></label>
               </div>
-            </div>
-            <div class="col-lg">
             <div class="form-check form-check-inline" id="btnColour" onchange=generateBtnCode()>
             <input class="form-check-input" name="btnColour" id="btnColour4" type="radio" value="4">
             <label class="form-check-label" for="btnColour4"><span id="green" class="btn btn-success">Green</span></label>
@@ -615,25 +582,19 @@ function getHistoryI(index,history){
         </div>
       </div>
         <div class="row w-100 mt-2">
-          <div class="col-lg">
+          <div class="col-lg d-flex justify-content-between">
           <div class="form-check form-check-inline" id="btnColour" onchange=generateBtnCode()>
             <input class="form-check-input" name="btnColour" id="btnColour5" type="radio" value="5">
             <label class="form-check-label" for="btnColour5"><span id="darkBlue" class="btn btn-primary">Dark blue</span></label>
           </div>
-        </div>
-        <div class="col-lg">
           <div class="form-check form-check-inline" id="btnColour" onchange=generateBtnCode()>
             <input class="form-check-input" name="btnColour" id="btnColour6" type="radio" value="6">
             <label class="form-check-label" for="btnColour6"><span id="lightBlue" class="btn btn-info">Light blue</span></label>
           </div>
-        </div>
-        <div class="col-lg">
           <div class="form-check form-check-inline" id="btnColour" onchange=generateBtnCode()>
             <input class="form-check-input" name="btnColour" id="btnColour7" type="radio" value="7">
             <label class="form-check-label" for="btnColour7"><span id="black" class="btn btn-dark">Black</span></label>
           </div>
-        </div>
-        <div class="col-lg">
           <div class="form-check form-check-inline" id="btnColour" onchange=generateBtnCode()>
             <input class="form-check-input" name="btnColour" id="btnColour8" type="radio" value="8">
             <label class="form-check-label" for="btnColour8"><span id="grey" class="btn btn-secondary">Grey</span></label>
@@ -663,14 +624,6 @@ function getHistoryI(index,history){
             <div class="col-lg-3">
       <h5 class="font-weight-bold">Button size<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose the size of your button. Regular is chosen by default." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>      
       </div>
-      <!--<select class="custom-select w-50 border border-dark" id="buttonSize" name="buttonSize" onchange=generateBtnCode()>
-          <option selected value="1">Regular</option>
-          <option value="2">Large</option>
-          <option value="3">Small</option>
-          <option value="4">Regular + full width of screen</option>
-          <option value="5">Large + full width of screen</option>
-          <option value="6">Small + full width of screen</option>
-        </select>-->
         <div class="col-lg">
           <div class="form-check" id="buttonSize" onchange=generateBtnCode()>
             <input class="form-check-input" name="buttonSize" id="buttonSize3" type="radio" value="1">
@@ -684,18 +637,6 @@ function getHistoryI(index,history){
         <input class="form-check-input" name="buttonSize" id="buttonSize2" type="radio" value="3">
         <label class="form-check-label" for="buttonSize2"><span id="btnLarge" class="btn btn-lg btn-dark">Large</span></label>
         </div>
-          <!--<div class="form-check mt-2" id="buttonSize" onchange=generateBtnCode()>
-            <input class="form-check-input" name="buttonSize" id="buttonSize6" type="radio" value="6">
-            <label class="form-check-label w-100" for="buttonSize6"><div class="btn btn-block btn-sm btn-dark">Small + full width of screen</div></label>
-          </div>
-        <div class="form-check mt-2" id="buttonSize" onchange=generateBtnCode()>
-        <input class="form-check-input" name="buttonSize" id="buttonSize4" type="radio" value="4">
-        <label class="form-check-label w-100" for="buttonSize4"><div class="btn btn-block btn-dark">Regular + full width of screen</div></label>
-      </div>
-      <div class="form-check mt-2" id="buttonSize" onchange=generateBtnCode()>
-        <input class="form-check-input" name="buttonSize" id="buttonSize5" type="radio" value="5">
-        <label class="form-check-label w-100" for="buttonSize5"><div class="btn btn-block btn-lg btn-dark btn-default">Large + full width of screen</div></label>
-      </div>-->
       </div>
       </div>
       <hr>
@@ -722,10 +663,6 @@ function getHistoryI(index,history){
           <h5 class="font-weight-bold">Open link in<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose whether to open link in a new window, or the same window users are on. New window is chosen by default." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
       </div>
       <div class="col-lg">
-          <!--<select class="custom-select w-50 border border-dark" id="buttonTarget" name="buttonTarget" size="1" onchange=generateBtnCode()>
-            <option selected value="newWin">New window</option>
-             <option value="sameWin">Same window</option>               
-          </select>-->
           <div class="form-check form-check-inline" id="buttonTarget" onchange=generateBtnCode()>
             <input class="form-check-input" name="buttonTarget" id="buttonTarget1" type="radio" value="newWin" checked>
             <label class="form-check-label" for="buttonTarget1">New window</label>
@@ -743,10 +680,6 @@ function getHistoryI(index,history){
               
               </div>
               <div class="col-lg">
-              <!--<select class="custom-select w-50 border border-dark" id="buttonAlign" name="buttonAlign" size="1" onchange=generateBtnCode()>
-                <option selected value="leftAlign">Left align button</option>
-                 <option value="centerAlign">Center align button</option>               
-              </select>-->
               <div class="form-check form-check-inline" id="buttonAlign" onchange=generateBtnCode()>
                 <input class="form-check-input" name="buttonAlign" id="buttonAlign1" type="radio" value="leftAlign" checked>
                 <label class="form-check-label" for="buttonAlign1">Left</label>
@@ -788,8 +721,8 @@ function getHistoryI(index,history){
               </div>
         </form>   
         </div>     
-        <!--<script>
-          //Script to freeze URL pasting area on paste.
+        <script>
+          //Script to ensure URL contains a prefix so that the link works correctly in Moodle.
           $('#btn_URL').on('input', function(event) {
           var s = $('#btn_URL').val().toString();
           
@@ -806,7 +739,6 @@ function getHistoryI(index,history){
           }
       
           $('#btn_URL').val(s);
-          $('input[type="text"], #btn_URL').attr('readonly','readonly');
         }); 
       </script>-->
        <script>
