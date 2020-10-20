@@ -264,15 +264,12 @@ function recoverCode(){
 		var videoLink;
 		var headSize;
 		var headText;
-		
-        var retrieveCode = document.getElementById('retrieveCode').value;
+    var retrieveCode = document.getElementById('retrieveCode').value;
         videoContext = $(retrieveCode).find('#video-context').text();
-
         videoLink = $(retrieveCode).find('.embed-responsive-item').attr('src');
         if (videoLink){
         document.getElementById('respVidSwitch').value = videoLink;
         }
-
         if ($(retrieveCode).find('h3').text()){
 			headSize = "h3";
         }
@@ -283,7 +280,6 @@ function recoverCode(){
 			headSize = "h5";
         }
 		headText = $(retrieveCode).find(headSize).text();
-
         //set icon
         var headingIcon = $(retrieveCode).find('i').attr('class');
 		var iconMap = {
@@ -292,15 +288,13 @@ function recoverCode(){
 			"fa fa-eye":3
 		};
 		iconValue = iconMap[headingIcon]
-
         //set video width
         if ($(retrieveCode).find('#vidwid33')){
           vidWidth = 33
         }
         else if ($(retrieveCode).find('#vidwid50')){
           vidWidth = 50
-        }
-				
+        }	
 		videoPageInstance = new videoPage(
 			videoLink,videoContext,
 			"right",
@@ -309,16 +303,13 @@ function recoverCode(){
 		setPageContents(videoPageInstance);
     }
     //End of recoverCode function
-
-
 // function to copy generated code 
     function copyCode(){
 		/*REQUIRED FOR HISTORY*/	  
 		addToHistory(classButton)
 		/*END REQUIRED FOR HISTORY*/
       SelectAll("txtareaBtn");
-    }
-        
+    }     
     function SelectAll(id){
         document.getElementById(id).focus();
         document.getElementById(id).select();
@@ -335,23 +326,17 @@ function recoverCode(){
     $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
-
     /* Variable Key
     These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
-
     btnNW = btn open in new window
     btnSW = btn open in same window
-  
     */
     var btnLeft="<div><p>"
     var btnCenter="<div class=\"text-center\"><p>"
     var btnNW_1="\" target=\"_blank\">"
-    var btnNW_2="</a></p><p>(Opens in a new window)</p></div>"
-
-    
+    var btnNW_2="</a></p><p>(Opens in a new window)</p></div>"  
     var btnSW_1="\">"
     var btnSW_2="</a></p></div>"
-
 /*REQUIRED FOR HISTORY*/
 function setTextAreas(classData){
 	getId("btn_URL").value = classData.destination
@@ -363,12 +348,7 @@ function setTextAreas(classData){
 	setRadios("buttonSize",classData.buttonSize)
 	setRadios("buttonAlign",classData.alignment)
 	setCheckBox("fullWidth2",classData.width)
-
 }
-
-
-
-
 function getHistoryI(index,history){
 	if (history.length>0){
 		var selectedItem = history[index]
@@ -394,8 +374,7 @@ function getHistoryI(index,history){
                 $(this).addClass("active");
                 $(this).append('<span class="sr-only">(current)</span>')
            });
-      }
-      
+      }     
       setTimeout(function() {
           activeNav();
       }, 100);
@@ -740,7 +719,7 @@ function getHistoryI(index,history){
       
           $('#btn_URL').val(s);
         }); 
-      </script>-->
+      </script>
        <script>
         $(function () {
           $(document).on('shown.bs.tooltip', function (e) {
