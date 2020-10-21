@@ -22,8 +22,11 @@
       <!-- Bootstrap CSS -->   
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
       <!-- Arts CSS -->  
-      <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/adminPlusSetuBlockStyle.css" />
-      
+      <link rel="stylesheet" href="css/adminPlusSetuBlockStyle.css" />
+      <link rel="stylesheet" href="css/monashElements.css" />
+      <!--Scripts for history and radio buttons-->
+      <script src="js/pageHistory.js"></script>
+      <script src="js/helperFunctions.js"></script>
       <!-- external link to js file -->  
       <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
       <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -51,7 +54,6 @@
           });					
         }
       });
-      
       tinymce.init({
         selector: '#tinyMCEreadMoreAfter',
         menubar: false,
@@ -64,17 +66,152 @@
           });					
         }  
       });
-      
-       
     function generateReadMoreCode() {
         // Get the HTML contents of the currently active editor
         console.debug(tinyMCE.activeEditor.getContent());
         //Retrieve the content by id of the tinyMCE textarea
-        var readMoreBefore = tinyMCE.get('tinyMCEreadMoreBefore').getContent();
-        var readMoreAfter = tinyMCE.get('tinyMCEreadMoreAfter').getContent();
         var readMoreNumber = document.getElementById('readMoreNumber').value;
         var readMoreBtnTxt = document.getElementById('readMoreBtnTxt').value;
-        var readMoreOutput = readMoreContainer+readMoreBefore+readMore_1+readMoreNumber+readMore_2+readMoreAfter+readMore_3+readMoreNumber+readMore_4+readMoreBtnTxt+readMore_5+readMoreClose;
+        var bsColour = getRadioOption("btnColour")
+        var bsBtnSize = getRadioOption("buttonSize")
+        var bsBtnWidth = getRadioOption("buttonWidth")
+        var faIcon = getRadioOption("faCode")
+        var readMoreContainer="<div class=\"beestRead\">"
+        var readMore_1="<div class=\"collapse\" id=\"readMore"+readMoreNumber+"\">"
+        var readMoreClose="</div>"
+        var iconNames = {
+			      "1":"arrow-right",
+            "2":"arrow-circle-right",
+            "3":"arrow-circle-o-right",
+            "4":"external-link-square",
+            "5":"external-link",
+            "6":"hand-o-right",
+            "7":"play",
+            "8":"play-circle",
+            "9":"play-circle-o",
+           "10":"link"
+        }
+    
+		var iconName;
+		var faIconCode;
+		if (faIcon=="noI"){
+			faIconCode = ""
+		}
+		else{
+			iconName = iconNames[faIcon];
+			faIconCode = ' <i class="fa fa-' + iconName + '"></i> ';
+		}
+    if(document.getElementById('readMoreBtnTxt').value !== ""){
+      var readMoreBtnTxt = document.getElementById('readMoreBtnTxt').value;
+    }
+    else {
+      var readMoreBtnTxt = "[Placeholder button text]"
+    }
+    if(tinyMCE.get('tinyMCEreadMoreBefore').getContent() !== ""){
+      var readMoreBefore = tinyMCE.get('tinyMCEreadMoreBefore').getContent();
+    }
+    else {
+      var readMoreBefore = "Placeholder content before the button. Click the button below to reveal the content after and see how read more buttons work."
+    }
+
+    if(tinyMCE.get('tinyMCEreadMoreAfter').getContent() !== ""){
+      var readMoreAfter = tinyMCE.get('tinyMCEreadMoreAfter').getContent();
+    }
+    else {
+      var readMoreAfter = "Placeholder content after the button. You can input content here, and hide it until the button is clicked by the user."
+    }
+        var buttonSize = {
+          "1":" btn-sm ",
+          "2":" ",
+          "3":" btn-lg ",
+        }
+		var buttonSpan = ['#btnSmall','#btnRegular','#btnLarge']
+
+        if (bsBtnWidth == "50"){
+      $('#buttonSize .btn').addClass('w-50');
+      $('#buttonSize .btn').removeClass('w-75');
+      $('#buttonSize .btn').removeClass('w-100');
+      }
+      else if (bsBtnWidth =="75"){
+      $('#buttonSize .btn').addClass('w-75');
+      $('#buttonSize .btn').removeClass('w-50');
+      $('#buttonSize .btn').removeClass('w-100');
+      }
+      else if (bsBtnWidth =="100"){
+      $('#buttonSize .btn').addClass('w-100');
+      $('#buttonSize .btn').removeClass('w-75');
+      $('#buttonSize .btn').removeClass('w-50');
+      }
+		 /* bsBtnSize = bsBtnSize + "y";
+          $('#alignment').hide();
+        }
+        else {
+          for (var _buttonSize of buttonSpan){
+			$(_buttonSize).removeClass('btn-block');
+      $('#buttonSize label').removeClass('w-100');
+      $('#buttonSize .btn').removeClass('btn-block');
+		  }
+          $('#alignment').show();
+        }*/
+
+        var btnSize = buttonSize[bsBtnSize];
+       
+        var colourNames = {
+			      "1":"mu",
+            "2":"danger",
+            "3":"warning",
+            "4":"success",
+            "5":"primary",
+            "6":"info", 
+            "7":"dark",
+            "8":"secondary"}
+		for (prop in colourNames){
+			colourNames[prop+"y"] = "outline-"+colourNames[prop]
+		} // as inverts are just outline- followed by the name doing this by a loop
+
+		var buttonIds = [,'#monashBlue','#red','#yellow','#green','#darkBlue','#lightBlue','#black','#grey']
+		var nameMapping = {}
+		for (var id_i = 1; id_i<buttonIds.length; id_i++){
+			nameMapping[buttonIds[id_i]] = colourNames[id_i+""]
+			nameMapping[buttonIds[id_i]+"y"] = colourNames[id_i+"y"]
+		}
+        //swap the class to invert the colour
+        var invertColour = getRadioOption("invertColour");
+		
+		if (invertColour == "y"){
+			btnColClassAdd = "y" //to allow invert/non invert class to be added
+			btnColClassRem = "" //flipped to get the class NOT added to be removed
+			bsColour = bsColour + "y";
+		}
+		else{
+			btnColClassAdd = ""
+			btnColClassRem = "y"
+		}
+				
+		for (var btnId_i = 1; btnId_i < buttonIds.length; btnId_i++){
+				elementId = buttonIds[btnId_i] //get each button ID
+				elemColCodeAdd = nameMapping[elementId+btnColClassAdd] //find colour code to add
+				elemColCodeRem = nameMapping[elementId+btnColClassRem] //find colour code to remove
+				$(elementId).removeClass('btn-'+elemColCodeRem)
+				$(elementId).addClass('btn-'+elemColCodeAdd)
+		}
+
+        var colourName = colourNames[bsColour];
+        /*btnClrCode = "<a class=\"btn btn-"+colourName+btnSize+"m-1\" role=\"button\" href=\"";*/
+
+        if (faIcon == "noI"){
+          faIconCode = "";
+        }
+	/*	switch (btnSize){
+			case " btn-lg btn-block ":
+			case " btn-block ":
+			case " btn-sm btn-block ":
+				btnLeft = btnBlockSwap;
+				btnCenter = btnBlockSwap;
+				break;
+    }*/
+    var readMoreBtnFinal="</div><div class=\"d-flex justify-content-center\"><a class=\"btn"+btnSize+"btn-"+colourName+" btn-block w-"+bsBtnWidth+" m-2\" data-toggle=\"collapse\" href=\"#readMore"+readMoreNumber+"\" role=\"button\" aria-expanded=\"false\" aria-controls=\"collapseExample\">"+readMoreBtnTxt+faIconCode+"</a></div>"
+        var readMoreOutput = readMoreContainer+readMoreBefore+readMore_1+readMoreAfter+readMoreBtnFinal+readMoreClose;
         document.getElementById('readMoreCode').innerHTML=readMoreOutput;
         //SelectAll("readMoreCode");
         $('#demo').nextAll('div').remove();
@@ -107,13 +244,7 @@
 
     readMore = button to toggle extended text
     */
-    var readMoreContainer="<div>"
-    var readMore_1="<div class=\"collapse\" id=\"readMore"
-    var readMore_2="\">"
-    var readMore_3="</div><div><a class=\"btn btn-arts btn-block w-50 mb-2 mx-auto\" data-toggle=\"collapse\" href=\"#readMore"
-    var readMore_4="\" role=\"button\" aria-expanded=\"false\" aria-controls=\"collapseExample\">Show/Hide "
-    var readMore_5=" <i class=\"fa fa-fw fa-arrows-v\"></i></a></div>"
-    var readMoreClose="</div>"
+   
     </script>
     <script>   
       window.onload=function(){
@@ -138,65 +269,6 @@
         .mce-notification-inner, .mce-close, .mce-notification-warning {
         display:none !important;
         }
-
-        /* Popup container - can be anything you want */
-    #popup {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    }
-
-    /* The actual popup */
-    #popup .popuptext {
-    visibility: hidden;
-    width: 160px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 8px 0;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -80px;
-    }
-
-    /* Popup arrow */
-    #popup .popuptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-    }
-
-    /* Toggle this class - hide and show the popup */
-    #popup .showPopup {
-    -webkit-animation: fadeinout 3s linear  forwards;
-    animation: fadeinout 3s linear forwards;
-    visibility: visible;
-    }
-
-    /* Add animation (fade in the popup) */
-@-webkit-keyframes fadeinout {
-  0%,100% { opacity: 0; }
-  10% {opacity: 1;}
-  66% { opacity: 1; }
-}
-
-@keyframes fadeinout {
-  0%,100% { opacity: 0; }
-  10% {opacity: 1;}
-  66% { opacity: 1; }
-}
 .tooltip-inner {
   text-align: left;
   padding: 15px;
@@ -205,102 +277,294 @@
 }
     </style> 
     </head>
-    <body>
-      <div id="beestNav"></div>
-      <div class="row w-100 mb-5"></div>
-      <div class="row w-100 mb-4"></div>
-        <div class="container-fluid">
-          <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
-            <div class="h6 mb-0"><i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle"></i>You can produce multiple read more buttons on this page. It is important to number the buttons differently if you are planning on embedding them in the same page. If two buttons have the same number assigned to them, the second button will not work correctly.</div>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
-            </div>    
-  <h1 class="text-center"><i class="fa fa-plus fa-fw"></i> Read more button</h1>
-  <div class="row w-100 mx-auto">
-    <div class="col-lg mt-2">
-      <div class="hideableinstruct">
-  <h5>The result of this process</h5>
-  <p>This process will generate a read more button that reveals more content on the page when clicked. This is used frequently in web articles and web sites to 'tease' users with an introduction while giving them the option to reveal the rest of what is written.</p>
-  <h5>How to use this page</h5>
-  <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. If you are unsure of how to paste HTML into Moodle, <a data-toggle="modal" data-target=".bd-example-modal-lg" href="">this short video will help</a> (it will open in an overlay on this screen).</p>
-  <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content p-2">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+<body>
+<div id="beestNav"></div>
+<div class="py-5"></div>
+  <div class="container-fluid">   
+    <h3 class="text-center">Read more button<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Read more buttons allow you to write extended text or content and collapse it beneath a button that reveals on click. This is particularly useful for bio's of staff where you want to have an introductory sentence or two, and put an extended description of history that students can click to reveal." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h3>
+    <h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".readMoreWalkthrough" href="">Create a read more button (4:14)</a></h5>
+<!--Modal content for this page-->
+    <!--Responsive video walkthrough modal-->
+    <div class="modal fade readMoreWalkthrough" tabindex="-1" role="dialog" aria-labelledby="read-more-modal" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content p-2 bg-dark">
+          <div class="modal-header">
+            <h5 class="modal-title text-white" id="read-more-modal">Click close or click outside this box to return to the BEEST.</h5>
+            <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">Close &times;</span>
+            </button>
+          </div>
+        <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=fe023e78-23cc-41a7-ab33-ac3e005c0937"></iframe></div>
         </div>
-      <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe></div>
       </div>
     </div>
-  </div>
-</div>
-  <h5>Refresh this page</h5>
-  <div class="row w-100">
-    <div class="col-lg">
-  <p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
-  <div class="col-lg-3"><div class="text-center">
-    <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
-  </div></div></div>
-  
-        <h5>Advanced mode - turn <span class="onoffswapinstr">off</span> instructions</h5>
-        <div class="row w-100">
-          <div class="col-lg">
-        <p>Click this button to turn <span class="onoffswapinstr">off</span> the instructions that appear when you hover over the headings.<span class="hideableinstruct"> Only do this if you are completely familiar with how to use the tool.</span></p></div>
-        <div class="col-lg-3"><div class="text-center">
-          <button onclick="flipTooltip()" class="btn btn-mu">Turn <span class="onoffswapinstr">off</span> instructions <i class="fa fa-fw fa-power-off"></i></a>
-        </div></div></div></div>
-        <div class="col-lg-4 mt-2 hideableinstruct">
-          <h5>Video walkthrough - Creating a read more button (4:14)</h5>
-          <div class="embed-responsive embed-responsive-16by9">
-            <iframe src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=fe023e78-23cc-41a7-ab33-ac3e005c0937" class="embed-responsive-item" frameborder="1" allowfullscreen="true"></iframe>
+       <!--How to paste HTML into Moodle modal-->
+    <div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="html-paste-modal" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content p-2 bg-dark">
+          <div class="modal-header">
+            <h5 class="modal-title text-white" id="exampleModalLabel">Click close or click outside this box to return to the BEEST.</h5>
+            <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">Close &times;</span>
+            </button>
           </div>
-          </div>
+        <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe></div>
         </div>
+      </div>
+    </div>
+    <!--End of modal content-->
+    <div class="row w-50 mx-auto text-center mt-3">	  
+      <div class="col-lg">
+            <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-danger btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
+          </div>
+          <div class="col-lg">
+            <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-success btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
+          </div></div>
 <hr class="hr-3">
 <form id="readMoreForm">
   <div class="row w-100 mx-auto">
-    <div class="col-lg mt-3">
-      <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="If you want to display one read more button on a page, simply put the number 1 in the box below. If you want to put more than one read more button on a page, you need to number them so that they work. For example. If you make two read more buttons that are both number one that display on the same page only the first read more button will open and close. Using more than 3 read more buttons on a page could result in poor useability for students. Currently this only accepts text and embed codes for videos.">Step 1 - Number your read more button</h5> 
-      <textarea class="border border-dark rounded p-2 w-50 mx-auto" rows="1" cols="70" placeholder="Input read more button number here" id="readMoreNumber" onchange=generateReadMoreCode()></textarea>
-    </div>
-  </div>
-  <div class="row w-100 mx-auto">
-    <div class="col-lg mt-2">
-      <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="The text on the read more button will always start with Show/hide. What you put in the text box below will appear after Show/hide. For example Show/hide full bio or Show/hide full text. Max length is 50 characters.">Step 2 - What are you showing/hiding?</h5> 
-      <textarea maxlength="50" class="border border-dark rounded p-2 w-50 mx-auto" rows="1" cols="70" placeholder="Input the text for your read more button here" id="readMoreBtnTxt" onchange=generateReadMoreCode()></textarea>
-    </div>
-  </div>
-  <div class="row w-100 mx-auto">
-    <div class="col-lg mt-2">
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="What you input in the box below will appear before the read more button. This should be an introduction and engage the reader enough to want to click the button to read the rest of the content.">Step 3 - Content <em>before</em> your read more button.</h5>      
-        <textarea id="tinyMCEreadMoreBefore" class="border border-dark rounded p-2 w-100" cols="70" rows="2" name="readMoreBefore" onchange=generateReadMoreCode()></textarea>
+    <div class="col-lg-6">
+
+  <div class="row w-100">
+    <div class="col-lg-3">
+        <h5 class="font-weight-bold">Content before<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="What you input in the box below will appear before the read more button. This should be an introduction and engage the reader enough to want to click the button to read the rest of the content." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>  
+        </div>
+        <div class="col-lg">
+        <textarea id="tinyMCEreadMoreBefore" class="border border-dark rounded p-2 w-100" rows="2" name="readMoreBefore" onchange=generateReadMoreCode()></textarea>
         </div>
       </div>
-      <div class="row w-100 mx-auto">
-        <div class="col-lg mt-2">
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="What you input in the box below will appear after the read more button. This can be text, lists, headings, embedded video and images from public repositories such as unsplash.com or pixabay. This tool does not currently accept uploads of images or audio.">Step 4 - Content <em>after</em> your read more button.</h5>  
-        <textarea id="tinyMCEreadMoreAfter" class="border border-dark rounded p-2 w-100" cols="70" rows="4" name="readMoreAfter" onchange=generateReadMoreCode()></textarea>
-        </div></div>
-        <div class="row w-100 mx-auto">
-          <div class="col-lg mt-2">
-        <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 6.">Step 5 - Copy code and paste them into Moodle</h5>
-        <div>
-    <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Copy your code" onClick=copyCode()></p>
+      <hr>
+      <div class="row w-100">
+        <div class="col-lg-3">
+        <h5 class="font-weight-bold">Content after<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="What you input in the box below will appear after the read more button. This can be text, lists, headings, embedded video and images from public repositories such as unsplash.com or pixabay. This tool does not currently accept uploads of images or audio." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+        </div>
+        <div class="col-lg">
+        <textarea id="tinyMCEreadMoreAfter" class="border border-dark rounded p-2 w-100" cols="70" name="readMoreAfter" onchange=generateReadMoreCode()></textarea>
+        </div>
+      </div>
+      <hr>
+      <div class="row w-100">
+        <div class="col-lg-3">
+      <h5 class="font-weight-bold">Button number<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Because of the way the HTML works for HTML buttons, the read more buttons need a number. This is also required if you would like more than 1 read more button on a single page." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+      </div>
+      <div class="col-lg">
+      <textarea class="border border-dark rounded w-100 p-2" rows="1" placeholder="Input read more button number here" id="readMoreNumber" onchange=generateReadMoreCode()></textarea>
     </div>
-    <textarea readonly class="rounded p-2 w-100" id="readMoreCode" cols="70" rows="3" name="Result" placeholder="When you click the button above, it will create the code or your alert and copy it to the clipboard." onchange=generateReadMoreCode()></textarea>
+  </div>
+  <hr>
+  <div class="row w-100">
+    <div class="col-lg-3">
+      <h5 class="font-weight-bold">Button text<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="The text on the read more button will always start with Show/hide. What you put in the text box below will appear after Show/hide. For example Show/hide full bio or Show/hide full text. Max length is 50 characters." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
+      </div>
+      <div class="col-lg">
+      <textarea maxlength="50" class="border border-dark rounded w-100 p-2" rows="1" placeholder="Input the text for your read more button here" id="readMoreBtnTxt" onchange=generateReadMoreCode()></textarea>
+    </div>
+  </div>
+  <hr>
+  <div class="row w-100">
+    <div class="col-lg-3">
+    <h5 class="font-weight-bold">Button colour<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose the colour of your button. Monash blue is selected by default." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+    
+  </div>
+  <div class="col-lg-9">
+      <div class="row w-100">
+        <div class="col-lg d-flex justify-content-between">
+      <div class="form-check form-check-inline" id="btnColour" onchange=generateReadMoreCode()>
+        <input class="form-check-input" name="btnColour" id="btnColour1" type="radio" value="1" checked>
+        <label class="form-check-label" for="btnColour1"><span id="monashBlue" class="btn btn-mu">Monash blue</span></label>
+      </div>
+      <div class="form-check form-check-inline" id="btnColour" onchange=generateReadMoreCode()>
+      <input class="form-check-input" name="btnColour" id="btnColour2" type="radio" value="2">
+      <label class="form-check-label" for="btnColour2"><span id="red" class="btn btn-danger">Red</span></label>
+      </div>
+      <div class="form-check form-check-inline" id="btnColour" onchange=generateReadMoreCode()>
+        <input class="form-check-input" name="btnColour" id="btnColour3" type="radio" value="3">
+        <label class="form-check-label" for="btnColour3"><span id="yellow" class="btn btn-warning">Yellow</span></label>
+        </div>
+      <div class="form-check form-check-inline" id="btnColour" onchange=generateReadMoreCode()>
+      <input class="form-check-input" name="btnColour" id="btnColour4" type="radio" value="4">
+      <label class="form-check-label" for="btnColour4"><span id="green" class="btn btn-success">Green</span></label>
+    </div>
   </div>
 </div>
-    <div class="row w-100 mx-auto mb-3">
-      <div class="col-lg mt-2">
-        <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 5.">Step 6 - Preview</h5>
-        </div>
-        </div>
-    </form>
-     <div id="demo"></div>
-     <p class="my-3"></p>
+  <div class="row w-100 mt-2">
+    <div class="col-lg d-flex justify-content-between">
+    <div class="form-check form-check-inline" id="btnColour" onchange=generateReadMoreCode()>
+      <input class="form-check-input" name="btnColour" id="btnColour5" type="radio" value="5">
+      <label class="form-check-label" for="btnColour5"><span id="darkBlue" class="btn btn-primary">Dark blue</span></label>
+    </div>
+    <div class="form-check form-check-inline" id="btnColour" onchange=generateReadMoreCode()>
+      <input class="form-check-input" name="btnColour" id="btnColour6" type="radio" value="6">
+      <label class="form-check-label" for="btnColour6"><span id="lightBlue" class="btn btn-info">Light blue</span></label>
+    </div>
+    <div class="form-check form-check-inline" id="btnColour" onchange=generateReadMoreCode()>
+      <input class="form-check-input" name="btnColour" id="btnColour7" type="radio" value="7">
+      <label class="form-check-label" for="btnColour7"><span id="black" class="btn btn-dark">Black</span></label>
+    </div>
+    <div class="form-check form-check-inline" id="btnColour" onchange=generateReadMoreCode()>
+      <input class="form-check-input" name="btnColour" id="btnColour8" type="radio" value="8">
+      <label class="form-check-label" for="btnColour8"><span id="grey" class="btn btn-secondary">Grey</span></label>
+    </div>
   </div>
+</div>
+</div>
+</div>
+<hr>
+    <div class="row w-100">
+    <div class="col-lg-3"> 
+      <h5 class="font-weight-bold">Invert colours<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Swap the button colour with the text colour" class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>      
+    </div>
+    <div class="col-lg">
+          <div class="form-check form-check-inline" id="invertColour" onchange=generateReadMoreCode()>
+            <input class="form-check-input" name="invertColour" id="invertColour2" type="radio" value="n" checked>
+            <label class="form-check-label" for="invertColour2">Regular colours</label>
+            </div>
+          <div class="form-check form-check-inline" id="invertColour" onchange=generateReadMoreCode()>
+            <input class="form-check-input" name="invertColour" id="invertColour1" type="radio" value="y">
+            <label class="form-check-label" for="invertColour1">Inverted colours</label>
+          </div>
+      </div>
+    </div>
+    <hr>
+  <div class="row w-100">
+    <div class="col-lg-3">
+<h5 class="font-weight-bold">Button size<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose the size of your button. Regular is chosen by default." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>      
+</div>
+<div class="col-lg">
+  <div class="form-check" id="buttonSize" onchange=generateReadMoreCode()>
+    <input class="form-check-input" name="buttonSize" id="buttonSize3" type="radio" value="1">
+    <label class="form-check-label w-100 text-center" for="buttonSize3"><span id="btnSmall" class="btn btn-sm btn-dark w-75">Small</span></label>
+  </div>
+<div class="form-check mt-2" id="buttonSize" onchange=generateReadMoreCode()>
+  <input class="form-check-input" name="buttonSize" id="buttonSize1" type="radio" value="2" checked>
+  <label class="form-check-label w-100 text-center" for="buttonSize1"><span id="btnRegular" class="btn btn-dark w-75">Regular</span></label>
+</div>
+<div class="form-check mt-2" id="buttonSize" onchange=generateReadMoreCode()>
+<input class="form-check-input" name="buttonSize" id="buttonSize2" type="radio" value="3">
+<label class="form-check-label w-100 text-center" for="buttonSize2"><span id="btnLarge" class="btn btn-lg btn-dark w-75">Large</span></label>
+</div>
+</div>
+</div>
+<hr>
+<div class="row w-100">
+  <div class="col-lg-3">
+<h5 class="font-weight-bold">Button width<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose the width of your button. 75% of screen width is chosen by default." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>      
+</div>
+<div class="col-lg">
+<div class="form-check" id="buttonWidth" onchange=generateReadMoreCode()>
+  <input class="form-check-input" name="buttonWidth" id="buttonWidth1" type="radio" value="50">
+  <label class="form-check-label w-100 text-center" for="buttonWidth1"><span id="btn50" class="btn btn-dark w-50">50% of screen width</span></label>
+</div>
+<div class="form-check mt-2" id="buttonWidth" onchange=generateReadMoreCode()>
+<input class="form-check-input" name="buttonWidth" id="buttonWidth2" type="radio" value="75" checked>
+<label class="form-check-label w-100 text-center" for="buttonWidth2"><span id="btn75" class="btn btn-dark w-75">75% of screen width</span></label>
+</div>
+<div class="form-check mt-2" id="buttonWidth" onchange=generateReadMoreCode()>
+<input class="form-check-input" name="buttonWidth" id="buttonWidth3" type="radio" value="100">
+<label class="form-check-label w-100" for="buttonWidth3"><span id="btn100" class="btn btn-dark w-100">100% of screen width</span></label>
+</div>
+</div>
+</div>
+<hr>
+<div class="row w-100">
+  <div class="col-lg-3">
+    <h5 class="font-weight-bold">Choose icon<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="If you would like an icon to the right of your button text, choose one from this list." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
+  </div>
+  <div class="col-lg-1 my-auto mr-3">
+  <div class="form-check form-check-inline" id="faCode" onchange=generateReadMoreCode()>
+    <input class="form-check-input" name="faCode" id="faCodeNone" type="radio" value="noI" checked>
+    <label class="form-check-label" for="faCodeNone">None</label>
+  </div>
+</div>
+  <div class="col-lg">
+    <div class="row w-100">
+      <div class="col-lg d-flex justify-content-between">
+    <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
+      <input class="form-check-input" name="faCode" id="faCode1" type="radio" value="1">
+      <label class="form-check-label" for="faCode1"><i class="fa fa-fw fa-arrow-right fa-2x"></i></label>
+    </div>
+    <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
+    <input class="form-check-input" name="faCode" id="faCode2" type="radio" value="2">
+    <label class="form-check-label" for="faCode2"><i class="fa fa-fw fa-arrow-circle-right fa-2x"></i></label>
+    </div>
+    <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
+      <input class="form-check-input" name="faCode" id="faCode3" type="radio" value="3">
+      <label class="form-check-label" for="faCode3"><i class="fa fa-fw fa-arrow-circle-o-right fa-2x"></i></label>
+      </div>
+    <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
+    <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="4">
+    <label class="form-check-label" for="faCode4"><i class="fa fa-fw fa-external-link-square fa-2x"></i></label>
+  </div>
+  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
+    <input class="form-check-input" name="faCode" id="faCode5" type="radio" value="5">
+    <label class="form-check-label" for="faCode5"><i class="fa fa-fw fa-external-link fa-2x"></i></label>
+  </div>
+</div>
+</div>
+  <div class="row w-100 mt-2">
+    <div class="col-lg d-flex justify-content-between">
+  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
+    <input class="form-check-input" name="faCode" id="faCode6" type="radio" value="6">
+    <label class="form-check-label" for="faCode6"><i class="fa fa-fw fa-hand-o-right fa-2x"></i></label>
+  </div>
+  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
+    <input class="form-check-input" name="faCode" id="faCode7" type="radio" value="7">
+    <label class="form-check-label" for="faCode7"><i class="fa fa-fw fa-play fa-2x"></i></label>
+  </div>
+  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
+    <input class="form-check-input" name="faCode" id="faCode8" type="radio" value="8">
+    <label class="form-check-label" for="faCode8"><i class="fa fa-fw fa-play-circle fa-2x"></i></label>
+  </div>
+  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
+    <input class="form-check-input" name="faCode" id="faCode9" type="radio" value="9">
+    <label class="form-check-label" for="faCode9"><i class="fa fa-fw fa-play-circle-o fa-2x"></i></label>
+  </div>
+  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
+    <input class="form-check-input" name="faCode" id="faCod10" type="radio" value="10">
+    <label class="form-check-label" for="faCode10"><i class="fa fa-fw fa-link fa-2x"></i></label>
+  </div>
+</div>
+</div>
+</div>
+</div>
+    </div>
+    <div class="col-lg">
+      <div class="sticky-top" style="top:100px;">
+        <h5 class="font-weight-bold">Preview<span data-toggle="tooltip" data-placement="left" data-trigger="hover focus" title="A preview of your element will appear below as you update your preferences for your read more button. Click the button in the preview to reveal the hidden content you input into the content after section." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+        <div id="demo"></div>
+        <p class="my-3"></p>
+        <hr>
+        <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="left" data-trigger="hover focus" title="Click the copy code button below to copy your code, ready to paste into Moodle." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+    <textarea readonly class="rounded p-2 w-100" id="readMoreCode" cols="70" rows="3" name="Result" placeholder="When you click the button above, it will create the code or your alert and copy it to the clipboard." onchange=generateReadMoreCode()></textarea>
+    <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." type="button" class="btn btn-success btn-lg btn-block mt-2" id="copyCodeBtn" name="GenerateWrap" value="Copy your code" onClick=copyCode()>
+  </div>
+</div>
+    </form>
+  </div>
+  <script>
+    $(function () {
+      $(document).on('shown.bs.tooltip', function (e) {
+         setTimeout(function () {
+           $(e.target).tooltip('hide');
+         }, 7000);
+      });
+    });</script>
+    <script>
+      $(function () {
+        $('#copyCodeBtn').on('click', function (e) {
+           setTimeout(function () {
+             $(e.target).tooltip('hide');
+           }, 2500);
+        });
+      });
+      $(function () {
+        $('#toggleHelp').on('click', function (e) {
+           setTimeout(function () {
+             $(e.target).tooltip('hide');
+           }, 2500);
+        });
+      });
+      </script>
      <div id="beestFooter"></div>
     </body>
         </html>
