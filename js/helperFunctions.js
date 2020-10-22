@@ -1,19 +1,41 @@
+function getDropdownValue(id){
+	return $('select #'+id).find('option:selected').val() 
+}
+function setDropdown(id,selectedIndex){
+	selectedIndex = castAsNumIfPossible(selectedIndex)
+	
+	$('#'+id).find("option").each(function(index){
+			actOnIndex($(this),index,selectedIndex,"selected")
+		})
+}
+
 function getRadioOption(id){
 		return $('div #'+id).find('input[name="'+id+'"]:checked').val()
 	}
+
+function actOnIndex(jQueryThis,index,selectedIndex,action){
+	
+	if (((index+1) == selectedIndex)||(jQueryThis.val() == selectedIndex)){
+				jQueryThis.prop(action,true)
+			}
+			else{
+				jQueryThis.prop(action,false)
+			}
+	
+}
+
+function castAsNumIfPossible(potentialNum){
+	var casted = potentialNum * 1
+	if (!(isNaN(casted))){potentialNum = casted}
+	return potentialNum
+}
 	
 	function setRadios(id,selectedIndex){
 		//type cast if you can
-		var casted = selectedIndex * 1
-		if (!(isNaN(casted))){selectedIndex = casted}
-		
+		selectedIndex = castAsNumIfPossible(selectedIndex)
+				
 		$('div #'+id).find('input[name="'+id+'"]').each(function(index){
-			if (((index+1) == selectedIndex)||($(this).val() == selectedIndex)){
-				$(this).prop("checked",true)
-			}
-			else{
-				$(this).prop("checked",false)
-			}
+			actOnIndex($(this),index,selectedIndex,"checked")
 		});
 	}
 

@@ -3,6 +3,8 @@
 <head>
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152392632-3"></script>
+<script src="js/pageHistory.js"></script>
+<script src="js/helperFunctions.js"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -55,6 +57,55 @@
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
     <script src="js/advancedModeLocalStorage.js"></script>
 	<script type="text/javascript">
+
+/*REQUIRED FOR HISTORY*/    
+	const BUTTON_HIST = "history_table"
+	var localStorageHistory = BUTTON_HIST
+	var classTable = null
+	
+	$(document).ready(function(){initHistory()})
+	
+	class table{
+		constructor(mainHeading, icon, headSize, tableData){
+			this.mainHead = mainHeading
+			this.icon = icon
+			this.headSize = headSize
+			this.tableData = tableData
+		}
+		tableCopy(table){
+			var tmpTable = [[]]
+			while (tmpTable.length < table.length){
+				tmpTable.push([])
+			}
+			for (var row=0;row < table.length; row++){
+				while (tmpTable[row].length < table[row].length){
+					tmpTable[row].push("")
+				}
+				for (var col=0;col < table[row].length; col++){
+					tmpTable[row][col] = table[row][col]
+				}
+			}
+			return tmpTable
+		}
+		toPDO(){
+			var result = {}
+			result.mainHead = this.mainHead
+			result.icon = this.icon
+			result.headSize = this.headSize
+			result.tableData = this.tableCopy(this.tableData)
+			return result
+		}	
+		toString(){
+			return JSON.stringify(this.toPDO())
+		}
+		fromObj(PDO){
+			this.tableData = this.tableCopy(PDO.tableData)
+			this.mainHead = PDO.mainHead
+			this.icon = PDO.icon
+			this.headSize = PDO.headSize
+		}
+	}
+/*END REQUIRED FOR HISTORY*/
 
 
 	var rowsWithData = 3
@@ -144,7 +195,7 @@
 			return cellCode
 		}
 
-		function iconpreview() {
+	function iconpreview() {
         var faIcon = document.getElementById('faCode').value;
         var iconNames = {
             "1":"calendar",
@@ -495,8 +546,56 @@
 	}
 
 	function copyCode(){
+		/*REQUIRED FOR HISTORY*/	  
+		addToHistory(classTable)
+		/*END REQUIRED FOR HISTORY*/
 		SelectAll("txtareaBtn");
     }
+	
+	/*REQUIRED FOR HISTORY*/
+function setTextAreas(classData){
+	getId("tableMainHeading").value = classData.mainHead
+	setDropdown("headSize",classData.headSize)
+	setDropdown("faCode",classData.icon)
+	var theTable = classData.tableData
+	while (currCol < theTable[0].length){
+		addCol()
+	}
+	while (currCol > theTable[0].length){
+		removeCol()
+	}
+	while (currRow < theTable.length){
+		addRow()
+	}
+	while (currRow > theTable.length){
+		removeRow()
+	}
+	for (var row = 0; row < theTable.length; row++){
+		for (var col = 0; col < theTable[row].length; col++){
+			getCell(row,col).innerHTML = theTable[row][col]
+		}
+	}
+	/*getId("btn_URL").value = classData.destination
+	getId("btn_text").value = classData.mainHead
+	setRadios("faCode",classData.icon)
+	setRadios("btnColour",classData.colour.replace("y",""))
+	setRadios("invertColour",classData.invert)
+	setRadios("buttonTarget",classData.newWindow)
+	setRadios("buttonSize",classData.buttonSize)
+	setRadios("buttonAlign",classData.alignment)
+	setCheckBox("fullWidth2",classData.width)*/
+}
+function getHistoryI(index,history){
+	if (history.length>0){
+		var selectedItem = history[index]
+		classTable = new table()
+		classTable.fromObj(selectedItem)
+		refToClassTable = classTable
+		setTextAreas(refToClassTable)
+		generateTableCode()
+	}
+}
+/*END REQUIRED FOR HISTORY*/
 
     function generateTableCode() {
 	  
@@ -567,6 +666,8 @@
 		else{
 			document.getElementById('demo').innerHTML = resizedHead+textOutputTable;
 		}
+		classTable = new table(tableMainHeading, faIcon, headSize, tableContents)
+		
       }
 	  
 	function editMode(){
@@ -790,6 +891,25 @@
 	</div>
 <hr class="hr-3">
 <form id="monTabsForm">
+	<div class="row w-100 mx-auto">
+            <div class="col-lg-3">
+              <h5 class="font-weight-bold">Recover<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Retrieve your previous button configuration. Only works once you have created at least 1 button. Then the next 20 configurations will be available until you clear your internet browser history or change internet browsers or create more than 20 buttons." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-fw fa-question-circle"></i></h5>
+            </div>              
+              <div class="col-lg">
+                <div class="row w-100">
+                <div class="col-lg-11">
+                <select class="custom-select border border-dark" size="1" id="recoveryDate" onchange="idSelectedRecData()">
+                <option selected value=0>please wait</option>
+                </select>
+              </div>
+          
+                <div class="col-lg-1 text-center">
+                <button data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to delete the item you have selected in the dropdown." id="delHist" onclick="delHistI()" type="button" class="btn btn-danger"><i class="fa fa-fw fa-trash"></i></button>     
+                </div>
+              </div>
+            </div>
+          </div>
+	
 	<div class="row w-100 mx-auto">
 		<div class="col-lg-6 mt-2">
 		  <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the main heading for this table that will sit above the element and indicate to students what is in the table. 75 character maximum.">Step 1 - Main heading (optional)</h5>
