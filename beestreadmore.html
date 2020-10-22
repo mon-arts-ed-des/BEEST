@@ -80,16 +80,18 @@
         var readMore_1="<div class=\"collapse\" id=\"readMore"+readMoreNumber+"\">"
         var readMoreClose="</div>"
         var iconNames = {
-			      "1":"arrow-right",
-            "2":"arrow-circle-right",
-            "3":"arrow-circle-o-right",
-            "4":"external-link-square",
-            "5":"external-link",
-            "6":"hand-o-right",
-            "7":"play",
-            "8":"play-circle",
-            "9":"play-circle-o",
-           "10":"link"
+			      "1":"plus",
+            "2":"plus-circle",
+            "3":"plus-square",
+            "4":"plus-square-o",
+            "5":"arrow-down",
+            "6":"arrow-circle-down",
+            "7":"arrow-circle-o-down",
+            "8":"chevron-down",
+            "9":"chevron-circle-down",
+           "10":"caret-down",
+           "11":"caret-square-o-down",
+           "12":"hand-o-down"
         }
     
 		var iconName;
@@ -99,8 +101,9 @@
 		}
 		else{
 			iconName = iconNames[faIcon];
-			faIconCode = ' <i class="fa fa-' + iconName + '"></i> ';
-		}
+      faIconCode = ' <i class="fa fa-' + iconName + '"></i> ';
+    }
+
     if(document.getElementById('readMoreBtnTxt').value !== ""){
       var readMoreBtnTxt = document.getElementById('readMoreBtnTxt').value;
     }
@@ -113,7 +116,7 @@
     else {
       var readMoreBefore = "Placeholder content before the button. Click the button below to reveal the content after and see how read more buttons work."
     }
-
+   
     if(tinyMCE.get('tinyMCEreadMoreAfter').getContent() !== ""){
       var readMoreAfter = tinyMCE.get('tinyMCEreadMoreAfter').getContent();
     }
@@ -210,12 +213,55 @@
 				btnCenter = btnBlockSwap;
 				break;
     }*/
-    var readMoreBtnFinal="</div><div class=\"d-flex justify-content-center\"><a class=\"btn"+btnSize+"btn-"+colourName+" btn-block w-"+bsBtnWidth+" m-2\" data-toggle=\"collapse\" href=\"#readMore"+readMoreNumber+"\" role=\"button\" aria-expanded=\"false\" aria-controls=\"collapseExample\">"+readMoreBtnTxt+faIconCode+"</a></div>"
+    var readMoreBtnFinal="</div><div class=\"d-flex justify-content-center\"><a id=\"beestRead\" class=\"btn"+btnSize+"btn-"+colourName+" btn-block w-"+bsBtnWidth+" m-2\" data-toggle=\"collapse\" href=\"#readMore"+readMoreNumber+"\" role=\"button\" aria-expanded=\"false\" aria-controls=\"collapseExample\">"+readMoreBtnTxt+faIconCode+"</a></div>"
         var readMoreOutput = readMoreContainer+readMoreBefore+readMore_1+readMoreAfter+readMoreBtnFinal+readMoreClose;
         document.getElementById('readMoreCode').innerHTML=readMoreOutput;
         //SelectAll("readMoreCode");
         $('#demo').nextAll('div').remove();
         $('#demo').after(readMoreOutput);
+    /*Switch to run the icon toggle on the different icon sets by Tim*/
+        $('#beestRead').click(function(){
+         
+          switch(faIcon){
+        case "1":
+        $(this).find('i').toggleClass('fa-plus fa-minus');
+        break;
+        case "2":
+        $(this).find('i').toggleClass('fa-plus-circle fa-minus-circle');
+        break;
+        case "3":
+        $(this).find('i').toggleClass('fa-plus-square fa-minus-square');
+        break;
+        case "4":
+        $(this).find('i').toggleClass('fa-plus-square-o fa-minus-square-o');
+        break;
+        case "5":
+        $(this).find('i').toggleClass('fa-arrow-down fa-arrow-up');
+        break;
+        case "6":
+        $(this).find('i').toggleClass('fa-arrow-circle-down fa-arrow-circle-up');
+        break;
+        case "7":
+        $(this).find('i').toggleClass('fa-arrow-circle-o-down fa-arrow-circle-o-up');
+        break;
+        case "8":
+        $(this).find('i').toggleClass('fa-chevron-down fa-chevron-up');
+        break;
+        case "9":
+        $(this).find('i').toggleClass('fa-chevron-circle-down fa-chevron-circle-up');
+        break;
+        case "10":
+        $(this).find('i').toggleClass('fa-caret-down fa-caret-up');
+        break;
+        case "11":
+        $(this).find('i').toggleClass('fa-caret-square-o-down fa-caret-square-o-up');
+        break;
+        case "12":
+        $(this).find('i').toggleClass('fa-hand-o-down fa-hand-o-up');
+        break;
+      }
+    });
+
         }
 
     function copyCode(){
@@ -236,6 +282,7 @@
     {
         document.forms["myform"].submit();
     }
+    
     $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
@@ -468,7 +515,7 @@
 <hr>
 <div class="row w-100">
   <div class="col-lg-3">
-    <h5 class="font-weight-bold">Choose icon<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="If you would like an icon to the right of your button text, choose one from this list." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
+    <h5 class="font-weight-bold">Choose icon pair<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="If you would like an icon to the right of your button text, choose a pairing from this list. The icon on the l of the pair will appear when the content after the button is hidden. When the button is clicked it will change to the second icon in the pair." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
   </div>
   <div class="col-lg-1 my-auto mr-3">
   <div class="form-check form-check-inline" id="faCode" onchange=generateReadMoreCode()>
@@ -481,48 +528,60 @@
       <div class="col-lg d-flex justify-content-between">
     <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
       <input class="form-check-input" name="faCode" id="faCode1" type="radio" value="1">
-      <label class="form-check-label" for="faCode1"><i class="fa fa-fw fa-arrow-right fa-2x"></i></label>
+      <label class="form-check-label" for="faCode1"><i class="fa fa-fw fa-plus fa-2x"></i><i class="fa fa-fw fa-minus fa-2x"></i></label>
     </div>
     <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
-    <input class="form-check-input" name="faCode" id="faCode2" type="radio" value="2">
-    <label class="form-check-label" for="faCode2"><i class="fa fa-fw fa-arrow-circle-right fa-2x"></i></label>
+      <input class="form-check-input" name="faCode" id="faCode2" type="radio" value="2">
+      <label class="form-check-label" for="faCode2"><i class="fa fa-fw fa-plus-circle fa-2x"></i><i class="fa fa-fw fa-minus-circle fa-2x"></i></label>
     </div>
     <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
       <input class="form-check-input" name="faCode" id="faCode3" type="radio" value="3">
-      <label class="form-check-label" for="faCode3"><i class="fa fa-fw fa-arrow-circle-o-right fa-2x"></i></label>
+      <label class="form-check-label" for="faCode3"><i class="fa fa-fw fa-plus-square fa-2x"></i><i class="fa fa-fw fa-minus-square fa-2x"></i></label>
+    </div>
+    <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
+      <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="4">
+      <label class="form-check-label" for="faCode4"><i class="fa fa-fw fa-plus-square-o fa-2x"></i><i class="fa fa-fw fa-minus-square-o fa-2x"></i></label>
+    </div>
+    </div>
+    </div>
+    <div class="row w-100 mt-2">
+      <div class="col-lg d-flex justify-content-between">
+        <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
+          <input class="form-check-input" name="faCode" id="faCode5" type="radio" value="5">
+          <label class="form-check-label" for="faCode5"><i class="fa fa-fw fa-arrow-down fa-2x"></i><i class="fa fa-fw fa-arrow-up fa-2x"></i></label>
+          </div>
+        <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
+          <input class="form-check-input" name="faCode" id="faCode6" type="radio" value="6">
+          <label class="form-check-label" for="faCode6"><i class="fa fa-fw fa-arrow-circle-down fa-2x"></i><i class="fa fa-fw fa-arrow-circle-up fa-2x"></i></label>
+          </div>
+        <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
+          <input class="form-check-input" name="faCode" id="faCode7" type="radio" value="7">
+          <label class="form-check-label" for="faCode7"><i class="fa fa-fw fa-arrow-circle-o-down fa-2x"></i><i class="fa fa-fw fa-arrow-circle-o-up fa-2x"></i></label>
+          </div>
+    <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
+      <input class="form-check-input" name="faCode" id="faCode8" type="radio" value="8">
+      <label class="form-check-label" for="faCode8"><i class="fa fa-fw fa-chevron-down fa-2x"></i><i class="fa fa-fw fa-chevron-up fa-2x"></i></label>
+      </div>
+</div>
+</div>
+<div class="row w-100 mt-2">
+  <div class="col-lg d-flex justify-content-between">
+    <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
+      <input class="form-check-input" name="faCode" id="faCode9" type="radio" value="9">
+      <label class="form-check-label" for="faCode9"><i class="fa fa-fw fa-chevron-circle-down fa-2x"></i><i class="fa fa-fw fa-chevron-circle-up fa-2x"></i></label>
+    </div>
+    <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
+      <input class="form-check-input" name="faCode" id="faCode10" type="radio" value="10">
+      <label class="form-check-label" for="faCode10"><i class="fa fa-fw fa-caret-down fa-2x"></i><i class="fa fa-fw fa-caret-up fa-2x"></i></label>
       </div>
     <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
-    <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="4">
-    <label class="form-check-label" for="faCode4"><i class="fa fa-fw fa-external-link-square fa-2x"></i></label>
-  </div>
-  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
-    <input class="form-check-input" name="faCode" id="faCode5" type="radio" value="5">
-    <label class="form-check-label" for="faCode5"><i class="fa fa-fw fa-external-link fa-2x"></i></label>
-  </div>
-</div>
-</div>
-  <div class="row w-100 mt-2">
-    <div class="col-lg d-flex justify-content-between">
-  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
-    <input class="form-check-input" name="faCode" id="faCode6" type="radio" value="6">
-    <label class="form-check-label" for="faCode6"><i class="fa fa-fw fa-hand-o-right fa-2x"></i></label>
-  </div>
-  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
-    <input class="form-check-input" name="faCode" id="faCode7" type="radio" value="7">
-    <label class="form-check-label" for="faCode7"><i class="fa fa-fw fa-play fa-2x"></i></label>
-  </div>
-  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
-    <input class="form-check-input" name="faCode" id="faCode8" type="radio" value="8">
-    <label class="form-check-label" for="faCode8"><i class="fa fa-fw fa-play-circle fa-2x"></i></label>
-  </div>
-  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
-    <input class="form-check-input" name="faCode" id="faCode9" type="radio" value="9">
-    <label class="form-check-label" for="faCode9"><i class="fa fa-fw fa-play-circle-o fa-2x"></i></label>
-  </div>
-  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
-    <input class="form-check-input" name="faCode" id="faCod10" type="radio" value="10">
-    <label class="form-check-label" for="faCode10"><i class="fa fa-fw fa-link fa-2x"></i></label>
-  </div>
+      <input class="form-check-input" name="faCode" id="faCode11" type="radio" value="11">
+      <label class="form-check-label" for="faCode11"><i class="fa fa-fw fa-caret-square-o-down fa-2x"></i><i class="fa fa-fw fa-caret-square-o-up fa-2x"></i></label>
+    </div>
+    <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
+      <input class="form-check-input" name="faCode" id="faCode12" type="radio" value="12">
+      <label class="form-check-label" for="faCode12"><i class="fa fa-fw fa-hand-o-down fa-2x"></i><i class="fa fa-fw fa-hand-o-up fa-2x"></i></label>
+    </div>
 </div>
 </div>
 </div>
@@ -565,6 +624,7 @@
         });
       });
       </script>
+   
      <div id="beestFooter"></div>
     </body>
         </html>
