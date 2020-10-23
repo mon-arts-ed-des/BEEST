@@ -1,3 +1,4 @@
+function toggleBtnIcon(){
 if ($('#beestRead i').hasClass('fa-plus')){
     $('#beestRead').click(function(){ 
     $(this).find('i').toggleClass('fa-plus fa-minus'); 
@@ -57,4 +58,5 @@ else if ($('#beestRead i').hasClass('fa-hand-o-down')){
     $('#beestRead').click(function(){ 
     $(this).find('i').toggleClass('fa-hand-o-down fa-hand-o-up'); 
 });
+}
 }

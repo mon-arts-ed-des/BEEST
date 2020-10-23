@@ -79,7 +79,7 @@
         var readMoreContainer="<div class=\"beestRead\">"
         var readMore_1="<div class=\"collapse\" id=\"readMore"+readMoreNumber+"\">"
         var readMoreClose="</div>"
-        var toggleBtnCode="<script>var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://mon-arts-ed-des.github.io/BEEST/js/toggleBtnIcon.js'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
+        var toggleBtnScript="<script> var L=document.createElement('script'); L.type='text/javascript'; L.src='https://mon-arts-ed-des.github.io/BEEST/js/toggleBtnIcon.js'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
         var iconNames = {
 			      "1":"plus",
             "2":"plus-circle",
@@ -215,15 +215,14 @@
 				break;
     }*/
     var readMoreBtnFinal="</div><div class=\"d-flex justify-content-center\"><a id=\"beestRead\" class=\"btn"+btnSize+"btn-"+colourName+" btn-block w-"+bsBtnWidth+" m-2\" data-toggle=\"collapse\" href=\"#readMore"+readMoreNumber+"\" role=\"button\" aria-expanded=\"false\" aria-controls=\"collapseExample\">"+readMoreBtnTxt+faIconCode+"</a></div>"
-        var readMoreOutput = toggleBtnCode+readMoreContainer+readMoreBefore+readMore_1+readMoreAfter+readMoreBtnFinal+readMoreClose;
-        document.getElementById('readMoreCode').innerHTML=readMoreOutput;
+        var readMoreOutput = readMoreContainer+readMoreBefore+readMore_1+readMoreAfter+readMoreBtnFinal+readMoreClose;
+        document.getElementById('readMoreCode').innerHTML=toggleBtnScript+readMoreOutput;
         //SelectAll("readMoreCode");
         $('#demo').nextAll('div').remove();
         $('#demo').after(readMoreOutput);
     /*Switch to run the icon toggle on the different icon sets by Tim*/
         $('#beestRead').click(function(){
-         
-          switch(faIcon){
+        switch(faIcon){
         case "1":
         $(this).find('i').toggleClass('fa-plus fa-minus');
         break;
@@ -262,7 +261,6 @@
         break;
       }
     });
-
         }
 
     function copyCode(){
