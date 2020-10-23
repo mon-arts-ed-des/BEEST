@@ -1,4 +1,4 @@
-function toggleBtnIcon(){
+window.onload=function(){
 if ($('#beestRead i').hasClass('fa-plus')){
     $('#beestRead').click(function(){ 
     $(this).find('i').toggleClass('fa-plus fa-minus'); 
