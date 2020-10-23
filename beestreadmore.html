@@ -79,6 +79,7 @@
         var readMoreContainer="<div class=\"beestRead\">"
         var readMore_1="<div class=\"collapse\" id=\"readMore"+readMoreNumber+"\">"
         var readMoreClose="</div>"
+        var toggleBtnCode="<script>var L=document.createElement('link'); L.rel='stylesheet'; L.href='http://mon-arts-ed-des.github.io/BEEST/js/toggleBtnIcon.js'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
         var iconNames = {
 			      "1":"plus",
             "2":"plus-circle",
@@ -214,7 +215,7 @@
 				break;
     }*/
     var readMoreBtnFinal="</div><div class=\"d-flex justify-content-center\"><a id=\"beestRead\" class=\"btn"+btnSize+"btn-"+colourName+" btn-block w-"+bsBtnWidth+" m-2\" data-toggle=\"collapse\" href=\"#readMore"+readMoreNumber+"\" role=\"button\" aria-expanded=\"false\" aria-controls=\"collapseExample\">"+readMoreBtnTxt+faIconCode+"</a></div>"
-        var readMoreOutput = readMoreContainer+readMoreBefore+readMore_1+readMoreAfter+readMoreBtnFinal+readMoreClose;
+        var readMoreOutput = toggleBtnCode+readMoreContainer+readMoreBefore+readMore_1+readMoreAfter+readMoreBtnFinal+readMoreClose;
         document.getElementById('readMoreCode').innerHTML=readMoreOutput;
         //SelectAll("readMoreCode");
         $('#demo').nextAll('div').remove();
