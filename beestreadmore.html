@@ -79,7 +79,7 @@
         var readMoreContainer="<div class=\"beestRead\">"
         var readMore_1="<div class=\"collapse\" id=\"readMore"+readMoreNumber+"\">"
         var readMoreClose="</div>"
-        var toggleBtnScript="<script> var L=document.createElement('script'); L.type='text/javascript'; L.src='https://mon-arts-ed-des.github.io/BEEST/js/toggleBtnIcon.js'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
+        
         var iconNames = {
 			      "1":"plus",
             "2":"plus-circle",
@@ -98,11 +98,13 @@
 		var iconName;
 		var faIconCode;
 		if (faIcon=="noI"){
-			faIconCode = ""
+      faIconCode = "";
+      var toggleBtnScript="";
 		}
 		else{
 			iconName = iconNames[faIcon];
       faIconCode = ' <i class="fa fa-' + iconName + '"></i> ';
+      var toggleBtnScript="<script> var L=document.createElement('script'); L.type='text/javascript'; L.src='https://mon-arts-ed-des.github.io/BEEST/js/toggleBtnIcon.js'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>";
     }
 
     if(document.getElementById('readMoreBtnTxt').value !== ""){
