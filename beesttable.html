@@ -578,32 +578,26 @@
     $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
-window.onload=function(){
- //     $('#beestNav').load('common/beestnav.html');
-   //   $('#beestFooter').load('common/beestfooter.html');
-      function activeNav() {
-          var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
-           $(".nav-link").each(function(){
-                if($(this).attr("href") == pgurl || $(this).attr("href") == '' ){
-                $(this).addClass("active text-mu bg-white rounded");
-                $(this).append('<span class="sr-only">(current)</span>');
-                $(this).closest('.nav-item').addClass("bg-white");
-           }
-          });
-      }
-      
-      setTimeout(function() {
-          activeNav();
-      }, 100);
-    };
-    /* Variable Key
-    These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
 
-    btnNW = btn open in new window
-    btnSW = btn open in same window
-  
-    */
 	</script>
+	<script>   
+		window.onload=function(){
+		  function activeNav() {
+			  var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
+			   $(".nav-link").each(function(){
+					if($(this).attr("href") == pgurl || $(this).attr("href") == '' ){
+					$(this).addClass("active");
+					$(this).removeClass("text-white");
+					$(this).append('<span class="sr-only">(current)</span>');
+					$(this).closest('.nav-item').css({"background": "#004DAE"});
+			   }
+			  });
+		  }
+		  setTimeout(function() {
+			  activeNav();
+		  }, 100);
+		};
+	  </script>
     <style>
     .mce-notification-inner, .mce-close, .mce-notification-warning {
         display:none !important;
