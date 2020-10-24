@@ -10,23 +10,7 @@
   gtag('config', 'UA-152392632-3');
 </script>
 <script>   
-	window.onload=function(){
-	  generateTableCode();
-	  $('#beestNav').load('common/beestnav.html');
-	  $('#beestFooter').load('common/beestfooter.html');
-	  function activeNav() {
-		var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
-		 $(".nav-link").each(function(){
-			  if($(this).attr("href") == pgurl || $(this).attr("href") == '' )
-			  $(this).addClass("active");
-			  $(this).append('<span class="sr-only">(current)</span>')
-		 });
-	}
-	
-	setTimeout(function() {
-		activeNav();
-	}, 100);
-  };
+   
   </script>
 
     <meta charset="utf-8"></meta>
@@ -594,7 +578,24 @@
     $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
-
+window.onload=function(){
+ //     $('#beestNav').load('common/beestnav.html');
+   //   $('#beestFooter').load('common/beestfooter.html');
+      function activeNav() {
+          var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
+           $(".nav-link").each(function(){
+                if($(this).attr("href") == pgurl || $(this).attr("href") == '' ){
+                $(this).addClass("active text-mu bg-white rounded");
+                $(this).append('<span class="sr-only">(current)</span>');
+                $(this).closest('.nav-item').addClass("bg-white");
+           }
+          });
+      }
+      
+      setTimeout(function() {
+          activeNav();
+      }, 100);
+    };
     /* Variable Key
     These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
 
