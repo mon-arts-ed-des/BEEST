@@ -95,20 +95,27 @@
       function activeNav() {
           var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
            $(".nav-link").each(function(){
-                if($(this).attr("href") == pgurl || $(this).attr("href") == '' )
+                if($(this).attr("href") == pgurl || $(this).attr("href") == '' ){
                 $(this).addClass("active");
-                $(this).append('<span class="sr-only">(current)</span>')
-           });
+                $(this).removeClass("text-white");
+                $(this).append('<span class="sr-only">(current)</span>');
+                $(this).closest('.nav-item').css({"background": "#004DAE"});
+           }
+          });
       }
-      
       setTimeout(function() {
           activeNav();
       }, 100);
     };
   </script>
+  <style>
+    .nav-item:hover {
+background:#004DAE;
+    }
+  </style>
      </head>
      <body>
-        <div id="beestNav"></div>
+      <div id="beestNav"></div>
         <div class="py-5"></div>
         <div class="container-fluid">
 <h3>Support</h3>     
@@ -154,5 +161,6 @@
 </div>
 </div>
 </div>
+<div id="beestFooter"></div>
 </body>
 </html>

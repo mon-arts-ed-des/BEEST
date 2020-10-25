@@ -259,20 +259,21 @@
       window.onload=function(){
         $('#beestNav').load('common/beestnav.html');
         $('#beestFooter').load('common/beestfooter.html');
-        generatePollEvCode();
         function activeNav() {
-          var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
-           $(".nav-link").each(function(){
-                if($(this).attr("href") == pgurl || $(this).attr("href") == '' )
-                $(this).addClass("active");
-                $(this).append('<span class="sr-only">(current)</span>')
-           });
-      }
-      
-      setTimeout(function() {
-          activeNav();
-      }, 100);
-    };
+            var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
+             $(".nav-link").each(function(){
+                  if($(this).attr("href") == pgurl || $(this).attr("href") == '' ){
+                  $(this).addClass("active");
+                  $(this).removeClass("text-white");
+                  $(this).append('<span class="sr-only">(current)</span>');
+                  $(this).closest('.nav-item').css({"background": "#004DAE"});
+             }
+            });
+        }
+        setTimeout(function() {
+            activeNav();
+        }, 100);
+      };
     </script>
 <style>
 .mce-notification-inner, .mce-close, .mce-notification-warning {
@@ -285,6 +286,9 @@
   font-size: 1.05rem;
   max-width: 420px;
   }
+  .nav-item:hover {
+  background: #004dae;
+}
     </style>  
     </head>
     <body>
