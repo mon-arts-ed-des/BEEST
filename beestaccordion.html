@@ -3,6 +3,7 @@
 <head>
   <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152392632-3"></script>
+<script src = "js/helperFunctions.js"/>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -39,22 +40,8 @@
       <script src="js/placeholder.js"></script> 
 	    <script src="js/advancedModeLocalStorage.js"></script>
       <script type="text/javascript">
-      function getRadioOption(id){
-        return $('div #'+id).find('input[name="'+id+'"]:checked').val();
-      }
-       tinymce.init({
-        selector: '#tinyMCEmonAccContent1',
-        menubar: false,
-        plugins : 'advlist autolink link lists charmap print preview code placeholder',
-        placeholder: 'Input the content for your accordin drawer here',
-        toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
-        'undo redo | charmap | autolink link | code | removeformat' ],  
-        setup : function(ed) {      
-        ed.on('change', function (e) {	
-          generateAccCode();
-          });					
-        }
-      });
+      	makeTinyWithID('tinyMCEmonAccContent1')   
+	   
 /*REQUIRED FOR HISTORY*/	
 	const ACCORD_HIST = "history_accordion"
 	var localStorageHistory = ACCORD_HIST
@@ -72,7 +59,7 @@
 			addSection()
 		}
 		/*REQUIRED FOR HISTORY*/
-		initHistory()
+		//initHistory()
 		/*END REQUIRED FOR HISTORY*/
 	})
 	
@@ -104,15 +91,16 @@
 	function updatePageCounter(ID,currCounter){
 		document.getElementById(ID).value = currCounter;
 	}
-	
+
 	function accordianSectionTemplate(num){
 		var idHead = "monAccBtnTxt"+num
 		var idCont = "monAccContent"+num
 		var idTiny = "tinyMCEmonAccContent"+num
 		var idBlock = "AccordSect"+num
 		
-		var headingHTML="<div id=\""+idBlock+"\" class=\"row w-100\"><div class=\"col-lg\"><h6>Heading "+num+"</h6><textarea maxlength=\"75\" class=\"border border-dark rounded p-2 w-100 mx-auto\" rows=\"1\" placeholder=\"Input the heading for accordion drawer "+num+" here\" id=\""+idHead+"\" onchange=generateAccCode()></textarea></div></div>"
-		var contentHTML = "<div class=\"row w-100 mt-2\"><div class=\"col-lg\"><h6>Content "+num+"</h6><textarea id=\""+idTiny+"\"class=\"border border-dark rounded p-2 w-100\" rows=\"5\" name=\""+idCont+"\" placeholder=\"Write the content for accordion "+num+" here\" onchange=generateAccCode()></textarea></div></div><hr>"
+		var headingHTML="<span id=\""+idBlock+"\"><div class=\"row w-100\"><div class=\"col-lg\"><h6>Heading "+num+"</h6><textarea maxlength=\"75\" class=\"border border-dark rounded p-2 w-100 mx-auto\" rows=\"1\" placeholder=\"Input the heading for accordion drawer "+num+" here\" id=\""+idHead+"\" onchange=generateAccCode()></textarea></div></div>"
+		
+		var contentHTML = "<div class=\"row w-100\"><div class=\"col-lg\"><h6>Content "+num+"</h6><textarea id=\""+idTiny+"\"class=\"border border-dark rounded p-2 w-100\" rows=\"5\" name=\""+idCont+"\" placeholder=\"Write the content for accordion "+num+" here\" onchange=generateAccCode()></textarea></div></div></span><hr>"
 		
 		return {
 			IDHead: idHead,
@@ -172,8 +160,24 @@
         }
         generateAccCode();
       }
+	  
+	function makeTinyWithID(id){
+	tinymce.init({
+		selector: '#'+id,
+		menubar: false,
+		plugins : 'advlist autolink link lists charmap print preview code placeholder',
+		placeholder: 'Input the content for your accordin drawer here',
+		toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
+		'undo redo | charmap | autolink link | code | removeformat' ],
+		setup : function(ed) {      
+			ed.on('change', function (e) {	
+				generateAccCode();
+			});					
+		}   
+	});
+	}
 	
-	function addSection(){
+	function addSection(live){
 	/*
 	use the template to construct a new one (or show existing)
 	(maximum absoluteMaxAccord sections)
@@ -192,19 +196,7 @@
 			var newArea = document.getElementById("newAccordArea")
 			newArea.insertAdjacentHTML('beforeend', newAccordian.output)
 			
-			tinymce.init({
-			selector: '#'+newAccordian.IDTiny,
-			menubar: false,
-      plugins : 'advlist autolink link lists charmap print preview code placeholder',
-      placeholder: 'Input the content for your accordin drawer here',
-      toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
-        'undo redo | charmap | autolink link | code | removeformat' ],
-      setup : function(ed) {      
-        ed.on('change', function (e) {	
-          generateAccCode();
-          });					
-        }   
-      });
+			makeTinyWithID(newAccordian.IDTiny)
 			
 			accordianSectionsTotalMade+=1;
 		}
@@ -239,6 +231,10 @@
 			showButton("minusbutton")
     }
     generateAccCode();
+	if ((live!=undefined)&&(live)){
+		var revealedAccord = accordiansPostInit[accordianSectionsCurr-2]
+		scrollTo(revealedAccord.IDBlock);
+	}
   }
   
 	function removeSection(){
@@ -815,13 +811,14 @@ function getHistoryI(index,history){
 <h5>Drawer headings<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="This is the text that will appear on the accordion drawers (all text boxes on the left side of screen). This should give users a clear idea of what will appear if the button is clicked. Max length is 75 characters.">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
   </div>
 </div>
+<span>
 <div class="row w-100">
   <div class="col-lg">
 <h6>Heading 1</h6>
 <textarea maxlength="75" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" placeholder="Input the heading for your first accordion drawer here" id="monAccBtnTxt1" onchange=generateAccCode()></textarea>
 </div>
 </div>
-<hr>
+
 <div class="row w-100">
   <div class="col-lg">
 <h5>Content<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="What you input in the box below will appear when the relative accordion drawer button is clicked (all rich text editors on the right of screen). This can include text, lists, videos and externally embedded media. You can click, hold and drag the bottom right corner of these boxes to make them bigger on this screen.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
@@ -833,6 +830,7 @@ function getHistoryI(index,history){
         <textarea id="tinyMCEmonAccContent1" class="border border-dark rounded p-2 w-100" rows="5" name="monAccContent1" placeholder="Write the content for your accordion here" onchange=generateAccCode()></textarea>
       </div>
     </div>
+	</span>
     <hr>
     <span id="newAccordArea"></span>   
 </div>
@@ -843,7 +841,7 @@ function getHistoryI(index,history){
       <div class="row w-100">
         <div class="col-lg-2">
     <div class="btn-group-lg" role="group">
-    <button id="plusbutton" onclick="addSection()" type="button" class="btn btn-success mr-2">Add <i class="fa fa-fw fa-plus"></i></button>
+    <button id="plusbutton" onclick="addSection(true)" type="button" class="btn btn-success mr-2">Add <i class="fa fa-fw fa-plus"></i></button>
   </div>
   </div>
   <div class="col-lg-2">
@@ -882,42 +880,40 @@ function getHistoryI(index,history){
   </div>
     </div>
     <script>
-      var textarea = $("#accMainHeading");
-      var checkRadio = function(){
+	var textarea = $("#accMainHeading");
+    var checkRadio = function(){
         if (textarea.val()!=="") {
-          $("#headSize2").prop("checked", true);
-          generateAccCode();
-          }
+			$("#headSize2").prop("checked", true);
+		}
         else {
-          $("#headSize1").prop("checked", true);
-          generateAccCode();
-          } 
-              };
-            // And when textarea changes
-            textarea.on("change", checkRadio);
-            </script>
-<script>
-  $(function () {
-    $(document).on('shown.bs.tooltip', function (e) {
-       setTimeout(function () {
-         $(e.target).tooltip('hide');
-       }, 7000);
-    });
-  });</script>
-  <script>
+			$("#headSize1").prop("checked", true);
+        }
+		generateAccCode();		  
+    };
+    // And when textarea changes
+    textarea.on("change", checkRadio);
+
+	$(function () {
+		$(document).on('shown.bs.tooltip', function (e) {
+			setTimeout(function () {
+				$(e.target).tooltip('hide');
+			}, 7000);
+		});
+	});
+  
     $(function () {
-      $('#copyCodeBtn').on('click', function (e) {
-         setTimeout(function () {
-           $(e.target).tooltip('hide');
-         }, 2500);
-      });
+		$('#copyCodeBtn').on('click', function (e) {
+			setTimeout(function () {
+				$(e.target).tooltip('hide');
+			}, 2500);
+		});
     });
     $(function () {
-      $('#toggleHelp').on('click', function (e) {
-         setTimeout(function () {
-           $(e.target).tooltip('hide');
-         }, 2500);
-      });
+		$('#toggleHelp').on('click', function (e) {
+			setTimeout(function () {
+				$(e.target).tooltip('hide');
+			}, 2500);
+		});
     });
     </script>
     <div id="beestFooter"></div>

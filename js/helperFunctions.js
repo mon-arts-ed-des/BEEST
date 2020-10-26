@@ -9,6 +9,11 @@ function setDropdown(id,selectedIndex){
 		})
 }
 
+function scrollTo(id){
+	document.getElementById(id).scrollIntoView();
+	
+}
+
 function getRadioOption(id){
 		return $('div #'+id).find('input[name="'+id+'"]:checked').val()
 	}
