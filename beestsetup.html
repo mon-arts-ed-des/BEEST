@@ -224,63 +224,8 @@ background: grey;
 </div>
 </div>
 </div>
-
-
         </div>
         </div>
-        <script>
-        function getRandomUrl(videoURL) {
-          var minIndex = 0;
-          var maxIndex = videoURL.length - 1;
-          var randomIndex = Math.floor(Math.random() * (maxIndex - minIndex)) + minIndex;
-          return videoURL[randomIndex];
-      }
-      var videoURL = [
-      "",
-      "",
-      "",
-        "",
-      ];
-      var randomVideoURL = getRandomUrl(videoURL);
-      
-      $("#beestPlaylist").html(
-      "<iframe class=\"embed-responsive-item\" src=\""+randomVideoURL+"\" frameborder='0'></iframe>");
-      </script>
-           <script>
-        $(".carousel-indicators li").on('click', function(){
-            $(this).siblings().removeClass('active')
-            $(this).addClass('active');
-        })
-        </script>
-        <script>
-var $item = $('.carousel-item');
-
-var $numberofSlides = $('.carousel-item').length;
-var $currentSlide = Math.floor((Math.random() * $numberofSlides));
-
-$('.carousel-indicators li').each(function(){
-  var $slideValue = $(this).attr('data-slide-to');
-  if($currentSlide == $slideValue) {
-    $(this).addClass('active');
-    $item.eq($slideValue).addClass('active');
-  } else {
-    $(this).removeClass('active');
-    $item.eq($slideValue).removeClass('active');
-  }
-});
-
-$('.carousel').carousel({
-  interval: false,
-  pause: "false"
-});
-$('a[data-slide="prev"]').click(function() {
-  $('#myCarousel').carousel('prev');
-});
-
-$('a[data-slide="next"]').click(function() {
-  $('#myCarousel').carousel('next');
-});
-       </script>
     <p class="my-3"></p>
         <div id="beestFooter"></div>
         </body>
