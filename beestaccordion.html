@@ -20,8 +20,7 @@
       <!-- external link to css file --> 
       <!-- Bootstrap CSS -->   
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	  
-	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
       <!-- Arts CSS -->  
       <link rel="stylesheet" href="css/adminPlusSetuBlockStyle.css" />
       <link rel="stylesheet" href="css/accordionStyle.css" />
@@ -38,9 +37,11 @@
       <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
       <!-- TinyMCE placeholder plugin file -->
       <script src="js/placeholder.js"></script> 
-	  
 	    <script src="js/advancedModeLocalStorage.js"></script>
       <script type="text/javascript">
+      function getRadioOption(id){
+        return $('div #'+id).find('input[name="'+id+'"]:checked').val();
+      }
        tinymce.init({
         selector: '#tinyMCEmonAccContent1',
         menubar: false,
@@ -110,8 +111,8 @@
 		var idTiny = "tinyMCEmonAccContent"+num
 		var idBlock = "AccordSect"+num
 		
-		var headingHTML="<div id=\""+idBlock+"\" class=\"row w-100 mx-auto\"><div class=\"col-lg mt-3\"><h6>Heading "+num+"</h6><textarea maxlength=\"75\" class=\"border border-dark rounded p-2 w-100 mx-auto\" rows=\"1\" placeholder=\"Input the heading for your next accordion button here\" id=\""+idHead+"\" onchange=generateAccCode()></textarea></div>"
-		var contentHTML = "<div class=\"col-lg mt-3\"><h6>Content "+num+"</h6><textarea id=\""+idTiny+"\"class=\"border border-dark rounded p-2 w-100\" rows=\"5\" name=\""+idCont+"\" placeholder=\"Write the content for your accordion here\" onchange=generateAccCode()></textarea></div></div>"
+		var headingHTML="<div id=\""+idBlock+"\" class=\"row w-100\"><div class=\"col-lg\"><h6>Heading "+num+"</h6><textarea maxlength=\"75\" class=\"border border-dark rounded p-2 w-100 mx-auto\" rows=\"1\" placeholder=\"Input the heading for accordion drawer "+num+" here\" id=\""+idHead+"\" onchange=generateAccCode()></textarea></div></div>"
+		var contentHTML = "<div class=\"row w-100 mt-2\"><div class=\"col-lg\"><h6>Content "+num+"</h6><textarea id=\""+idTiny+"\"class=\"border border-dark rounded p-2 w-100\" rows=\"5\" name=\""+idCont+"\" placeholder=\"Write the content for accordion "+num+" here\" onchange=generateAccCode()></textarea></div></div><hr>"
 		
 		return {
 			IDHead: idHead,
@@ -361,8 +362,8 @@
 			monAccBtnTxt = IDs.btn;
 			monAccContent = IDs.cont;
 		var accMainHeading = document.getElementById('accMainHeading').value;
-		var headSize = document.getElementById('headSize').value;
-		var faIcon = document.getElementById('faCode').value;
+		var headSize = getRadioOption('headSize')
+		var faIcon = getRadioOption('faCode')
 		
 		classAccord = accordionDataToClass(accMainHeading,headSize,faIcon,monAccBtnTxt,monAccContent)
 		
@@ -379,14 +380,10 @@
             "4":"question-circle-o", 
             "5":"info",
             "6":"info-circle",
-            "7":"bars",
-            "8":"plus",
-            "9":"plus-square",
-            "10":"plus-square-o",
-            "11":"exclamation",
-            "12":"exclamation-triangle",
-            "13":"exclamation-circle",
-            "14":"life-ring"
+            "7":"exclamation",
+            "8":"exclamation-triangle",
+            "9":"exclamation-circle",
+            "10":"life-ring"
         }
 
         var iconName = iconNames[faIcon];
@@ -437,7 +434,7 @@
 		monAccOutput+=monAcc_Close
         document.getElementById('monAccCode').innerHTML=monAccStyle+monAccOutput;
         //SelectAll("monAccCode");
-        $('#demo').nextAll('div, h3, h4, h5, i').remove();
+        $('#demo').nextAll('div.beestAcc, script, h3, h4, h5, i').remove();
         $('#demo').after(monAccOutput);
         }
 
@@ -570,10 +567,6 @@ function getHistoryI(index,history){
         document.getElementById(id).focus();
         document.getElementById(id).select();
         document.execCommand("copy");
-
-        var popup = document.getElementById("myPopup");
-        popup.classList.toggle("showPopup");
-        //window.alert('test');
     }
 
     function submitform()
@@ -589,7 +582,7 @@ function getHistoryI(index,history){
     monAcc = button to toggle extended text
     */
 	  var monAccStyle="<script> var L=document.createElement('link'); L.rel='stylesheet'; L.href='http://mon-arts-ed-des.github.io/BEEST/css/accordionStyle.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
-    var monAcc_1="<div id=\"accordion\" class=\"mt-0 w-100 mx-auto\"><div class=\"card border-0\"><div class=\"rounded-top headingStyle text-white card-header p-0\" id=\"head"
+    var monAcc_1="<div id=\"accordion\" class=\"mt-0 w-100 mx-auto beestAcc\"><div class=\"card border-0\"><div class=\"rounded-top headingStyle text-white card-header p-0\" id=\"head"
     var monAcc_1a="<div id=\"accordion\" class=\"mt-0 w-100 mx-auto\"><div class=\"card border-0\"><div class=\"headingStyle text-white card-header p-0\" id=\"head"
     var monAcc_2="\" data-toggle=\"collapse\" data-target=\"#content"
     var monAcc_3="\" aria-expanded=\"false\" aria-controls=\"content"
@@ -632,276 +625,301 @@ function getHistoryI(index,history){
         }, 100);
       };
     </script>
-       <style>
+    <script>
+      $(document).ready(function(){
+	$(window).scroll(function () {
+			if ($(this).scrollTop() > 50) {
+				$('#back-to-top').fadeIn();
+			} else {
+				$('#back-to-top').fadeOut();
+			}
+		});
+		// scroll body to 0px on click
+		$('#back-to-top').click(function () {
+			$('body,html').animate({
+				scrollTop: 0
+			}, 400);
+			return false;
+		});
+});
+    </script>
+    <style>
         .mce-notification-inner, .mce-close, .mce-notification-warning {
         display:none !important;
         }
-
-        /* Popup container - can be anything you want */
-    #popup {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    }
-
-    /* The actual popup */
-    #popup .popuptext {
-    visibility: hidden;
-    width: 160px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 8px 0;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -80px;
-    }
-
-    /* Popup arrow */
-    #popup .popuptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-    }
-
-    /* Toggle this class - hide and show the popup */
-    #popup .showPopup {
-    -webkit-animation: fadeinout 3s linear  forwards;
-    animation: fadeinout 3s linear forwards;
-    visibility: visible;
-    }
-
-    /* Add animation (fade in the popup) */
-@-webkit-keyframes fadeinout {
-  0%,100% { opacity: 0; }
-  10% {opacity: 1;}
-  66% { opacity: 1; }
-}
-
-@keyframes fadeinout {
-  0%,100% { opacity: 0; }
-  10% {opacity: 1;}
-  66% { opacity: 1; }
-}
-.tooltip-inner {
-  text-align: left !important;
-  padding: 15px !important;
-  font-size: 1.05rem !important;
-  max-width: 400px !important;
-}
-.nav-item:hover {
-  background: #004dae;
+        .tooltip-inner {
+        text-align: left !important;
+        padding: 15px !important;
+        font-size: 1.05rem !important;
+        max-width: 480px !important;
+        }
+        .nav-item:hover {
+        background: #004dae;
+        }
+        .back-to-top {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    display: none;
+    z-index: 2000;
 }
     </style> 
     </head>
     <body>
-      <div id="beestNav"></div>
-      <div class="row w-100 mb-5"></div>
-      <div class="row w-100 mb-4"></div>
-        <div class="container-fluid">
-          <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
-            <i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle my-auto"></i><div class="h6 mb-0">You can only have one accordion on a page because of the way the HTML works. <strong>Please make sure you only produce, copy and paste one accordion per Moodle page maximum</strong>. If you try to put two or more accordions on a page, none of them will work correctly.</div>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
-            </div>   
-  <h1 class="text-center"><i class="fa fa-layer-group fa-fw"></i> Accordion</h1>
-  <div class="row w-100 mx-auto">
-    <div class="col-lg mt-2">
-      <div class="hideableinstruct">
-  <h5>The result of this process</h5>
-  <p>This process will generate an accordion that can display information collapsed under heading buttons (drawers). It's important to note that accordions can easily be misused.</p>
-  <p>
-  <ul>
-    <li>They should be used to contain information such as frequently asked questions (FAQs), or putting together important unit information such a Synopsis, Learning Outcomes, Assessment Summary all in the one place.</li>
-    <li>If they get used on every single page they end up frustrating users who constantly have to click to reveal information.</li>
-    <li>if you put too much information in the drawers, they will open and the clickable heading will disappear off the page. Keep it to 5-8 lines of information wherever possible.</li>
-  </ul></p>
-  <h5>How to use this page</h5>
-  <p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. These text editors differ slightly from the other BEEST pages. They allow you to input HTML. So if you want to embed a video or other external content, or even content from another BEEST page (video, alert, button) you can. If you are unsure of how to paste HTML into these text editors or Moodle, <a data-toggle="modal" data-target=".bd-example-modal-lg" href="">this short video will help</a> (it will open in an overlay on this screen).</p>
-  <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content p-2">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe></div>
+<div id="beestNav"></div>
+<div class="py-5"></div>
+<div class="container-fluid">   
+  <h3 class="text-center">Accordion<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Accordions allow you to display information under collapsed 'drawers' that a user can click to reveal or hide the information." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h3>
+  <h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".btnWalkthrough" href="">Creating an accordion (07:08)</a></h5>
+<!--Begin modal content on the page-->
+<!--Button creation video walkthrough-->
+            <div class="modal fade btnWalkthrough" tabindex="-1" role="dialog" aria-labelledby="btn-modal" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content p-2 bg-dark">
+                <div class="modal-header">
+                  <h5 class="modal-title text-white">Click close or click outside this box to return to the BEEST.</h5>
+                  <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">Close &times;</span>
+                  </button>
+                </div>
+              <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=a3b32c11-7614-4ec4-8104-ac4000328f01"></iframe></div>
+              </div>
+            </div>
+          </div>
+<!--End button walkthrough modal-->
+<!--How to paste HTML into Moodle modal-->
+<div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="html-paste-modal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content p-2 bg-dark">
+      <div class="modal-header">
+        <h5 class="modal-title text-white">Click close or click outside this box to return to the BEEST.</h5>
+        <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">Close &times;</span>
+        </button>
       </div>
+    <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe>
+    </div>
     </div>
   </div>
 </div>
-<h5> Recover past data </h5>
-
-<div class="row w-100">
-    <div class="col-lg">
-	<p>
-	Use this button to retrieve data previously copied (Please note this will only work in the same browser for the time being)
-	</p>
-	</div>
-	<div class="col-lg">
-	<!--<button id="prevHist" onclick="prevHistI()" type="button" class="btn btn-primary mr-2"><i class="fa fa-fw fa-angle-left"></i></button>
-	  <button id="nextHist" onclick="nextHistI()" type="button" class="btn btn-primary mr-2"><i class="fa fa-fw fa-angle-right"></i></button>-->
-  <select class="custom-select w-50 border border-dark" size="1" id="recoveryDate" onchange="idSelectedRecData()">
-  <option selected value=0>please wait</option>
-  </select>
-
-
-  <button id="delHist" onclick="delHistI()" type="button" class="btn btn-danger mr-2"><i class="fa fa-fw fa-trash"></i></button>
-  
-  
+<!--End HTML paste video walkthrough-->
+<!--End modal content for this page-->
+<div class="row w-50 mx-auto text-center mt-3">	  
+  <div class="col-lg">
+  <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-danger btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
   </div>
-  
-  <div class="col-lg-3"><div class="text-center">
-          <button id="loadHist" onclick="getHistoryI(histIndex,historicalData)" class="btn btn-mu">Recover <i class="fa fa-fw fa-undo"></i></a>
-        </div></div>
+  <div class="col-lg">
+  <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-success btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
   </div>
-
-
-
-
-  <h5>Reset this page</h5>
-  <div class="row w-100">
-    <div class="col-lg">
-  <p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
-  <div class="col-lg-3"><div class="text-center">
-    <a href="javascript:window.location.reload()" class="btn btn-mu">Reset the page <i class="fa fa-fw fa-refresh"></i></a>
-  </div></div></div>
-  
-        <h5>Advanced mode - turn <span class="onoffswapinstr">off</span> instructions</h5>
-        <div class="row w-100">
-          <div class="col-lg">
-        <p>Click this button to turn <span class="onoffswapinstr">off</span> the instructions that appear when you hover over the headings.<span class="hideableinstruct"> Only do this if you are completely familiar with how to use the tool.</span></p></div>
-        <div class="col-lg-3"><div class="text-center">
-          <button onclick="flipTooltip()" class="btn btn-mu">Turn <span class="onoffswapinstr">off</span> instructions <i class="fa fa-fw fa-power-off"></i></a>
-        </div></div></div>
-      </div>
-        <div class="col-lg-4 mt-2 hideableinstruct">
-          <h5>Video walkthrough - Creating an accordion (07:08)</h5>
-          <div class="embed-responsive embed-responsive-16by9">
-            <iframe src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=a3b32c11-7614-4ec4-8104-ac4000328f01" class="embed-responsive-item" frameborder="1" allowfullscreen="true"></iframe>
-          </div>
-          </div>
-        </div>
+</div>
 <hr class="hr-3">
-<form id="monAccForm">
-  <div class="row w-100 mx-auto">
-    <div class="col-lg mt-2">
-      <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="The page defaults to start with 3 accordion drawers. If you only need 3 drawers you can skip this step. If you require 4 or more drawers, click the add button below to add more drawers. You can have a maximum of 10, and you can remove drawers to a minimum of 3.">Step 1 - Add/Remove drawers</h5>  
-<div class="btn-group btn-group-justified" role="group" id="addMinusButtons">
-<div class="btn-group-lg" role="group">
-<button id="plusbutton" onclick="addSection()" type="button" class="btn btn-success mr-2">Add drawer <i class="fa fa-fw fa-plus"></i></button>
-</div>
-<div class="btn-group-lg" role="group">
-<button id="minusbutton" style="display:none;" onclick="removeSection()" type="button" class="btn btn-danger">Remove drawer <i class="fa fa-fw fa-times"></i></button>
-</div>
-<div class="btn-group-lg" role="group"><span class="ml-3 h5">Current number of drawers</span>
-  <input class="border border-dark px-3 py-2 h5 rounded ml-1 btn" style="cursor:default ;" id="accordCounter" onchange="changeDrawerCount()" value=0>
-  </div>  
-</div>
-</div>
-</div>
-
 <div class="row w-100 mx-auto">
-  <div class="col-lg-6 mt-2">
-    <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the main heading for this accordion that will sit above the element and indicate to students what is in the accordion. 75 character maximum.">Step 2 - Main heading (optional)</h5>
-    <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="accMainHeading" type="text" id="accMainHeading" placeholder="Type your accordion heading here" onchange=generateAccCode()></textarea>
-  </div>
-</div>
-<div class="row w-100 mx-auto">
-<div class="col-lg-6 mt-2">
-<h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 3 - Main Heading size (optional)</h5>
-<select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1" onchange=generateAccCode()>
-<option selected value="h5">Small (heading 5)</option>
-<option value="h4">Medium (heading 4)</option>
-<option value="h3">Large (heading 3)</option>
-</select>
-</div> 
-</div>   
-<div class="row w-100 mx-auto">
-<div class="col-lg-5">
-<h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 2) and choose a heading size (step 3) or the icon and heading will not display.">Step 4 - Select icon (optional)</h5>
-<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1" onchange=iconpreview()>
-  <option selected value="noI">No icon</option>
-  <option value="1">Layered circles - database symbol</option>  
-  <option value="2">Question mark</option>
-    <option value="3">White question mark in a black circle</option>
-    <option value="4">Black question mark in a white circle</option>
-    <option value="5">Information symbol</option>
-    <option value="6">White information symbol in a black circle</option>
-    <option value="7">Three (3) horizontal bars</option>
-    <option value="8">Plus symbol</option>
-    <option value="9">White plus symbol in a black square</option>
-    <option value="10">Black plus symbol in a white square</option>
-    <option value="11">Exclamation mark</option>
-    <option value="12">White exclamation mark in a black triangle</option>
-    <option value="13">White exclamation mark in a black circle</option>
-    <option value="14">Life ring</option>
-  </select>
-</div>
-<div class="col-lg-2" >
-  <h5 id="iconpreview" class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" style="display:none;">Icon Preview</h5>
-  </div>
-</div>
-  <div class="row w-100 mx-auto">
-    <div class="col-lg mt-2">
-      <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="This is the text that will appear on the accordion drawers (all text boxes on the left side of screen). This should give users a clear idea of what will appear if the button is clicked. Max length is 75 characters.">Step 5 - Drawer headings</h5> 
-      <h6>Heading 1</h6>
-      <textarea maxlength="75" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" placeholder="Input the heading for your first accordion drawer here" id="monAccBtnTxt1" onchange=generateAccCode()></textarea>
+  <div class="col-lg-6">
+  <div class="row w-100">
+    <div class="col-lg-3">
+      <h5>Main heading<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the main heading for this accordion that will sit above the element and indicate to students what is in the accordion. 75 character maximum.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
     </div>
-    <div class="col-lg mt-2">
-        <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="What you input in the box below will appear when the relative accordion drawer button is clicked (all rich text editors on the right of screen). This can include text, lists, videos and externally embedded media. You can click, hold and drag the bottom right corner of these boxes to make them bigger on this screen.">Step 6 - Content</h5>
+    <div class="col-lg">
+    <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="accMainHeading" type="text" id="accMainHeading" placeholder="Type your accordion heading here" onchange=generateAccCode()></textarea>
+    </div>
+    </div>
+    <hr>
+<div class="row w-100">
+  <div class="col-lg-3">
+    <h5>Main heading size<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+  </div>
+  <div class="col-lg">
+<div class="form-check form-check-inline" id="headSize" onchange=generateAccCode()>
+  <input class="form-check-input" name="headSize" id="headSize1" type="radio" value="noH" checked>
+  <label class="form-check-label" for="headSize1">No heading</label>
+</div>
+<div class="form-check form-check-inline" id="headSize" onchange=generateAccCode()>
+  <input class="form-check-input" name="headSize" id="headSize2" type="radio" value="h5">
+  <label class="form-check-label" for="headSize2"><h5>Small</h5></label>
+</div>
+<div class="form-check form-check-inline" id="headSize" onchange=generateAccCode()>
+  <input class="form-check-input" name="headSize" id="headSize3" type="radio" value="h4">
+  <label class="form-check-label" for="headSize3"><h4>Medium</h4></label>
+</div>
+<div class="form-check form-check-inline" id="headSize" onchange=generateAccCode()>
+  <input class="form-check-input" name="headSize" id="headSize4" type="radio" value="h3">
+  <label class="form-check-label" for="headSize4"><h3>Large</h3></label>
+</div>
+  </div>
+</div>
+<hr>
+          <div class="row w-100">
+            <div class="col-lg-3">
+              <h5 class="font-weight-bold">Choose icon<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="If you would like an icon to the right of your button text, choose one from this list." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
+            </div>
+            <div class="col-lg-1 my-auto mr-3">
+            <div class="form-check form-check-inline" id="faCode" onchange=generateAccCode()>
+              <input class="form-check-input" name="faCode" id="faCodeNone" type="radio" value="noI" checked>
+              <label class="form-check-label" for="faCodeNone">None</label>
+            </div>
+          </div>
+            <div class="col-lg">
+              <div class="row w-100">
+                <div class="col-lg d-flex justify-content-between">
+              <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateAccCode()>
+                <input class="form-check-input" name="faCode" id="faCode1" type="radio" value="1">
+                <label class="form-check-label" for="faCode1"><i class="fa fa-fw fa-database fa-2x"></i></label>
+              </div>
+              <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateAccCode()>
+              <input class="form-check-input" name="faCode" id="faCode2" type="radio" value="2">
+              <label class="form-check-label" for="faCode2"><i class="fa fa-fw fa-question fa-2x"></i></label>
+              </div>
+              <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateAccCode()>
+                <input class="form-check-input" name="faCode" id="faCode3" type="radio" value="3">
+                <label class="form-check-label" for="faCode3"><i class="fa fa-fw fa-question-circle fa-2x"></i></label>
+                </div>
+              <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateAccCode()>
+              <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="4">
+              <label class="form-check-label" for="faCode4"><i class="fa fa-fw fa-question-circle-o fa-2x"></i></label>
+            </div>
+            <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateAccCode()>
+              <input class="form-check-input" name="faCode" id="faCode5" type="radio" value="5">
+              <label class="form-check-label" for="faCode5"><i class="fa fa-fw fa-info fa-2x"></i></label>
+            </div>
+          </div>
+        </div>
+            <div class="row w-100 mt-2">
+              <div class="col-lg d-flex justify-content-between">
+            <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateAccCode()>
+              <input class="form-check-input" name="faCode" id="faCode6" type="radio" value="6">
+              <label class="form-check-label" for="faCode6"><i class="fa fa-fw fa-info-circle fa-2x"></i></label>
+            </div>
+            <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateAccCode()>
+              <input class="form-check-input" name="faCode" id="faCode7" type="radio" value="7">
+              <label class="form-check-label" for="faCode7"><i class="fa fa-fw fa-exclamation fa-2x"></i></label>
+            </div>
+            <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateAccCode()>
+              <input class="form-check-input" name="faCode" id="faCode8" type="radio" value="8">
+              <label class="form-check-label" for="faCode8"><i class="fa fa-fw fa-exclamation-triangle fa-2x"></i></label>
+            </div>
+            <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateAccCode()>
+              <input class="form-check-input" name="faCode" id="faCode9" type="radio" value="9">
+              <label class="form-check-label" for="faCode9"><i class="fa fa-fw fa-exclamation-circle fa-2x"></i></label>
+            </div>
+            <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateAccCode()>
+              <input class="form-check-input" name="faCode" id="faCode10" type="radio" value="10">
+              <label class="form-check-label" for="faCode10"><i class="fa fa-fw fa-life-ring fa-2x"></i></label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+          <hr>
+<div class="row w-100">
+  <div class="col-lg">
+<h5>Drawer headings<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="This is the text that will appear on the accordion drawers (all text boxes on the left side of screen). This should give users a clear idea of what will appear if the button is clicked. Max length is 75 characters.">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
+  </div>
+</div>
+<div class="row w-100">
+  <div class="col-lg">
+<h6>Heading 1</h6>
+<textarea maxlength="75" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" placeholder="Input the heading for your first accordion drawer here" id="monAccBtnTxt1" onchange=generateAccCode()></textarea>
+</div>
+</div>
+<hr>
+<div class="row w-100">
+  <div class="col-lg">
+<h5>Content<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="What you input in the box below will appear when the relative accordion drawer button is clicked (all rich text editors on the right of screen). This can include text, lists, videos and externally embedded media. You can click, hold and drag the bottom right corner of these boxes to make them bigger on this screen.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+  </div>
+</div>
+<div class="row w-100">
+  <div class="col-lg">
         <h6>Content 1</h6>      
         <textarea id="tinyMCEmonAccContent1" class="border border-dark rounded p-2 w-100" rows="5" name="monAccContent1" placeholder="Write the content for your accordion here" onchange=generateAccCode()></textarea>
-        </div>
-        </div>
-                       <span id="newAccordArea"></span>       
-<div class="row w-100 mx-auto">
-          <div class="col-lg mt-3">
-        <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Step 7 - Copy code and paste them into Moodle</h5>
-        <div>
-    <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now and saved to the history</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Copy your code" onClick=copyCode()></p>
+      </div>
     </div>
-    <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="monAccCode" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code for your accordion and copy it to the clipboard." onClick=generateAccCode()></textarea></p>
+    <hr>
+    <span id="newAccordArea"></span>   
+</div>
+  <div class="col-lg">
+    <div class="sticky-top" style="top:100px;">
+    <h5>Add/Remove drawers<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="The page defaults to start with 3 accordion drawers. You can have up to 10. Use the Add button to add more drawers one at a time, or change the number in the box below to be between 3-10. A remove button will appear once there are more than 3 drawers." >&nbsp;<i class="fa fa-question-circle"></i></span></h5>  
+    <div class="btn-group btn-group-justified w-100" role="group" id="addMinusButtons">
+      <div class="row w-100">
+        <div class="col-lg-2">
+    <div class="btn-group-lg" role="group">
+    <button id="plusbutton" onclick="addSection()" type="button" class="btn btn-success mr-2">Add <i class="fa fa-fw fa-plus"></i></button>
+  </div>
+  </div>
+  <div class="col-lg-2">
+    <div class="btn-group-lg" role="group">
+    <button id="minusbutton" style="display:none;" onclick="removeSection()" type="button" class="btn btn-danger">Remove <i class="fa fa-fw fa-times"></i></button>
+    </div>
   </div>
 </div>
-    <div class="row w-100 mx-auto mt-2 mb-3">
-      <div class="col-lg">
-        <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 7.">Step 8 - Preview</h5>
-        </div>
-        </div>
-    </form>
+    </div>
+<div class="row w-100 mt-2">
+  <div class="col-lg">
+    <div class="btn-group-lg" role="group"><h5>Current number of drawers (3-10) - Type in your number<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="This is the number of drawers currently available to edit and create content. You can use the Add/Remove buttons to change this number or click it and type in a number from 1-10." >&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+      <input class="border border-dark px-3 py-2 h5 rounded ml-1 btn btn-outline-dark" style="cursor:default ;" id="accordCounter" onchange="changeDrawerCount()" value=0>
+      </div>  
+    </div>
+  </div>
+
+    <hr>
+    <h5>Preview<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 7." class="text-success hideableinstruct small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
     <div id="demo"></div>
     <p class="my-3"></p>
+    <hr>
+    <h5>Copy code<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click the copy code button below to copy your code, ready to paste into Moodle." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+        <textarea readonly class="rounded p-2 w-100" id="monAccCode" rows="3" name="Result" placeholder="The code for your element will appear here as you update your preferences on the page." onClick=generateAccCode()></textarea>
+    <input id="copyCodeBtn" type="button" class="btn btn-block btn-success mt-1 text-center" name="GenerateWrap" value="Copy your code" data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." onClick=copyCode()>
+    <div class="text-center h5 mt-4">
+      <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
+      </div>
+  </div>
+</div>
+</div>
+</div>
+    </form>
+    <div class="text-center">
+    <a id="back-to-top" href="#" class="btn btn-outline-dark btn-lg back-to-top" role="button">Back to top&nbsp;<i class="fas fa-chevron-up"></i></a>
+  </div>
     </div>
     <script>
-      var textarea = $('#accMainHeading');
-      var select = $('#headSize');
-      var addOrRemoveRequiredAttribute = function () {
-      if (textarea.val().length) {
-      select.val("h5")
-      }
-      };
-      
-      // Run now
-      addOrRemoveRequiredAttribute();
-      
-      // And when textarea changes
-      textarea.on('change', addOrRemoveRequiredAttribute);
-      </script>
-
+      var textarea = $("#accMainHeading");
+      var checkRadio = function(){
+        if (textarea.val()!=="") {
+          $("#headSize2").prop("checked", true);
+          generateAccCode();
+          }
+        else {
+          $("#headSize1").prop("checked", true);
+          generateAccCode();
+          } 
+              };
+            // And when textarea changes
+            textarea.on("change", checkRadio);
+            </script>
+<script>
+  $(function () {
+    $(document).on('shown.bs.tooltip', function (e) {
+       setTimeout(function () {
+         $(e.target).tooltip('hide');
+       }, 7000);
+    });
+  });</script>
+  <script>
+    $(function () {
+      $('#copyCodeBtn').on('click', function (e) {
+         setTimeout(function () {
+           $(e.target).tooltip('hide');
+         }, 2500);
+      });
+    });
+    $(function () {
+      $('#toggleHelp').on('click', function (e) {
+         setTimeout(function () {
+           $(e.target).tooltip('hide');
+         }, 2500);
+      });
+    });
+    </script>
     <div id="beestFooter"></div>
         </body>
         </html>
