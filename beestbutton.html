@@ -405,7 +405,9 @@ function getHistoryI(index,history){
       <div class="py-5"></div>
         <div class="container-fluid">
             <h3 class="text-center font-weight-bold">Buttons<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Buttons are a great way to draw the user's focus to an important link and differentiate URLs you consider the most important from just simple hyperlinks. Use buttons in a consistent manner with consistent colours and sizes for each purpose. Too many combinations can result in user confusion." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h3>
-            <h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".btnWalkthrough" href="">Video walkthrough - Creating a button (04:26)</a></h5>
+            <h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".btnWalkthrough" href="">Creating a button (04:26)</a></h5>
+<!--Begin modal content on the page-->
+<!--Button creation video walkthrough-->
             <div class="modal fade btnWalkthrough" tabindex="-1" role="dialog" aria-labelledby="btn-modal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
               <div class="modal-content p-2 bg-dark">
@@ -419,6 +421,24 @@ function getHistoryI(index,history){
               </div>
             </div>
           </div>
+<!--End button walkthrough modal-->
+<!--How to paste HTML into Moodle modal-->
+<div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="html-paste-modal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content p-2 bg-dark">
+      <div class="modal-header">
+        <h5 class="modal-title text-white">Click close or click outside this box to return to the BEEST.</h5>
+        <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">Close &times;</span>
+        </button>
+      </div>
+    <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe>
+    </div>
+    </div>
+  </div>
+</div>
+<!--End HTML paste video walkthrough-->
+<!--End modal content for this page-->
             <div class="row w-50 mx-auto text-center mt-3">	  
               <div class="col-lg">
                     <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-danger btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
@@ -531,7 +551,7 @@ function getHistoryI(index,history){
               <label class="form-check-label" for="faCode9"><i class="fa fa-fw fa-play-circle-o fa-2x"></i></label>
             </div>
             <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateBtnCode()>
-              <input class="form-check-input" name="faCode" id="faCod10" type="radio" value="10">
+              <input class="form-check-input" name="faCode" id="faCode10" type="radio" value="10">
               <label class="form-check-label" for="faCode10"><i class="fa fa-fw fa-link fa-2x"></i></label>
             </div>
           </div>
@@ -686,20 +706,7 @@ function getHistoryI(index,history){
                 <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." id="copyCodeBtn" class="btn btn-success btn-lg btn-block mt-2" name="GenerateWrap" value="Copy your code </>" OnClick=copyCode() >
                 <div class="text-center h5 mt-4">
                   <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
-                  <div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                      <div class="modal-content p-2 bg-dark">
-                        <div class="modal-header">
-                          <h5 class="modal-title text-white">Click close or click outside this box to return to the BEEST.</h5>
-                          <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">Close &times;</span>
-                          </button>
-                        </div>
-                      <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe>
-                      </div>
-                      </div>
-                    </div>
-                  </div></div>
+                  </div>
                   </div>
                 </div>
               </div>
