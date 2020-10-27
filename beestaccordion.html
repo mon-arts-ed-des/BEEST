@@ -50,23 +50,161 @@
 	const absoluteMaxAccord = 10;
 	const absoluteMinAccord = 3;
 	var classAccord = null
-	var accordianSectionsCurr = 1;
-	var accordianSectionsTotalMade = 1;
 	var accordiansPostInit = []
 
 	$(document).ready(function() { //create the tinyMCE areas after the first
-		while (accordianSectionsCurr < absoluteMinAccord){
+		classAccord = new accordion()
+		classAccord.addDrawer() //page starts with 1 drawer
+		while (classAccord.usableDrawers < absoluteMinAccord){
 			addSection()
 		}
 		/*REQUIRED FOR HISTORY*/
-		//initHistory()
+		initHistory()
 		/*END REQUIRED FOR HISTORY*/
 	})
+	/*REQUIRED FOR HISTORY*/
+	class drawer{
+		constructor(heading,content,pageHtml){
+			this.heading=heading
+			this.content=content
+			this.pageHtml = pageHtml
+		}
+		toPDO(){
+			return {
+				mainHead:	this.heading,
+				cont:		this.content,
+				pageHtml: 	this.pageHtml
+			}
+		}
+		toString(){return JSON.stringify(this.toPDO())}
+		fromObj(PDO){
+			this.heading = PDO.mainHead
+			this.content = PDO.cont
+			this.pageHtml = PDO.pageHtml
+		}
+	}
+	
+	class accordion{
+		baseHead = "monAccBtnTxt"
+		baseCont = "monAccContent"
+		baseTiny = "tinyMCEmonAccContent"
+		baseBlock = "AccordSect"
+		
+		constructor(mainHead,headSize,icon,drawerList){
+			this.mainHead = mainHead
+			this.headSize = headSize
+			this.icon = icon
+			if (drawerList == undefined){
+				this.drawerList = []
+			}
+			else{
+				this.drawerList = drawerList
+			}
+			/*format of list is [{head,cont,template},...]*/
+			this.drawerCount = this.drawerList.length
+			this.usableDrawers = this.drawerCount
+		}
+		addDrawer(heading,content){
+			if (this.usableDrawers == this.drawerCount){
+				var htmlCode = this.accordianSectionTemplate(this.drawerCount+1)
+				this.drawerList.push(
+					new drawer(heading,content,htmlCode)
+				);
+				this.drawerCount++
+			}
+			this.usableDrawers++
+		}
+		getDrawerFull(index){
+			if (!(this.validDrawer(index))){
+				console.error("drawer out of bounds")
+				return null
+			}
+			else{
+				return this.drawerList[index]
+			}
+		}
+		getDrHead(index){return this.getDrawerFull.heading}
+		getDrCont(index){return this.getDrawerFull.content}
+		getAllDrawers(){
+			var result = []
+			for (var drI=0;drI < this.usableDrawers; drI++){
+				result.push(this.getDrawer(drI))
+			}
+			return result
+		}
+		getDrawer(index){
+			return this.getDrawerFull(index).pageHtml
+		}
+		getLastDrawer(){
+			return this.getDrawer(this.usableDrawers-1)
+		}
+		removeDrawer(){
+			this.usableDrawers--
+			if (this.usableDrawers<=0){
+				this.usableDrawers = 0
+			}
+		}
+		setDrawerData(index,heading,content){
+			if (this.validDrawer(index)){
+				this.drawerList[index].heading = heading
+				this.drawerList[index].content = content
+			}
+			else{
+				console.error("cannot set data for drawer "+index+": out of bounds")
+			}
+		}
+		validDrawer(index){
+			return (index<=this.usableDrawers)||(index >= 0)
+		}
+		toPDO(){
+			var result = {}
+			result.mainHead = this.mainHead
+			result.headSize = this.headSize
+			result.icon = this.icon
+			result.drawerList = []
+			for (var d=0; d<this.usableDrawers; d++){
+				result.drawerList.push(
+					this.drawerList[d].toPDO()
+				)
+			}
+			result.drawerCount = this.usableDrawers
+			return result
+		}
+		toString(){return JSON.stringify(this.toPDO())}
+		fromObj(PDO){
+			this.mainHead = PDO.mainHead
+			this.headSize = PDO.headSize
+			this.icon = PDO.icon
+			for (var dr=0; dr < PDO.drawerCount; dr++){
+				var theDrawer = PDO.drawerList[dr]
+				this.addDrawer(theDrawer.mainHead,theDrawer.cont)
+			}
+		}
+		accordianSectionTemplate(num){
+			var idHead = this.baseHead+num
+			var idCont = this.baseCont+num
+			var idTiny = this.baseTiny+num
+			var idBlock = this.baseBlock+num
+			
+			var headingHTML="<span id=\""+idBlock+"\"><div class=\"row w-100\"><div class=\"col-lg\"><h6>Heading "+num+"</h6><textarea maxlength=\"75\" class=\"border border-dark rounded p-2 w-100 mx-auto\" rows=\"1\" placeholder=\"Input the heading for accordion drawer "+num+" here\" id=\""+idHead+"\" onchange=generateAccCode()></textarea></div></div>"
+			
+			var contentHTML = "<div class=\"row w-100\"><div class=\"col-lg\"><h6>Content "+num+"</h6><textarea id=\""+idTiny+"\"class=\"border border-dark rounded p-2 w-100\" rows=\"5\" name=\""+idCont+"\" placeholder=\"Write the content for accordion "+num+" here\" onchange=generateAccCode()></textarea></div></div></span><hr>"
+			
+			return {
+				IDHead: idHead,
+				IDTiny: idTiny,
+				IDCont: idCont,
+				IDBlock: idBlock,
+				output: headingHTML+contentHTML
+			}
+		}
+	}
+	/*END REQUIRED FOR HISTORY*/
 	
 	function changeDrawerCount(){
 		var revisedCount = document.getElementById(COUNTER_ID).value
 		if (isNaN(revisedCount)){
-			revisedCount = accordianSectionsCurr
+			revisedCount = classAccord.usableDrawers
 		}
 		else{
 			if (!(Number.isInteger(revisedCount))){
@@ -78,10 +216,10 @@
 			if (revisedCount < absoluteMinAccord){
 				revisedCount = absoluteMinAccord
 			}
-			while (accordianSectionsCurr < revisedCount){
+			while (classAccord.usableDrawers < revisedCount){
 				addSection()
 			}
-			while (accordianSectionsCurr > revisedCount){
+			while (classAccord.usableDrawers > revisedCount){
 				removeSection()
 			}
 		}
@@ -92,26 +230,7 @@
 		document.getElementById(ID).value = currCounter;
 	}
 
-	function accordianSectionTemplate(num){
-		var idHead = "monAccBtnTxt"+num
-		var idCont = "monAccContent"+num
-		var idTiny = "tinyMCEmonAccContent"+num
-		var idBlock = "AccordSect"+num
-		
-		var headingHTML="<span id=\""+idBlock+"\"><div class=\"row w-100\"><div class=\"col-lg\"><h6>Heading "+num+"</h6><textarea maxlength=\"75\" class=\"border border-dark rounded p-2 w-100 mx-auto\" rows=\"1\" placeholder=\"Input the heading for accordion drawer "+num+" here\" id=\""+idHead+"\" onchange=generateAccCode()></textarea></div></div>"
-		
-		var contentHTML = "<div class=\"row w-100\"><div class=\"col-lg\"><h6>Content "+num+"</h6><textarea id=\""+idTiny+"\"class=\"border border-dark rounded p-2 w-100\" rows=\"5\" name=\""+idCont+"\" placeholder=\"Write the content for accordion "+num+" here\" onchange=generateAccCode()></textarea></div></div></span><hr>"
-		
-		return {
-			IDHead: idHead,
-			IDTiny: idTiny,
-			IDCont: idCont,
-			IDBlock: idBlock,
-			output: headingHTML+contentHTML
-		}
-	}
-
-  
+	 
   function iconpreview() {
         var faIcon = document.getElementById('faCode').value;
         var iconNames = {
@@ -182,35 +301,31 @@
 	use the template to construct a new one (or show existing)
 	(maximum absoluteMaxAccord sections)
 	*/	
-		var newSection = accordianSectionsCurr+1
+		var newSection = classAccord.usableDrawers+1
 		if (newSection > absoluteMaxAccord){
 			alert("maximum accordion sections reached") //just in case button is still clicked despite being hidden
 			return
 		}
-		
-		if (accordianSectionsCurr >= accordianSectionsTotalMade){
-		
-			var newAccordian = accordianSectionTemplate(newSection)
-			accordiansPostInit.push(newAccordian)
+		if (classAccord.usableDrawers >= classAccord.drawerCount){
+			classAccord.addDrawer()
+			var newAccordian = classAccord.getLastDrawer()
 		
 			var newArea = document.getElementById("newAccordArea")
 			newArea.insertAdjacentHTML('beforeend', newAccordian.output)
 			
 			makeTinyWithID(newAccordian.IDTiny)
 			
-			accordianSectionsTotalMade+=1;
+			//accordianSectionsTotalMade+=1;
 		}
 		else{
-			var accordAppear = accordiansPostInit[newSection-2]
+			classAccord.addDrawer()
+			var accordAppear = classAccord.getLastDrawer()
 			showHTML(accordAppear.IDBlock)
 		}
-		accordianSectionsCurr += 1;
-		updatePageCounter(COUNTER_ID,accordianSectionsCurr)
+		updatePageCounter(COUNTER_ID,classAccord.usableDrawers)
 		
-		if (accordianSectionsCurr > absoluteMinAccord)
+		if (classAccord.usableDrawers > absoluteMinAccord)
 		{
-			num.push(""+accordianSectionsCurr); //add a new num to the end of the nums array
-			
 			monAcc_1_opt.push(monAcc_1a) //add another 1a
 			
 			monAcc_8_opt.pop() //remove the 8b and add it after another 8a
@@ -219,22 +334,23 @@
 		}
 		
 		else{
-			num = [,"1","2","3"] //otherwise reset
-			monAcc_1_opt = [,monAcc_1,monAcc_1a,monAcc_1a];
-			monAcc_8_opt = [,monAcc_8,monAcc_8a,monAcc_8b];
+			monAcc_1_opt = [monAcc_1,monAcc_1a,monAcc_1a];
+			monAcc_8_opt = [monAcc_8,monAcc_8a,monAcc_8b];
 		}
 		
-		if (accordianSectionsCurr >= absoluteMaxAccord){
+		if (classAccord.usableDrawers >= absoluteMaxAccord){
 			hideButton("plusbutton")
 		}
-		if (accordianSectionsCurr > absoluteMinAccord){
+		if (classAccord.usableDrawers > absoluteMinAccord){
 			showButton("minusbutton")
     }
     generateAccCode();
 	if ((live!=undefined)&&(live)){
-		var revealedAccord = accordiansPostInit[accordianSectionsCurr-2]
+		var revealedAccord = classAccord.getLastDrawer()
 		scrollTo(revealedAccord.IDBlock);
 	}
+	
+	
   }
   
 	function removeSection(){
@@ -242,18 +358,17 @@
 	hide an existing one (minimum absoluteMinAccord sections)
 	TBC change arrays at end
 	*/
-		if (accordianSectionsCurr <= absoluteMinAccord){
+		if (classAccord.usableDrawers <= absoluteMinAccord){
 			alert("minimum accordion sections reached") //just in case button is still clicked despite being hidden
 			return
 		}
 	
-		var accordAppear = accordiansPostInit[accordianSectionsCurr-2]
+		var accordAppear = classAccord.getLastDrawer()
 		hideHTML(accordAppear.IDBlock)
 	
-		accordianSectionsCurr -= 1;
-		updatePageCounter(COUNTER_ID,accordianSectionsCurr)
-		if (accordianSectionsCurr > absoluteMinAccord){
-			num.pop(); //remove the last 'num' from the end of the nums array
+		classAccord.removeDrawer()
+		updatePageCounter(COUNTER_ID,classAccord.usableDrawers)
+		if (classAccord.usableDrawers > absoluteMinAccord){
 			
 			monAcc_1_opt.pop() //remove the last 1a
 			
@@ -263,10 +378,10 @@
 		}
 		
 		
-		if (accordianSectionsCurr < absoluteMaxAccord){
+		if (classAccord.usableDrawers < absoluteMaxAccord){
 			showButton("plusbutton")
 		}
-		if (accordianSectionsCurr <= absoluteMinAccord){
+		if (classAccord.usableDrawers <= absoluteMinAccord){
 			hideButton("minusbutton")
     }
     generateAccCode();
@@ -293,25 +408,25 @@
 	/*
 	dataSet should be an instance of the accordion class
 	*/
-		document.getElementById('accMainHeading').value = dataSet.main;
-		document.getElementById('headSize').value = dataSet.size;
+		document.getElementById('accMainHeading').value = dataSet.mainHead;
+		document.getElementById('headSize').value = dataSet.headSize;
 		document.getElementById('faCode').value = dataSet.icon;
 		
 		
-		tinyMCE.get('tinyMCEmonAccContent1').setContent(dataSet.drawer[0].content)
-		document.getElementById('monAccBtnTxt1').value = dataSet.drawer[0].heading
+		tinyMCE.get('tinyMCEmonAccContent1').setContent(dataSet.getDrCont(0))
+		document.getElementById('monAccBtnTxt1').value = dataSet.getDrHead(0)
 		
 		for (var idNum=0; idNum<idList.length; idNum++){
 			var thisContent
 			var thisHeading = ""
 			try{
-				thisContent=dataSet.drawer[idNum+1].content
+				thisContent=dataSet.getDrCont(idNum+1)
 			}
 			catch{
 				thisContent = ""
 			}
 			try{
-				thisHeading=dataSet.drawer[idNum+1].heading
+				thisHeading=dataSet.getDrHead(idNum+1)
 			}
 			catch{
 				thisHeading = ""
@@ -322,10 +437,10 @@
 	}
 	
 	function getTextAreas(idList){
-		var monAccContent1 = tinyMCE.get('tinyMCEmonAccContent1').getContent();
-		var monAccBtnTxt1 = document.getElementById('monAccBtnTxt1').value;
-		var monAccCont = [,monAccContent1]
-		var monAccBtn = [,monAccBtnTxt1] //start with comma to index from 1
+		/*(var monAccContent1 = tinyMCE.get('tinyMCEmonAccContent1').getContent();
+		var monAccBtnTxt1 = document.getElementById('monAccBtnTxt1').value;()*/
+		var monAccCont = []
+		var monAccBtn = []
 		
 		for (var idNum=0; idNum<idList.length; idNum++){
 			monAccCont.push(tinyMCE.get(idList.tiny[idNum]).getContent())
@@ -334,34 +449,37 @@
 		return {cont: monAccCont, btn: monAccBtn, length:idList.length}
 	}
 	
-	function accordionDataToClass(heading,size,icon,heads,conts){
-		/*
-		accordion{
-	constructor(mainHead,headSize,icon,drawerList){
-		this.mainHead = mainHead
-		this.headSize = headSize
-		this.icon = icon
-		this.drawerList = this.PDO_drawerListToDrawers(drawerList)
-	}
-		*/
-		var accordData = new accordion(heading,size,icon,[])
-		
-		for (var hcCt=1;hcCt < heads.length; hcCt++){
-			accordData.addDrawer(heads[hcCt],conts[hcCt])
+	function updateClassInstanceWithPageData(classInst,IDs,txtAreas){
+		start = 0
+		end = classInst.usableDrawers
+		var thisDrawer = null
+		for (var idI = 0; idI < IDs.length; idI++){
+			setHead = txtAreas.btn[idI]
+			setCont = txtAreas.cont[idI]
+			setId = IDs.btn[idI]
+			for (var accId=start;accId < end; accId++){
+				thisDrawer = classInst.getDrawerFull(accId)
+				if (thisDrawer.pageHtml.IDHead==setId){
+					thisDrawer.heading = setHead
+					thisDrawer.content = setCont
+					if (accId == start){start = accId+1}
+					else if (accId == end-1){end = accId}
+					break;
+				}
+			}
 		}
-		
-		return accordData
 	}
-	
-    function generateAccCode() {
-		var IDs = getTextAreas(accordListToIDs(accordiansPostInit))
-			monAccBtnTxt = IDs.btn;
-			monAccContent = IDs.cont;
-		var accMainHeading = document.getElementById('accMainHeading').value;
-		var headSize = getRadioOption('headSize')
-		var faIcon = getRadioOption('faCode')
 		
-		classAccord = accordionDataToClass(accMainHeading,headSize,faIcon,monAccBtnTxt,monAccContent)
+    function generateAccCode() {
+		
+		var IDs = accordListToIDs(classAccord.getAllDrawers())
+		var txtAreas = getTextAreas(IDs)
+			monAccBtnTxt = txtAreas.btn;
+			monAccContent = txtAreas.cont;
+		updateClassInstanceWithPageData(classAccord,IDs,txtAreas)
+		classAccord.mainHead = document.getElementById('accMainHeading').value;
+		classAccord.headSize = getRadioOption('headSize')
+		classAccord.icon = getRadioOption('faCode')
 		
 		var head_3="<h3>"
 		var endHead_3="</h3>"
@@ -382,45 +500,45 @@
             "10":"life-ring"
         }
 
-        var iconName = iconNames[faIcon];
+        var iconName = iconNames[classAccord.icon];
 		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
 		
-        if (faIcon == "noI"){
+        if (classAccord.icon == "noI"){
           faIconCode = "";
         }
 		
 		var resizedHead;
         //Resizing the heading text
-		switch(headSize){
+		switch(classAccord.headSize){
 			case "noH":
 				resizedHead = "";
 				break;
 			case "h3":
-				resizedHead = head_3+faIconCode+accMainHeading+endHead_3;
+				resizedHead = head_3+faIconCode+classAccord.mainHead+endHead_3;
 				break;
 			case "h4":
-				resizedHead = head_4+faIconCode+accMainHeading+endHead_4;
+				resizedHead = head_4+faIconCode+classAccord.mainHead+endHead_4;
 				break;
 			case "h5":
-				resizedHead = head_5+faIconCode+accMainHeading+endHead_5;
+				resizedHead = head_5+faIconCode+classAccord.mainHead+endHead_5;
 				break;
 		}
 		
 		var monAccOutput = resizedHead;
 		
 		// loop over every accordion block
-		for (var secNum = 1; secNum <= accordianSectionsCurr; secNum++){
-			monAccOutput += monAcc_1_opt[secNum] + num[secNum]
-			monAccOutput += monAcc_2 + num[secNum]
-			monAccOutput += monAcc_3 + num[secNum]
-			monAccOutput += monAcc_4 + num[secNum]
-			monAccOutput += monAcc_5 + num[secNum]
+		for (var secNum = 0; secNum < classAccord.usableDrawers; secNum++){
+			monAccOutput += monAcc_1_opt[secNum] + (1+secNum)
+			monAccOutput += monAcc_2 + (1+secNum)
+			monAccOutput += monAcc_3 + (1+secNum)
+			monAccOutput += monAcc_4 + (1+secNum)
+			monAccOutput += monAcc_5 + (1+secNum)
 			monAccOutput += monAcc_6
 			
 			monAccOutput += monAccBtnTxt[secNum]
 			
-			monAccOutput += monAcc_7 + num[secNum]
-			monAccOutput += monAcc_8_opt[secNum] + num[secNum]
+			monAccOutput += monAcc_7 + (1+secNum)
+			monAccOutput += monAcc_8_opt[secNum] + (1+secNum)
 			monAccOutput += monAcc_9
 			
 			monAccOutput += monAccContent[secNum]
@@ -434,122 +552,22 @@
         $('#demo').after(monAccOutput);
         }
 
-class accordDraw{
-	constructor(head,content){
-		this.head = head
-		this._content = content
-	}
-	get heading(){
-		return this.head
-	}
-	get content(){
-		return this._content
-	}
-	
-	toObj(){
-		var out = {}
-		out.head = this.head
-		out._content = this._content
-		return out
-	}
-	
-	fromObj(objectForm){
-		this.head = objectForm.head
-		this._content = objectForm._content
-	}
-
-	toString(){
-		return JSON.stringify(this.toObj())
-	}
-}
-
-class accordion{
-	constructor(mainHead,headSize,icon,drawerList){
-		this.mainHead = mainHead
-		this.headSize = headSize
-		this._icon = icon
-		if ((drawerList == undefined)||(drawerList == null)){
-			this.drawerList = null
-		}
-		else{
-			this.drawerList = this.PDO_drawerListToDrawers(drawerList)
-		}
-	}
-	
-	get main(){
-		return this.mainHead
-	}
-	set main(value){this.mainHead = value}
-	get size(){
-		return this.headSize
-	}
-	get drawerCount(){
-		return this.drawerList.length
-	}
-	
-	set size(value){this.headSize = value}
-	get icon(){
-		return this._icon
-	}
-	set icon(value){this._icon = value}
-	get drawer(){
-		return this.drawerList
-	}
-	
-	addDrawer(head,cont){
-		this.drawerList.push(new accordDraw(head,cont))
-	}
-	
-	PDO_drawerListToDrawers(drawerList){
-		var res = []
-		for (var dCount = 0; dCount < drawerList.length; dCount++){
-			res.push(new accordDraw(null,null))
-			res[dCount].fromObj(drawerList[dCount])
-		}
-		return res
-	}
-	
-	toObj(){
-		var out = {}
-		out.mainHead = this.mainHead
-		out.headSize = this.headSize
-		out._icon = this._icon
-		var publicDraw = []
-		for (var drawI=0;drawI<this.drawerList.length; drawI++){
-			publicDraw.push(this.drawerList[drawI].toObj())
-		}
-		out.drawerList = publicDraw
-		return out
-	}
-	
-	toString(){
-		return JSON.stringify(this.toObj())
-	}
-	
-	fromObj(PDOObj){
-		this.mainHead = PDOObj.mainHead
-		this.headSize = PDOObj.headSize
-		this._icon = PDOObj._icon
-		this.drawerList = this.PDO_drawerListToDrawers(PDOObj.drawerList)
-	}
-
-}
 /*REQUIRED FOR HISTORY*/
 function getHistoryI(index,history){
 	var selectedAccordion = history[index]
-	classAccord = new accordion()
-	classAccord.fromObj(selectedAccordion) // classAccord now holds the data of this index
-	var refToClassAccord = classAccord
+	refToClassAccord = new accordion()
+	refToClassAccord.fromObj(selectedAccordion) // classAccord now holds the data of this index
 	
-	while (accordianSectionsCurr < refToClassAccord.drawerCount){
+	while (classAccord.usableDrawers < refToClassAccord.drawerCount){
 		addSection()
 	} // add required sections
-	while (accordianSectionsCurr > refToClassAccord.drawerCount){
+	while (classAccord.usableDrawers > refToClassAccord.drawerCount){
 		removeSection()
 	} // remove extra sections
 	
-	setTextAreas(accordListToIDs(accordiansPostInit),refToClassAccord)
+	setTextAreas(accordListToIDs(refToClassAccord.getAllDrawers()),refToClassAccord)
 	generateAccCode()
+	classAccord = refToClassAccord
 }
 /*END REQUIRED FOR HISTORY*/
     function copyCode(){
@@ -594,11 +612,10 @@ function getHistoryI(index,history){
     var monAcc_10="</div></div></div></div></div></div>"
     var monAcc_Close="</div></div></div>"
 	
-	var num = [,"1","2","3"];
-	var monAcc_1_opt = [,monAcc_1,monAcc_1a,monAcc_1a];
-	var monAcc_8_opt = [,monAcc_8,monAcc_8a,monAcc_8b];
-	var monAccBtnTxt = [,];
-	var monAccContent = [,];
+	var monAcc_1_opt = [monAcc_1,monAcc_1a,monAcc_1a];
+	var monAcc_8_opt = [monAcc_8,monAcc_8a,monAcc_8b];
+	var monAccBtnTxt = [];
+	var monAccContent = [];
   
     </script>
     <script>   
@@ -711,8 +728,30 @@ function getHistoryI(index,history){
 <hr class="hr-3">
 <div class="row w-100 mx-auto">
   <div class="col-lg-6">
+  <div class="row w-100 mx-auto">
+            <div class="col-lg-3">
+              <h5 class="font-weight-bold">Recover<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Retrieve your previous button configuration. Only works once you have created at least 1 button. Then the next 20 configurations will be available until you clear your internet browser history or change internet browsers or create more than 20 buttons." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-fw fa-question-circle"></i></h5>
+            </div>              
+              <div class="col-lg">
+                <div class="row w-100">
+                <div class="col-lg-11">
+                <select class="custom-select border border-dark" size="1" id="recoveryDate" onchange="idSelectedRecData()">
+                <option selected value=0>please wait</option>
+                </select>
+              </div>
+          
+                <div class="col-lg-1 text-center">
+                <button data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to delete the item you have selected in the dropdown." id="delHist" onclick="delHistI()" type="button" class="btn btn-danger"><i class="fa fa-fw fa-trash"></i></button>     
+                </div>
+              </div>
+            </div>
+          </div>
+            <hr>
+  
   <div class="row w-100">
+  
     <div class="col-lg-3">
+	
       <h5>Main heading<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the main heading for this accordion that will sit above the element and indicate to students what is in the accordion. 75 character maximum.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
     </div>
     <div class="col-lg">
