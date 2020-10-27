@@ -123,8 +123,8 @@
 				return this.drawerList[index]
 			}
 		}
-		getDrHead(index){return this.getDrawerFull.heading}
-		getDrCont(index){return this.getDrawerFull.content}
+		getDrHead(index){return this.getDrawerFull(index).heading}
+		getDrCont(index){return this.getDrawerFull(index).content}
 		getAllDrawers(){
 			var result = []
 			for (var drI=0;drI < this.usableDrawers; drI++){
@@ -177,7 +177,7 @@
 			this.icon = PDO.icon
 			for (var dr=0; dr < PDO.drawerCount; dr++){
 				var theDrawer = PDO.drawerList[dr]
-				this.addDrawer(theDrawer.mainHead,theDrawer.cont)
+				this.addDrawer(theDrawer.heading,theDrawer.content)
 			}
 		}
 		accordianSectionTemplate(num){
@@ -409,24 +409,23 @@
 	dataSet should be an instance of the accordion class
 	*/
 		document.getElementById('accMainHeading').value = dataSet.mainHead;
-		document.getElementById('headSize').value = dataSet.headSize;
-		document.getElementById('faCode').value = dataSet.icon;
-		
-		
+		setRadios('headSize',dataSet.headSize)
+		setRadios('faCode',dataSet.icon)
+/*		
 		tinyMCE.get('tinyMCEmonAccContent1').setContent(dataSet.getDrCont(0))
 		document.getElementById('monAccBtnTxt1').value = dataSet.getDrHead(0)
-		
+	*/	
 		for (var idNum=0; idNum<idList.length; idNum++){
 			var thisContent
 			var thisHeading = ""
 			try{
-				thisContent=dataSet.getDrCont(idNum+1)
+				thisContent=dataSet.getDrCont(idNum)
 			}
 			catch{
 				thisContent = ""
 			}
 			try{
-				thisHeading=dataSet.getDrHead(idNum+1)
+				thisHeading=dataSet.getDrHead(idNum)
 			}
 			catch{
 				thisHeading = ""
@@ -471,7 +470,6 @@
 	}
 		
     function generateAccCode() {
-		
 		var IDs = accordListToIDs(classAccord.getAllDrawers())
 		var txtAreas = getTextAreas(IDs)
 			monAccBtnTxt = txtAreas.btn;
@@ -488,8 +486,9 @@
 		var head_5="<h5>"
 		var endHead_5="</h5>"
 		var iconNames = {
-            "1":"database",
-			      "2":"question",
+            "noI":"",
+			"1":"database",
+			"2":"question",
             "3":"question-circle",
             "4":"question-circle-o", 
             "5":"info",
@@ -566,8 +565,8 @@ function getHistoryI(index,history){
 	} // remove extra sections
 	
 	setTextAreas(accordListToIDs(refToClassAccord.getAllDrawers()),refToClassAccord)
-	generateAccCode()
 	classAccord = refToClassAccord
+	generateAccCode()
 }
 /*END REQUIRED FOR HISTORY*/
     function copyCode(){
