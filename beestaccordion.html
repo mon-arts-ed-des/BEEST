@@ -12,6 +12,7 @@
   gtag('config', 'UA-152392632-3');
 </script>
 <script src="js/pageHistory.js"></script>
+<script src="js/setupNav.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="A simple element creator to generate responsive code that can be easily embbedded into Moodle">
@@ -40,8 +41,6 @@
       <script src="js/placeholder.js"></script> 
 	    <script src="js/advancedModeLocalStorage.js"></script>
       <script type="text/javascript">
-      	makeTinyWithID('tinyMCEmonAccContent1')   
-	   
 /*REQUIRED FOR HISTORY*/	
 	const ACCORD_HIST = "history_accordion"
 	var localStorageHistory = ACCORD_HIST
@@ -53,6 +52,11 @@
 	var accordiansPostInit = []
 
 	$(document).ready(function() { //create the tinyMCE areas after the first
+		setupNav()
+		setupToolTips()
+		setupDefaultHeadSizeIfHeadingSet()
+		makeTinyWithID('tinyMCEmonAccContent1')  
+		
 		classAccord = new accordion()
 		classAccord.addDrawer() //page starts with 1 drawer
 		while (classAccord.usableDrawers < absoluteMinAccord){
@@ -280,22 +284,18 @@
         generateAccCode();
       }
 	  
-	function makeTinyWithID(id){
-	tinymce.init({
-		selector: '#'+id,
-		menubar: false,
-		plugins : 'advlist autolink link lists charmap print preview code placeholder',
-		placeholder: 'Input the content for your accordin drawer here',
-		toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
-		'undo redo | charmap | autolink link | code | removeformat' ],
-		setup : function(ed) {      
-			ed.on('change', function (e) {	
-				generateAccCode();
-			});					
-		}   
-	});
+	function setupDefaultHeadSizeIfHeadingSet(){
+		var textarea = $("#accMainHeading");
+		var checkRadio = function(){
+			if ((getRadioOption("headSize")=="noH")&&(textarea.val()!=="")){
+				$("#headSize2").prop("checked", true);
+			}
+			generateAccCode();		  
+		};
+		// And when textarea changes
+		textarea.on("change", checkRadio);
 	}
-	
+	  
 	function addSection(live){
 	/*
 	use the template to construct a new one (or show existing)
@@ -385,8 +385,8 @@
 		}
 		if (classAccord.usableDrawers <= absoluteMinAccord){
 			hideButton("minusbutton")
-    }
-    generateAccCode();
+		}
+		generateAccCode();
 	}
 	
 	function accordListToIDs(accordList){
@@ -551,7 +551,7 @@
         //SelectAll("monAccCode");
         $('#demo').nextAll('div.beestAcc, script, h3, h4, h5, i').remove();
         $('#demo').after(monAccOutput);
-        }
+    }
 
 /*REQUIRED FOR HISTORY*/
 function getHistoryI(index,history){
@@ -617,27 +617,7 @@ function getHistoryI(index,history){
 	var monAcc_8_opt = [monAcc_8,monAcc_8a,monAcc_8b];
 	var monAccBtnTxt = [];
 	var monAccContent = [];
-  
-    </script>
-    <script>   
-      window.onload=function(){
-        $('#beestNav').load('common/beestnav.html');
-        $('#beestFooter').load('common/beestfooter.html');
-        function activeNav() {
-            var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
-             $(".nav-link").each(function(){
-                  if($(this).attr("href") == pgurl || $(this).attr("href") == '' ){
-                  $(this).addClass("active");
-                  $(this).removeClass("text-white");
-                  $(this).append('<span class="sr-only">(current)</span>');
-                  $(this).closest('.nav-item').css({"background": "#004DAE"});
-             }
-            });
-        }
-        setTimeout(function() {
-            activeNav();
-        }, 100);
-      };
+
     </script>
     <script>
       $(document).ready(function(){
@@ -919,43 +899,6 @@ function getHistoryI(index,history){
     <a id="back-to-top" href="#" class="btn btn-outline-dark btn-lg back-to-top" role="button">Back to top&nbsp;<i class="fas fa-chevron-up"></i></a>
   </div>
     </div>
-    <script>
-	var textarea = $("#accMainHeading");
-    var checkRadio = function(){
-        if (textarea.val()!=="") {
-			$("#headSize2").prop("checked", true);
-		}
-        else {
-			$("#headSize1").prop("checked", true);
-        }
-		generateAccCode();		  
-    };
-    // And when textarea changes
-    textarea.on("change", checkRadio);
-
-	$(function () {
-		$(document).on('shown.bs.tooltip', function (e) {
-			setTimeout(function () {
-				$(e.target).tooltip('hide');
-			}, 7000);
-		});
-	});
-  
-    $(function () {
-		$('#copyCodeBtn').on('click', function (e) {
-			setTimeout(function () {
-				$(e.target).tooltip('hide');
-			}, 2500);
-		});
-    });
-    $(function () {
-		$('#toggleHelp').on('click', function (e) {
-			setTimeout(function () {
-				$(e.target).tooltip('hide');
-			}, 2500);
-		});
-    });
-    </script>
     <div id="beestFooter"></div>
         </body>
         </html>

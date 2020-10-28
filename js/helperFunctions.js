@@ -31,6 +31,22 @@ function actOnIndex(jQueryThis,index,selectedIndex,action){
 	
 }
 
+function makeTinyWithID(id){
+	tinymce.init({
+		selector: '#'+id,
+		menubar: false,
+		plugins : 'advlist autolink link lists charmap print preview code placeholder',
+		placeholder: 'Input the content for your accordin drawer here',
+		toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
+		'undo redo | charmap | autolink link | code | removeformat' ],
+		setup : function(ed) {      
+			ed.on('change', function (e) {	
+				generateAccCode();
+			});					
+		}   
+	});
+}
+
 function castAsNumIfPossible(potentialNum){
 	var casted = potentialNum * 1
 	if (!(isNaN(casted))){potentialNum = casted}
