@@ -10,8 +10,10 @@ function setDropdown(id,selectedIndex){
 }
 
 function scrollTo(id){
-	document.getElementById(id).scrollIntoView();
-	
+	var pixelsDown = $("#"+id).position().top
+	$("HTML, BODY").animate({
+            scrollTop: pixelsDown
+        }, 1000);
 }
 
 function getRadioOption(id){
@@ -27,6 +29,22 @@ function actOnIndex(jQueryThis,index,selectedIndex,action){
 				jQueryThis.prop(action,false)
 			}
 	
+}
+
+function makeTinyWithID(id){
+	tinymce.init({
+		selector: '#'+id,
+		menubar: false,
+		plugins : 'advlist autolink link lists charmap print preview code placeholder',
+		placeholder: 'Input the content for your accordin drawer here',
+		toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
+		'undo redo | charmap | autolink link | code | removeformat' ],
+		setup : function(ed) {      
+			ed.on('change', function (e) {	
+				generateAccCode();
+			});					
+		}   
+	});
 }
 
 function castAsNumIfPossible(potentialNum){
