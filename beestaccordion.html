@@ -338,12 +338,7 @@
 			monAcc_8_opt = [monAcc_8,monAcc_8a,monAcc_8b];
 		}
 		
-		if (classAccord.usableDrawers >= absoluteMaxAccord){
-			hideButton("plusbutton")
-		}
-		if (classAccord.usableDrawers > absoluteMinAccord){
-			showButton("minusbutton")
-    }
+		resetAddRemoveButtonDisplay()
     generateAccCode();
 	if ((live!=undefined)&&(live)){
 		if ((classAccord.getDrCont(classAccord.usableDrawers-2)!="")||(classAccord.getDrHead(classAccord.usableDrawers-2)!="")){		
@@ -354,6 +349,21 @@
 	
 	
   }
+  
+function resetAddRemoveButtonDisplay(){
+	if (classAccord.usableDrawers >= absoluteMaxAccord){
+		hideButton("plusbutton")
+	}
+	else{
+		showButton("plusbutton");
+	}
+	if (classAccord.usableDrawers > absoluteMinAccord){
+		showButton("minusbutton")
+	}
+	else{
+		hideButton("minusbutton")
+	}
+}
   
 	function removeSection(){
 	/*
@@ -380,12 +390,7 @@
 		}
 		
 		
-		if (classAccord.usableDrawers < absoluteMaxAccord){
-			showButton("plusbutton");
-		}
-		if (classAccord.usableDrawers <= absoluteMinAccord){
-			
-    }
+		resetAddRemoveButtonDisplay()
     generateAccCode();
 	}
 	
