@@ -17,24 +17,31 @@ function activeNav() {
 	});
 }
 
-function setupToolTips(){
-	longShowToolTip()
-	shortHideToolTipOnClick('copyCodeBtn')
-	shortHideToolTipOnClick('toggleHelp')
+function setupToolTips(longTime,shortTime){
+	if (longTime==undefined){
+		longTime = 7000
+	}
+	if (shortTime == undefined){
+		shortTime = 2500
+	}
+	
+	longShowToolTip(longTime)
+	shortHideToolTipOnClick('copyCodeBtn',shortTime)
+	shortHideToolTipOnClick('toggleHelp',shortTime)
 }
 
-function longShowToolTip() {
+function longShowToolTip(longTime) {
 	$(document).on('shown.bs.tooltip', function (e) {
 		setTimeout(function () {
 			$(e.target).tooltip('hide');
-		}, 7000);
+		}, longTime);
 	});
 }
 
-function shortHideToolTipOnClick(id){
+function shortHideToolTipOnClick(id,shortTime){
 	$('#'+id).on('click', function (e) {
 		setTimeout(function () {
 			$(e.target).tooltip('hide');
-		}, 2500);
+		}, shortTime);
 	});
 }

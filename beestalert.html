@@ -49,6 +49,7 @@
     <script src="js/advancedModeLocalStorage.js"></script>
     <!-- TinyMCE placeholder plugin file -->
     <script src="js/placeholder.js"></script> 
+	<script src="js/setupNav.js"></script>
     <script type="text/javascript">
     
     /* Variable Key
@@ -64,8 +65,16 @@
 	localStorageHistory = ALERT_HIST
 	var classAlert = null
 	
-	$(document).ready(function(){initHistory()})
-	
+/*END REQUIRED FOR HISTORY*/  	
+	$(document).ready(function(){
+		/*REQUIRED FOR HISTORY*/ 
+		initHistory()
+		/*END REQUIRED FOR HISTORY*/  
+		setupNav()
+		default_XRadio_onEmpty_Y("alertHeading","headSize","noH","headSize1",generateAlertCode)
+		setupToolTips(10000) //default long tooltip time to 10sec
+	})
+	/*REQUIRED FOR HISTORY*/  
 	class alert{
 		constructor(content,heading,headSize,icon,colour,permanent){
 			this.content = content
@@ -232,26 +241,6 @@ function getHistoryI(index,history){
 	}
 }
 /*END REQUIRED FOR HISTORY*/
-    </script>
-    <script>   
-      window.onload=function(){
-        $('#beestNav').load('common/beestnav.html');
-        $('#beestFooter').load('common/beestfooter.html');
-        function activeNav() {
-            var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
-             $(".nav-link").each(function(){
-                  if($(this).attr("href") == pgurl || $(this).attr("href") == '' ){
-                  $(this).addClass("active");
-                  $(this).removeClass("text-white");
-                  $(this).append('<span class="sr-only">(current)</span>');
-                  $(this).closest('.nav-item').css({"background": "#004DAE"});
-             }
-            });
-        }
-        setTimeout(function() {
-            activeNav();
-        }, 100);
-      };
     </script>
     <style>
     .mce-notification-inner, .mce-close, .mce-notification-warning {
@@ -518,46 +507,6 @@ function getHistoryI(index,history){
       </div>
     </form>   
         </div>
-        <script>
-	 var textarea = $("#alertHeading");
-      //  var radioBtn = $("#headSize2");
-        var checkRadio = function(){
-          if (textarea.val()!=="") {
-            $("#headSize1").prop("checked", true);
-            generateAlertCode();
-            }
-          else {
-            $("#headSizeNone").prop("checked", true);
-            generateAlertCode();
-            } 
-                };
-              // And when textarea changes
-              textarea.on("change", checkRadio);
-          </script>
-          <script>
-            $(function () {
-              $(document).on('shown.bs.tooltip', function (e) {
-                 setTimeout(function () {
-                   $(e.target).tooltip('hide');
-                 }, 10000);
-              });
-            });</script>
-            <script>
-              $(function () {
-                $('#copyCodeBtn').on('click', function (e) {
-                   setTimeout(function () {
-                     $(e.target).tooltip('hide');
-                   }, 2500);
-                });
-              });
-              $(function () {
-                $('#toggleHelp').on('click', function (e) {
-                   setTimeout(function () {
-                     $(e.target).tooltip('hide');
-                   }, 2500);
-                });
-              });
-              </script>
       <div id="beestFooter"></div>
         </body>
         </html>

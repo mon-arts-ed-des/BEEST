@@ -54,7 +54,7 @@
 	$(document).ready(function() { //create the tinyMCE areas after the first
 		setupNav()
 		setupToolTips()
-		setupDefaultHeadSizeIfHeadingSet()
+		default_XRadio_onEmpty_Y("accMainHeading","headSize","noH","headSize2",generateAccCode)
 		makeTinyWithID('tinyMCEmonAccContent1')  
 		
 		classAccord = new accordion()
@@ -283,18 +283,6 @@
         }
         generateAccCode();
       }
-	  
-	function setupDefaultHeadSizeIfHeadingSet(){
-		var textarea = $("#accMainHeading");
-		var checkRadio = function(){
-			if ((getRadioOption("headSize")=="noH")&&(textarea.val()!=="")){
-				$("#headSize2").prop("checked", true);
-			}
-			generateAccCode();		  
-		};
-		// And when textarea changes
-		textarea.on("change", checkRadio);
-	}
 	  
 	function addSection(live){
 	/*

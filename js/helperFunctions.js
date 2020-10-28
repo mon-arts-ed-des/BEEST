@@ -30,6 +30,18 @@ function actOnIndex(jQueryThis,index,selectedIndex,action){
 			}
 	
 }
+function default_XRadio_onEmpty_Y(textAreaId,radioAreaId,blankVal,defaultVal,callback){
+
+		var textarea = $("#"+textAreaId);
+		var checkRadio = function(){
+			if ((getRadioOption(radioAreaId)==blankVal)&&(textarea.val()!=="")){
+				$("#"+defaultVal).prop("checked", true);
+			}
+			callback();		  
+		};
+		// And when textarea changes
+		textarea.on("change", checkRadio);
+}
 
 function makeTinyWithID(id){
 	tinymce.init({
