@@ -10,8 +10,10 @@ function setDropdown(id,selectedIndex){
 }
 
 function scrollTo(id){
-	document.getElementById(id).scrollIntoView();
-	
+	var pixelsDown = $("#"+id).position().top
+	$("HTML, BODY").animate({
+            scrollTop: pixelsDown
+        }, 1000);
 }
 
 function getRadioOption(id){
