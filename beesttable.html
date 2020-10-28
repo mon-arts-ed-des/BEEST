@@ -47,7 +47,10 @@
 	var localStorageHistory = BUTTON_HIST
 	var classTable = null
 	
-	$(document).ready(function(){initHistory()})
+	$(document).ready(function(){
+		initHistory()
+		classTable = new table()		
+	})
 	
 	class table{
 		constructor(mainHeading, icon, headSize, tableData){
@@ -178,6 +181,23 @@
 			}
 			return cellCode
 		}
+
+function tabSepDataToArray(tsv){
+	allLines = tsv.match(/[^\n]+/g)
+	var col;
+	for (var row=0;row<allLines.length; row++){
+		col = allLines[row].match(/[^	\t]+/g)
+		allLines[row] = col
+	}
+	return allLines
+}
+
+function writeTableExcelPaste(){
+	var pastedTable = $('#pasteTableFromExcel').val()
+	tableData = tabSepDataToArray(pastedTable)
+	classTable.tableData = tableData
+	setTextAreas(classTable)
+}
 
 	function iconpreview() {
         var faIcon = document.getElementById('faCode').value;
@@ -575,9 +595,16 @@ function getHistoryI(index,history){
     function generateTableCode() {
 	  
 		tableContents = getTableContentsFromPage(currRow,currCol)
+	
 		var tableMainHeading = document.getElementById('tableMainHeading').value;
 		var headSize = document.getElementById('headSize').value;
 		var faIcon = document.getElementById('faCode').value;
+
+		classTable.tableData = tableContents		
+		classTable.mainHead = tableMainHeading
+		classTable.icon = faIcon
+		classTable.headSize = headSize
+		
 		var head_3="<h3>"
 		var endHead_3="</h3>"
 		var head_4="<h4>"
@@ -641,7 +668,7 @@ function getHistoryI(index,history){
 		else{
 			document.getElementById('demo').innerHTML = resizedHead+textOutputTable;
 		}
-		classTable = new table(tableMainHeading, faIcon, headSize, tableContents)
+		
 		
       }
 	  
@@ -942,7 +969,9 @@ function getHistoryI(index,history){
 	  </div>
 	  <div class="row w-100 mx-auto">
 		  <div class="col-lg mt-2">
-  <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Add headings for your table.">Step 4 - Add table contents</h5>	
+  <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Add headings for your table.">Step 4 - Add table contents</h5>
+  <textarea maxlength="50" class="rounded p-2 w-100" rows="4" name="pasteTableFromExcel" type="text" id="pasteTableFromExcel" placeholder="paste your spreadsheet data here" onchange=writeTableExcelPaste()></textarea>
+  
 	<table class="table table-responsive-lg"><tbody>	
 	<tr><td>	
 		<div class="btn-group btn-group-justified" role="group" id="addMinusButtons">
