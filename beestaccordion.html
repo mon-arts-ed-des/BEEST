@@ -379,10 +379,10 @@
 		
 		
 		if (classAccord.usableDrawers < absoluteMaxAccord){
-			showButton("plusbutton")
+			showButton("plusbutton");
 		}
 		if (classAccord.usableDrawers <= absoluteMinAccord){
-			hideButton("minusbutton")
+			
     }
     generateAccCode();
 	}
@@ -670,8 +670,8 @@ function getHistoryI(index,history){
         }
         .back-to-top {
     position: fixed;
-    bottom: 25px;
-    right: 25px;
+    bottom: 70px;
+    right: 50px;
     display: none;
     z-index: 2000;
 }
@@ -718,18 +718,18 @@ function getHistoryI(index,history){
 <!--End modal content for this page-->
 <div class="row w-50 mx-auto text-center mt-3">	  
   <div class="col-lg">
-  <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-danger btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
+  <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-danger btn-lg btn-block mb-2" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
   </div>
   <div class="col-lg">
-  <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-success btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
+  <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-success btn-lg btn-block mb-2">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
   </div>
 </div>
 <hr class="hr-3">
 <div class="row w-100 mx-auto">
   <div class="col-lg-6">
-  <div class="row w-100 mx-auto">
+  <div class="row w-100">
             <div class="col-lg-3">
-              <h5 class="font-weight-bold">Recover<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Retrieve your previous button configuration. Only works once you have created at least 1 button. Then the next 20 configurations will be available until you clear your internet browser history or change internet browsers or create more than 20 buttons." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-fw fa-question-circle"></i></h5>
+              <h5>Recover<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Retrieve your previous button configuration. Only works once you have created at least 1 button. Then the next 20 configurations will be available until you clear your internet browser history or change internet browsers or create more than 20 buttons." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-fw fa-question-circle"></i></h5>
             </div>              
               <div class="col-lg">
                 <div class="row w-100">
@@ -784,12 +784,12 @@ function getHistoryI(index,history){
 <hr>
           <div class="row w-100">
             <div class="col-lg-3">
-              <h5 class="font-weight-bold">Choose icon<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="If you would like an icon to the right of your button text, choose one from this list." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
+              <h5>Choose icon<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="If you would like an icon to the right of your button text, choose one from this list." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
             </div>
-            <div class="col-lg-1 my-auto mr-3">
+            <div class="col-lg-1 my-auto mr-3 pb-3">
             <div class="form-check form-check-inline" id="faCode" onchange=generateAccCode()>
               <input class="form-check-input" name="faCode" id="faCodeNone" type="radio" value="noI" checked>
-              <label class="form-check-label" for="faCodeNone">None</label>
+              <label class="form-check-label h5" for="faCodeNone">None</label>
             </div>
           </div>
             <div class="col-lg">
@@ -873,30 +873,27 @@ function getHistoryI(index,history){
     <span id="newAccordArea"></span>   
 </div>
   <div class="col-lg">
-    <div class="sticky-top" style="top:100px;">
-    <h5>Add/Remove drawers<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="The page defaults to start with 3 accordion drawers. You can have up to 10. Use the Add button to add more drawers one at a time, or change the number in the box below to be between 3-10. A remove button will appear once there are more than 3 drawers." >&nbsp;<i class="fa fa-question-circle"></i></span></h5>  
-    <div class="btn-group btn-group-justified w-100" role="group" id="addMinusButtons">
-      <div class="row w-100">
-        <div class="col-lg-2">
-    <div class="btn-group-lg" role="group">
-    <button id="plusbutton" onclick="addSection(true)" type="button" class="btn btn-success mr-2">Add <i class="fa fa-fw fa-plus"></i></button>
+	<div class="sticky-top" style="top:100px;">
+		<h5>Add/Remove drawers + Current number of drawers<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="The page defaults to start with 3 accordion drawers. You can have up to 10. You can type in your number in the box on the right, which will also display the current number of drawers OR use the Add button to add more drawers one at a time. A remove button will appear once there are more than 3 drawers to remove drawers individually." >&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
+		<div class="btn-group w-100" role="group" id="addMinusButtons"> 
+		<div class="row w-50">
+			<div class="col-lg-3 my-auto text-center">
+    <div class="btn-group" role="group">
+    <button id="plusbutton" onclick="addSection(true)" type="button" class="btn btn-success"><i class="fa fa-fw fa-plus"></i></button>
   </div>
   </div>
-  <div class="col-lg-2">
-    <div class="btn-group-lg" role="group">
-    <button id="minusbutton" style="display:none;" onclick="removeSection()" type="button" class="btn btn-danger">Remove <i class="fa fa-fw fa-times"></i></button>
+<div class="col-lg-3 my-3 text-center">
+	<div class="btn-group-lg" role="group">
+		<input class="border border-dark w-100 rounded btn btn-outline-dark" style="cursor:default ;" id="accordCounter" onchange="changeDrawerCount()" value=0>
+		</div>  
+</div>
+  <div class="col-lg-3 my-auto text-center">
+    <div class="btn-group" role="group">
+    <button id="minusbutton" onclick="removeSection()" type="button" class="btn btn-danger"><i class="fa fa-fw fa-minus"></i></button>
     </div>
   </div>
 </div>
-    </div>
-<div class="row w-100 mt-2">
-  <div class="col-lg">
-    <div class="btn-group-lg" role="group"><h5>Current number of drawers (3-10) - Type in your number<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="This is the number of drawers currently available to edit and create content. You can use the Add/Remove buttons to change this number or click it and type in a number from 1-10." >&nbsp;<i class="fa fa-question-circle"></i></span></h5>
-      <input class="border border-dark px-3 py-2 h5 rounded ml-1 btn btn-outline-dark" style="cursor:default ;" id="accordCounter" onchange="changeDrawerCount()" value=0>
-      </div>  
-    </div>
-  </div>
-
+</div>
     <hr>
     <h5>Preview<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 7." class="text-success hideableinstruct small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
     <div id="demo"></div>
@@ -914,7 +911,7 @@ function getHistoryI(index,history){
 </div>
     </form>
     <div class="text-center">
-    <a id="back-to-top" href="#" class="btn btn-outline-dark btn-lg back-to-top" role="button">Back to top&nbsp;<i class="fas fa-chevron-up"></i></a>
+    <a id="back-to-top" href="#" class="btn btn-outline-dark back-to-top" role="button"><i class="fas fa-chevron-up"></i></a>
   </div>
     </div>
     <script>
