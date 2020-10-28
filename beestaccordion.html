@@ -346,8 +346,10 @@
     }
     generateAccCode();
 	if ((live!=undefined)&&(live)){
-		var revealedAccord = classAccord.getLastDrawer()
-		scrollTo(revealedAccord.IDBlock);
+		if ((classAccord.getDrCont(classAccord.usableDrawers-2)!="")||(classAccord.getDrHead(classAccord.usableDrawers-2)!="")){		
+			var revealedAccord = classAccord.getLastDrawer()
+			scrollTo(revealedAccord.IDBlock);
+		}
 	}
 	
 	
