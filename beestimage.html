@@ -437,6 +437,7 @@
   <script src="js/drive-service.js"></script>
   <script>
   window.onload=function(){
+    generateCode();
     function activeNav() {
       var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
            $(".nav-link").each(function(){
@@ -468,7 +469,7 @@
 }
     </style> 
 </head>
-<body onload="generateCode()">
+<body">
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-arts mb-3 p-0">
       <a class="navbar-brand text-center border border-white px-2 mx-2 rounded" href="index.html"><img src="img/dragon-solid-white.png" width="30" height="30" alt=""></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
