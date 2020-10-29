@@ -45,3 +45,11 @@ function shortHideToolTipOnClick(id,shortTime){
 		}, shortTime);
 	});
 }
+
+function setupGoogleAnalytics(){
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-152392632-3');
+}

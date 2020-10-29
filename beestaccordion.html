@@ -4,15 +4,8 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152392632-3"></script>
 <script src = "js/helperFunctions.js"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-152392632-3');
-</script>
 <script src="js/pageHistory.js"></script>
-<script src="js/setupNav.js"></script>
+<script src="js/setupPage.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="A simple element creator to generate responsive code that can be easily embbedded into Moodle">
@@ -52,6 +45,7 @@
 	var accordiansPostInit = []
 
 	$(document).ready(function() { //create the tinyMCE areas after the first
+		setupGoogleAnalytics()
 		setupNav()
 		setupToolTips()
 		default_XRadio_onEmpty_Y("accMainHeading","headSize","noH","headSize2",generateAccCode)
