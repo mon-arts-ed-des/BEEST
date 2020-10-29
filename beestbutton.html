@@ -5,6 +5,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152392632-3"></script>
 <script src="js/pageHistory.js"></script>
 <script src="js/helperFunctions.js"></script>
+<script src="js/setupNav.js"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -45,9 +46,17 @@
 	const BUTTON_HIST = "history_button"
 	var localStorageHistory = BUTTON_HIST
 	var classButton = null
-	
-	$(document).ready(function(){initHistory()})
-	
+/*END REQUIRED FOR HISTORY*/	
+	$(document).ready(function(){
+		/*REQUIRED FOR HISTORY*/ 
+		initHistory()
+		/*END REQUIRED FOR HISTORY*/
+		setupToolTips()
+		setupNav()
+		setupCheckURLValid()
+	})
+
+/*REQUIRED FOR HISTORY*/	
 	class button{
 		constructor(content,destination,buttonSize,icon,colour,width,newWindow,alignment,invert){
 			this.mainHead = content
@@ -361,26 +370,20 @@ function getHistoryI(index,history){
 }
 /*END REQUIRED FOR HISTORY*/
 
-    </script>
-    <script>   
-      window.onload=function(){
-        $('#beestNav').load('common/beestnav.html');
-        $('#beestFooter').load('common/beestfooter.html');
-        function activeNav() {
-            var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
-             $(".nav-link").each(function(){
-                  if($(this).attr("href") == pgurl || $(this).attr("href") == '' ){
-                  $(this).addClass("active");
-                  $(this).removeClass("text-white");
-                  $(this).append('<span class="sr-only">(current)</span>');
-                  $(this).closest('.nav-item').css({"background": "#004DAE"});
-             }
-            });
-        }
-        setTimeout(function() {
-            activeNav();
-        }, 100);
-      };
+//Script to ensure URL contains a prefix so that the link works correctly in Moodle.
+function setupCheckURLValid(){
+	$('#btn_URL').on('input', function(event) {
+		var s = $('#btn_URL').val().toString();
+
+		if ((s.includes("https://") == false)&&(s.includes("http://") == false))
+		{
+			s = "http://" + s;
+		}
+
+		$('#btn_URL').val(s);
+    }); 
+}
+
     </script>
     <style>
     .mce-notification-inner, .mce-close, .mce-notification-warning {
@@ -711,51 +714,8 @@ function getHistoryI(index,history){
                 </div>
               </div>
         </form>   
-        </div>     
-        <script>
-          //Script to ensure URL contains a prefix so that the link works correctly in Moodle.
-          $('#btn_URL').on('input', function(event) {
-          var s = $('#btn_URL').val().toString();
-          
-          if (s.includes("https://") == true)
-          {
-          //do nothing if match to 'https'
-          }
-          else if (s.includes("http://") == true) {
-          //do nothing if match to 'http'
-          }
-          //if not, add 'http'
-          else {
-            s = "http://" + s;
-          }
-      
-          $('#btn_URL').val(s);
-        }); 
-      </script>
-       <script>
-        $(function () {
-          $(document).on('shown.bs.tooltip', function (e) {
-             setTimeout(function () {
-               $(e.target).tooltip('hide');
-             }, 7000);
-          });
-        });</script>
-        <script>
-          $(function () {
-            $('#copyCodeBtn').on('click', function (e) {
-               setTimeout(function () {
-                 $(e.target).tooltip('hide');
-               }, 2500);
-            });
-          });
-          $(function () {
-            $('#toggleHelp').on('click', function (e) {
-               setTimeout(function () {
-                 $(e.target).tooltip('hide');
-               }, 2500);
-            });
-          });
-          </script>
+        </div>   
+       
           <div id="beestFooter"></div>
         </body>
         </html>
