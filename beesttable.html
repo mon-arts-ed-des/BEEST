@@ -5,7 +5,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152392632-3"></script>
 <script src="js/pageHistory.js"></script>
 <script src="js/helperFunctions.js"></script>
-
+<script src="js/setupPage.js"></script>
     <meta charset="utf-8"></meta>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="A simple element creator to generate responsive code that can be easily embedded into Moodle">
@@ -40,6 +40,17 @@
 /*END REQUIRED FOR HISTORY*/ 	
 	$(document).ready(function(){
 		setupGoogleAnalytics()
+		wipeHTML("editTable")
+		/*makeTinyWithID("editTable",generateTableCode, function(){
+			generateEditableTable("editTable",currRow,currCol,false)
+		})*/
+		generateEditableTable("editTable",currRow,currCol,true)
+		/*if (previewMode){
+			showButton("edit")
+		}
+		else{
+			hideButton("edit")
+		}*/
 		/*REQUIRED FOR HISTORY*/   
 		initHistory()
 		classTable = new table()
@@ -110,17 +121,6 @@
 		[]
 	] //empty 2d array
 	
-	$(document).ready(function() { 
-			wipeHTML("editTable")
-			generateEditableTable("editTable",currRow,currCol)
-			if (previewMode){
-				showButton("edit")
-			}
-			else{
-				hideButton("edit")
-			}
-	})
-	
 		function wipeHTML(idToWipe){
 			document.getElementById(idToWipe).innerHTML = ""
 		}
@@ -144,7 +144,7 @@
 			return theRow
 		}
 	
-		function generateEditableTable(idToPlaceIn,maxRows,maxCols){
+		function generateEditableTable(idToPlaceIn,maxRows,maxCols,plainText){
 			/*create the editable table on the page to write into*/
 			var placeholder="";
 			for (var rowN=0;rowN<maxRows;rowN++){
@@ -156,7 +156,12 @@
 				}
 			}
 			var tableHTML = newTableCode(editableTableHTML)
-			document.getElementById(idToPlaceIn).innerHTML = tableHTML
+			if (plainText){
+				document.getElementById(idToPlaceIn).innerHTML = tableHTML
+			}
+			else{
+				setTinyContent(idToPlaceIn,tableHTML)
+			}
 		}
 	
 		function newTextField(placeholder,id){
@@ -574,6 +579,7 @@ function setTextAreas(classData){
 			getCell(row,col).innerHTML = theTable[row][col]
 		}
 	}
+	generateTableCode()
 }
 function getHistoryI(index,history){
 	if (history.length>0){
@@ -965,7 +971,7 @@ function getHistoryI(index,history){
 	  <div class="row w-100 mx-auto">
 		  <div class="col-lg mt-2">
   <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Add headings for your table.">Step 4 - Add table contents</h5>
-  <textarea maxlength="50" class="rounded p-2 w-100" rows="4" name="pasteTableFromExcel" type="text" id="pasteTableFromExcel" placeholder="paste your spreadsheet data here" onchange=writeTableExcelPaste()></textarea>
+  <textarea maxlength="50" class="border border-dark rounded p-2 w-100" rows="4" name="pasteTableFromExcel" type="text" id="pasteTableFromExcel" placeholder="paste your spreadsheet data here" onchange=writeTableExcelPaste()></textarea>
   
 	<table class="table table-responsive-lg"><tbody>	
 	<tr><td>	

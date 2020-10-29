@@ -43,7 +43,7 @@ function default_XRadio_onEmpty_Y(textAreaId,radioAreaId,blankVal,defaultVal,cal
 		textarea.on("change", checkRadio);
 }
 
-function makeTinyWithID(id){
+function makeTinyWithID(id,onChange,onceDone){
 	tinymce.init({
 		selector: '#'+id,
 		menubar: false,
@@ -52,10 +52,9 @@ function makeTinyWithID(id){
 		toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
 		'undo redo | charmap | autolink link | code | removeformat' ],
 		setup : function(ed) {      
-			ed.on('change', function (e) {	
-				generateAccCode();
-			});					
-		}   
+			ed.on('change', onChange);
+			ed.on('init',onceDone)
+		}
 	});
 }
 
