@@ -38,7 +38,11 @@
     <script src="js/placeholder.js"></script> 
     <!-- Script to init the tinyMCE editor --> 
     <script type="text/javascript">
-    //Get the window width dynamically  
+$(document).ready(function() { 
+	$('#respVidSwitch').on('input', embedLinkConverter); 
+
+}
+	//Get the window width dynamically  
  /* var width = $(window).width();
     $(window).on('resize', function() {
       if ($(this).width() !== width) {
@@ -299,7 +303,59 @@
   $('[data-toggle="tooltip"]').tooltip()
 })
 
+function embedLinkConverter(event){
+	var vidString = $('#respVidSwitch').val().toString();
+	var videoLink;
+	var vidTypeReplace = [
+		{	include:"vimeo.com",
+			replace:'https://vimeo.com/',
+			repWith:'https://player.vimeo.com/video/',
+			replace2:'',
+			repWith2:''},
+		{	include:"youtube.com",
+			replace:'watch?v=',
+			repWith:'embed/',
+			replace2:'&start',
+			repWith2:'?start'},
+		{	include:"youtu.be",
+			replace:'youtu.be',
+			repWith:'www.youtube.com/embed',
+			replace2:'t=',
+			repWith2:'start='},
+		{	include:"monash-panopto",
+			replace:'Viewer',
+			repWith:'Embed',
+			replace2:'',
+			repWith2:''},
+		{	include:"ted.com",
+			replace:'www.ted.com',
+			repWith:'embed.ted.com',
+			replace2:'',
+			repWith2:''}
+	]
+	for(var vidI=0;vidI<vidTypeReplace.length;vidI++){
+		item = vidTypeReplace[vidI]
+		if (vidString.includes(item.include)){
+			videoLink = vidString.replace(item.replace,item.repWith).replace(item.replace2,item.repWith2)
+		}
+	}
 
+	$('#respVidSwitch').val(videoLink);
+	
+	document.getElementById('vid').src = videoLink;
+	var videopreview = document.getElementById('videopreview');
+
+	var videoPreviewText = document.getElementById('videoPreviewText');
+
+	if (vidString !== ""){
+	  videopreview.style.display = "block";
+	  videoPreviewText.style.display = "block";
+	}
+	else{
+	  videopreview.style.display = "none";
+	  videoPreviewText.style.display = "none";          
+	}
+}
     /* Variable Key
     These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
 
@@ -642,81 +698,7 @@
       </form>
                     <p class="my-3"></p>
                   </div>
-         <script>
-        $('#respVidSwitch').on('input', function(event) {
-			var vidString = $('#respVidSwitch').val().toString();
-			var videoLink;
-			var vidTypeReplace = [
-				{	include:"vimeo.com",
-					replace:'https://vimeo.com/',
-					repWith:'https://player.vimeo.com/video/',
-					replace2:'',
-					repWith2:''},
-				{	include:"youtube.com",
-					replace:'watch?v=',
-					repWith:'embed/',
-					replace2:'&start',
-					repWith2:'?start'},
-				{	include:"youtu.be",
-					replace:'youtu.be',
-					repWith:'www.youtube.com/embed',
-					replace2:'t=',
-					repWith2:'start='},
-				{	include:"monash-panopto",
-					replace:'Viewer',
-					repWith:'Embed',
-					replace2:'',
-					repWith2:''},
-				{	include:"ted.com",
-					replace:'www.ted.com',
-					repWith:'embed.ted.com',
-					replace2:'',
-					repWith2:''}
-			]
-			for(var vidI=0;vidI<vidTypeReplace.length;vidI++){
-				item = vidTypeReplace[vidI]
-				if (vidString.includes(item.include)){
-					videoLink = vidString.replace(item.replace,item.repWith).replace(item.replace2,item.repWith2)
-				}
-			}
-/*			if (vidString.includes("vimeo.com")) {
-			//code for converting Vimeo link from Viewer to Embed
-				videoLink = vidString.replace('https://vimeo.com/','https://player.vimeo.com/video/');
-			}
-			else if (vidString.includes("youtube.com")) {
-			//code for converting Youtube link from Viewer to Embed
-				videoLink = vidString.replace('watch?v=','embed/').replace('&start','?start');
-			}
-			else if (vidString.includes("youtu.be")) {
-				videoLink = vidString.replace('youtu.be','www.youtube.com/embed').replace('t=','start=');
-			}
-			//code for converting Panopto link from Viewer to Embed
-			else if (vidString.includes("monash-panopto")) {
-				videoLink = vidString.replace('Viewer','Embed');
-			}
-			//code for converting TED Talks link from Viewer to Embed
-			else if (vidString.includes("ted.com")) {
-				videoLink = vidString.replace('www.ted.com','embed.ted.com');
-			}
-*/
-			$('#respVidSwitch').val(videoLink);
-			
-			document.getElementById('vid').src = videoLink;
-			var videopreview = document.getElementById('videopreview');
 
-			var videoPreviewText = document.getElementById('videoPreviewText');
-
-			if (vidString !== ""){
-			  videopreview.style.display = "block";
-			  videoPreviewText.style.display = "block";
-			}
-			else{
-			  videopreview.style.display = "none";
-			  videoPreviewText.style.display = "none";          
-			}
-			//$('input[type="text"], textarea#respVidSwitch').attr('readonly','readonly');
-		}); 
-      </script>
 <script>
 $(function () {
   $(document).on('shown.bs.tooltip', function (e) {

@@ -23,6 +23,7 @@
     <!-- external link to js file -->  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <!-- Bootstrap js file --> 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- FontAwesome js file --> 
@@ -32,14 +33,25 @@
     <script src="js/advancedModeLocalStorage.js"></script>
     <!-- TinyMCE placeholder plugin file -->
     <script src="js/placeholder.js"></script> 
+	<script src="js/helperFunctions.js"></script>
+	<script src="js/setupNav.js"></script>
     <script>
-      /*REQUIRED FOR HISTORY*/    
-/*	const BUTTON_HIST = "history_button"
+/*REQUIRED FOR HISTORY*/   
+	const BUTTON_HIST = "history_button"
 	var localStorageHistory = BUTTON_HIST
-	var classButton = null
-	
-	$(document).ready(function(){initHistory()})
-	
+	var classImage = null
+/*END REQUIRED FOR HISTORY*/   
+	$(document).ready(function(){
+	/*REQUIRED FOR HISTORY*/   
+		//initHistory()
+	/*END REQUIRED FOR HISTORY*/   		
+		default_XRadio_onEmpty_Y("respImgHeading","headSize","noH","headSize1",generateCode)
+		setupToolTips(10000)
+		setupNav()
+		$('#respImgSwitch').on('input', replaceLinkWithEmbed); 
+	})
+/*REQUIRED FOR HISTORY*/   
+/*	
 	class button{
 		constructor(content,destination,buttonSize,icon,colour,width,newWindow,alignment,invert){
 			this.mainHead = content
@@ -426,6 +438,55 @@
   $('[data-toggle="tooltip"]').tooltip()
 });
 
+function replaceLinkWithEmbed(event){
+	var imgString = $('#respImgSwitch').val().toString();
+	var imgLink = "";
+	var imgTypeReplace = [
+		{	include:"unsplash.com",
+			replace:'https://unsplash.com/photos',
+			repWith:'https://source.unsplash.com',
+			replace2:'',
+			repWith2:'',
+			append: ''},
+		{	include:"pexels.com",
+			replace:'https://www.pexels.com/photo/',
+			repWith:'',
+			replace2:'/',
+			repWith2:'',
+			doExtraOp: true,
+			extraOp: function(strIn){
+				var pexelsid = strIn.match(/\d+/)[0];
+				return "https://images.pexels.com/photos/" + pexelsid + "/pexels-photo-" + pexelsid;
+			},
+			append: ".jpeg" },
+		{	include:"stocksnap.io",
+			replace:'https://stocksnap.io/photo/',
+			repWith:'https://cdn.stocksnap.io/img-thumbs/960w/',
+			replace2:/-([^-]*)$/,
+			repWith2:'_$1',
+			append: ".jpg"}
+	]
+	ifAny = false
+	for(var imgI=0;imgI<imgTypeReplace.length;imgI++){
+		item = imgTypeReplace[imgI]
+		if (imgString.includes(item.include)){
+			imgLink = imgString.replace(item.replace,item.repWith).replace(item.replace2,item.repWith2)
+			if (item.doExtraOp){
+				imgLink = item.extraOp(imgLink)
+			}
+			imgLink += time.append
+			ifAny = true
+		}
+	}
+	if (!ifAny){
+		var popup2 = document.getElementById("myPopup2");
+		popup2.classList.toggle("showPopup");
+    }
+
+	$('#respImgSwitch').val(imgLink);
+
+}
+
   </script>
   <!-- Load the Google API Loader script. -->
   <script type="text/javascript" src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
@@ -435,25 +496,6 @@
   <script src="js/drive-controller.js"></script>
   <script src="js/gapi-auth-service.js"></script>
   <script src="js/drive-service.js"></script>
-  <script>
-  window.onload=function(){
-    generateCode();
-    function activeNav() {
-      var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
-           $(".nav-link").each(function(){
-                if($(this).attr("href") == pgurl || $(this).attr("href") == '' ){
-                $(this).addClass("active");
-                $(this).removeClass("text-white");
-                $(this).append('<span class="sr-only">(current)</span>');
-                $(this).closest('.nav-item').css({"background": "#004DAE"});
-           }
-          });
-      }
-      setTimeout(function() {
-          activeNav();
-      }, 100);
-    };
-  </script>
   <style>
     .mce-notification-inner, .mce-close, .mce-notification-warning {
     display:none !important;
@@ -470,6 +512,7 @@
     </style> 
 </head>
 <body">
+<div id="beestNav">
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-arts mb-3 p-0">
       <a class="navbar-brand text-center border border-white px-2 mx-2 rounded" href="index.html"><img src="img/dragon-solid-white.png" width="30" height="30" alt=""></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -521,6 +564,7 @@
         </ul>
       </div>
     </nav>
+</div>
   <div class="py-5"></div>
 <div class="container-fluid">
 <h3 class="text-center font-weight-bold">Responsive image + context<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Upload an image from one of the listed platforms and input some context or text around the image. Then choose the size of the image, and which side of the screen you would like it on." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></h3>
@@ -821,93 +865,7 @@
 
 <script src="https://apis.google.com/js/client.js?onload=gapiLoaded"></script>
 <script type="text/javascript" src="https://apis.google.com/js/api.js"></script>
-
-<script>
-    $('#respImgSwitch').on('input', function(event) {
-    var s = $('#respImgSwitch').val().toString();
-
-    if (s.includes("unsplash.com") == true) {
-    //code for replacing unplash link with embed code
-    var x = s.replace('https://unsplash.com/photos','https://source.unsplash.com');
-    }
-
-    else if (s.includes("pexels.com") == true) {
-    //code for replacing stocksnap link with embed code
-    var y = s.replace('https://www.pexels.com/photo/','');
-    var x = y.replace('/','');
-    //use regular expression to find the id number
-    var pexelsid = x.match(/\d+/)[0];
-    var x = "https://images.pexels.com/photos/" + pexelsid + "/pexels-photo-" + pexelsid + ".jpeg";
-    }
-
-    else if (s.includes("stocksnap.io") == true) {
-    //code for replacing unplash link with embed code
-    var y = s.replace('https://stocksnap.io/photo/','https://cdn.stocksnap.io/img-thumbs/960w/');
-    //use regular expression to convert the last - to _
-    var x = y.replace(/-([^-]*)$/,'_$1') + ".jpg"
-    }
-
-    else{
-    var popup2 = document.getElementById("myPopup2");
-    popup2.classList.toggle("showPopup");
-    }
-
-    $('#respImgSwitch').val(x);
-    //$('input[type="text"], textarea#respVidSwitch').attr('readonly','readonly');
-  }); 
-</script>
-<script>var textarea = $("#respImgHeading");
-  var radioBtn = $("#headSize1");
-  var checkRadio = function(){
-      if (textarea.val().length) {
-        $("#headSize1").prop("checked", true);
-        generateCode();
-      };
-  };
-  // Run now
-  // And when textarea changes
-  textarea.on("change", checkRadio);
-  </script>
-<script>
-  $(function () {
-    $(document).on('shown.bs.tooltip', function (e) {
-       setTimeout(function () {
-         $(e.target).tooltip('hide');
-       }, 10000);
-    });
-  });</script>
-  <script>
-    $(function () {
-      $('#copyCodeBtn').on('click', function (e) {
-         setTimeout(function () {
-           $(e.target).tooltip('hide');
-         }, 2500);
-      });
-    });
-    $(function () {
-      $('#toggleHelp').on('click', function (e) {
-         setTimeout(function () {
-           $(e.target).tooltip('hide');
-         }, 2500);
-      });
-    });
-    </script>
-    <script>
-           var textarea = $("#respImgHeading");
-   //     var radioBtn = $("#headSize2");
-   var checkRadio = function(){
-          if (textarea.val()!=="") {
-            $("#headSize1").prop("checked", true);
-            generateCode();
-            }
-          else {
-            $("#headSizeNone").prop("checked", true);
-            generateCode();
-            } 
-                };
-              // And when textarea changes
-              textarea.on("change", checkRadio);
-              </script>
+<div id="beestFooter">
      <div class="py-5"></div>
      <footer class="bg-arts text-white w-100">
        <nav class="navbar navbar-expand navbar-dark bg-arts fixed-bottom mt-3 p-0">    
@@ -929,5 +887,6 @@
                </ul>
                </nav>
      </footer>
+</div>
 </body>
 </html>
