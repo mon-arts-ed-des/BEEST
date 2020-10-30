@@ -43,19 +43,36 @@ function default_XRadio_onEmpty_Y(textAreaId,radioAreaId,blankVal,defaultVal,cal
 		textarea.on("change", checkRadio);
 }
 
-function makeTinyWithID(id,onChange,onceDone){
+function makeTinyWithID(id,callbacks,placeholder){
 	tinymce.init({
 		selector: '#'+id,
 		menubar: false,
 		plugins : 'advlist autolink link lists charmap print preview code placeholder',
-		placeholder: 'Input the content for your accordin drawer here',
+		placeholder: (placeholder == undefined ? 'Input your text here' : placeholder),
 		toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
 		'undo redo | charmap | autolink link | code | removeformat' ],
-		setup : function(ed) {      
-			ed.on('change', onChange);
-			ed.on('init',onceDone)
+		setup : function(ed) {
+			for (eventName in callbacks){
+				ed.on(eventName, callbacks[eventName]);
+			}
 		}
 	});
+}
+
+function basicTinyMCEWithID(id,callbacks,placeholder){
+	tinymce.init({
+		selector: '#'+id,
+		menubar: false,
+		plugins : 'autolink link placeholder',
+		placeholder: (placeholder == undefined ? 'Input your text here' : placeholder),
+		toolbar: ['bold italic | undo redo | autolink link | removeformat' ],
+		setup : function(ed) {
+			for (eventName in callbacks){
+				ed.on(eventName, callbacks[eventName]);
+			}
+		}
+	});
+	
 }
 
 function castAsNumIfPossible(potentialNum){

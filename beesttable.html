@@ -37,20 +37,17 @@
 	const BUTTON_HIST = "history_table"
 	var localStorageHistory = BUTTON_HIST
 	var classTable = null
+	var tablePasterIsTiny = false
 /*END REQUIRED FOR HISTORY*/ 	
 	$(document).ready(function(){
 		setupGoogleAnalytics()
 		wipeHTML("editTable")
+		basicTinyMCEWithID("pasteTableFromExcel",{"change":writeTableExcelPaste,"init":function(){tablePasterIsTiny = true},"input":writeTableExcelPaste},"paste your spreadsheet data here")
 		/*makeTinyWithID("editTable",generateTableCode, function(){
 			generateEditableTable("editTable",currRow,currCol,false)
 		})*/
 		generateEditableTable("editTable",currRow,currCol,true)
-		/*if (previewMode){
-			showButton("edit")
-		}
-		else{
-			hideButton("edit")
-		}*/
+		
 		/*REQUIRED FOR HISTORY*/   
 		initHistory()
 		classTable = new table()
@@ -192,9 +189,41 @@ function tabSepDataToArray(tsv){
 	return allLines
 }
 
+function extractHTMLFromSingleTag(htmlInput,tag){
+	searchString = new RegExp("(.*<"+tag+".*?>)|(<\/"+tag+">.*)","g")
+	return htmlInput.replace(searchString,"")
+}
+
+function getArrayByTag(htmlInput,tag){
+	searchString = new RegExp("<"+tag+".*?>.*?<\/"+tag+">","g")
+	return htmlInput.match(searchString)
+}
+
+function tableHTML_toArray(htmlTable){
+	var tableContent = extractHTMLFromSingleTag(htmlTable,"table") //remove pre <table> & after </table>
+	tableContent = tableContent.replace(/\n/g,"")
+	tableData = getArrayByTag(tableContent,"tr")
+	//get all rows (tr's)
+	for (var rNum=0; rNum < tableData.length; rNum++){
+		tableData[rNum]=extractHTMLFromSingleTag(tableData[rNum],"tr") //get rid of row tags
+		tableData[rNum]=getArrayByTag(tableData[rNum],"t[dh]") //break up by td/th
+		for (var cNum=0;cNum<tableData[rNum].length;cNum++){
+			tableData[rNum][cNum]=extractHTMLFromSingleTag(tableData[rNum][cNum],"t[dh]")
+		}
+	}
+	return tableData
+}
+
 function writeTableExcelPaste(){
-	var pastedTable = $('#pasteTableFromExcel').val()
-	tableData = tabSepDataToArray(pastedTable)
+	var tableData;
+	if (tablePasterIsTiny){
+		var pastedTable = getTinyContent("pasteTableFromExcel")
+		tableData = tableHTML_toArray(pastedTable)
+	}
+	else{
+		var pastedTable = $('#pasteTableFromExcel').val()
+		tableData = tabSepDataToArray(pastedTable)
+	}
 	classTable.tableData = tableData
 	setTextAreas(classTable)
 }

@@ -49,7 +49,7 @@
 		setupNav()
 		setupToolTips()
 		default_XRadio_onEmpty_Y("accMainHeading","headSize","noH","headSize2",generateAccCode)
-		makeTinyWithID('tinyMCEmonAccContent1',generateAccCode)  
+		makeTinyWithID('tinyMCEmonAccContent1',{"change":generateAccCode},"enter your text for drawer 1 here")  
 		
 		classAccord = new accordion()
 		classAccord.addDrawer() //page starts with 1 drawer
@@ -184,9 +184,9 @@
 			var idTiny = this.baseTiny+num
 			var idBlock = this.baseBlock+num
 			
-			var headingHTML="<span id=\""+idBlock+"\"><div class=\"row w-100\"><div class=\"col-lg\"><h6>Heading "+num+"</h6><textarea maxlength=\"75\" class=\"border border-dark rounded p-2 w-100 mx-auto\" rows=\"1\" placeholder=\"Input the heading for accordion drawer "+num+" here\" id=\""+idHead+"\" onchange=generateAccCode()></textarea></div></div>"
+			var headingHTML="<span id=\""+idBlock+"\"><div class=\"row w-100\"><div class=\"col-lg\"><h6>Heading "+num+"</h6><textarea maxlength=\"75\" class=\"border border-dark rounded p-2 w-100 mx-auto\" rows=\"1\" placeholder=\"Input the heading for drawer "+num+" here\" id=\""+idHead+"\" onchange=generateAccCode()></textarea></div></div>"
 			
-			var contentHTML = "<div class=\"row w-100\"><div class=\"col-lg\"><h6>Content "+num+"</h6><textarea id=\""+idTiny+"\"class=\"border border-dark rounded p-2 w-100\" rows=\"5\" name=\""+idCont+"\" placeholder=\"Write the content for accordion "+num+" here\" onchange=generateAccCode()></textarea></div></div></span><hr>"
+			var contentHTML = "<div class=\"row w-100\"><div class=\"col-lg\"><h6>Content "+num+"</h6><textarea id=\""+idTiny+"\"class=\"border border-dark rounded p-2 w-100\" rows=\"5\" name=\""+idCont+"\" placeholder=\"Write the content for drawer "+num+" here\" onchange=generateAccCode()></textarea></div></div></span><hr>"
 			
 			return {
 				IDHead: idHead,
@@ -295,7 +295,7 @@
 			var newArea = document.getElementById("newAccordArea")
 			newArea.insertAdjacentHTML('beforeend', newAccordian.output)
 			
-			makeTinyWithID(newAccordian.IDTiny)
+			makeTinyWithID(newAccordian.IDTiny,{"change":generateAccCode},"enter your text for drawer "+classAccord.usableDrawers+" here")
 			
 			//accordianSectionsTotalMade+=1;
 		}
