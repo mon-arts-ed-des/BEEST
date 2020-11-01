@@ -138,7 +138,7 @@ function recoverHistory(){
 			document.getElementById(id).disabled = true
 			hideHTML(id)
 		}
-		catch(){}
+		catch{}
 	}
 	function showButton(id){
 		document.getElementById(id).disabled = false
