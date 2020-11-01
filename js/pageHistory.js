@@ -10,6 +10,11 @@ function setHistory(value){
 	localStorage.setItem(localStorageHistory,value)
 }
 
+function hideButtons(){
+	hideButton("loadHist")
+	hideButton("delHist")
+}
+
 function initHistory(){
 	historicalData = recoverHistory();
 	if (historicalData == null){
@@ -19,12 +24,7 @@ function initHistory(){
 		histIndex = historicalData.length-1
 		showRecoveryDate(histIndex,historicalData)
 	}
-	try{
-		hideButton("loadHist")
-	}catch{}
-	try{
-	hideButton("delHist")
-	}catch{}
+	hideButtons()
 }
 
 function idSelectedRecData(){
@@ -118,8 +118,7 @@ function showRecoveryDate(index,history){
 			console.error(error)
 		}
 		document.getElementById("recoveryDate").innerHTML = HTMLOption(null,"no history available",true)
-		hideButton("delHist")
-		hideButton("loadHist")
+		hideButtons()
 	}
 }
 	
@@ -135,8 +134,11 @@ function recoverHistory(){
 }
 
 	function hideButton(id){
-		document.getElementById(id).disabled = true
-		hideHTML(id)
+		try{
+			document.getElementById(id).disabled = true
+			hideHTML(id)
+		}
+		catch(){}
 	}
 	function showButton(id){
 		document.getElementById(id).disabled = false
