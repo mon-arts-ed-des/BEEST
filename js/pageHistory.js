@@ -133,30 +133,6 @@ function recoverHistory(){
 	return localSet
 }
 
-	function hideButton(id){
-		try{
-			document.getElementById(id).disabled = true
-			hideHTML(id)
-		}
-		catch{}
-	}
-	function showButton(id){
-		document.getElementById(id).disabled = false
-		showHTML(id)
-  }
-  
-  
-	function showHTML(id){
-		htmlStyle(id,"display","")
-	}
-	function hideHTML(id){
-		htmlStyle(id,"display","none")
-	}
-		
-	function htmlStyle(id,styleName,styleResult){
-		document.getElementById(id).style[styleName]=styleResult
-	}
-
 function addToHistory(currAccord){
 	var localCurr = getHistory()
 	if ((localCurr == undefined)||(localCurr=="")){

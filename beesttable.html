@@ -547,14 +547,6 @@ function writeTableExcelPaste(){
 	function htmlStyle(id,styleName,styleResult){
 		document.getElementById(id).style[styleName]=styleResult
 	}
-	function hideButton(id){
-		document.getElementById(id).disabled = true
-		hideHTML(id)
-	}
-	function showButton(id){
-		document.getElementById(id).disabled = false
-		showHTML(id)
-	}
 	
 	function getTableContentsFromPage(maxRow,maxCol){
 		var the_table = [[]]

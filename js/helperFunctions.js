@@ -43,6 +43,32 @@ function default_XRadio_onEmpty_Y(textAreaId,radioAreaId,blankVal,defaultVal,cal
 		textarea.on("change", checkRadio);
 }
 
+function showHTML(id){
+	htmlStyle(id,"display","")
+}
+function hideHTML(id){
+	htmlStyle(id,"display","none")
+}
+	
+function htmlStyle(id,styleName,styleResult){
+	document.getElementById(id).style[styleName]=styleResult
+}
+
+function hideButton(id){
+	try{
+		document.getElementById(id).disabled = true
+		hideHTML(id)
+	}
+	catch{}
+}
+function showButton(id){
+	try{
+		document.getElementById(id).disabled = false
+		showHTML(id)
+	}
+	catch{}
+  }
+
 function makeTinyWithID(id,callbacks,placeholder){
 	tinymce.init({
 		selector: '#'+id,
