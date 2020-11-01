@@ -104,16 +104,19 @@ function recoveryOptionGenerator(selectedIndex,aRecoveryDataSet){
 }
 
 function showRecoveryDate(index,history){
+	const EMPTY_STORAGE = "localStorage is empty"
 	try{
 		if ((history==null)||(!history.hasOwnProperty("length"))||(history.length==0)){
-			throw Error("localStorage is empty")
+			throw Error(EMPTY_STORAGE)
 		}
 		var recHistSet = new recoveryDataSet(history)
 		var element = recHistSet[index]
 		document.getElementById("recoveryDate").innerHTML = recoveryOptionGenerator(index,recHistSet)
 	}
 	catch (error){
-		console.error(error)
+		if (error.message != EMPTY_STORAGE){
+			console.error(error)
+		}
 		document.getElementById("recoveryDate").innerHTML = HTMLOption(null,"no history available",true)
 		hideButton("delHist")
 		hideButton("loadHist")
