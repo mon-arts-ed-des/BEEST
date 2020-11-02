@@ -89,7 +89,7 @@ function basicTinyMCEWithID(id,callbacks,placeholder){
 	tinymce.init({
 		selector: '#'+id,
 		menubar: false,
-		plugins : 'autolink link placeholder',
+		plugins : 'autolink link placeholder table',
 		placeholder: (placeholder == undefined ? 'Input your text here' : placeholder),
 		toolbar: ['bold italic | undo redo | autolink link | removeformat | table' ],
 		setup : function(ed) {
