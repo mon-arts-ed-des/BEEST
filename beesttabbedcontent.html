@@ -61,7 +61,13 @@
             });					
           }
         });
-
+        $(document).ready(function() { //create the tinyMCE areas after the first
+		setupGoogleAnalytics()
+		setupNav()
+		setupToolTips() 
+		initHistory()
+		/*END REQUIRED FOR HISTORY*/
+	})
 		var createdTabs = 1; //representing how many tabs are currently available on the page
 		var visibleTabs = 1;
 		
