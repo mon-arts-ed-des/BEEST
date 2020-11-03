@@ -78,7 +78,7 @@
 		
 		
 		function tabTemplate(tabNum){
-			var result = '<hr><div id='+OUTER_BLOCK_ID_BASE+tabNum+' class="row w-100"><div class="col-lg mt-2"><h6>Tab '+tabNum+'</h6><textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button" id="'+HEADING_ID_BASE+tabNum+'" onchange=generateElementCode()></textarea><h6 class=\"mt-2\">Content '+tabNum+'</h6><textarea id="'+TINYMCE_ID_BASE+tabNum+'" class="border border-dark rounded p-2 w-100" cols="70" rows="3" name="'+INNER_HEADING_ID_BASE+tabNum+'" onchange=generateElementCode()></textarea></div></div>'
+			var result = '<hr><div id='+OUTER_BLOCK_ID_BASE+tabNum+' class="row w-100"><div class="col-lg"><h6>Tab '+tabNum+'</h6><textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button" id="'+HEADING_ID_BASE+tabNum+'" onchange=generateElementCode()></textarea><h6 class=\"mt-2\">Content '+tabNum+'</h6><textarea id="'+TINYMCE_ID_BASE+tabNum+'" class="border border-dark rounded p-2 w-100" cols="70" rows="3" name="'+INNER_HEADING_ID_BASE+tabNum+'" onchange=generateElementCode()></textarea></div></div>'
 			return result
 		}
 		
@@ -384,6 +384,24 @@
   
     */
     </script>
+     <script>
+      $(document).ready(function(){
+	$(window).scroll(function () {
+			if ($(this).scrollTop() > 50) {
+				$('#back-to-top').fadeIn();
+			} else {
+				$('#back-to-top').fadeOut();
+			}
+		});
+		// scroll body to 0px on click
+		$('#back-to-top').click(function () {
+			$('body,html').animate({
+				scrollTop: 0
+			}, 400);
+			return false;
+		});
+});
+    </script>
    <script>   
     window.onload=function(){
       $('#beestNav').load('common/beestnav.html');
@@ -417,6 +435,13 @@
 }
 .nav-item:hover {
   background: #004dae;
+}
+.back-to-top {
+    position: fixed;
+    bottom: 100px;
+    right: 50px;
+    display: none;
+    z-index: 2000;
 }
     </style> 
     </head>
@@ -606,7 +631,7 @@
         <div class="col-lg">
   <h5 data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Copy code</h5>
   <textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code for your accordion and copy it to the clipboard." onchange=generateElementCode()></textarea>
-  <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." id="copyCodeBtn" class="btn btn-success btn-lg btn-block mt-2" name="GenerateWrap" value="Copy your code </>" OnClick=copyCode() >
+  <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." id="copyCodeBtn" class="btn btn-success btn-block mt-2" name="GenerateWrap" value="Copy your code" OnClick=copyCode() >
 </form>
  <script>
     $(function () {
@@ -633,20 +658,23 @@
       });
       </script>
       <script>
-        var textarea = $("#respVidHeading");
+        var textarea = $("#tabbedMainHeading");
         var checkRadio = function(){
           if (textarea.val()!=="") {
-            $("#headSize1").prop("checked", true);
+            $("#headSize2").prop("checked", true);
             generateCode();
             }
           else {
-            $("#headSizeNone").prop("checked", true);
+            $("#headSize1").prop("checked", true);
             generateCode();
             } 
                 };
               // And when textarea changes
               textarea.on("change", checkRadio);
               </script>
+               <div class="text-center">
+                <a id="back-to-top" href="#" class="btn btn-lg btn-outline-dark back-to-top" role="button"><i class="fas fa-chevron-up"></i></a>
+              </div>
 <div id="beestFooter"></div>
 
       </body>

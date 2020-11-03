@@ -186,7 +186,7 @@
 			
 			var headingHTML="<span id=\""+idBlock+"\"><div class=\"row w-100\"><div class=\"col-lg\"><h6>Heading "+num+"</h6><textarea maxlength=\"75\" class=\"border border-dark rounded p-2 w-100 mx-auto\" rows=\"1\" placeholder=\"Input the heading for drawer "+num+" here\" id=\""+idHead+"\" onchange=generateAccCode()></textarea></div></div>"
 			
-			var contentHTML = "<div class=\"row w-100\"><div class=\"col-lg\"><h6>Content "+num+"</h6><textarea id=\""+idTiny+"\"class=\"border border-dark rounded p-2 w-100\" rows=\"5\" name=\""+idCont+"\" placeholder=\"Write the content for drawer "+num+" here\" onchange=generateAccCode()></textarea></div></div></span><hr>"
+			var contentHTML = "<div class=\"row w-100 mt-2\"><div class=\"col-lg\"><h6>Content "+num+"</h6><textarea id=\""+idTiny+"\"class=\"border border-dark rounded p-2 w-100\" rows=\"3\" name=\""+idCont+"\" placeholder=\"Write the content for drawer "+num+" here\" onchange=generateAccCode()></textarea></div></div></span><hr>"
 			
 			return {
 				IDHead: idHead,
@@ -334,7 +334,7 @@
   
 function resetAddRemoveButtonDisplay(){
 	if (classAccord.usableDrawers >= absoluteMaxAccord){
-		hideButton("plusbutton")
+	
 	}
 	else{
 		showButton("plusbutton");
@@ -343,7 +343,7 @@ function resetAddRemoveButtonDisplay(){
 		showButton("minusbutton")
 	}
 	else{
-		hideButton("minusbutton")
+	
 	}
 }
   
@@ -639,7 +639,7 @@ function getHistoryI(index,history){
         }
         .back-to-top {
     position: fixed;
-    bottom: 70px;
+    bottom: 100px;
     right: 50px;
     display: none;
     z-index: 2000;
@@ -815,7 +815,7 @@ function getHistoryI(index,history){
           <hr>
 <div class="row w-100">
   <div class="col-lg">
-<h5>Drawer headings<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="This is the text that will appear on the accordion drawers (all text boxes on the left side of screen). This should give users a clear idea of what will appear if the button is clicked. Max length is 75 characters.">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
+<h5>Drawer headings & content<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Input the headings that will appear on the accordion drawers and the content that will sit inside each of the drawers. The max length allowed for headings is 75 characters.">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
   </div>
 </div>
 <span>
@@ -825,16 +825,10 @@ function getHistoryI(index,history){
 <textarea maxlength="75" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" placeholder="Input the heading for your first accordion drawer here" id="monAccBtnTxt1" onchange=generateAccCode()></textarea>
 </div>
 </div>
-
-<div class="row w-100">
-  <div class="col-lg">
-<h5>Content<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="What you input in the box below will appear when the relative accordion drawer button is clicked (all rich text editors on the right of screen). This can include text, lists, videos and externally embedded media. You can click, hold and drag the bottom right corner of these boxes to make them bigger on this screen.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
-  </div>
-</div>
-<div class="row w-100">
+<div class="row w-100 mt-2">
   <div class="col-lg">
         <h6>Content 1</h6>      
-        <textarea id="tinyMCEmonAccContent1" class="border border-dark rounded p-2 w-100" rows="5" name="monAccContent1" placeholder="Write the content for your accordion here" onchange=generateAccCode()></textarea>
+        <textarea id="tinyMCEmonAccContent1" class="border border-dark rounded p-2 w-100" rows="3" name="monAccContent1" placeholder="Write the content for your accordion here" onchange=generateAccCode()></textarea>
       </div>
     </div>
 	</span>
@@ -844,25 +838,13 @@ function getHistoryI(index,history){
   <div class="col-lg">
 	<div class="sticky-top" style="top:100px;">
 		<h5>Add/Remove drawers + Current number of drawers<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="The page defaults to start with 3 accordion drawers. You can have up to 10. You can type in your number in the box on the right, which will also display the current number of drawers OR use the Add button to add more drawers one at a time. A remove button will appear once there are more than 3 drawers to remove drawers individually." >&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
-		<div class="btn-group w-100" role="group" id="addMinusButtons"> 
-		<div class="row w-50">
-			<div class="col-lg-3 my-auto text-center">
+	<div class="btn-group btn-group-justified" role="group" id="addMinusButtons">
     <div class="btn-group" role="group">
-    <button id="plusbutton" onclick="addSection(true)" type="button" class="btn btn-success"><i class="fa fa-fw fa-plus"></i></button>
+		<button id="minusbutton" onclick="removeSection()" type="button" class="btn btn-danger rounded"><i class="fa fa-fw fa-minus"></i></button>
+		<input class="border border-dark w-25 rounded btn btn-outline-dark mx-3 my-auto" style="cursor:default ;" id="accordCounter" onchange="changeDrawerCount()" value=0>
+    <button id="plusbutton" onclick="addSection(true)" type="button" class="btn btn-success rounded"><i class="fa fa-fw fa-plus"></i></button>
   </div>
   </div>
-<div class="col-lg-3 my-3 text-center">
-	<div class="btn-group-lg" role="group">
-		<input class="border border-dark w-100 rounded btn btn-outline-dark" style="cursor:default ;" id="accordCounter" onchange="changeDrawerCount()" value=0>
-		</div>  
-</div>
-  <div class="col-lg-3 my-auto text-center">
-    <div class="btn-group" role="group">
-    <button id="minusbutton" onclick="removeSection()" type="button" class="btn btn-danger"><i class="fa fa-fw fa-minus"></i></button>
-    </div>
-  </div>
-</div>
-</div>
     <hr>
     <h5>Preview<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 7." class="text-success hideableinstruct small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
     <div id="demo"></div>
@@ -870,7 +852,7 @@ function getHistoryI(index,history){
     <hr>
     <h5>Copy code<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click the copy code button below to copy your code, ready to paste into Moodle." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
         <textarea readonly class="rounded p-2 w-100" id="monAccCode" rows="3" name="Result" placeholder="The code for your element will appear here as you update your preferences on the page." onClick=generateAccCode()></textarea>
-    <input id="copyCodeBtn" type="button" class="btn btn-block btn-success mt-1 text-center" name="GenerateWrap" value="Copy your code" data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." onClick=copyCode()>
+    <input id="copyCodeBtn" type="button" class="btn btn-block btn-success mt-2 text-center" name="GenerateWrap" value="Copy your code" data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." onClick=copyCode()>
     <div class="text-center h5 mt-4">
       <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
       </div>
@@ -880,7 +862,7 @@ function getHistoryI(index,history){
 </div>
     </form>
     <div class="text-center">
-    <a id="back-to-top" href="#" class="btn btn-outline-dark back-to-top" role="button"><i class="fas fa-chevron-up"></i></a>
+    <a id="back-to-top" href="#" class="btn btn-lg btn-outline-dark back-to-top" role="button"><i class="fas fa-chevron-up"></i></a>
   </div>
     </div>
     <div id="beestFooter"></div>
