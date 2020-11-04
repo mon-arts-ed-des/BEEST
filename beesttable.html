@@ -30,23 +30,25 @@
     <script src="https://kit.fontawesome.com/3817feae52.js"></script> 
     <!-- Tinymce js file -->   
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+	<script src="js/placeholder.js"></script> 
     <script src="js/advancedModeLocalStorage.js"></script>
 	<script type="text/javascript">
 
 /*REQUIRED FOR HISTORY*/    
 	const BUTTON_HIST = "history_table"
+	const pasteTable = "pasteTableFromExcel"
 	var localStorageHistory = BUTTON_HIST
 	var classTable = null
 	var tablePasterIsTiny = false
 /*END REQUIRED FOR HISTORY*/ 	
 	$(document).ready(function(){
 		setupGoogleAnalytics()
-		wipeHTML("editTable")
-		basicTinyMCEWithID("pasteTableFromExcel",{"change":writeTableExcelPaste,"init":function(){tablePasterIsTiny = true},"input":writeTableExcelPaste},"paste your spreadsheet data here")
+		//wipeHTML("editTable")
+		basicTinyMCEWithID(pasteTable,{"change":writeTableExcelPaste,"init":function(){tablePasterIsTiny = true;},"input":writeTableExcelPaste},"paste your spreadsheet data here")
 		/*makeTinyWithID("editTable",generateTableCode, function(){
 			generateEditableTable("editTable",currRow,currCol,false)
 		})*/
-		generateEditableTable("editTable",currRow,currCol,true)
+		//generateEditableTable("editTable",currRow,currCol,true)
 		
 		/*REQUIRED FOR HISTORY*/   
 		initHistory()
@@ -199,11 +201,31 @@ function getArrayByTag(htmlInput,tag){
 	return htmlInput.match(searchString)
 }
 
+function arrayToTableHTML(array){
+	/*
+	takes a 2d array and converts it into an HTML table
+	*/
+	htmlTable = "<table><tbody>"
+	for (var row=0;row<array.length;row++){
+		htmlTable+= "<tr><td>"+array[row].join("</td><td>")+"</td></tr>"
+	}
+	htmlTable += "</tbody></table>"
+	return htmlTable
+}
+
 function tableHTML_toArray(htmlTable){
+	const dummyTable = [['']]
+	
+	if (htmlTable == undefined){
+		return dummyTable
+	}
 	var tableContent = extractHTMLFromSingleTag(htmlTable,"table") //remove pre <table> & after </table>
 	tableContent = tableContent.replace(/\n/g,"")
 	tableData = getArrayByTag(tableContent,"tr")
 	//get all rows (tr's)
+	if (tableData == null){
+		return dummyTable
+	}
 	for (var rNum=0; rNum < tableData.length; rNum++){
 		tableData[rNum]=extractHTMLFromSingleTag(tableData[rNum],"tr") //get rid of row tags
 		tableData[rNum]=getArrayByTag(tableData[rNum],"t[dh]") //break up by td/th
@@ -217,15 +239,16 @@ function tableHTML_toArray(htmlTable){
 function writeTableExcelPaste(){
 	var tableData;
 	if (tablePasterIsTiny){
-		var pastedTable = getTinyContent("pasteTableFromExcel")
+		var pastedTable = getTinyContent(pasteTable)
 		tableData = tableHTML_toArray(pastedTable)
 	}
 	else{
-		var pastedTable = $('#pasteTableFromExcel').val()
+		var pastedTable = $('#'+pasteTable).val()
 		tableData = tabSepDataToArray(pastedTable)
 	}
 	classTable.tableData = tableData
-	setTextAreas(classTable)
+	//setTextAreas(classTable)
+	generateTableCode()
 }
 
 	function iconpreview() {
@@ -544,7 +567,9 @@ function writeTableExcelPaste(){
 		}
 	
 	function getTableContentsFromPage(maxRow,maxCol){
-		var the_table = [[]]
+		return classTable.tableData
+		
+		/*var the_table = [[]]
 		for (var rowN=0;rowN<maxRow;rowN++){
 			if (the_table.length<=rowN){
 				the_table.push([])
@@ -557,6 +582,7 @@ function writeTableExcelPaste(){
 			}
 		}
 		return the_table
+		*/
 	}
 	
 	function activatePreviewMode(){
@@ -578,6 +604,7 @@ function setTextAreas(classData){
 	setDropdown("headSize",classData.headSize)
 	setDropdown("faCode",classData.icon)
 	var theTable = classData.tableData
+	/*
 	while (currCol < theTable[0].length){
 		addCol()
 	}
@@ -589,12 +616,14 @@ function setTextAreas(classData){
 	}
 	while (currRow > theTable.length){
 		removeRow()
-	}
+	}*/
+	/*
 	for (var row = 0; row < theTable.length; row++){
 		for (var col = 0; col < theTable[row].length; col++){
 			getCell(row,col).innerHTML = theTable[row][col]
 		}
-	}
+	}*/
+	setTinyContent(pasteTable,arrayToTableHTML(theTable))
 	generateTableCode()
 }
 function getHistoryI(index,history){
@@ -988,8 +1017,8 @@ function getHistoryI(index,history){
 		  <div class="col-lg mt-2">
   <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Add headings for your table.">Step 4 - Add table contents</h5>
   <textarea maxlength="50" class="border border-dark rounded p-2 w-100" rows="4" name="pasteTableFromExcel" type="text" id="pasteTableFromExcel" placeholder="paste your spreadsheet data here" onchange=writeTableExcelPaste()></textarea>
-  
-	<table class="table table-responsive-lg"><tbody>	
+  <!--
+	<table style="display:none;" class="table table-responsive-lg"><tbody>	
 	<tr><td>	
 		<div class="btn-group btn-group-justified" role="group" id="addMinusButtons">
 		<div class="btn-group-lg" role="group">
@@ -1020,6 +1049,7 @@ function getHistoryI(index,history){
 	</td></tr>
 
 	</tbody></table>
+	-->
 	
 <div class="row w-100 mx-auto">
       <div class="col-lg mt-4">
