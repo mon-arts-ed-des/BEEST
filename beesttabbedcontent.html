@@ -306,7 +306,7 @@
 				resizedHead = head_5+faIconCode+tabbedMainHeading+endHead_5;
 				break;
 		}
-	var monTabHeading_Open = "<script> var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://mon-arts-ed-des.github.io/BEEST/css/monTabs.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t><div class=\"row w-100 mx-auto mb-3\"><div class=\"col-3\"><div class=\"nav monTabs flex-column nav-pills border-arts rounded\" id=\"v-tabs-tab\" role=\"tablist\" aria-orientation=\"vertical\">";
+	var monTabHeading_Open = "<script>var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://mon-arts-ed-des.github.io/BEEST/css/monTabs.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t><div class=\"row w-100 mx-auto mb-3\"><div class=\"col-3\"><div class=\"nav monTabs flex-column nav-pills border-arts rounded\" id=\"v-tabs-tab\" role=\"tablist\" aria-orientation=\"vertical\">";
   var monTabHeading_Close="</div></div>";
   //Content variables
   var monTabContent_Open="<div class=\"col-9\"><div class=\"tab-content border-arts-3 rounded\" id=\"v-tabs-tabContent\">";
@@ -430,6 +430,21 @@
     display: none;
     z-index: 2000;
 }
+.upper, .lower {
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+.upper {
+    top: 0;
+    height: 50%;
+    overflow:scroll;
+}
+.lower {
+    bottom: 0;
+    height: 50%; 
+}
+
     </style> 
     </head>
   <body onload=generateElementCode()>
@@ -580,7 +595,7 @@
      <hr>
      <div class="row w-100">
       <div class="col-lg">
-        <h5>Tab headings + content<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="This is the text that will appear on the tab buttons (all text boxes on the left side of screen). This should give users a clear idea of what will appear if the button is clicked. Max length is 50 characters." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
+        <h5>Tab headings + content<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Input the headings for the tabs on the left, and the content that will appear when the relative heading is clicked. Max length of headings is 50 characters." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
         <h6>Tab 1</h6>
         <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button here" id="monAccTabHeadingTxt1" onchange=generateElementCode()></textarea>
         <h6 class="mt-2">Content 1</h6>      
@@ -616,7 +631,7 @@
       </div>
       <div class="row w-100">
         <div class="col-lg">
-  <h5 data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 8.">Copy code</h5>
+  <h5>Copy code<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click the copy code button below to copy your code, ready to paste into Moodle." class="text-success small hideableinstruct">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
   <textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code for your accordion and copy it to the clipboard." onchange=generateElementCode()></textarea>
   <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." id="copyCodeBtn" class="btn btn-success btn-block mt-2" name="GenerateWrap" value="Copy your code" OnClick=copyCode() >
         </div>
@@ -626,48 +641,50 @@
     </div>
 </form>
 </div>
- <script>
-    $(function () {
-      $(document).on('shown.bs.tooltip', function (e) {
-         setTimeout(function () {
-           $(e.target).tooltip('hide');
-         }, 7000);
-      });
-    });</script>
-    <script>
-      $(function () {
-        $('#copyCodeBtn').on('click', function (e) {
-           setTimeout(function () {
-             $(e.target).tooltip('hide');
-           }, 2500);
-        });
-      });
-      $(function () {
-        $('#toggleHelp').on('click', function (e) {
-           setTimeout(function () {
-             $(e.target).tooltip('hide');
-           }, 2500);
-        });
-      });
-      </script>
-      <script>
-        var textarea = $("#tabbedMainHeading");
-        var checkRadio = function(){
-          if (textarea.val()!=="") {
-            $("#headSize2").prop("checked", true);
-            generateCode();
-            }
-          else {
-            $("#headSize1").prop("checked", true);
-            generateCode();
-            } 
-                };
-              // And when textarea changes
-              textarea.on("change", checkRadio);
-              </script>
                <div class="text-center">
                 <a id="back-to-top" href="#" class="btn btn-lg btn-outline-dark back-to-top" role="button"><i class="fas fa-chevron-up"></i></a>
               </div>
+              <div id="demo"></div>
+    <p class="my-3"></p>
 <div id="beestFooter"></div>
+<script>
+  $(function () {
+    $(document).on('shown.bs.tooltip', function (e) {
+       setTimeout(function () {
+         $(e.target).tooltip('hide');
+       }, 7000);
+    });
+  });</script>
+  <script>
+    $(function () {
+      $('#copyCodeBtn').on('click', function (e) {
+         setTimeout(function () {
+           $(e.target).tooltip('hide');
+         }, 2500);
+      });
+    });
+    $(function () {
+      $('#toggleHelp').on('click', function (e) {
+         setTimeout(function () {
+           $(e.target).tooltip('hide');
+         }, 2500);
+      });
+    });
+    </script>
+    <script>
+      var textarea = $("#tabbedMainHeading");
+      var checkRadio = function(){
+        if (textarea.val()!=="") {
+          $("#headSize2").prop("checked", true);
+          generateCode();
+          }
+        else {
+          $("#headSize1").prop("checked", true);
+          generateCode();
+          } 
+              };
+            // And when textarea changes
+            textarea.on("change", checkRadio);
+            </script>
       </body>
       </html>
