@@ -225,7 +225,8 @@
 		var headingObj = getHeadingText(currTabs)
 		//assumes each follow the same ID format -- see globals for format
 		
-		if ((tinyObj == null)||(headingObj == null)||(headingObj[DO_NOT_USE]!=undefined)||(tinyObj[DO_NOT_USE]!=undefined)){ // stop looping if one couldn't find the id OR you could but the tab is invisible on the page
+		if ((tinyObj == null)||(headingObj == null)||(headingObj[DO_NOT_USE]!=undefined)||(tinyObj[DO_NOT_USE]!=undefined)){
+      // stop looping if one couldn't find the id OR you could but the tab is invisible on the page
 		// NOTE: the order of this condition is important! checking tinyObj and headingObj are null must happen before accessing an attribute within them
 			moreTabs = false
 			currTabs--; //to cancel out advancing one too far and discovering no tabbed area
@@ -282,7 +283,12 @@
             "9":"plus-square",
             "10":"plus-square-o"
         }
-
+/*if ( =""){
+  var ="Heading"+tabNum+""
+}
+else {
+  var =document.getElementById('tabbedMainHeading').value;
+}*/
         var iconName = iconNames[faIcon];
 		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
 		
@@ -436,13 +442,13 @@
     right: 0;
 }
 .upper {
-    top: 0;
-    height: 50%;
+    top: 35%;
+    height: 40%;
     overflow:scroll;
 }
 .lower {
     bottom: 0;
-    height: 50%; 
+    height: 23%; 
 }
 
     </style> 
@@ -481,6 +487,21 @@
       </div>
     <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe>
     </div>
+    </div>
+  </div>
+</div>
+<!--End HTML paste video walkthrough-->
+<!--How to paste HTML into Moodle modal-->
+<div class="modal fade previewElement" tabindex="-1" role="dialog" aria-labelledby="preview-modal" aria-hidden="true" style="padding-right: 0;">
+  <div class="modal-dialog modal-lg" style="max-width:75%;">
+    <div class="modal-content p-2">
+      <div class="modal-header">
+        <h5 class="modal-title">Click close or click outside this box to return to the BEEST.</h5>
+        <button type="button" class="btn btn-outline-dark btn-lg ml-2" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">Close &times;</span>
+        </button>
+      </div>
+      <div id="demo"></div>
     </div>
   </div>
 </div>
@@ -607,7 +628,7 @@
 </div>
          
   <div class="col-lg-6">
-    <div class="sticky-top" style="top:100px;">
+    <div class="sticky-top">
     <div class="row w-100">
       <div class="col-lg">
     <h5>Add/Remove tab + content<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="The page defaults to start with 3 tabs plus their content. If you only need 3 tabs you can skip this step. If you require 4-10 tabs, click the add button below to add more tabs or input the number you want directly into the box below." class="text-success small hideableinstruct">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
@@ -622,17 +643,19 @@
   </div>
 </div>
     <hr>
+    <h5>Preview<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click the button below to reveal a full screen width preview of your element." class="text-success small hideableinstruct">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
     <div class="row w-100">
       <div class="col-lg">
-    <h5>Preview<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below as you update your preferences for your tabbed content." class="text-success small hideableinstruct">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
-    <div id="demo"></div>
+        <div><a class="btn btn-success btn-block w-100 mx-auto" target="#" data-target=".previewElement" data-toggle="modal" href="#" role="button">Reveal preview panel</a></div>
     <p class="my-3"></p>
       </div>
       </div>
+      
+      <hr>
       <div class="row w-100">
         <div class="col-lg">
   <h5>Copy code<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click the copy code button below to copy your code, ready to paste into Moodle." class="text-success small hideableinstruct">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
-  <textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code for your accordion and copy it to the clipboard." onchange=generateElementCode()></textarea>
+  <textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="3" name="Result" placeholder="When you click the button above, it will create the code for your accordion and copy it to the clipboard." onchange=generateElementCode()></textarea>
   <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." id="copyCodeBtn" class="btn btn-success btn-block mt-2" name="GenerateWrap" value="Copy your code" OnClick=copyCode() >
         </div>
       </div>
@@ -676,11 +699,11 @@
       var checkRadio = function(){
         if (textarea.val()!=="") {
           $("#headSize2").prop("checked", true);
-          generateCode();
+          generateElementCode();
           }
         else {
           $("#headSize1").prop("checked", true);
-          generateCode();
+          generateElementCode();
           } 
               };
             // And when textarea changes
