@@ -71,7 +71,7 @@
         console.debug(tinyMCE.activeEditor.getContent());
         //Retrieve the content by id of the tinyMCE textarea
         var readMoreNumber = document.getElementById('readMoreNumber').value;
-        var readMoreBtnTxt = document.getElementById('readMoreBtnTxt').value;
+    //    var readMoreBtnTxt = document.getElementById('readMoreBtnTxt').value;
         var bsColour = getRadioOption("btnColour")
         var bsBtnSize = getRadioOption("buttonSize")
         var bsBtnWidth = getRadioOption("buttonWidth")
@@ -329,7 +329,7 @@
 }
     </style> 
     </head>
-<body>
+<body onload=generateReadMoreCode()>
 <div id="beestNav"></div>
 <div class="py-5"></div>
   <div class="container-fluid">   
