@@ -334,16 +334,16 @@
   
 function resetAddRemoveButtonDisplay(){
 	if (classAccord.usableDrawers >= absoluteMaxAccord){
-	
+		disableButton("plusbutton")
 	}
 	else{
-		showButton("plusbutton");
+		enableButton("plusbutton");
 	}
 	if (classAccord.usableDrawers > absoluteMinAccord){
-		showButton("minusbutton")
+		enableButton("minusbutton")
 	}
 	else{
-	
+		disableButton("minusbutton")
 	}
 }
   

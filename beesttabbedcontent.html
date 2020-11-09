@@ -152,10 +152,11 @@
 				updatePageCounter(COUNTER_ID,visibleTabs)
 			}
 			if (newVisCount >= maxTabs){
-				hideButton("plusbutton")
+				//hideButton("plusbutton")
+				disableButton("plusbutton")
 			}
 			if (newVisCount > absoluteMinTab){
-				showButton("minusbutton")
+				//showButton("minusbutton")
 				enableButton("minusbutton")
       }
       generateElementCode();
@@ -183,7 +184,8 @@
 			}
 			
 			if (visibleTabs < maxTabs){
-				showButton("plusbutton")
+				enableButton("plusbutton")
+				//showButton("plusbutton")
 			}
 			generateElementCode();
 		}		
