@@ -84,7 +84,7 @@
 		
 		
 		function tabTemplate(tabNum){
-			var result = '<hr><div id='+OUTER_BLOCK_ID_BASE+tabNum+' class="row w-100"><div class="col-lg"><h6>Tab '+tabNum+'</h6><textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button" id="'+HEADING_ID_BASE+tabNum+'" onchange=generateElementCode()></textarea><h6 class=\"mt-2\">Content '+tabNum+'</h6><textarea id="'+TINYMCE_ID_BASE+tabNum+'" class="border border-dark rounded p-2 w-100" cols="70" rows="3" name="'+INNER_HEADING_ID_BASE+tabNum+'" onchange=generateElementCode()></textarea></div></div>'
+			var result = '<span id='+OUTER_BLOCK_ID_BASE+tabNum+'><hr><div class="row w-100"><div class="col-lg"><h6>Tab '+tabNum+'</h6><textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button" id="'+HEADING_ID_BASE+tabNum+'" onchange=generateElementCode()></textarea><h6 class=\"mt-2\">Content '+tabNum+'</h6><textarea id="'+TINYMCE_ID_BASE+tabNum+'" class="border border-dark rounded p-2 w-100" cols="70" rows="3" name="'+INNER_HEADING_ID_BASE+tabNum+'" onchange=generateElementCode()></textarea></div></div></span>'
 			return result
 		}
 		

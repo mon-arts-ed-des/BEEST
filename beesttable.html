@@ -605,6 +605,7 @@ function setTextAreas(classData){
 	setDropdown("faCode",classData.icon)
 	var theTable = classData.tableData
 	/*
+	not necessary when using a single text area for the table editing
 	while (currCol < theTable[0].length){
 		addCol()
 	}
@@ -616,8 +617,7 @@ function setTextAreas(classData){
 	}
 	while (currRow > theTable.length){
 		removeRow()
-	}*/
-	/*
+	}
 	for (var row = 0; row < theTable.length; row++){
 		for (var col = 0; col < theTable[row].length; col++){
 			getCell(row,col).innerHTML = theTable[row][col]
