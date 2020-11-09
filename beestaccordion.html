@@ -45,11 +45,11 @@
 	var accordiansPostInit = []
 
 	$(document).ready(function() { //create the tinyMCE areas after the first
-		setupGoogleAnalytics()
-		setupNav()
-		setupToolTips()
-		default_XRadio_onEmpty_Y("accMainHeading","headSize","noH","headSize2",generateAccCode)
-		makeTinyWithID('tinyMCEmonAccContent1',{"change":generateAccCode},"enter your text for drawer 1 here")  
+		setupGoogleAnalytics();
+		setupNav();
+		setupToolTips();
+		default_XRadio_onEmpty_Y("accMainHeading","headSize","noH","headSize2",generateAccCode);
+		makeTinyWithID('tinyMCEmonAccContent1',{"change":generateAccCode},"enter your text for drawer 1 here")  ;
 		
 		classAccord = new accordion()
 		classAccord.addDrawer() //page starts with 1 drawer
