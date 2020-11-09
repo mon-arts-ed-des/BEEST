@@ -313,7 +313,7 @@
     </style> 
     </head>
 <body onload=generateReadMoreCode()>
-<div id="beestNav" onload=setupNav()></div>
+<div id="beestNav" onload=activeNav()></div>
 <div class="py-5"></div>
   <div class="container-fluid">   
     <h3 class="text-center">Read more button<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Read more buttons allow you to write extended text or content and collapse it beneath a button that reveals on click. This is particularly useful for bio's of staff where you want to have an introductory sentence or two, and put an extended description of history that students can click to reveal." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h3>
@@ -614,11 +614,26 @@
       $(document).ready(function() { //create the tinyMCE areas after the first
 		setupGoogleAnalytics();
 		setupNav();
-		setupToolTips();
+    setupToolTips();
+    activeNav();
 		/*REQUIRED FOR HISTORY*/
-		initHistory();
+		//initHistory();
 		/*END REQUIRED FOR HISTORY*/
+  
+  function activeNav() {
+	var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
+	 $('.nav-link').each(function(){
+		  if($(this).attr("href") == pgurl || $(this).attr("href") == '' ){
+		  $(this).addClass("active");
+		  $(this).removeClass("text-white");
+		  $(this).append('<span class="sr-only">(current)</span>');
+		  $(this).closest('.nav-item').css({"background": "#004DAE"});
+		  alert('activeNav complete');
+	 };
 	});
+};
+activeNav()
+});
       </script>
      <div id="beestFooter"></div>
     </body>
