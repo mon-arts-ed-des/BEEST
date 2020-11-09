@@ -27,6 +27,7 @@
       <!--Scripts for history and radio buttons-->
       <script src="js/pageHistory.js"></script>
       <script src="js/helperFunctions.js"></script>
+      <script src="js/setupPage.js"></script>      
       <!-- external link to js file -->  
       <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
       <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -42,6 +43,14 @@
       <script src="js/placeholder.js"></script> 
       
     <script type="text/javascript">
+    $(document).ready(function() { //create the tinyMCE areas after the first
+		setupGoogleAnalytics()
+		setupNav()
+		setupToolTips()
+		/*REQUIRED FOR HISTORY*/
+		initHistory()
+		/*END REQUIRED FOR HISTORY*/
+	})
        tinymce.init({
         selector: '#tinyMCEreadMoreBefore',
         menubar: false,
@@ -293,26 +302,6 @@
     readMore = button to toggle extended text
     */
    
-    </script>
-    <script>   
-      window.onload=function(){
-        $('#beestNav').load('common/beestnav.html');
-        $('#beestFooter').load('common/beestfooter.html');
-        function activeNav() {
-            var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
-             $(".nav-link").each(function(){
-                  if($(this).attr("href") == pgurl || $(this).attr("href") == '' ){
-                  $(this).addClass("active");
-                  $(this).removeClass("text-white");
-                  $(this).append('<span class="sr-only">(current)</span>');
-                  $(this).closest('.nav-item').css({"background": "#004DAE"});
-             }
-            });
-        }
-        setTimeout(function() {
-            activeNav();
-        }, 100);
-      };
     </script>
        <style>
         .mce-notification-inner, .mce-close, .mce-notification-warning {
