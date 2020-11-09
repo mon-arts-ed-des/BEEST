@@ -1,10 +1,3 @@
-function setupNav(){
-	$('#beestNav').load('common/beestnav.html');
-	$('#beestFooter').load('common/beestfooter.html');
-	
-	activeNav();
-};
-
 function activeNav() {
 	var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
 	 $(".nav-link").each(function(){
@@ -17,6 +10,12 @@ function activeNav() {
 	});
 };
 
+function setupNav(){
+	$('#beestNav').load('common/beestnav.html');
+	$('#beestFooter').load('common/beestfooter.html');
+	
+	activeNav();
+};
 function setupToolTips(longTime,shortTime){
 	if (longTime==undefined){
 		longTime = 7000
