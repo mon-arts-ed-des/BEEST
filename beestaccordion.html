@@ -49,7 +49,7 @@
 		setupNav();
 		setupToolTips();
 		default_XRadio_onEmpty_Y("accMainHeading","headSize","noH","headSize2",generateAccCode);
-		makeTinyWithID('tinyMCEmonAccContent1',{"change":generateAccCode},"enter your text for drawer 1 here")  ;
+		makeTinyWithID('tinyMCEmonAccContent1',{"change":generateAccCode},"enter your text for drawer 1 here");
 		
 		classAccord = new accordion()
 		classAccord.addDrawer() //page starts with 1 drawer
@@ -59,7 +59,7 @@
 		/*REQUIRED FOR HISTORY*/
 		initHistory()
 		/*END REQUIRED FOR HISTORY*/
-	})
+	});
 	/*REQUIRED FOR HISTORY*/
 	class drawer{
 		constructor(heading,content,pageHtml){
