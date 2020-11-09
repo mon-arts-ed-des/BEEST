@@ -80,6 +80,7 @@
 				visibleTabs++
 			}
 			updatePageCounter(COUNTER_ID,visibleTabs)
+			disableButton("minusbutton")
 		})
 		
 		
@@ -155,6 +156,7 @@
 			}
 			if (newVisCount > absoluteMinTab){
 				showButton("minusbutton")
+				enableButton("minusbutton")
       }
       generateElementCode();
 		}
@@ -166,6 +168,7 @@
 		*/
 			if (visibleTabs <= absoluteMinTab){
 				alert("minimum accordion sections reached") //just in case button is still clicked despite being hidden
+				disableButton("minusbutton")
 				return
 			}
 		
@@ -176,7 +179,7 @@
 			updatePageCounter(COUNTER_ID,visibleTabs)
 			if (visibleTabs <= absoluteMinTab)
 			{
-		
+				disableButton("minusbutton")
 			}
 			
 			if (visibleTabs < maxTabs){

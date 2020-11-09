@@ -123,6 +123,13 @@ function castAsNumIfPossible(potentialNum){
 		$("#"+id).prop("checked",isChecked)
 	}
 	
+	function disableButton(id){
+		document.getElementById(id).disabled=true
+	}
+	function enableButton(id){
+		document.getElementById(id).disabled=false
+	}
+	
 	function setTinyContent(id,value){
 		tiny = tinyMCE.get(id)
 		tiny.setContent(value)
