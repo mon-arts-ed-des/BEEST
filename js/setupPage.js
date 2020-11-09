@@ -11,9 +11,11 @@ function activeNav() {
 	});
 };
 function setupNav(){
-	$('#beestNav').load('common/beestnav.html');
+	$('#beestNav').load('common/beestnav.html',"",function(){
+		activeNav();
+	});
 	$('#beestFooter').load('common/beestfooter.html');
-	activeNav();
+	
 };
 function setupToolTips(longTime,shortTime){
 	if (longTime==undefined){
