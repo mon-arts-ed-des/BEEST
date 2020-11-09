@@ -45,14 +45,6 @@
       <script src="js/setupPage.js"></script>  
       
     <script type="text/javascript">
-    $(document).ready(function() { //create the tinyMCE areas after the first
-		setupGoogleAnalytics();
-		setupNav();
-		setupToolTips();
-		/*REQUIRED FOR HISTORY*/
-		initHistory();
-		/*END REQUIRED FOR HISTORY*/
-	});
        tinymce.init({
         selector: '#tinyMCEreadMoreBefore',
         menubar: false,
@@ -619,6 +611,14 @@
            }, 2500);
         });
       });
+      $(document).ready(function() { //create the tinyMCE areas after the first
+		setupGoogleAnalytics();
+		setupNav();
+		setupToolTips();
+		/*REQUIRED FOR HISTORY*/
+		initHistory();
+		/*END REQUIRED FOR HISTORY*/
+	});
       </script>
      <div id="beestFooter"></div>
     </body>
