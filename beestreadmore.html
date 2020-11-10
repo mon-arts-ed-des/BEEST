@@ -4,14 +4,6 @@
 <head>
   <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152392632-3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-152392632-3');
-</script>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="A simple element creator to generate responsive code that can be easily embbedded into Moodle">
@@ -45,30 +37,35 @@
       <script src="js/setupPage.js"></script>  
       
     <script type="text/javascript">
-       tinymce.init({
-        selector: '#tinyMCEreadMoreBefore',
-        menubar: false,
-        plugins : 'advlist autolink link lists charmap print preview code placeholder',
-        placeholder: 'Write the content before your read more button here',
-        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat',  
-        setup : function(ed) {      
-        ed.on('change', function (e) {	
-          generateReadMoreCode();
-          });					
-        }
-      });
-      tinymce.init({
-        selector: '#tinyMCEreadMoreAfter',
-        menubar: false,
-        plugins : 'advlist autolink link lists charmap print preview code placeholder',
-        placeholder: 'Write the content after your read more button here',
-        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat',
-        setup : function(ed) {      
-        ed.on('change', function (e) {	
-          generateReadMoreCode();
-          });					
-        }  
-      });
+	
+$(document).ready(function() { //create the tinyMCE areas after the first
+		setupGoogleAnalytics();
+		setupNav();
+    setupToolTips();
+    activeNav();
+		/*REQUIRED FOR HISTORY*/
+		//initHistory();
+		/*END REQUIRED FOR HISTORY*/
+  
+  function activeNav() {
+	var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
+	 $('.nav-link').each(function(){
+		  if($(this).attr("href") == pgurl || $(this).attr("href") == '' ){
+		  $(this).addClass("active");
+		  $(this).removeClass("text-white");
+		  $(this).append('<span class="sr-only">(current)</span>');
+		  $(this).closest('.nav-item').css({"background": "#004DAE"});
+		  alert('activeNav complete');
+	 };
+	});
+};
+activeNav()
+});
+
+makeTinyWithID('tinyMCEreadMoreBefore',{'change':generateReadMoreCode},'Write the content before your read more button here')
+
+makeTinyWithID('tinyMCEreadMoreAfter',{'change':generateReadMoreCode},'Write the content after your read more button here')
+
     function generateReadMoreCode() {
         // Get the HTML contents of the currently active editor
        // console.debug(tinyMCE.activeEditor.getContent());
@@ -588,53 +585,7 @@
 </div>
     </form>
   </div>
-  <script>
-    $(function () {
-      $(document).on('shown.bs.tooltip', function (e) {
-         setTimeout(function () {
-           $(e.target).tooltip('hide');
-         }, 7000);
-      });
-    });</script>
-    <script>
-      $(function () {
-        $('#copyCodeBtn').on('click', function (e) {
-           setTimeout(function () {
-             $(e.target).tooltip('hide');
-           }, 2500);
-        });
-      });
-      $(function () {
-        $('#toggleHelp').on('click', function (e) {
-           setTimeout(function () {
-             $(e.target).tooltip('hide');
-           }, 2500);
-        });
-      });
-      $(document).ready(function() { //create the tinyMCE areas after the first
-		setupGoogleAnalytics();
-		setupNav();
-    setupToolTips();
-    activeNav();
-		/*REQUIRED FOR HISTORY*/
-		//initHistory();
-		/*END REQUIRED FOR HISTORY*/
-  
-  function activeNav() {
-	var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
-	 $('.nav-link').each(function(){
-		  if($(this).attr("href") == pgurl || $(this).attr("href") == '' ){
-		  $(this).addClass("active");
-		  $(this).removeClass("text-white");
-		  $(this).append('<span class="sr-only">(current)</span>');
-		  $(this).closest('.nav-item').css({"background": "#004DAE"});
-		  alert('activeNav complete');
-	 };
-	});
-};
-activeNav()
-});
-      </script>
+
      <div id="beestFooter"></div>
     </body>
         </html>
