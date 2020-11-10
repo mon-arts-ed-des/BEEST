@@ -61,27 +61,29 @@
             });					
           }
         });
-        $(document).ready(function() { //create the tinyMCE areas after the first
+		
+	var createdTabs = 1; //representing how many tabs are currently available on the page
+	var visibleTabs = 1;
+	
+	$(document).ready(function() { //create the tinyMCE areas after the first
 		setupGoogleAnalytics()
 		setupNav()
 		setupToolTips() 
-		initHistory()
+		default_XRadio_onEmpty_Y("tabbedMainHeading","headSize","noH","headSize2",generateElementCode)
+		/*REQUIRED FOR HISTORY*/
+		//initHistory()
 		/*END REQUIRED FOR HISTORY*/
-	})
-		var createdTabs = 1; //representing how many tabs are currently available on the page
-		var visibleTabs = 1;
 		
-		$(document).ready(function() { 
-			while (createdTabs < requiredInitialTabs)
-			{
-				addTab(createdTabs+1); //if have 1, next one to create is 2
-				//hence if have X need to make X+1
-				createdTabs++
-				visibleTabs++
-			}
-			updatePageCounter(COUNTER_ID,visibleTabs)
-			disableButton("minusbutton")
-		})
+		while (createdTabs < requiredInitialTabs)
+		{
+			addTab(createdTabs+1); //if have 1, next one to create is 2
+			//hence if have X need to make X+1
+			createdTabs++
+			visibleTabs++
+		}
+		updatePageCounter(COUNTER_ID,visibleTabs)
+		disableButton("minusbutton")
+	})
 		
 		
 		function tabTemplate(tabNum){
@@ -673,44 +675,5 @@ else {
                 <a id="back-to-top" href="#" class="btn btn-lg btn-outline-dark back-to-top" role="button"><i class="fas fa-chevron-up"></i></a>
               </div>
 <div id="beestFooter"></div>
-<script>
-  $(function () {
-    $(document).on('shown.bs.tooltip', function (e) {
-       setTimeout(function () {
-         $(e.target).tooltip('hide');
-       }, 7000);
-    });
-  });</script>
-  <script>
-    $(function () {
-      $('#copyCodeBtn').on('click', function (e) {
-         setTimeout(function () {
-           $(e.target).tooltip('hide');
-         }, 2500);
-      });
-    });
-    $(function () {
-      $('#toggleHelp').on('click', function (e) {
-         setTimeout(function () {
-           $(e.target).tooltip('hide');
-         }, 2500);
-      });
-    });
-    </script>
-    <script>
-      var textarea = $("#tabbedMainHeading");
-      var checkRadio = function(){
-        if (textarea.val()!=="") {
-          $("#headSize2").prop("checked", true);
-          generateElementCode();
-          }
-        else {
-          $("#headSize1").prop("checked", true);
-          generateElementCode();
-          } 
-              };
-            // And when textarea changes
-            textarea.on("change", checkRadio);
-            </script>
       </body>
       </html>
