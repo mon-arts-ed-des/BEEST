@@ -40,7 +40,8 @@
     <script type="text/javascript">
 $(document).ready(function() { 
 	$('#respVidSwitch').on('input', embedLinkConverter); 
-
+	setupToolTips(10000)
+		setupNav()
 });
 	//Get the window width dynamically  
  /* var width = $(window).width();
@@ -366,7 +367,7 @@ function embedLinkConverter(event){
 		/*These different options have been absorbed into a javascript Object allowing a direct mapping and lookup of code to icon name*/
 		
     </script>
-   <script>   
+   <!--<script>   
     window.onload=function(){
       $('#beestNav').load('common/beestnav.html');
       $('#beestFooter').load('common/beestfooter.html');
@@ -385,7 +386,7 @@ function embedLinkConverter(event){
           activeNav();
       }, 100);
     };
-  </script>
+  </script>-->
     <style>
     /*
     #preview {
