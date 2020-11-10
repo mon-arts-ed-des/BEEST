@@ -133,21 +133,16 @@ makeTinyWithID('tinyMCEreadMoreAfter',{'change':generateReadMoreCode},'Write the
         }
 		var buttonSpan = ['#btnSmall','#btnRegular','#btnLarge']
 
-        if (bsBtnWidth == "50"){
-      $('#buttonSize .btn').addClass('w-50');
-      $('#buttonSize .btn').removeClass('w-75');
-      $('#buttonSize .btn').removeClass('w-100');
-      }
-      else if (bsBtnWidth =="75"){
-      $('#buttonSize .btn').addClass('w-75');
-      $('#buttonSize .btn').removeClass('w-50');
-      $('#buttonSize .btn').removeClass('w-100');
-      }
-      else if (bsBtnWidth =="100"){
-      $('#buttonSize .btn').addClass('w-100');
-      $('#buttonSize .btn').removeClass('w-75');
-      $('#buttonSize .btn').removeClass('w-50');
-      }
+		widths = {
+			"50":["75","100"],
+			"75":["50","100"],
+			"100":["50","75"]
+		}
+		
+		$('#buttonSize .btn').addClass('w-'+bsBtnWidth);
+		$('#buttonSize .btn').removeClass('w-'+widths[bsBtnWidth][0]);
+		$('#buttonSize .btn').removeClass('w-'+widths[bsBtnWidth][1]);
+
 		 /* bsBtnSize = bsBtnSize + "y";
           $('#alignment').hide();
         }
