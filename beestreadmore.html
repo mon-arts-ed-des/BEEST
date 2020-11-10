@@ -66,199 +66,177 @@ makeTinyWithID('tinyMCEreadMoreBefore',{'change':generateReadMoreCode},'Write th
 
 makeTinyWithID('tinyMCEreadMoreAfter',{'change':generateReadMoreCode},'Write the content after your read more button here')
 
-    function generateReadMoreCode() {
-        // Get the HTML contents of the currently active editor
-       // console.debug(tinyMCE.activeEditor.getContent());
-        //Retrieve the content by id of the tinyMCE textarea
-        var readMoreNumber = document.getElementById('readMoreNumber').value;
+function generateReadMoreCode() {
+	// Get the HTML contents of the currently active editor
+    // console.debug(tinyMCE.activeEditor.getContent());
+	//Retrieve the content by id of the tinyMCE textarea
+	var readMoreNumber = document.getElementById('readMoreNumber').value;
     //    var readMoreBtnTxt = document.getElementById('readMoreBtnTxt').value;
-        var bsColour = getRadioOption("btnColour")
-        var bsBtnSize = getRadioOption("buttonSize")
-        var bsBtnWidth = getRadioOption("buttonWidth")
-        var faIcon = getRadioOption("faCode")
-        var readMoreContainer="<div class=\"beestRead\">"
-        var readMore_1="<div class=\"collapse\" id=\"readMore"+readMoreNumber+"\">"
-        var readMoreClose="</div>"
-        
-        var iconNames = {
-			      "1":"plus",
-            "2":"plus-circle",
-            "3":"plus-square",
-            "4":"plus-square-o",
-            "5":"arrow-down",
-            "6":"arrow-circle-down",
-            "7":"arrow-circle-o-down",
-            "8":"chevron-down",
-            "9":"chevron-circle-down",
-           "10":"caret-down",
-           "11":"caret-square-o-down",
-           "12":"hand-o-down"
-        }
-    
-		var iconName;
-		var faIconCode;
-		if (faIcon=="noI"){
-      faIconCode = "";
-      var toggleBtnScript="";
-		}
-		else{
-			iconName = iconNames[faIcon];
-      faIconCode = ' <i class="fa fa-' + iconName + '"></i> ';
-      var toggleBtnScript="<script> var L=document.createElement('script'); L.type='text/javascript'; L.src='https://mon-arts-ed-des.github.io/BEEST/js/toggleBtnIcon.js'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>";
+	var bsColour = getRadioOption("btnColour")
+	var bsBtnSize = getRadioOption("buttonSize")
+	var bsBtnWidth = getRadioOption("buttonWidth")
+	var faIcon = getRadioOption("faCode")
+	var readMoreContainer="<div class=\"beestRead\">"
+	var readMore_1="<div class=\"collapse\" id=\"readMore"+readMoreNumber+"\">"
+	var readMoreClose="</div>"
+	
+	var iconNames = {
+			  "1":"plus",
+		"2":"plus-circle",
+		"3":"plus-square",
+		"4":"plus-square-o",
+		"5":"arrow-down",
+		"6":"arrow-circle-down",
+		"7":"arrow-circle-o-down",
+		"8":"chevron-down",
+		"9":"chevron-circle-down",
+	   "10":"caret-down",
+	   "11":"caret-square-o-down",
+	   "12":"hand-o-down"
+	}
+
+	var iconName;
+	var faIconCode;
+	if (faIcon=="noI"){
+		faIconCode = "";
+		var toggleBtnScript="";
+	}
+	else{
+		iconName = iconNames[faIcon];
+		faIconCode = ' <i class="fa fa-' + iconName + '"></i> ';
+		var toggleBtnScript="<script> var L=document.createElement('script'); L.type='text/javascript'; L.src='https://mon-arts-ed-des.github.io/BEEST/js/toggleBtnIcon.js'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>";
     }
 
     if(document.getElementById('readMoreBtnTxt').value !== ""){
-      var readMoreBtnTxt = document.getElementById('readMoreBtnTxt').value;
+		var readMoreBtnTxt = document.getElementById('readMoreBtnTxt').value;
     }
     else {
-      var readMoreBtnTxt = "[Placeholder button text]"
+		var readMoreBtnTxt = "[Placeholder button text]"
     }
     if(tinyMCE.get('tinyMCEreadMoreBefore').getContent() !== ""){
-      var readMoreBefore = tinyMCE.get('tinyMCEreadMoreBefore').getContent();
+		var readMoreBefore = tinyMCE.get('tinyMCEreadMoreBefore').getContent();
     }
     else {
-      var readMoreBefore = "Placeholder content before the button. Click the button below to reveal the content after and see how read more buttons work."
+		var readMoreBefore = "Placeholder content before the button. Click the button below to reveal the content after and see how read more buttons work."
     }
    
     if(tinyMCE.get('tinyMCEreadMoreAfter').getContent() !== ""){
-      var readMoreAfter = tinyMCE.get('tinyMCEreadMoreAfter').getContent();
+		var readMoreAfter = tinyMCE.get('tinyMCEreadMoreAfter').getContent();
     }
     else {
-      var readMoreAfter = "Placeholder content after the button. You can input content here, and hide it until the button is clicked by the user."
+		var readMoreAfter = "Placeholder content after the button. You can input content here, and hide it until the button is clicked by the user."
     }
-        var buttonSize = {
-          "1":" btn-sm ",
-          "2":" ",
-          "3":" btn-lg ",
-        }
-		var buttonSpan = ['#btnSmall','#btnRegular','#btnLarge']
+	var buttonSize = {
+		"1":" btn-sm ",
+		"2":" ",
+		"3":" btn-lg ",
+	}
+	var buttonSpan = ['#btnSmall','#btnRegular','#btnLarge']
 
-		widths = {
-			"50":["75","100"],
-			"75":["50","100"],
-			"100":["50","75"]
-		}
+	widths = {
+		"50":["75","100"],
+		"75":["50","100"],
+		"100":["50","75"]
+	}
 		
-		$('#buttonSize .btn').addClass('w-'+bsBtnWidth);
-		$('#buttonSize .btn').removeClass('w-'+widths[bsBtnWidth][0]);
-		$('#buttonSize .btn').removeClass('w-'+widths[bsBtnWidth][1]);
+	$('#buttonSize .btn').addClass('w-'+bsBtnWidth);
+	$('#buttonSize .btn').removeClass('w-'+widths[bsBtnWidth][0]);
+	$('#buttonSize .btn').removeClass('w-'+widths[bsBtnWidth][1]);
 
-		 /* bsBtnSize = bsBtnSize + "y";
-          $('#alignment').hide();
-        }
-        else {
-          for (var _buttonSize of buttonSpan){
-			$(_buttonSize).removeClass('btn-block');
-      $('#buttonSize label').removeClass('w-100');
-      $('#buttonSize .btn').removeClass('btn-block');
-		  }
-          $('#alignment').show();
-        }*/
+	 /* bsBtnSize = bsBtnSize + "y";
+	  $('#alignment').hide();
+	}
+	else {
+	  for (var _buttonSize of buttonSpan){
+		$(_buttonSize).removeClass('btn-block');
+  $('#buttonSize label').removeClass('w-100');
+  $('#buttonSize .btn').removeClass('btn-block');
+	  }
+	  $('#alignment').show();
+	}*/
 
-        var btnSize = buttonSize[bsBtnSize];
-       
-        var colourNames = {
-			      "1":"mu",
-            "2":"danger",
-            "3":"warning",
-            "4":"success",
-            "5":"primary",
-            "6":"info", 
-            "7":"dark",
-            "8":"secondary"}
-		for (prop in colourNames){
-			colourNames[prop+"y"] = "outline-"+colourNames[prop]
-		} // as inverts are just outline- followed by the name doing this by a loop
+	var btnSize = buttonSize[bsBtnSize];
+   
+	var colourNames = {
+			  "1":"mu",
+		"2":"danger",
+		"3":"warning",
+		"4":"success",
+		"5":"primary",
+		"6":"info", 
+		"7":"dark",
+		"8":"secondary"}
+	for (prop in colourNames){
+		colourNames[prop+"y"] = "outline-"+colourNames[prop]
+	} // as inverts are just outline- followed by the name doing this by a loop
 
-		var buttonIds = [,'#monashBlue','#red','#yellow','#green','#darkBlue','#lightBlue','#black','#grey']
-		var nameMapping = {}
-		for (var id_i = 1; id_i<buttonIds.length; id_i++){
-			nameMapping[buttonIds[id_i]] = colourNames[id_i+""]
-			nameMapping[buttonIds[id_i]+"y"] = colourNames[id_i+"y"]
-		}
-        //swap the class to invert the colour
-        var invertColour = getRadioOption("invertColour");
-		
-		if (invertColour == "y"){
-			btnColClassAdd = "y" //to allow invert/non invert class to be added
-			btnColClassRem = "" //flipped to get the class NOT added to be removed
-			bsColour = bsColour + "y";
-		}
-		else{
-			btnColClassAdd = ""
-			btnColClassRem = "y"
-		}
-				
-		for (var btnId_i = 1; btnId_i < buttonIds.length; btnId_i++){
-				elementId = buttonIds[btnId_i] //get each button ID
-				elemColCodeAdd = nameMapping[elementId+btnColClassAdd] //find colour code to add
-				elemColCodeRem = nameMapping[elementId+btnColClassRem] //find colour code to remove
-				$(elementId).removeClass('btn-'+elemColCodeRem)
-				$(elementId).addClass('btn-'+elemColCodeAdd)
-		}
+	var buttonIds = [,'#monashBlue','#red','#yellow','#green','#darkBlue','#lightBlue','#black','#grey']
+	var nameMapping = {}
+	for (var id_i = 1; id_i<buttonIds.length; id_i++){
+		nameMapping[buttonIds[id_i]] = colourNames[id_i+""]
+		nameMapping[buttonIds[id_i]+"y"] = colourNames[id_i+"y"]
+	}
+	//swap the class to invert the colour
+	var invertColour = getRadioOption("invertColour");
+	
+	if (invertColour == "y"){
+		btnColClassAdd = "y" //to allow invert/non invert class to be added
+		btnColClassRem = "" //flipped to get the class NOT added to be removed
+		bsColour = bsColour + "y";
+	}
+	else{
+		btnColClassAdd = ""
+		btnColClassRem = "y"
+	}
+			
+	for (var btnId_i = 1; btnId_i < buttonIds.length; btnId_i++){
+		elementId = buttonIds[btnId_i] //get each button ID
+		elemColCodeAdd = nameMapping[elementId+btnColClassAdd] //find colour code to add
+		elemColCodeRem = nameMapping[elementId+btnColClassRem] //find colour code to remove
+		$(elementId).removeClass('btn-'+elemColCodeRem)
+		$(elementId).addClass('btn-'+elemColCodeAdd)
+	}
 
-        var colourName = colourNames[bsColour];
-        /*btnClrCode = "<a class=\"btn btn-"+colourName+btnSize+"m-1\" role=\"button\" href=\"";*/
+	var colourName = colourNames[bsColour];
+	/*btnClrCode = "<a class=\"btn btn-"+colourName+btnSize+"m-1\" role=\"button\" href=\"";*/
 
-        if (faIcon == "noI"){
-          faIconCode = "";
-        }
+	if (faIcon == "noI"){
+	  faIconCode = "";
+	}
 	/*	switch (btnSize){
-			case " btn-lg btn-block ":
-			case " btn-block ":
-			case " btn-sm btn-block ":
-				btnLeft = btnBlockSwap;
-				btnCenter = btnBlockSwap;
-				break;
+		case " btn-lg btn-block ":
+		case " btn-block ":
+		case " btn-sm btn-block ":
+		btnLeft = btnBlockSwap;
+		btnCenter = btnBlockSwap;
+		break;
     }*/
     var readMoreBtnFinal="</div><div class=\"d-flex justify-content-center\"><a id=\"beestRead\" class=\"btn"+btnSize+"btn-"+colourName+" btn-block w-"+bsBtnWidth+" m-2\" data-toggle=\"collapse\" href=\"#readMore"+readMoreNumber+"\" role=\"button\" aria-expanded=\"false\" aria-controls=\"collapseExample\">"+readMoreBtnTxt+faIconCode+"</a></div>"
-        var readMoreOutput = readMoreContainer+readMoreBefore+readMore_1+readMoreAfter+readMoreBtnFinal+readMoreClose;
-        document.getElementById('readMoreCode').innerHTML=toggleBtnScript+readMoreOutput;
-        //SelectAll("readMoreCode");
-        $('#demo').nextAll('div').remove();
-        $('#demo').after(readMoreOutput);
+	var readMoreOutput = readMoreContainer+readMoreBefore+readMore_1+readMoreAfter+readMoreBtnFinal+readMoreClose;
+	document.getElementById('readMoreCode').innerHTML=toggleBtnScript+readMoreOutput;
+	//SelectAll("readMoreCode");
+	$('#demo').nextAll('div').remove();
+	$('#demo').after(readMoreOutput);
     /*Switch to run the icon toggle on the different icon sets by Tim*/
-        $('#beestRead').click(function(){
-        switch(faIcon){
-        case "1":
-        $(this).find('i').toggleClass('fa-plus fa-minus');
-        break;
-        case "2":
-        $(this).find('i').toggleClass('fa-plus-circle fa-minus-circle');
-        break;
-        case "3":
-        $(this).find('i').toggleClass('fa-plus-square fa-minus-square');
-        break;
-        case "4":
-        $(this).find('i').toggleClass('fa-plus-square-o fa-minus-square-o');
-        break;
-        case "5":
-        $(this).find('i').toggleClass('fa-arrow-down fa-arrow-up');
-        break;
-        case "6":
-        $(this).find('i').toggleClass('fa-arrow-circle-down fa-arrow-circle-up');
-        break;
-        case "7":
-        $(this).find('i').toggleClass('fa-arrow-circle-o-down fa-arrow-circle-o-up');
-        break;
-        case "8":
-        $(this).find('i').toggleClass('fa-chevron-down fa-chevron-up');
-        break;
-        case "9":
-        $(this).find('i').toggleClass('fa-chevron-circle-down fa-chevron-circle-up');
-        break;
-        case "10":
-        $(this).find('i').toggleClass('fa-caret-down fa-caret-up');
-        break;
-        case "11":
-        $(this).find('i').toggleClass('fa-caret-square-o-down fa-caret-square-o-up');
-        break;
-        case "12":
-        $(this).find('i').toggleClass('fa-hand-o-down fa-hand-o-up');
-        break;
-      }
+	$('#beestRead').click(function(){
+		classToggles = {
+			"1":'fa-plus fa-minus',
+			"2":'fa-plus-circle fa-minus-circle',
+			"3":'fa-plus-square fa-minus-square',
+			"4":'fa-plus-square-o fa-minus-square-o',
+			"5":'fa-arrow-down fa-arrow-up',
+			"6":'fa-arrow-circle-down fa-arrow-circle-up',
+			"7":'fa-arrow-circle-o-down fa-arrow-circle-o-up',
+			"8":'fa-chevron-down fa-chevron-up',
+			"9":'fa-chevron-circle-down fa-chevron-circle-up',
+			"10":'fa-caret-down fa-caret-up',
+			"11":'fa-caret-square-o-down fa-caret-square-o-up',
+			"12":'fa-hand-o-down fa-hand-o-up'
+		}
+	
+		$(this).find('i').toggleClass(classToggles[faIcon])
     });
-        }
+}
 
     function copyCode(){
       SelectAll("readMoreCode");
