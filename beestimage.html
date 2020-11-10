@@ -228,45 +228,6 @@
     });
     
    	/*These different options have been absorbed into a javascript Object allowing a direct mapping and lookup of code to icon name*/
-	
-    function iconpreview() {
-        var faIcon = document.getElementById('faCode').value;
-        var iconNames = {
-			      "1":"fa-picture-o",
-            "2":"play",
-            "3":"eye" ,
-            "4":"camera"
-        }
-
-        var iconName = iconNames[faIcon];
-	     	var faIconCode = "<i id=\"icon\" class=\"fa fa-"+iconName+"\"></i> ";
-		
-        if (faIcon == "noI"){
-          faIconCode = "";
-          if (document.getElementById("icon"))
-           {
-            var icon = document.getElementById("icon");
-            icon.parentNode.removeChild(icon);
-            var iconpreview = document.getElementById("iconpreview");
-            iconpreview.style.display = "none";
-           }
-        }
-
-        else{
-          if (document.getElementById("icon"))
-          {
-            var icon = document.getElementById("icon");
-            icon.parentNode.removeChild(icon);
-          }
-
-          var code = document.createElement("span");
-          code.innerHTML = faIconCode;
-          var iconpreview = document.getElementById("iconpreview");
-          iconpreview.style.display = "block";
-          iconpreview.parentNode.insertBefore(code,iconpreview.nextSibling);
-        }
-        generateCode();
-      }
 
     function copyCode(){
       SelectAll("txtarearespImg");
@@ -400,7 +361,7 @@
             //var textOutput = resizedHead+respImg_1+contextCode+respImg_2+url+respImg_3;
             var textOutput = resizedHead+rowOpen+firstCol+contextCode+closeCol_r+secCol+imgTag+url+closeRow_r;
         }
-
+    
         document.getElementById('txtarearespImg').innerHTML=textOutput;
         //SelectAll("txtarearespImg");
          //Add the html code after the div
@@ -475,17 +436,14 @@ function replaceLinkWithEmbed(event){
 			if (item.doExtraOp){
 				imgLink = item.extraOp(imgLink)
 			}
-			imgLink += time.append
+			imgLink += item.append
 			ifAny = true
 		}
 	}
 	if (!ifAny){
 		var popup2 = document.getElementById("myPopup2");
 		popup2.classList.toggle("showPopup");
-    }
-
-	$('#respImgSwitch').val(imgLink);
-
+  }
 }
 
   </script>
@@ -512,7 +470,7 @@ function replaceLinkWithEmbed(event){
 }
     </style> 
 </head>
-<body">
+<body>
 <div id="beestNav">
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-arts mb-3 p-0">
       <a class="navbar-brand text-center border border-white px-2 mx-2 rounded" href="index.html"><img src="img/dragon-solid-white.png" width="30" height="30" alt=""></a>
