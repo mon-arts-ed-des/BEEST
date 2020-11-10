@@ -369,20 +369,7 @@
 		    demoDiv.innerHTML = textOutput;
         }
 
-      //var textarea = $('#respImgHeading');
-      //var select = $('#headSize');
-      //var addOrRemoveRequiredAttribute = function () {
-      //if (textarea.val().length) {
-      //  select.val("h5")
-     // }
-      //};
-
-      // Run now
-     // addOrRemoveRequiredAttribute();
-
-      // And when textarea changes
-    //  textarea.on('change', addOrRemoveRequiredAttribute);
-
+//Function to select all of the html in the final textarea and copy it at the same time
     function SelectAll(id){
         document.getElementById(id).focus();
         document.getElementById(id).select();
@@ -399,7 +386,7 @@
     $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 });
-
+//Function to replace image links (plain URLs) with the embed version of the link.
 function replaceLinkWithEmbed(event){
 	var imgString = $('#respImgSwitch').val().toString();
 	var imgLink = "";
@@ -456,15 +443,18 @@ function replaceLinkWithEmbed(event){
   <script src="js/gapi-auth-service.js"></script>
   <script src="js/drive-service.js"></script>
   <style>
+    /*hide the warning that the tinyMCE editor is not setup correctly.*/
     .mce-notification-inner, .mce-close, .mce-notification-warning {
     display:none !important;
     }
+     /*size of the tooltips on the page.*/
     .tooltip-inner {
       text-align: left;
       padding: 15px;
       font-size: 1.05rem;
-      max-width: 400px;
+      max-width: 480px;
     }
+     /*ensure that when a nav link is hovered on the background colour goes darker.*/
     .nav-item:hover {
   background: #004dae;
 }
