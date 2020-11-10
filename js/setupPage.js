@@ -6,7 +6,6 @@ function activeNav() {
 		  $(this).removeClass("text-white");
 		  $(this).append('<span class="sr-only">(current)</span>');
 		  $(this).closest('.nav-item').css({"background": "#004DAE"});
-		  alert('activeNav complete')
 	 };
 	});
 };
