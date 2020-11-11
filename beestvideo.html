@@ -3,6 +3,8 @@
 <head>
   <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152392632-3"></script>
+<script src="js/pageHistory.js"></script>
+<script src="js/helperFunctions.js"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -36,11 +38,13 @@
     <script src="js/advancedModeLocalStorage.js"></script>
     <!-- TinyMCE placeholder plugin file -->
     <script src="js/placeholder.js"></script> 
+    <script src="js/setupPage.js"></script>
     <!-- Script to init the tinyMCE editor --> 
     <script type="text/javascript">
 $(document).ready(function() { 
 	$('#respVidSwitch').on('input', embedLinkConverter); 
-
+	setupToolTips(10000)
+		setupNav()
 });
 	//Get the window width dynamically  
  /* var width = $(window).width();
@@ -366,7 +370,7 @@ function embedLinkConverter(event){
 		/*These different options have been absorbed into a javascript Object allowing a direct mapping and lookup of code to icon name*/
 		
     </script>
-   <script>   
+   <!--<script>   
     window.onload=function(){
       $('#beestNav').load('common/beestnav.html');
       $('#beestFooter').load('common/beestfooter.html');
@@ -385,7 +389,7 @@ function embedLinkConverter(event){
           activeNav();
       }, 100);
     };
-  </script>
+  </script>-->
     <style>
     /*
     #preview {
