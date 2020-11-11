@@ -133,16 +133,17 @@ function recoverHistory(){
 	return localSet
 }
 
-function addToHistory(currAccord){
+function addToHistory(currentInstance){
 	var localCurr = getHistory()
 	if ((localCurr == undefined)||(localCurr=="")){
 		localCurr = "[]"
 		setHistory(localCurr)
 	}
+	currentInstance = JSON.parse(JSON.stringify(currentInstance)) //make sure it's a generic object instead of class instance
 	localCurr = JSON.parse(localCurr) //now an array of objects
-	currAccord.timestamp = new Date()
-	localCurr.push(currAccord)
-	localCurr = JSON.stringify(localCurr) //now a string again -- currAccord should have had its toString method called
+	currentInstance.timestamp = new Date()
+	localCurr.push(currentInstance)
+	localCurr = JSON.stringify(localCurr) //now a string again -- currentInstance should have had its toString method called
 	setHistory(localCurr)
 	historicalData = recoverHistory()
 	histIndex = historicalData.length-1
