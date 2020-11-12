@@ -37,30 +37,75 @@
       <script src="js/setupPage.js"></script>  
       
     <script type="text/javascript">
+/*REQUIRED FOR HISTORY*/
+const READMORE_HIST = "history_read_more"
+localStorageHistory = READMORE_HIST
+var classReadMore = null;
+
+class readMore{
+	constructor(before,after,buttonNum,buttonTxt,colour,colInvert,size,width,iconPair){
+		this.before = before
+		this.after = after
+		this.buttonNum = buttonNum
+		this.buttonTxt = buttonTxt
+		this.colour = colour
+		this.colInv = colInvert
+		this.size = size
+		this.width = width
+		this.iconPair = iconPair
+	}
+	toPDO(){
+			return {
+				mainHead:	this.before,
+				after:		this.after,
+				buttonNum: 	this.buttonNum,
+				buttonTxt: 	this.buttonTxt,
+				colour:		this.colour,
+				colInv:		this.colInv,
+				size: 		this.size,
+				width: 		this.width,
+				iconPair:	this.iconPair
+			}
+		}
+	toJSON(){return this.toPDO()}
+	toString(){return JSON.stringify(this.toPDO())}
+	fromObj(PDO){
+		this.before = PDO.mainHead
+		this.after = PDO.after
+		this.buttonNum = PDO.buttonNum
+		this.buttonTxt = PDO.buttonTxt
+		this.colour = PDO.colour
+		this.colInv = PDO.colInv
+		this.size = PDO.size
+		this.width = PDO.width
+		this.iconPair = PDO.iconPair
+	}
+}
+/*END REQUIRED FOR HISTORY*/
+
 	
 $(document).ready(function() { //create the tinyMCE areas after the first
 	setupGoogleAnalytics();
 	setupNav();
     setupToolTips();
+	classReadMore = new readMore()
+	makeTinyWithID('tinyMCEreadMoreBefore',{'change':generateReadMoreCode},'Write the content before your read more button here')
+	makeTinyWithID('tinyMCEreadMoreAfter',{'change':generateReadMoreCode},'Write the content after your read more button here')
 	/*REQUIRED FOR HISTORY*/
-	//initHistory();
+	initHistory();
 	/*END REQUIRED FOR HISTORY*/
 });
 
-	/*REQUIRED FOR HISTORY*/
-	
-	/*END REQUIRED FOR HISTORY*/
 
-makeTinyWithID('tinyMCEreadMoreBefore',{'change':generateReadMoreCode},'Write the content before your read more button here')
-
-makeTinyWithID('tinyMCEreadMoreAfter',{'change':generateReadMoreCode},'Write the content after your read more button here')
 
 function generateReadMoreCode() {
 	// Get the HTML contents of the currently active editor
     // console.debug(tinyMCE.activeEditor.getContent());
 	//Retrieve the content by id of the tinyMCE textarea
+	
 	var readMoreNumber = document.getElementById('readMoreNumber').value;
     //    var readMoreBtnTxt = document.getElementById('readMoreBtnTxt').value;
+	
 	var bsColour = getRadioOption("btnColour")
 	var bsBtnSize = getRadioOption("buttonSize")
 	var bsBtnWidth = getRadioOption("buttonWidth")
@@ -167,7 +212,7 @@ function generateReadMoreCode() {
 	}
 	//swap the class to invert the colour
 	var invertColour = getRadioOption("invertColour");
-	
+	var baseColour = bsColour
 	if (invertColour == "y"){
 		btnColClassAdd = "y" //to allow invert/non invert class to be added
 		btnColClassRem = "" //flipped to get the class NOT added to be removed
@@ -225,10 +270,24 @@ function generateReadMoreCode() {
 	
 		$(this).find('i').toggleClass(classToggles[faIcon])
     });
+	
+	/*update current instance to support save/load*/
+	classReadMore.buttonNum = readMoreNumber
+	classReadMore.colour = baseColour
+	classReadMore.colInv = invertColour
+	classReadMore.size = bsBtnSize
+	classReadMore.width = bsBtnWidth
+	classReadMore.iconPair = faIcon
+	classReadMore.buttonTxt = readMoreBtnTxt
+	classReadMore.after = readMoreAfter
+	classReadMore.before = readMoreBefore
 }
 
     function copyCode(){
-      SelectAll("readMoreCode");
+      /*REQUIRED FOR HISTORY*/
+	  addToHistory(classReadMore)
+	  /*END REQUIRED FOR HISTORY*/
+	  SelectAll("readMoreCode");
     }
 
     function SelectAll(id){
@@ -236,8 +295,10 @@ function generateReadMoreCode() {
         document.getElementById(id).select();
         document.execCommand("copy");
 
+/***********triggering error -- no myPopup  **************/ /*
         var popup = document.getElementById("myPopup");
         popup.classList.toggle("showPopup");
+		*/
         //window.alert('test');
     }
 
@@ -249,6 +310,34 @@ function generateReadMoreCode() {
     $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
+
+
+/*REQUIRED FOR HISTORY*/
+function setTextAreas(classData){
+	txtAreaVals = {
+		'tinyMCEreadMoreBefore': {type:'tiny',value:classData.before},
+		'tinyMCEreadMoreAfter': {type:'tiny',value:classData.after},
+		'readMoreNumber': {type:'basic',value:classData.buttonNum},
+		'readMoreBtnTxt': {type:'basic',value:classData.buttonTxt},
+		'btnColour': {type:'radio',value:classData.colour},
+		'invertColour': {type:'radio',value:classData.colInv},
+		'buttonSize': {type:'radio',value:classData.size},
+		'buttonWidth': {type:'radio',value:classData.width},
+		'faCode': {type:'radio',value:classData.iconPair}
+	}
+	setTextAreas_util(txtAreaVals)
+}
+function getHistoryI(index,history){
+	if (history.length>0){
+		var selectedItem = history[index]
+		classReadMore = new readMore()
+		classReadMore.fromObj(selectedItem)
+		refToClassButton = classReadMore
+		setTextAreas(refToClassButton)
+		generateReadMoreCode()
+	}
+}
+/*END REQUIRED FOR HISTORY*/
     /* Variable Key
     These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
 
@@ -318,7 +407,25 @@ function generateReadMoreCode() {
 <form id="readMoreForm">
   <div class="row w-100 mx-auto">
     <div class="col-lg-6">
-
+<div class="row w-100">
+            <div class="col-lg-3">
+              <h5>Recover<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Retrieve your previous button configuration. Only works once you have created at least 1 button. Then the next 20 configurations will be available until you clear your internet browser history or change internet browsers or create more than 20 buttons." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-fw fa-question-circle"></i></h5>
+            </div>              
+              <div class="col-lg">
+                <div class="row w-100">
+                <div class="col-lg-11">
+                <select class="custom-select border border-dark" size="1" id="recoveryDate" onchange="idSelectedRecData()">
+                <option selected value=0>please wait</option>
+                </select>
+              </div>
+          
+                <div class="col-lg-1 text-center">
+                <button data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to delete the item you have selected in the dropdown." id="delHist" onclick="delHistI()" type="button" class="btn btn-danger"><i class="fa fa-fw fa-trash"></i></button>     
+                </div>
+              </div>
+            </div>
+          </div>
+		  <hr>
   <div class="row w-100">
     <div class="col-lg-3">
         <h5 class="font-weight-bold">Content before<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="What you input in the box below will appear before the read more button. This should be an introduction and engage the reader enough to want to click the button to read the rest of the content." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>  
