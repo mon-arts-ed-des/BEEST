@@ -1,3 +1,68 @@
+function textAreaActUpon(id,type,task,value){
+	getBasic = function(id){return $('#'+id).val()}
+	setBasic = function(id,value){$('#'+id).val(value)}
+	
+	mapping = {
+		'tiny':{'get':getTinyContent,'set':setTinyContent},
+		'basic':{'get':getBasic,'set':setBasic},
+		'radio':{'get':getRadioOption,'set':setRadios},
+		'drop':{'get':getDropdownValue,'set':setDropdown}
+	}
+	
+	operation = mapping[type][task]
+	if (task=='get'){
+		return operation(id)
+	}
+	else if (task='set'){
+		operation(id,value)
+	}
+}
+
+function actOnAllTextAreas(namesTypesValues,getOrSet){
+	results = {}
+	for (id in namesTypesValues){
+		results[id] = null; //add the id into the results
+		txtType = namesTypesValues[id].type
+		value = namesTypesValues[id].value
+		results[id] = textAreaActUpon(id,txtType,getOrSet,value)
+	}
+	return results	
+}
+
+function getTextAreas_util(namesAndTypes){
+	/*Expected format:
+	namesAndTypes = {
+			'idOfArea': 'tiny'|'basic'|'radio'|'drop',
+			...
+	}
+	*/
+	for (id in namesAndTypes){
+		namesAndTypes[id] = {type:namesAndTypes[id],value:null}
+	}
+	try{
+		return actOnAllTextAreas(namesAndTypes,'get')
+	}
+	catch{
+		console.error("getTextAreas unable to parse type of text given: ")
+	} 
+}
+
+function setTextAreas_util(namesTypesValues){
+	/*Expected format:
+	namesAndTypes = {
+			'idOfArea': {'type':'tiny'|'basic'|'radio'|'drop','value':value},
+			...
+	}
+	*/
+	try{
+		actOnAllTextAreas(namesTypesValues,'set')
+	}
+	catch{
+		console.error("setTextAreas unable to parse type of text given: ")
+	}
+	
+}
+
 function getDropdownValue(id){
 	return $('select #'+id).find('option:selected').val() 
 }
