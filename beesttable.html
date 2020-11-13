@@ -557,9 +557,10 @@ function writeTableExcelPaste(){
 	
 	/*REQUIRED FOR HISTORY*/
 function setTextAreas(classData){
-	getId("tableMainHeading").value = classData.mainHead
-	setDropdown("headSize",classData.headSize)
-	setDropdown("faCode",classData.icon)
+	
+	//getId("tableMainHeading").value = classData.mainHead
+	//setDropdown("headSize",classData.headSize)
+	//setDropdown("faCode",classData.icon)
 	var theTable = classData.tableData
 	/*
 	not necessary when using a single text area for the table editing
@@ -580,7 +581,17 @@ function setTextAreas(classData){
 			getCell(row,col).innerHTML = theTable[row][col]
 		}
 	}*/
-	setTinyContent(pasteTable,arrayToTableHTML(theTable))
+	//setTinyContent(pasteTable,arrayToTableHTML(theTable))
+	
+	var dataSet = {
+		"tableMainHeading":{type:'basic',value:classData.mainHead},
+		"headSize":{type:'radio',value:classData.headSize},
+		"faCode":{type:'radio',value:classData.icon},
+	}
+	dataSet[pasteTable] = {type:'tiny',value:arrayToTableHTML(theTable)}
+	
+	setTextAreas_util(dataSet)
+	
 	generateTableCode()
 }
 function getHistoryI(index,history){
