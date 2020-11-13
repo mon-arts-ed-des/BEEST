@@ -55,8 +55,8 @@
 		default_XRadio_onEmpty_Y("tableMainHeading","headSize","noH","headSize2",generateTableCode)
 		/*REQUIRED FOR HISTORY*/   
 		initHistory()
-		classTable = new table()
-		/*END REQUIRED FOR HISTORY*/   		
+		/*END REQUIRED FOR HISTORY*/
+		classTable = new table()   		
 	})
 
 /*REQUIRED FOR HISTORY*/  	
@@ -102,7 +102,7 @@
 	}
 /*END REQUIRED FOR HISTORY*/
 
-
+/*
 	var rowsWithData = 3
 	var colsWithData = 3
 	var currRow = 3
@@ -112,6 +112,7 @@
 	// const absoluteMinCol = 2;
 	const absoluteMaxRow = 15;
 	const absoluteMaxCol = 6;
+	*/
 	const tableBody = "TABLE_BODY"
 	const baseRowID = "ROW"
 	const baseCellID = "CELL" //format for a cell is baseCellID+row+"-"+col
@@ -122,11 +123,11 @@
 	var tableContents = [
 		[]
 	] //empty 2d array
-	
+	/*
 		function wipeHTML(idToWipe){
 			document.getElementById(idToWipe).innerHTML = ""
-		}
-	
+		}*/
+	/*
 		function newEditTableRow(rowN,maxCols){
 			var theRow = []
 			
@@ -144,10 +145,10 @@
 				theRow[colN] = newTextField(placeholder,baseCellID+rowN+"-"+colN)
 			}
 			return theRow
-		}
-	
+		}*/
+	/*
 		function generateEditableTable(idToPlaceIn,maxRows,maxCols,plainText){
-			/*create the editable table on the page to write into*/
+			//create the editable table on the page to write into
 			var placeholder="";
 			for (var rowN=0;rowN<maxRows;rowN++){
 				if (editableTableHTML.length<=rowN){
@@ -164,7 +165,7 @@
 			else{
 				setTinyContent(idToPlaceIn,tableHTML)
 			}
-		}
+		}*/
 	
 		function newTextField(placeholder,id){
 			return "<textarea id=\""+id+"\" placeholder=\""+placeholder+"\" class=\"border border-dark rounded p-2 w-100\" cols=\"70\" rows=\"1\" name=\""+id+"\" onchange=generateTableCode()></textarea>"
@@ -304,7 +305,7 @@ function writeTableExcelPaste(){
 			return document.getElementById(cellID(row,col))
 		}
 		function cellID(row,col){return baseCellID+row+"-"+col}
-		
+		/*
 		function removeRow(){
 			//will remove the nth row from the page (and generated code) where n = currRow global value
 			if (currRow > 1){
@@ -323,8 +324,8 @@ function writeTableExcelPaste(){
 				alert("cannot delete only remaining row")
 			}
 			generateTableCode();
-		}
-		
+		}*/
+		/*
 		function resetColDisplay(rowNum,colsToDisplay,maxCols){
 			for (var colN=0; colN < colsToDisplay; colN++){
 				showHTML(cellID(rowNum,colN))
@@ -332,7 +333,7 @@ function writeTableExcelPaste(){
 			for (colN=colsToDisplay; colN < maxCols; colN++){
 				hideHTML(cellID(rowNum,colN))
 			}
-		}
+		}*/
 		
 		function rowHTMLtoRowElem(rowHTML){
 			var elem = document.createElement("tr")
@@ -342,7 +343,7 @@ function writeTableExcelPaste(){
 			elem.innerHTML = rowHTML.replace(/(<tr.*?>)|(<.tr>)/,"")
 			return elem
 		}
-		
+		/*
 		function addRow(){
 			if (currRow < absoluteMaxRow){
 				if (currRow < rowsWithData){
@@ -382,8 +383,9 @@ function writeTableExcelPaste(){
 				alert("too many rows -- consider the amount of information you are displaying")
 			}
 			generateTableCode();
-		}
+		}*/
 		
+		/*
 		function addCol(){
 			if (currCol < absoluteMaxCol){
 				if (currCol < colsWithData){
@@ -424,7 +426,7 @@ function writeTableExcelPaste(){
 				alert("too many cols -- consider the amount of information you are displaying")
 			}
 			generateTableCode();
-		}
+		}*/
 		
 		function newCellAsDOMElem(cellCode){
 			/*
@@ -467,19 +469,19 @@ function writeTableExcelPaste(){
 		}
 
 		
-		
+		/*
 		function showColHTML(maxRows,colNumber){
 			for (var rNum=0;rNum < maxRows; rNum++){
 				showHTML(cellID(rNum,colNumber))
 			}
-		}
-		
+		}*/
+		/*
 		function hideColHTML(maxRows,colNumber){
 			for (var rNum=0;rNum < maxRows; rNum++){
 				hideHTML(cellID(rNum,colNumber))
 			}
-		}
-		
+		}*/
+		/*
 		function removeCol(){
 			if (currCol > 1){
 				currCol -= 1
@@ -498,26 +500,7 @@ function writeTableExcelPaste(){
 			}
 			generateTableCode();
 		}
-		
-		function setValuesInFields(maxRows,maxCols){
-			//for all cell set value to value in version
-			for (var rNum=0;rNum<maxRows;rNum++){
-				for (var cNum=0;cNum<maxCols;cNum++){
-					getCell(rNum,cNum).value = tableContents[rNum][cNum]
-				}
-			}
-		}
-		
-		function setRowToDisplayX(rowNum,displayData){
-			var rowElement = document.getElementById(baseRowID+rowNum)
-			//rowElement.innerHTML = ""
-			
-			var newRowHTML = ""//for INSIDE the row
-			for (var colN=0; colN < displayData.length; colN++){
-				newRowHTML+= newCellCode(rowNum,colN,displayData[colN])
-			}
-			rowElement.innerHTML = newRowHTML
-		}
+		*/
 	
 	function getTableContentsFromPage(){
 		if (typeof(classTable.tableData)=="undefined"){
@@ -542,11 +525,6 @@ function writeTableExcelPaste(){
 		*/
 	}
 	
-	function activatePreviewMode(){
-		for (var rNum=0; rNum < currRow; rNum++){
-			setRowToDisplayX(rNum,tableContents[rNum])
-		}
-	}
 
 	function copyCode(){
 		/*REQUIRED FOR HISTORY*/	  
@@ -558,9 +536,6 @@ function writeTableExcelPaste(){
 	/*REQUIRED FOR HISTORY*/
 function setTextAreas(classData){
 	
-	//getId("tableMainHeading").value = classData.mainHead
-	//setDropdown("headSize",classData.headSize)
-	//setDropdown("faCode",classData.icon)
 	var theTable = classData.tableData
 	/*
 	not necessary when using a single text area for the table editing
@@ -581,8 +556,7 @@ function setTextAreas(classData){
 			getCell(row,col).innerHTML = theTable[row][col]
 		}
 	}*/
-	//setTinyContent(pasteTable,arrayToTableHTML(theTable))
-	
+		
 	var dataSet = {
 		"tableMainHeading":{type:'basic',value:classData.mainHead},
 		"headSize":{type:'radio',value:classData.headSize},
@@ -677,25 +651,10 @@ function getHistoryI(index,history){
 	    
         document.getElementById('txtareaBtn').innerHTML= resizedHead+textOutputTable;
         //SelectAll("txtareaBtn");
-        if (previewMode){
-			activatePreviewMode()
-		}
-		else{
-			document.getElementById('demo').innerHTML = resizedHead+textOutputTable;
-		}
-		
+        document.getElementById('demo').innerHTML = resizedHead+textOutputTable;
 		
       }
-	  
-	function editMode(){
-		if (previewMode){
-			for (var rNum=0; rNum < currRow; rNum++){
-				setRowToDisplayX(rNum,editableTableHTML[rNum])
-			}
-			setValuesInFields(currRow,currCol)
-		}
-	}
-        
+
     function SelectAll(id){
         document.getElementById(id).focus();
         document.getElementById(id).select();
@@ -960,26 +919,8 @@ function getHistoryI(index,history){
 		<div id="demo"></div>
 	  </div>
 	</div>
-  </form>
-	
-
-  
+  </form>  
   </div>
-  <script>
-	var textarea = $('#tableMainHeading');
-	var select = $('#headSize');
-	var addOrRemoveRequiredAttribute = function () {
-	if (textarea.val().length) {
-	select.val("h5")
-	}
-	};
-	
-	// Run now
-	addOrRemoveRequiredAttribute();
-	
-	// And when textarea changes
-	textarea.on('change', addOrRemoveRequiredAttribute);
-	</script>
 	    <div class="py-5"></div>
   <div id="beestFooter"></div>
       </body>
