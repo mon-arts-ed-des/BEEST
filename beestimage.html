@@ -235,13 +235,6 @@ function generateCode() {
 	var headSize = $('input[name="headSize"]:checked').val();
 	var faIcon = $('input[name="faCode"]:checked').val();
 
-	var head_3="<h3>"
-	var endHead_3="</h3>"
-	var head_4="<h4>"
-	var endHead_4="</h4>"
-	var head_5="<h5>"
-	var endHead_5="</h5>"
-
 	var rowOpen="<div class=\"row w-100\">"
 	var firstCol="<div class=\"col-lg\">"
 	var imgTag = "<img class=\"img-fluid\" src=\""
@@ -264,10 +257,10 @@ function generateCode() {
 	var respImg_5="</div></div>"
 
 	var iconNames = {
-			  "1":"image",
+		"1":"image",
 		"2":"play",
 		"3":"eye" ,
-		"4":""
+		"4":"camera"
 	}
 
 	var iconName = iconNames[faIcon];
@@ -279,31 +272,10 @@ function generateCode() {
 
 	var resizedHead;  
     
-	if(resizedHead == ""){
-		$("#headSizeNone").prop("checked", true);
-    }
-
-    else{
-            //Resizing the heading text
-            
-        switch(headSize){
-			case "noH":
-				resizedHead = "";
-				break
-			case "h3":
-				resizedHead = head_3+faIconCode+imgHeading+endHead_3;
-				break;
-			case "h4":
-				resizedHead = head_4+faIconCode+imgHeading+endHead_4;
-				break;
-			case "h5":
-				resizedHead = head_5+faIconCode+imgHeading+endHead_5;
-				break;
-        }
-  
-	}
-    
-
+	//Resizing the heading text
+	hTag = "<"+headSize+">"
+	hTagClose = "</"+headSize+">"
+	resizedHead = ((headSize == "noH") ? "" : hTag+faIconCode+imgHeading+hTagClose) 
     
         //Change size of column if requested
 	if (imgWidth == "33" && imgPosition == "left"){
@@ -328,7 +300,6 @@ function generateCode() {
 		var textOutput = resizedHead+rowOpen+firstCol+contextCode+closeCol_r+secCol+imgTag+url+closeRow_r;
 	}
 
-	document.getElementById('txtarearespImg').innerHTML=textOutput;
 	//SelectAll("txtarearespImg");
 	 //Add the html code after the div
 	var demoDiv = document.getElementById("demo");
