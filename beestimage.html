@@ -194,11 +194,7 @@ $(document).ready(function(){
         var fileId = data.docs[0].id;
         url = 'https://drive.google.com/uc?id=' + fileId + '&amp;export=download';
 		$('#respImgSwitch').val(url)
-        /*document.getElementById('img').src = url;
-        var imagepreview = document.getElementById("imagepreview");
-        imagepreview.style.display = "block";*/
-        //var imgpreview = document.getElementById("img2");
-        //imgpreview.style.display = "none";
+
         generateCode();
       }
     }
@@ -383,7 +379,14 @@ function replaceLinkWithEmbed(event){
 			repWith:'https://cdn.stocksnap.io/img-thumbs/960w/',
 			replace2:/-([^-]*)$/,
 			repWith2:'_$1',
-			append: ".jpg"}
+			append: ".jpg"},
+		{	include:"drive.google.com",
+		//https://drive.google.com/file/d/1PK5CMX2QliGRHlionI2pZBlQMzpznOcF/view?usp=sharing
+			replace:'/file/d/',
+			repWith:'/uc?id=',
+			replace2:'/view?usp=sharing',
+			repWith2:'&export=download',
+			append: ""}
 	]
 	ifAny = false
 	for(var imgI=0;imgI<imgTypeReplace.length;imgI++){
