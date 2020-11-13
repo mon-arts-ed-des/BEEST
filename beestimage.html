@@ -37,20 +37,21 @@
 	<script src="js/setupPage.js"></script>
     <script>
 /*REQUIRED FOR HISTORY*/   
-	const BUTTON_HIST = "history_button"
-	var localStorageHistory = BUTTON_HIST
-	var classImage = null
+const BUTTON_HIST = "history_button"
+var localStorageHistory = BUTTON_HIST
+var classImage = null
 /*END REQUIRED FOR HISTORY*/   
-	$(document).ready(function(){
-		setupGoogleAnalytics()
-	/*REQUIRED FOR HISTORY*/   
-		//initHistory()
-	/*END REQUIRED FOR HISTORY*/   		
-		default_XRadio_onEmpty_Y("respImgHeading","headSize","noH","headSize1",generateCode)
-		setupToolTips(10000)
-		setupNav()
-		$('#respImgSwitch').on('input', replaceLinkWithEmbed); 
-	})
+$(document).ready(function(){
+	setupGoogleAnalytics()
+/*REQUIRED FOR HISTORY*/   
+	//initHistory()
+/*END REQUIRED FOR HISTORY*/   		
+	default_XRadio_onEmpty_Y("respImgHeading","headSize","noH","headSize1",generateCode)
+	setupToolTips(10000)
+	setupNav()
+	$('#respImgSwitch').on('input', replaceLinkWithEmbed);
+	makeTinyWithID('tinyMCEimage',{'change':generateCode},'[Placeholder for image context. The content you entered in step 2 will appear here.]')		
+})
 /*REQUIRED FOR HISTORY*/   
 /*	
 	class button{
@@ -192,9 +193,10 @@
       if (data.action == google.picker.Action.PICKED) {
         var fileId = data.docs[0].id;
         url = 'https://drive.google.com/uc?id=' + fileId + '&amp;export=download';
-        document.getElementById('img').src = url;
+		$('#respImgSwitch').val(url)
+        /*document.getElementById('img').src = url;
         var imagepreview = document.getElementById("imagepreview");
-        imagepreview.style.display = "block";
+        imagepreview.style.display = "block";*/
         //var imgpreview = document.getElementById("img2");
         //imgpreview.style.display = "none";
         generateCode();
@@ -205,30 +207,6 @@
       tinyMCE.get('#id_introeditor').setContent(textOutput);
     }
 
-    tinymce.init({
-        selector: '#tinyMCEimage',
-        menubar: false,
-        plugins : 'advlist autolink link lists charmap print preview code placeholder',
-        placeholder:'[Placeholder for image context. The content you entered in step 2 will appear here.]',
-        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat',
-        setup : function(ed) {      
-        ed.on('change', function (e) {	
-          generateCode();
-          });	
-        /*ed.on('init', function(e){
-          if (tinymce.get('tinyMCEimage').getContent() == ''){
-          tinymce.get('tinyMCEimage').setContent("<p id='#imThePlaceholder' style='opacity:0.6'>[Placeholder for image context. The content you entered in step 2 will appear here.]</p>");
-          }
-        });
-        //and remove it on focus
-        ed.on('focus',function(e){
-            $('iframe').contents().find('#imThePlaceholder').remove();
-        })*/			
-      }
-    });
-    
-   	/*These different options have been absorbed into a javascript Object allowing a direct mapping and lookup of code to icon name*/
-
     function copyCode(){
       SelectAll("txtarearespImg");
     }
@@ -236,154 +214,146 @@
     var contextCode;
 
     /*Function to generate and copy code for the responsive image*/
-    function generateCode() {
+function generateCode() {
         // Get the HTML contents of the currently active editor
-        console.debug(tinyMCE.activeEditor.getContent());
+	console.debug(tinyMCE.activeEditor.getContent());
 
-        if (document.getElementById('respImgSwitch').value !== ""){
+	if (document.getElementById('respImgSwitch').value !== ""){
         url = document.getElementById('respImgSwitch').value;
-        }
-        else{
-        url = "https://drive.google.com/uc?id=1Tel_KpnwCcoRUMdMFyw-GJ-_MaqeaWYZ&export=download";
-        }
+	}
+	else{
+        url = imageplaceholder;
+	}
 
-        //Retrieve the content by id of the tinyMCE textarea
-        if (tinyMCE.get('tinyMCEimage').getContent() !== ""){
+	//Retrieve the content by id of the tinyMCE textarea
+	if (tinyMCE.get('tinyMCEimage').getContent() !== ""){
         contextCode = tinyMCE.get('tinyMCEimage').getContent();
-        }
-        else{
+	}
+	else{
         contextCode = "[Placeholder for image context. The content you entered in step 2 will appear here.]";
-        }
+	}
 
-        var imgHeading = document.getElementById('respImgHeading').value;
-        var imgWidth = $('input[name="imageWidth"]:checked').val();
-        var imgPosition = $('input[name="imagePosition"]:checked').val();
-        var headSize = $('input[name="headSize"]:checked').val();
-        var faIcon = $('input[name="faCode"]:checked').val();
+	var imgHeading = document.getElementById('respImgHeading').value;
+	var imgWidth = $('input[name="imageWidth"]:checked').val();
+	var imgPosition = $('input[name="imagePosition"]:checked').val();
+	var headSize = $('input[name="headSize"]:checked').val();
+	var faIcon = $('input[name="faCode"]:checked').val();
 
-        var head_3="<h3>"
-        var endHead_3="</h3>"
-        var head_4="<h4>"
-        var endHead_4="</h4>"
-        var head_5="<h5>"
-        var endHead_5="</h5>"
+	var head_3="<h3>"
+	var endHead_3="</h3>"
+	var head_4="<h4>"
+	var endHead_4="</h4>"
+	var head_5="<h5>"
+	var endHead_5="</h5>"
 
-        var rowOpen="<div class=\"row w-100\">"
-        var firstCol="<div class=\"col-lg\">"
-        var imgTag = "<img class=\"img-fluid\" src=\""
-        var firstCol4="<div class=\"col-lg-4\">"
-        var firstCol3="<div class=\"col-lg-3\">"
-        var secCol="<div class=\"col-lg mt-2\">"
-        var secCol4="<div class=\"col-lg-4 mt-2\">"
-        var secCol3="<div class=\"col-lg-3 mt-2\">"
-        var closeCol="\"></div>"
-        var closeCol_r="</div>"
-        var closeRow="</div></div>"
-        var closeRow_r="\"></div></div>"
+	var rowOpen="<div class=\"row w-100\">"
+	var firstCol="<div class=\"col-lg\">"
+	var imgTag = "<img class=\"img-fluid\" src=\""
+	var firstCol4="<div class=\"col-lg-4\">"
+	var firstCol3="<div class=\"col-lg-3\">"
+	var secCol="<div class=\"col-lg mt-2\">"
+	var secCol4="<div class=\"col-lg-4 mt-2\">"
+	var secCol3="<div class=\"col-lg-3 mt-2\">"
+	var closeCol="\"></div>"
+	var closeCol_r="</div>"
+	var closeRow="</div></div>"
+	var closeRow_r="\"></div></div>"
 
-        var respImg_1="<div class=\"row w-100\"><div class=\"col-lg\">"
-        var respImg_2="</div><div class=\"col-lg\"><img class=\"img-fluid\" src=\""
-        var respImg_2r="<img class=\"img-fluid\" src=\""
-        var respImg_3="\"></div></div>"
-        var respImg_3r="\"></div>"
-        var respImg_4="<div class=\"col-lg mt-2\">"
-        var respImg_5="</div></div>"
+	var respImg_1="<div class=\"row w-100\"><div class=\"col-lg\">"
+	var respImg_2="</div><div class=\"col-lg\"><img class=\"img-fluid\" src=\""
+	var respImg_2r="<img class=\"img-fluid\" src=\""
+	var respImg_3="\"></div></div>"
+	var respImg_3r="\"></div>"
+	var respImg_4="<div class=\"col-lg mt-2\">"
+	var respImg_5="</div></div>"
 
-        var iconNames = {
-			      "1":"image",
-            "2":"play",
-            "3":"eye" ,
-            "4":""
-        }
+	var iconNames = {
+			  "1":"image",
+		"2":"play",
+		"3":"eye" ,
+		"4":""
+	}
 
-        var iconName = iconNames[faIcon];
-	     	var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
-		
-        if (faIcon == "noI"){
-          faIconCode = "";
-        }  
+	var iconName = iconNames[faIcon];
+		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
+	
+	if (faIcon == "noI"){
+		faIconCode = "";
+	}  
 
-    		var resizedHead;  
+	var resizedHead;  
     
-       if(resizedHead == ""){
-          $("#headSizeNone").prop("checked", true);
-       }
+	if(resizedHead == ""){
+		$("#headSizeNone").prop("checked", true);
+    }
 
-      else{
+    else{
             //Resizing the heading text
             
         switch(headSize){
-          case "noH":
-            resizedHead = "";
-            break
-          case "h3":
-            resizedHead = head_3+faIconCode+imgHeading+endHead_3;
-            break;
-          case "h4":
-            resizedHead = head_4+faIconCode+imgHeading+endHead_4;
-            break;
-          case "h5":
-            resizedHead = head_5+faIconCode+imgHeading+endHead_5;
-            break;
+			case "noH":
+				resizedHead = "";
+				break
+			case "h3":
+				resizedHead = head_3+faIconCode+imgHeading+endHead_3;
+				break;
+			case "h4":
+				resizedHead = head_4+faIconCode+imgHeading+endHead_4;
+				break;
+			case "h5":
+				resizedHead = head_5+faIconCode+imgHeading+endHead_5;
+				break;
         }
   
-      }
+	}
     
 
     
         //Change size of column if requested
-        if (imgWidth == "33" && imgPosition == "left"){
-          firstCol=firstCol4;
-        }
-        else if (imgWidth == "33" && imgPosition== "right"){
-          secCol=secCol4;
-        }
-        else if (imgWidth == "25" && imgPosition== "left"){
-          firstCol=firstCol3;
-        }
-        else if (imgWidth == "25" && imgPosition== "right"){
-          secCol=secCol3;
-        }
+	if (imgWidth == "33" && imgPosition == "left"){
+		firstCol=firstCol4;
+	}
+	else if (imgWidth == "33" && imgPosition== "right"){
+		secCol=secCol4;
+	}
+	else if (imgWidth == "25" && imgPosition== "left"){
+		firstCol=firstCol3;
+	}
+	else if (imgWidth == "25" && imgPosition== "right"){
+		secCol=secCol3;
+	}
 
-          if (url !== imageplaceholder)
-          {
-          }
-          else
-          {
-            url = imageplaceholder;
-          }
+	if (imgPosition == "left"){
+		//var textOutput = resizedHead+respImg_1+respImg_2r+url+respImg_3r+respImg_4+contextCode+respImg_5;
+		var textOutput = resizedHead+rowOpen+firstCol+imgTag+url+closeCol+secCol+contextCode+closeRow;
+	}
+	else if (imgPosition == "right"){
+		//var textOutput = resizedHead+respImg_1+contextCode+respImg_2+url+respImg_3;
+		var textOutput = resizedHead+rowOpen+firstCol+contextCode+closeCol_r+secCol+imgTag+url+closeRow_r;
+	}
 
-        if (imgPosition == "left"){
-            //var textOutput = resizedHead+respImg_1+respImg_2r+url+respImg_3r+respImg_4+contextCode+respImg_5;
-            var textOutput = resizedHead+rowOpen+firstCol+imgTag+url+closeCol+secCol+contextCode+closeRow;
-        }
-        else if (imgPosition == "right"){
-            //var textOutput = resizedHead+respImg_1+contextCode+respImg_2+url+respImg_3;
-            var textOutput = resizedHead+rowOpen+firstCol+contextCode+closeCol_r+secCol+imgTag+url+closeRow_r;
-        }
-    
-        document.getElementById('txtarearespImg').innerHTML=textOutput;
-        //SelectAll("txtarearespImg");
-         //Add the html code after the div
-		    var demoDiv = document.getElementById("demo");
-		    demoDiv.innerHTML = textOutput;
-        }
+	document.getElementById('txtarearespImg').innerHTML=textOutput;
+	//SelectAll("txtarearespImg");
+	 //Add the html code after the div
+	var demoDiv = document.getElementById("demo");
+	demoDiv.innerHTML = textOutput;
+}
 
 //Function to select all of the html in the final textarea and copy it at the same time
-    function SelectAll(id){
-        document.getElementById(id).focus();
-        document.getElementById(id).select();
-        document.execCommand("copy");
-        var popup = document.getElementById("myPopup");
-        popup.classList.toggle("showPopup");
-    }
+function SelectAll(id){
+	document.getElementById(id).focus();
+	document.getElementById(id).select();
+	document.execCommand("copy");
+	var popup = document.getElementById("myPopup");
+	popup.classList.toggle("showPopup");
+}
  
 
-    function submitform()
-    {
-        document.forms["myform"].submit();
-    }
-    $(function () {
+function submitform()
+{
+	document.forms["myform"].submit();
+}
+$(function () {
   $('[data-toggle="tooltip"]').tooltip()
 });
 //Function to replace image links (plain URLs) with the embed version of the link.
