@@ -76,6 +76,7 @@
 			result.invert = this.invert
 			return result
 		}	
+		toJSON(){return this.toPDO()}
 		toString(){
 			return JSON.stringify(this.toPDO())
 		}
@@ -261,7 +262,8 @@
 
 function recoverCode(){
         //Get the code from Step 0
-		var iconValue;
+		/*********this needs rewriting in light of button page -- copy-pasted from vid page*************/
+		/*var iconValue;
 		var vidWidth;
 		var videoContext;
 		var videoLink;
@@ -304,6 +306,8 @@ function recoverCode(){
 			vidWidth,headText,headSize,iconValue
 		) // default to right in absence of way to collect right/left
 		setPageContents(videoPageInstance);
+		
+		*/
     }
     //End of recoverCode function
 // function to copy generated code 
@@ -465,6 +469,7 @@ function setupCheckURLValid(){
               </div>
             </div>
           </div>
+		  <!---
             <hr>
             <div class="row w-100 mx-auto">
               <div class="col-lg-3">
@@ -474,6 +479,7 @@ function setupCheckURLValid(){
               <textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Or recover it by pasting existing code from Moodle (work in progress)" onchange=recoverCode()></textarea>
           </div>
         </div>
+		-->
           <hr>
           <div class="row w-100 mx-auto">
             <div class="col-lg-3">
