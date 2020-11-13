@@ -37,8 +37,8 @@
 	<script src="js/setupPage.js"></script>
     <script>
 /*REQUIRED FOR HISTORY*/   
-const BUTTON_HIST = "history_button"
-var localStorageHistory = BUTTON_HIST
+const IMAGE_HIST = "history_image"
+var localStorageHistory = IMAGE_HIST
 var classImage = null
 /*END REQUIRED FOR HISTORY*/   
 $(document).ready(function(){
@@ -51,50 +51,39 @@ $(document).ready(function(){
 	setupNav()
 	$('#respImgSwitch').on('input', replaceLinkWithEmbed);
 	makeTinyWithID('tinyMCEimage',{'change':generateCode},'[Placeholder for image context. The content you entered in step 2 will appear here.]')		
+	classImage = new beestImage()
 })
 /*REQUIRED FOR HISTORY*/   
-/*	
-	class button{
-		constructor(content,destination,buttonSize,icon,colour,width,newWindow,alignment,invert){
-			this.mainHead = content
-			this.destination = destination
-			this.buttonSize = buttonSize
-			this.icon = icon
-			this.colour = colour
-			this.invert = invert
-			this.width = width
-			this.newWindow = newWindow
-			this.alignment = alignment
+	
+class beestImage{
+	constructor(link,context,position,width,heading,size,icon){
+		this.link = link
+		this.context = context
+		this.position = position
+		this.width = width
+		this.heading = heading
+		this.size = size
+		this.icon = icon
+	}
+	toPDO(){
+			var obj = {}
+			for (var prop in this){
+				if (typeof(this[prop])!="function"){
+					obj[prop] = this[prop]
+				}
+			}
+			obj.mainHead = this.heading
+			return obj
 		}
-		toPDO(){
-			var result = {}
-			result.destination = this.destination
-			result.mainHead = this.mainHead
-			result.buttonSize = this.buttonSize
-			result.icon = this.icon
-			result.colour = this.colour
-			result.width = this.width
-			result.newWindow = this.newWindow
-			result.alignment = this.alignment
-			result.invert = this.invert
-			return result
-		}	
-		toString(){
-			return JSON.stringify(this.toPDO())
-		}
-		fromObj(PDO){
-			this.mainHead = PDO.mainHead
-			this.destination = PDO.destination
-			this.buttonSize = PDO.buttonSize
-			this.icon = PDO.icon
-			this.colour = PDO.colour
-			this.width = PDO.width
-			this.newWindow = PDO.newWindow
-			this.alignment = PDO.alignment
-			this.invert = PDO.invert
-
+	toJSON(){return this.toPDO()}
+	fromObj(PDO){
+		for (var prop in PDO){
+			if (this.hasOwnProperty(prop)){
+				this[prop] = PDO[prop]
+			}
 		}
 	}
+}
 /*END REQUIRED FOR HISTORY*/
     window.gapiCallbacks=[];
 
@@ -235,27 +224,21 @@ function generateCode() {
 	var headSize = $('input[name="headSize"]:checked').val();
 	var faIcon = $('input[name="faCode"]:checked').val();
 
+	classImage.link = url
+	classImage.context = contextCode
+	classImage.position = imgPosition
+	classImage.width = imgWidth
+	classImage.heading = imgHeading
+	classImage.size = headSize
+	classImage.icon = faIcon
+
 	var rowOpen="<div class=\"row w-100\">"
 	var firstCol="<div class=\"col-lg\">"
-	var imgTag = "<img class=\"img-fluid\" src=\""
-	var firstCol4="<div class=\"col-lg-4\">"
-	var firstCol3="<div class=\"col-lg-3\">"
+	var imgTagMake = function (src){return '<img class="img-fluid" src="'+src+'">'}
 	var secCol="<div class=\"col-lg mt-2\">"
-	var secCol4="<div class=\"col-lg-4 mt-2\">"
-	var secCol3="<div class=\"col-lg-3 mt-2\">"
-	var closeCol="\"></div>"
-	var closeCol_r="</div>"
+	var closeCol="</div>"
 	var closeRow="</div></div>"
-	var closeRow_r="\"></div></div>"
-
-	var respImg_1="<div class=\"row w-100\"><div class=\"col-lg\">"
-	var respImg_2="</div><div class=\"col-lg\"><img class=\"img-fluid\" src=\""
-	var respImg_2r="<img class=\"img-fluid\" src=\""
-	var respImg_3="\"></div></div>"
-	var respImg_3r="\"></div>"
-	var respImg_4="<div class=\"col-lg mt-2\">"
-	var respImg_5="</div></div>"
-
+	
 	var iconNames = {
 		"1":"image",
 		"2":"play",
@@ -277,33 +260,32 @@ function generateCode() {
 	hTagClose = "</"+headSize+">"
 	resizedHead = ((headSize == "noH") ? "" : hTag+faIconCode+imgHeading+hTagClose) 
     
-        //Change size of column if requested
-	if (imgWidth == "33" && imgPosition == "left"){
-		firstCol=firstCol4;
+    //Change size of column if requested
+	if (imgWidth != "50"){
+		widthClass = {"50":"col-lg","33":"col-lg-4","25":"col-lg-3"}
+		if (imgPosition == "left"){
+			firstCol = firstCol.replace(widthClass["50"],widthClass[imgWidth])
+		}
+		else if (imgPosition == "right"){
+			secCol = secCol.replace(widthClass["50"],widthClass[imgWidth])
+		}
 	}
-	else if (imgWidth == "33" && imgPosition== "right"){
-		secCol=secCol4;
-	}
-	else if (imgWidth == "25" && imgPosition== "left"){
-		firstCol=firstCol3;
-	}
-	else if (imgWidth == "25" && imgPosition== "right"){
-		secCol=secCol3;
-	}
-
+	var leftColContent = ""
+	var rightColContent = ""
 	if (imgPosition == "left"){
-		//var textOutput = resizedHead+respImg_1+respImg_2r+url+respImg_3r+respImg_4+contextCode+respImg_5;
-		var textOutput = resizedHead+rowOpen+firstCol+imgTag+url+closeCol+secCol+contextCode+closeRow;
+		leftColContent = imgTagMake(url)
+		rightColContent = contextCode
 	}
 	else if (imgPosition == "right"){
-		//var textOutput = resizedHead+respImg_1+contextCode+respImg_2+url+respImg_3;
-		var textOutput = resizedHead+rowOpen+firstCol+contextCode+closeCol_r+secCol+imgTag+url+closeRow_r;
+		leftColContent = contextCode
+		rightColContent = imgTagMake(url)
 	}
+	var textOutput = resizedHead+rowOpen+firstCol+leftColContent+closeCol+secCol+rightColContent+closeRow;
 
-	//SelectAll("txtarearespImg");
 	 //Add the html code after the div
 	var demoDiv = document.getElementById("demo");
 	demoDiv.innerHTML = textOutput;
+	$('#txtarearespImg').val(textOutput)
 }
 
 //Function to select all of the html in the final textarea and copy it at the same time
