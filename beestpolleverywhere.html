@@ -97,7 +97,7 @@
         return $('div #'+id).find('input[name="'+id+'"]:checked').val();
       }
       //function to generate HTML code output
-    function generatePollEvCode() {
+    function generateElementCode() {
          console.debug(tinyMCE.activeEditor.getContent());
         //Retrieve the content by id of the tinyMCE textarea
         var contextCode = tinyMCE.get('tinyMCEpollEv').getContent();
@@ -151,12 +151,12 @@
 				break;
 		}
         //Retrieve the content by id of the textareas
-    var pollEv_URL = document.getElementById('pollEv_URL').value;
-    if (document.getElementById('pollEv_URL').value !== ""){
-      pollEv_URL = document.getElementById('pollEv_URL').value;
+     //pollEv_URL = document.getElementById('pollEv_URL').value;
+    if (document.getElementById('pollEv_URL').value != ""){
+      var pollEv_URL = document.getElementById('pollEv_URL').value;
    }
    else {
-     pollEv_URL = "https://pollev.com/free_text_polls/Uzz31kGxHw6BRIoWbXtbl/respond"
+     var pollEv_URL = "https://pollev.com/free_text_polls/Uzz31kGxHw6BRIoWbXtbl/respond"
    }
    var divContainer="<div>"
         var pollEv_1="<iframe src=\""
@@ -175,7 +175,7 @@
         $('#demo').nextAll('div, h3, h4, h5, i').remove();
         $('#demo').after(textOutputPollEv);
         }
-//end of generatePollEvCode
+//end of generateElementCode
 
 //function to recover code previously generated in BEEST and set the page preferences to that item.
 /*function recoverCode(){
@@ -255,26 +255,6 @@
     */
    
     </script>
-    <script>   
-      window.onload=function(){
-        $('#beestNav').load('common/beestnav.html');
-        $('#beestFooter').load('common/beestfooter.html');
-        function activeNav() {
-            var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
-             $(".nav-link").each(function(){
-                  if($(this).attr("href") == pgurl || $(this).attr("href") == '' ){
-                  $(this).addClass("active");
-                  $(this).removeClass("text-white");
-                  $(this).append('<span class="sr-only">(current)</span>');
-                  $(this).closest('.nav-item').css({"background": "#004DAE"});
-             }
-            });
-        }
-        setTimeout(function() {
-            activeNav();
-        }, 100);
-      };
-    </script>
 <style>
 .mce-notification-inner, .mce-close, .mce-notification-warning {
   display:none !important;
@@ -335,7 +315,7 @@
           <span aria-hidden="true">Close &times;</span>
         </button>
       </div>
-    <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=8326f205-50f4-4495-94cd-ac3f0040366d"></iframe></div>
+    <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash.au.panopto.com/Panopto/Pages/Embed.aspx?id=8326f205-50f4-4495-94cd-ac3f0040366d&autoplay=false&offerviewer=true&showtitle=true&showbrand=false&start=0&interactivity=all"></iframe></div>
     </div>
   </div>
 </div>
@@ -349,7 +329,7 @@
           <span aria-hidden="true">Close &times;</span>
         </button>
       </div>
-    <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe>
+    <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash.au.panopto.com/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe>
     </div>
     </div>
   </div>
@@ -393,7 +373,7 @@
             </div>
             <div class="col-lg">
               <a href="" data-toggle="modal" data-target=".pollev-modal">Which link do I need?</a>
-              <textarea class="rounded p-2 w-100 mt-2" rows="1" name="pollEv_URL" id="pollEv_URL" placeholder="Write/paste the Shareable response link here" onchange=generatePollEvCode()></textarea>
+              <textarea class="rounded p-2 w-100 mt-2" rows="1" name="pollEv_URL" id="pollEv_URL" placeholder="Write/paste the Shareable response link here" onchange=generateElementCode()></textarea>
               </div>
               </div>
               <hr> 
@@ -402,7 +382,7 @@
                 <h5 class="font-weight-bold">Frame height<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="The poll everywhere activity sits in an iframe which is 100% the width of the screen. We've defaulted the height to 400px, but it you would like it bigger or smaller, change this number and the preview and code will update after clicking outside of the text input area." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
               </div>
               <div class="col-lg">
-                 <textarea class="rounded p-2 w-100 mt-2" rows="1" name="frameHeight" id="frameHeight" placeholder="Type in your preferred height for the iframe." onchange=generatePollEvCode()></textarea>
+                 <textarea class="rounded p-2 w-100 mt-2" rows="1" name="frameHeight" id="frameHeight" placeholder="Type in your preferred height for the iframe." onchange=generateElementCode()></textarea>
                 </div>
                 </div>
                 <hr>
@@ -411,7 +391,7 @@
                   <h5 class="font-weight-bold">Heading<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type the heading for this poll. 75 character maximum." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
                     </div>
                     <div class="col-lg">
-                  <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="pollHeading" type="text" id="pollHeading" placeholder="Type your poll heading here" onchange=generatePollEvCode()></textarea>
+                  <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="pollHeading" type="text" id="pollHeading" placeholder="Type your poll heading here" onchange=generateElementCode()></textarea>
                 </div>
               </div>
               <hr>
@@ -420,54 +400,31 @@
           <h5 class="font-weight-bold">Heading size<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
         </div>
         <div class="col-lg">
-          <div class="form-check form-check-inline" id="headSize" onchange=generatePollEvCode()>
+          <div class="form-check form-check-inline" id="headSize" onchange=generateElementCode()>
             <input class="form-check-input" name="headSize" id="headSize1" type="radio" value="noH" checked>
             <label class="form-check-label" for="headSize1">No heading</label>
          </div>
-          <div class="form-check form-check-inline" id="headSize" onchange=generatePollEvCode()>
+          <div class="form-check form-check-inline" id="headSize" onchange=generateElementCode()>
             <input class="form-check-input" name="headSize" id="headSize2" type="radio" value="h5">
             <label class="form-check-label" for="headSize2"><h5>Small</h5></label>
          </div>
-          <div class="form-check form-check-inline" id="headSize" onchange=generatePollEvCode()>
+          <div class="form-check form-check-inline" id="headSize" onchange=generateElementCode()>
             <input class="form-check-input" name="headSize" id="headSize3" type="radio" value="h4">
             <label class="form-check-label" for="headSize3"><h4>Medium</h4></label>
           </div>
-          <div class="form-check form-check-inline" id="headSize" onchange=generatePollEvCode()>
+          <div class="form-check form-check-inline" id="headSize" onchange=generateElementCode()>
             <input class="form-check-input" name="headSize" id="headSize4" type="radio" value="h3">
             <label class="form-check-label" for="headSize4"><h3>Large</h3></label>
           </div>
         </div>
       </div>
         <hr>
-              <!--<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1" onchange=generatePollEvCode()>
-                <option selected value="noI">No icon</option>
-                  <option value="1">Question mark</option>
-                  <option value="2">White question mark in a black circle</option>
-                  <option value="3">Black question mark in a white circle</option>
-                  <option value="4">Bar chart</option>
-                  <option value="5">Pie chart</option>
-                  <option value="6">Line chart</option>
-                  <option value="7">Area chart</option>
-                  <option value="8">Megaphone/bullhorn</option>
-                  <option value="9">Set of scales</option>
-                  <option value="10">Two speech bubbles</option>
-                  <option value="11">Gavel</option>
-                </select>-->
                 <div class="row w-100 mx-auto">
                   <div class="col-lg-3">
                     <h5 class="font-weight-bold">Choose icon<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="If you would like an icon to the left of your heading, choose one below." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5>  
                   </div>
                   <div class="col-lg-1 my-auto">
-                    <!--<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" onchange=generatePollEvCode()>
-                      <option selected value="noI">No icon</option>
-                      <option value="1">Arrow right</option>
-                      <option value="2">Arrow right in a circle</option>
-                      <option value="3">External link square</option>
-                      <option value="4">Finger pointing right</option>
-                      <option value="5">Play</option>
-                      <option value="6">Play in a circle</option>
-                    </select>-->
-                     <div class="form-check form-check-inline" id="faCode" onchange=generatePollEvCode()>
+                                       <div class="form-check form-check-inline" id="faCode" onchange=generateElementCode()>
                           <input class="form-check-input" name="faCode" id="faCodeNone" type="radio" value="none" checked>
                           <label class="form-check-label" for="faCodeNone">None</label>
                         </div>
@@ -475,27 +432,27 @@
           <div class="col-lg">
                       <div class="row w-100">
                         <div class="col-lg">
-                    <div class="form-check form-check-inline mx-1" id="faCode" onchange=generatePollEvCode()>
+                    <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                       <input class="form-check-input" name="faCode" id="faCode1" type="radio" value="1">
                       <label class="form-check-label" for="faCode1"><i class="fa fa-fw fa-bar-chart fa-2x"></i></label>
                     </div>
-                    <div class="form-check form-check-inline mx-1" id="faCode" onchange=generatePollEvCode()>
+                    <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                     <input class="form-check-input" name="faCode" id="faCode2" type="radio" value="2">
                     <label class="form-check-label" for="faCode2"><i class="fa fa-fw fa-line-chart fa-2x"></i></label>
                     </div>
-                    <div class="form-check form-check-inline mx-1" id="faCode" onchange=generatePollEvCode()>
+                    <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                       <input class="form-check-input" name="faCode" id="faCode3" type="radio" value="3">
                       <label class="form-check-label" for="faCode3"><i class="fa fa-fw fa-pie-chart fa-2x"></i></label>
                       </div>
-                    <div class="form-check form-check-inline mx-1" id="faCode" onchange=generatePollEvCode()>
+                    <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                     <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="4">
                     <label class="form-check-label" for="faCode4"><i class="fa fa-fw fa-thumbs-o-up fa-2x"></i></label>
                   </div>
-                  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generatePollEvCode()>
+                  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                     <input class="form-check-input" name="faCode" id="faCode5" type="radio" value="5">
                     <label class="form-check-label" for="faCode5"><i class="fa fa-fw fa-hand-paper-o fa-2x"></i></label>
                   </div>
-                  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generatePollEvCode()>
+                  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                     <input class="form-check-input" name="faCode" id="faCode6" type="radio" value="6">
                     <label class="form-check-label" for="faCode6"><i class="fa fa-fw fa-balance-scale fa-2x"></i></label>
                   </div>
@@ -503,27 +460,27 @@
               </div>
                   <div class="row w-100 mt-2">
                     <div class="col-lg">
-                      <div class="form-check form-check-inline mx-1" id="faCode" onchange=generatePollEvCode()>
+                      <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                         <input class="form-check-input" name="faCode" id="faCode13" type="radio" value="12">
                         <label class="form-check-label" for="faCode13"><i class="fa fa-fw fa-exchange fa-2x"></i></label>
                       </div>
-                      <div class="form-check form-check-inline mx-1" id="faCode" onchange=generatePollEvCode()>
+                      <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                         <input class="form-check-input" name="faCode" id="faCode12" type="radio" value="11">
                         <label class="form-check-label" for="faCode12"><i class="fa fa-fw fa-bullhorn fa-2x"></i></label>
                       </div>
-                  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generatePollEvCode()>
+                  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                     <input class="form-check-input" name="faCode" id="faCode7" type="radio" value="7">
                     <label class="form-check-label" for="faCode7"><i class="fa fa-fw fa-question fa-2x"></i></label>
                   </div>
-                  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generatePollEvCode()>
+                  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                     <input class="form-check-input" name="faCode" id="faCode8" type="radio" value="8">
                     <label class="form-check-label" for="faCode8"><i class="fa fa-fw fa-question-circle fa-2x"></i></label>
                   </div>
-                  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generatePollEvCode()>
+                  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                     <input class="form-check-input" name="faCode" id="faCode9" type="radio" value="9">
                     <label class="form-check-label" for="faCode9"><i class="fa fa-fw fa-question-circle-o fa-2x"></i></label>
                   </div>
-                  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generatePollEvCode()>
+                  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                     <input class="form-check-input" name="faCode" id="faCode10" type="radio" value="10">
                     <label class="form-check-label" for="faCode10"><i class="fa fa-fw fa-share fa-2x"></i></label>
                   </div>
@@ -537,12 +494,12 @@
         <h5 class="font-weight-bold">Context<span class="hideableinstruct text-success small" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Writing some instructions, or context for students on your poll will help the students to respond correctly.">&nbsp;<i class="fa fa-question-circle"></i></h5>
           </div>
           <div class="col-lg">
-        <textarea class="mb-3 rounded p-2 w-100" name="pollEv_text" id="tinyMCEpollEv" onchange=generatePollEvCode()></textarea>
+        <textarea class="mb-3 rounded p-2 w-100" name="pollEv_text" id="tinyMCEpollEv" onchange=generateElementCode()></textarea>
       </div>
     </div>  
   </div>
   <div class="col-lg-6">
-    <div class="sticky-top" style="top:100px;">
+    <div class="sticky-top" style="top:100px;"  onload=generatePollEvCode()>
       <h5 class="font-weight-bold">Preview<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below as you update your preferences for your poll." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
       <div id="demo"></div>
         <p class="my-3"></p>
@@ -593,11 +550,11 @@
         var checkRadio = function(){
           if (textarea.val()!=="") {
             $("#headSize2").prop("checked", true);
-            generatePollEvCode();
+            generateElementCode();
             }
           else {
             $("#headSize1").prop("checked", true);
-            generatePollEvCode();
+            generateElementCode();
             } 
                 };
               // And when textarea changes
