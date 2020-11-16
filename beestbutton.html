@@ -5,13 +5,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152392632-3"></script>
 <script src="js/pageHistory.js"></script>
 <script src="js/helperFunctions.js"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-152392632-3');
-</script>
+<script src="js/setupPage.js"></script>
 
     <meta charset="utf-8"></meta>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -45,9 +39,18 @@
 	const BUTTON_HIST = "history_button"
 	var localStorageHistory = BUTTON_HIST
 	var classButton = null
-	
-	$(document).ready(function(){initHistory()})
-	
+/*END REQUIRED FOR HISTORY*/	
+	$(document).ready(function(){
+		setupGoogleAnalytics()
+		/*REQUIRED FOR HISTORY*/ 
+		initHistory()
+		/*END REQUIRED FOR HISTORY*/
+		setupToolTips()
+		setupNav()
+		setupCheckURLValid()
+	})
+
+/*REQUIRED FOR HISTORY*/	
 	class button{
 		constructor(content,destination,buttonSize,icon,colour,width,newWindow,alignment,invert){
 			this.mainHead = content
@@ -73,6 +76,7 @@
 			result.invert = this.invert
 			return result
 		}	
+		toJSON(){return this.toPDO()}
 		toString(){
 			return JSON.stringify(this.toPDO())
 		}
@@ -258,7 +262,8 @@
 
 function recoverCode(){
         //Get the code from Step 0
-		var iconValue;
+		/*********this needs rewriting in light of button page -- copy-pasted from vid page*************/
+		/*var iconValue;
 		var vidWidth;
 		var videoContext;
 		var videoLink;
@@ -301,6 +306,8 @@ function recoverCode(){
 			vidWidth,headText,headSize,iconValue
 		) // default to right in absence of way to collect right/left
 		setPageContents(videoPageInstance);
+		
+		*/
     }
     //End of recoverCode function
 // function to copy generated code 
@@ -361,27 +368,20 @@ function getHistoryI(index,history){
 }
 /*END REQUIRED FOR HISTORY*/
 
-    </script>
-    <script>   
-      window.onload=function(){
-        generateBtnCode();
-        $('#beestNav').load('common/beestnav.html');
-        $('#beestFooter').load('common/beestfooter.html');
-        function activeNav() {
-            var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
-             $(".nav-link").each(function(){
-                  if($(this).attr("href") == pgurl || $(this).attr("href") == '' ){
-                  $(this).addClass("active");
-                  $(this).removeClass("text-white");
-                  $(this).append('<span class="sr-only">(current)</span>');
-                  $(this).closest('.nav-item').css({"background": "#004DAE"});
-             }
-            });
-        }
-        setTimeout(function() {
-            activeNav();
-        }, 100);
-      };
+//Script to ensure URL contains a prefix so that the link works correctly in Moodle.
+function setupCheckURLValid(){
+	$('#btn_URL').on('input', function(event) {
+		var s = $('#btn_URL').val().toString();
+
+		if ((s.includes("https://") == false)&&(s.includes("http://") == false))
+		{
+			s = "http://" + s;
+		}
+
+		$('#btn_URL').val(s);
+    }); 
+}
+
     </script>
     <style>
     .mce-notification-inner, .mce-close, .mce-notification-warning {
@@ -391,7 +391,7 @@ function getHistoryI(index,history){
   text-align: left;
   padding: 15px;
   font-size: 1.05rem;
-  max-width: 400px;
+  max-width: 480px;
 }
 .modal-backdrop {
       z-index: 0 !important;
@@ -401,7 +401,7 @@ function getHistoryI(index,history){
 }
     </style>  
     </head>
-    <body>
+    <body onload=generateBtnCode()>
       <div id="beestNav"></div>
       <div class="py-5"></div>
         <div class="container-fluid">
@@ -469,6 +469,7 @@ function getHistoryI(index,history){
               </div>
             </div>
           </div>
+		  <!---
             <hr>
             <div class="row w-100 mx-auto">
               <div class="col-lg-3">
@@ -478,6 +479,7 @@ function getHistoryI(index,history){
               <textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Or recover it by pasting existing code from Moodle (work in progress)" onchange=recoverCode()></textarea>
           </div>
         </div>
+		-->
           <hr>
           <div class="row w-100 mx-auto">
             <div class="col-lg-3">
@@ -712,51 +714,8 @@ function getHistoryI(index,history){
                 </div>
               </div>
         </form>   
-        </div>     
-        <script>
-          //Script to ensure URL contains a prefix so that the link works correctly in Moodle.
-          $('#btn_URL').on('input', function(event) {
-          var s = $('#btn_URL').val().toString();
-          
-          if (s.includes("https://") == true)
-          {
-          //do nothing if match to 'https'
-          }
-          else if (s.includes("http://") == true) {
-          //do nothing if match to 'http'
-          }
-          //if not, add 'http'
-          else {
-            s = "http://" + s;
-          }
-      
-          $('#btn_URL').val(s);
-        }); 
-      </script>
-       <script>
-        $(function () {
-          $(document).on('shown.bs.tooltip', function (e) {
-             setTimeout(function () {
-               $(e.target).tooltip('hide');
-             }, 7000);
-          });
-        });</script>
-        <script>
-          $(function () {
-            $('#copyCodeBtn').on('click', function (e) {
-               setTimeout(function () {
-                 $(e.target).tooltip('hide');
-               }, 2500);
-            });
-          });
-          $(function () {
-            $('#toggleHelp').on('click', function (e) {
-               setTimeout(function () {
-                 $(e.target).tooltip('hide');
-               }, 2500);
-            });
-          });
-          </script>
+        </div>   
+       
           <div id="beestFooter"></div>
         </body>
         </html>
