@@ -35,6 +35,7 @@
     <script src="js/placeholder.js"></script> 
 	<script src="js/helperFunctions.js"></script>
 	<script src="js/setupPage.js"></script>
+	<script src="js/pageHistory.js"></script>
     <script>
 /*REQUIRED FOR HISTORY*/   
 const IMAGE_HIST = "history_image"
@@ -44,7 +45,7 @@ var classImage = null
 $(document).ready(function(){
 	setupGoogleAnalytics()
 /*REQUIRED FOR HISTORY*/   
-	//initHistory()
+	initHistory()
 /*END REQUIRED FOR HISTORY*/   				
 	default_XRadio_onEmpty_Y("respImgHeading","headSize","noH","headSize1",generateCode)
 	setupToolTips(10000)
@@ -52,6 +53,7 @@ $(document).ready(function(){
 	$('#respImgSwitch').on('input', replaceLinkWithEmbed);
 	makeTinyWithID('tinyMCEimage',{'change':generateCode},'[Placeholder for image context. The content you entered in step 2 will appear here.]')
 	classImage = new beestImage()
+	generateCode()
 })
 /*REQUIRED FOR HISTORY*/   
 	
@@ -84,6 +86,29 @@ class beestImage{
 		}
 	}
 }
+function getHistoryI(index,history){
+	if (history.length>0){
+		var selectedItem = history[index]
+		classImage = new beestImage()
+		classImage.fromObj(selectedItem)
+		refToClassButton = classImage
+		setTextAreas(refToClassButton)
+		generateCode()
+	}
+}
+function setTextAreas(classData){
+	txtAreaVals = {
+		'respImgSwitch': {type:'basic',value:classData.link},
+		'tinyMCEimage': {type:'tiny',value:classData.context},
+		'respImgHeading': {type:'basic',value:classData.heading},
+		'imagePosition': {type:'radio',value:classData.position},
+		'imageWidth': {type:'radio',value:classData.width},
+		'headSize': {type:'radio',value:classData.size},
+		'faCode': {type:'radio',value:classData.icon}
+	}
+	setTextAreas_util(txtAreaVals)
+}
+
 /*END REQUIRED FOR HISTORY*/
     window.gapiCallbacks=[];
 
@@ -193,7 +218,10 @@ class beestImage{
     }
 
     function copyCode(){
-      SelectAll("txtarearespImg");
+      /*REQUIRED FOR HISTORY*/
+	  addToHistory(classImage)
+	  /*END REQUIRED FOR HISTORY*/
+	  SelectAll("txtarearespImg");
     }
 
     var contextCode;
@@ -210,19 +238,13 @@ function generateCode() {
         url = imageplaceholder;
 	}
 
-	//Retrieve the content by id of the tinyMCE textarea
-	if (tinyMCE.get('tinyMCEimage').getContent() !== ""){
-        contextCode = tinyMCE.get('tinyMCEimage').getContent();
-	}
-	else{
-        contextCode = "[Placeholder for image context. The content you entered in step 2 will appear here.]";
-	}
+	contextCode = getTinyContent('tinyMCEimage',"[Placeholder for image context. The content you entered in step 2 will appear here.]")
 
-	var imgHeading = document.getElementById('respImgHeading').value;
-	var imgWidth = $('input[name="imageWidth"]:checked').val();
-	var imgPosition = $('input[name="imagePosition"]:checked').val();
-	var headSize = $('input[name="headSize"]:checked').val();
-	var faIcon = $('input[name="faCode"]:checked').val();
+	var imgHeading = $('#respImgHeading').val();
+	var imgWidth = getRadioOption("imageWidth");
+	var imgPosition = getRadioOption("imagePosition");
+	var headSize = getRadioOption("headSize")
+	var faIcon = getRadioOption("faCode")
 
 	classImage.link = url
 	classImage.context = contextCode
@@ -389,7 +411,7 @@ function replaceLinkWithEmbed(event){
 }
     </style> 
 </head>
-<body onload=generateCode()>
+<body>
 <div id="beestNav">
 </div>
   <div class="py-5"></div>
@@ -482,6 +504,21 @@ function replaceLinkWithEmbed(event){
 <form id="respImg">   
    <div class="row w-100 mx-auto">
     <div class="col-lg-6 mt-2">
+	<div class="row w-100 mx-auto">
+        <div class="col-lg-3"> 
+          <h5 class="font-weight-bold">Recover past data<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Recover recently created items. This will only become operational once you have created at least one item. If you change browsers or clear your browser history, you will lose this history as well." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+        </div>
+        <div class="col-lg-8">
+          <select class="custom-select border border-dark" size="1" id="recoveryDate" onchange="idSelectedRecData()">
+            <option selected value=0>please wait</option>
+            </select>
+          </div>
+          <div class="col-lg-1 text-center">
+            <button id="delHist" onclick="delHistI()" type="button" class="btn btn-danger mr-2" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Delete the currently selected historical data."><i class="fa fa-fw fa-trash"></i></button>
+            <button id="loadHist" onclick="getHistoryI(histIndex,historicalData)" class="btn btn-mu d-none">Recover <i class="fa fa-fw fa-undo"></i></button>
+        </div>
+      </div>
+      <hr>
     <div class="row w-100 mx-auto">
       <div class="col-lg-3">
         <h5 class="font-weight-bold">Link<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your image." class="small text-success hideableinstruct">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
