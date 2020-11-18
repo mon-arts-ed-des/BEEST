@@ -139,13 +139,7 @@ $(document).ready(function() {
         else{
 			contextCode = "[Placeholder for video context. The content you entered in step 2 will appear here.]";
         }
-		
-        var head_3="<div id=\"heading\"><h3>"
-        var endHead_3="</h3></div>"
-        var head_4="<div id=\"heading\"><h4>"
-        var endHead_4="</h4></div>"
-        var head_5="<div id=\"heading\"><h5>"
-        var endHead_5="</h5></div>"
+
         var rowOpen="<div class=\"row w-100\">"
         var firstCol="<div class=\"col-lg\" id=\"video-context\">"
         var firstCol4="<div class=\"col-lg-4\">"
@@ -178,14 +172,14 @@ $(document).ready(function() {
         }
         else {
             //Resizing the heading text
-			var headingMap = {
-				"noH":{head:"",icon:"",val:"",end:""},
-				"h3":{head:"<div id=\"heading\"><h3>",icon:faIconCode,val:vidHeading,end:"</h3></div>"},
-				"h4":{head:"<div id=\"heading\"><h4>",icon:faIconCode,val:vidHeading,end:"</h4></div>"},
-				"h5":{head:"<div id=\"heading\"><h5>",icon:faIconCode,val:vidHeading,end:"</h5></div>"},
+			
+			var resizedHead
+			//Resizing the heading text
+			if (headSize == "noH"){resizedHead = ""}
+			else{
+				var sizes = {"h3":3,"h4":4,"h5":5}
+				resizedHead = '<div id=\"heading\"><h'+sizes[headSize]+">"+faIconCode+vidHeading+"</h"+sizes[headSize]+"></div>"
 			}
-			var opt = headingMap[headSize]
-			resizedHead = opt.head+opt.icon+opt.val+opt.end
         }
 
         //Change size of column if requested

@@ -48,24 +48,11 @@
     const COUNTER_ID="tabCounter"
     const absoluteMinTab = 3;
 	
-    tinymce.init({
-        selector: '#'+TINYMCE_ID_BASE+'1',
-        menubar: false,
-          plugins : 'advlist autolink link lists charmap print preview code placeholder',
-          placeholder: 'Input the content for the relative tab heading here',
-          toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
-          'undo redo | charmap | autolink link | code | removeformat' ],
-          setup : function(ed) {      
-          ed.on('change', function (e) {	
-            generateElementCode();
-            });					
-          }
-        });
-		
 	var createdTabs = 1; //representing how many tabs are currently available on the page
 	var visibleTabs = 1;
 	
 	$(document).ready(function() { //create the tinyMCE areas after the first
+		makeTinyWithID(TINYMCE_ID_BASE+'1',{'change':generateElementCode},'Input the content for tab heading 1 here')
 		setupGoogleAnalytics()
 		setupNav()
 		setupToolTips() 
@@ -86,31 +73,20 @@
 	})
 		
 		
-		function tabTemplate(tabNum){
-			var result = '<span id='+OUTER_BLOCK_ID_BASE+tabNum+'><hr><div class="row w-100"><div class="col-lg"><h6>Tab '+tabNum+'</h6><textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button" id="'+HEADING_ID_BASE+tabNum+'" onchange=generateElementCode()></textarea><h6 class=\"mt-2\">Content '+tabNum+'</h6><textarea id="'+TINYMCE_ID_BASE+tabNum+'" class="border border-dark rounded p-2 w-100" cols="70" rows="3" name="'+INNER_HEADING_ID_BASE+tabNum+'" onchange=generateElementCode()></textarea></div></div></span>'
-			return result
-		}
+	function tabTemplate(tabNum){
+		var result = '<span id='+OUTER_BLOCK_ID_BASE+tabNum+'><hr><div class="row w-100"><div class="col-lg"><h6>Tab '+tabNum+'</h6><textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button" id="'+HEADING_ID_BASE+tabNum+'" onchange=generateElementCode()></textarea><h6 class=\"mt-2\">Content '+tabNum+'</h6><textarea id="'+TINYMCE_ID_BASE+tabNum+'" class="border border-dark rounded p-2 w-100" cols="70" rows="3" name="'+INNER_HEADING_ID_BASE+tabNum+'" onchange=generateElementCode()></textarea></div></div></span>'
+		return result
+	}
+	
+	function addTab(tabNum){
+		var newTab = tabTemplate(tabNum)
 		
-		function addTab(tabNum){
-			var newTab = tabTemplate(tabNum)
-			
-			var newArea = document.getElementById("newTabArea")
-			newArea.insertAdjacentHTML('beforeend', newTab)
-			
-			tinymce.init({
-				selector: '#'+TINYMCE_ID_BASE+tabNum,
-        menubar: false,
-        plugins : 'advlist autolink link lists charmap print preview code placeholder',
-        placeholder: 'Input the context for your tab button here',
-        toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
-        'undo redo | charmap | autolink link | code | removeformat' ],
-        setup : function(ed) {      
-        ed.on('change', function (e) {	
-          generateElementCode();
-          });					
-        }   
-      });
-			}
+		var newArea = document.getElementById("newTabArea")
+		newArea.insertAdjacentHTML('beforeend', newTab)
+		
+		makeTinyWithID(TINYMCE_ID_BASE+tabNum,{'change':generateElementCode},'Input the content for tab heading '+tabNum+' here')
+		
+	}
 		
 			
 		function showTab(tabNum){
@@ -272,12 +248,7 @@
     var tabbedMainHeading = document.getElementById('tabbedMainHeading').value;
     var headSize = getRadioOption('headSize')
     var faIcon = getRadioOption('faCode')
-    var head_3="<h3>"
-    var endHead_3="</h3>"
-    var head_4="<h4>"
-    var endHead_4="</h4>"
-    var head_5="<h5>"
-    var endHead_5="</h5>"
+
     var iconNames = {
             "1":"columns",
 			      "2":"question",
@@ -303,21 +274,12 @@ else {
           faIconCode = "";
         }
 		
-		var resizedHead;
+		var resizedHead
         //Resizing the heading text
-		switch(headSize){
-			case "noH":
-				resizedHead = "";
-				break;
-			case "h3":
-				resizedHead = head_3+faIconCode+tabbedMainHeading+endHead_3;
-				break;
-			case "h4":
-				resizedHead = head_4+faIconCode+tabbedMainHeading+endHead_4;
-				break;
-			case "h5":
-				resizedHead = head_5+faIconCode+tabbedMainHeading+endHead_5;
-				break;
+		if (headSize == "noH"){resizedHead = ""}
+		else{
+			var sizes = {"h3":3,"h4":4,"h5":5}
+			resizedHead = '<h'+sizes[headSize]+'>'+faIconCode+tabbedMainHeading+"</h"+sizes[headSize]+">"
 		}
 	var monTabHeading_Open = "<script>var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://mon-arts-ed-des.github.io/BEEST/css/monTabs.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t><div class=\"row w-100 mx-auto mb-3\"><div class=\"col-3\"><div class=\"nav monTabs flex-column nav-pills border-arts rounded\" id=\"v-tabs-tab\" role=\"tablist\" aria-orientation=\"vertical\">";
   var monTabHeading_Close="</div></div>";

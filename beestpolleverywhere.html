@@ -109,12 +109,6 @@
         var pollHeading = document.getElementById('pollHeading').value;
         var headSize = getRadioOption('headSize')
         var faIcon = getRadioOption('faCode')
-        var head_3="<h3>"
-        var endHead_3="</h3>"
-        var head_4="<h4>"
-        var endHead_4="</h4>"
-        var head_5="<h5>"
-        var endHead_5="</h5>"
         var iconNames = {
                   "1":"bar-chart",
             "2":"line-chart",
@@ -137,23 +131,14 @@
         if (faIcon == "none"){
           faIconCode = "";
         }
-        
-        var resizedHead;
-        //Resizing the heading text
-        switch(headSize){
-            case "noH":
-                resizedHead = "";
-                break;
-            case "h3":
-                resizedHead = head_3+faIconCode+pollHeading+endHead_3;
-                break;
-            case "h4":
-                resizedHead = head_4+faIconCode+pollHeading+endHead_4;
-                break;
-            case "h5":
-                resizedHead = head_5+faIconCode+pollHeading+endHead_5;
-                break;
-        }
+		
+		var resizedHead
+			//Resizing the heading text
+		if (headSize == "noH"){resizedHead = ""}
+		else{
+			var sizes = {"h3":3,"h4":4,"h5":5}
+			resizedHead = '<h'+sizes[headSize]+'>'+faIconCode+pollHeading+"</h"+sizes[headSize]+">"
+		}
         //Retrieve the content by id of the textareas
      //pollEv_URL = document.getElementById('pollEv_URL').value;
     if (document.getElementById('pollEv_URL').value != ""){
