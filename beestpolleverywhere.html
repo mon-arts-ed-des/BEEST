@@ -38,53 +38,53 @@
     <script src="js/placeholder.js"></script> 
     <script type="text/javascript">
     /*REQUIRED FOR HISTORY  
-	const BUTTON_HIST = "history_button"
-	var localStorageHistory = BUTTON_HIST
-	var classButton = null
-	
-	$(document).ready(function(){initHistory()})
-	
-	class button{
-		constructor(content,destination,buttonSize,icon,colour,width,newWindow,alignment,invert){
-			this.mainHead = content
-			this.destination = destination
-			this.buttonSize = buttonSize
-			this.icon = icon
-			this.colour = colour
-			this.invert = invert
-			this.width = width
-			this.newWindow = newWindow
-			this.alignment = alignment
-		}
-		toPDO(){
-			var result = {}
-			result.destination = this.destination
-			result.mainHead = this.mainHead
-			result.buttonSize = this.buttonSize
-			result.icon = this.icon
-			result.colour = this.colour
-			result.width = this.width
-			result.newWindow = this.newWindow
-			result.alignment = this.alignment
-			result.invert = this.invert
-			return result
-		}	
-		toString(){
-			return JSON.stringify(this.toPDO())
-		}
-		fromObj(PDO){
-			this.mainHead = PDO.mainHead
-			this.destination = PDO.destination
-			this.buttonSize = PDO.buttonSize
-			this.icon = PDO.icon
-			this.colour = PDO.colour
-			this.width = PDO.width
-			this.newWindow = PDO.newWindow
-			this.alignment = PDO.alignment
-			this.invert = PDO.invert
+    const BUTTON_HIST = "history_button"
+    var localStorageHistory = BUTTON_HIST
+    var classButton = null
+    
+    $(document).ready(function(){initHistory()})
+    
+    class button{
+        constructor(content,destination,buttonSize,icon,colour,width,newWindow,alignment,invert){
+            this.mainHead = content
+            this.destination = destination
+            this.buttonSize = buttonSize
+            this.icon = icon
+            this.colour = colour
+            this.invert = invert
+            this.width = width
+            this.newWindow = newWindow
+            this.alignment = alignment
+        }
+        toPDO(){
+            var result = {}
+            result.destination = this.destination
+            result.mainHead = this.mainHead
+            result.buttonSize = this.buttonSize
+            result.icon = this.icon
+            result.colour = this.colour
+            result.width = this.width
+            result.newWindow = this.newWindow
+            result.alignment = this.alignment
+            result.invert = this.invert
+            return result
+        }   
+        toString(){
+            return JSON.stringify(this.toPDO())
+        }
+        fromObj(PDO){
+            this.mainHead = PDO.mainHead
+            this.destination = PDO.destination
+            this.buttonSize = PDO.buttonSize
+            this.icon = PDO.icon
+            this.colour = PDO.colour
+            this.width = PDO.width
+            this.newWindow = PDO.newWindow
+            this.alignment = PDO.alignment
+            this.invert = PDO.invert
 
-		}
-	}
+        }
+    }
 /*END REQUIRED FOR HISTORY*/
    tinymce.init({
         selector: '#tinyMCEpollEv',
@@ -112,7 +112,7 @@
         var head_5="<h5>"
         var endHead_5="</h5>"
         var iconNames = {
-			      "1":"bar-chart",
+                  "1":"bar-chart",
             "2":"line-chart",
             "3":"pie-chart", 
             "4":"thumbs-o-up",
@@ -128,28 +128,28 @@
         }
 
         var iconName = iconNames[faIcon];
-		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
-		
+        var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
+        
         if (faIcon == "none"){
           faIconCode = "";
         }
-		
-		var resizedHead;
+        
+        var resizedHead;
         //Resizing the heading text
-		switch(headSize){
-			case "noH":
-				resizedHead = "";
-				break;
-			case "h3":
-				resizedHead = head_3+faIconCode+pollHeading+endHead_3;
-				break;
-			case "h4":
-				resizedHead = head_4+faIconCode+pollHeading+endHead_4;
-				break;
-			case "h5":
-				resizedHead = head_5+faIconCode+pollHeading+endHead_5;
-				break;
-		}
+        switch(headSize){
+            case "noH":
+                resizedHead = "";
+                break;
+            case "h3":
+                resizedHead = head_3+faIconCode+pollHeading+endHead_3;
+                break;
+            case "h4":
+                resizedHead = head_4+faIconCode+pollHeading+endHead_4;
+                break;
+            case "h5":
+                resizedHead = head_5+faIconCode+pollHeading+endHead_5;
+                break;
+        }
         //Retrieve the content by id of the textareas
      //pollEv_URL = document.getElementById('pollEv_URL').value;
     if (document.getElementById('pollEv_URL').value != ""){
@@ -180,13 +180,13 @@
 //function to recover code previously generated in BEEST and set the page preferences to that item.
 /*function recoverCode(){
         //Get the code from Step 0
-		var iconValue;
-		var vidWidth;
-		var videoContext;
-		var videoLink;
-		var headSize;
-		var headText;
-		
+        var iconValue;
+        var vidWidth;
+        var videoContext;
+        var videoLink;
+        var headSize;
+        var headText;
+        
         var retrieveCode = document.getElementById('retrieveCode').value;
         videoContext = $(retrieveCode).find('#video-context').text();
 
@@ -196,24 +196,24 @@
         }
 
         if ($(retrieveCode).find('h3').text()){
-			headSize = "h3";
+            headSize = "h3";
         }
         else if ($(retrieveCode).find('h4').text()){
-			headSize = "h4";
+            headSize = "h4";
         }
         else if ($(retrieveCode).find('h5').text()){
-			headSize = "h5";
+            headSize = "h5";
         }
-		headText = $(retrieveCode).find(headSize).text();
+        headText = $(retrieveCode).find(headSize).text();
 
         //set icon
         var headingIcon = $(retrieveCode).find('i').attr('class');
-		var iconMap = {
-			"fa fa-video-camera":1,
-			"fa fa-play":2,
-			"fa fa-eye":3
-		};
-		iconValue = iconMap[headingIcon]
+        var iconMap = {
+            "fa fa-video-camera":1,
+            "fa fa-play":2,
+            "fa fa-eye":3
+        };
+        iconValue = iconMap[headingIcon]
 
         //set video width
         if ($(retrieveCode).find('#vidwid33')){
@@ -229,6 +229,13 @@
 			vidWidth,headText,headSize,iconValue
 		) // default to right in absence of way to collect right/left
 		setPageContents(videoPageInstance);
+                
+        videoPageInstance = new videoPage(
+            videoLink,videoContext,
+            "right",
+            vidWidth,headText,headSize,iconValue
+        ) // default to right in absence of way to collect right/left
+        setPageContents(videoPageInstance);
     } */
     //end of recoverCode
     function copyCode(){
