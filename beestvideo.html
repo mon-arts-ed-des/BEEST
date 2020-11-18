@@ -90,16 +90,16 @@
         }
       });
 
-      function writeinMoodle() {
+      function writeinMoodle(){
       tinyMCE.get('#id_introeditor').setContent(textOutput);
-       }
+       };
 
        function getRadioOption(id){
 		return $('div #'+id).find('input[name="'+id+'"]:checked').val()
 	}
 	
     /*Function to generate and copy code for the responsive videos*/
-    function generateCode() {
+    function generateCode(){
         // Get the HTML contents of the currently active editor
         console.debug(tinyMCE.activeEditor.getContent());
 
@@ -157,14 +157,15 @@
         }
         else {
             //Resizing the heading text
-			var headingMap = {
-				"noH":{head:"",icon:"",val:"",end:""},
-				"h3":{head:"<div id=\"heading\"><h3>",icon:faIconCode,val:vidHeading,end:"</h3></div>"},
-				"h4":{head:"<div id=\"heading\"><h4>",icon:faIconCode,val:vidHeading,end:"</h4></div>"},
-				"h5":{head:"<div id=\"heading\"><h5>",icon:faIconCode,val:vidHeading,end:"</h5></div>"},
+			
+			var resizedHead
+			//Resizing the heading text
+			if (headSize == "noH"){
+        resizedHead = ""}
+			else {
+				var sizes = {"h3":3,"h4":4,"h5":5}
+				resizedHead = '<div id=\"heading\"><h'+sizes[headSize]+">"+faIconCode+vidHeading+"</h"+sizes[headSize]+"></div>"
 			}
-			var opt = headingMap[headSize]
-			resizedHead = opt.head+opt.icon+opt.val+opt.end
         }
 
         //Change size of column if requested
@@ -291,25 +292,78 @@
     }
  
 
-    function submitform()
-    {
+    function submitform(){
         document.forms["myform"].submit();
     }
-    $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
+    $(function(){
+ 		$('[data-toggle="tooltip"]').tooltip()
+	});
+	
+/*REQUIRED FOR HISTORY*/
+function getHistoryI(index,history){
+	if (history.length>0){
+		var selectedItem = history[index]
+		videoPageInstance = new videoPage()
+		videoPageInstance.fromObj(selectedItem)
+		refToClassButton = videoPageInstance
+		setPageContents(refToClassButton)
+		generateCode()
+	}
+}
+/*END REQUIRED FOR HISTORY*/
 
+function embedLinkConverter(event){
+	var vidString = $('#respVidSwitch').val().toString();
+	var videoLink = null;
+	var vidTypeReplace = [
+		{	include:"vimeo.com",
+			replace:'https://vimeo.com/',
+			repWith:'https://player.vimeo.com/video/',
+			replace2:'',
+			repWith2:''},
+		{	include:"youtube.com",
+			replace:'watch?v=',
+			repWith:'embed/',
+			replace2:'&start',
+			repWith2:'?start'},
+		{	include:"youtu.be",
+			replace:'youtu.be',
+			repWith:'www.youtube.com/embed',
+			replace2:'t=',
+			repWith2:'start='},
+		{	include:"monash.au.panopto",
+			replace:'Viewer',
+			repWith:'Embed',
+			replace2:'',
+			repWith2:''},
+		{	include:"ted.com",
+			replace:'www.ted.com',
+			repWith:'embed.ted.com',
+			replace2:'',
+			repWith2:''}
+	]
+	for(var vidI=0;vidI<vidTypeReplace.length;vidI++){
+		item = vidTypeReplace[vidI]
+		if (vidString.includes(item.include)){
+			videoLink = vidString.replace(item.replace,item.repWith).replace(item.replace2,item.repWith2)
+		}
+	}
 
+	$('#respVidSwitch').val(videoLink);
+	if (videoLink == null){
+		showErrorMsg('videoLinkError','Invalid url, please paste in a link to a panopto/youtube/TED/or Vimeo video',5000)
+	}
+	
+	var videopreview = document.getElementById('videopreview');
+}
     /* Variable Key
     These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
 
     respVid = responsive Video Right (context left/video right)
 
-    */
-   
-		/*These different options have been absorbed into a javascript Object allowing a direct mapping and lookup of code to icon name*/
+    These different options have been absorbed into a javascript Object allowing a direct mapping and lookup of code to icon name*/
 		
-    </script>
+  </script>
    <script>   
     window.onload=function(){
       $('#beestNav').load('common/beestnav.html');
@@ -405,7 +459,7 @@
     <div class="col-lg-6">
       <div class="row w-100 mx-auto">
         <div class="col-lg-3"> 
-          <h5 class="font-weight-bold">Recover past data<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Recover recently created items. This will only become operational once you have created at least one alert. If you change browsers or clear your browser history, you will lose this history as well." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+          <h5 class="font-weight-bold">Recover past data<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Recover recently created items. This will only become operational once you have created at least one item. If you change browsers or clear your browser history, you will lose this history as well." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
         </div>
         <div class="col-lg-8">
           <select class="custom-select border border-dark" size="1" id="recoveryDate" onchange="idSelectedRecData()">
@@ -486,12 +540,13 @@
                   <span aria-hidden="true">Close &times;</span>
                 </button>
               </div>
-            <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=a55274ab-2219-40ec-8c85-ac2c0000d64d"></iframe></div>
-            </div>
+            <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=a55274ab-2219-40ec-8c85-ac2c0000d64d"></iframe></div> </div>
           </div>
-        </div> </div>
+        </div> 
+		</div>
         
             <textarea class="rounded p-2 w-100 mt-2" rows="1" name="respVidSwitch" type="text" id="respVidSwitch" placeholder="Paste the Youtube/Panopto/Vimeo/TED Talks video link here" onchange=generateCode()></textarea>
+					<span id="videoLinkError"></span>
       </div>
     </div>
     <hr>
@@ -509,10 +564,6 @@
       <h5 class="font-weight-bold">Position <span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose which side of screen you would prefer the video to appear by clicking on one of the options below. Video on the right is selected by default." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
       </div>
       <div class="col-lg">
-              <!--<select class="custom-select w-100 border border-dark" id="videoPosition" name="videoPosition" size="1" onchange=generateCode()>
-                <option value="right" selected>Video on the right</option>
-                <option value="left">Video on the left</option>
-              </select>-->
               <div class="form-check form-check-inline" id="videoPosition" onchange=generateCode()>
                 <input class="form-check-input" name="videoPosition" id="videoPosition1" type="radio" value="left">
                 <label class="form-check-label" for="videoPosition1">Left</label>
@@ -529,10 +580,6 @@
           <h5 class="font-weight-bold">Width <span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose whether you want the video to be 50% (1/2) of the screen width or 33.3% (1/3) of the screen width." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
           </div>
           <div class="col-lg">
-              <!--<select class="custom-select w-100 border border-dark" id="videoWidth" name="videoWidth" size="1" onchange=generateCode()>
-                  <option value="50" selected>50% (1/2)</option>
-                  <option value="33">33.3% (1/3)</option>
-              </select>-->
               <div class="form-check form-check-inline" id="videoWidth" onchange=generateCode()>
                 <input class="form-check-input" name="videoWidth" id="videoWidth1" type="radio" value="50" checked>
                 <label class="form-check-label" for="videoWidth1">50% (1/2 of the screen width)</label>
@@ -558,11 +605,6 @@
       <h5 class="font-weight-bold">Heading size<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose the size of your heading. Will default to small on entering a heading above" class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
           </div>
           <div class="col-lg my-auto">
-            <!--<select class="custom-select w-100 border border-dark" id="headSize" name="headSize" size="1" onchange=generateCode()>
-            <option selected value="h5">Small (heading 5)</option>
-            <option value="h4">Medium (heading 4)</option>
-            <option value="h3">Large (heading 3)</option>
-          </select>-->
           <div class="form-check form-check-inline" id="headSize" onchange=generateCode()>
             <input class="form-check-input" name="headSize" id="headSizeNone" type="radio" value="noH" checked>
             <label class="form-check-label" for="headSizeNone">None</label>
@@ -587,13 +629,7 @@
             <h5 class="font-weight-bold">Heading icon<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose an icon to go with your heading. If you choose an icon without typing a heading, it will not display" class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
       </div>
       <div class="col-lg my-auto">
-            <!--<select class="custom-select w-100 border border-dark" id="faCode" name="faCode" size="1" onchange=generateCode()>
-              <option selected value="noI">No icon</option>
-                <option value="1">Video Camera</option>
-                <option value="2">Play</option>
-                <option value="3">Eye</option>
-              </select>-->
-              <div class="form-check form-check-inline" id="faCode" onchange=generateCode()>
+                <div class="form-check form-check-inline" id="faCode" onchange=generateCode()>
                 <input class="form-check-input" name="faCode" id="faCodeNone" type="radio" value="noI" checked>
                 <label class="form-check-label" for="faCodeNone">None</label>
               </div>
@@ -634,7 +670,7 @@
                  
                 </div>
               </div>
-                          <!--<input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Display in Moodle" onClick=writeinMoodle() ></p>-->
+                          <input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Display in Moodle" onClick=writeinMoodle() ></p>
                         
                 </div>
             </div>
@@ -718,15 +754,16 @@
 		}); 
       </script>
 <script>
-$(function () {
+$(function(){
   $(document).on('shown.bs.tooltip', function (e) {
      setTimeout(function () {
        $(e.target).tooltip('hide');
      }, 10000);
   });
-});</script>
+});
+</script>
 <script>
-  $(function () {
+  $(function(){
     $('#copyCodeBtn').on('shown.bs.tooltip', function (e) {
        setTimeout(function () {
          $(e.target).tooltip('hide');
@@ -734,7 +771,7 @@ $(function () {
     });
   });</script>
   <script>
-    $(function () {
+    $(function(){
       $('#toggleHelp').on('shown.bs.tooltip', function (e) {
          setTimeout(function () {
            $(e.target).tooltip('hide');

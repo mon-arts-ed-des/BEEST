@@ -479,12 +479,6 @@
 		classAccord.headSize = getRadioOption('headSize')
 		classAccord.icon = getRadioOption('faCode')
 		
-		var head_3="<h3>"
-		var endHead_3="</h3>"
-		var head_4="<h4>"
-		var endHead_4="</h4>"
-		var head_5="<h5>"
-		var endHead_5="</h5>"
 		var iconNames = {
             "noI":"",
 			"1":"database",
@@ -506,22 +500,13 @@
           faIconCode = "";
         }
 		
-		var resizedHead;
-        //Resizing the heading text
-		switch(classAccord.headSize){
-			case "noH":
-				resizedHead = "";
-				break;
-			case "h3":
-				resizedHead = head_3+faIconCode+classAccord.mainHead+endHead_3;
-				break;
-			case "h4":
-				resizedHead = head_4+faIconCode+classAccord.mainHead+endHead_4;
-				break;
-			case "h5":
-				resizedHead = head_5+faIconCode+classAccord.mainHead+endHead_5;
-				break;
-		}
+		var resizedHead
+			//Resizing the heading text
+			if (classAccord.headSize == "noH"){resizedHead = ""}
+			else{
+				var sizes = {"h3":3,"h4":4,"h5":5}
+				resizedHead = '<h'+sizes[classAccord.headSize]+'>'+faIconCode+classAccord.mainHead+"</h"+sizes[classAccord.headSize]+">"
+			}
 		
 		var monAccOutput = resizedHead;
 		

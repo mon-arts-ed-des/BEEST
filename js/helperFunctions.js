@@ -28,6 +28,84 @@ function actOnIndex(jQueryThis,index,selectedIndex,action){
 			}
 	
 }
+function default_XRadio_onEmpty_Y(textAreaId,radioAreaId,blankVal,defaultVal,callback){
+
+		var textarea = $("#"+textAreaId);
+		var checkRadio = function(){
+			if ((getRadioOption(radioAreaId)==blankVal)&&(textarea.val()!=="")){
+				$("#"+defaultVal).prop("checked", true);
+			}
+			callback();		  
+		};
+		// And when textarea changes
+		textarea.on("change", checkRadio);
+}
+
+function showHTML(id){
+	htmlStyle(id,"display","")
+}
+function hideHTML(id){
+	htmlStyle(id,"display","none")
+}
+	
+function htmlStyle(id,styleName,styleResult){
+	document.getElementById(id).style[styleName]=styleResult
+}
+
+function showErrorMsg(id,content,duration){
+	$('#'+id).css("color","red").fadeOut(1)
+	$('#'+id).html(content).fadeIn(500)
+	setTimeout(function(){
+		$('#'+id).fadeOut(1000,function(){$('#'+id).html("")})
+	},duration)
+}
+
+function hideButton(id){
+	try{
+		document.getElementById(id).disabled = true
+		hideHTML(id)
+	}
+	catch{}
+}
+function showButton(id){
+	try{
+		document.getElementById(id).disabled = false
+		showHTML(id)
+	}
+	catch{}
+  }
+
+function makeTinyWithID(id,callbacks,placeholder){
+	tinymce.init({
+		selector: '#'+id,
+		menubar: false,
+		plugins : 'advlist autolink link lists charmap print preview code placeholder',
+		placeholder: (placeholder == undefined ? 'Input your text here' : placeholder),
+		toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
+		'undo redo | charmap | autolink link | code | removeformat' ],
+		setup : function(ed) {
+			for (eventName in callbacks){
+				ed.on(eventName, callbacks[eventName]);
+			}
+		}
+	});
+}
+
+function basicTinyMCEWithID(id,callbacks,placeholder){
+	tinymce.init({
+		selector: '#'+id,
+		menubar: false,
+		plugins : 'autolink link placeholder table',
+		placeholder: (typeof(placeholder) == undefined ? 'Input your text here' : placeholder),
+		toolbar: ['bold italic | undo redo | autolink link | removeformat | table' ],
+		setup : function(ed) {
+			for (eventName in callbacks){
+				ed.on(eventName, callbacks[eventName]);
+			}
+		}
+	});
+	
+}
 
 function castAsNumIfPossible(potentialNum){
 	var casted = potentialNum * 1

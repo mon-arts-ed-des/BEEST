@@ -32,11 +32,29 @@
     <script src="js/advancedModeLocalStorage.js"></script>
     <!-- TinyMCE placeholder plugin file -->
     <script src="js/placeholder.js"></script> 
+	<script src="js/helperFunctions.js"></script>
+	<script src="js/setupPage.js"></script>
+	<script src="js/pageHistory.js"></script>
     <script>
-      /*REQUIRED FOR HISTORY*/    
-/*	const BUTTON_HIST = "history_button"
-	var localStorageHistory = BUTTON_HIST
-	var classButton = null
+/*REQUIRED FOR HISTORY*/   
+const IMAGE_HIST = "history_image"
+var localStorageHistory = IMAGE_HIST
+var classImage = null
+/*END REQUIRED FOR HISTORY*/   
+$(document).ready(function(){
+	setupGoogleAnalytics()
+/*REQUIRED FOR HISTORY*/   
+	initHistory()
+/*END REQUIRED FOR HISTORY*/   				
+	default_XRadio_onEmpty_Y("respImgHeading","headSize","noH","headSize1",generateCode)
+	setupToolTips(10000)
+	setupNav()
+	$('#respImgSwitch').on('input', replaceLinkWithEmbed);
+	makeTinyWithID('tinyMCEimage',{'change':generateCode},'[Placeholder for image context. The content you entered in step 2 will appear here.]')
+	classImage = new beestImage()
+	generateCode()
+})
+/*REQUIRED FOR HISTORY*/   
 	
 	$(document).ready(function(){initHistory()})
 	
@@ -81,6 +99,29 @@
 
 		}
 	}
+function getHistoryI(index,history){
+	if (history.length>0){
+		var selectedItem = history[index]
+		classImage = new beestImage()
+		classImage.fromObj(selectedItem)
+		refToClassButton = classImage
+		setTextAreas(refToClassButton)
+		generateCode()
+	}
+}
+function setTextAreas(classData){
+	txtAreaVals = {
+		'respImgSwitch': {type:'basic',value:classData.link},
+		'tinyMCEimage': {type:'tiny',value:classData.context},
+		'respImgHeading': {type:'basic',value:classData.heading},
+		'imagePosition': {type:'radio',value:classData.position},
+		'imageWidth': {type:'radio',value:classData.width},
+		'headSize': {type:'radio',value:classData.size},
+		'faCode': {type:'radio',value:classData.icon}
+	}
+	setTextAreas_util(txtAreaVals)
+}
+
 /*END REQUIRED FOR HISTORY*/
     window.gapiCallbacks=[];
 
@@ -256,7 +297,10 @@
       }
 
     function copyCode(){
-      SelectAll("txtarearespImg");
+      /*REQUIRED FOR HISTORY*/
+	  addToHistory(classImage)
+	  /*END REQUIRED FOR HISTORY*/
+	  SelectAll("txtarearespImg");
     }
 
     var contextCode;
@@ -264,7 +308,7 @@
     /*Function to generate and copy code for the responsive image*/
     function generateCode() {
         // Get the HTML contents of the currently active editor
-        console.debug(tinyMCE.activeEditor.getContent());
+	//console.debug(tinyMCE.activeEditor.getContent());
 
         if (document.getElementById('respImgSwitch').value !== ""){
         url = document.getElementById('respImgSwitch').value;
@@ -273,63 +317,49 @@
         url = "https://drive.google.com/uc?id=1Tel_KpnwCcoRUMdMFyw-GJ-_MaqeaWYZ&export=download";
         }
 
-        //Retrieve the content by id of the tinyMCE textarea
-        if (tinyMCE.get('tinyMCEimage').getContent() !== ""){
-        contextCode = tinyMCE.get('tinyMCEimage').getContent();
-        }
-        else{
-        contextCode = "[Placeholder for image context. The content you entered in step 2 will appear here.]";
-        }
+	contextCode = getTinyContent('tinyMCEimage',"[Placeholder for image context. This will update as you change the information on the page.]")
 
-        var imgHeading = document.getElementById('respImgHeading').value;
-        var imgWidth = $('input[name="imageWidth"]:checked').val();
-        var imgPosition = $('input[name="imagePosition"]:checked').val();
-        var headSize = $('input[name="headSize"]:checked').val();
-        var faIcon = $('input[name="faCode"]:checked').val();
+	var imgHeading = $('#respImgHeading').val();
+	var imgWidth = getRadioOption("imageWidth");
+	var imgPosition = getRadioOption("imagePosition");
+	var headSize = getRadioOption("headSize")
+	var faIcon = getRadioOption("faCode")
 
-        var head_3="<h3>"
-        var endHead_3="</h3>"
-        var head_4="<h4>"
-        var endHead_4="</h4>"
-        var head_5="<h5>"
-        var endHead_5="</h5>"
+	classImage.link = url
+	classImage.context = contextCode
+	classImage.position = imgPosition
+	classImage.width = imgWidth
+	classImage.heading = imgHeading
+	classImage.size = headSize
+	classImage.icon = faIcon
 
-        var rowOpen="<div class=\"row w-100\">"
-        var firstCol="<div class=\"col-lg\">"
-        var imgTag = "<img class=\"img-fluid\" src=\""
-        var firstCol4="<div class=\"col-lg-4\">"
-        var firstCol3="<div class=\"col-lg-3\">"
-        var secCol="<div class=\"col-lg mt-2\">"
-        var secCol4="<div class=\"col-lg-4 mt-2\">"
-        var secCol3="<div class=\"col-lg-3 mt-2\">"
-        var closeCol="\"></div>"
-        var closeCol_r="</div>"
-        var closeRow="</div></div>"
-        var closeRow_r="\"></div></div>"
+	var rowOpen="<div class=\"row w-100\">"
+	var firstCol="<div class=\"col-lg\">"
+	var imgTagMake = function (src){return '<img class="img-fluid" src="'+src+'">'}
+	var secCol="<div class=\"col-lg mt-2\">"
+	var closeCol="</div>"
+	var closeRow="</div></div>"
+	
+	var iconNames = {
+		"1":"image",
+		"2":"play",
+		"3":"eye" ,
+		"4":"camera"
+	}
 
-        var respImg_1="<div class=\"row w-100\"><div class=\"col-lg\">"
-        var respImg_2="</div><div class=\"col-lg\"><img class=\"img-fluid\" src=\""
-        var respImg_2r="<img class=\"img-fluid\" src=\""
-        var respImg_3="\"></div></div>"
-        var respImg_3r="\"></div>"
-        var respImg_4="<div class=\"col-lg mt-2\">"
-        var respImg_5="</div></div>"
+	var iconName = iconNames[faIcon];
+		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
+	
+	if (faIcon == "noI"){
+		faIconCode = "";
+	}  
 
-        var iconNames = {
-			      "1":"image",
-            "2":"play",
-            "3":"eye" ,
-            "4":""
-        }
-
-        var iconName = iconNames[faIcon];
-	     	var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
-		
-        if (faIcon == "noI"){
-          faIconCode = "";
-        }  
-
-    		var resizedHead;  
+	var resizedHead;  
+    
+	//Resizing the heading text
+	hTag = "<"+headSize+">"
+	hTagClose = "</"+headSize+">"
+	resizedHead = ((headSize == "noH") ? "" : hTag+faIconCode+imgHeading+hTagClose) 
     
        if(resizedHead == ""){
           $("#headSizeNone").prop("checked", true);
@@ -469,58 +499,9 @@
 }
     </style> 
 </head>
-<body">
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-arts mb-3 p-0">
-      <a class="navbar-brand text-center border border-white px-2 mx-2 rounded" href="index.html"><img src="img/dragon-solid-white.png" width="30" height="30" alt=""></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item m-0 p-2">
-            <a class="nav-link text-white" href="index.html">Home</a>
-          </li>
-          <li class="nav-item m-0 p-2">
-            <a class="nav-link text-white" href="beestvideo.html">Video</a>
-          </li>
-          <li class="nav-item m-0 p-2">
-            <a class="nav-link text-white" href="beestimage.html">Image</a>
-          </li>
-          <li class="nav-item m-0 p-2">
-          <a class="nav-link text-white" href="beestbutton.html">Button</a>
-          </li>
-          <li class="nav-item m-0 p-2">
-            <a class="nav-link text-white" href="beestalert.html">Alert</a>
-          </li>
-          <li class="nav-item m-0 p-2">
-            <a class="nav-link text-white" href="beesttable.html">Table</a>
-          </li>
-             <li class="nav-item m-0 p-2">
-            <a class="nav-link text-white" href="beestpolleverywhere.html">Poll Everywhere</a>
-          </li>
-             <li class="nav-item m-0 p-2">
-            <a class="nav-link text-white" href="beestreadmore.html">Read More Button</a>
-          </li>
-          <li class="nav-item m-0 p-2">
-            <a class="nav-link text-white" href="beestaccordion.html">Accordion</a>
-          </li>
-          <li class="nav-item m-0 p-2">
-            <a class="nav-link text-white" href="beesttabbedcontent.html">Tabbed Content</a>
-          </li>
-          <li class="nav-item m-0 p-2">
-            <a class="nav-link text-white" href="beestquote.html">Quote</a>
-          </li>
-          <li class="nav-item m-0 p-2 d-none">
-            <a class="nav-link text-white" href="beestexamples.html">Examples</a>
-          </li>
-        </ul>
-        <ul class="navbar-nav">
-          <li class="nav-item  m-0 p-2">
-            <a class="nav-link text-white" href="beestsupport.html">Support <i class="fa fa-question-circle-o"></i></a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+<body>
+<div id="beestNav">
+</div>
   <div class="py-5"></div>
 <div class="container-fluid">
 <h3 class="text-center font-weight-bold">Responsive image + context<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Upload an image from one of the listed platforms and input some context or text around the image. Then choose the size of the image, and which side of the screen you would like it on." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></h3>
@@ -611,6 +592,21 @@
 <form id="respImg">   
    <div class="row w-100 mx-auto">
     <div class="col-lg-6 mt-2">
+	<div class="row w-100 mx-auto">
+        <div class="col-lg-3"> 
+          <h5 class="font-weight-bold">Recover past data<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Recover recently created items. This will only become operational once you have created at least one item. If you change browsers or clear your browser history, you will lose this history as well." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+        </div>
+        <div class="col-lg-8">
+          <select class="custom-select border border-dark" size="1" id="recoveryDate" onchange="idSelectedRecData()">
+            <option selected value=0>please wait</option>
+            </select>
+          </div>
+          <div class="col-lg-1 text-center">
+            <button id="delHist" onclick="delHistI()" type="button" class="btn btn-danger mr-2" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Delete the currently selected historical data."><i class="fa fa-fw fa-trash"></i></button>
+            <button id="loadHist" onclick="getHistoryI(histIndex,historicalData)" class="btn btn-mu d-none">Recover <i class="fa fa-fw fa-undo"></i></button>
+        </div>
+      </div>
+      <hr>
     <div class="row w-100 mx-auto">
       <div class="col-lg-3">
         <h5 class="font-weight-bold">Link<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your image." class="small text-success hideableinstruct">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
@@ -909,25 +905,7 @@
               textarea.on("change", checkRadio);
               </script>
      <div class="py-5"></div>
-     <footer class="bg-arts text-white w-100">
-       <nav class="navbar navbar-expand navbar-dark bg-arts fixed-bottom mt-3 p-0">    
-           <a class="navbar-brand text-center border border-white px-2 rounded" href="index.html"><img src="img/dragon-solid-white.png" width="30" height="30" alt=""></a>  
-             <ul class="navbar-nav">
-               <span class="navbar-text my-auto text-white"><i class="fa fa-copyright" aria-hidden="true"></i> Monash University 2020</span>
-               <li class="nav-item mx-2 m-0 p-2">
-                   <a class="nav-link text-white" href="https://docs.google.com/forms/d/e/1FAIpQLSeojgdmy3o6gUq1ZzuV3Q2YflUDfxH4TKKzz5lbpTJLmLOm5w/viewform?usp=sf_link" target="_blank">Feedback/Improvements/Issues</a>
-               </li>
-                <li class="nav-item m-0 p-2">
-                   <a class="nav-link text-white" href="https://mail.google.com/mail/u/0/?view=cm&amp;fs=1&amp;to=beest@monash.edu&amp;su=Question%20about%20BEEST%20tool" target="_blank">Contact BEEST support<span class="sr-only">(current)</span></a>
-               </li>
-                 <li class="nav-item d-none m-0 p-2">
-                   <a class="nav-link text-white" href="beestexamples.html" target="_blank">Examples</a>
-                 </li>
-                 <li class="nav-item m-0 p-2">
-                   <a class="nav-link text-white" href="beestsupport.html" target="_blank">Support <i class="fa fa-question-circle-o"></i></a>
-                 </li>
-               </ul>
-               </nav>
-     </footer>
+</div>
+<div id="beestFooter"></div>
 </body>
 </html>

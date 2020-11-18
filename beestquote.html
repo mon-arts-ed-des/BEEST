@@ -4,13 +4,6 @@
 <head>
   <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152392632-3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-152392632-3');
-</script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="A simple element creator to generate responsive code that can be easily embbedded into Moodle">
@@ -37,95 +30,107 @@
     <script src="js/advancedModeLocalStorage.js"></script>
     <!-- TinyMCE placeholder plugin file -->
     <script src="js/placeholder.js"></script> 
+      <script src="js/pageHistory.js"></script>
+      <script src="js/helperFunctions.js"></script>
+      <script src="js/setupPage.js"></script>  
 
     <script type="text/javascript">
-/*REQUIRED FOR HISTORY  
-const QUOTE_HIST = "history_quote"
+/*REQUIRED FOR HISTORY*/ 
+	const QUOTE_HIST = "history_quote"
 	var localStorageHistory = QUOTE_HIST
 	var classQuote = null
-	$(document).ready(function(){initHistory()})
-	class quote{
-		constructor(contentQ,contentR,textSize,colour){
-			this.quoteText = contentQ
-      this.referenceText = contentR
-      this.textSize = textSize
-			this.colour = colour
-		}
-		toPDO(){
-			var result = {}
-			result.quoteText = this.quoteText
-			result.referenceText = this.referenceText
-			result.textSize = this.textSize
-			result.colour = this.colour
-			return result
-		}	
-		toString(){
-			return JSON.stringify(this.toPDO())
-		}
-		fromObj(PDO){
-			this.quoteText = PDO.quoteText
-			this.referenceText = PDO.referenceText
-			this.textSize = PDO.textSize
-			this.colour = PDO.colour
-		}
-	}
-/*END REQUIRED FOR HISTORY*/
-    tinymce.init({
-            selector: '#quoteText',
-            menubar: false,
-            plugins : 'advlist autolink link lists charmap print preview code placeholder',
-            placeholder:'[Placeholder for quote. The content you enter for your quote will appear here.]',
-            toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat',
-            setup : function(ed) {      
-            ed.on('change', function (e) {	
-              generateQuoteCode();
-              });			
-          }
-        });
-        //extraction for radio button variables
-        function getRadioOption(id){
-		return $('div #'+id).find('input[name="'+id+'"]:checked').val()
-	}
-  //placeholder for tinyMCE
-  const PLACEHOLDER = "[Placeholder for quote. The content you enter for your quote will appear here.]"
 	
-  //sets tinyMCE content to placeholder or input value
-  function setTinyContent(id,value){
-		tiny = tinyMCE.get(id)
-		tiny.setContent(value)
+	//placeholder for tinyMCE
+	const QUOTE_PLACEHOLDER =  "[Placeholder for quote. The content you enter for your quote will appear here.]" 
+	
+	$(document).ready(function(){
+		setupGoogleAnalytics();
+		setupNav();
+		setupToolTips();
+		makeTinyWithID('quoteText',{'change':generateQuoteCode},QUOTE_PLACEHOLDER)
+		classQuote = new quote()
+	
+		/*REQUIRED FOR HISTORY*/ 
+		initHistory()
+		/*END REQUIRED FOR HISTORY*/ 
+	})
+
+/*REQUIRED FOR HISTORY*/ 
+
+class quote{
+	constructor(quoteText,referenceText,textSize,colour){
+		this.quoteText = quoteText
+		this.referenceText = referenceText
+		this.textSize = textSize
+		this.colour = colour
 	}
-	function getTinyContent(id,placeholder){
-		var tiny = tinyMCE.get(id).getContent()
-		if (tiny !== "") {
-            content = tiny;
-        } else {
-            content = placeholder;
-        }
-		return content
+	toPDO(){
+		var obj = {}
+		for (var prop in this){
+			if (typeof(this[prop])!="function"){
+				obj[prop] = this[prop]
+			}
+		}
+		obj.mainHead = this.quoteText
+		return obj
 	}
-  function getId(id){return document.getElementById(id)}
+	toJSON(){return this.toPDO()}
+	toString(){
+		return JSON.stringify(this.toPDO())
+	}
+	fromObj(PDO){
+		for (var prop in PDO){
+			if (this.hasOwnProperty(prop)){
+				this[prop] = PDO[prop]
+			}
+		}
+	}
+}
+function getHistoryI(index,history){
+	if (history.length>0){
+		var selectedItem = history[index]
+		classQuote = new quote()
+		classQuote.fromObj(selectedItem)
+		refToClassButton = classQuote
+		setTextAreas(refToClassButton)
+		generateCode()
+	}
+}
+function setTextAreas(classData){
+	txtAreaVals = {
+		'quoteText': {type:'tiny',value:classData.quoteText},
+		'referenceText': {type:'basic',value:classData.referenceText},
+		'bgColour': {type:'radio',value:classData.colour},
+		'textSize': {type:'radio',value:classData.textSize}
+	}
+	setTextAreas_util(txtAreaVals)
+	generateQuoteCode()
+}
+/*END REQUIRED FOR HISTORY*/
 
   //generates code as page preferences are updated
     function generateQuoteCode() {
         console.debug(tinyMCE.activeEditor.getContent());
-        quote_Text = getTinyContent("quoteText", PLACEHOLDER)
-      //var quote_Text = document.getElementById('quoteText').value;
+        quote_Text = getTinyContent("quoteText", QUOTE_PLACEHOLDER)
         var reference_text = document.getElementById('referenceText').value
         var bsColour = getRadioOption('bgColour')
         var textSize = getRadioOption('textSize')
         
-        if (textSize == "h5"){
-        var resizedText = "<div style=\"font-size:1.2rem;\">";
-        }
-        else if (textSize == "h3"){
-        var resizedText = "<div style=\"font-size:1.55rem;\">";
-        }
-        else if (textSize == "h4"){
-        var resizedText = "<div style=\"font-size:1.4rem;\">";
-        }
+		classQuote.quoteText = quote_Text
+		classQuote.referenceText = reference_text
+		classQuote.textSize = textSize
+		classQuote.colour = bsColour
+		
+		sizeMap = {
+			"h3":"1.55rem",
+			"h4":"1.4rem",
+			"h5":"1.2rem"
+		}
+		
+		var resizedText = "<div style=\"font-size:"+sizeMap[textSize]+";\">";
         
         var colourNames = {
-			      "1":"mu",
+			"1":"mu",
             "2":"danger",
             "3":"warning",
             "4":"success",
@@ -135,17 +140,13 @@ const QUOTE_HIST = "history_quote"
             "8":"secondary"
              }
         var colourName = colourNames[bsColour];
-		    var bgClrCode = "<blockquote class=\"blockquote alert alert-"+colourName+" pb-3 px-2 border border-"+colourName+" rounded\"><i aria-hidden=\"true\" class=\"fa fa-fw fa-quote-left fa-2x fa-pull-left\"></i>"
-          if (colourName == "mu"){
-        var bgClrCode = "<blockquote class=\"blockquote alert alert-"+colourName+" pb-3 px-2 rounded\"><i aria-hidden=\"true\" class=\"fa fa-fw fa-quote-left fa-2x fa-pull-left\"></i>";
-        }
-        var quoteOutput = bgClrCode+resizedText+quote_Text+quotes_1+reference_text+quotes_2;
+		var bgClrCode = "<blockquote class=\"blockquote alert alert-"+colourName+" pb-3 px-2"+((colourName != "mu") ? " border border-"+colourName : "" )+" rounded\"><i aria-hidden=\"true\" class=\"fa fa-fw fa-quote-left fa-2x fa-pull-left\"></i>"
+		var quoteOutput = bgClrCode+resizedText+quote_Text+quotes_1+reference_text+quotes_2;
     
         document.getElementById('monQuoteCode').innerHTML=quoteOutput;
         //SelectAll("monQuoteCode");
-        $('#demoQuote').nextAll('blockquote').remove();
-        $('#demoQuote').after(quoteOutput);
-        }
+        $('#demoQuote').html(quoteOutput);
+	}
 //end generateQuoteCode
   //function to recover code previously generated in BEEST
   /*function recoverCode(){
@@ -201,7 +202,7 @@ const QUOTE_HIST = "history_quote"
    
     function copyCode() {
         /*REQUIRED FOR HISTORY*/	  
-		//addToHistory(classQuote)
+		addToHistory(classQuote)
 		/*END REQUIRED FOR HISTORY*/
 		SelectAll("monQuoteCode");
     }
@@ -231,26 +232,6 @@ const QUOTE_HIST = "history_quote"
     
     var quotes_1="</div><i aria-hidden=\"true\" class=\"fa fa-fw fa-quote-right fa-2x fa-pull-right\"></i><div class=\"blockquote-footer mt-2\">"
     var quotes_2="</div></blockquote>"
-    </script>
-    <script>   
-      window.onload=function(){
-        $('#beestNav').load('common/beestnav.html');
-        $('#beestFooter').load('common/beestfooter.html');
-        function activeNav() {
-            var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
-             $(".nav-link").each(function(){
-                  if($(this).attr("href") == pgurl || $(this).attr("href") == '' ){
-                  $(this).addClass("active");
-                  $(this).removeClass("text-white");
-                  $(this).append('<span class="sr-only">(current)</span>');
-                  $(this).closest('.nav-item').css({"background": "#004DAE"});
-             }
-            });
-        }
-        setTimeout(function() {
-            activeNav();
-        }, 100);
-      };
     </script>
        <style>
         .mce-notification-inner, .mce-close, .mce-notification-warning {
@@ -449,30 +430,6 @@ const QUOTE_HIST = "history_quote"
         </div></div>
     </form>   
         </div>
-                <script>
-                  $(function () {
-                    $(document).on('shown.bs.tooltip', function (e) {
-                       setTimeout(function () {
-                         $(e.target).tooltip('hide');
-                       }, 10000);
-                    });
-                  });</script>
-                  <script>
-                    $(function () {
-                      $('#copyCodeBtn').on('click', function (e) {
-                         setTimeout(function () {
-                           $(e.target).tooltip('hide');
-                         }, 2500);
-                      });
-                    });
-                    $(function () {
-                      $('#toggleHelp').on('click', function (e) {
-                         setTimeout(function () {
-                           $(e.target).tooltip('hide');
-                         }, 2500);
-                      });
-                    });
-                    </script>
         <div id="beestFooter"></div>
         </body>
         </html>

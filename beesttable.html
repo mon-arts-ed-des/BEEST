@@ -576,14 +576,14 @@ function getHistoryI(index,history){
 	  
 		tableContents = getTableContentsFromPage(currRow,currCol)
 		var tableMainHeading = document.getElementById('tableMainHeading').value;
-		var headSize = document.getElementById('headSize').value;
-		var faIcon = document.getElementById('faCode').value;
-		var head_3="<h3>"
-		var endHead_3="</h3>"
-		var head_4="<h4>"
-		var endHead_4="</h4>"
-		var head_5="<h5>"
-		var endHead_5="</h5>"
+		var headSize = getRadioOption('headSize');
+		var faIcon = getRadioOption('faCode');
+
+		classTable.tableData = tableContents		
+		classTable.mainHead = tableMainHeading
+		classTable.icon = faIcon
+		classTable.headSize = headSize
+		
 		var iconNames = {
             "1":"calendar",
 		    "2":"list-ol",
@@ -616,19 +616,12 @@ function getHistoryI(index,history){
 		}
 		else{
         //Resizing the heading text
-			switch(headSize){
-				case "noH":
-					resizedHead = "";
-					break;
-				case "h3":
-					resizedHead = head_3+faIconCode+tableMainHeading+endHead_3;
-					break;
-				case "h4":
-					resizedHead = head_4+faIconCode+tableMainHeading+endHead_4;
-					break;
-				case "h5":
-					resizedHead = head_5+faIconCode+tableMainHeading+endHead_5;
-					break;
+			var resizedHead
+			//Resizing the heading text
+			if (headSize == "noH"){resizedHead = ""}
+			else{
+				var sizes = {"h3":3,"h4":4,"h5":5}
+				resizedHead = '<h'+sizes[headSize]+'>'+faIconCode+tableMainHeading+"</h"+sizes[headSize]+">"
 			}
 		}
 		var textOutputTable = newTableCode(tableContents)

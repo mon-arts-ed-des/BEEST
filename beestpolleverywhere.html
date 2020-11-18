@@ -3,13 +3,6 @@
 <head>
   <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152392632-3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-152392632-3');
-</script>
 
     <meta charset="utf-8"></meta>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -36,14 +29,25 @@
     <script src="js/advancedModeLocalStorage.js"></script>
     <!-- TinyMCE placeholder plugin file -->
     <script src="js/placeholder.js"></script> 
+	<script src="js/pageHistory.js"></script>
+	<script src="js/helperFunctions.js"></script>
+	<script src="js/setupPage.js"></script>
     <script type="text/javascript">
-    /*REQUIRED FOR HISTORY  
-    const BUTTON_HIST = "history_button"
-    var localStorageHistory = BUTTON_HIST
-    var classButton = null
-    
-    $(document).ready(function(){initHistory()})
-    
+    /*REQUIRED FOR HISTORY  */
+    const POLLEV_HIST = "history_pollev"
+    var localStorageHistory = POLLEV_HIST
+    var classPollEv = null
+	/*END REQUIRED FOR HISTORY  */
+    $(document).ready(function(){
+		setupGoogleAnalytics()
+		/*REQUIRED FOR HISTORY*/ 
+		//initHistory()
+		/*END REQUIRED FOR HISTORY*/
+		setupToolTips()
+		setupNav()
+	})
+    /*REQUIRED FOR HISTORY  */
+	/*
     class button{
         constructor(content,destination,buttonSize,icon,colour,width,newWindow,alignment,invert){
             this.mainHead = content
@@ -105,12 +109,6 @@
         var pollHeading = document.getElementById('pollHeading').value;
         var headSize = getRadioOption('headSize')
         var faIcon = getRadioOption('faCode')
-        var head_3="<h3>"
-        var endHead_3="</h3>"
-        var head_4="<h4>"
-        var endHead_4="</h4>"
-        var head_5="<h5>"
-        var endHead_5="</h5>"
         var iconNames = {
                   "1":"bar-chart",
             "2":"line-chart",
@@ -133,23 +131,14 @@
         if (faIcon == "none"){
           faIconCode = "";
         }
-        
-        var resizedHead;
-        //Resizing the heading text
-        switch(headSize){
-            case "noH":
-                resizedHead = "";
-                break;
-            case "h3":
-                resizedHead = head_3+faIconCode+pollHeading+endHead_3;
-                break;
-            case "h4":
-                resizedHead = head_4+faIconCode+pollHeading+endHead_4;
-                break;
-            case "h5":
-                resizedHead = head_5+faIconCode+pollHeading+endHead_5;
-                break;
-        }
+		
+		var resizedHead
+			//Resizing the heading text
+		if (headSize == "noH"){resizedHead = ""}
+		else{
+			var sizes = {"h3":3,"h4":4,"h5":5}
+			resizedHead = '<h'+sizes[headSize]+'>'+faIconCode+pollHeading+"</h"+sizes[headSize]+">"
+		}
         //Retrieve the content by id of the textareas
      //pollEv_URL = document.getElementById('pollEv_URL').value;
     if (document.getElementById('pollEv_URL').value != ""){
@@ -526,30 +515,6 @@
     <div id="demo"></div>
     <span class="my-3"></span>
   </div>
-  <script>
-    $(function () {
-      $(document).on('shown.bs.tooltip', function (e) {
-         setTimeout(function () {
-           $(e.target).tooltip('hide');
-         }, 7000);
-      });
-    });</script>
-    <script>
-      $(function () {
-        $('#copyCodeBtn').on('click', function (e) {
-           setTimeout(function () {
-             $(e.target).tooltip('hide');
-           }, 2500);
-        });
-      });
-      $(function () {
-        $('#toggleHelp').on('click', function (e) {
-           setTimeout(function () {
-             $(e.target).tooltip('hide');
-           }, 2500);
-        });
-      });
-      </script>
       <!--Checks the small heading size option when a heading is entered-->
       <script>
         var textarea = $("#pollHeading");

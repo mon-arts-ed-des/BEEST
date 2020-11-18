@@ -287,6 +287,35 @@
     $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
+
+
+/*REQUIRED FOR HISTORY*/
+function setTextAreas(classData){
+	txtAreaVals = {
+		'tinyMCEreadMoreBefore': {type:'tiny',value:classData.before},
+		'tinyMCEreadMoreAfter': {type:'tiny',value:classData.after},
+		'readMoreNumber': {type:'basic',value:classData.buttonNum},
+		'readMoreBtnTxt': {type:'basic',value:classData.buttonTxt},
+		'btnColour': {type:'radio',value:classData.colour},
+		'invertColour': {type:'radio',value:classData.colInv},
+		'buttonSize': {type:'radio',value:classData.size},
+		'buttonWidth': {type:'radio',value:classData.width},
+		'faCode': {type:'radio',value:classData.iconPair}
+	}
+	setTextAreas_util(txtAreaVals)
+	generateReadMoreCode()
+}
+function getHistoryI(index,history){
+	if (history.length>0){
+		var selectedItem = history[index]
+		classReadMore = new readMore()
+		classReadMore.fromObj(selectedItem)
+		refToClassButton = classReadMore
+		setTextAreas(refToClassButton)
+		generateReadMoreCode()
+	}
+}
+/*END REQUIRED FOR HISTORY*/
     /* Variable Key
     These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
 
