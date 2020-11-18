@@ -323,7 +323,7 @@ function getHistoryI(index,history){
 
 function embedLinkConverter(event){
 	var vidString = $('#respVidSwitch').val().toString();
-	var videoLink;
+	var videoLink = null;
 	var vidTypeReplace = [
 		{	include:"vimeo.com",
 			replace:'https://vimeo.com/',
@@ -340,7 +340,7 @@ function embedLinkConverter(event){
 			repWith:'www.youtube.com/embed',
 			replace2:'t=',
 			repWith2:'start='},
-		{	include:"monash-panopto",
+		{	include:"monash.au.panopto",
 			replace:'Viewer',
 			repWith:'Embed',
 			replace2:'',
@@ -359,6 +359,9 @@ function embedLinkConverter(event){
 	}
 
 	$('#respVidSwitch').val(videoLink);
+	if (videoLink == null){
+		showErrorMsg('videoLinkError','Invalid url, please paste in a link to a panopto/youtube/TED/or Vimeo video',5000)
+	}
 	
 	var videopreview = document.getElementById('videopreview');
 
@@ -469,7 +472,7 @@ function embedLinkConverter(event){
     <div class="col-lg-6">
       <div class="row w-100 mx-auto">
         <div class="col-lg-3"> 
-          <h5 class="font-weight-bold">Recover past data<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Recover recently created items. This will only become operational once you have created at least one alert. If you change browsers or clear your browser history, you will lose this history as well." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+          <h5 class="font-weight-bold">Recover past data<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Recover recently created items. This will only become operational once you have created at least one item. If you change browsers or clear your browser history, you will lose this history as well." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
         </div>
         <div class="col-lg-8">
           <select class="custom-select border border-dark" size="1" id="recoveryDate" onchange="idSelectedRecData()">
@@ -550,12 +553,13 @@ function embedLinkConverter(event){
                   <span aria-hidden="true">Close &times;</span>
                 </button>
               </div>
-            <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=a55274ab-2219-40ec-8c85-ac2c0000d64d"></iframe></div>
-            </div>
+            <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=a55274ab-2219-40ec-8c85-ac2c0000d64d"></iframe></div> </div>
           </div>
-        </div> </div>
+        </div> 
+		</div>
         
             <textarea class="rounded p-2 w-100 mt-2" rows="1" name="respVidSwitch" type="text" id="respVidSwitch" placeholder="Paste the Youtube/Panopto/Vimeo/TED Talks video link here" onchange=generateCode()></textarea>
+					<span id="videoLinkError"></span>
       </div>
     </div>
     <hr>

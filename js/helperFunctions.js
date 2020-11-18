@@ -119,6 +119,14 @@ function htmlStyle(id,styleName,styleResult){
 	document.getElementById(id).style[styleName]=styleResult
 }
 
+function showErrorMsg(id,content,duration){
+	$('#'+id).css("color","red").fadeOut(1)
+	$('#'+id).html(content).fadeIn(500)
+	setTimeout(function(){
+		$('#'+id).fadeOut(1000,function(){$('#'+id).html("")})
+	},duration)
+}
+
 function hideButton(id){
 	try{
 		document.getElementById(id).disabled = true
