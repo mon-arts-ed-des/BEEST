@@ -23,6 +23,7 @@
     <!-- external link to js file -->  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <!-- Bootstrap js file --> 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- FontAwesome js file --> 
@@ -56,49 +57,35 @@ $(document).ready(function(){
 })
 /*REQUIRED FOR HISTORY*/   
 	
-	$(document).ready(function(){initHistory()})
-	
-	class button{
-		constructor(content,destination,buttonSize,icon,colour,width,newWindow,alignment,invert){
-			this.mainHead = content
-			this.destination = destination
-			this.buttonSize = buttonSize
-			this.icon = icon
-			this.colour = colour
-			this.invert = invert
-			this.width = width
-			this.newWindow = newWindow
-			this.alignment = alignment
+class beestImage{
+	constructor(link,context,position,width,heading,size,icon){
+		this.link = link
+		this.context = context
+		this.position = position
+		this.width = width
+		this.heading = heading
+		this.size = size
+		this.icon = icon
+	}
+	toPDO(){
+			var obj = {}
+			for (var prop in this){
+				if (typeof(this[prop])!="function"){
+					obj[prop] = this[prop]
+				}
+			}
+			obj.mainHead = this.heading
+			return obj
 		}
-		toPDO(){
-			var result = {}
-			result.destination = this.destination
-			result.mainHead = this.mainHead
-			result.buttonSize = this.buttonSize
-			result.icon = this.icon
-			result.colour = this.colour
-			result.width = this.width
-			result.newWindow = this.newWindow
-			result.alignment = this.alignment
-			result.invert = this.invert
-			return result
-		}	
-		toString(){
-			return JSON.stringify(this.toPDO())
-		}
-		fromObj(PDO){
-			this.mainHead = PDO.mainHead
-			this.destination = PDO.destination
-			this.buttonSize = PDO.buttonSize
-			this.icon = PDO.icon
-			this.colour = PDO.colour
-			this.width = PDO.width
-			this.newWindow = PDO.newWindow
-			this.alignment = PDO.alignment
-			this.invert = PDO.invert
-
+	toJSON(){return this.toPDO()}
+	fromObj(PDO){
+		for (var prop in PDO){
+			if (this.hasOwnProperty(prop)){
+				this[prop] = PDO[prop]
+			}
 		}
 	}
+}
 function getHistoryI(index,history){
 	if (history.length>0){
 		var selectedItem = history[index]
@@ -220,11 +207,8 @@ function setTextAreas(classData){
       if (data.action == google.picker.Action.PICKED) {
         var fileId = data.docs[0].id;
         url = 'https://drive.google.com/uc?id=' + fileId + '&amp;export=download';
-        document.getElementById('img').src = url;
-        var imagepreview = document.getElementById("imagepreview");
-        imagepreview.style.display = "block";
-        //var imgpreview = document.getElementById("img2");
-        //imgpreview.style.display = "none";
+		$('#respImgSwitch').val(url)
+
         generateCode();
       }
     }
@@ -232,69 +216,6 @@ function setTextAreas(classData){
     function writeinMoodle() {
       tinyMCE.get('#id_introeditor').setContent(textOutput);
     }
-
-    tinymce.init({
-        selector: '#tinyMCEimage',
-        menubar: false,
-        plugins : 'advlist autolink link lists charmap print preview code placeholder',
-        placeholder:'[Placeholder for image context. The content you entered in step 2 will appear here.]',
-        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat',
-        setup : function(ed) {      
-        ed.on('change', function (e) {	
-          generateCode();
-          });	
-        /*ed.on('init', function(e){
-          if (tinymce.get('tinyMCEimage').getContent() == ''){
-          tinymce.get('tinyMCEimage').setContent("<p id='#imThePlaceholder' style='opacity:0.6'>[Placeholder for image context. The content you entered in step 2 will appear here.]</p>");
-          }
-        });
-        //and remove it on focus
-        ed.on('focus',function(e){
-            $('iframe').contents().find('#imThePlaceholder').remove();
-        })*/			
-      }
-    });
-    
-   	/*These different options have been absorbed into a javascript Object allowing a direct mapping and lookup of code to icon name*/
-	
-    function iconpreview() {
-        var faIcon = document.getElementById('faCode').value;
-        var iconNames = {
-			      "1":"fa-picture-o",
-            "2":"play",
-            "3":"eye" ,
-            "4":"camera"
-        }
-
-        var iconName = iconNames[faIcon];
-	     	var faIconCode = "<i id=\"icon\" class=\"fa fa-"+iconName+"\"></i> ";
-		
-        if (faIcon == "noI"){
-          faIconCode = "";
-          if (document.getElementById("icon"))
-           {
-            var icon = document.getElementById("icon");
-            icon.parentNode.removeChild(icon);
-            var iconpreview = document.getElementById("iconpreview");
-            iconpreview.style.display = "none";
-           }
-        }
-
-        else{
-          if (document.getElementById("icon"))
-          {
-            var icon = document.getElementById("icon");
-            icon.parentNode.removeChild(icon);
-          }
-
-          var code = document.createElement("span");
-          code.innerHTML = faIconCode;
-          var iconpreview = document.getElementById("iconpreview");
-          iconpreview.style.display = "block";
-          iconpreview.parentNode.insertBefore(code,iconpreview.nextSibling);
-        }
-        generateCode();
-      }
 
     function copyCode(){
       /*REQUIRED FOR HISTORY*/
@@ -306,18 +227,18 @@ function setTextAreas(classData){
     var contextCode;
 
     /*Function to generate and copy code for the responsive image*/
-    function generateCode() {
+function generateCode() {
         // Get the HTML contents of the currently active editor
 	//console.debug(tinyMCE.activeEditor.getContent());
 
-        if (document.getElementById('respImgSwitch').value !== ""){
+	if (document.getElementById('respImgSwitch').value !== ""){
         url = document.getElementById('respImgSwitch').value;
-        }
-        else{
-        url = "https://drive.google.com/uc?id=1Tel_KpnwCcoRUMdMFyw-GJ-_MaqeaWYZ&export=download";
-        }
+	}
+	else{
+        url = imageplaceholder;
+	}
 
-	contextCode = getTinyContent('tinyMCEimage',"[Placeholder for image context. This will update as you change the information on the page.]")
+	contextCode = getTinyContent('tinyMCEimage',"[Placeholder for image context. The content you entered in step 2 will appear here.]")
 
 	var imgHeading = $('#respImgHeading').val();
 	var imgWidth = getRadioOption("imageWidth");
@@ -361,100 +282,107 @@ function setTextAreas(classData){
 	hTagClose = "</"+headSize+">"
 	resizedHead = ((headSize == "noH") ? "" : hTag+faIconCode+imgHeading+hTagClose) 
     
-       if(resizedHead == ""){
-          $("#headSizeNone").prop("checked", true);
-       }
+    //Change size of column if requested
+	if (imgWidth != "50"){
+		widthClass = {"50":"col-lg","33":"col-lg-4","25":"col-lg-3"}
+		if (imgPosition == "left"){
+			firstCol = firstCol.replace(widthClass["50"],widthClass[imgWidth])
+		}
+		else if (imgPosition == "right"){
+			secCol = secCol.replace(widthClass["50"],widthClass[imgWidth])
+		}
+	}
+	var leftColContent = ""
+	var rightColContent = ""
+	if (imgPosition == "left"){
+		leftColContent = imgTagMake(url)
+		rightColContent = contextCode
+	}
+	else if (imgPosition == "right"){
+		leftColContent = contextCode
+		rightColContent = imgTagMake(url)
+	}
+	var textOutput = resizedHead+rowOpen+firstCol+leftColContent+closeCol+secCol+rightColContent+closeRow;
 
-      else{
-            //Resizing the heading text
-            
-        switch(headSize){
-          case "noH":
-            resizedHead = "";
-            break
-          case "h3":
-            resizedHead = head_3+faIconCode+imgHeading+endHead_3;
-            break;
-          case "h4":
-            resizedHead = head_4+faIconCode+imgHeading+endHead_4;
-            break;
-          case "h5":
-            resizedHead = head_5+faIconCode+imgHeading+endHead_5;
-            break;
-        }
-  
-      }
-    
+	 //Add the html code after the div
+	var demoDiv = document.getElementById("demo");
+	demoDiv.innerHTML = textOutput;
+	$('#txtarearespImg').val(textOutput)
+}
 
-    
-        //Change size of column if requested
-        if (imgWidth == "33" && imgPosition == "left"){
-          firstCol=firstCol4;
-        }
-        else if (imgWidth == "33" && imgPosition== "right"){
-          secCol=secCol4;
-        }
-        else if (imgWidth == "25" && imgPosition== "left"){
-          firstCol=firstCol3;
-        }
-        else if (imgWidth == "25" && imgPosition== "right"){
-          secCol=secCol3;
-        }
-
-          if (url !== imageplaceholder)
-          {
-          }
-          else
-          {
-            url = imageplaceholder;
-          }
-
-        if (imgPosition == "left"){
-            //var textOutput = resizedHead+respImg_1+respImg_2r+url+respImg_3r+respImg_4+contextCode+respImg_5;
-            var textOutput = resizedHead+rowOpen+firstCol+imgTag+url+closeCol+secCol+contextCode+closeRow;
-        }
-        else if (imgPosition == "right"){
-            //var textOutput = resizedHead+respImg_1+contextCode+respImg_2+url+respImg_3;
-            var textOutput = resizedHead+rowOpen+firstCol+contextCode+closeCol_r+secCol+imgTag+url+closeRow_r;
-        }
-
-        document.getElementById('txtarearespImg').innerHTML=textOutput;
-        //SelectAll("txtarearespImg");
-         //Add the html code after the div
-		    var demoDiv = document.getElementById("demo");
-		    demoDiv.innerHTML = textOutput;
-        }
-
-      //var textarea = $('#respImgHeading');
-      //var select = $('#headSize');
-      //var addOrRemoveRequiredAttribute = function () {
-      //if (textarea.val().length) {
-      //  select.val("h5")
-     // }
-      //};
-
-      // Run now
-     // addOrRemoveRequiredAttribute();
-
-      // And when textarea changes
-    //  textarea.on('change', addOrRemoveRequiredAttribute);
-
-    function SelectAll(id){
-        document.getElementById(id).focus();
-        document.getElementById(id).select();
-        document.execCommand("copy");
-        var popup = document.getElementById("myPopup");
-        popup.classList.toggle("showPopup");
-    }
+//Function to select all of the html in the final textarea and copy it at the same time
+function SelectAll(id){
+	document.getElementById(id).focus();
+	document.getElementById(id).select();
+	document.execCommand("copy");
+	var popup = document.getElementById("myPopup");
+	popup.classList.toggle("showPopup");
+}
  
 
-    function submitform()
-    {
-        document.forms["myform"].submit();
-    }
-    $(function () {
+function submitform()
+{
+	document.forms["myform"].submit();
+}
+$(function () {
   $('[data-toggle="tooltip"]').tooltip()
 });
+//Function to replace image links (plain URLs) with the embed version of the link.
+function replaceLinkWithEmbed(event){
+	var imgString = $('#respImgSwitch').val().toString();
+	var imgLink = "";
+	var imgTypeReplace = [
+		{	include:"unsplash.com",
+			replace:'https://unsplash.com/photos',
+			repWith:'https://source.unsplash.com',
+			replace2:'',
+			repWith2:'',
+			append: ''},
+		{	include:"pexels.com",
+			replace:'https://www.pexels.com/photo/',
+			repWith:'',
+			replace2:'/',
+			repWith2:'',
+			doExtraOp: true,
+			extraOp: function(strIn){
+				var pexelsid = strIn.match(/\d+/)[0];
+				return "https://images.pexels.com/photos/" + pexelsid + "/pexels-photo-" + pexelsid;
+			},
+			append: ".jpeg" },
+		{	include:"stocksnap.io",
+			replace:'https://stocksnap.io/photo/',
+			repWith:'https://cdn.stocksnap.io/img-thumbs/960w/',
+			replace2:/-([^-]*)$/,
+			repWith2:'_$1',
+			append: ".jpg"},
+		{	include:"drive.google.com",
+		//https://drive.google.com/file/d/1PK5CMX2QliGRHlionI2pZBlQMzpznOcF/view?usp=sharing
+			replace:'/file/d/',
+			repWith:'/uc?id=',
+			replace2:'/view?usp=sharing',
+			repWith2:'&export=download',
+			append: ""}
+	]
+	ifAny = false
+	for(var imgI=0;imgI<imgTypeReplace.length;imgI++){
+		item = imgTypeReplace[imgI]
+		if (imgString.includes(item.include)){
+			imgLink = imgString.replace(item.replace,item.repWith).replace(item.replace2,item.repWith2)
+			if (item.doExtraOp){
+				imgLink = item.extraOp(imgLink)
+			}
+			imgLink += item.append
+			ifAny = true
+		}
+	}
+	if (!ifAny){
+		var popup2 = document.getElementById("myPopup2");
+		popup2.classList.toggle("showPopup");
+	}
+	else{
+		$('#respImgSwitch').val(imgLink)
+	}
+}
 
   </script>
   <!-- Load the Google API Loader script. -->
@@ -465,35 +393,19 @@ function setTextAreas(classData){
   <script src="js/drive-controller.js"></script>
   <script src="js/gapi-auth-service.js"></script>
   <script src="js/drive-service.js"></script>
-  <script>
-  window.onload=function(){
-    generateCode();
-    function activeNav() {
-      var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
-           $(".nav-link").each(function(){
-                if($(this).attr("href") == pgurl || $(this).attr("href") == '' ){
-                $(this).addClass("active");
-                $(this).removeClass("text-white");
-                $(this).append('<span class="sr-only">(current)</span>');
-                $(this).closest('.nav-item').css({"background": "#004DAE"});
-           }
-          });
-      }
-      setTimeout(function() {
-          activeNav();
-      }, 100);
-    };
-  </script>
   <style>
+    /*hide the warning that the tinyMCE editor is not setup correctly.*/
     .mce-notification-inner, .mce-close, .mce-notification-warning {
     display:none !important;
     }
+     /*size of the tooltips on the page.*/
     .tooltip-inner {
       text-align: left;
       padding: 15px;
       font-size: 1.05rem;
-      max-width: 400px;
+      max-width: 480px;
     }
+     /*ensure that when a nav link is hovered on the background colour goes darker.*/
     .nav-item:hover {
   background: #004dae;
 }
@@ -817,95 +729,8 @@ function setTextAreas(classData){
 
 <script src="https://apis.google.com/js/client.js?onload=gapiLoaded"></script>
 <script type="text/javascript" src="https://apis.google.com/js/api.js"></script>
-
-<script>
-    $('#respImgSwitch').on('input', function(event) {
-    var s = $('#respImgSwitch').val().toString();
-
-    if (s.includes("unsplash.com") == true) {
-    //code for replacing unplash link with embed code
-    var x = s.replace('https://unsplash.com/photos','https://source.unsplash.com');
-    }
-
-    else if (s.includes("pexels.com") == true) {
-    //code for replacing stocksnap link with embed code
-    var y = s.replace('https://www.pexels.com/photo/','');
-    var x = y.replace('/','');
-    //use regular expression to find the id number
-    var pexelsid = x.match(/\d+/)[0];
-    var x = "https://images.pexels.com/photos/" + pexelsid + "/pexels-photo-" + pexelsid + ".jpeg";
-    }
-
-    else if (s.includes("stocksnap.io") == true) {
-    //code for replacing unplash link with embed code
-    var y = s.replace('https://stocksnap.io/photo/','https://cdn.stocksnap.io/img-thumbs/960w/');
-    //use regular expression to convert the last - to _
-    var x = y.replace(/-([^-]*)$/,'_$1') + ".jpg"
-    }
-
-    else{
-    var popup2 = document.getElementById("myPopup2");
-    popup2.classList.toggle("showPopup");
-    }
-
-    $('#respImgSwitch').val(x);
-    //$('input[type="text"], textarea#respVidSwitch').attr('readonly','readonly');
-  }); 
-</script>
-<script>var textarea = $("#respImgHeading");
-  var radioBtn = $("#headSize1");
-  var checkRadio = function(){
-      if (textarea.val().length) {
-        $("#headSize1").prop("checked", true);
-        generateCode();
-      };
-  };
-  // Run now
-  // And when textarea changes
-  textarea.on("change", checkRadio);
-  </script>
-<script>
-  $(function () {
-    $(document).on('shown.bs.tooltip', function (e) {
-       setTimeout(function () {
-         $(e.target).tooltip('hide');
-       }, 10000);
-    });
-  });</script>
-  <script>
-    $(function () {
-      $('#copyCodeBtn').on('click', function (e) {
-         setTimeout(function () {
-           $(e.target).tooltip('hide');
-         }, 2500);
-      });
-    });
-    $(function () {
-      $('#toggleHelp').on('click', function (e) {
-         setTimeout(function () {
-           $(e.target).tooltip('hide');
-         }, 2500);
-      });
-    });
-    </script>
-    <script>
-           var textarea = $("#respImgHeading");
-   //     var radioBtn = $("#headSize2");
-   var checkRadio = function(){
-          if (textarea.val()!=="") {
-            $("#headSize1").prop("checked", true);
-            generateCode();
-            }
-          else {
-            $("#headSizeNone").prop("checked", true);
-            generateCode();
-            } 
-                };
-              // And when textarea changes
-              textarea.on("change", checkRadio);
-              </script>
+<div id="beestFooter">
      <div class="py-5"></div>
 </div>
-<div id="beestFooter"></div>
 </body>
 </html>
