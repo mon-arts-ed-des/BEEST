@@ -3,15 +3,9 @@
 <head>
   <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152392632-3"></script>
-<script src = "js/helperFunctions.js"/>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-152392632-3');
-</script>
+<script src = "js/helperFunctions.js"></script>
 <script src="js/pageHistory.js"></script>
+<script src="js/setupPage.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="A simple element creator to generate responsive code that can be easily embbedded into Moodle">
@@ -21,7 +15,7 @@
       <!-- external link to css file --> 
       <!-- Bootstrap CSS -->   
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
       <!-- Arts CSS -->  
       <link rel="stylesheet" href="css/adminPlusSetuBlockStyle.css" />
       <link rel="stylesheet" href="css/accordionStyle.css" />
@@ -40,8 +34,6 @@
       <script src="js/placeholder.js"></script> 
 	    <script src="js/advancedModeLocalStorage.js"></script>
       <script type="text/javascript">
-      	makeTinyWithID('tinyMCEmonAccContent1')   
-	   
 /*REQUIRED FOR HISTORY*/	
 	const ACCORD_HIST = "history_accordion"
 	var localStorageHistory = ACCORD_HIST
@@ -53,6 +45,12 @@
 	var accordiansPostInit = []
 
 	$(document).ready(function() { //create the tinyMCE areas after the first
+		setupGoogleAnalytics();
+		setupNav();
+		setupToolTips();
+		default_XRadio_onEmpty_Y("accMainHeading","headSize","noH","headSize2",generateAccCode);
+		makeTinyWithID('tinyMCEmonAccContent1',{"change":generateAccCode},"enter your text for drawer 1 here");
+		
 		classAccord = new accordion()
 		classAccord.addDrawer() //page starts with 1 drawer
 		while (classAccord.usableDrawers < absoluteMinAccord){
@@ -61,7 +59,7 @@
 		/*REQUIRED FOR HISTORY*/
 		initHistory()
 		/*END REQUIRED FOR HISTORY*/
-	})
+	});
 	/*REQUIRED FOR HISTORY*/
 	class drawer{
 		constructor(heading,content,pageHtml){
@@ -186,9 +184,9 @@
 			var idTiny = this.baseTiny+num
 			var idBlock = this.baseBlock+num
 			
-			var headingHTML="<span id=\""+idBlock+"\"><div class=\"row w-100\"><div class=\"col-lg\"><h6>Heading "+num+"</h6><textarea maxlength=\"75\" class=\"border border-dark rounded p-2 w-100 mx-auto\" rows=\"1\" placeholder=\"Input the heading for accordion drawer "+num+" here\" id=\""+idHead+"\" onchange=generateAccCode()></textarea></div></div>"
+			var headingHTML="<span id=\""+idBlock+"\"><div class=\"row w-100\"><div class=\"col-lg\"><h6>Heading "+num+"</h6><textarea maxlength=\"75\" class=\"border border-dark rounded p-2 w-100 mx-auto\" rows=\"1\" placeholder=\"Input the heading for drawer "+num+" here\" id=\""+idHead+"\" onchange=generateAccCode()></textarea></div></div>"
 			
-			var contentHTML = "<div class=\"row w-100\"><div class=\"col-lg\"><h6>Content "+num+"</h6><textarea id=\""+idTiny+"\"class=\"border border-dark rounded p-2 w-100\" rows=\"5\" name=\""+idCont+"\" placeholder=\"Write the content for accordion "+num+" here\" onchange=generateAccCode()></textarea></div></div></span><hr>"
+			var contentHTML = "<div class=\"row w-100 mt-2\"><div class=\"col-lg\"><h6>Content "+num+"</h6><textarea id=\""+idTiny+"\"class=\"border border-dark rounded p-2 w-100\" rows=\"3\" name=\""+idCont+"\" placeholder=\"Write the content for drawer "+num+" here\" onchange=generateAccCode()></textarea></div></div></span><hr>"
 			
 			return {
 				IDHead: idHead,
@@ -280,22 +278,6 @@
         generateAccCode();
       }
 	  
-	function makeTinyWithID(id){
-	tinymce.init({
-		selector: '#'+id,
-		menubar: false,
-		plugins : 'advlist autolink link lists charmap print preview code placeholder',
-		placeholder: 'Input the content for your accordin drawer here',
-		toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
-		'undo redo | charmap | autolink link | code | removeformat' ],
-		setup : function(ed) {      
-			ed.on('change', function (e) {	
-				generateAccCode();
-			});					
-		}   
-	});
-	}
-	
 	function addSection(live){
 	/*
 	use the template to construct a new one (or show existing)
@@ -313,7 +295,7 @@
 			var newArea = document.getElementById("newAccordArea")
 			newArea.insertAdjacentHTML('beforeend', newAccordian.output)
 			
-			makeTinyWithID(newAccordian.IDTiny)
+			makeTinyWithID(newAccordian.IDTiny,{"change":generateAccCode},"enter your text for drawer "+classAccord.usableDrawers+" here")
 			
 			//accordianSectionsTotalMade+=1;
 		}
@@ -338,20 +320,32 @@
 			monAcc_8_opt = [monAcc_8,monAcc_8a,monAcc_8b];
 		}
 		
-		if (classAccord.usableDrawers >= absoluteMaxAccord){
-			hideButton("plusbutton")
-		}
-		if (classAccord.usableDrawers > absoluteMinAccord){
-			showButton("minusbutton")
-    }
+		resetAddRemoveButtonDisplay()
     generateAccCode();
 	if ((live!=undefined)&&(live)){
-		var revealedAccord = classAccord.getLastDrawer()
-		scrollTo(revealedAccord.IDBlock);
+		if ((classAccord.getDrCont(classAccord.usableDrawers-2)!="")||(classAccord.getDrHead(classAccord.usableDrawers-2)!="")){		
+			var revealedAccord = classAccord.getLastDrawer()
+			scrollTo(revealedAccord.IDBlock);
+		}
 	}
 	
 	
   }
+  
+function resetAddRemoveButtonDisplay(){
+	if (classAccord.usableDrawers >= absoluteMaxAccord){
+		disableButton("plusbutton")
+	}
+	else{
+		enableButton("plusbutton");
+	}
+	if (classAccord.usableDrawers > absoluteMinAccord){
+		enableButton("minusbutton")
+	}
+	else{
+		disableButton("minusbutton")
+	}
+}
   
 	function removeSection(){
 	/*
@@ -378,12 +372,7 @@
 		}
 		
 		
-		if (classAccord.usableDrawers < absoluteMaxAccord){
-			showButton("plusbutton")
-		}
-		if (classAccord.usableDrawers <= absoluteMinAccord){
-			hideButton("minusbutton")
-    }
+		resetAddRemoveButtonDisplay()
     generateAccCode();
 	}
 	
@@ -534,7 +523,7 @@
         //SelectAll("monAccCode");
         $('#demo').nextAll('div.beestAcc, script, h3, h4, h5, i').remove();
         $('#demo').after(monAccOutput);
-        }
+    }
 
 /*REQUIRED FOR HISTORY*/
 function getHistoryI(index,history){
@@ -576,10 +565,9 @@ function getHistoryI(index,history){
 })
     /* Variable Key
     These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
-
     monAcc = button to toggle extended text
     */
-	  var monAccStyle="<script> var L=document.createElement('link'); L.rel='stylesheet'; L.href='http://mon-arts-ed-des.github.io/BEEST/css/accordionStyle.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
+	  var monAccStyle="<script>var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://mon-arts-ed-des.github.io/BEEST/css/accordionStyle.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
     var monAcc_1="<div id=\"accordion\" class=\"mt-0 w-100 mx-auto beestAcc\"><div class=\"card border-0\"><div class=\"rounded-top headingStyle text-white card-header p-0\" id=\"head"
     var monAcc_1a="<div id=\"accordion\" class=\"mt-0 w-100 mx-auto\"><div class=\"card border-0\"><div class=\"headingStyle text-white card-header p-0\" id=\"head"
     var monAcc_2="\" data-toggle=\"collapse\" data-target=\"#content"
@@ -592,35 +580,15 @@ function getHistoryI(index,history){
     var monAcc_8="\" class=\"collapse show cardBodyBorder\" aria-labelledby=\"head"
     var monAcc_8a="\" class=\"collapse cardBodyBorder\" aria-labelledby=\"head"
     var monAcc_8b="\" class=\"collapse cardBodyBorder rounded-bottom\" aria-labelledby=\"head"
-    var monAcc_9="\" data-parent=\"#accordion\"><div class=\"card-body p-1\"><div class=\"m-1 p-1\"><div class=\"row w-100 mx-auto\"><div class=\"accDiv\">"
-    var monAcc_10="</div></div></div></div></div></div>"
+    var monAcc_9="\" data-parent=\"#accordion\"><div class=\"card-body p-1\"><div class=\"m-1 p-1\"><div class=\"accDiv\">"
+    var monAcc_10="</div></div></div></div></div>"
     var monAcc_Close="</div></div></div>"
 	
 	var monAcc_1_opt = [monAcc_1,monAcc_1a,monAcc_1a];
 	var monAcc_8_opt = [monAcc_8,monAcc_8a,monAcc_8b];
 	var monAccBtnTxt = [];
 	var monAccContent = [];
-  
-    </script>
-    <script>   
-      window.onload=function(){
-        $('#beestNav').load('common/beestnav.html');
-        $('#beestFooter').load('common/beestfooter.html');
-        function activeNav() {
-            var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
-             $(".nav-link").each(function(){
-                  if($(this).attr("href") == pgurl || $(this).attr("href") == '' ){
-                  $(this).addClass("active");
-                  $(this).removeClass("text-white");
-                  $(this).append('<span class="sr-only">(current)</span>');
-                  $(this).closest('.nav-item').css({"background": "#004DAE"});
-             }
-            });
-        }
-        setTimeout(function() {
-            activeNav();
-        }, 100);
-      };
+
     </script>
     <script>
       $(document).ready(function(){
@@ -655,8 +623,8 @@ function getHistoryI(index,history){
         }
         .back-to-top {
     position: fixed;
-    bottom: 25px;
-    right: 25px;
+    bottom: 100px;
+    right: 50px;
     display: none;
     z-index: 2000;
 }
@@ -703,18 +671,18 @@ function getHistoryI(index,history){
 <!--End modal content for this page-->
 <div class="row w-50 mx-auto text-center mt-3">	  
   <div class="col-lg">
-  <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-danger btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
+  <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-danger btn-lg btn-block mb-2" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
   </div>
   <div class="col-lg">
-  <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-success btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
+  <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-success btn-lg btn-block mb-2">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
   </div>
 </div>
 <hr class="hr-3">
 <div class="row w-100 mx-auto">
   <div class="col-lg-6">
-  <div class="row w-100 mx-auto">
+  <div class="row w-100">
             <div class="col-lg-3">
-              <h5 class="font-weight-bold">Recover<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Retrieve your previous button configuration. Only works once you have created at least 1 button. Then the next 20 configurations will be available until you clear your internet browser history or change internet browsers or create more than 20 buttons." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-fw fa-question-circle"></i></h5>
+              <h5>Recover<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Retrieve your previous button configuration. Only works once you have created at least 1 button. Then the next 20 configurations will be available until you clear your internet browser history or change internet browsers or create more than 20 buttons." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-fw fa-question-circle"></i></h5>
             </div>              
               <div class="col-lg">
                 <div class="row w-100">
@@ -769,12 +737,12 @@ function getHistoryI(index,history){
 <hr>
           <div class="row w-100">
             <div class="col-lg-3">
-              <h5 class="font-weight-bold">Choose icon<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="If you would like an icon to the right of your button text, choose one from this list." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
+              <h5>Choose icon<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="If you would like an icon to the right of your button text, choose one from this list." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
             </div>
-            <div class="col-lg-1 my-auto mr-3">
+            <div class="col-lg-1 my-auto mr-3 pb-3">
             <div class="form-check form-check-inline" id="faCode" onchange=generateAccCode()>
               <input class="form-check-input" name="faCode" id="faCodeNone" type="radio" value="noI" checked>
-              <label class="form-check-label" for="faCodeNone">None</label>
+              <label class="form-check-label h5" for="faCodeNone">None</label>
             </div>
           </div>
             <div class="col-lg">
@@ -831,7 +799,7 @@ function getHistoryI(index,history){
           <hr>
 <div class="row w-100">
   <div class="col-lg">
-<h5>Drawer headings<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="This is the text that will appear on the accordion drawers (all text boxes on the left side of screen). This should give users a clear idea of what will appear if the button is clicked. Max length is 75 characters.">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
+<h5>Drawer headings & content<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Input the headings that will appear on the accordion drawers and the content that will sit inside each of the drawers. The max length allowed for headings is 75 characters.">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
   </div>
 </div>
 <span>
@@ -841,16 +809,10 @@ function getHistoryI(index,history){
 <textarea maxlength="75" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" placeholder="Input the heading for your first accordion drawer here" id="monAccBtnTxt1" onchange=generateAccCode()></textarea>
 </div>
 </div>
-
-<div class="row w-100">
-  <div class="col-lg">
-<h5>Content<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="What you input in the box below will appear when the relative accordion drawer button is clicked (all rich text editors on the right of screen). This can include text, lists, videos and externally embedded media. You can click, hold and drag the bottom right corner of these boxes to make them bigger on this screen.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
-  </div>
-</div>
-<div class="row w-100">
+<div class="row w-100 mt-2">
   <div class="col-lg">
         <h6>Content 1</h6>      
-        <textarea id="tinyMCEmonAccContent1" class="border border-dark rounded p-2 w-100" rows="5" name="monAccContent1" placeholder="Write the content for your accordion here" onchange=generateAccCode()></textarea>
+        <textarea id="tinyMCEmonAccContent1" class="border border-dark rounded p-2 w-100" rows="3" name="monAccContent1" placeholder="Write the content for your accordion here" onchange=generateAccCode()></textarea>
       </div>
     </div>
 	</span>
@@ -858,30 +820,15 @@ function getHistoryI(index,history){
     <span id="newAccordArea"></span>   
 </div>
   <div class="col-lg">
-    <div class="sticky-top" style="top:100px;">
-    <h5>Add/Remove drawers<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="The page defaults to start with 3 accordion drawers. You can have up to 10. Use the Add button to add more drawers one at a time, or change the number in the box below to be between 3-10. A remove button will appear once there are more than 3 drawers." >&nbsp;<i class="fa fa-question-circle"></i></span></h5>  
-    <div class="btn-group btn-group-justified w-100" role="group" id="addMinusButtons">
-      <div class="row w-100">
-        <div class="col-lg-2">
-    <div class="btn-group-lg" role="group">
-    <button id="plusbutton" onclick="addSection(true)" type="button" class="btn btn-success mr-2">Add <i class="fa fa-fw fa-plus"></i></button>
+	<div class="sticky-top" style="top:100px;">
+		<h5>Add/Remove drawers + Current number of drawers<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="The page defaults to start with 3 accordion drawers. You can have up to 10. You can type in your number in the box on the right, which will also display the current number of drawers OR use the Add button to add more drawers one at a time. A remove button will appear once there are more than 3 drawers to remove drawers individually." >&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
+	<div class="btn-group btn-group-justified" role="group" id="addMinusButtons">
+    <div class="btn-group" role="group">
+		<button id="minusbutton" onclick="removeSection()" type="button" class="btn btn-danger rounded"><i class="fa fa-fw fa-minus"></i></button>
+		<input class="border border-dark w-25 rounded btn btn-outline-dark mx-3 my-auto" style="cursor:default ;" id="accordCounter" onchange="changeDrawerCount()" value=0>
+    <button id="plusbutton" onclick="addSection(true)" type="button" class="btn btn-success rounded"><i class="fa fa-fw fa-plus"></i></button>
   </div>
   </div>
-  <div class="col-lg-2">
-    <div class="btn-group-lg" role="group">
-    <button id="minusbutton" style="display:none;" onclick="removeSection()" type="button" class="btn btn-danger">Remove <i class="fa fa-fw fa-times"></i></button>
-    </div>
-  </div>
-</div>
-    </div>
-<div class="row w-100 mt-2">
-  <div class="col-lg">
-    <div class="btn-group-lg" role="group"><h5>Current number of drawers (3-10) - Type in your number<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="This is the number of drawers currently available to edit and create content. You can use the Add/Remove buttons to change this number or click it and type in a number from 1-10." >&nbsp;<i class="fa fa-question-circle"></i></span></h5>
-      <input class="border border-dark px-3 py-2 h5 rounded ml-1 btn btn-outline-dark" style="cursor:default ;" id="accordCounter" onchange="changeDrawerCount()" value=0>
-      </div>  
-    </div>
-  </div>
-
     <hr>
     <h5>Preview<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 7." class="text-success hideableinstruct small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
     <div id="demo"></div>
@@ -889,7 +836,7 @@ function getHistoryI(index,history){
     <hr>
     <h5>Copy code<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click the copy code button below to copy your code, ready to paste into Moodle." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
         <textarea readonly class="rounded p-2 w-100" id="monAccCode" rows="3" name="Result" placeholder="The code for your element will appear here as you update your preferences on the page." onClick=generateAccCode()></textarea>
-    <input id="copyCodeBtn" type="button" class="btn btn-block btn-success mt-1 text-center" name="GenerateWrap" value="Copy your code" data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." onClick=copyCode()>
+    <input id="copyCodeBtn" type="button" class="btn btn-block btn-success mt-2 text-center" name="GenerateWrap" value="Copy your code" data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." onClick=copyCode()>
     <div class="text-center h5 mt-4">
       <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
       </div>
@@ -899,46 +846,9 @@ function getHistoryI(index,history){
 </div>
     </form>
     <div class="text-center">
-    <a id="back-to-top" href="#" class="btn btn-outline-dark btn-lg back-to-top" role="button">Back to top&nbsp;<i class="fas fa-chevron-up"></i></a>
+    <a id="back-to-top" href="#" class="btn btn-lg btn-outline-dark back-to-top" role="button"><i class="fas fa-chevron-up"></i></a>
   </div>
     </div>
-    <script>
-	var textarea = $("#accMainHeading");
-    var checkRadio = function(){
-        if (textarea.val()!=="") {
-			$("#headSize2").prop("checked", true);
-		}
-        else {
-			$("#headSize1").prop("checked", true);
-        }
-		generateAccCode();		  
-    };
-    // And when textarea changes
-    textarea.on("change", checkRadio);
-
-	$(function () {
-		$(document).on('shown.bs.tooltip', function (e) {
-			setTimeout(function () {
-				$(e.target).tooltip('hide');
-			}, 7000);
-		});
-	});
-  
-    $(function () {
-		$('#copyCodeBtn').on('click', function (e) {
-			setTimeout(function () {
-				$(e.target).tooltip('hide');
-			}, 2500);
-		});
-    });
-    $(function () {
-		$('#toggleHelp').on('click', function (e) {
-			setTimeout(function () {
-				$(e.target).tooltip('hide');
-			}, 2500);
-		});
-    });
-    </script>
     <div id="beestFooter"></div>
         </body>
         </html>
