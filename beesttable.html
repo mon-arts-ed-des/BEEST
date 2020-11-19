@@ -5,22 +5,13 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152392632-3"></script>
 <script src="js/pageHistory.js"></script>
 <script src="js/helperFunctions.js"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'UA-152392632-3');
-</script>
-<script>   
-   
-  </script>
-
+<script src="js/setupPage.js"></script>
     <meta charset="utf-8"></meta>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="A simple element creator to generate responsive code that can be easily embedded into Moodle">
     <meta name="author" content="T&M">
     <title>BEEST Tables</title>
-     <link rel="icon" href="/img/dragon-solid-favicon.png" type="image/gif">
+     <link rel="icon" href="img/dragon-solid-favicon.png" type="image/gif">
 
     <!-- external link to css file --> 
     <!-- Bootstrap CSS -->   
@@ -31,6 +22,7 @@
     <link rel="stylesheet" href="css/monTabs.css" />
     <!-- external link to js file -->  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   
     <!-- Bootstrap js file --> 
@@ -39,16 +31,35 @@
     <script src="https://kit.fontawesome.com/3817feae52.js"></script> 
     <!-- Tinymce js file -->   
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+	<script src="js/placeholder.js"></script> 
     <script src="js/advancedModeLocalStorage.js"></script>
 	<script type="text/javascript">
 
 /*REQUIRED FOR HISTORY*/    
 	const BUTTON_HIST = "history_table"
+	const pasteTable = "pasteTableFromExcel"
 	var localStorageHistory = BUTTON_HIST
 	var classTable = null
-	
-	$(document).ready(function(){initHistory()})
-	
+	var tablePasterIsTiny = false
+/*END REQUIRED FOR HISTORY*/ 	
+	$(document).ready(function(){
+		setupGoogleAnalytics()
+		setupNav()
+		setupToolTips() 
+		//wipeHTML("editTable")
+		basicTinyMCEWithID(pasteTable,{"change":writeTableExcelPaste,"init":function(){tablePasterIsTiny = true;},"input":writeTableExcelPaste},"paste your spreadsheet data here")
+		/*makeTinyWithID("editTable",generateTableCode, function(){
+			generateEditableTable("editTable",currRow,currCol,false)
+		})*/
+		//generateEditableTable("editTable",currRow,currCol,true)
+		default_XRadio_onEmpty_Y("tableMainHeading","headSize","noH","headSize2",generateTableCode)
+		/*REQUIRED FOR HISTORY*/   
+		initHistory()
+		/*END REQUIRED FOR HISTORY*/
+		classTable = new table()   		
+	})
+
+/*REQUIRED FOR HISTORY*/  	
 	class table{
 		constructor(mainHeading, icon, headSize, tableData){
 			this.mainHead = mainHeading
@@ -91,7 +102,7 @@
 	}
 /*END REQUIRED FOR HISTORY*/
 
-
+/*
 	var rowsWithData = 3
 	var colsWithData = 3
 	var currRow = 3
@@ -101,6 +112,7 @@
 	// const absoluteMinCol = 2;
 	const absoluteMaxRow = 15;
 	const absoluteMaxCol = 6;
+	*/
 	const tableBody = "TABLE_BODY"
 	const baseRowID = "ROW"
 	const baseCellID = "CELL" //format for a cell is baseCellID+row+"-"+col
@@ -111,22 +123,11 @@
 	var tableContents = [
 		[]
 	] //empty 2d array
-	
-	$(document).ready(function() { 
-			wipeHTML("editTable")
-			generateEditableTable("editTable",currRow,currCol)
-			if (previewMode){
-				showButton("edit")
-			}
-			else{
-				hideButton("edit")
-			}
-	})
-	
+	/*
 		function wipeHTML(idToWipe){
 			document.getElementById(idToWipe).innerHTML = ""
-		}
-	
+		}*/
+	/*
 		function newEditTableRow(rowN,maxCols){
 			var theRow = []
 			
@@ -144,10 +145,10 @@
 				theRow[colN] = newTextField(placeholder,baseCellID+rowN+"-"+colN)
 			}
 			return theRow
-		}
-	
-		function generateEditableTable(idToPlaceIn,maxRows,maxCols){
-			/*create the editable table on the page to write into*/
+		}*/
+	/*
+		function generateEditableTable(idToPlaceIn,maxRows,maxCols,plainText){
+			//create the editable table on the page to write into
 			var placeholder="";
 			for (var rowN=0;rowN<maxRows;rowN++){
 				if (editableTableHTML.length<=rowN){
@@ -158,8 +159,13 @@
 				}
 			}
 			var tableHTML = newTableCode(editableTableHTML)
-			document.getElementById(idToPlaceIn).innerHTML = tableHTML
-		}
+			if (plainText){
+				document.getElementById(idToPlaceIn).innerHTML = tableHTML
+			}
+			else{
+				setTinyContent(idToPlaceIn,tableHTML)
+			}
+		}*/
 	
 		function newTextField(placeholder,id){
 			return "<textarea id=\""+id+"\" placeholder=\""+placeholder+"\" class=\"border border-dark rounded p-2 w-100\" cols=\"70\" rows=\"1\" name=\""+id+"\" onchange=generateTableCode()></textarea>"
@@ -179,55 +185,75 @@
 			return cellCode
 		}
 
-	function iconpreview() {
-        var faIcon = document.getElementById('faCode').value;
-        var iconNames = {
-            "1":"calendar",
-		    "2":"list-ol",
-            "3":"list-ul",
-            "4":"table", 
-            "5":"info",
-            "6":"info-circle",
-            "7":"question",
-            "8":"question-circle",
-            "9":"question-circle-o",
-            "10":"check",
-            "11":"check-square",
-            "12":"check-square-o",
-			"13":"exclamation",
-            "14":"exclamation-triangle",
-			"15":"exclamation-circle"
-        }
+function tabSepDataToArray(tsv){
+	allLines = tsv.match(/[^\n]+/g)
+	var col;
+	for (var row=0;row<allLines.length; row++){
+		col = allLines[row].match(/[^	\t]+/g)
+		allLines[row] = col
+	}
+	return allLines
+}
 
-        var iconName = iconNames[faIcon];
-	     	var faIconCode = "<i id=\"icon\" class=\"fa fa-"+iconName+"\"></i> ";
-		
-        if (faIcon == "noI"){
-          faIconCode = "";
-          if (document.getElementById("icon"))
-           {
-            var icon = document.getElementById("icon");
-            icon.parentNode.removeChild(icon);
-            var iconpreview = document.getElementById("iconpreview");
-            iconpreview.style.display = "none";
-           }
-        }
+function extractHTMLFromSingleTag(htmlInput,tag){
+	searchString = new RegExp("(.*<"+tag+".*?>)|(<\/"+tag+">.*)","g")
+	return htmlInput.replace(searchString,"")
+}
 
-        else{
-          if (document.getElementById("icon"))
-          {
-            var icon = document.getElementById("icon");
-            icon.parentNode.removeChild(icon);
-          }
+function getArrayByTag(htmlInput,tag){
+	searchString = new RegExp("<"+tag+".*?>.*?<\/"+tag+">","g")
+	return htmlInput.match(searchString)
+}
 
-          var code = document.createElement("span");
-          code.innerHTML = faIconCode;
-          var iconpreview = document.getElementById("iconpreview");
-          iconpreview.style.display = "block";
-          iconpreview.parentNode.insertBefore(code,iconpreview.nextSibling);
-        }
-        generateTableCode();
-      }
+function arrayToTableHTML(array){
+	/*
+	takes a 2d array and converts it into an HTML table
+	*/
+	htmlTable = "<table><tbody>"
+	for (var row=0;row<array.length;row++){
+		htmlTable+= "<tr><td>"+array[row].join("</td><td>")+"</td></tr>"
+	}
+	htmlTable += "</tbody></table>"
+	return htmlTable
+}
+
+function tableHTML_toArray(htmlTable){
+	const dummyTable = [['']]
+	
+	if (htmlTable == undefined){
+		return dummyTable
+	}
+	var tableContent = extractHTMLFromSingleTag(htmlTable,"table") //remove pre <table> & after </table>
+	tableContent = tableContent.replace(/\n/g,"")
+	tableData = getArrayByTag(tableContent,"tr")
+	//get all rows (tr's)
+	if (tableData == null){
+		return dummyTable
+	}
+	for (var rNum=0; rNum < tableData.length; rNum++){
+		tableData[rNum]=extractHTMLFromSingleTag(tableData[rNum],"tr") //get rid of row tags
+		tableData[rNum]=getArrayByTag(tableData[rNum],"t[dh]") //break up by td/th
+		for (var cNum=0;cNum<tableData[rNum].length;cNum++){
+			tableData[rNum][cNum]=extractHTMLFromSingleTag(tableData[rNum][cNum],"t[dh]")
+		}
+	}
+	return tableData
+}
+
+function writeTableExcelPaste(){
+	var tableData;
+	if (tablePasterIsTiny){
+		var pastedTable = getTinyContent(pasteTable)
+		tableData = tableHTML_toArray(pastedTable)
+	}
+	else{
+		var pastedTable = $('#'+pasteTable).val()
+		tableData = tabSepDataToArray(pastedTable)
+	}
+	classTable.tableData = tableData
+	//setTextAreas(classTable)
+	generateTableCode()
+}
 		
 		function newRowCode(rowNum,contentsArray){
 		/*
@@ -279,7 +305,7 @@
 			return document.getElementById(cellID(row,col))
 		}
 		function cellID(row,col){return baseCellID+row+"-"+col}
-		
+		/*
 		function removeRow(){
 			//will remove the nth row from the page (and generated code) where n = currRow global value
 			if (currRow > 1){
@@ -298,8 +324,8 @@
 				alert("cannot delete only remaining row")
 			}
 			generateTableCode();
-		}
-		
+		}*/
+		/*
 		function resetColDisplay(rowNum,colsToDisplay,maxCols){
 			for (var colN=0; colN < colsToDisplay; colN++){
 				showHTML(cellID(rowNum,colN))
@@ -307,7 +333,7 @@
 			for (colN=colsToDisplay; colN < maxCols; colN++){
 				hideHTML(cellID(rowNum,colN))
 			}
-		}
+		}*/
 		
 		function rowHTMLtoRowElem(rowHTML){
 			var elem = document.createElement("tr")
@@ -317,7 +343,7 @@
 			elem.innerHTML = rowHTML.replace(/(<tr.*?>)|(<.tr>)/,"")
 			return elem
 		}
-		
+		/*
 		function addRow(){
 			if (currRow < absoluteMaxRow){
 				if (currRow < rowsWithData){
@@ -357,8 +383,9 @@
 				alert("too many rows -- consider the amount of information you are displaying")
 			}
 			generateTableCode();
-		}
+		}*/
 		
+		/*
 		function addCol(){
 			if (currCol < absoluteMaxCol){
 				if (currCol < colsWithData){
@@ -399,7 +426,7 @@
 				alert("too many cols -- consider the amount of information you are displaying")
 			}
 			generateTableCode();
-		}
+		}*/
 		
 		function newCellAsDOMElem(cellCode){
 			/*
@@ -442,19 +469,19 @@
 		}
 
 		
-		
+		/*
 		function showColHTML(maxRows,colNumber){
 			for (var rNum=0;rNum < maxRows; rNum++){
 				showHTML(cellID(rNum,colNumber))
 			}
-		}
-		
+		}*/
+		/*
 		function hideColHTML(maxRows,colNumber){
 			for (var rNum=0;rNum < maxRows; rNum++){
 				hideHTML(cellID(rNum,colNumber))
 			}
-		}
-		
+		}*/
+		/*
 		function removeCol(){
 			if (currCol > 1){
 				currCol -= 1
@@ -473,42 +500,16 @@
 			}
 			generateTableCode();
 		}
-		
-		function setValuesInFields(maxRows,maxCols){
-			//for all cell set value to value in version
-			for (var rNum=0;rNum<maxRows;rNum++){
-				for (var cNum=0;cNum<maxCols;cNum++){
-					getCell(rNum,cNum).value = tableContents[rNum][cNum]
-				}
-			}
-		}
-		
-		function setRowToDisplayX(rowNum,displayData){
-			var rowElement = document.getElementById(baseRowID+rowNum)
-			//rowElement.innerHTML = ""
-			
-			var newRowHTML = ""//for INSIDE the row
-			for (var colN=0; colN < displayData.length; colN++){
-				newRowHTML+= newCellCode(rowNum,colN,displayData[colN])
-			}
-			rowElement.innerHTML = newRowHTML
-		}
-	function hideHTML(id){htmlStyle(id,"display","none")}
-	function showHTML(id){htmlStyle(id,"display","")}
-	function htmlStyle(id,styleName,styleResult){
-		document.getElementById(id).style[styleName]=styleResult
-	}
-	function hideButton(id){
-		document.getElementById(id).disabled = true
-		hideHTML(id)
-	}
-	function showButton(id){
-		document.getElementById(id).disabled = false
-		showHTML(id)
-	}
+		*/
 	
-	function getTableContentsFromPage(maxRow,maxCol){
-		var the_table = [[]]
+	function getTableContentsFromPage(){
+		if (typeof(classTable.tableData)=="undefined"){
+			return [["Lorem ipsum dolor sit amet","consectetur adipiscing elit","sed do eiusmod tempor incididunt"],["ut labore et dolore magna aliqua"," Ut enim ad minim veniam","quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"],["Duis aute irure dolor in reprehenderit in voluptate","velit esse cillum dolore eu fugiat nulla pariatur","<p style='color:#ff0000;'><i><b>your own data will replace this</b></i></p>"]]
+		}
+		else{
+			return classTable.tableData
+		}
+		/*var the_table = [[]]
 		for (var rowN=0;rowN<maxRow;rowN++){
 			if (the_table.length<=rowN){
 				the_table.push([])
@@ -521,13 +522,9 @@
 			}
 		}
 		return the_table
+		*/
 	}
 	
-	function activatePreviewMode(){
-		for (var rNum=0; rNum < currRow; rNum++){
-			setRowToDisplayX(rNum,tableContents[rNum])
-		}
-	}
 
 	function copyCode(){
 		/*REQUIRED FOR HISTORY*/	  
@@ -538,10 +535,10 @@
 	
 	/*REQUIRED FOR HISTORY*/
 function setTextAreas(classData){
-	getId("tableMainHeading").value = classData.mainHead
-	setDropdown("headSize",classData.headSize)
-	setDropdown("faCode",classData.icon)
+	
 	var theTable = classData.tableData
+	/*
+	not necessary when using a single text area for the table editing
 	while (currCol < theTable[0].length){
 		addCol()
 	}
@@ -558,7 +555,18 @@ function setTextAreas(classData){
 		for (var col = 0; col < theTable[row].length; col++){
 			getCell(row,col).innerHTML = theTable[row][col]
 		}
+	}*/
+		
+	var dataSet = {
+		"tableMainHeading":{type:'basic',value:classData.mainHead},
+		"headSize":{type:'radio',value:classData.headSize},
+		"faCode":{type:'radio',value:classData.icon},
 	}
+	dataSet[pasteTable] = {type:'tiny',value:arrayToTableHTML(theTable)}
+	
+	setTextAreas_util(dataSet)
+	
+	generateTableCode()
 }
 function getHistoryI(index,history){
 	if (history.length>0){
@@ -574,7 +582,8 @@ function getHistoryI(index,history){
 
     function generateTableCode() {
 	  
-		tableContents = getTableContentsFromPage(currRow,currCol)
+		tableContents = getTableContentsFromPage()
+	
 		var tableMainHeading = document.getElementById('tableMainHeading').value;
 		var headSize = getRadioOption('headSize');
 		var faIcon = getRadioOption('faCode');
@@ -624,29 +633,15 @@ function getHistoryI(index,history){
 				resizedHead = '<h'+sizes[headSize]+'>'+faIconCode+tableMainHeading+"</h"+sizes[headSize]+">"
 			}
 		}
+	
 		var textOutputTable = newTableCode(tableContents)
 	    
         document.getElementById('txtareaBtn').innerHTML= resizedHead+textOutputTable;
         //SelectAll("txtareaBtn");
-        if (previewMode){
-			activatePreviewMode()
-		}
-		else{
-			document.getElementById('demo').innerHTML = resizedHead+textOutputTable;
-		}
-		classTable = new table(tableMainHeading, faIcon, headSize, tableContents)
+        document.getElementById('demo').innerHTML = resizedHead+textOutputTable;
 		
       }
-	  
-	function editMode(){
-		if (previewMode){
-			for (var rNum=0; rNum < currRow; rNum++){
-				setRowToDisplayX(rNum,editableTableHTML[rNum])
-			}
-			setValuesInFields(currRow,currCol)
-		}
-	}
-        
+
     function SelectAll(id){
         document.getElementById(id).focus();
         document.getElementById(id).select();
@@ -665,87 +660,10 @@ function getHistoryI(index,history){
 })
 
 	</script>
-	<script>   
-		window.onload=function(){
-		  function activeNav() {
-			  var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
-			   $(".nav-link").each(function(){
-					if($(this).attr("href") == pgurl || $(this).attr("href") == '' ){
-					$(this).addClass("active");
-					$(this).removeClass("text-white");
-					$(this).append('<span class="sr-only">(current)</span>');
-					$(this).closest('.nav-item').css({"background": "#004DAE"});
-			   }
-			  });
-		  }
-		  setTimeout(function() {
-			  activeNav();
-		  }, 100);
-		};
-	  </script>
-    <style>
-    .mce-notification-inner, .mce-close, .mce-notification-warning {
-        display:none !important;
+<style>
+.mce-notification-inner, .mce-close, .mce-notification-warning {
+	display:none !important;
         }
-
-        /* Popup container - can be anything you want */
-    #popup {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    }
-
-    /* The actual popup */
-    #popup .popuptext {
-    visibility: hidden;
-    width: 160px;
-    background-color: #222222;
-    color: #fff;
-    text-align: left;
-    border-radius: 6px;
-    padding: 12px;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -80px;
-    }
-
-    /* Popup arrow */
-    #popup .popuptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #222222 transparent transparent transparent;
-    }
-
-    /* Toggle this class - hide and show the popup */
-    #popup .showPopup {
-    -webkit-animation: fadeinout 3s linear  forwards;
-    animation: fadeinout 3s linear forwards;
-    visibility: visible;
-    }
-
-    /* Add animation (fade in the popup) */
-@-webkit-keyframes fadeinout {
-  0%,100% { opacity: 0; }
-  10% {opacity: 1;}
-  66% { opacity: 1; }
-}
-
-@keyframes fadeinout {
-  0%,100% { opacity: 0; }
-  10% {opacity: 1;}
-  66% { opacity: 1; }
-}
 
 .tooltip-inner {
   text-align: left;
@@ -758,120 +676,37 @@ function getHistoryI(index,history){
 }
     </style> 
     </head>
-  <body>
-	
-	<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-arts mb-3 p-0">
-		<a class="navbar-brand text-center border border-white px-2 mx-2 rounded" href="index.html"><img src="img/dragon-solid-white.png" width="30" height="30" alt=""></a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-		  <span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarNavDropdown">
-		  <ul class="navbar-nav mr-auto">
-			<li class="nav-item m-0 p-2">
-			  <a class="nav-link text-white" href="index.html">Home</a>
-			</li>
-			<li class="nav-item m-0 p-2">
-			  <a class="nav-link text-white" href="beestvideo.html">Video</a>
-			</li>
-			<li class="nav-item m-0 p-2">
-			  <a class="nav-link text-white" href="beestimage.html">Image</a>
-			</li>
-			<li class="nav-item m-0 p-2">
-			<a class="nav-link text-white" href="beestbutton.html">Button</a>
-			</li>
-			<li class="nav-item m-0 p-2">
-			  <a class="nav-link text-white" href="beestalert.html">Alert</a>
-			</li>
-			<li class="nav-item m-0 p-2">
-			  <a class="nav-link text-white" href="beesttable.html">Table</a>
-			</li>
-			   <li class="nav-item m-0 p-2">
-			  <a class="nav-link text-white" href="beestpolleverywhere.html">Poll Everywhere</a>
-			</li>
-			   <li class="nav-item m-0 p-2">
-			  <a class="nav-link text-white" href="beestreadmore.html">Read More Button</a>
-			</li>
-			<li class="nav-item m-0 p-2">
-			  <a class="nav-link text-white" href="beestaccordion.html">Accordion</a>
-			</li>
-			<li class="nav-item m-0 p-2">
-			  <a class="nav-link text-white" href="beesttabbedcontent.html">Tabbed Content</a>
-			</li>
-			<li class="nav-item m-0 p-2">
-			  <a class="nav-link text-white" href="beestquote.html">Quote</a>
-			</li>
-			<li class="nav-item m-0 p-2 d-none">
-			  <a class="nav-link text-white" href="beestexamples.html">Examples</a>
-			</li>
-		  </ul>
-		  <ul class="navbar-nav">
-			<li class="nav-item  m-0 p-2">
-			  <a class="nav-link text-white" href="beestsupport.html">Support <i class="fa fa-question-circle-o"></i></a>
-			</li>
-		  </ul>
+  <body onload=generateTableCode()>
+	<div id="beestNav"></div>
+	  <div class="py-5"></div>
+      <div class="container-fluid">  
+<h3 class="text-center">Tables<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="This table tool can create tables based on pasting in data from an excel spreadsheet OR by using the table tool in the editor below." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h3>
+ <!--How to paste HTML into Moodle modal-->
+ <div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="html-paste-modal" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+	  <div class="modal-content p-2 bg-dark">
+		<div class="modal-header">
+		  <h5 class="modal-title text-white" id="exampleModalLabel">Click close or click outside this box to return to the BEEST.</h5>
+		  <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">Close &times;</span>
+		  </button>
 		</div>
-	  </nav>
-	  <div class="row w-100 mb-5"></div>
-	  <div class="row w-100 mb-4"></div>
-      <div class="container-fluid">
-        <div class="w-100 mx-auto alert alert-arts alert-dismissible fade show rounded" role="alert">
-          <i class="fa fa-fw fa-2x fa-pull-left fa-exclamation-circle my-auto"></i><div class="h6 mb-0">The table element works a little differently. We have built it so you can see what your text will look like in the table interface before you produce it. We have limited this element to <strong>6 columns and 15 rows maximum</strong>. This is because working with any more columns makes it difficult to work on the screen and produce your element. If you need to resize the text boxes you are typing into, you can click and drag the bottom right corner of them to resize as needed.</div>
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
-          </div>   
-<h1 class="text-center"><i class="fa fa-table fa-fw"></i> Tables</h1>
-	<div class="row w-100">
-		<div class="col-lg mt-2"> 
-			<div class="hideableinstruct">
-<h5>The result of this process</h5>
-<p>This process will generate a <span class="text-primary font-weight-bold" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="Responsive design means web pages detect the user's screen size and orientation and change the layout accordingly. Therefore the elements here 'respond' to the user's device to work how that person expects them to work on that device.">responsive</span> table. These can be used in place of regular Moodle tables to ensure they respond well across devices, and look more refined than a basic table. Some of the suggested uses for these tables are:</p>
-<p>
-<ul>
-  <li>Unit/Topic Schedule summary for your unit to briefly describe each week or topic's content and what will be covered, as well as indicate where assessment is due.</li>
-  <li>Assessment summary to indicate to students what the assessments are, their value, due date and a brief description of the task.</li>
-  <li>A schedule for a unit field trip or virtual field trip.</li>
-</ul></p>
-<h5>How to use this page</h5>
-<p>If you hover your mouse over the headings for the steps on this page instructions will appear. Once you have generated and copied the code for your element paste them into Moodle using the HTML editor. These text editors differ slightly from the other BEEST pages. They allow you to input HTML. So if you want to embed a video or other external content, or even content from another BEEST page (video, alert, button) you can. If you are unsure of how to paste HTML into these text editors or Moodle, <a data-toggle="modal" data-target=".bd-example-modal-lg" href="">this short video will help</a> (it will open in an overlay on this screen).</p>
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content p-2">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe></div>
-    </div>
-  </div>
-</div>
-</div>
-<h5>Refresh this page</h5>
-<div class="row w-100">
-  <div class="col-lg">
-<p>Click this button to refresh this page if you make an error, or if you are making multiple elements and have already pasted your previous elements.</p></div>
-<div class="col-lg-3"><div class="text-center">
-  <a href="javascript:window.location.reload()" class="btn btn-mu">Refresh the page <i class="fa fa-fw fa-refresh"></i></a>
-</div></div></div>
-
-      <h5 class="mt-2">Advanced mode - turn <span class="onoffswapinstr">off</span> instructions</h5>
-      <div class="row w-100">
-        <div class="col-lg">
-      <p>Click this button to turn <span class="onoffswapinstr">off</span> the instructions that appear when you hover over the headings.<span class="hideableinstruct"> Only do this if you are completely familiar with how to use the tool.</span></p></div>
-      <div class="col-lg-3"><div class="text-center">
-        <button onclick="flipTooltip()" class="btn btn-mu">Turn <span class="onoffswapinstr">off</span> instructions <i class="fa fa-fw fa-power-off"></i></a>
-	  </div></div></div></div>
-	  <div class="col-lg-4 mt-2 hideableinstruct">
-		<h5>Video walkthrough - Creating a table (07:50)</h5>
-		<div class="embed-responsive embed-responsive-16by9">
-		  <iframe src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=eee0177c-fa60-4588-9f7c-ac40005682c9" class="embed-responsive-item" frameborder="1" allowfullscreen="true"></iframe>
-		</div>
+	  <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe></div>
 	  </div>
 	</div>
+  </div>
+  <!--End of modal content-->
+  <div class="row w-50 mx-auto text-center mt-3">	  
+	<div class="col-lg">
+		  <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-danger btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
+		</div>
+		<div class="col-lg">
+		  <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-success btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
+		</div></div>
 <hr class="hr-3">
 <form id="monTabsForm">
 	<div class="row w-100 mx-auto">
-            <div class="col-lg-3">
+            <div class="col-lg-2">
               <h5 class="font-weight-bold">Recover<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Retrieve your previous button configuration. Only works once you have created at least 1 button. Then the next 20 configurations will be available until you clear your internet browser history or change internet browsers or create more than 20 buttons." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-fw fa-question-circle"></i></h5>
             </div>              
               <div class="col-lg">
@@ -888,55 +723,136 @@ function getHistoryI(index,history){
               </div>
             </div>
           </div>
-	
+	<hr>
 	<div class="row w-100 mx-auto">
-		<div class="col-lg-6 mt-2">
-		  <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the main heading for this table that will sit above the element and indicate to students what is in the table. 75 character maximum.">Step 1 - Main heading (optional)</h5>
+		<div class="col-lg-2 mt-2">
+		  <h5 class="font-weight-bold">Main heading<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="This is the heading that will appear above the table. Max 75 characters." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+		</div>
+		<div class="col-lg">
 		  <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="tableMainHeading" type="text" id="tableMainHeading" placeholder="Type your table heading here" onchange=generateTableCode()></textarea>
 		</div>
 	  </div>
+	  <hr>
 	  <div class="row w-100 mx-auto">
-	  <div class="col-lg-6 mt-2">
-	  <h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">Step 2 - Heading size (optional)</h5>
-	  <select class="custom-select w-50 border border-dark" id="headSize" name="headSize" size="1" onchange=generateTableCode()>
-	  <option selected value="h5">Small (heading 5)</option>
-	  <option value="h4">Medium (heading 4)</option>
-	  <option value="h3">Large (heading 3)</option>
-	  </select>
-	  </div> 
-	  </div>   
-	  <div class="row w-100 mx-auto">
-		<div class="col-lg-6">
-		<h5 class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose an icon to go with your heading. No icon is selected by default. If you want an icon, you must also write a heading (step 2) and choose a heading size (step 3) or the icon and heading will not display.">Step 3 - Select icon (optional)</h5>
-		<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" size="1" onchange="generateTableCode()">
-			<option selected value="noI">No icon</option>
-			<option value="1">Calendar</option>
-			<option value="2">Numbered list</option>
-			<option value="3">Dot point list</option>
-			<option value="4">Table</option>  
-			<option value="5">Information symbol</option>
-			<option value="6">White information symbol in a black circle</option>
-			<option value="7">Question mark</option>
-			<option value="8">White question mark in a black circle</option>
-			<option value="9">Black question mark in a white circle</option>
-			<option value="10">Tick/check</option>
-			<option value="11">White tick symbol in a black square</option>
-			<option value="12">Black tick symbol in a white square</option>
-			<option value="13">Exclamation mark</option>
-			<option value="14">White exclamation mark in a black triangle</option>
-			<option value="15">White exclamation mark in a black circle</option>	
-			</select>
+		<div class="col-lg-2 mt-2">
+	   <h5 class="font-weight-bold">Main heading size<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
 		</div>
-
-	  <div class="col-lg-2" >
-		<h5 id="iconpreview" class="w-50" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" style="display:none;">Icon Preview</h5>
+		<div class="col-lg">
+	  <div class="form-check form-check-inline" id="headSize" onchange=generateTableCode()>
+		<input class="form-check-input" name="headSize" id="headSize1" type="radio" value="noH" checked>
+		<label class="form-check-label" for="headSize1">No heading</label>
 	  </div>
-
+	  <div class="form-check form-check-inline" id="headSize" onchange=generateTableCode()>
+		<input class="form-check-input" name="headSize" id="headSize2" type="radio" value="h5">
+		<label class="form-check-label" for="headSize2"><h5>Small</h5></label>
 	  </div>
+	  <div class="form-check form-check-inline" id="headSize" onchange=generateTableCode()>
+		<input class="form-check-input" name="headSize" id="headSize3" type="radio" value="h4">
+		<label class="form-check-label" for="headSize3"><h4>Medium</h4></label>
+	  </div>
+	  <div class="form-check form-check-inline" id="headSize" onchange=generateTableCode()>
+		<input class="form-check-input" name="headSize" id="headSize4" type="radio" value="h3">
+		<label class="form-check-label" for="headSize4"><h3>Large</h3></label>
+	  </div>
+		</div>
+	  </div>
+	  <hr>  
 	  <div class="row w-100 mx-auto">
-		  <div class="col-lg mt-2">
-  <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Add headings for your table.">Step 4 - Add table contents</h5>	
-	<table class="table table-responsive-lg"><tbody>	
+		<div class="col-lg-2">
+		  <h5 class="font-weight-bold">Choose icon<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="If you would like an icon to the right of your heading text, choose one from this list." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
+		</div>
+		<div class="col-lg-1 my-auto">
+		<div class="form-check form-check-inline" id="faCode" onchange=generateTableCode()>
+		  <input class="form-check-input" name="faCode" id="faCodeNone" type="radio" value="noI" checked>
+		  <label class="form-check-label h5" for="faCodeNone">None</label>
+		</div>
+	  </div>
+		<div class="col-lg">
+		  <div class="row w-100">
+			<div class="col-lg d-flex justify-content-between">
+		  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateTableCode()>
+			<input class="form-check-input" name="faCode" id="faCode1" type="radio" value="1">
+			<label class="form-check-label" for="faCode1"><i class="fa fa-fw fa-calendar fa-2x"></i></label>
+		  </div>
+		  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateTableCode()>
+		  <input class="form-check-input" name="faCode" id="faCode2" type="radio" value="2">
+		  <label class="form-check-label" for="faCode2"><i class="fa fa-fw fa-list-ol fa-2x"></i></label>
+		  </div>
+		  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateTableCode()>
+			<input class="form-check-input" name="faCode" id="faCode3" type="radio" value="3">
+			<label class="form-check-label" for="faCode3"><i class="fa fa-fw fa-list-ul fa-2x"></i></label>
+			</div>
+		  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateTableCode()>
+		  <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="4">
+		  <label class="form-check-label" for="faCode4"><i class="fa fa-fw fa-table fa-2x"></i></label>
+		</div>
+		<div class="form-check form-check-inline mx-1" id="faCode" onchange=generateTableCode()>
+		  <input class="form-check-input" name="faCode" id="faCode5" type="radio" value="5">
+		  <label class="form-check-label" for="faCode5"><i class="fa fa-fw fa-info fa-2x"></i></label>
+		</div>
+	  </div>
+	</div>
+		<div class="row w-100 mt-2">
+		  <div class="col-lg d-flex justify-content-between">
+		<div class="form-check form-check-inline mx-1" id="faCode" onchange=generateTableCode()>
+		  <input class="form-check-input" name="faCode" id="faCode6" type="radio" value="6">
+		  <label class="form-check-label" for="faCode6"><i class="fa fa-fw fa-info-circle fa-2x"></i></label>
+		</div>
+		<div class="form-check form-check-inline mx-1" id="faCode" onchange=generateTableCode()>
+		  <input class="form-check-input" name="faCode" id="faCode7" type="radio" value="7">
+		  <label class="form-check-label" for="faCode7"><i class="fa fa-fw fa-question fa-2x"></i></label>
+		</div>
+		<div class="form-check form-check-inline mx-1" id="faCode" onchange=generateTableCode()>
+		  <input class="form-check-input" name="faCode" id="faCode8" type="radio" value="8">
+		  <label class="form-check-label" for="faCode8"><i class="fa fa-fw fa-question-circle fa-2x"></i></label>
+		</div>
+		<div class="form-check form-check-inline mx-1" id="faCode" onchange=generateTableCode()>
+		  <input class="form-check-input" name="faCode" id="faCode9" type="radio" value="9">
+		  <label class="form-check-label" for="faCode9"><i class="fa fa-fw fa-question-circle-o fa-2x"></i></label>
+		</div>
+		<div class="form-check form-check-inline mx-1" id="faCode" onchange=generateTableCode()>
+		  <input class="form-check-input" name="faCode" id="faCode10" type="radio" value="10">
+		  <label class="form-check-label" for="faCode10"><i class="fa fa-fw fa-check fa-2x"></i></label>
+		</div>
+	  </div>
+	</div>
+	<div class="row w-100 mt-2">
+		<div class="col-lg d-flex justify-content-between">
+	  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateTableCode()>
+		<input class="form-check-input" name="faCode" id="faCode11" type="radio" value="11">
+		<label class="form-check-label" for="faCode11"><i class="fa fa-fw fa-check-square fa-2x"></i></label>
+	  </div>
+	  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateTableCode()>
+		<input class="form-check-input" name="faCode" id="faCode12" type="radio" value="12">
+		<label class="form-check-label" for="faCode12"><i class="fa fa-fw fa-check-square-o fa-2x"></i></label>
+	  </div>
+	  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateTableCode()>
+		<input class="form-check-input" name="faCode" id="faCode13" type="radio" value="13">
+		<label class="form-check-label" for="faCode13"><i class="fa fa-fw fa-exclamation fa-2x"></i></label>
+	  </div>
+	  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateTableCode()>
+		<input class="form-check-input" name="faCode" id="faCode14" type="radio" value="14">
+		<label class="form-check-label" for="faCode14"><i class="fa fa-fw fa-exclamation-triangle fa-2x"></i></label>
+	  </div>
+	  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateTableCode()>
+		<input class="form-check-input" name="faCode" id="faCode15" type="radio" value="15">
+		<label class="form-check-label" for="faCode15"><i class="fa fa-fw fa-exclamation-circle fa-2x"></i></label>
+	  </div>
+	</div>
+  </div>
+	</div>
+	</div>
+	  <hr>
+	  <div class="row w-100 mx-auto">
+		<div class="col-lg-2">
+  <h5 class="font-weight-bold">Add table contents<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Create a table OR paste in data from an excel spreadsheet to create your table." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+		</div>
+		<div class="col-lg">
+  <textarea maxlength="50" class="border border-dark rounded p-2 w-100" rows="4" name="pasteTableFromExcel" type="text" id="pasteTableFromExcel" placeholder="paste your spreadsheet data here" onchange=writeTableExcelPaste()></textarea>
+		</div>
+	</div>
+  <!--
+	<table style="display:none;" class="table table-responsive-lg"><tbody>	
 	<tr><td>	
 		<div class="btn-group btn-group-justified" role="group" id="addMinusButtons">
 		<div class="btn-group-lg" role="group">
@@ -947,14 +863,11 @@ function getHistoryI(index,history){
 		</div>
 	</div>
 </div>
-
 	</td></tr>	
-
 	<tr><td>
 		<span id="editTable">
 		
 		please wait for page to load
-
 		</span>
 	
 	</td><td><div class="btn-group btn-group-justified" role="group" id="addMinusColButtons">
@@ -965,64 +878,33 @@ function getHistoryI(index,history){
 		</div>
 		</div>
 	</td></tr>
-
 	</tbody></table>
-	
+	-->
+	<hr>
 <div class="row w-100 mx-auto">
-      <div class="col-lg mt-4">
-      <h5 class="w-25" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click this button to generate and copy the code for your element ready for pasting in Moodle. A preview of the element will appear under Step 6.">Step 5 - Copy code and paste into Moodle</h5>
-      <div>
-  <p id="popup"> <span class="popuptext" id="myPopup">Your code has been copied now</span><input type="button" class="btn btn-arts m-1 text-center" name="GenerateWrap" value="Copy your code </>" onClick=copyCode() >
-  
-  <button id="edit" onClick=editMode()>Edit values</button>
-  
-  </p>
-  </div>
-
-  <p class="text-center"><textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code for your table and copy it to the clipboard."></textarea></p>
+      <div class="col-lg-2">
+	  <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click the copy code button below to copy your code, ready to paste into Moodle." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+	  </div>
+	  <div class="col-lg">
+	  <textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code for your table and copy it to the clipboard."></textarea>
+	  <input type="button" id="copyCodeBtn" class="btn btn-success btn-block mt-2 text-center" name="GenerateWrap" value="Copy your code </>" onClick=copyCode() >
+	  <div class="text-center h5 mt-4">
+		<a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
+		</div>
 </div>
 </div>
-  <div class="row w-100 mx-auto mt-2 mb-3">
-    <div class="col-lg">
-      <h5 style="width:33.33%;" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear below when you click the generate code button in Step 5.">Step 6 - Preview</h5>
-      </div>
-      </div>
-  </form>
-	
-
-  <div id="demo"></div>
-  <p class="my-3"></p>
+<hr>
+  <div class="row w-100 mx-auto">
+    <div class="col-lg-2">
+      <h5 class="font-weight-bold">Preview</h5>
+	  </div>
+	  <div class="col-lg">
+		<div id="demo"></div>
+	  </div>
+	</div>
+  </form>  
   </div>
-  <script>
-	var textarea = $('#tableMainHeading');
-	var select = $('#headSize');
-	var addOrRemoveRequiredAttribute = function () {
-	if (textarea.val().length) {
-	select.val("h5")
-	}
-	};
-	
-	// Run now
-	addOrRemoveRequiredAttribute();
-	
-	// And when textarea changes
-	textarea.on('change', addOrRemoveRequiredAttribute);
-	</script>
 	    <div class="py-5"></div>
-  <footer class="bg-arts text-white w-100">
-    <nav class="navbar navbar-expand navbar-dark bg-arts">    
-        <a class="navbar-brand text-center border border-white px-2 rounded" href="index.html"><img src="img/dragon-solid-white.png" width="30" height="30" alt=""></a>  
-          <ul class="navbar-nav">
-            <span class="navbar-text"><i class="fa fa-copyright" aria-hidden="true"></i> Monash University 2020</span>
-            <li class="nav-item mx-2">
-                <a class="nav-link" href="https://docs.google.com/forms/d/e/1FAIpQLSeojgdmy3o6gUq1ZzuV3Q2YflUDfxH4TKKzz5lbpTJLmLOm5w/viewform?usp=sf_link" target="_blank">Feedback/Improvements/Issues</a>
-            </li>
-             <li class="nav-item">
-                <a class="nav-link" href="https://mail.google.com/mail/u/0/?view=cm&amp;fs=1&amp;to=beest@monash.edu&amp;su=Question%20about%20BEEST%20tool" target="_blank">Contact BEEST support<span class="sr-only">(current)</span></a>
-            </li>
-            </ul>
-            </nav>
-  </footer>
   <div id="beestFooter"></div>
       </body>
       </html>
