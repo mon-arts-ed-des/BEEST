@@ -3,13 +3,8 @@
 <head>
   <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152392632-3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-152392632-3');
-</script>
+<script src="js/pageHistory.js"></script>
+<script src="js/helperFunctions.js"></script>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -36,16 +31,32 @@
     <script src="js/advancedModeLocalStorage.js"></script>
     <!-- TinyMCE placeholder plugin file -->
     <script src="js/placeholder.js"></script> 
+    <script src="js/setupPage.js"></script>
     <!-- Script to init the tinyMCE editor --> 
     <script type="text/javascript">
-    //Get the window width dynamically  
+var videoPageInstance;
+var localStorageHistory = "local_video"
+
+
+$(document).ready(function() { 
+	$('#respVidSwitch').on('input', embedLinkConverter); 
+	setupToolTips(10000)
+		setupNav()
+		makeTinyWithID('tinyMCEvideo',{'change':generateCode},'[Placeholder for video context]')
+		setupGoogleAnalytics()
+		default_XRadio_onEmpty_Y("respVidHeading","headSize","noH","headSize1",generateCode);
+		/*REQUIRED FOR HISTORY*/
+		videoPageInstance = new videoPage()
+		initHistory();
+		/*END REQUIRED FOR HISTORY*/
+});
+	//Get the window width dynamically  
  /* var width = $(window).width();
     $(window).on('resize', function() {
       if ($(this).width() !== width) {
         width = $(this).width();
       }
     });
-
     //Float the preview when the window size is large than 992
     $(window).scroll(function () { 
       if($(this).scrollTop() > 50 && width > 992)
@@ -62,7 +73,7 @@
           $('#previewDiv').addClass('mt-2');
       }
     }); */
-
+/*REQUIRED FOR HISTORY*/
 	class videoPage{
 		constructor(link,context,position,width,heading,headingSize,icon){
 			this.link = link
@@ -73,58 +84,61 @@
 			this.headingSize = headingSize
 			this.icon = icon
 		}
+		toPDO(){
+			var obj = {}
+			for (var prop in this){
+				if (typeof(this[prop])!="function"){
+					obj[prop] = this[prop]
+				}
+			}
+			obj.mainHead = this.heading
+			return obj
+		}
+		toJSON(){return this.toPDO()}
+		fromObj(PDO){
+			for (var prop in PDO){
+				if (this.hasOwnProperty(prop)){
+					this[prop] = PDO[prop]
+				}
+			}
+		}
 	}
 	
-	var videoPageInstance;
+/*END REQUIRED FOR HISTORY*/	
 
-    tinymce.init({
-        selector: '#tinyMCEvideo',
-        menubar: false,
-        plugins : 'advlist autolink link lists charmap print preview code placeholder',
-        placeholder:'[Placeholder for video context]',
-        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat',  
-        setup : function(ed) {      
-        ed.on('change', function (e) {	
-          generateCode();
-          });					
-        }
-      });
-
-      function writeinMoodle(){
-      tinyMCE.get('#id_introeditor').setContent(textOutput);
-       };
-
-       function getRadioOption(id){
-		return $('div #'+id).find('input[name="'+id+'"]:checked').val()
-	}
+    function writeinMoodle() {
+		tinyMCE.get('#id_introeditor').setContent(textOutput);
+    }
 	
     /*Function to generate and copy code for the responsive videos*/
-    function generateCode(){
+    function generateCode() {
         // Get the HTML contents of the currently active editor
         console.debug(tinyMCE.activeEditor.getContent());
 
         //Retrieve the content by id of the tinyMCE textarea
         var contextCode = tinyMCE.get('tinyMCEvideo').getContent();
-
-        if (tinyMCE.get('tinyMCEvideo').getContent() !== ""){
-			contextCode = tinyMCE.get('tinyMCEvideo').getContent();
-			}
-        else{
-			contextCode = "[Placeholder for video context. The content you entered in step 2 will appear here.]";
-        }
-
         var vidHeading = document.getElementById('respVidHeading').value;
         var respLink = document.getElementById('respVidSwitch').value;
         var vPosition = getRadioOption('videoPosition')
         var vWidth = getRadioOption('videoWidth');
         var headSize = getRadioOption('headSize');
         var faIcon = getRadioOption('faCode');
-        var head_3="<div id=\"heading\"><h3>"
-        var endHead_3="</h3></div>"
-        var head_4="<div id=\"heading\"><h4>"
-        var endHead_4="</h4></div>"
-        var head_5="<div id=\"heading\"><h5>"
-        var endHead_5="</h5></div>"
+
+		videoPageInstance.link = respLink
+		videoPageInstance.context = contextCode
+		videoPageInstance.position = vPosition
+		videoPageInstance.width = vWidth
+		videoPageInstance.heading = vidHeading
+		videoPageInstance.headingSize = headSize
+		videoPageInstance.icon = faIcon
+		
+		if (tinyMCE.get('tinyMCEvideo').getContent() !== ""){
+			contextCode = tinyMCE.get('tinyMCEvideo').getContent();
+			}
+        else{
+			contextCode = "[Placeholder for video context. The content you entered in step 2 will appear here.]";
+        }
+
         var rowOpen="<div class=\"row w-100\">"
         var firstCol="<div class=\"col-lg\" id=\"video-context\">"
         var firstCol4="<div class=\"col-lg-4\">"
@@ -160,9 +174,8 @@
 			
 			var resizedHead
 			//Resizing the heading text
-			if (headSize == "noH"){
-        resizedHead = ""}
-			else {
+			if (headSize == "noH"){resizedHead = ""}
+			else{
 				var sizes = {"h3":3,"h4":4,"h5":5}
 				resizedHead = '<div id=\"heading\"><h'+sizes[headSize]+">"+faIconCode+vidHeading+"</h"+sizes[headSize]+"></div>"
 			}
@@ -194,36 +207,20 @@
          //Add the html code after the div
         var demoDiv = document.getElementById("demo");
         demoDiv.innerHTML = textOutput;
-        }
+    }
 
 	function setPageContents(pageInstance){
-		var updates = [
-			{id:'faCode',value:pageInstance.icon},
-			{id:'videoWidth',value:pageInstance.width},
-			{id:'respVidSwitch',value:pageInstance.link},
-			{id:'headSize',value:pageInstance.headingSize},
-			{id:'respVidHeading',value:pageInstance.heading}
-		]
-		tinyMCEUpdates = [
-			{id:'tinyMCEvideo',value:pageInstance.context},
-		]
-		var thisId;
-		var thisVal;
-		
-		for (var upI=0;upI<updates.length;upI++){
-			thisId = updates[upI].id
-			thisVal = updates[upI].value
-			if (thisVal){
-				document.getElementById(thisId).value = thisVal;
-			}
-		}	
-		for (var upTi=0;upTi<tinyMCEUpdates.length;upTi++){
-			thisId = tinyMCEUpdates[upTi].id
-			thisVal = tinyMCEUpdates[upTi].value
-			if (thisVal){
-				tinyMCE.get(thisId).setContent(thisVal);
-			}
+		dataToSave = {
+			'tinyMCEvideo':{type:"tiny",value:pageInstance.context},
+			'respVidHeading':{type:"basic",value:pageInstance.heading},
+			'respVidSwitch':{type:"basic",value:pageInstance.link},
+			'videoPosition':{type:"radio",value:pageInstance.position},
+			'videoWidth':{type:"radio",value:pageInstance.width},
+			'headSize':{type:"radio",value:pageInstance.headingSize},
+			'faCode':{type:"radio",value:pageInstance.icon}
 		}
+		
+		setTextAreas_util(dataToSave)
         generateCode();
 	}
 
@@ -281,7 +278,11 @@
     }
 
     function copyCode(){
-      SelectAll("txtarearespVid");
+      /*REQUIRED FOR HISTORY*/
+	  addToHistory(videoPageInstance)
+	  /*END REQUIRED FOR HISTORY*/
+	  
+	  SelectAll("txtarearespVid");
     }
 
     function SelectAll(id){
@@ -292,12 +293,13 @@
     }
  
 
-    function submitform(){
+    function submitform()
+    {
         document.forms["myform"].submit();
     }
-    $(function(){
- 		$('[data-toggle="tooltip"]').tooltip()
-	});
+    $(function () {
+		$('[data-toggle="tooltip"]').tooltip()
+	})
 	
 /*REQUIRED FOR HISTORY*/
 function getHistoryI(index,history){
@@ -355,16 +357,18 @@ function embedLinkConverter(event){
 	}
 	
 	var videopreview = document.getElementById('videopreview');
+
+	var videoPreviewText = document.getElementById('videoPreviewText');
 }
     /* Variable Key
     These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
-
     respVid = responsive Video Right (context left/video right)
-
-    These different options have been absorbed into a javascript Object allowing a direct mapping and lookup of code to icon name*/
+    */
+   
+		/*These different options have been absorbed into a javascript Object allowing a direct mapping and lookup of code to icon name*/
 		
-  </script>
-   <script>   
+    </script>
+   <!--<script>   
     window.onload=function(){
       $('#beestNav').load('common/beestnav.html');
       $('#beestFooter').load('common/beestfooter.html');
@@ -383,7 +387,7 @@ function embedLinkConverter(event){
           activeNav();
       }, 100);
     };
-  </script>
+  </script>-->
     <style>
     /*
     #preview {
@@ -410,7 +414,7 @@ function embedLinkConverter(event){
 }
     </style> 
     </head>
-<body>
+<body onload=generateCode()>
   <div id="beestNav"></div>
   <div class="py-5"></div>
 <div class="container-fluid">
@@ -564,6 +568,10 @@ function embedLinkConverter(event){
       <h5 class="font-weight-bold">Position <span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose which side of screen you would prefer the video to appear by clicking on one of the options below. Video on the right is selected by default." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
       </div>
       <div class="col-lg">
+              <!--<select class="custom-select w-100 border border-dark" id="videoPosition" name="videoPosition" size="1" onchange=generateCode()>
+                <option value="right" selected>Video on the right</option>
+                <option value="left">Video on the left</option>
+              </select>-->
               <div class="form-check form-check-inline" id="videoPosition" onchange=generateCode()>
                 <input class="form-check-input" name="videoPosition" id="videoPosition1" type="radio" value="left">
                 <label class="form-check-label" for="videoPosition1">Left</label>
@@ -580,6 +588,10 @@ function embedLinkConverter(event){
           <h5 class="font-weight-bold">Width <span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose whether you want the video to be 50% (1/2) of the screen width or 33.3% (1/3) of the screen width." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
           </div>
           <div class="col-lg">
+              <!--<select class="custom-select w-100 border border-dark" id="videoWidth" name="videoWidth" size="1" onchange=generateCode()>
+                  <option value="50" selected>50% (1/2)</option>
+                  <option value="33">33.3% (1/3)</option>
+              </select>-->
               <div class="form-check form-check-inline" id="videoWidth" onchange=generateCode()>
                 <input class="form-check-input" name="videoWidth" id="videoWidth1" type="radio" value="50" checked>
                 <label class="form-check-label" for="videoWidth1">50% (1/2 of the screen width)</label>
@@ -605,6 +617,11 @@ function embedLinkConverter(event){
       <h5 class="font-weight-bold">Heading size<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose the size of your heading. Will default to small on entering a heading above" class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
           </div>
           <div class="col-lg my-auto">
+            <!--<select class="custom-select w-100 border border-dark" id="headSize" name="headSize" size="1" onchange=generateCode()>
+            <option selected value="h5">Small (heading 5)</option>
+            <option value="h4">Medium (heading 4)</option>
+            <option value="h3">Large (heading 3)</option>
+          </select>-->
           <div class="form-check form-check-inline" id="headSize" onchange=generateCode()>
             <input class="form-check-input" name="headSize" id="headSizeNone" type="radio" value="noH" checked>
             <label class="form-check-label" for="headSizeNone">None</label>
@@ -629,7 +646,13 @@ function embedLinkConverter(event){
             <h5 class="font-weight-bold">Heading icon<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose an icon to go with your heading. If you choose an icon without typing a heading, it will not display" class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
       </div>
       <div class="col-lg my-auto">
-                <div class="form-check form-check-inline" id="faCode" onchange=generateCode()>
+            <!--<select class="custom-select w-100 border border-dark" id="faCode" name="faCode" size="1" onchange=generateCode()>
+              <option selected value="noI">No icon</option>
+                <option value="1">Video Camera</option>
+                <option value="2">Play</option>
+                <option value="3">Eye</option>
+              </select>-->
+              <div class="form-check form-check-inline" id="faCode" onchange=generateCode()>
                 <input class="form-check-input" name="faCode" id="faCodeNone" type="radio" value="noI" checked>
                 <label class="form-check-label" for="faCodeNone">None</label>
               </div>
@@ -670,7 +693,7 @@ function embedLinkConverter(event){
                  
                 </div>
               </div>
-                          <input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Display in Moodle" onClick=writeinMoodle() ></p>
+                          <!--<input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Display in Moodle" onClick=writeinMoodle() ></p>-->
                         
                 </div>
             </div>
@@ -678,121 +701,6 @@ function embedLinkConverter(event){
       </form>
                     <p class="my-3"></p>
                   </div>
-         <script>
-        $('#respVidSwitch').on('input', function(event) {
-			var vidString = $('#respVidSwitch').val().toString();
-			var videoLink;
-			var vidTypeReplace = [
-				{	include:"vimeo.com",
-					replace:'https://vimeo.com/',
-					repWith:'https://player.vimeo.com/video/',
-					replace2:'',
-					repWith2:''},
-				{	include:"youtube.com",
-					replace:'watch?v=',
-					repWith:'embed/',
-					replace2:'&start',
-					repWith2:'?start'},
-				{	include:"youtu.be",
-					replace:'youtu.be',
-					repWith:'www.youtube.com/embed',
-					replace2:'t=',
-					repWith2:'start='},
-				{	include:"panopto.com",
-					replace:'Viewer',
-					repWith:'Embed',
-					replace2:'',
-					repWith2:''},
-				{	include:"ted.com",
-					replace:'www.ted.com',
-					repWith:'embed.ted.com',
-					replace2:'',
-					repWith2:''}
-			]
-			for(var vidI=0;vidI<vidTypeReplace.length;vidI++){
-				item = vidTypeReplace[vidI]
-				if (vidString.includes(item.include)){
-					videoLink = vidString.replace(item.replace,item.repWith).replace(item.replace2,item.repWith2)
-				}
-			}
-/*			if (vidString.includes("vimeo.com")) {
-			//code for converting Vimeo link from Viewer to Embed
-				videoLink = vidString.replace('https://vimeo.com/','https://player.vimeo.com/video/');
-			}
-			else if (vidString.includes("youtube.com")) {
-			//code for converting Youtube link from Viewer to Embed
-				videoLink = vidString.replace('watch?v=','embed/').replace('&start','?start');
-			}
-			else if (vidString.includes("youtu.be")) {
-				videoLink = vidString.replace('youtu.be','www.youtube.com/embed').replace('t=','start=');
-			}
-			//code for converting Panopto link from Viewer to Embed
-			else if (vidString.includes("monash-panopto")) {
-				videoLink = vidString.replace('Viewer','Embed');
-			}
-			//code for converting TED Talks link from Viewer to Embed
-			else if (vidString.includes("ted.com")) {
-				videoLink = vidString.replace('www.ted.com','embed.ted.com');
-			}
-*/
-			$('#respVidSwitch').val(videoLink);
-			
-			document.getElementById('vid').src = videoLink;
-			var videopreview = document.getElementById('videopreview');
-
-			var videoPreviewText = document.getElementById('videoPreviewText');
-
-			if (vidString !== ""){
-			  videopreview.style.display = "block";
-			  videoPreviewText.style.display = "block";
-			}
-			else{
-			  videopreview.style.display = "none";
-			  videoPreviewText.style.display = "none";          
-			}
-			//$('input[type="text"], textarea#respVidSwitch').attr('readonly','readonly');
-		}); 
-      </script>
-<script>
-$(function(){
-  $(document).on('shown.bs.tooltip', function (e) {
-     setTimeout(function () {
-       $(e.target).tooltip('hide');
-     }, 10000);
-  });
-});
-</script>
-<script>
-  $(function(){
-    $('#copyCodeBtn').on('shown.bs.tooltip', function (e) {
-       setTimeout(function () {
-         $(e.target).tooltip('hide');
-       }, 2500);
-    });
-  });</script>
-  <script>
-    $(function(){
-      $('#toggleHelp').on('shown.bs.tooltip', function (e) {
-         setTimeout(function () {
-           $(e.target).tooltip('hide');
-         }, 2500);
-      });
-    });</script>
-   <script>
-    var textarea = $("#respVidHeading");
-    var checkRadio = function(){
-      if (textarea.val()!=="") {
-        $("#headSize1").prop("checked", true);
-        generateCode();
-        }
-      else {
-        $("#headSizeNone").prop("checked", true);
-        generateCode();
-        } 
-            };
-          // And when textarea changes
-          textarea.on("change", checkRadio);
-          </script>
         <div id="beestFooter"></div>
         </body>
         </html>
