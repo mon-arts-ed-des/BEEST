@@ -43,7 +43,7 @@
 		classPollEv = new pollEv()
 		setupGoogleAnalytics()
 		/*REQUIRED FOR HISTORY*/ 
-		//initHistory()
+		initHistory()
 		/*END REQUIRED FOR HISTORY*/
 		setupToolTips()
 		setupNav()
@@ -125,6 +125,8 @@ function generateElementCode() {
 	//Retrieve the content by id of the textareas
 	//get the poll everywhere link on the page
 	var pollEv_URL = $('#pollEv_URL').val();
+	var poll_url_on_page = pollEv_URL;
+
 
 	if (pollEv_URL == ""){ // replace with a dummy one if none selected
 		pollEv_URL = DEFAULT_POLLEV_LINK;
@@ -135,6 +137,8 @@ function generateElementCode() {
    
 	var closeContainer="</div>"
 	var frameHeight= $('#frameHeight').val();
+	var frame_height_on_page = frameHeight
+	
 	if (frameHeight == ""){ //default to 400 if blank
 		frameHeight = "400"
 	}
@@ -144,8 +148,8 @@ function generateElementCode() {
 	classPollEv.headSize = headSize
 	classPollEv.icon = faIcon
 	classPollEv.context = contextCode
-	classPollEv.frameHeight = frameHeight
-	classPollEv.destination = pollEv_URL
+	classPollEv.frameHeight = frame_height_on_page
+	classPollEv.destination = poll_url_on_page
    
 	var pollEv_2="\" width=\"100%\" height=\""+frameHeight+"\" frameBorder=\"0\"></iframe>"
 	var textOutputPollEv = resizedHead+divContainer+"<span id='theContext'>"+contextCode+"</span>"+pollEv_1+pollEv_URL+pollEv_2+closeContainer;
@@ -240,9 +244,13 @@ function generateElementCode() {
         setPageContents(videoPageInstance);
     } */
     //end of recoverCode
-    function copyCode(){
-      SelectAll("txtareapollEv");
-    }    
+
+function copyTheCode(){
+	/*REQUIRED for HISTORY*/
+	addToHistory(classPollEv)
+	/*END REQUIRED for history*/
+	SelectAll("txtareapollEv");
+}    
 
     function SelectAll(id){
         document.getElementById(id).focus();
@@ -257,6 +265,30 @@ function generateElementCode() {
     $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
+
+/*REQUIRED FOR HISTORY*/
+function setTextAreas(classData){
+	txtAreaVals = {
+		'pollHeading': {type:'basic',value:classData.heading},
+		'headSize': {type:'radio',value:classData.headSize},
+		'faCode': {type:'radio',value:classData.icon},
+		'tinyMCEpollEv': {type:'tiny',value:classData.context},
+		'frameHeight': {type:'basic',value:classData.frameHeight},
+		'pollEv_URL': {type:'basic',value:classData.destination}
+	}
+	setTextAreas_util(txtAreaVals)
+}
+function getHistoryI(index,history){
+	if (history.length>0){
+		var selectedItem = history[index]
+		classPollEv = new pollEv()
+		classPollEv.fromObj(selectedItem)
+		refToClassButton = classPollEv
+		setTextAreas(refToClassButton)
+		generateElementCode()
+	}
+}
+/*END REQUIRED FOR HISTORY*/
     /* Variable Key
     These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
    pollEv=poll everywhere
@@ -514,7 +546,7 @@ function generateElementCode() {
           <h5 class="font-weight-bold">Copy code<span class="hideableinstruct text-success small" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click the button below to copy your code, ready to paste into Moodle.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
         
            <textarea readonly class="rounded p-2 w-100" id="txtareapollEv" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here."></textarea>
-           <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." type="button" class="m-1 btn btn-success btn-block btn-lg" id="copyCodeBtn" name="copyCode" value="Copy your code &lt;/&gt;" onClick=copyCode()></input>
+           <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." type="button" class="m-1 btn btn-success btn-block btn-lg" id="copyCodeBtn" name="copyCode" value="Copy your code &lt;/&gt;" onClick=copyTheCode()></input>
            <p class="text-center h5 mt-4">
             <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
            </p>

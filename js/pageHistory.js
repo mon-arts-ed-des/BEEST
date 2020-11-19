@@ -113,7 +113,7 @@ function showRecoveryDate(index,history){
 		document.getElementById("recoveryDate").innerHTML = recoveryOptionGenerator(index,recHistSet)
 	}
 	catch (error){
-		console.error(error)
+		console.log(error)
 		document.getElementById("recoveryDate").innerHTML = HTMLOption(null,"no history available",true)
 		hideButton("delHist")
 		hideButton("loadHist")
