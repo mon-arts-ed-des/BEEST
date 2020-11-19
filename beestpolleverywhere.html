@@ -119,8 +119,9 @@ function generateElementCode() {
 	if (headSize == "noH"){resizedHead = ""}
 	else{
 		var sizes = {"h3":3,"h4":4,"h5":5}
-		resizedHead = '<h'+sizes[headSize]+'>'+faIconCode+pollHeading+"</h"+sizes[headSize]+">"
+		resizedHead = '<h'+sizes[headSize]+' id="theHeading"><span id="theIcon">'+faIconCode+'</span><span id="theHeadTxt">'+pollHeading+"</span></h"+sizes[headSize]+">"
 	}
+	resizedHead = '<span id="outsideHead">'+resizedHead+'</span>'
 	//Retrieve the content by id of the textareas
 	//get the poll everywhere link on the page
 	var pollEv_URL = $('#pollEv_URL').val();
@@ -130,7 +131,7 @@ function generateElementCode() {
 	}
 
 	var divContainer="<div>"
-	var pollEv_1="<iframe src=\""
+	var pollEv_1="<iframe id='pollSrc' src=\""
    
 	var closeContainer="</div>"
 	var frameHeight= $('#frameHeight').val();
@@ -147,10 +148,43 @@ function generateElementCode() {
 	classPollEv.destination = pollEv_URL
    
 	var pollEv_2="\" width=\"100%\" height=\""+frameHeight+"\" frameBorder=\"0\"></iframe>"
-	var textOutputPollEv = resizedHead+divContainer+contextCode+pollEv_1+pollEv_URL+pollEv_2+closeContainer;
+	var textOutputPollEv = resizedHead+divContainer+"<span id='theContext'>"+contextCode+"</span>"+pollEv_1+pollEv_URL+pollEv_2+closeContainer;
 	
 	$('#txtareapollEv').html(textOutputPollEv);
-	$('#demo').html(textOutputPollEv);
+	
+	var currDemo = $('#demo').html()
+	if ((typeof(currDemo)=='undefined')||(currDemo.trim()=="")){
+		$('#demo').html(textOutputPollEv);
+	}
+	else{
+		var currPollEv = $('#pollSrc')
+		var currPollEvSrc = currPollEv.attr('src')
+		var currPollEvHeight = currPollEv.attr('height')
+		
+		if (currPollEvSrc !== pollEv_URL){
+			currPollEv.attr('src',pollEv_URL)
+		}
+		if (currPollEvHeight !== frameHeight){
+			currPollEv.attr('height',frameHeight)
+		}
+		
+		var currPollResizedHead = $('#theHeading')
+		var currHeadSize = currPollResizedHead.prop('tagName')
+		var currHeadTxt = $('#theHeadTxt').html()
+		var currIcon = $('#theIcon').html()
+		
+		if ((currHeadSize !== headSize) || (currHeadTxt !== pollHeading) || (currIcon !== faIconCode)) //if any different, replace the resizedHead code
+		{
+			$('#outsideHead').html(resizedHead)
+		}
+		
+		var currContext = $('#theContext')
+		if (currContext.html() !== contextCode){
+			currContext.html(contextCode)
+		}
+	}
+	
+	
 	
 	
 }

@@ -217,7 +217,7 @@ function castAsNumIfPossible(potentialNum){
 		if (tiny !== "") {
             content = tiny;
         } else {
-            content = placeholder;
+            content = (typeof(placeholder)=="undefined" ? "" : placeholder);
         }
 		return content
 	}
