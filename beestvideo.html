@@ -111,6 +111,97 @@ $(document).ready(function() {
 		tinyMCE.get('#id_introeditor').setContent(textOutput);
     }
 	
+	function updatePreview(resizedHead,vPosition,respVid,contextCode,vWidth){
+		function prepLeftRightAlignment(vPosition,respVid_span,closeCol,secCol,contextCode_span){
+			if (vPosition == "left"){
+				return respVid_span+closeCol+secCol+contextCode_span;
+			}
+			else if (vPosition == "right"){
+				return contextCode_span+closeCol+secCol+respVid_span;
+			}
+		}
+		function updateIfDifferent(jQueryElement,value){
+			if (jQueryElement.html()!==value){
+				jQueryElement.html(value)
+			}
+		}
+		
+		var rowOpen="<div class=\"row w-100\">"
+		var closeCol="</div>"
+		var closeRow="</div></div>"
+		
+		sizeClasses = {
+			"33":"col-lg-4",
+			"50":"col-lg"
+		}
+		
+        var firstCol="<div class=\"col-lg\" id=\"fCol\">"
+        var secCol="<div class=\"col-lg mt-2\" id=\"sCol\">"
+		//Change size of column if requested
+        if (vWidth == "33" && vPosition == "left"){
+          firstCol = firstCol.replace(sizeClasses["50"],sizeClasses["33"])
+        }
+        else if (vWidth == "33" && vPosition== "right"){
+          secCol = secCol.replace(sizeClasses["50"],sizeClasses["33"])
+        }
+		
+		var textOutput = "<span id='resizedHead'>"+resizedHead+"</span>"+rowOpen+firstCol
+		textOutput += "<span id='vPos' side="+vPosition+">"
+		
+		respVid_span = "<span id='respVidDemo'>"+respVid+"</span>"
+		contextCode_span = "<span id='video-context'>"+contextCode+"</span>"
+				
+		textOutput += prepLeftRightAlignment(vPosition,respVid_span,closeCol,secCol,contextCode_span)
+		
+		textOutput += "</span>"
+		textOutput+= closeRow
+	   
+		var demoDiv = $('#demo')
+		//demoDiv.html("") //to force rewriting each time
+
+		if ((typeof(demoDiv.html()) !== "undefined") && (demoDiv.html().trim()!="")){
+		//if already created a demo, try to update as little as possible to min load time
+			var headHTML = $('#resizedHead')
+			var fColHTML = $('#fCol')
+			var fColClasses = fColHTML.attr('class')
+			var vPosHTML = $('#vPos')
+			var side = vPosHTML.attr('side')
+			var respVidHTML = $('#respVidDemo')
+			var sColHTML = $('#sCol')
+			var sColClasses = sColHTML.attr('class')
+			var contextCodeHTML = $('#video-context')
+			var oldWidth33 = (sColClasses.includes(sizeClasses['33']) || fColClasses.includes(sizeClasses['33']))
+			var oldWidth = (oldWidth33 ? '33' : '50')
+			
+			//updateIfDifferent(fColHTML,firstCol) //fix me by changing class
+			if (side !== vPosition){
+				demoDiv.html(textOutput)
+			}
+			else{
+				updateIfDifferent(headHTML,resizedHead)
+			
+				if (oldWidth !== vWidth){
+					if (vPosition == "left"){
+						fColHTML.toggleClass(sizeClasses["50"]+" "+sizeClasses["33"])
+					}
+					else if (vPosition== "right"){
+						sColHTML.toggleClass(sizeClasses["50"]+" "+sizeClasses["33"])
+					}
+				}
+				updateIfDifferent(respVidHTML,respVid)
+				updateIfDifferent(contextCodeHTML,contextCode)
+			}		
+		}
+		else{
+			demoDiv.html(textOutput);
+		}
+	   
+		return textOutput;
+		//SelectAll("txtarearespVid");
+		 //Add the html code after the div
+		
+	}
+	
     /*Function to generate and copy code for the responsive videos*/
     function generateCode() {
         // Get the HTML contents of the currently active editor
@@ -139,14 +230,6 @@ $(document).ready(function() {
         else{
 			contextCode = "[Placeholder for video context. The content you entered in step 2 will appear here.]";
         }
-
-        var rowOpen="<div class=\"row w-100\">"
-        var firstCol="<div class=\"col-lg\" id=\"video-context\">"
-        var firstCol4="<div class=\"col-lg-4\">"
-        var secCol="<div class=\"col-lg mt-2\" id=\"vidwid50\">"
-        var secCol4="<div class=\"col-lg-4 mt-2\" id=\"vidwid33\">"
-        var closeCol="</div>"
-        var closeRow="</div></div>"
         
         if ((respLink == "")||(embedLinkConverter()==null)){
           respLink = "https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=5d23c190-f6c6-405d-968b-abab0095e7a4";
@@ -182,32 +265,13 @@ $(document).ready(function() {
 			}
         }
 
-        //Change size of column if requested
-        if (vWidth == "33" && vPosition == "left"){
-          firstCol=firstCol4;
-        }
-        else if (vWidth == "33" && vPosition== "right"){
-          secCol=secCol4;
-        }
         if (respLink.includes("youtu")){
           respVid=respVidYT
         }    
         //Change position of video and order of output
-		var textOutput = resizedHead+rowOpen+firstCol
-        if (vPosition == "left"){
-            textOutput += respVid+closeCol+secCol+contextCode;
-        }
-        else if (vPosition == "right"){
-            textOutput += contextCode+closeCol+secCol+respVid;
-        }
-		textOutput+= closeRow
-       
-       
-        document.getElementById('txtarearespVid').innerHTML=textOutput;
-        //SelectAll("txtarearespVid");
-         //Add the html code after the div
-        var demoDiv = document.getElementById("demo");
-        demoDiv.innerHTML = textOutput;
+		textOutput = updatePreview(resizedHead,vPosition,respVid,contextCode,vWidth)
+		
+		document.getElementById('txtarearespVid').innerHTML=textOutput //update code displayed
     }
 
 	function setPageContents(pageInstance){
