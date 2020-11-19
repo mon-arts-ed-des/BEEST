@@ -148,7 +148,7 @@ $(document).ready(function() {
         var closeCol="</div>"
         var closeRow="</div></div>"
         
-        if (respLink == ""){
+        if ((respLink == "")||(embedLinkConverter()==null)){
           respLink = "https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=5d23c190-f6c6-405d-968b-abab0095e7a4";
         }
 
@@ -315,6 +315,7 @@ function getHistoryI(index,history){
 }
 /*END REQUIRED FOR HISTORY*/
 
+var showingError = false
 function embedLinkConverter(event){
 	var vidString = $('#respVidSwitch').val().toString();
 	var videoLink = null;
@@ -352,14 +353,17 @@ function embedLinkConverter(event){
 		}
 	}
 
-	$('#respVidSwitch').val(videoLink);
 	if (videoLink == null){
-		showErrorMsg('videoLinkError','Invalid url, please paste in a link to a panopto/youtube/TED/or Vimeo video',5000)
+		if (!(showingError)){
+			showErrorMsg('videoLinkError','Invalid url, please paste in a link to a panopto/youtube/TED/or Vimeo video',5000,function(){showingError=false})
+			showingError=true
+		}
+	}
+	else{
+		$('#respVidSwitch').val(videoLink);
 	}
 	
-	var videopreview = document.getElementById('videopreview');
-
-	var videoPreviewText = document.getElementById('videoPreviewText');
+	return videoLink
 }
     /* Variable Key
     These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.

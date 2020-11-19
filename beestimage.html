@@ -328,6 +328,7 @@ $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 });
 //Function to replace image links (plain URLs) with the embed version of the link.
+var displayingError = false
 function replaceLinkWithEmbed(event){
 	var imgString = $('#respImgSwitch').val().toString();
 	var imgLink = "";
@@ -376,8 +377,11 @@ function replaceLinkWithEmbed(event){
 		}
 	}
 	if (!ifAny){
-		var popup2 = document.getElementById("myPopup2");
-		popup2.classList.toggle("showPopup");
+		if (!(displayingError)){
+			var errorDuration = 3000
+			showErrorMsg('imageLinkError','Invalid url, please paste in a link to an Unsplash/ Pexel/Stocksnap or google drive image',errorDuration,function(){displayingError=false})
+			displayingError = true
+		}
 	}
 	else{
 		$('#respImgSwitch').val(imgLink)
@@ -540,6 +544,9 @@ function replaceLinkWithEmbed(event){
             </div>
           </div>-->
           <textarea class="rounded p-2 w-100" rows="1" name="respImgSwitch" type="text" id="respImgSwitch" placeholder="Paste the Unsplash/Pexels/StockSnap image link here" onchange=generateCode()></textarea>
+		  
+		  <span id="imageLinkError"></span>
+		  
        <!-- <p id="popup"><span class="popuptext" id="myPopup">Please paste a valid link from Unsplash/Pexels/StockSnap</span></p>-->
         
         
