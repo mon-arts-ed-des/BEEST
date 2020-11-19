@@ -45,6 +45,7 @@
 		/*END REQUIRED FOR HISTORY*/
 		setupToolTips()
 		setupNav()
+		default_XRadio_onEmpty_Y("pollHeading","headSize","noH","headSize2",generateElementCode)
 	})
     /*REQUIRED FOR HISTORY  */
 	/*
@@ -508,24 +509,6 @@
     <div id="demo"></div>
     <span class="my-3"></span>
   </div>
-      <!--Checks the small heading size option when a heading is entered-->
-      <script>
-        var textarea = $("#pollHeading");
-        var radioBtn = $("#headSize2");
-        var checkRadio = function(){
-          if (textarea.val()!=="") {
-            $("#headSize2").prop("checked", true);
-            generateElementCode();
-            }
-          else {
-            $("#headSize1").prop("checked", true);
-            generateElementCode();
-            } 
-                };
-              // And when textarea changes
-              textarea.on("change", checkRadio);
-              </script>
-
     <div id="beestFooter"></div> 
   </body>
     </html>
