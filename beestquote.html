@@ -47,7 +47,7 @@
 		setupGoogleAnalytics();
 		setupNav();
 		setupToolTips();
-		makeTinyWithID('quoteText',{'change':generateQuoteCode},QUOTE_PLACEHOLDER)
+		makeTinyWithID('quoteText',{'change':generateElementCode},QUOTE_PLACEHOLDER)
 		classQuote = new quote()
 	
 		/*REQUIRED FOR HISTORY*/ 
@@ -104,12 +104,12 @@ function setTextAreas(classData){
 		'textSize': {type:'radio',value:classData.textSize}
 	}
 	setTextAreas_util(txtAreaVals)
-	generateQuoteCode()
+	generateElementCode()
 }
 /*END REQUIRED FOR HISTORY*/
 
   //generates code as page preferences are updated
-    function generateQuoteCode() {
+    function generateElementCode() {
         console.debug(tinyMCE.activeEditor.getContent());
         quote_Text = getTinyContent("quoteText", QUOTE_PLACEHOLDER)
         var reference_text = document.getElementById('referenceText').value
@@ -147,7 +147,7 @@ function setTextAreas(classData){
         //SelectAll("monQuoteCode");
         $('#demoQuote').html(quoteOutput);
 	}
-//end generateQuoteCode
+//end generateElementCode
   //function to recover code previously generated in BEEST
   /*function recoverCode(){
         //Get the code from Step 0
@@ -248,7 +248,7 @@ function setTextAreas(classData){
 }
     </style> 
     </head>
-    <body>
+    <body onload=generateElementCode()>
       <div id="beestNav"></div>
       <div class="py-5"></div>
 <div class="container-fluid">
@@ -338,7 +338,7 @@ function setTextAreas(classData){
       <h5 class="font-weight-bold">Citation<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Input the reference/citation into this box and it will appear under the quote." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
       </div>
       <div class="col-lg">
-      <textarea class="border border-dark rounded p-2 w-100" rows="1" id="referenceText" name="referenceText" placeholder="Write the citation for your quote here." onchange=generateQuoteCode()></textarea>
+      <textarea class="border border-dark rounded p-2 w-100" rows="1" id="referenceText" name="referenceText" placeholder="Write the citation for your quote here." onchange=generateElementCode()></textarea>
     </div>
   </div>
   <hr>
@@ -350,15 +350,15 @@ function setTextAreas(classData){
           <div class="row w-100">
             <div class="col-lg">
           
-            <div class="form-check form-check-inline mx-1" id="textSize" onchange=generateQuoteCode()>
+            <div class="form-check form-check-inline mx-1" id="textSize" onchange=generateElementCode()>
               <input class="form-check-input" name="textSize" id="textSize1" type="radio" value="h5" checked>
               <label class="form-check-label" for="textSize1"><h5>Small</h5></label>
             </div>
-            <div class="form-check form-check-inline mx-1" id="textSize" onchange=generateQuoteCode()>
+            <div class="form-check form-check-inline mx-1" id="textSize" onchange=generateElementCode()>
             <input class="form-check-input" name="textSize" id="textSize2" type="radio" value="h4">
             <label class="form-check-label" for="textSize2"><h4>Medium</h4></label>
             </div>
-            <div class="form-check form-check-inline mx-1" id="textSize" onchange=generateQuoteCode()>
+            <div class="form-check form-check-inline mx-1" id="textSize" onchange=generateElementCode()>
             <input class="form-check-input" name="textSize" id="textSize3" type="radio" value="h3">
             <label class="form-check-label" for="textSize3"><h3>Large</h3></label>
           </div>
@@ -374,19 +374,19 @@ function setTextAreas(classData){
               <div class="col-lg">
                 <div class="row w-100">
                   <div class="col-lg d-flex justify-content-between">
-          <div class="form-check form-check-inline mx-1 mb-2" id="bgColour" onchange=generateQuoteCode()>
+          <div class="form-check form-check-inline mx-1 mb-2" id="bgColour" onchange=generateElementCode()>
             <input class="form-check-input" name="bgColour" id="bgColour1" type="radio" value="1" checked>
             <label class="form-check-label alert alert-mu rounded my-auto" for="bgColour1">Monash blue</label>
           </div>
-          <div class="form-check form-check-inline mx-1 mb-2" id="bgColour" onchange=generateQuoteCode()>
+          <div class="form-check form-check-inline mx-1 mb-2" id="bgColour" onchange=generateElementCode()>
             <input class="form-check-input" name="bgColour" id="bgColour2" type="radio" value="2">
             <label class="form-check-label alert alert-danger border border-danger rounded my-auto" for="bgColour2">Red</label>
           </div>
-          <div class="form-check form-check-inline mx-1 mb-2" id="bgColour" onchange=generateQuoteCode()>
+          <div class="form-check form-check-inline mx-1 mb-2" id="bgColour" onchange=generateElementCode()>
           <input class="form-check-input" name="bgColour" id="bgColour3" type="radio" value="3">
           <label class="form-check-label alert alert-warning border border-warning my-auto" for="bgColour3">Yellow</label>
           </div>
-          <div class="form-check form-check-inline mx-1 mb-2" id="bgColour" onchange=generateQuoteCode()>
+          <div class="form-check form-check-inline mx-1 mb-2" id="bgColour" onchange=generateElementCode()>
           <input class="form-check-input" name="bgColour" id="bgColour4" type="radio" value="4">
           <label class="form-check-label alert alert-success border border-success my-auto" for="bgColour4">Green</label>
         </div>
@@ -395,19 +395,19 @@ function setTextAreas(classData){
    
       <div class="row w-100">
         <div class="col-lg d-flex justify-content-between">
-      <div class="form-check form-check-inline mx-1" id="bgColour" onchange=generateQuoteCode()>
+      <div class="form-check form-check-inline mx-1" id="bgColour" onchange=generateElementCode()>
       <input class="form-check-input" name="bgColour" id="bgColour5" type="radio" value="5">
       <label class="form-check-label alert alert-primary border border-primary my-auto" for="bgColour5">Dark blue</label>
     </div>
-    <div class="form-check form-check-inline mx-1" id="bgColour" onchange=generateQuoteCode()>
+    <div class="form-check form-check-inline mx-1" id="bgColour" onchange=generateElementCode()>
       <input class="form-check-input" name="bgColour" id="bgColour6" type="radio" value="6">
       <label class="form-check-label alert alert-info border border-info my-auto" for="bgColour6">Light blue</label>
     </div>
-    <div class="form-check form-check-inline mx-1" id="bgColour" onchange=generateQuoteCode()>
+    <div class="form-check form-check-inline mx-1" id="bgColour" onchange=generateElementCode()>
       <input class="form-check-input" name="bgColour" id="bgColour7" type="radio" value="7">
       <label class="form-check-label alert alert-dark border border-dark my-auto" for="bgColour7">Black</label>
     </div>
-    <div class="form-check form-check-inline mx-1" id="bgColour" onchange=generateQuoteCode()>
+    <div class="form-check form-check-inline mx-1" id="bgColour" onchange=generateElementCode()>
       <input class="form-check-input" name="bgColour" id="bgColour8" type="radio" value="8">
       <label class="form-check-label alert alert-secondary border border-secondary my-auto" for="bgColour8">Grey</label>
     </div>
