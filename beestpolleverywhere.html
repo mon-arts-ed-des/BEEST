@@ -37,8 +37,10 @@
     const POLLEV_HIST = "history_pollev"
     var localStorageHistory = POLLEV_HIST
     var classPollEv = null
+	const DEFAULT_POLLEV_LINK = "https://pollev.com/free_text_polls/Uzz31kGxHw6BRIoWbXtbl/respond";
 	/*END REQUIRED FOR HISTORY  */
     $(document).ready(function(){
+		classPollEv = new pollEv()
 		setupGoogleAnalytics()
 		/*REQUIRED FOR HISTORY*/ 
 		//initHistory()
@@ -46,124 +48,112 @@
 		setupToolTips()
 		setupNav()
 		default_XRadio_onEmpty_Y("pollHeading","headSize","noH","headSize2",generateElementCode)
+		makeTinyWithID('tinyMCEpollEv',{'change':generateElementCode},'[Placeholder for poll context.]')
 	})
-    /*REQUIRED FOR HISTORY  */
-	/*
-    class button{
-        constructor(content,destination,buttonSize,icon,colour,width,newWindow,alignment,invert){
-            this.mainHead = content
-            this.destination = destination
-            this.buttonSize = buttonSize
-            this.icon = icon
-            this.colour = colour
-            this.invert = invert
-            this.width = width
-            this.newWindow = newWindow
-            this.alignment = alignment
-        }
-        toPDO(){
-            var result = {}
-            result.destination = this.destination
-            result.mainHead = this.mainHead
-            result.buttonSize = this.buttonSize
-            result.icon = this.icon
-            result.colour = this.colour
-            result.width = this.width
-            result.newWindow = this.newWindow
-            result.alignment = this.alignment
-            result.invert = this.invert
-            return result
-        }   
-        toString(){
-            return JSON.stringify(this.toPDO())
-        }
-        fromObj(PDO){
-            this.mainHead = PDO.mainHead
-            this.destination = PDO.destination
-            this.buttonSize = PDO.buttonSize
-            this.icon = PDO.icon
-            this.colour = PDO.colour
-            this.width = PDO.width
-            this.newWindow = PDO.newWindow
-            this.alignment = PDO.alignment
-            this.invert = PDO.invert
-        }
-    }
-/*END REQUIRED FOR HISTORY*/
-   tinymce.init({
-        selector: '#tinyMCEpollEv',
-        menubar: false,
-        plugins : 'advlist autolink link lists charmap print preview code placeholder',
-        placeholder: '[Placeholder for poll context.]',
-        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat'  
-      });
-      function getRadioOption(id){
-        return $('div #'+id).find('input[name="'+id+'"]:checked').val();
-      }
-      //function to generate HTML code output
-    function generateElementCode() {
-         console.debug(tinyMCE.activeEditor.getContent());
-        //Retrieve the content by id of the tinyMCE textarea
-        var contextCode = tinyMCE.get('tinyMCEpollEv').getContent();
-       
-        var pollHeading = document.getElementById('pollHeading').value;
-        var headSize = getRadioOption('headSize')
-        var faIcon = getRadioOption('faCode')
-        var iconNames = {
-                  "1":"bar-chart",
-            "2":"line-chart",
-            "3":"pie-chart", 
-            "4":"thumbs-o-up",
-            "5":"hand-paper-o",
-            "6":"balance-scale",
-            "7":"question",
-            "8":"question-circle",
-            "9":"question-circle-o",
-            "10":"share",
-            "11":"share-alt",
-            "12":"bullhorn",
-            "13":"gavel"
-        }
 
-        var iconName = iconNames[faIcon];
-        var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
-        
-        if (faIcon == "none"){
-          faIconCode = "";
-        }
-		
-		var resizedHead
-			//Resizing the heading text
-		if (headSize == "noH"){resizedHead = ""}
-		else{
-			var sizes = {"h3":3,"h4":4,"h5":5}
-			resizedHead = '<h'+sizes[headSize]+'>'+faIconCode+pollHeading+"</h"+sizes[headSize]+">"
+/*REQUIRED FOR HISTORY  */
+class pollEv{
+	constructor(destination,frameHeight,heading,headSize,icon,context){
+		this.destination = destination
+		this.frameHeight = frameHeight
+		this.heading = heading
+		this.headSize = headSize
+		this.icon = icon
+		this.context = context
+	}
+	toPDO(){
+		var obj = {}
+		for (var prop in this){
+			if (typeof(this[prop])!="function"){
+				obj[prop] = this[prop]
+			}
 		}
-        //Retrieve the content by id of the textareas
-     //pollEv_URL = document.getElementById('pollEv_URL').value;
-    if (document.getElementById('pollEv_URL').value != ""){
-      var pollEv_URL = document.getElementById('pollEv_URL').value;
-   }
-   else {
-     var pollEv_URL = "https://pollev.com/free_text_polls/Uzz31kGxHw6BRIoWbXtbl/respond"
-   }
-   var divContainer="<div>"
-        var pollEv_1="<iframe src=\""
-       
-        var closeContainer="</div>"
-   var frameHeight= document.getElementById('frameHeight').value;
-   if (document.getElementById('frameHeight').value !== ""){
-      frameHeight = document.getElementById('frameHeight').value;
-   }
-   else {
-     frameHeight = "400"
-   }
-   var pollEv_2="\" width=\"100%\" height=\""+frameHeight+"\" frameBorder=\"0\"></iframe>"
-        var textOutputPollEv = resizedHead+divContainer+contextCode+pollEv_1+pollEv_URL+pollEv_2+closeContainer;
-        document.getElementById('txtareapollEv').innerHTML=textOutputPollEv;
-        $('#demo').nextAll('div, h3, h4, h5, i').remove();
-        $('#demo').after(textOutputPollEv);
-        }
+		obj.mainHead = this.heading
+		return obj
+	} 
+	toJSON(){return this.toPDO()}
+	fromObj(PDO){
+		for (var prop in PDO){
+			if (this.hasOwnProperty(prop)){
+				this[prop] = PDO[prop]
+			}
+		}
+	}
+}
+/*END REQUIRED FOR HISTORY*/  
+  
+      //function to generate HTML code output
+function generateElementCode() {
+	console.debug(tinyMCE.activeEditor.getContent());
+	//Retrieve the content by id of the tinyMCE textarea
+	var contextCode = getTinyContent('tinyMCEpollEv')
+	var pollHeading = $('#pollHeading').val();
+	var headSize = getRadioOption('headSize')
+	var faIcon = getRadioOption('faCode')
+	
+	var iconNames = {
+		"1":"bar-chart",
+		"2":"line-chart",
+		"3":"pie-chart", 
+		"4":"thumbs-o-up",
+		"5":"hand-paper-o",
+		"6":"balance-scale",
+		"7":"question",
+		"8":"question-circle",
+		"9":"question-circle-o",
+		"10":"share",
+		"11":"share-alt",
+		"12":"bullhorn",
+		"13":"gavel"
+	}
+
+	var iconName = iconNames[faIcon];
+	var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
+	
+	if (faIcon == "none"){
+	  faIconCode = "";
+	}
+	
+	var resizedHead
+		//Resizing the heading text
+	if (headSize == "noH"){resizedHead = ""}
+	else{
+		var sizes = {"h3":3,"h4":4,"h5":5}
+		resizedHead = '<h'+sizes[headSize]+'>'+faIconCode+pollHeading+"</h"+sizes[headSize]+">"
+	}
+	//Retrieve the content by id of the textareas
+	//get the poll everywhere link on the page
+	var pollEv_URL = $('#pollEv_URL').val();
+
+	if (pollEv_URL == ""){ // replace with a dummy one if none selected
+		pollEv_URL = DEFAULT_POLLEV_LINK;
+	}
+
+	var divContainer="<div>"
+	var pollEv_1="<iframe src=\""
+   
+	var closeContainer="</div>"
+	var frameHeight= $('#frameHeight').val();
+	if (frameHeight == ""){ //default to 400 if blank
+		frameHeight = "400"
+	}
+
+/**updating pollEv instance on page with details**/
+	classPollEv.heading = pollHeading
+	classPollEv.headSize = headSize
+	classPollEv.icon = faIcon
+	classPollEv.context = contextCode
+	classPollEv.frameHeight = frameHeight
+	classPollEv.destination = pollEv_URL
+   
+	var pollEv_2="\" width=\"100%\" height=\""+frameHeight+"\" frameBorder=\"0\"></iframe>"
+	var textOutputPollEv = resizedHead+divContainer+contextCode+pollEv_1+pollEv_URL+pollEv_2+closeContainer;
+	
+	$('#txtareapollEv').html(textOutputPollEv);
+	$('#demo').html(textOutputPollEv);
+	
+	
+}
 //end of generateElementCode
 
 //function to recover code previously generated in BEEST and set the page preferences to that item.
