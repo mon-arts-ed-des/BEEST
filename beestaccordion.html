@@ -48,8 +48,8 @@
 		setupGoogleAnalytics();
 		setupNav();
 		setupToolTips();
-		default_XRadio_onEmpty_Y("accMainHeading","headSize","noH","headSize2",generateAccCode);
-		makeTinyWithID('tinyMCEmonAccContent1',{"change":generateAccCode},"enter your text for drawer 1 here");
+		default_XRadio_onEmpty_Y("accMainHeading","headSize","noH","headSize2",generateElementCode);
+		makeTinyWithID('tinyMCEmonAccContent1',{"change":generateElementCode},"enter your text for drawer 1 here");
 		
 		classAccord = new accordion()
 		classAccord.addDrawer() //page starts with 1 drawer
@@ -184,9 +184,9 @@
 			var idTiny = this.baseTiny+num
 			var idBlock = this.baseBlock+num
 			
-			var headingHTML="<span id=\""+idBlock+"\"><div class=\"row w-100\"><div class=\"col-lg\"><h6>Heading "+num+"</h6><textarea maxlength=\"75\" class=\"border border-dark rounded p-2 w-100 mx-auto\" rows=\"1\" placeholder=\"Input the heading for drawer "+num+" here\" id=\""+idHead+"\" onchange=generateAccCode()></textarea></div></div>"
+			var headingHTML="<span id=\""+idBlock+"\"><div class=\"row w-100\"><div class=\"col-lg\"><h6>Heading "+num+"</h6><textarea maxlength=\"75\" class=\"border border-dark rounded p-2 w-100 mx-auto\" rows=\"1\" placeholder=\"Input the heading for drawer "+num+" here\" id=\""+idHead+"\" onchange=generateElementCode()></textarea></div></div>"
 			
-			var contentHTML = "<div class=\"row w-100 mt-2\"><div class=\"col-lg\"><h6>Content "+num+"</h6><textarea id=\""+idTiny+"\"class=\"border border-dark rounded p-2 w-100\" rows=\"3\" name=\""+idCont+"\" placeholder=\"Write the content for drawer "+num+" here\" onchange=generateAccCode()></textarea></div></div></span><hr>"
+			var contentHTML = "<div class=\"row w-100 mt-2\"><div class=\"col-lg\"><h6>Content "+num+"</h6><textarea id=\""+idTiny+"\"class=\"border border-dark rounded p-2 w-100\" rows=\"3\" name=\""+idCont+"\" placeholder=\"Write the content for drawer "+num+" here\" onchange=generateElementCode()></textarea></div></div></span><hr>"
 			
 			return {
 				IDHead: idHead,
@@ -275,7 +275,7 @@
           iconpreview.style.display = "block";
           iconpreview.parentNode.insertBefore(code,iconpreview.nextSibling);
         }
-        generateAccCode();
+        generateElementCode();
       }
 	  
 	function addSection(live){
@@ -295,7 +295,7 @@
 			var newArea = document.getElementById("newAccordArea")
 			newArea.insertAdjacentHTML('beforeend', newAccordian.output)
 			
-			makeTinyWithID(newAccordian.IDTiny,{"change":generateAccCode},"enter your text for drawer "+classAccord.usableDrawers+" here")
+			makeTinyWithID(newAccordian.IDTiny,{"change":generateElementCode},"enter your text for drawer "+classAccord.usableDrawers+" here")
 			
 			//accordianSectionsTotalMade+=1;
 		}
@@ -321,7 +321,7 @@
 		}
 		
 		resetAddRemoveButtonDisplay()
-    generateAccCode();
+    generateElementCode();
 	if ((live!=undefined)&&(live)){
 		if ((classAccord.getDrCont(classAccord.usableDrawers-2)!="")||(classAccord.getDrHead(classAccord.usableDrawers-2)!="")){		
 			var revealedAccord = classAccord.getLastDrawer()
@@ -373,7 +373,7 @@ function resetAddRemoveButtonDisplay(){
 		
 		
 		resetAddRemoveButtonDisplay()
-    generateAccCode();
+    generateElementCode();
 	}
 	
 	function accordListToIDs(accordList){
@@ -458,7 +458,7 @@ function resetAddRemoveButtonDisplay(){
 		}
 	}
 		
-    function generateAccCode() {
+    function generateElementCode() {
 		var IDs = accordListToIDs(classAccord.getAllDrawers())
 		var txtAreas = getTextAreas(IDs)
 			monAccBtnTxt = txtAreas.btn;
@@ -540,7 +540,7 @@ function getHistoryI(index,history){
 	
 	setTextAreas(accordListToIDs(refToClassAccord.getAllDrawers()),refToClassAccord)
 	classAccord = refToClassAccord
-	generateAccCode()
+	generateElementCode()
 }
 /*END REQUIRED FOR HISTORY*/
     function copyCode(){
@@ -707,7 +707,7 @@ function getHistoryI(index,history){
       <h5>Main heading<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the main heading for this accordion that will sit above the element and indicate to students what is in the accordion. 75 character maximum.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
     </div>
     <div class="col-lg">
-    <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="accMainHeading" type="text" id="accMainHeading" placeholder="Type your accordion heading here" onchange=generateAccCode()></textarea>
+    <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="accMainHeading" type="text" id="accMainHeading" placeholder="Type your accordion heading here" onchange=generateElementCode()></textarea>
     </div>
     </div>
     <hr>
@@ -716,19 +716,19 @@ function getHistoryI(index,history){
     <h5>Main heading size<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
   </div>
   <div class="col-lg">
-<div class="form-check form-check-inline" id="headSize" onchange=generateAccCode()>
+<div class="form-check form-check-inline" id="headSize" onchange=generateElementCode()>
   <input class="form-check-input" name="headSize" id="headSize1" type="radio" value="noH" checked>
   <label class="form-check-label" for="headSize1">No heading</label>
 </div>
-<div class="form-check form-check-inline" id="headSize" onchange=generateAccCode()>
+<div class="form-check form-check-inline" id="headSize" onchange=generateElementCode()>
   <input class="form-check-input" name="headSize" id="headSize2" type="radio" value="h5">
   <label class="form-check-label" for="headSize2"><h5>Small</h5></label>
 </div>
-<div class="form-check form-check-inline" id="headSize" onchange=generateAccCode()>
+<div class="form-check form-check-inline" id="headSize" onchange=generateElementCode()>
   <input class="form-check-input" name="headSize" id="headSize3" type="radio" value="h4">
   <label class="form-check-label" for="headSize3"><h4>Medium</h4></label>
 </div>
-<div class="form-check form-check-inline" id="headSize" onchange=generateAccCode()>
+<div class="form-check form-check-inline" id="headSize" onchange=generateElementCode()>
   <input class="form-check-input" name="headSize" id="headSize4" type="radio" value="h3">
   <label class="form-check-label" for="headSize4"><h3>Large</h3></label>
 </div>
@@ -740,7 +740,7 @@ function getHistoryI(index,history){
               <h5>Choose icon<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="If you would like an icon to the right of your button text, choose one from this list." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
             </div>
             <div class="col-lg-1 my-auto mr-3 pb-3">
-            <div class="form-check form-check-inline" id="faCode" onchange=generateAccCode()>
+            <div class="form-check form-check-inline" id="faCode" onchange=generateElementCode()>
               <input class="form-check-input" name="faCode" id="faCodeNone" type="radio" value="noI" checked>
               <label class="form-check-label h5" for="faCodeNone">None</label>
             </div>
@@ -748,23 +748,23 @@ function getHistoryI(index,history){
             <div class="col-lg">
               <div class="row w-100">
                 <div class="col-lg d-flex justify-content-between">
-              <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateAccCode()>
+              <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                 <input class="form-check-input" name="faCode" id="faCode1" type="radio" value="1">
                 <label class="form-check-label" for="faCode1"><i class="fa fa-fw fa-database fa-2x"></i></label>
               </div>
-              <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateAccCode()>
+              <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
               <input class="form-check-input" name="faCode" id="faCode2" type="radio" value="2">
               <label class="form-check-label" for="faCode2"><i class="fa fa-fw fa-question fa-2x"></i></label>
               </div>
-              <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateAccCode()>
+              <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                 <input class="form-check-input" name="faCode" id="faCode3" type="radio" value="3">
                 <label class="form-check-label" for="faCode3"><i class="fa fa-fw fa-question-circle fa-2x"></i></label>
                 </div>
-              <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateAccCode()>
+              <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
               <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="4">
               <label class="form-check-label" for="faCode4"><i class="fa fa-fw fa-question-circle-o fa-2x"></i></label>
             </div>
-            <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateAccCode()>
+            <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
               <input class="form-check-input" name="faCode" id="faCode5" type="radio" value="5">
               <label class="form-check-label" for="faCode5"><i class="fa fa-fw fa-info fa-2x"></i></label>
             </div>
@@ -772,23 +772,23 @@ function getHistoryI(index,history){
         </div>
             <div class="row w-100 mt-2">
               <div class="col-lg d-flex justify-content-between">
-            <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateAccCode()>
+            <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
               <input class="form-check-input" name="faCode" id="faCode6" type="radio" value="6">
               <label class="form-check-label" for="faCode6"><i class="fa fa-fw fa-info-circle fa-2x"></i></label>
             </div>
-            <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateAccCode()>
+            <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
               <input class="form-check-input" name="faCode" id="faCode7" type="radio" value="7">
               <label class="form-check-label" for="faCode7"><i class="fa fa-fw fa-exclamation fa-2x"></i></label>
             </div>
-            <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateAccCode()>
+            <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
               <input class="form-check-input" name="faCode" id="faCode8" type="radio" value="8">
               <label class="form-check-label" for="faCode8"><i class="fa fa-fw fa-exclamation-triangle fa-2x"></i></label>
             </div>
-            <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateAccCode()>
+            <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
               <input class="form-check-input" name="faCode" id="faCode9" type="radio" value="9">
               <label class="form-check-label" for="faCode9"><i class="fa fa-fw fa-exclamation-circle fa-2x"></i></label>
             </div>
-            <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateAccCode()>
+            <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
               <input class="form-check-input" name="faCode" id="faCode10" type="radio" value="10">
               <label class="form-check-label" for="faCode10"><i class="fa fa-fw fa-life-ring fa-2x"></i></label>
             </div>
@@ -806,13 +806,13 @@ function getHistoryI(index,history){
 <div class="row w-100">
   <div class="col-lg">
 <h6>Heading 1</h6>
-<textarea maxlength="75" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" placeholder="Input the heading for your first accordion drawer here" id="monAccBtnTxt1" onchange=generateAccCode()></textarea>
+<textarea maxlength="75" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" placeholder="Input the heading for your first accordion drawer here" id="monAccBtnTxt1" onchange=generateElementCode()></textarea>
 </div>
 </div>
 <div class="row w-100 mt-2">
   <div class="col-lg">
         <h6>Content 1</h6>      
-        <textarea id="tinyMCEmonAccContent1" class="border border-dark rounded p-2 w-100" rows="3" name="monAccContent1" placeholder="Write the content for your accordion here" onchange=generateAccCode()></textarea>
+        <textarea id="tinyMCEmonAccContent1" class="border border-dark rounded p-2 w-100" rows="3" name="monAccContent1" placeholder="Write the content for your accordion here" onchange=generateElementCode()></textarea>
       </div>
     </div>
 	</span>
@@ -835,7 +835,7 @@ function getHistoryI(index,history){
     <p class="my-3"></p>
     <hr>
     <h5>Copy code<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click the copy code button below to copy your code, ready to paste into Moodle." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
-        <textarea readonly class="rounded p-2 w-100" id="monAccCode" rows="3" name="Result" placeholder="The code for your element will appear here as you update your preferences on the page." onClick=generateAccCode()></textarea>
+        <textarea readonly class="rounded p-2 w-100" id="monAccCode" rows="3" name="Result" placeholder="The code for your element will appear here as you update your preferences on the page." onClick=generateElementCode()></textarea>
     <input id="copyCodeBtn" type="button" class="btn btn-block btn-success mt-2 text-center" name="GenerateWrap" value="Copy your code" data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." onClick=copyCode()>
     <div class="text-center h5 mt-4">
       <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
