@@ -14,6 +14,14 @@
 <script src="js/pageHistory.js"></script>
 <script src="js/helperFunctions.js"></script>
 
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-152392632-3');
+</script>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="A simple element creator to generate responsive code that can be easily embbedded into Moodle">
@@ -41,7 +49,6 @@
     <script src="js/advancedModeLocalStorage.js"></script>
     <!-- TinyMCE placeholder plugin file -->
     <script src="js/placeholder.js"></script> 
-	<script src="js/setupPage.js"></script>
     <script type="text/javascript">
     
     /* Variable Key
@@ -57,17 +64,8 @@
 	localStorageHistory = ALERT_HIST
 	var classAlert = null
 	
-/*END REQUIRED FOR HISTORY*/  	
-	$(document).ready(function(){
-		/*REQUIRED FOR HISTORY*/ 
-		setupGoogleAnalytics()
-		initHistory()
-		/*END REQUIRED FOR HISTORY*/  
-		setupNav()
-		default_XRadio_onEmpty_Y("alertHeading","headSize","0","headSize1",generateElementCode)
-		setupToolTips(10000) //default long tooltip time to 10sec
-	})
-	/*REQUIRED FOR HISTORY*/  
+	$(document).ready(function(){initHistory()})
+	
 	class alert{
 		constructor(content,heading,headSize,icon,colour,permanent){
 			this.content = content
@@ -108,7 +106,7 @@
     toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | autolink link |lists | charmap | code | removeformat",
     setup: function (ed) {
         ed.on("change", function (e) {
-            generateElementCode();
+            generateAlertCode();
         });
     },
 });
@@ -123,7 +121,7 @@
     var alertCode;
 
 	
-    function generateElementCode() {
+    function generateAlertCode() {
         // Get the HTML contents of the currently active editor
         console.debug(tinyMCE.activeEditor.getContent());
 
@@ -131,29 +129,24 @@
         alertCode = getTinyContent("tinyMCEalert",PLACEHOLDER)
 
         var dmoption = getRadioOption('dmoption');
-       // var alertHeading = getId("alertHeading").value;
+        var alertHeading = getId("alertHeading").value;
         var headSize = getRadioOption("headSize");
         var bsColour = getRadioOption("alertColour");
-        var faIcon = getRadioOption("faCode");
-        var alertHeading = getId("alertHeading").value;
+        var faIcon = getRadioOption("faCode")
         var iconNames = {
-            "0":"",
             "1": "exclamation-circle",
             "2": "info-circle",
             "3": "question-circle",
         }
 		var iconName;
 		var faIconCode;
-		if (faIcon != "1" || "2" || "3"){
-      iconName = iconNames[faIcon];
-			faIconCode = ' <i class=\"fa fa-' + iconName + '\"></i> ';
+		if (faIcon==undefined){
+			faIconCode = ""
 		}
-		else {
-			faIconCode = "<i class=\"fa fa-info-circle\"></i>"
+		else{
+			iconName = iconNames[faIcon];
+			faIconCode = ' <i class="fa fa-' + iconName + '"></i> ';
 		}
-    if (faIcon == "0") {
-      faIconCode= ""
-    }
         var colourNames = {
             "1": "mu",
             "2": "danger",
@@ -165,7 +158,7 @@
             "8": "secondary",
         };
         var colourName = colourNames[bsColour];
-        var alertScript = "<script>var L=document.createElement('link'); L.rel='stylesheet'; L.href='http://mon-arts-ed-des.github.io/BEEST/css/monashElements.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
+        var alertScript = "<script> var L=document.createElement('link'); L.rel='stylesheet'; L.href='http://mon-arts-ed-des.github.io/BEEST/css/monashElements.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
 		var colourCodes = '<div class="alert alert-' + colourName + ((colourName == "mu") ? "" : " border border-" + colourName) + ' rounded' + ( (dmoption=="dismissable") ? ' alert-dismissible fade show': '') + '" role="alert">'
 
         var monAlertP_Close = "</div>";
@@ -174,12 +167,13 @@
         if(alertHeading == ""){
           resizedHead = "";
         }
-        else {
+        else{
         //Resizing the heading text
-    	var sizes = {"h3":3,"h4":4,"h5":5}
+		
+			var sizes = {"h3":3,"h4":4,"h5":5}
 			resizedHead = '<h'+sizes[headSize]+' class="text-'+colourName+'">'+faIconCode+alertHeading+"</h"+sizes[headSize]+">"
+
         }
-        
 		var textOutput = colourCodes + resizedHead + alertCode
         if (dmoption == "dismissable") {
             textOutput+= monAlertD_Close;
@@ -234,10 +228,30 @@ function getHistoryI(index,history){
 		classAlert.fromObj(selectedItem)
 		refToClassAlert = classAlert
 		setTextAreas(refToClassAlert)
-		generateElementCode()
+		generateAlertCode()
 	}
 }
 /*END REQUIRED FOR HISTORY*/
+    </script>
+    <script>   
+      window.onload=function(){
+        $('#beestNav').load('common/beestnav.html');
+        $('#beestFooter').load('common/beestfooter.html');
+        function activeNav() {
+            var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
+             $(".nav-link").each(function(){
+                  if($(this).attr("href") == pgurl || $(this).attr("href") == '' ){
+                  $(this).addClass("active");
+                  $(this).removeClass("text-white");
+                  $(this).append('<span class="sr-only">(current)</span>');
+                  $(this).closest('.nav-item').css({"background": "#004DAE"});
+             }
+            });
+        }
+        setTimeout(function() {
+            activeNav();
+        }, 100);
+      };
     </script>
     <style>
     .mce-notification-inner, .mce-close, .mce-notification-warning {
@@ -254,7 +268,7 @@ function getHistoryI(index,history){
 }
     </style> 
   </head>
-<body onload=generateElementCode()>
+<body>
   <div id="beestNav"></div>
   <div class="py-5"></div>
   <div class="container-fluid">
@@ -331,7 +345,7 @@ function getHistoryI(index,history){
      <h5 class="font-weight-bold">Write the alert<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type in the text you would like to appear in your alert." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
           </div>
     <div class="col-lg mt-2">
-    <textarea id="tinyMCEalert" class="border border-dark rounded w-100" rows="3" onchange=generateElementCode()></textarea>
+    <textarea id="tinyMCEalert" class="border border-dark rounded w-100" rows="3" onchange=generateAlertCode()></textarea>
   </div>
 </div>
 <hr>
@@ -340,7 +354,7 @@ function getHistoryI(index,history){
     <h5 class="font-weight-bold">Alert heading<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type the heading for this alert. 75 character maximum." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
   </div>
   <div class="col-lg">
-    <textarea maxlength="75" class="rounded p-2 w-100 border border-dark" rows="1" name="alertHeading" type="text" id="alertHeading" placeholder="Type a heading for your alert here." onchange=generateElementCode()></textarea>
+    <textarea maxlength="75" class="rounded p-2 w-100 border border-dark" rows="1" name="alertHeading" type="text" id="alertHeading" placeholder="Type a heading for your alert here." onchange=generateAlertCode()></textarea>
   </div>
   </div>
   <hr>
@@ -354,19 +368,19 @@ function getHistoryI(index,history){
           <option class="h4 mb-0" value="h4">Medium (heading 4)</option>
           <option class="h3 mb-0" value="h3">Large (heading 3)</option>
         </select>-->
-        <div class="form-check form-check-inline" id="headSize" onchange=generateElementCode()>
-          <input class="form-check-input" name="headSize" id="headSizeNone" type="radio" value="0" checked>
+        <div class="form-check form-check-inline" id="headSize" onchange=generateAlertCode()>
+          <input class="form-check-input" name="headSize" id="headSizeNone" type="radio" value="noH" checked>
           <label class="form-check-label" for="headSizeNone">No heading</label>
         </div>
-          <div class="form-check form-check-inline" id="headSize" onchange=generateElementCode()>
+          <div class="form-check form-check-inline" id="headSize" onchange=generateAlertCode()>
             <input class="form-check-input" name="headSize" id="headSize1" type="radio" value="h5">
             <label class="form-check-label" for="headSize1"><h5>Small</h5></label>
           </div>
-          <div class="form-check form-check-inline" id="headSize" onchange=generateElementCode()>
+          <div class="form-check form-check-inline" id="headSize" onchange=generateAlertCode()>
           <input class="form-check-input" name="headSize" id="headSize2" type="radio" value="h4">
           <label class="form-check-label" for="headSize2"><h4>Medium</h4></label>
           </div>
-          <div class="form-check form-check-inline" id="headSize" onchange=generateElementCode()>
+          <div class="form-check form-check-inline" id="headSize" onchange=generateAlertCode()>
           <input class="form-check-input" name="headSize" id="headSize3" type="radio" value="h3">
           <label class="form-check-label" for="headSize3"><h3>Large</h3></label>
         </div>
@@ -378,20 +392,29 @@ function getHistoryI(index,history){
             <h5 class="font-weight-bold">Select icon<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Select an icon to go with your heading." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
             </div>
             <div class="col-lg">
-         
-              <div class="form-check form-check-inline" id="faCode" onchange=generateElementCode()>
-                <input class="form-check-input" name="faCode" id="faCodeNone" type="radio" value="0" checked>
+            <!--<select class="custom-select w-50 border border-dark" id="faCode" name="faCode" onchange=generateAlertCode()>
+                <option selected value="noI">No icon</option>
+                <option value="1">Exclamation circle</option>
+                <option value="2">Info circle</option>
+                <option value="3">Question mark</option>
+              </select>
+              <div class="form-check form-check-inline" id="faCode" onchange=generateAlertCode()>
+                <input class="form-check-input" name="faCode" id="faCode1" type="radio" value="noI" checked>
+                <label class="form-check-label" for="faCode1">No icon</label>
+              </div>-->
+              <div class="form-check form-check-inline" id="faCode" onchange=generateAlertCode()>
+                <input class="form-check-input" name="faCode" id="faCodeNone" type="radio" value="noI" checked>
                 <label class="form-check-label" for="faCodeNone">No icon</label>
               </div>
-              <div class="form-check form-check-inline" id="faCode" onchange=generateElementCode()>
+              <div class="form-check form-check-inline" id="faCode" onchange=generateAlertCode()>
                 <input class="form-check-input" name="faCode" id="faCode1" type="radio" value="1">
                 <label class="form-check-label" for="faCode1"><i class="fa fa-exclamation-circle fa-2x"></i></label>
               </div>
-              <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateElementCode()>
+              <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateAlertCode()>
               <input class="form-check-input" name="faCode" id="faCode2" type="radio" value="2">
               <label class="form-check-label" for="faCode2"><i class="fa fa-info-circle fa-2x"></i></label>
               </div>
-              <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateElementCode()>
+              <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateAlertCode()>
               <input class="form-check-input" name="faCode" id="faCode3" type="radio" value="3">
               <label class="form-check-label" for="faCode3"><i class="fa fa-question-circle fa-2x"></i></label>
             </div>
@@ -404,7 +427,7 @@ function getHistoryI(index,history){
             <h5 class="font-weight-bold">Alert colour<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Select the background colour of your alert." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
           </div>
         <div class="col-lg">
-            <!--<select class="custom-select w-50 border border-dark" id="alertColour" name="alertColour" onchange=generateElementCode()>
+            <!--<select class="custom-select w-50 border border-dark" id="alertColour" name="alertColour" onchange=generateAlertCode()>
                 <option selected value="1">Monash blue</option>
                 <option value="2">Red</option>
                 <option value="3">Yellow</option>
@@ -416,19 +439,19 @@ function getHistoryI(index,history){
               </select>-->
               <div class="row w-100">
                 <div class="col-lg">
-              <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateElementCode()>
+              <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateAlertCode()>
                 <input class="form-check-input" name="alertColour" id="alertColour1" type="radio" value="1" checked>
                 <label class="form-check-label alert alert-mu rounded my-auto" for="alertColour1">Monash blue</label>
               </div>
-              <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateElementCode()>
+              <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateAlertCode()>
                 <input class="form-check-input" name="alertColour" id="alertColour2" type="radio" value="2">
                 <label class="form-check-label alert alert-danger border border-danger rounded my-auto" for="alertColour2">Red</label>
               </div>
-              <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateElementCode()>
+              <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateAlertCode()>
               <input class="form-check-input" name="alertColour" id="alertColour3" type="radio" value="3">
               <label class="form-check-label alert alert-warning border border-warning my-auto" for="alertColour3">Yellow</label>
               </div>
-              <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateElementCode()>
+              <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateAlertCode()>
               <input class="form-check-input" name="alertColour" id="alertColour4" type="radio" value="4">
               <label class="form-check-label alert alert-success border border-success my-auto" for="alertColour4">Green</label>
             </div>
@@ -436,19 +459,19 @@ function getHistoryI(index,history){
         </div>
         <div class="col-lg">
           <div class="row w-100">
-          <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateElementCode()>
+          <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateAlertCode()>
           <input class="form-check-input" name="alertColour" id="alertColour5" type="radio" value="5">
           <label class="form-check-label alert alert-primary border border-primary my-auto" for="alertColour5">Dark blue</label>
         </div>
-        <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateElementCode()>
+        <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateAlertCode()>
           <input class="form-check-input" name="alertColour" id="alertColour6" type="radio" value="6">
           <label class="form-check-label alert alert-info border border-info my-auto" for="alertColour6">Light blue</label>
         </div>
-        <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateElementCode()>
+        <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateAlertCode()>
           <input class="form-check-input" name="alertColour" id="alertColour7" type="radio" value="7">
           <label class="form-check-label alert alert-dark border border-dark my-auto" for="alertColour7">Black</label>
         </div>
-        <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateElementCode()>
+        <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateAlertCode()>
           <input class="form-check-input" name="alertColour" id="alertColour8" type="radio" value="8">
           <label class="form-check-label alert alert-secondary border border-secondary my-auto" for="alertColour8">Grey</label>
         </div>
@@ -461,16 +484,16 @@ function getHistoryI(index,history){
      <div class="col-lg-3">
       <h5 class="font-weight-bold">Permanent or dismissable<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Dismissable means the alert can be temporarily closed by the user." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
       </div>
-      <!--<select class="custom-select w-50 border border-dark" id="dmoption" name="dmoption" onchange=generateElementCode()>
+      <!--<select class="custom-select w-50 border border-dark" id="dmoption" name="dmoption" onchange=generateAlertCode()>
       <option value="dismissable" selected>Dismissable</option>
       <option value="permanent">Permanent</option>
     </select>-->
     <div class="col-lg">
-    <div class="form-check form-check-inline" id="dmoption" onchange=generateElementCode()>
+    <div class="form-check form-check-inline" id="dmoption" onchange=generateAlertCode()>
       <input class="form-check-input" name="dmoption" id="dmoption1" type="radio" value="dismissable" checked>
       <label class="form-check-label" for="dmoption1">Dismissable</label>
     </div>
-    <div class="form-check form-check-inline" id="dmoption" onchange=generateElementCode()>
+    <div class="form-check form-check-inline" id="dmoption" onchange=generateAlertCode()>
       <input class="form-check-input" name="dmoption" id="dmoption2" type="radio" value="permanent">
       <label class="form-check-label" for="dmoption2">Permanent</label>
     </div>
@@ -495,6 +518,46 @@ function getHistoryI(index,history){
       </div>
     </form>   
         </div>
+        <script>
+	 var textarea = $("#alertHeading");
+      //  var radioBtn = $("#headSize2");
+        var checkRadio = function(){
+          if (textarea.val()!=="") {
+            $("#headSize1").prop("checked", true);
+            generateAlertCode();
+            }
+          else {
+            $("#headSizeNone").prop("checked", true);
+            generateAlertCode();
+            } 
+                };
+              // And when textarea changes
+              textarea.on("change", checkRadio);
+          </script>
+          <script>
+            $(function () {
+              $(document).on('shown.bs.tooltip', function (e) {
+                 setTimeout(function () {
+                   $(e.target).tooltip('hide');
+                 }, 10000);
+              });
+            });</script>
+            <script>
+              $(function () {
+                $('#copyCodeBtn').on('click', function (e) {
+                   setTimeout(function () {
+                     $(e.target).tooltip('hide');
+                   }, 2500);
+                });
+              });
+              $(function () {
+                $('#toggleHelp').on('click', function (e) {
+                   setTimeout(function () {
+                     $(e.target).tooltip('hide');
+                   }, 2500);
+                });
+              });
+              </script>
       <div id="beestFooter"></div>
         </body>
         </html>

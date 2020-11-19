@@ -10,11 +10,6 @@ function setHistory(value){
 	localStorage.setItem(localStorageHistory,value)
 }
 
-function hideButtons(){
-	hideButton("loadHist")
-	hideButton("delHist")
-}
-
 function initHistory(){
 	historicalData = recoverHistory();
 	if (historicalData == null){
@@ -24,7 +19,12 @@ function initHistory(){
 		histIndex = historicalData.length-1
 		showRecoveryDate(histIndex,historicalData)
 	}
-	hideButtons()
+	try{
+		hideButton("loadHist")
+	}catch{}
+	try{
+	hideButton("delHist")
+	}catch{}
 }
 
 function idSelectedRecData(){
@@ -104,21 +104,19 @@ function recoveryOptionGenerator(selectedIndex,aRecoveryDataSet){
 }
 
 function showRecoveryDate(index,history){
-	const EMPTY_STORAGE = "localStorage is empty"
 	try{
 		if ((history==null)||(!history.hasOwnProperty("length"))||(history.length==0)){
-			throw Error(EMPTY_STORAGE)
+			throw Error("localStorage is empty")
 		}
 		var recHistSet = new recoveryDataSet(history)
 		var element = recHistSet[index]
 		document.getElementById("recoveryDate").innerHTML = recoveryOptionGenerator(index,recHistSet)
 	}
 	catch (error){
-		if (error.message != EMPTY_STORAGE){
-			console.error(error)
-		}
+		console.error(error)
 		document.getElementById("recoveryDate").innerHTML = HTMLOption(null,"no history available",true)
-		hideButtons()
+		hideButton("delHist")
+		hideButton("loadHist")
 	}
 }
 	
@@ -133,17 +131,37 @@ function recoverHistory(){
 	return localSet
 }
 
-function addToHistory(currentInstance){
+	function hideButton(id){
+		document.getElementById(id).disabled = true
+		hideHTML(id)
+	}
+	function showButton(id){
+		document.getElementById(id).disabled = false
+		showHTML(id)
+  }
+  
+  
+	function showHTML(id){
+		htmlStyle(id,"display","")
+	}
+	function hideHTML(id){
+		htmlStyle(id,"display","none")
+	}
+		
+	function htmlStyle(id,styleName,styleResult){
+		document.getElementById(id).style[styleName]=styleResult
+	}
+
+function addToHistory(currAccord){
 	var localCurr = getHistory()
 	if ((localCurr == undefined)||(localCurr=="")){
 		localCurr = "[]"
 		setHistory(localCurr)
 	}
-	currentInstance = JSON.parse(JSON.stringify(currentInstance)) //make sure it's a generic object instead of class instance
 	localCurr = JSON.parse(localCurr) //now an array of objects
-	currentInstance.timestamp = new Date()
-	localCurr.push(currentInstance)
-	localCurr = JSON.stringify(localCurr) //now a string again -- currentInstance should have had its toString method called
+	currAccord.timestamp = new Date()
+	localCurr.push(currAccord)
+	localCurr = JSON.stringify(localCurr) //now a string again -- currAccord should have had its toString method called
 	setHistory(localCurr)
 	historicalData = recoverHistory()
 	histIndex = historicalData.length-1

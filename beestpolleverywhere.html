@@ -87,7 +87,6 @@
             this.newWindow = PDO.newWindow
             this.alignment = PDO.alignment
             this.invert = PDO.invert
-
         }
     }
 /*END REQUIRED FOR HISTORY*/
@@ -179,12 +178,10 @@
         
         var retrieveCode = document.getElementById('retrieveCode').value;
         videoContext = $(retrieveCode).find('#video-context').text();
-
         videoLink = $(retrieveCode).find('.embed-responsive-item').attr('src');
         /*if (videoLink){
         document.getElementById('respVidSwitch').value = videoLink;
         }
-
         if ($(retrieveCode).find('h3').text()){
             headSize = "h3";
         }
@@ -195,7 +192,6 @@
             headSize = "h5";
         }
         headText = $(retrieveCode).find(headSize).text();
-
         //set icon
         var headingIcon = $(retrieveCode).find('i').attr('class');
         var iconMap = {
@@ -204,7 +200,6 @@
             "fa fa-eye":3
         };
         iconValue = iconMap[headingIcon]
-
         //set video width
         if ($(retrieveCode).find('#vidwid33')){
           vidWidth = 33
@@ -240,7 +235,6 @@
 })
     /* Variable Key
     These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
-
    pollEv=poll everywhere
     */
    
