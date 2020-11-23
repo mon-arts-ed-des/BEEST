@@ -49,7 +49,7 @@
     const absoluteMinTab = 3;
 
 /*REQUIRED FOR HISTORY*/
-const TABBED_HIST = "history_read_more"
+const TABBED_HIST = "history_tabbed"
 localStorageHistory = TABBED_HIST
 var classTabbed = null;
 
@@ -173,7 +173,7 @@ class beestTabbed{
 		setupToolTips() 
 		default_XRadio_onEmpty_Y("tabbedMainHeading","headSize","noH","headSize2",generateElementCode)
 		/*REQUIRED FOR HISTORY*/
-		//initHistory()
+		initHistory()
 		/*END REQUIRED FOR HISTORY*/
 		
 		for (var createdTabs = 0; createdTabs < requiredInitialTabs; createdTabs++)
@@ -279,45 +279,39 @@ class beestTabbed{
 			return getHTMLBlock(HEADING_ID_BASE,tabNum)
 		}
 
-	function assignTabsToInstance(){
-		for (var currTabs = 0; currTabs < classTabbed.tabCount; currTabs++){
-			//repeat until we've captured all of the tabs in the page (currTabs becomes maxTabs OR it breaks not finding one)
-			var tinyObj = getTinyMCEText(currTabs)
-			var headingObj = getHeadingText(currTabs)
-			//assumes each follow the same ID format -- see globals for format
-			
-			//put the content/value/ids into this spot in the array
-			classTabbed.setTabContents(currTabs,tinyObj.getContent())
-			classTabbed.setTabHeading(currTabs,headingObj.value)
-		}
-	}
-			
-  function generateElementCode() {
-    console.debug(tinyMCE.activeEditor.getContent());
-
-	var currTabs; //representing how many tabs are currently available on the page and seen by this method
-	var tabContentTxt = [] //an extendible array to hold the text content in any tab
-	var tabHTxt = [] //to hold the heading text for each tab
-	var tabIDs = [] //to hold the IDs we'll assign to the tags
-
-	assignTabsToInstance()
-
+function assignTabsToInstance(){
 	for (var currTabs = 0; currTabs < classTabbed.tabCount; currTabs++){
-	//repeat until we've captured all of the tabs in the page (currTabs becomes maxTabs OR it breaks not finding one)
+		//repeat until we've captured all of the tabs in the page (currTabs becomes maxTabs OR it breaks not finding one)
 		var tinyObj = getTinyMCEText(currTabs)
 		var headingObj = getHeadingText(currTabs)
 		//assumes each follow the same ID format -- see globals for format
 		
 		//put the content/value/ids into this spot in the array
-		tabContentTxt[currTabs] = tinyObj.getContent()
-		classTabbed.setTabContents(currTabs,tabContentTxt[currTabs])
-		
-		tabHTxt[currTabs] = headingObj.value
-		classTabbed.setTabHeading(currTabs,tabHTxt[currTabs])
-		
-		tabIDs[currTabs] = {head:"tab"+currTabs, cont:"t"+currTabs}
+		classTabbed.setTabContents(currTabs,tinyObj.getContent())
+		classTabbed.setTabHeading(currTabs,headingObj.value)
 	}
+}
+
+function getTabsFromInstance(instance){
+	for (var currTabs = 0; currTabs < instance.tabCount; currTabs++){
+		//repeat until we've captured all of the tabs in the page (currTabs becomes maxTabs OR it breaks not finding one)
+		var tinyObj = getTinyMCEText(currTabs)
+		var headingObj = getHeadingText(currTabs)
+		//assumes each follow the same ID format -- see globals for format
+		
+		//put the content/value/ids into this spot in the array
+		tinyObj.setContent(instance.getTabContents(currTabs))
+		headingObj.value = instance.getTabHeading(currTabs)
+	}
+}
 	
+function generateTabHeadContentsHTML(){
+/*
+iterates over the number of tabs and generates the HTML template including appropriate ids and ensuring the top tab defaults to selected
+	input: none
+	preconditions: classTabbed exists and matches current state (in number of tabs at least) of the page
+	returns: {headingHTML, contentHTML}
+*/
 	var tabHeadingHTMLs = [] //to hold the HTML of the headings
 	var tabContentHTMLs = [] //to hold the HTML of the content
 	//looping to generate the headings1,2,etc. and content1,2,etc.
@@ -327,16 +321,60 @@ class beestTabbed{
 			tabHeadingHTMLs[headContI]+=" active show"
 		}
 		//since headContI changes each time we go through the loop it talks about the next tabbed section and then the next one
-		tabHeadingHTMLs[headContI]+="\" id=\""+tabIDs[headContI].head+"\" data-toggle=\"pill\" href=\"#"+tabIDs[headContI].cont+"\" role=\"tab\" aria-controls=\"v-tabs-"+tabIDs[headContI].cont+"\" aria-selected=\""
-		tabHeadingHTMLs[headContI]+=(headContI==1)+"\">"+tabHTxt[headContI]+"</a>"; //instead of if x==1 --> y=true we can say y=(x==1)
+		tabHeadingHTMLs[headContI]+="\" id=\"tab"+headContI+"\" data-toggle=\"pill\" href=\"#t"+headContI+"\" role=\"tab\" aria-controls=\"v-tabs-t"+headContI+"\" aria-selected=\""
+		tabHeadingHTMLs[headContI]+=(headContI==1)+"\">"+classTabbed.getTabHeading(headContI)+"</a>"; //instead of if x==1 --> y=true we can say y=(x==1)
 		
 		tabContentHTMLs[headContI]="<div class=\"tab-pane p-3 fade"
 		if (headContI==1){//only for the first one
 			tabContentHTMLs[headContI]+=" active show"
 		}
-		tabContentHTMLs[headContI]+="\" id=\""+tabIDs[headContI].cont+"\" role=\"tabpanel\" aria-labelledby=\"v-tabs-"+tabIDs[headContI].cont+"-tab\">";
+		tabContentHTMLs[headContI]+="\" id=\"t"+headContI+"\" role=\"tabpanel\" aria-labelledby=\"v-tabs-t"+headContI+"-tab\">";
+	}
+	return {heading:tabHeadingHTMLs,content:tabContentHTMLs}
+}
+
+function generateIconCode(faIcon){
+	/*
+	given an index of icon, returns the icon HTML code which matches
+	*/
+	
+	var iconNames = {
+		"1":"columns",
+		"2":"question",
+		"3":"question-circle",
+		"4":"question-circle-o", 
+		"5":"info",
+		"6":"info-circle",
+		"7":"bars",
+		"8":"plus",
+		"9":"plus-square",
+		"10":"plus-square-o"
 	}
 
+	var iconName = iconNames[faIcon];
+	var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
+	
+	if (faIcon == "noI"){
+	  faIconCode = "";
+	}
+	return faIconCode
+}
+			
+function generateElementCode() {
+    //console.debug(tinyMCE.activeEditor.getContent());
+
+	const monTabHeading_Open = "<script>var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://mon-arts-ed-des.github.io/BEEST/css/monTabs.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t><div class=\"row w-100 mx-auto mb-3\"><div class=\"col-3\"><div class=\"nav monTabs flex-column nav-pills border-arts rounded\" id=\"v-tabs-tab\" role=\"tablist\" aria-orientation=\"vertical\">";
+	const monTabHeading_Close="</div></div>";
+	//Content variables
+	const monTabContent_Open="<div class=\"col-9\"><div class=\"tab-content border-arts-3 rounded\" id=\"v-tabs-tabContent\">";
+	const monTabContent_Close="</div>";
+	const monTabContent_Final="</div></div>";
+
+	assignTabsToInstance()
+	var HTML = generateTabHeadContentsHTML()
+	var tabHeadingHTMLs = HTML.heading
+	var tabContentHTMLs = HTML.content
+	
     //Heading variables
     var tabbedMainHeading = $('#tabbedMainHeading').val();
     var headSize = getRadioOption('headSize')
@@ -346,47 +384,18 @@ class beestTabbed{
 	classTabbed.headSize = headSize
 	classTabbed.icon = faIcon
 
-    var iconNames = {
-            "1":"columns",
-			      "2":"question",
-            "3":"question-circle",
-            "4":"question-circle-o", 
-            "5":"info",
-            "6":"info-circle",
-            "7":"bars",
-            "8":"plus",
-            "9":"plus-square",
-            "10":"plus-square-o"
-        }
-/*if ( =""){
-  var ="Heading"+tabNum+""
-}
-else {
-  var =document.getElementById('tabbedMainHeading').value;
-}*/
-        var iconName = iconNames[faIcon];
-		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
-		
-        if (faIcon == "noI"){
-          faIconCode = "";
-        }
-		
-		var resizedHead
-        //Resizing the heading text
-		if (headSize == "noH"){resizedHead = ""}
-		else{
-			var sizes = {"h3":3,"h4":4,"h5":5}
-			resizedHead = '<h'+sizes[headSize]+'>'+faIconCode+tabbedMainHeading+"</h"+sizes[headSize]+">"
-		}
-	var monTabHeading_Open = "<script>var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://mon-arts-ed-des.github.io/BEEST/css/monTabs.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t><div class=\"row w-100 mx-auto mb-3\"><div class=\"col-3\"><div class=\"nav monTabs flex-column nav-pills border-arts rounded\" id=\"v-tabs-tab\" role=\"tablist\" aria-orientation=\"vertical\">";
-  var monTabHeading_Close="</div></div>";
-  //Content variables
-  var monTabContent_Open="<div class=\"col-9\"><div class=\"tab-content border-arts-3 rounded\" id=\"v-tabs-tabContent\">";
-  var monTabContent_Close="</div>";
-  var monTabContent_Final="</div></div>";//triple div close to double div close and the final product can stop with +close+final instead of +final to simplify looping
-
-  //Retrieve the content by id of the textareas
-  var textOutputTabbedContent = resizedHead+monTabHeading_Open
+    var faIconCode = generateIconCode(faIcon)
+	
+	var resizedHead
+	//Resizing the heading text
+	if (headSize == "noH"){resizedHead = ""}
+	else{
+		var sizes = {"h3":3,"h4":4,"h5":5}
+		resizedHead = '<h'+sizes[headSize]+'>'+faIconCode+tabbedMainHeading+"</h"+sizes[headSize]+">"
+	}
+	
+	//Retrieve the content by id of the textareas
+	var textOutputTabbedContent = resizedHead+monTabHeading_Open
 	
 	for (var headingIndex=0;headingIndex<classTabbed.tabCount;headingIndex++){
 		textOutputTabbedContent+=tabHeadingHTMLs[headingIndex]
@@ -395,18 +404,20 @@ else {
 	textOutputTabbedContent+=monTabHeading_Close+monTabContent_Open //add the close and open for the contents of the tab
 	
 	for (var contentIndex=0;contentIndex<classTabbed.tabCount;contentIndex++){
-		textOutputTabbedContent+=tabContentHTMLs[contentIndex]+tabContentTxt[contentIndex]+monTabContent_Close
+		textOutputTabbedContent+=tabContentHTMLs[contentIndex]+classTabbed.getTabContents(contentIndex)+monTabContent_Close
 		//add in tabhtml + contents of tab + close the tab's html
 	}
 	textOutputTabbedContent+=monTabContent_Final //close the html (double div end instead of triple as _Close includes a div end)
 	
-        document.getElementById('txtareaBtn').innerHTML=textOutputTabbedContent;
-        //SelectAll("txtareaBtn");
-        $('#demo').nextAll('div, h3, h4, h5, i').remove();
-        $('#demo').after(textOutputTabbedContent);
-      }
+	$('#txtareaBtn').html(textOutputTabbedContent);
+	//SelectAll("txtareaBtn");
+	$('#demo').html(textOutputTabbedContent);
+}
 
     function copyCode(){
+		/**REQUIRED FOR HISTORY**/
+		addToHistory(classTabbed)
+		/**END REQUIRED FOR HISTORY**/
       SelectAll("txtareaBtn");
     }
         
@@ -416,6 +427,37 @@ else {
         document.execCommand("copy");
         //window.alert('test');
     }
+/**END REQUIRED FOR HISTORY**/	
+
+function setTextAreas(classData){
+	var tabbedMainHeading = $('#tabbedMainHeading').val();
+    var headSize = getRadioOption('headSize')
+    var faIcon = getRadioOption('faCode')
+	
+	txtAreaVals = {
+		'tabbedMainHeading': {type:'basic',value:classData.mainHead},
+		'headSize': {type:'radio',value:classData.headSize},
+		'faCode': {type:'radio',value:classData.icon}
+	}
+	txtAreaVals[COUNTER_ID] = {type:'basic',value:classData.tabCount}
+	setTextAreas_util(txtAreaVals)
+	
+	changeTabCount()
+	getTabsFromInstance(classData)
+}
+
+function getHistoryI(index,history){
+	if (history.length>0){
+		var selectedItem = history[index]
+		refToClassButton = new beestTabbed()
+		refToClassButton.fromObj(selectedItem)
+		setTextAreas(refToClassButton)
+		classTabbed = refToClassButton
+		generateElementCode()
+	}
+}
+
+/**END REQUIRED FOR HISTORY**/
 
 	function changeTabCount(){
 		var revisedCount = document.getElementById(COUNTER_ID).value
@@ -570,6 +612,26 @@ else {
 <form id="monTabsForm">
 <div class="row w-100 mx-auto">
   <div class="col-lg-6">
+		<div class="row w-100 mx-auto">
+              <div class="col-lg-3">
+                <h5 class="font-weight-bold">Recover<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Retrieve your previous button configuration. Only works once you have created at least 1 button. Then the next 20 configurations will be available until you clear your internet browser history or change internet browsers or create more than 20 buttons." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-fw fa-question-circle"></i></h5>
+              </div>              
+                <div class="col-lg">
+                  <div class="row w-100">
+                  <div class="col-lg-11">
+                  <select class="custom-select border border-dark" size="1" id="recoveryDate" onchange="idSelectedRecData()">
+                  <option selected value=0>please wait</option>
+                  </select>
+                </div>
+            
+                  <div class="col-lg-1 text-center">
+                  <button data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to delete the item you have selected in the dropdown." id="delHist" onclick="delHistI()" type="button" class="btn btn-danger"><i class="fa fa-fw fa-trash"></i></button>     
+                  </div>
+                </div>
+              </div>
+        </div>
+        <hr>
+  
     <div class="row w-100">
       <div class="col-lg-3">
         <h5>Main Heading<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type a heading for your Tabbed Content here that will sit above the element and indicate to the student what is contained within the tabs. 75 character maximum." class="text-success small hideableinstruct">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
