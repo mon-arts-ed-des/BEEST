@@ -47,13 +47,128 @@
     const DO_NOT_USE = "DO_NOT_USE"
     const COUNTER_ID="tabCounter"
     const absoluteMinTab = 3;
-	
-	var createdTabs = 1; //representing how many tabs are currently available on the page
-	var visibleTabs = 1;
-	
+
+/*REQUIRED FOR HISTORY*/
+const TABBED_HIST = "history_read_more"
+localStorageHistory = TABBED_HIST
+var classTabbed = null;
+
+class beestTabSection{
+	constructor(HTML,heading,contents){
+		this.HTML = HTML
+		this.heading = heading
+		this.contents = contents
+	}
+	toPDO(){
+		var obj = {}
+		for (var prop in this){
+			if (typeof(this[prop])!="function"){
+				obj[prop] = this[prop]
+			}
+		}
+		return obj
+	}
+	toJSON(){return this.toPDO()}
+	fromObj(PDO){
+		for (var prop in PDO){
+			if (this.hasOwnProperty(prop)){
+				this[prop] = PDO[prop]
+			}
+		}
+	}
+}	
+class beestTabbed{
+	constructor(globalMaxTab,mainHeading,headSize,icon){
+		this.mainHead = mainHeading
+		this.headSize = headSize
+		this.icon = icon
+		this.tabsList = []
+		this.tabCount = 0
+		this.tabsWithData = 0
+		this.maxTab = globalMaxTab
+	}
+	hasDataNotShown(){
+		return (this.tabsWithData>this.tabCount)
+	}
+	addTab(){
+		if (this.tabsWithData > this.tabCount){
+			this.tabCount+=1 //unhide the existing tab data
+		}
+		else if (this.tabCount < this.maxTab){
+			var tabHTML = this.tabTemplate(this.tabCount)
+			this.tabCount+=1
+			this.tabsWithData+=1
+			this.tabsList.push(new beestTabSection(tabHTML,null,null))
+		}
+		else{
+			console.log("Maximum tabs reached")
+		}
+	}
+	removeTab(){
+		if (this.tabCount>0){
+			this.tabCount-=1
+			//no need to delete, we simply won't access outside the valid range -- becomes a soft delete in case needing to undo later
+		}
+		else{
+			console.log("Minimum tabs reached")
+		}
+	}
+	validTabIndex(index){
+		return ((index>=0)&&(index < this.tabCount))
+	}
+	setTabValue(index,valueName,value){
+		if (this.validTabIndex(index)){
+			this.tabsList[index][valueName] = value
+		}
+	}
+	getTabValue(index,valueName){
+		if (this.validTabIndex(index)){
+			return this.tabsList[index][valueName]
+		}
+	}
+	setTabHeading(index,heading){
+		this.setTabValue(index,"heading",heading)
+	}
+	getTabHeading(index){
+		return this.getTabValue(index,"heading")
+	}
+	setTabContents(index,contents){
+		this.setTabValue(index,"contents",contents)
+	}
+	getTabContents(index){
+		return this.getTabValue(index,"contents")
+	}
+	getTabHTML(index){
+		return this.getTabValue(index,"HTML")
+	}
+	toPDO(){
+		var obj = {}
+		for (var prop in this){
+			if (typeof(this[prop])!="function"){
+				obj[prop] = this[prop]
+			}
+		}
+		return obj
+	}
+	toJSON(){return this.toPDO()}
+	fromObj(PDO){
+		for (var prop in PDO){
+			if (this.hasOwnProperty(prop)){
+				this[prop] = PDO[prop]
+			}
+		}
+	}
+	tabTemplate(tabNum){
+		var result = '<span id='+OUTER_BLOCK_ID_BASE+tabNum+'><hr><div class="row w-100"><div class="col-lg"><h6>Tab '+(1+tabNum)+'</h6><textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button" id="'+HEADING_ID_BASE+tabNum+'" onchange=generateElementCode()></textarea><h6 class=\"mt-2\">Content '+(1+tabNum)+'</h6><textarea id="'+TINYMCE_ID_BASE+tabNum+'" class="border border-dark rounded p-2 w-100" cols="70" rows="3" name="'+INNER_HEADING_ID_BASE+tabNum+'" onchange=generateElementCode()></textarea></div></div></span>'
+		return result
+	}
+}
+
+/*END REQUIRED FOR HISTORY*/	
 	$(document).ready(function() { //create the tinyMCE areas after the first
-		makeTinyWithID(TINYMCE_ID_BASE+'1',{'change':generateElementCode},'Input the content for tab heading 1 here')
+		//makeTinyWithID(TINYMCE_ID_BASE+'1',{'change':generateElementCode},'Input the content for tab heading 1 here')
 		setupGoogleAnalytics()
+		classTabbed = new beestTabbed(maxTabs)
 		setupNav()
 		setupToolTips() 
 		default_XRadio_onEmpty_Y("tabbedMainHeading","headSize","noH","headSize2",generateElementCode)
@@ -61,31 +176,33 @@
 		//initHistory()
 		/*END REQUIRED FOR HISTORY*/
 		
-		while (createdTabs < requiredInitialTabs)
+		for (var createdTabs = 0; createdTabs < requiredInitialTabs; createdTabs++)
 		{
-			addTab(createdTabs+1); //if have 1, next one to create is 2
-			//hence if have X need to make X+1
-			createdTabs++
-			visibleTabs++
+			addTab(createdTabs);
 		}
-		updatePageCounter(COUNTER_ID,visibleTabs)
+		updatePageCounter(COUNTER_ID,classTabbed.tabCount)
 		disableButton("minusbutton")
 	})
-		
-		
-	function tabTemplate(tabNum){
-		var result = '<span id='+OUTER_BLOCK_ID_BASE+tabNum+'><hr><div class="row w-100"><div class="col-lg"><h6>Tab '+tabNum+'</h6><textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button" id="'+HEADING_ID_BASE+tabNum+'" onchange=generateElementCode()></textarea><h6 class=\"mt-2\">Content '+tabNum+'</h6><textarea id="'+TINYMCE_ID_BASE+tabNum+'" class="border border-dark rounded p-2 w-100" cols="70" rows="3" name="'+INNER_HEADING_ID_BASE+tabNum+'" onchange=generateElementCode()></textarea></div></div></span>'
-		return result
-	}
 	
-	function addTab(tabNum){
-		var newTab = tabTemplate(tabNum)
+	function addTab(){
+		var isNewTab = (!(classTabbed.hasDataNotShown()))
+		var tabNum = classTabbed.tabCount
+		classTabbed.addTab()
 		
-		var newArea = document.getElementById("newTabArea")
-		newArea.insertAdjacentHTML('beforeend', newTab)
+		if (isNewTab){
+			var newTab = classTabbed.getTabHTML(tabNum)
+			
+			var newArea = document.getElementById("newTabArea")
+			newArea.insertAdjacentHTML('beforeend', newTab)
+			
+			makeTinyWithID(TINYMCE_ID_BASE+tabNum,{'change':generateElementCode},'Input the content for tab heading '+(1+tabNum)+' here')
+		}
+		else{
+			showTab(tabNum)
+		}
 		
-		makeTinyWithID(TINYMCE_ID_BASE+tabNum,{'change':generateElementCode},'Input the content for tab heading '+tabNum+' here')
-		
+
+		updatePageCounter(COUNTER_ID,classTabbed.tabCount)		
 	}
 		
 			
@@ -108,36 +225,21 @@
 			
 		function addSection(){
 		/*
-		use the addTab to construct a new tab (or show existing)
+		uses the addTab to construct a new tab (or show existing)
 		(maximum maxTabs tabs)
 		*/	
-			var newVisCount = visibleTabs+1
-			if (newVisCount > maxTabs){
-				alert("maximum accordion sections reached") //just in case button is still clicked despite being hidden
-				return
-			}
-		
-			if (newVisCount > createdTabs){
 			
-				addTab(newVisCount)
-				visibleTabs++
-				createdTabs++
-				updatePageCounter(COUNTER_ID,visibleTabs)
-			}
-			else{
-				showTab(newVisCount)
-				visibleTabs++
-				updatePageCounter(COUNTER_ID,visibleTabs)
-			}
-			if (newVisCount >= maxTabs){
+			addTab()
+			
+			if (classTabbed.tabCount >= classTabbed.maxTab){
 				//hideButton("plusbutton")
 				disableButton("plusbutton")
 			}
-			if (newVisCount > absoluteMinTab){
+			if (classTabbed.tabCount >= absoluteMinTab){
 				//showButton("minusbutton")
 				enableButton("minusbutton")
-      }
-      generateElementCode();
+			}
+			generateElementCode();
 		}
 
 	function removeSection(){
@@ -145,23 +247,19 @@
 		hide an existing one (minimum absoluteMinAccord sections)
 		TBC change arrays at end
 		*/
-			if (visibleTabs <= absoluteMinTab){
-				alert("minimum accordion sections reached") //just in case button is still clicked despite being hidden
-				disableButton("minusbutton")
-				return
-			}
 		
-			var tabToHide = getOuterBlock(visibleTabs)
-			hideTab(visibleTabs)
+			var tabToHide = getOuterBlock(classTabbed.tabCount)
+			hideTab(classTabbed.tabCount-1)
 		
-			visibleTabs -= 1;
-			updatePageCounter(COUNTER_ID,visibleTabs)
-			if (visibleTabs <= absoluteMinTab)
+			classTabbed.removeTab()
+			
+			updatePageCounter(COUNTER_ID,classTabbed.tabCount)
+			if (classTabbed.tabCount <= absoluteMinTab)
 			{
 				disableButton("minusbutton")
 			}
 			
-			if (visibleTabs < maxTabs){
+			if (classTabbed.tabCount < classTabbed.maxTab){
 				enableButton("plusbutton")
 				//showButton("plusbutton")
 			}
@@ -180,17 +278,6 @@
 		function getHeadingText(tabNum){
 			return getHTMLBlock(HEADING_ID_BASE,tabNum)
 		}
-	function htmlStyle(id,styleName,styleResult){
-		document.getElementById(id).style[styleName]=styleResult
-	}
-	function hideButton(id){
-		document.getElementById(id).disabled = true
-		htmlStyle(id,"display","none")
-	}
-	function showButton(id){
-		document.getElementById(id).disabled = false
-		htmlStyle(id,"display","")
-  }
 			
   function generateElementCode() {
     console.debug(tinyMCE.activeEditor.getContent());
@@ -201,8 +288,8 @@
 	var tabIDs = [] //to hold the IDs we'll assign to the tags
 	var moreTabs = true
 
-	currTabs = 1; //assume there's at least one
-	while ((currTabs <= maxTabs) && (moreTabs)){
+	currTabs = 0; //assume there's at least one
+	while ((currTabs < classTabbed.tabCount) && (moreTabs)){
 	//repeat until we've captured all of the tabs in the page (currTabs becomes maxTabs OR it breaks not finding one)
 		var tinyObj = getTinyMCEText(currTabs)
 		var headingObj = getHeadingText(currTabs)
@@ -217,20 +304,24 @@
 		else{
 			//put the content/value/ids into this spot in the array
 			tabContentTxt[currTabs] = tinyObj.getContent()
+			classTabbed.setTabContents(currTabs,tabContentTxt[currTabs])
+			
 			tabHTxt[currTabs] = headingObj.value
+			classTabbed.setTabHeading(currTabs,tabHTxt[currTabs])
+			
 			tabIDs[currTabs] = {head:"tab"+currTabs, cont:"t"+currTabs}
 			currTabs++;
 		}
 	}
-	if (currTabs==(maxTabs+1)){currTabs = maxTabs}
+	if (currTabs==(classTabbed.maxTab+1)){currTabs = classTabbed.maxTab}
 	//at this point currTabs represents the total number of tabs on the page
 	
 	var tabHeadingHTMLs = [] //to hold the HTML of the headings
 	var tabContentHTMLs = [] //to hold the HTML of the content
 	//looping to generate the headings1,2,etc. and content1,2,etc.
-	for (var headContI=1;headContI<=currTabs;headContI++){
+	for (var headContI=0;headContI<classTabbed.tabCount;headContI++){
 		tabHeadingHTMLs[headContI] = "<a class=\"nav-link"
-		if (headContI==1){//only for the first one
+		if (headContI==0){//only for the first one
 			tabHeadingHTMLs[headContI]+=" active show"
 		}
 		//since headContI changes each time we go through the loop it talks about the next tabbed section and then the next one
@@ -245,9 +336,13 @@
 	}
 
     //Heading variables
-    var tabbedMainHeading = document.getElementById('tabbedMainHeading').value;
+    var tabbedMainHeading = $('#tabbedMainHeading').val();
     var headSize = getRadioOption('headSize')
     var faIcon = getRadioOption('faCode')
+
+	classTabbed.mainHead = tabbedMainHeading
+	classTabbed.headSize = headSize
+	classTabbed.icon = faIcon
 
     var iconNames = {
             "1":"columns",
@@ -291,13 +386,13 @@ else {
   //Retrieve the content by id of the textareas
   var textOutputTabbedContent = resizedHead+monTabHeading_Open
 	
-	for (var headingIndex=1;headingIndex<=currTabs;headingIndex++){
+	for (var headingIndex=0;headingIndex<classTabbed.tabCount;headingIndex++){
 		textOutputTabbedContent+=tabHeadingHTMLs[headingIndex]
 	} //add in as many tabHeadingHTMLs as there are
 	
 	textOutputTabbedContent+=monTabHeading_Close+monTabContent_Open //add the close and open for the contents of the tab
 	
-	for (var contentIndex=1;contentIndex<=currTabs;contentIndex++){
+	for (var contentIndex=0;contentIndex<classTabbed.tabCount;contentIndex++){
 		textOutputTabbedContent+=tabContentHTMLs[contentIndex]+tabContentTxt[contentIndex]+monTabContent_Close
 		//add in tabhtml + contents of tab + close the tab's html
 	}
@@ -323,22 +418,22 @@ else {
 	function changeTabCount(){
 		var revisedCount = document.getElementById(COUNTER_ID).value
 		if (isNaN(revisedCount)){
-			revisedCount = visibleTabs
+			revisedCount = classTabbed.tabCount
 		}
 		else{
 			if (!(Number.isInteger(revisedCount))){
 				revisedCount = Number.parseInt(revisedCount)
 			}
-			if (revisedCount > maxTabs){
-				revisedCount = maxTabs
+			if (revisedCount > classTabbed.maxTab){
+				revisedCount = classTabbed.maxTab
 			}
 			if (revisedCount < absoluteMinTab){
 				revisedCount = absoluteMinTab
 			}
-			while (visibleTabs < revisedCount){
+			while (classTabbed.tabCount < revisedCount){
 				addSection()
 			}
-			while (visibleTabs > revisedCount){
+			while (classTabbed.tabCount > revisedCount){
 				removeSection()
 			}
 		}
@@ -571,10 +666,6 @@ else {
      <div class="row w-100">
       <div class="col-lg">
         <h5>Tab headings + content<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Input the headings for the tabs on the left, and the content that will appear when the relative heading is clicked. Max length of headings is 50 characters." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
-        <h6>Tab 1</h6>
-        <textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button here" id="monAccTabHeadingTxt1" onchange=generateElementCode()></textarea>
-        <h6 class="mt-2">Content 1</h6>      
-      <textarea id="tinyMCEmonTabContent1" class="border border-dark rounded p-2 w-100" cols="70" rows="3" name="monTabContent1" onchange=generateElementCode()></textarea>
       </div>
   </div>
   <span id="newTabArea"></span>  
