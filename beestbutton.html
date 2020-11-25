@@ -64,17 +64,13 @@
 			this.alignment = alignment
 		}
 		toPDO(){
-			var result = {}
-			result.destination = this.destination
-			result.mainHead = this.mainHead
-			result.buttonSize = this.buttonSize
-			result.icon = this.icon
-			result.colour = this.colour
-			result.width = this.width
-			result.newWindow = this.newWindow
-			result.alignment = this.alignment
-			result.invert = this.invert
-			return result
+			var obj = {}
+			for (var prop in this){
+				if (typeof(this[prop])!="function"){
+					obj[prop] = this[prop]
+				}
+			}
+			return obj
 		}	
 		toJSON(){return this.toPDO()}
 		toString(){

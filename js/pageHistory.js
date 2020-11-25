@@ -159,6 +159,7 @@ function addToHistory(currAccord){
 		setHistory(localCurr)
 	}
 	localCurr = JSON.parse(localCurr) //now an array of objects
+	currAccord = JSON.parse(JSON.stringify(currAccord))
 	currAccord.timestamp = new Date()
 	localCurr.push(currAccord)
 	localCurr = JSON.stringify(localCurr) //now a string again -- currAccord should have had its toString method called
