@@ -41,6 +41,24 @@
 	var localStorageHistory = BUTTON_HIST
 	var classTable = null
 	var tablePasterIsTiny = false
+	
+	var iconNames = {
+		"1":"calendar",
+		"2":"list-ol",
+		"3":"list-ul",
+		"4":"table", 
+		"5":"info",
+		"6":"info-circle",
+		"7":"question",
+		"8":"question-circle",
+		"9":"question-circle-o",
+		"10":"check",
+		"11":"check-square",
+		"12":"check-square-o",
+		"13":"exclamation",
+		"14":"exclamation-triangle",
+		"15":"exclamation-circle"
+	}
 /*END REQUIRED FOR HISTORY*/ 	
 	$(document).ready(function(){
 		setupGoogleAnalytics()
@@ -593,23 +611,7 @@ function getHistoryI(index,history){
 		classTable.icon = faIcon
 		classTable.headSize = headSize
 		
-		var iconNames = {
-            "1":"calendar",
-		    "2":"list-ol",
-            "3":"list-ul",
-            "4":"table", 
-            "5":"info",
-            "6":"info-circle",
-            "7":"question",
-            "8":"question-circle",
-            "9":"question-circle-o",
-            "10":"check",
-            "11":"check-square",
-            "12":"check-square-o",
-			"13":"exclamation",
-            "14":"exclamation-triangle",
-			"15":"exclamation-circle"
-        }
+		//iconNames object can be found at top of file
 		
         var iconName = iconNames[faIcon];
 		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
@@ -641,6 +643,39 @@ function getHistoryI(index,history){
         document.getElementById('demo').innerHTML = resizedHead+textOutputTable;
 		
       }
+
+	function recoverCode(){
+		var pastedHTML = $("#retrieveCode").val()
+		
+		var headSize = getHeadingSize(pastedHTML)
+		
+		var dataToFind = {
+			tags:["i","table"]
+		}
+		if (headSize != "noH"){ // confirm there is a heading and add to the find list
+			dataToFind.tags.push(headSize)
+		}
+		
+		var recoveredData = recoverFromPasted(pastedHTML,dataToFind)
+		
+		classTable.headSize = headSize //sets to noH or h3/4/5 as appropriate
+		var iconClassName = recoveredData.tags.i[0].className
+		
+		var iconNums = {} // reverses the iconNames object for backward lookup
+		for (var iconN in iconNames){
+			var nam = iconNames[iconN]
+			iconNums["fa fa-"+nam] = iconN
+		}
+		classTable.icon = iconNums[iconClassName]
+		
+		classTable.tableData = tableHTML_toArray(recoveredData.tags.table[0].outerHTML)
+		
+		if (headSize != "noH"){
+			classTable.mainHead = recoveredData.tags[headSize][0].innerText.trim()
+		}
+		
+		setTextAreas(classTable)
+	}
 
     function SelectAll(id){
         document.getElementById(id).focus();
@@ -723,6 +758,15 @@ function getHistoryI(index,history){
               </div>
             </div>
           </div>
+	<hr>
+	<div class="row w-100 mx-auto">
+        <div class="col-lg-2">
+			<h5 class="font-weight-bold" data-original-title="" title="">Paste code from Moodle<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="" class="hideableinstruct text-success small" style="display: none;" data-original-title="Paste in the code you previously generated from BEEST and pasted into Moodle to recover and redesign the element.">&nbsp;<i class="fa fa-question-circle" aria-hidden="true"></i></span></h5>
+		</div>
+		<div class="col-lg">
+			<textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Copy previously generated BEEST code from Moodle and paste it here" onchange="recoverCode()"></textarea>
+		</div>
+	</div>
 	<hr>
 	<div class="row w-100 mx-auto">
 		<div class="col-lg-2 mt-2">
