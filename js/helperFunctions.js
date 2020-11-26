@@ -108,6 +108,72 @@ function default_XRadio_onEmpty_Y(textAreaId,radioAreaId,blankVal,defaultVal,cal
 		textarea.on("change", checkRadio);
 }
 
+function findListInJQuery(container,list,listType){
+	/**listType = tag | id | class**/
+	results = {}
+	for (var index=0;index<list.length;index++){
+		var theElement = list[index]
+		var found=null;
+		switch(listType){
+			case "tag":
+				found = $(container).find(theElement)
+				break;
+			case "id":
+				found = $(container).find("#"+theElement)
+				break;
+			case "class":
+				found = $(container).find("."+theElement)
+				break;
+		}	
+		if (found.length>0){
+			results[theElement] = found
+		}
+	}
+	return results
+}
+
+function getHeadingSize(htmlCode){
+	/*
+	finds which heading size is in this code (if any)
+	returns: heading tag or 'noH' if not found
+	*/
+	var headings = ["h3","h4","h5"]
+	var results = recoverFromPasted(htmlCode,{tags:headings})
+	for (var headId=0;headId<headings.length;headId++){
+		var theHeading = headings[headId]
+		if (results.tags.hasOwnProperty(theHeading)){
+			return theHeading
+		}
+	}
+	return "noH"
+}
+
+function recoverFromPasted(htmlCode,dataToFind){
+	/*
+	dataToFind format
+	{
+		tags: [list of tag names],
+		ids: [list of ids],
+		classes: [list of classes]
+	}
+	*/
+	var results = {}
+	
+	var container = $("<span>"+htmlCode+"</span>")
+	//convert pasted html code into tags for access as objects (won't live on page though)
+	
+	if (dataToFind.hasOwnProperty("tags")){
+		results.tags =findListInJQuery(container,dataToFind.tags,"tag")
+	}
+	if (dataToFind.hasOwnProperty("ids")){
+		results.ids =findListInJQuery(container,dataToFind.ids,"id")
+	}
+	if (dataToFind.hasOwnProperty("classes")){
+		results.classes =findListInJQuery(container,dataToFind.classes,"class")
+	}
+	return results
+}
+
 function showHTML(id){
 	htmlStyle(id,"display","")
 }
