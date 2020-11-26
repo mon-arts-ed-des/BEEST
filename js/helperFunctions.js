@@ -147,6 +147,39 @@ function getHeadingSize(htmlCode){
 	}
 	return "noH"
 }
+function reverseObjectMap(objName){
+	/*
+	takes an object and returns the mirrored version (values mapped to ids instead)
+	precondition -- unique values and ids
+	*/
+	var output = {}
+	for (var objId in objName){
+		var objVal = objName[objId]
+		output[objVal] = objId
+	}
+	return output
+}
+
+function getIconAndHeading(htmlCode){
+	/*
+	input -- html code copied from moodle
+	return -- output={iconName,headSize,headText}
+	*/
+	var hSize = getHeadingSize(htmlCode)
+	var tagSearch = ["i"]
+	if (hSize != "noH"){// confirm there is a heading and add to the find list
+		tagSearch.push(hSize)
+	}
+	var results = recoverFromPasted(htmlCode,{tags:tagSearch})
+	var output = {
+		iconName:results.tags.i[0].className,
+		headSize:hSize
+	}
+	if (hSize != "noH"){
+		output.headText = results.tags[headSize][0].innerText.trim()
+	} 
+	return output
+}
 
 function recoverFromPasted(htmlCode,dataToFind){
 	/*

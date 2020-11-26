@@ -645,35 +645,28 @@ function getHistoryI(index,history){
       }
 
 	function recoverCode(){
+		classTable = new table()
 		var pastedHTML = $("#retrieveCode").val()
 		
-		var headSize = getHeadingSize(pastedHTML)
-		
 		var dataToFind = {
-			tags:["i","table"]
+			tags:["table"]
 		}
-		if (headSize != "noH"){ // confirm there is a heading and add to the find list
-			dataToFind.tags.push(headSize)
-		}
+		
+		var iconHeading = getIconAndHeading(pastedHTML)
+		var iconClassName = iconHeading.iconName
+		var headSize = iconHeading.headSize
+		var headText = iconHeading.headText
 		
 		var recoveredData = recoverFromPasted(pastedHTML,dataToFind)
 		
 		classTable.headSize = headSize //sets to noH or h3/4/5 as appropriate
-		var iconClassName = recoveredData.tags.i[0].className
+		classTable.mainHead = headText
 		
-		var iconNums = {} // reverses the iconNames object for backward lookup
-		for (var iconN in iconNames){
-			var nam = iconNames[iconN]
-			iconNums["fa fa-"+nam] = iconN
-		}
+		var iconNums = reverseObjectMap(iconNames)
 		classTable.icon = iconNums[iconClassName]
 		
 		classTable.tableData = tableHTML_toArray(recoveredData.tags.table[0].outerHTML)
-		
-		if (headSize != "noH"){
-			classTable.mainHead = recoveredData.tags[headSize][0].innerText.trim()
-		}
-		
+				
 		setTextAreas(classTable)
 	}
 
