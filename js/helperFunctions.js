@@ -176,7 +176,7 @@ function getIconAndHeading(htmlCode){
 		headSize:hSize
 	}
 	if (hSize != "noH"){
-		output.headText = results.tags[headSize][0].innerText.trim()
+		output.headText = results.tags[hSize][0].innerText.trim()
 	} 
 	return output
 }

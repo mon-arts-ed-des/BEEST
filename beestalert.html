@@ -51,6 +51,21 @@
     monAlert = Monash themed alert
     monAlertD = Monash themed alert that can be dismissed
     */
+var iconNames = {
+	"1": "exclamation-circle",
+	"2": "info-circle",
+	"3": "question-circle",
+}
+var colourNames = {
+	"1": "mu",
+	"2": "danger",
+	"3": "warning",
+	"4": "success",
+	"5": "primary",
+	"6": "info",
+	"7": "dark",
+	"8": "secondary",
+};
 
 	const PLACEHOLDER = "[Placeholder for alert context. The content you entered in step 1 will appear here.]"
 /*REQUIRED FOR HISTORY*/    
@@ -124,11 +139,7 @@
         var headSize = getRadioOption("headSize");
         var bsColour = getRadioOption("alertColour");
         var faIcon = getRadioOption("faCode")
-        var iconNames = {
-            "1": "exclamation-circle",
-            "2": "info-circle",
-            "3": "question-circle",
-        }
+        //icon names moved to top
 		var iconName;
 		var faIconCode;
 		if (faIcon==undefined){
@@ -138,16 +149,7 @@
 			iconName = iconNames[faIcon];
 			faIconCode = ' <i class="fa fa-' + iconName + '"></i> ';
 		}
-        var colourNames = {
-            "1": "mu",
-            "2": "danger",
-            "3": "warning",
-            "4": "success",
-            "5": "primary",
-            "6": "info",
-            "7": "dark",
-            "8": "secondary",
-        };
+        //colourNames moved to the top
         var colourName = colourNames[bsColour];
         var alertScript = "<script> var L=document.createElement('link'); L.rel='stylesheet'; L.href='http://mon-arts-ed-des.github.io/BEEST/css/monashElements.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
 		var colourCodes = '<div class="alert alert-' + colourName + ((colourName == "mu") ? "" : " border border-" + colourName) + ' rounded' + ( (dmoption=="dismissable") ? ' alert-dismissible fade show': '') + '" role="alert">'
@@ -201,6 +203,45 @@
         $('[data-toggle="tooltip"]').tooltip();
     });
 	
+	
+function recoverCode(){
+	var pastedCode = $("#retrieveCode").val()
+		
+	var iconHeading = getIconAndHeading(pastedCode)
+	var iconClassName = iconHeading.iconName.replace("fa fa-","")
+	var headSize = iconHeading.headSize
+	var headText = iconHeading.headText
+	
+	var dataToFind = {
+		tags:["div","p","button"]
+	}
+	var recoveredData = recoverFromPasted(pastedCode,dataToFind)
+	
+	
+	classAlert = new alert()
+		
+	var iconNums = reverseObjectMap(iconNames)
+	classAlert.icon = iconNums[iconClassName]
+	
+	
+	classAlert.headSize = headSize //sets to noH or h3/4/5 as appropriate
+	classAlert.mainHead = headText //will be undefined if noH so need not validate first
+	
+	classAlert.content = recoveredData.tags["p"][0].innerText
+	
+	classAlert.permanent = (!(recoveredData.tags.hasOwnProperty("button")))
+	classAlert.permanent = (classAlert.permanent ? "permanent" : "dismissable")
+	//no button --> permanent || button --> dismissable
+	
+	var divClasses = recoveredData.tags["div"][0].className
+	var classColour = divClasses.replace("alert-dismissible","").replace(/.*alert-/,"").replace(/ .*/,"")
+	
+	var colourNums = reverseObjectMap(colourNames)
+	classAlert.colour = colourNums[classColour]
+		
+	setTextAreas(classAlert)
+	generateElementCode()
+}
 	/*REQUIRED FOR HISTORY*/
 
 function setTextAreas(classData){
