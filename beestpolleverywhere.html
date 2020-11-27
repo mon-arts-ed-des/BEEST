@@ -33,7 +33,23 @@
 	<script src="js/helperFunctions.js"></script>
 	<script src="js/setupPage.js"></script>
     <script type="text/javascript">
-    /*REQUIRED FOR HISTORY  */
+var iconNames = {
+	"1":"bar-chart",
+	"2":"line-chart",
+	"3":"pie-chart", 
+	"4":"thumbs-o-up",
+	"5":"hand-paper-o",
+	"6":"balance-scale",
+	"7":"question",
+	"8":"question-circle",
+	"9":"question-circle-o",
+	"10":"share",
+	"11":"share-alt",
+	"12":"bullhorn",
+	"13":"gavel"
+}    
+	
+	/*REQUIRED FOR HISTORY  */
     const POLLEV_HIST = "history_pollev"
     var localStorageHistory = POLLEV_HIST
     var classPollEv = null
@@ -91,21 +107,7 @@ function generateElementCode() {
 	var headSize = getRadioOption('headSize')
 	var faIcon = getRadioOption('faCode')
 	
-	var iconNames = {
-		"1":"bar-chart",
-		"2":"line-chart",
-		"3":"pie-chart", 
-		"4":"thumbs-o-up",
-		"5":"hand-paper-o",
-		"6":"balance-scale",
-		"7":"question",
-		"8":"question-circle",
-		"9":"question-circle-o",
-		"10":"share",
-		"11":"share-alt",
-		"12":"bullhorn",
-		"13":"gavel"
-	}
+	//iconNames moved to top
 
 	var iconName = iconNames[faIcon];
 	var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
@@ -195,55 +197,37 @@ function generateElementCode() {
 //end of generateElementCode
 
 //function to recover code previously generated in BEEST and set the page preferences to that item.
-/*function recoverCode(){
-        //Get the code from Step 0
-        var iconValue;
-        var vidWidth;
-        var videoContext;
-        var videoLink;
-        var headSize;
-        var headText;
-        
-        var retrieveCode = document.getElementById('retrieveCode').value;
-        videoContext = $(retrieveCode).find('#video-context').text();
-        videoLink = $(retrieveCode).find('.embed-responsive-item').attr('src');
-        /*if (videoLink){
-        document.getElementById('respVidSwitch').value = videoLink;
-        }
-        if ($(retrieveCode).find('h3').text()){
-            headSize = "h3";
-        }
-        else if ($(retrieveCode).find('h4').text()){
-            headSize = "h4";
-        }
-        else if ($(retrieveCode).find('h5').text()){
-            headSize = "h5";
-        }
-        headText = $(retrieveCode).find(headSize).text();
-        //set icon
-        var headingIcon = $(retrieveCode).find('i').attr('class');
-        var iconMap = {
-            "fa fa-video-camera":1,
-            "fa fa-play":2,
-            "fa fa-eye":3
-        };
-        iconValue = iconMap[headingIcon]
-        //set video width
-        if ($(retrieveCode).find('#vidwid33')){
-          vidWidth = 33
-        }
-        else if ($(retrieveCode).find('#vidwid50')){
-          vidWidth = 50
-        }
-                
-        videoPageInstance = new videoPage(
-            videoLink,videoContext,
-            "right",
-            vidWidth,headText,headSize,iconValue
-        ) // default to right in absence of way to collect right/left
-        setPageContents(videoPageInstance);
-    } */
-    //end of recoverCode
+ function recoverCode(){
+	var pastedCode = $("#retrieveCode").val()
+		
+	var iconHeading = getIconAndHeading(pastedCode)
+	var iconClassName = iconHeading.iconName
+	var headSize = iconHeading.headSize
+	
+	var dataToFind = {
+		tags:["p"],
+		ids: ["theHeadTxt","pollSrc"]
+	}
+	var recoveredData = recoverFromPasted(pastedCode,dataToFind)
+	
+	classPollEv = new pollEv()
+	
+	//pollEv{constructor(...,frameHeight,...,...,...,...)}
+	classPollEv.heading = recoveredData.ids.theHeadTxt.html()
+	classPollEv.headSize = headSize
+	
+	var iconNums = reverseObjectMap(iconNames)
+	classPollEv.icon = iconNums[iconClassName]
+	
+	classPollEv.context = recoveredData.tags.p.html()
+	
+	var iFrame = recoveredData.ids.pollSrc[0]
+	classPollEv.destination = iFrame.src
+	classPollEv.frameHeight = iFrame.height
+
+	setTextAreas(classPollEv)
+	generateElementCode()
+}
 
 function copyTheCode(){
 	/*REQUIRED for HISTORY*/
