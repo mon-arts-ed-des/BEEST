@@ -175,6 +175,7 @@ function getIconAndHeading(htmlCode){
 		iconName:results.tags.i[0].className,
 		headSize:hSize
 	}
+	output.iconName = output.iconName.replace("fa fa-","")
 	if (hSize != "noH"){
 		output.headText = results.tags[hSize][0].innerText.trim()
 	} 
