@@ -35,6 +35,22 @@
       <script src="js/setupPage.js"></script>  
 
     <script type="text/javascript">
+var colourNames = {
+	"1":"mu",
+	"2":"danger",
+	"3":"warning",
+	"4":"success",
+	"5":"primary",
+	"6":"info", 
+	"7":"dark",
+	"8":"secondary"
+}
+var sizeMap = {
+	"h3":"1.55rem",
+	"h4":"1.4rem",
+	"h5":"1.2rem"
+}
+
 /*REQUIRED FOR HISTORY*/ 
 	const QUOTE_HIST = "history_quote"
 	var localStorageHistory = QUOTE_HIST
@@ -121,24 +137,11 @@ function setTextAreas(classData){
 		classQuote.textSize = textSize
 		classQuote.colour = bsColour
 		
-		sizeMap = {
-			"h3":"1.55rem",
-			"h4":"1.4rem",
-			"h5":"1.2rem"
-		}
+		//sizeMap moved to top
 		
 		var resizedText = "<div style=\"font-size:"+sizeMap[textSize]+";\">";
         
-        var colourNames = {
-			"1":"mu",
-            "2":"danger",
-            "3":"warning",
-            "4":"success",
-            "5":"primary",
-            "6":"info", 
-            "7":"dark",
-            "8":"secondary"
-             }
+        //colour names moved to top
         var colourName = colourNames[bsColour];
 		var bgClrCode = "<blockquote class=\"blockquote alert alert-"+colourName+" pb-3 px-2"+((colourName != "mu") ? " border border-"+colourName : "" )+" rounded\"><i aria-hidden=\"true\" class=\"fa fa-fw fa-quote-left fa-2x fa-pull-left\"></i>"
 		var quoteOutput = bgClrCode+resizedText+quote_Text+quotes_1+reference_text+quotes_2;
@@ -149,53 +152,34 @@ function setTextAreas(classData){
 	}
 //end generateElementCode
   //function to recover code previously generated in BEEST
-  /*function recoverCode(){
-        //Get the code from Step 0
-		var quote_Text;
-		var reference_text;
-		var bsColour;
-		var textSize;
-    var retrieveCode = document.getElementById('retrieveCode').value;
-        videoContext = $(retrieveCode).find('#video-context').text();
-        videoLink = $(retrieveCode).find('.embed-responsive-item').attr('src');
-        /*if (videoLink){
-        document.getElementById('respVidSwitch').value = videoLink;
-        }
-        if ($(retrieveCode).find('h3').text()){
-			headSize = "h3";
-        }
-        else if ($(retrieveCode).find('h4').text()){
-			headSize = "h4";
-        }
-        else if ($(retrieveCode).find('h5').text()){
-			headSize = "h5";
-        }
-		headText = $(retrieveCode).find(textSize).text();
+  
+ function recoverCode(){
+	var pastedCode = $("#retrieveCode").val()
+		
+	var dataToFind = {
+		tags:["blockquote","p","div"],
+		classes:['blockquote-footer']
+	}//div1 holds fontsize (style), blockquote-footer = citation, p = quote text, blockquote = colour
+	var recoveredData = recoverFromPasted(pastedCode,dataToFind)
+	
+	classQuote = new quote()
+	classQuote.quoteText = recoveredData.tags.p.html()
+	classQuote.referenceText = recoveredData.classes['blockquote-footer'].html()
+	var div1 = recoveredData.tags.div[0]
+	var divSize = div1.style.fontSize
+	
+	var hSizeMap = reverseObjectMap(sizeMap)
+	classQuote.textSize = hSizeMap[divSize]
+	
+	var blockQuoteTag = recoveredData.tags.blockquote[0]
+	var htmlClasses = blockQuoteTag.className
+	var quotecolour = htmlClasses.replace(/.*alert-/,"").replace(/ .*/,"")
+	//"blockquote alert alert-COLOUR pb-3 px-2 rounded" -->COLOUR
+	var colourNums = reverseObjectMap(colourNames)
+	classQuote.colour = colourNums[quotecolour]
 
-        //set icon
-        var headingIcon = $(retrieveCode).find('i').attr('class');
-		var iconMap = {
-			"fa fa-video-camera":1,
-			"fa fa-play":2,
-			"fa fa-eye":3
-		};
-		iconValue = iconMap[headingIcon]
-
-        //set video width
-        if ($(retrieveCode).find('#vidwid33')){
-          vidWidth = 33
-        }
-        else if ($(retrieveCode).find('#vidwid50')){
-          vidWidth = 50
-        }
-				
-		videoPageInstance = new videoPage(
-			videoLink,videoContext,
-			"right",
-			vidWidth,headText,headSize,iconValue
-		) // default to right in absence of way to collect right/left
-		setPageContents(videoPageInstance);
-    }*/
+	setTextAreas(classQuote)
+}
     //end of recoverCode
 
     //function to copy generated HTML output
