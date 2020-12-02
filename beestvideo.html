@@ -34,6 +34,14 @@
     <script src="js/setupPage.js"></script>
     <!-- Script to init the tinyMCE editor --> 
     <script type="text/javascript">
+var iconNames = {
+	"1":"video-camera",
+	"2":"play",
+	"3":"play-circle",
+	"4":"play-circle-o",
+	"5":"eye"
+}
+
 var videoPageInstance;
 var localStorageHistory = "local_video"
 
@@ -236,13 +244,7 @@ $(document).ready(function() {
 
         var respVid="<div class=\"embed-responsive embed-responsive-16by9\"><iframe class=\"embed-responsive-item\" frameborder=\"0\" allowfullscreen=\"\" src=\""+respLink+"\"></iframe></div>"
         var respVidYT="<div class=\"embed-responsive embed-responsive-16by9\"><iframe class=\"embed-responsive-item\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen src=\""+respLink+"\"></iframe></div>"
-        var iconNames = {
-			      "1":"video-camera",
-            "2":"play",
-            "3":"play-circle",
-            "4":"play-circle-o",
-            "5":"eye"
-        }
+        //icon names moved to top
         var iconName = iconNames[faIcon];
     		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
         if (faIcon == "noI"){
@@ -287,59 +289,42 @@ $(document).ready(function() {
 		setTextAreas_util(dataToSave)
         generateCode();
 	}
-
-    function recoverCode(){
-        //Get the code from Step 0
-		var iconValue;
-		var vidWidth;
-		var videoContext;
-		var videoLink;
-		var headSize;
-		var headText;
+	
+	function recoverCode(){
+		videoPageInstance = new videoPage()
+		var pastedHTML = $("#retrieveCode").val()
 		
-        var retrieveCode = document.getElementById('retrieveCode').value;
-        videoContext = $(retrieveCode).find('#video-context').text();
-
-        videoLink = $(retrieveCode).find('.embed-responsive-item').attr('src');
-        /*if (videoLink){
-        document.getElementById('respVidSwitch').value = videoLink;
-        }*/
-
-        if ($(retrieveCode).find('h3').text()){
-			headSize = "h3";
-        }
-        else if ($(retrieveCode).find('h4').text()){
-			headSize = "h4";
-        }
-        else if ($(retrieveCode).find('h5').text()){
-			headSize = "h5";
-        }
-		headText = $(retrieveCode).find(headSize).text();
-
-        //set icon
-        var headingIcon = $(retrieveCode).find('i').attr('class');
-		var iconMap = {
-			"fa fa-video-camera":1,
-			"fa fa-play":2,
-			"fa fa-eye":3
-		};
-		iconValue = iconMap[headingIcon]
-
-        //set video width
-        if ($(retrieveCode).find('#vidwid33')){
-          vidWidth = 33
-        }
-        else if ($(retrieveCode).find('#vidwid50')){
-          vidWidth = 50
-        }
-				
-		videoPageInstance = new videoPage(
-			videoLink,videoContext,
-			"right",
-			vidWidth,headText,headSize,iconValue
-		) // default to right in absence of way to collect right/left
-		setPageContents(videoPageInstance);
-    }
+		var iconHeading = getIconAndHeading(pastedHTML)
+		var iconClassName = iconHeading.iconName
+		var headSize = iconHeading.headSize
+		var headText = iconHeading.headText
+		
+		var dataToFind = {
+			tags:['iframe'],
+			ids:['video-context','vPos','fCol','sCol']
+		}		 //if one is lg-4 then 33% else 50%
+		
+		videoPageInstance.headingSize = headSize
+		videoPageInstance.heading = headText
+		
+		var iconNums = reverseObjectMap(iconNames)
+		videoPageInstance.icon = iconNums[iconClassName]
+		
+		var recoveredData = recoverFromPasted(pastedHTML,dataToFind)
+		
+		videoPageInstance.link = recoveredData.tags.iframe[0].src
+		videoPageInstance.position = recoveredData.ids.vPos.attr('side')
+		videoPageInstance.context = recoveredData.ids['video-context'].text()
+		
+		colClasses = [recoveredData.ids.fCol[0].className,
+		recoveredData.ids.sCol[0].className]
+		colClasses[0] = colClasses[0].replace(/ .*/,"")
+		colClasses[1] = colClasses[1].replace(/ .*/,"")
+		
+		videoPageInstance.width = (colClasses[0] == colClasses[1] ? 50 : 33)
+			
+		setPageContents(videoPageInstance)
+	}
 
     function copyCode(){
       /*REQUIRED FOR HISTORY*/
