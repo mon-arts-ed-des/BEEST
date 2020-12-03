@@ -35,12 +35,39 @@
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
 	  <script src="js/advancedModeLocalStorage.js"></script>
     <script type="text/javascript">
-/*REQUIRED FOR HISTORY*/    
+/*REQUIRED FOR HISTORY*/ 
+var iconNames = {
+	"1":"arrow-right",
+	"2":"arrow-circle-right",
+	"3":"arrow-circle-o-right",
+	"4":"external-link-square",
+	"5":"external-link",
+	"6":"hand-o-right",
+	"7":"play",
+	"8":"play-circle",
+	"9":"play-circle-o",
+   "10":"link"
+}
+var colourNames = {
+	"1":"mu",
+	"2":"danger",
+	"3":"warning",
+	"4":"success",
+	"5":"primary",
+	"6":"info", 
+	"7":"dark",
+	"8":"secondary"}
+for (prop in colourNames){
+	colourNames[prop+"y"] = "outline-"+colourNames[prop]
+} // as inverts are just outline- followed by the name doing this by a loop
+   
 	const BUTTON_HIST = "history_button"
 	var localStorageHistory = BUTTON_HIST
 	var classButton = null
 /*END REQUIRED FOR HISTORY*/	
 	$(document).ready(function(){
+		classButton = new button()
+		
 		setupGoogleAnalytics()
 		/*REQUIRED FOR HISTORY*/ 
 		initHistory()
@@ -113,18 +140,7 @@
         var btnSW_1="\">"
         var btnSW_2="</a></p></div>"
         var faIcon = getRadioOption("faCode")
-        var iconNames = {
-			      "1":"arrow-right",
-            "2":"arrow-circle-right",
-            "3":"arrow-circle-o-right",
-            "4":"external-link-square",
-            "5":"external-link",
-            "6":"hand-o-right",
-            "7":"play",
-            "8":"play-circle",
-            "9":"play-circle-o",
-           "10":"link"
-        }
+        //iconNames moved to top
 
 		var iconName;
 		var faIconCode;
@@ -167,18 +183,7 @@
 
         var btnSize = buttonSize[bsBtnSize];
        
-        var colourNames = {
-			      "1":"mu",
-            "2":"danger",
-            "3":"warning",
-            "4":"success",
-            "5":"primary",
-            "6":"info", 
-            "7":"dark",
-            "8":"secondary"}
-		for (prop in colourNames){
-			colourNames[prop+"y"] = "outline-"+colourNames[prop]
-		} // as inverts are just outline- followed by the name doing this by a loop
+        //colourNames moved to top
 
 		var buttonIds = [,'#monashBlue','#red','#yellow','#green','#darkBlue','#lightBlue','#black','#grey']
 		var nameMapping = {}
@@ -251,60 +256,78 @@
         //SelectAll("txtareaBtn");
         $('#demo').next('div').remove();
         $('#demo').after(textOutput);
-        }
+	}
 // end of generateBtnCode function
 
 //function to recover previously generated code that is pasted back into BEEST
 
 function recoverCode(){
-        //Get the code from Step 0
-		/*********this needs rewriting in light of button page -- copy-pasted from vid page*************/
-		/*var iconValue;
-		var vidWidth;
-		var videoContext;
-		var videoLink;
-		var headSize;
-		var headText;
-    var retrieveCode = document.getElementById('retrieveCode').value;
-        videoContext = $(retrieveCode).find('#video-context').text();
-        videoLink = $(retrieveCode).find('.embed-responsive-item').attr('src');
-        if (videoLink){
-        document.getElementById('respVidSwitch').value = videoLink;
-        }
-        if ($(retrieveCode).find('h3').text()){
-			headSize = "h3";
-        }
-        else if ($(retrieveCode).find('h4').text()){
-			headSize = "h4";
-        }
-        else if ($(retrieveCode).find('h5').text()){
-			headSize = "h5";
-        }
-		headText = $(retrieveCode).find(headSize).text();
-        //set icon
-        var headingIcon = $(retrieveCode).find('i').attr('class');
-		var iconMap = {
-			"fa fa-video-camera":1,
-			"fa fa-play":2,
-			"fa fa-eye":3
-		};
-		iconValue = iconMap[headingIcon]
-        //set video width
-        if ($(retrieveCode).find('#vidwid33')){
-          vidWidth = 33
-        }
-        else if ($(retrieveCode).find('#vidwid50')){
-          vidWidth = 50
-        }	
-		videoPageInstance = new videoPage(
-			videoLink,videoContext,
-			"right",
-			vidWidth,headText,headSize,iconValue
-		) // default to right in absence of way to collect right/left
-		setPageContents(videoPageInstance);
-		
-		*/
-    }
+	classButton = new button()
+
+	var pastedHTML = $("#retrieveCode").val()
+
+	var iconHeading = getIconAndHeading(pastedHTML)
+	var iconClassName = iconHeading.iconName
+
+	var iconNums = reverseObjectMap(iconNames)
+	classButton.icon = iconNums[iconClassName]
+
+	var dataToFind = {
+		tags:['p','div','a']
+	}
+
+	var recoveredData = recoverFromPasted(pastedHTML,dataToFind)
+	classButton.mainHead = recoveredData.tags.p.text()
+	
+	var aTagJQ = recoveredData.tags.a
+	var aTag = aTagJQ[0]
+	
+	classButton.destination = aTagJQ.attr('href')
+	if (aTagJQ.attr('target')=="_blank"){
+		classButton.newWindow = "newWin"
+	}
+	else{
+		classButton.newWindow = "sameWin"
+	}
+	if (aTag.className.match(/btn-lg/)!=null){
+		classButton.buttonSize = 3 //large
+	}
+	else if (aTag.className.match(/btn-sm/)!=null){
+		classButton.buttonSize = 1 //small
+	}
+	else{
+		classButton.buttonSize = 2 //regular
+	}
+	var tagColour = aTag.className.replace(/btn btn-([^ ]*).*/,"$1")
+	if (tagColour.match("outline-") !== null){
+		tagColour = tagColour.replace("outline-","")
+		classButton.invert = "y"
+	}
+	else{
+		classButton.invert = "n"
+	}
+	var colourNums = reverseObjectMap(colourNames)
+	classButton.colour = colourNums[tagColour]
+	
+	var alignWidth = recoveredData.tags.div[0].className
+	if (alignWidth == ""){
+		classButton.alignment = "leftAlign"
+	}
+	else{
+		classButton.alignment = "centerAlign"
+		if (alignWidth.match(/mx-2/)!=null){
+			classButton.width = true
+		}
+		else{
+			classButton.width = false
+		}
+	}
+
+	setTextAreas(classButton)
+
+	generateBtnCode()
+}
+
     //End of recoverCode function
 // function to copy generated code 
     function copyCode(){
@@ -465,17 +488,17 @@ function setupCheckURLValid(){
               </div>
             </div>
           </div>
-		  <!---
+		  
             <hr>
             <div class="row w-100 mx-auto">
               <div class="col-lg-3">
               <h5 class="font-weight-bold">Paste code from Moodle<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Paste in the code you previously generated from BEEST and pasted into Moodle to recover and redesign the element." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
               </div>
               <div class="col-lg">
-              <textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Or recover it by pasting existing code from Moodle (work in progress)" onchange=recoverCode()></textarea>
+              <textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Or recover it by pasting existing code from Moodle" onchange=recoverCode()></textarea>
           </div>
         </div>
-		-->
+		
           <hr>
           <div class="row w-100 mx-auto">
             <div class="col-lg-3">
