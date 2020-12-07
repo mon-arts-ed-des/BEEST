@@ -38,6 +38,36 @@
       <script src="js/setupPage.js"></script>  
       
     <script type="text/javascript">
+var iconNames = {
+	"1":"plus",
+	"2":"plus-circle",
+	"3":"plus-square",
+	"4":"plus-square-o",
+	"5":"arrow-down",
+	"6":"arrow-circle-down",
+	"7":"arrow-circle-o-down",
+	"8":"chevron-down",
+	"9":"chevron-circle-down",
+   "10":"caret-down",
+   "11":"caret-square-o-down",
+   "12":"hand-o-down"
+}
+var colourNames = {
+	"1":"mu",
+	"2":"danger",
+	"3":"warning",
+	"4":"success",
+	"5":"primary",
+	"6":"info", 
+	"7":"dark",
+	"8":"secondary"
+}
+var buttonSize = {
+	"1":" btn-sm ",
+	"2":" ",
+	"3":" btn-lg ",
+}
+
 /*REQUIRED FOR HISTORY*/
 const READMORE_HIST = "history_read_more"
 localStorageHistory = READMORE_HIST
@@ -111,24 +141,11 @@ function generateReadMoreCode() {
 	var bsBtnSize = getRadioOption("buttonSize")
 	var bsBtnWidth = getRadioOption("buttonWidth")
 	var faIcon = getRadioOption("faCode")
-	var readMoreContainer="<div class=\"beestRead\">"
-	var readMore_1="<div class=\"collapse\" id=\"readMore"+readMoreNumber+"\">"
+	var readMoreContainer="<div class=\"beestRead\"><span id='readMoreAbove'>"
+	var readMore_1="</span><div class=\"collapse\" id=\"readMore"+readMoreNumber+"\">"
 	var readMoreClose="</div>"
 	
-	var iconNames = {
-			  "1":"plus",
-		"2":"plus-circle",
-		"3":"plus-square",
-		"4":"plus-square-o",
-		"5":"arrow-down",
-		"6":"arrow-circle-down",
-		"7":"arrow-circle-o-down",
-		"8":"chevron-down",
-		"9":"chevron-circle-down",
-	   "10":"caret-down",
-	   "11":"caret-square-o-down",
-	   "12":"hand-o-down"
-	}
+	//icon names moved to top
 
 	var iconName;
 	var faIconCode;
@@ -161,11 +178,7 @@ function generateReadMoreCode() {
     else {
 		var readMoreAfter = "Placeholder content after the button. You can input content here, and hide it until the button is clicked by the user."
     }
-	var buttonSize = {
-		"1":" btn-sm ",
-		"2":" ",
-		"3":" btn-lg ",
-	}
+	//buttonSize moved to top
 	var buttonSpan = ['#btnSmall','#btnRegular','#btnLarge']
 
 	widths = {
@@ -192,15 +205,7 @@ function generateReadMoreCode() {
 
 	var btnSize = buttonSize[bsBtnSize];
    
-	var colourNames = {
-			  "1":"mu",
-		"2":"danger",
-		"3":"warning",
-		"4":"success",
-		"5":"primary",
-		"6":"info", 
-		"7":"dark",
-		"8":"secondary"}
+	//colourNames moved to top
 	for (prop in colourNames){
 		colourNames[prop+"y"] = "outline-"+colourNames[prop]
 	} // as inverts are just outline- followed by the name doing this by a loop
@@ -282,6 +287,59 @@ function generateReadMoreCode() {
 	classReadMore.buttonTxt = readMoreBtnTxt
 	classReadMore.after = readMoreAfter
 	classReadMore.before = readMoreBefore
+}
+
+function recoverCode(){
+	classReadMore = new readMore()
+	
+	var pastedCode = $("#retrieveCode").val()
+	
+	var iconClassName = getIconAndHeading(pastedCode).iconName
+	
+	var dataToFind = {
+		tags:['a'],
+		classes:["collapse"],
+		ids: ["readMoreAbove"]
+	}
+	var recoveredData = recoverFromPasted(pastedCode,dataToFind)
+		
+	var iconNums = reverseObjectMap(iconNames)
+	classReadMore.iconPair = iconNums[iconClassName]
+	
+	classReadMore.before = recoveredData.ids.readMoreAbove.text()
+	classReadMore.after = recoveredData.classes.collapse.text()
+	classReadMore.buttonTxt = recoveredData.tags.a.text()
+	classReadMore.buttonNum = recoveredData.tags.a.attr('href').replace("#readMore","")
+	
+	var btnClass = recoveredData.tags.a[0].className
+	classReadMore.width = btnClass.replace(/[^w]*w-([0-9]{2,3}).*/,"$1")
+	
+	var bSize = " "
+	if (btnClass.match(/(btn-(sm|lg))/)){
+		bSize = btnClass.replace(/(btn-(sm|lg)).*/,"$1").replace("btn "," ") + bSize
+		//not regular (either sm or lg for small or large)
+		//bSize becomes ' btn-sm ' or ' btn-lg '
+	}
+	
+	var buttonSizeNums = reverseObjectMap(buttonSize)
+	classReadMore.size = buttonSizeNums[bSize]
+	
+	var colourCodeName = btnClass.replace(/(btn(-(sm|lg))? )*/,"").replace(/( btn-block.*)/,"").replace("btn-","")
+	
+	var colourNums = reverseObjectMap(colourNames)
+	var colourWithY = colourNums[colourCodeName]
+	
+	if (colourNums.hasOwnProperty(colourCodeName+'y')){
+		//if so then it WASN'T inverted
+		classReadMore.colInv = 'n'
+		classReadMore.colour = colourWithY
+	}
+	else{
+		classReadMore.colInv = 'y'
+		classReadMore.colour = colourWithY.substr(0,colourWithY.length-1)
+	}
+	setTextAreas(classReadMore)
+	generateReadMoreCode()
 }
 
     function copyCode(){
@@ -426,6 +484,15 @@ function getHistoryI(index,history){
             </div>
           </div>
 		  <hr>
+		  <div class="row w-100">
+          <div class="col-lg-3">
+          <h5 class="font-weight-bold">Paste code from Moodle<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Paste in the code you previously generated from BEEST and pasted into Moodle to recover and redesign the element." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+          </div>
+          <div class="col-lg">
+          <textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Or recover it by pasting existing code from Moodle" onchange=recoverCode()></textarea>
+      </div>
+    </div>
+    <hr>
   <div class="row w-100">
     <div class="col-lg-3">
         <h5 class="font-weight-bold">Content before<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="What you input in the box below will appear before the read more button. This should be an introduction and engage the reader enough to want to click the button to read the rest of the content." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>  
