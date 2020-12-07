@@ -171,8 +171,12 @@ function getIconAndHeading(htmlCode){
 		tagSearch.push(hSize)
 	}
 	var results = recoverFromPasted(htmlCode,{tags:tagSearch})
+	var iconNameVal = null
+	if (results.tags.hasOwnProperty("i")){
+		iconNameVal = results.tags.i[0].className
+	}
 	var output = {
-		iconName:results.tags.i[0].className,
+		iconName:iconNameVal,
 		headSize:hSize
 	}
 	output.iconName = output.iconName.replace("fa fa-","")

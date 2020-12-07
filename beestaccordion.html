@@ -34,6 +34,19 @@
       <script src="js/placeholder.js"></script> 
 	    <script src="js/advancedModeLocalStorage.js"></script>
       <script type="text/javascript">
+var iconNames = {
+	"noI":"",
+	"1":"database",
+	"2":"question",
+	"3":"question-circle",
+	"4":"question-circle-o", 
+	"5":"info",
+	"6":"info-circle",
+	"7":"exclamation",
+	"8":"exclamation-triangle",
+	"9":"exclamation-circle",
+	"10":"life-ring"
+}
 /*REQUIRED FOR HISTORY*/	
 	const ACCORD_HIST = "history_accordion"
 	var localStorageHistory = ACCORD_HIST
@@ -231,22 +244,6 @@
 	 
   function iconpreview() {
         var faIcon = document.getElementById('faCode').value;
-        var iconNames = {
-          "1":"database",
-			      "2":"question",
-            "3":"question-circle",
-            "4":"question-circle-o", 
-            "5":"info",
-            "6":"info-circle",
-            "7":"bars",
-            "8":"plus",
-            "9":"plus-square",
-            "10":"plus-square-o",
-            "11":"exclamation",
-            "12":"exclamation-triangle",
-            "13":"exclamation-circle",
-            "14":"life-ring"
-        }
 
         var iconName = iconNames[faIcon];
 	     	var faIconCode = "<i id=\"icon\" class=\"fa fa-"+iconName+"\"></i> ";
@@ -393,10 +390,11 @@ function resetAddRemoveButtonDisplay(){
 		return output
 	}
 	
-	function setTextAreas(idList,dataSet){
+	function setTextAreas(dataSet){
 	/*
 	dataSet should be an instance of the accordion class
 	*/
+		idList = accordListToIDs(dataSet.getAllDrawers())
 		document.getElementById('accMainHeading').value = dataSet.mainHead;
 		setRadios('headSize',dataSet.headSize)
 		setRadios('faCode',dataSet.icon)
@@ -468,19 +466,7 @@ function resetAddRemoveButtonDisplay(){
 		classAccord.headSize = getRadioOption('headSize')
 		classAccord.icon = getRadioOption('faCode')
 		
-		var iconNames = {
-            "noI":"",
-			"1":"database",
-			"2":"question",
-            "3":"question-circle",
-            "4":"question-circle-o", 
-            "5":"info",
-            "6":"info-circle",
-            "7":"exclamation",
-            "8":"exclamation-triangle",
-            "9":"exclamation-circle",
-            "10":"life-ring"
-        }
+		//icon names moved to top
 
         var iconName = iconNames[classAccord.icon];
 		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
@@ -538,11 +524,48 @@ function getHistoryI(index,history){
 		removeSection()
 	} // remove extra sections
 	
-	setTextAreas(accordListToIDs(refToClassAccord.getAllDrawers()),refToClassAccord)
+	setTextAreas(refToClassAccord)
 	classAccord = refToClassAccord
 	generateElementCode()
 }
 /*END REQUIRED FOR HISTORY*/
+
+function recoverCode(){
+	classAccord = new accordion()
+	var pastedHTML = $("#retrieveCode").val()
+	
+	var iconHeading = getIconAndHeading(pastedHTML)
+	var iconClassName = iconHeading.iconName
+	var headSize = iconHeading.headSize
+	var headText = iconHeading.headText
+	
+	classAccord.mainHead = headText
+	classAccord.headSize = headSize
+	
+	var iconCode = reverseObjectMap(iconNames)
+	classAccord.icon = iconCode[iconClassName]
+	
+	var dataToFind = {
+		tags:["button"],
+		classes:["accDiv"]
+	} //spans in order should give headings, div in order (when id starts with content) will give contents
+	var recoveredData = recoverFromPasted(pastedHTML,dataToFind)
+	
+	var drawers = {head:[],cont:[]}
+	
+	drawers.cont = recoveredData.classes.accDiv
+	drawers.head = recoveredData.tags.button
+	for (var c=0;c<drawers.cont.length;c++){
+		drawers.head[c] = $(drawers.head[c]).text()
+		drawers.cont[c] = $(drawers.cont[c]).text()
+		
+		classAccord.addDrawer(drawers.head[c],drawers.cont[c])
+	}
+	
+	setTextAreas(classAccord)
+	generateElementCode()
+}
+
     function copyCode(){
       SelectAll("monAccCode");
 	  /*REQUIRED FOR HISTORY*/
@@ -698,7 +721,23 @@ function getHistoryI(index,history){
               </div>
             </div>
           </div>
+		 
+	<hr>
+	
+		  <div class="row w-100">
+        <div class="col-lg-3">
+			<h5>Paste code from Moodle<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="" class="hideableinstruct text-success small" style="display: none;" data-original-title="Paste in the code you previously generated from BEEST and pasted into Moodle to recover and redesign the element.">&nbsp;<i class="fa fa-question-circle" aria-hidden="true"></i></span></h5>
+		</div>
+		<div class="col-lg">
+			<textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Copy previously generated BEEST code from Moodle and paste it here" onchange="recoverCode()"></textarea>
+		</div>
+	</div>
+
+
+
+		  
             <hr>
+			
   
   <div class="row w-100">
   

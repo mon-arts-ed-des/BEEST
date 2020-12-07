@@ -36,7 +36,14 @@
 	<script src="js/helperFunctions.js"></script>
 	<script src="js/setupPage.js"></script>
 	<script src="js/pageHistory.js"></script>
-    <script>
+<script>
+var iconNames = {
+	"1":"image",
+	"2":"play",
+	"3":"eye" ,
+	"4":"camera"
+}
+
 /*REQUIRED FOR HISTORY*/   
 const IMAGE_HIST = "history_image"
 var localStorageHistory = IMAGE_HIST
@@ -261,12 +268,7 @@ function generateCode() {
 	var closeCol="</div>"
 	var closeRow="</div></div>"
 	
-	var iconNames = {
-		"1":"image",
-		"2":"play",
-		"3":"eye" ,
-		"4":"camera"
-	}
+	//icon names moved to top
 
 	var iconName = iconNames[faIcon];
 		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
@@ -309,6 +311,55 @@ function generateCode() {
 	demoDiv.innerHTML = textOutput;
 	$('#txtarearespImg').val(textOutput)
 }
+
+function recoverCode(){
+	classImage = new beestImage()
+
+	var pastedHTML = $("#retrieveCode").val()
+
+	var iconHeading = getIconAndHeading(pastedHTML)
+	var iconClassName = iconHeading.iconName
+	var headSize = iconHeading.headSize
+	var imgHeading = iconHeading.headText
+	
+	classImage.heading = imgHeading
+	classImage.size = headSize
+	var iconNums = reverseObjectMap(iconNames)
+	classImage.icon = iconNums[iconClassName]
+	
+	var dataToFind = {
+		tags:['img','p']
+	}
+	var recoveredData = recoverFromPasted(pastedHTML,dataToFind)
+	
+	classImage.context = recoveredData.tags.p.text()
+	
+	var imgJQ = recoveredData.tags.img
+	classImage.link = imgJQ[0].src
+	
+	if (imgJQ.parent().hasClass("mt-2")){
+		classImage.position = "right"
+	}
+	else{
+		classImage.position = "left"
+	}
+	
+	
+	if (imgJQ.parent().hasClass("col-lg-3")){
+		classImage.width = "25"
+	}
+	else if (imgJQ.parent().hasClass("col-lg-4")){
+		classImage.width = "33"
+	}
+	else{
+		classImage.width = "50"
+	}
+	
+	setTextAreas(classImage)
+
+	generateCode()
+}
+
 
 //Function to select all of the html in the final textarea and copy it at the same time
 function SelectAll(id){
@@ -523,6 +574,18 @@ function replaceLinkWithEmbed(event){
         </div>
       </div>
       <hr>
+	  
+	  <div class="row w-100 mx-auto">
+              <div class="col-lg-3">
+              <h5 class="font-weight-bold">Paste code from Moodle<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Paste in the code you previously generated from BEEST and pasted into Moodle to recover and redesign the element." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+              </div>
+              <div class="col-lg">
+              <textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Or recover it by pasting existing code from Moodle" onchange=recoverCode()></textarea>
+          </div>
+        </div>
+		
+          <hr>
+	  
     <div class="row w-100 mx-auto">
       <div class="col-lg-3">
         <h5 class="font-weight-bold">Link<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your image." class="small text-success hideableinstruct">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
