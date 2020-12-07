@@ -550,7 +550,7 @@ function getHistoryI(index,history){
     <div id="beestNav"></div>
     <div class="py-5"></div>
       <div class="container-fluid"> 
-<h3 class="text-center">Tabbed Content<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Tabbed content is the vertical equivalent of accordians. Clicking the heading on the left column reveals relative information in the right panel. This element type is great for weekly recaps of main points/key takeaways, or also as a detailed checklist for stages of an activity. You should only use one of these per page, and you can have between 3-10 tabs using this tool." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h3>
+<h3 class="text-center font-weight-bold">Tabbed Content<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Tabbed content is the vertical equivalent of accordians. Clicking the heading on the left column reveals relative information in the right panel. This element type is great for weekly recaps of main points/key takeaways, or also as a detailed checklist for stages of an activity. You should only use one of these per page, and you can have between 3-10 tabs using this tool." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h3>
 <h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".tabbedContentWalkthrough" href="">Creating tabbed content (05:06)</a></h5>
 <!--Begin modal content on the page-->
 <!--Button creation video walkthrough-->
@@ -612,7 +612,7 @@ function getHistoryI(index,history){
 <form id="monTabsForm">
 <div class="row w-100 mx-auto">
   <div class="col-lg-6">
-		<div class="row w-100 mx-auto">
+		<div class="row w-100">
               <div class="col-lg-3">
                 <h5 class="font-weight-bold">Recover<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Retrieve your previous button configuration. Only works once you have created at least 1 button. Then the next 20 configurations will be available until you clear your internet browser history or change internet browsers or create more than 20 buttons." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-fw fa-question-circle"></i></h5>
               </div>              
@@ -634,7 +634,7 @@ function getHistoryI(index,history){
   
     <div class="row w-100">
       <div class="col-lg-3">
-        <h5>Main Heading<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type a heading for your Tabbed Content here that will sit above the element and indicate to the student what is contained within the tabs. 75 character maximum." class="text-success small hideableinstruct">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+        <h5 class="font-weight-bold">Main Heading<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type a heading for your Tabbed Content here that will sit above the element and indicate to the student what is contained within the tabs. 75 character maximum." class="text-success small hideableinstruct">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
         </div>
         <div class="col-lg">
           <textarea maxlength="75" class="rounded p-2 w-100" rows="1" name="tabbedMainHeading" type="text" id="tabbedMainHeading" placeholder="Type a main heading for your Tabbed Content here." onchange=generateElementCode()></textarea>
@@ -643,7 +643,7 @@ function getHistoryI(index,history){
     <hr>
     <div class="row w-100">
       <div class="col-lg-3">
-        <h5>Heading size<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+        <h5 class="font-weight-bold">Heading size<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the size of your heading. No heading is chosen by default. If you do not choose a heading size, your heading will not display.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
         </div>
         <div class="col-lg">
           <div class="form-check form-check-inline" id="headSize" onchange=generateElementCode()>
@@ -667,7 +667,7 @@ function getHistoryI(index,history){
           <hr>
           <div class="row w-100">
             <div class="col-lg-3">
-              <h5>Choose icon<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="If you would like an icon to the right of your heading, choose one from this list." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
+              <h5 class="font-weight-bold">Choose icon<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="If you would like an icon to the right of your heading, choose one from this list." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
             </div>
             <div class="col-lg-1 my-auto mr-3 pb-3">
             <div class="form-check form-check-inline" id="faCode" onchange=generateElementCode()>
@@ -729,7 +729,7 @@ function getHistoryI(index,history){
      <hr>
      <div class="row w-100">
       <div class="col-lg">
-        <h5>Tab headings + content<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Input the headings for the tabs on the left, and the content that will appear when the relative heading is clicked. Max length of headings is 50 characters." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
+        <h5 class="font-weight-bold">Tab headings + content<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Input the headings for the tabs on the left, and the content that will appear when the relative heading is clicked. Max length of headings is 50 characters." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
       </div>
   </div>
   <span id="newTabArea"></span>  
@@ -740,7 +740,7 @@ function getHistoryI(index,history){
     <div class="sticky-top" style="top:100px;">
     <div class="row w-100">
       <div class="col-lg">
-    <h5>Add/Remove tab + content<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="The page defaults to start with 3 tabs plus their content. If you only need 3 tabs you can skip this step. If you require 4-10 tabs, click the add button below to add more tabs or input the number you want directly into the box below." class="text-success small hideableinstruct">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+    <h5 class="font-weight-bold">Add/Remove tab + content<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="The page defaults to start with 3 tabs plus their content. If you only need 3 tabs you can skip this step. If you require 4-10 tabs, click the add button below to add more tabs or input the number you want directly into the box below." class="text-success small hideableinstruct">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
     <div class="btn-group btn-group-justified" role="group" id="addMinusButtons">
     <div class="btn-group" role="group">
       <button id="minusbutton" onclick="removeSection()" type="button" class="btn btn-danger rounded"><i class="fa fa-fw fa-minus"></i></button>
@@ -752,7 +752,7 @@ function getHistoryI(index,history){
   </div>
 </div>
     <hr>
-    <h5>Preview<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click the button below to reveal a full screen width preview of your element." class="text-success small hideableinstruct">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+    <h5 class="font-weight-bold">Preview<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click the button below to reveal a full screen width preview of your element." class="text-success small hideableinstruct">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
     <div class="row w-100">
       <div class="col-lg">
         <div><a class="btn btn-success btn-block w-100 mx-auto" target="#" data-target=".previewElement" data-toggle="modal" href="#" role="button">Reveal preview panel</a></div>
@@ -763,7 +763,7 @@ function getHistoryI(index,history){
       <hr>
       <div class="row w-100">
         <div class="col-lg">
-  <h5>Copy code<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click the copy code button below to copy your code, ready to paste into Moodle." class="text-success small hideableinstruct">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+  <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click the copy code button below to copy your code, ready to paste into Moodle." class="text-success small hideableinstruct">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
   <textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="3" name="Result" placeholder="When you click the button above, it will create the code for your accordion and copy it to the clipboard." onchange=generateElementCode()></textarea>
   <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." id="copyCodeBtn" class="btn btn-success btn-block mt-2" name="GenerateWrap" value="Copy your code" OnClick=copyCode() >
   <div class="text-center h5 mt-4">
