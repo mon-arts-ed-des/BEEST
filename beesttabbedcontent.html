@@ -38,6 +38,19 @@
     <script src="js/placeholder.js"></script> 
 
     <script type="text/javascript">
+var iconNames = {
+	"1":"columns",
+	"2":"question",
+	"3":"question-circle",
+	"4":"question-circle-o", 
+	"5":"info",
+	"6":"info-circle",
+	"7":"bars",
+	"8":"plus",
+	"9":"plus-square",
+	"10":"plus-square-o"
+}
+	
     const maxTabs = 10 //when to stop creating - I think min 3 max 10 like accordions is the best for consistency.
     const requiredInitialTabs = 3; //the default number of tabs to start with
     const TINYMCE_ID_BASE = "tinyMCEmonTabContent"
@@ -338,18 +351,7 @@ function generateIconCode(faIcon){
 	given an index of icon, returns the icon HTML code which matches
 	*/
 	
-	var iconNames = {
-		"1":"columns",
-		"2":"question",
-		"3":"question-circle",
-		"4":"question-circle-o", 
-		"5":"info",
-		"6":"info-circle",
-		"7":"bars",
-		"8":"plus",
-		"9":"plus-square",
-		"10":"plus-square-o"
-	}
+	//iconNames moved to the top
 
 	var iconName = iconNames[faIcon];
 	var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
@@ -409,7 +411,7 @@ function generateElementCode() {
 	}
 	textOutputTabbedContent+=monTabContent_Final //close the html (double div end instead of triple as _Close includes a div end)
 	
-	$('#txtareaBtn').html(textOutputTabbedContent);
+	$('#txtareaBtn').text(textOutputTabbedContent);
 	//SelectAll("txtareaBtn");
 	$('#demo').html(textOutputTabbedContent);
 }
@@ -483,6 +485,48 @@ function getHistoryI(index,history){
 		}
 		updatePageCounter(COUNTER_ID,revisedCount)
 	}
+
+function recoverCode(){
+	classTabbed_supp = new beestTabbed(maxTabs)
+
+	var pastedHTML = $("#retrieveCode").val()
+	
+	var iconHeading = getIconAndHeading(pastedHTML)
+	var iconClassName = iconHeading.iconName
+	var headSize = iconHeading.headSize
+	var headText = iconHeading.headText
+	
+	classTabbed_supp.mainHead = headText
+	classTabbed_supp.headSize = headSize
+	
+	var iconCode = reverseObjectMap(iconNames)
+	classTabbed_supp.icon = iconCode[iconClassName]
+	
+	var dataToFind = {
+		classes:["nav-link","tab-pane"]
+	} //nav-links are headings, tab-panes are contents
+	var recoveredData = recoverFromPasted(pastedHTML,dataToFind)
+	
+	tabData = {heads:[],conts:[]}
+	tabData.heads = recoveredData.classes["nav-link"]
+	tabData.conts = recoveredData.classes["tab-pane"]
+	tabCnt = tabData.heads.length
+	
+	for (var tabI=0;tabI<tabCnt; tabI++){
+		classTabbed_supp.addTab()
+		tabData.heads[tabI] = $(tabData.heads[tabI]).text()
+		classTabbed_supp.setTabHeading(tabI,tabData.heads[tabI])
+		
+		tabData.conts[tabI] = $(tabData.conts[tabI]).text()
+		classTabbed_supp.setTabContents(tabI,tabData.conts[tabI])
+	}
+
+	
+
+	setTextAreas(classTabbed_supp)
+	classTabbed = classTabbed_supp
+	generateElementCode()
+}
 
 	function updatePageCounter(ID,currCounter){
 		document.getElementById(ID).value = currCounter;
@@ -632,6 +676,16 @@ function getHistoryI(index,history){
         </div>
         <hr>
   
+  <div class="row w-100">
+          <div class="col-lg-3">
+          <h5 class="font-weight-bold">Paste code from Moodle<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Paste in the code you previously generated from BEEST and pasted into Moodle to recover and redesign the element." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+          </div>
+          <div class="col-lg">
+          <textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Or recover it by pasting existing code from Moodle" onchange=recoverCode()></textarea>
+      </div>
+    </div>
+    <hr>
+  
     <div class="row w-100">
       <div class="col-lg-3">
         <h5 class="font-weight-bold">Main Heading<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type a heading for your Tabbed Content here that will sit above the element and indicate to the student what is contained within the tabs. 75 character maximum." class="text-success small hideableinstruct">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
@@ -764,7 +818,7 @@ function getHistoryI(index,history){
       <div class="row w-100">
         <div class="col-lg">
   <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click the copy code button below to copy your code, ready to paste into Moodle." class="text-success small hideableinstruct">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
-  <textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="3" name="Result" placeholder="When you click the button above, it will create the code for your accordion and copy it to the clipboard." onchange=generateElementCode()></textarea>
+  <textarea class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="3" name="Result" placeholder="When you click the button above, it will create the code for your accordion and copy it to the clipboard." onchange=generateElementCode()></textarea>
   <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." id="copyCodeBtn" class="btn btn-success btn-block mt-2" name="GenerateWrap" value="Copy your code" OnClick=copyCode() >
   <div class="text-center h5 mt-4">
     <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
