@@ -398,6 +398,13 @@ function resetAddRemoveButtonDisplay(){
 		document.getElementById('accMainHeading').value = dataSet.mainHead;
 		setRadios('headSize',dataSet.headSize)
 		setRadios('faCode',dataSet.icon)
+		
+		while (classAccord.usableDrawers < dataSet.drawerCount){
+			addSection()
+		} // add required sections
+		while (classAccord.usableDrawers > dataSet.drawerCount){
+			removeSection()
+		} // remove extra sections
 /*		
 		tinyMCE.get('tinyMCEmonAccContent1').setContent(dataSet.getDrCont(0))
 		document.getElementById('monAccBtnTxt1').value = dataSet.getDrHead(0)
@@ -517,13 +524,6 @@ function getHistoryI(index,history){
 	refToClassAccord = new accordion()
 	refToClassAccord.fromObj(selectedAccordion) // classAccord now holds the data of this index
 	
-	while (classAccord.usableDrawers < refToClassAccord.drawerCount){
-		addSection()
-	} // add required sections
-	while (classAccord.usableDrawers > refToClassAccord.drawerCount){
-		removeSection()
-	} // remove extra sections
-	
 	setTextAreas(refToClassAccord)
 	classAccord = refToClassAccord
 	generateElementCode()
@@ -531,7 +531,7 @@ function getHistoryI(index,history){
 /*END REQUIRED FOR HISTORY*/
 
 function recoverCode(){
-	classAccord = new accordion()
+	_classAccord_ = new accordion()
 	var pastedHTML = $("#retrieveCode").val()
 	
 	var iconHeading = getIconAndHeading(pastedHTML)
@@ -539,11 +539,11 @@ function recoverCode(){
 	var headSize = iconHeading.headSize
 	var headText = iconHeading.headText
 	
-	classAccord.mainHead = headText
-	classAccord.headSize = headSize
+	_classAccord_.mainHead = headText
+	_classAccord_.headSize = headSize
 	
 	var iconCode = reverseObjectMap(iconNames)
-	classAccord.icon = iconCode[iconClassName]
+	_classAccord_.icon = iconCode[iconClassName]
 	
 	var dataToFind = {
 		tags:["button"],
@@ -557,12 +557,14 @@ function recoverCode(){
 	drawers.head = recoveredData.tags.button
 	for (var c=0;c<drawers.cont.length;c++){
 		drawers.head[c] = $(drawers.head[c]).text()
-		drawers.cont[c] = $(drawers.cont[c]).text()
+		drawers.cont[c] = $(drawers.cont[c]).html()
 		
-		classAccord.addDrawer(drawers.head[c],drawers.cont[c])
+		_classAccord_.addDrawer(drawers.head[c],drawers.cont[c])
 	}
 	
-	setTextAreas(classAccord)
+	setTextAreas(_classAccord_)
+	
+	classAccord = _classAccord_
 	generateElementCode()
 }
 
