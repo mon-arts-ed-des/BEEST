@@ -160,6 +160,20 @@ function reverseObjectMap(objName){
 	return output
 }
 
+function randomString(strLength,characterList){
+		if (typeof(characterList) == "undefined"){
+			characterList = "aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ"
+		}
+		var charLen = characterList.length;
+		var output = ""
+		var rInd = 0
+		for (var charN = 0;charN < strLength; charN++){
+			rInd = Math.round((Math.random())*charLen)
+			output+= characterList[rInd]
+		}
+		return output
+	}
+
 function getIconAndHeading(htmlCode){
 	/*
 	input -- html code copied from moodle
