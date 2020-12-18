@@ -168,7 +168,7 @@ function randomString(strLength,characterList){
 		var output = ""
 		var rInd = 0
 		for (var charN = 0;charN < strLength; charN++){
-			rInd = Math.round((Math.random())*charLen)
+			rInd = Math.floor((Math.random())*charLen)
 			output+= characterList[rInd]
 		}
 		return output

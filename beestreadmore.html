@@ -134,7 +134,7 @@ function generateReadMoreCode() {
     // console.debug(tinyMCE.activeEditor.getContent());
 	//Retrieve the content by id of the tinyMCE textarea
 	
-	var readMoreNumber = document.getElementById('readMoreNumber').value;
+	var readMoreNumber = randomString(5)//PREVIOUSLY: document.getElementById('readMoreNumber').value;
     //    var readMoreBtnTxt = document.getElementById('readMoreBtnTxt').value;
 	
 	var bsColour = getRadioOption("btnColour")
@@ -329,7 +329,7 @@ function recoverCode(){
 	var colourNums = reverseObjectMap(colourNames)
 	var colourWithY = colourNums[colourCodeName]
 	
-	if (colourNums.hasOwnProperty(colourCodeName+'y')){
+	if (colourNums.hasOwnProperty('outline-'+colourCodeName)){
 		//if so then it WASN'T inverted
 		classReadMore.colInv = 'n'
 		classReadMore.colour = colourWithY
@@ -376,14 +376,13 @@ function setTextAreas(classData){
 	txtAreaVals = {
 		'tinyMCEreadMoreBefore': {type:'tiny',value:classData.before},
 		'tinyMCEreadMoreAfter': {type:'tiny',value:classData.after},
-		'readMoreNumber': {type:'basic',value:classData.buttonNum},
 		'readMoreBtnTxt': {type:'basic',value:classData.buttonTxt},
 		'btnColour': {type:'radio',value:classData.colour},
 		'invertColour': {type:'radio',value:classData.colInv},
 		'buttonSize': {type:'radio',value:classData.size},
 		'buttonWidth': {type:'radio',value:classData.width},
 		'faCode': {type:'radio',value:classData.iconPair}
-	}
+	} //PREVIOUSLY INCLUDED 'readMoreNumber': {type:'basic',value:classData.buttonNum},
 	setTextAreas_util(txtAreaVals)
 }
 function getHistoryI(index,history){
@@ -510,7 +509,7 @@ function getHistoryI(index,history){
         <textarea id="tinyMCEreadMoreAfter" class="border border-dark rounded p-2 w-100" cols="70" name="readMoreAfter" onchange=generateReadMoreCode()></textarea>
         </div>
       </div>
-      <hr>
+<!--      <hr>
       <div class="row w-100">
         <div class="col-lg-3">
       <h5 class="font-weight-bold">Button number<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Because of the way the HTML works for HTML buttons, the read more buttons need a number. This is also required if you would like more than 1 read more button on a single page." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
@@ -518,7 +517,7 @@ function getHistoryI(index,history){
       <div class="col-lg">
       <textarea class="border border-dark rounded w-100 p-2" rows="1" placeholder="Input read more button number here" id="readMoreNumber" onchange=generateReadMoreCode()></textarea>
     </div>
-  </div>
+  </div>-->
   <hr>
   <div class="row w-100">
     <div class="col-lg-3">
