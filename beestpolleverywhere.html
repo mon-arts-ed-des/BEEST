@@ -47,7 +47,8 @@ var iconNames = {
 	"10":"share",
 	"11":"share-alt",
 	"12":"bullhorn",
-	"13":"gavel"
+	"13":"gavel",
+	"14":"exchange"
 }    
 	
 	/*REQUIRED FOR HISTORY  */
@@ -98,47 +99,93 @@ class pollEv{
 	}
 }
 /*END REQUIRED FOR HISTORY*/  
-  
-      //function to generate HTML code output
-function generateElementCode() {
-	console.debug(tinyMCE.activeEditor.getContent());
-	//Retrieve the content by id of the tinyMCE textarea
-	var contextCode = getTinyContent('tinyMCEpollEv')
-	var pollHeading = $('#pollHeading').val();
-	var headSize = getRadioOption('headSize')
-	var faIcon = getRadioOption('faCode')
-	
+ 
+/*BEGIN generateCode helper functions*/ 
+function constructHeading(headSize,faIconCode,pollHeading){
+/*generates the heading based on the hSize using the icon and heading text*/
+	var resizedHead
+	if (headSize == "noH"){
+		resizedHead = ""
+	}
+	else{
+		var sizes = {"h3":3,"h4":4,"h5":5}
+		resizedHead = '<h'+sizes[headSize]+' id="theHeading"><span id="theIcon">'+faIconCode+'</span><span id="theHeadTxt">'+pollHeading+"</span></h"+sizes[headSize]+">"
+	}
+	resizedHead = '<span id="outsideHead">'+resizedHead+'</span>'
+	return resizedHead
+}
+function constructIconCode(faIcon){
 	//iconNames moved to top
-
 	var iconName = iconNames[faIcon];
 	var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
 	
 	if (faIcon == "none"){
 	  faIconCode = "";
 	}
+}
+
+function reviseDemo(pollEv_URL, frameHeight, headSize, pollHeading, resizedHead, contextCode){
+/*given a set of new data, updates the demo on the page to match with minimal changes to the iframe (to minimise load time)*/
+	var currPollEv = $('#pollSrc')
+	var currPollEvSrc = currPollEv.attr('src')
+	var currPollEvHeight = currPollEv.attr('height')
 	
-	var resizedHead
-		//Resizing the heading text
-	if (headSize == "noH"){resizedHead = ""}
-	else{
-		var sizes = {"h3":3,"h4":4,"h5":5}
-		resizedHead = '<h'+sizes[headSize]+' id="theHeading"><span id="theIcon">'+faIconCode+'</span><span id="theHeadTxt">'+pollHeading+"</span></h"+sizes[headSize]+">"
+	if (currPollEvSrc !== pollEv_URL){
+		currPollEv.attr('src',pollEv_URL)
 	}
-	resizedHead = '<span id="outsideHead">'+resizedHead+'</span>'
-	//Retrieve the content by id of the textareas
+	if (currPollEvHeight !== frameHeight){
+		currPollEv.attr('height',frameHeight)
+	}
+	
+	var currPollResizedHead = $('#theHeading')
+	var currHeadSize = currPollResizedHead.prop('tagName')
+	var currHeadTxt = $('#theHeadTxt').html()
+	var currIcon = $('#theIcon').html()
+	
+	if ((currHeadSize !== headSize) || (currHeadTxt !== pollHeading) || (currIcon !== faIconCode)) //if any different, replace the resizedHead code
+	{
+		$('#outsideHead').html(resizedHead)
+	}
+	
+	var currContext = $('#theContext')
+	if (currContext.html() !== contextCode){
+		currContext.html(contextCode)
+	}
+
+}
+
+function noDemo(){
+/*checks whether there is a demo polleverywhere on the screen already*/
+	var currDemo = $('#demo').html()
+	return (typeof(currDemo)=='undefined')||(currDemo.trim()=="")
+}
+ 
+/*END generateCode helper functions*/ 
+	  //function to generate HTML code output
+function generateElementCode() {
+	var divContainer="<div>"
+	var pollEv_1="<iframe id='pollSrc' src=\""
+	var closeContainer="</div>"
+	
+	var contextCode = getTinyContent('tinyMCEpollEv')
+	var pollHeading = $('#pollHeading').val();
+	var headSize = getRadioOption('headSize')
+	var faIcon = getRadioOption('faCode')
+	
+	var faIconCode = constructIconCode(faIcon)
+	
+	var resizedHead = constructHeading(headSize,faIconCode,pollHeading)
+	//Resizing the heading text
+
 	//get the poll everywhere link on the page
 	var pollEv_URL = $('#pollEv_URL').val();
-	var poll_url_on_page = pollEv_URL;
+	var poll_url_on_page = pollEv_URL; //kept separate so a dummy value won't be saved to the class
 
 
 	if (pollEv_URL == ""){ // replace with a dummy one if none selected
 		pollEv_URL = DEFAULT_POLLEV_LINK;
 	}
 
-	var divContainer="<div>"
-	var pollEv_1="<iframe id='pollSrc' src=\""
-   
-	var closeContainer="</div>"
 	var frameHeight= $('#frameHeight').val();
 	var frame_height_on_page = frameHeight
 	
@@ -159,36 +206,11 @@ function generateElementCode() {
 	
 	$('#txtareapollEv').html(textOutputPollEv);
 	
-	var currDemo = $('#demo').html()
-	if ((typeof(currDemo)=='undefined')||(currDemo.trim()=="")){
+	if (noDemo()){
 		$('#demo').html(textOutputPollEv);
 	}
 	else{
-		var currPollEv = $('#pollSrc')
-		var currPollEvSrc = currPollEv.attr('src')
-		var currPollEvHeight = currPollEv.attr('height')
-		
-		if (currPollEvSrc !== pollEv_URL){
-			currPollEv.attr('src',pollEv_URL)
-		}
-		if (currPollEvHeight !== frameHeight){
-			currPollEv.attr('height',frameHeight)
-		}
-		
-		var currPollResizedHead = $('#theHeading')
-		var currHeadSize = currPollResizedHead.prop('tagName')
-		var currHeadTxt = $('#theHeadTxt').html()
-		var currIcon = $('#theIcon').html()
-		
-		if ((currHeadSize !== headSize) || (currHeadTxt !== pollHeading) || (currIcon !== faIconCode)) //if any different, replace the resizedHead code
-		{
-			$('#outsideHead').html(resizedHead)
-		}
-		
-		var currContext = $('#theContext')
-		if (currContext.html() !== contextCode){
-			currContext.html(contextCode)
-		}
+		reviseDemo(pollEv_URL, frameHeight, headSize, pollHeading, resizedHead, contextCode)
 	}
 	
 	
@@ -486,11 +508,11 @@ function getHistoryI(index,history){
                   <div class="row w-100 mt-2">
                     <div class="col-lg">
                       <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
-                        <input class="form-check-input" name="faCode" id="faCode13" type="radio" value="12">
-                        <label class="form-check-label" for="faCode13"><i class="fa fa-fw fa-exchange fa-2x"></i></label>
+                        <input class="form-check-input" name="faCode" id="faCode14" type="radio" value="14">
+                        <label class="form-check-label" for="faCode14"><i class="fa fa-fw fa-exchange fa-2x"></i></label>
                       </div>
                       <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
-                        <input class="form-check-input" name="faCode" id="faCode12" type="radio" value="11">
+                        <input class="form-check-input" name="faCode" id="faCode12" type="radio" value="12">
                         <label class="form-check-label" for="faCode12"><i class="fa fa-fw fa-bullhorn fa-2x"></i></label>
                       </div>
                   <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
