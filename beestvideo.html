@@ -35,6 +35,8 @@
     <script src="js/setupPage.js"></script>
     <!-- Script to init the tinyMCE editor --> 
     <script type="text/javascript">
+const DEFAULT_VIDEO_URL = "https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=5d23c190-f6c6-405d-968b-abab0095e7a4";
+	
 var iconNames = {
 	"1":"video-camera",
 	"2":"play",
@@ -210,6 +212,44 @@ $(document).ready(function() {
 		
 	}
 	
+/*BEGIN helper functions for generateElementCode*/
+function constructHeading(vidHeading,headSize,faIconCode){
+	var resizedHead;
+	if(vidHeading == ""){
+		resizedHead = "";
+	}
+	else {
+		//Resizing the heading text
+		if (headSize == "noH"){resizedHead = ""}
+		else{
+			var sizes = {"h3":3,"h4":4,"h5":5}
+			resizedHead = '<div id=\"heading\"><h'+sizes[headSize]+">"+faIconCode+vidHeading+"</h"+sizes[headSize]+"></div>"
+		}
+	}
+	return resizedHead
+}
+function constructResponsiveIFrame(respLink){
+	var respVid="<div class=\"embed-responsive embed-responsive-16by9\"><iframe class=\"embed-responsive-item\" frameborder=\"0\" "
+	if (respLink.includes("youtu")){
+		respVid += "allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen"
+	}
+	else{
+		respVid += "allowfullscreen=\"\"
+	}
+	respVid += " src=\""+respLink+"\"></iframe></div>"
+	return respVid
+}
+function constructIconTag(faIcon){
+	//icon names moved to top
+	var iconName = iconNames[faIcon];
+		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
+	if (faIcon == "noI"){
+	  faIconCode = "";
+	}
+	return faIconCode
+}
+/*END helper functions for generateElementCode*/
+	
     /*Function to generate and copy code for the responsive videos*/
     function generateCode() {
         // Get the HTML contents of the currently active editor
@@ -232,44 +272,19 @@ $(document).ready(function() {
 		videoPageInstance.headingSize = headSize
 		videoPageInstance.icon = faIcon
 		
-		if (tinyMCE.get('tinyMCEvideo').getContent() !== ""){
-			contextCode = tinyMCE.get('tinyMCEvideo').getContent();
-			}
-        else{
+		if (contextCode == ""){
 			contextCode = "[Placeholder for video context. The content you entered in step 2 will appear here.]";
         }
         
         if ((respLink == "")||(embedLinkConverter()==null)){
-          respLink = "https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=5d23c190-f6c6-405d-968b-abab0095e7a4";
+          respLink = DEFAULT_VIDEO_URL;
         }
 
-        var respVid="<div class=\"embed-responsive embed-responsive-16by9\"><iframe class=\"embed-responsive-item\" frameborder=\"0\" allowfullscreen=\"\" src=\""+respLink+"\"></iframe></div>"
-        var respVidYT="<div class=\"embed-responsive embed-responsive-16by9\"><iframe class=\"embed-responsive-item\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen src=\""+respLink+"\"></iframe></div>"
-        //icon names moved to top
-        var iconName = iconNames[faIcon];
-    		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
-        if (faIcon == "noI"){
-          faIconCode = "";
-        }
-        var resizedHead;
-        if(vidHeading == ""){
-          resizedHead = "";
-        }
-        else {
-            //Resizing the heading text
-			
-			var resizedHead
-			//Resizing the heading text
-			if (headSize == "noH"){resizedHead = ""}
-			else{
-				var sizes = {"h3":3,"h4":4,"h5":5}
-				resizedHead = '<div id=\"heading\"><h'+sizes[headSize]+">"+faIconCode+vidHeading+"</h"+sizes[headSize]+"></div>"
-			}
-        }
+        var respVid=constructResponsiveIFrame(respLink)
 
-        if (respLink.includes("youtu")){
-          respVid=respVidYT
-        }    
+		var faIconCode = constructIconTag(faIcon)
+        var resizedHead = constructHeading(vidHeading,headSize,faIconCode
+ 
         //Change position of video and order of output
 		textOutput = updatePreview(resizedHead,vPosition,respVid,contextCode,vWidth)
 		
