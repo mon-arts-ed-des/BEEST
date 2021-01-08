@@ -62,6 +62,9 @@ var colourNames = {
 	"7":"dark",
 	"8":"secondary"
 }
+for (prop in colourNames){
+	colourNames[prop+"y"] = "outline-"+colourNames[prop]
+} // as inverts are just outline- followed by the name doing this by a loop
 var buttonSize = {
 	"1":" btn-sm ",
 	"2":" ",
@@ -126,61 +129,21 @@ $(document).ready(function() { //create the tinyMCE areas after the first
 	initHistory();
 	/*END REQUIRED FOR HISTORY*/
 });
-
-
-
-function generateReadMoreCode() {
-	// Get the HTML contents of the currently active editor
-    // console.debug(tinyMCE.activeEditor.getContent());
-	//Retrieve the content by id of the tinyMCE textarea
-	
-	var readMoreNumber = randomString(5)//PREVIOUSLY: document.getElementById('readMoreNumber').value;
-    //    var readMoreBtnTxt = document.getElementById('readMoreBtnTxt').value;
-	
-	var bsColour = getRadioOption("btnColour")
-	var bsBtnSize = getRadioOption("buttonSize")
-	var bsBtnWidth = getRadioOption("buttonWidth")
-	var faIcon = getRadioOption("faCode")
-	var readMoreContainer="<div class=\"beestRead\"><span id='readMoreAbove'>"
-	var readMore_1="</span><div class=\"collapse\" id=\"readMore"+readMoreNumber+"\">"
-	var readMoreClose="</div>"
-	
+/*BEGIN helper functions for generateElementCode*/
+function generateIconTag(faIcon){
 	//icon names moved to top
-
 	var iconName;
 	var faIconCode;
 	if (faIcon=="noI"){
 		faIconCode = "";
-		var toggleBtnScript="";
 	}
 	else{
 		iconName = iconNames[faIcon];
 		faIconCode = ' <i class="fa fa-' + iconName + '"></i> ';
-		var toggleBtnScript="<script> var L=document.createElement('script'); L.type='text/javascript'; L.src='https://mon-arts-ed-des.github.io/BEEST/js/toggleBtnIcon.js'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>";
-    }
-
-    if(document.getElementById('readMoreBtnTxt').value !== ""){
-		var readMoreBtnTxt = document.getElementById('readMoreBtnTxt').value;
-    }
-    else {
-		var readMoreBtnTxt = "[Placeholder button text]"
-    }
-    if(tinyMCE.get('tinyMCEreadMoreBefore').getContent() !== ""){
-		var readMoreBefore = tinyMCE.get('tinyMCEreadMoreBefore').getContent();
-    }
-    else {
-		var readMoreBefore = "Placeholder content before the button. Click the button below to reveal the content after and see how read more buttons work."
-    }
-   
-    if(tinyMCE.get('tinyMCEreadMoreAfter').getContent() !== ""){
-		var readMoreAfter = tinyMCE.get('tinyMCEreadMoreAfter').getContent();
-    }
-    else {
-		var readMoreAfter = "Placeholder content after the button. You can input content here, and hide it until the button is clicked by the user."
-    }
-	//buttonSize moved to top
-	var buttonSpan = ['#btnSmall','#btnRegular','#btnLarge']
-
+		}
+	return faIconCode
+}
+function changeWidthOfDemo(bsBtnWidth){
 	widths = {
 		"50":["75","100"],
 		"75":["50","100"],
@@ -190,45 +153,24 @@ function generateReadMoreCode() {
 	$('#buttonSize .btn').addClass('w-'+bsBtnWidth);
 	$('#buttonSize .btn').removeClass('w-'+widths[bsBtnWidth][0]);
 	$('#buttonSize .btn').removeClass('w-'+widths[bsBtnWidth][1]);
-
-	 /* bsBtnSize = bsBtnSize + "y";
-	  $('#alignment').hide();
-	}
-	else {
-	  for (var _buttonSize of buttonSpan){
-		$(_buttonSize).removeClass('btn-block');
-  $('#buttonSize label').removeClass('w-100');
-  $('#buttonSize .btn').removeClass('btn-block');
-	  }
-	  $('#alignment').show();
-	}*/
-
-	var btnSize = buttonSize[bsBtnSize];
-   
-	//colourNames moved to top
-	for (prop in colourNames){
-		colourNames[prop+"y"] = "outline-"+colourNames[prop]
-	} // as inverts are just outline- followed by the name doing this by a loop
-
-	var buttonIds = [,'#monashBlue','#red','#yellow','#green','#darkBlue','#lightBlue','#black','#grey']
+}
+function mapButtonsToColours(buttonIds,colourNames){
 	var nameMapping = {}
 	for (var id_i = 1; id_i<buttonIds.length; id_i++){
 		nameMapping[buttonIds[id_i]] = colourNames[id_i+""]
 		nameMapping[buttonIds[id_i]+"y"] = colourNames[id_i+"y"]
 	}
-	//swap the class to invert the colour
-	var invertColour = getRadioOption("invertColour");
-	var baseColour = bsColour
-	if (invertColour == "y"){
-		btnColClassAdd = "y" //to allow invert/non invert class to be added
-		btnColClassRem = "" //flipped to get the class NOT added to be removed
-		bsColour = bsColour + "y";
-	}
-	else{
-		btnColClassAdd = ""
-		btnColClassRem = "y"
-	}
-			
+	return nameMapping
+}
+function invertButtonColours(inverted){
+	btnColClassAdd = ((inverted == "y") ? "y" : "")
+	btnColClassRem = ((inverted == "y") ? "" : "y")
+	
+	var buttonIds = [,'#monashBlue','#red','#yellow','#green','#darkBlue','#lightBlue','#black','#grey'] //the list of each of the buttons to change
+	//colourNames moved to top
+	var nameMapping = mapButtonsToColours(buttonIds,colourNames)
+	
+	//swaps colours between base and inverse
 	for (var btnId_i = 1; btnId_i < buttonIds.length; btnId_i++){
 		elementId = buttonIds[btnId_i] //get each button ID
 		elemColCodeAdd = nameMapping[elementId+btnColClassAdd] //find colour code to add
@@ -236,28 +178,12 @@ function generateReadMoreCode() {
 		$(elementId).removeClass('btn-'+elemColCodeRem)
 		$(elementId).addClass('btn-'+elemColCodeAdd)
 	}
+}
 
-	var colourName = colourNames[bsColour];
-	/*btnClrCode = "<a class=\"btn btn-"+colourName+btnSize+"m-1\" role=\"button\" href=\"";*/
-
-	if (faIcon == "noI"){
-	  faIconCode = "";
-	}
-	/*	switch (btnSize){
-		case " btn-lg btn-block ":
-		case " btn-block ":
-		case " btn-sm btn-block ":
-		btnLeft = btnBlockSwap;
-		btnCenter = btnBlockSwap;
-		break;
-    }*/
-    var readMoreBtnFinal="</div><div class=\"d-flex justify-content-center\"><a id=\"beestRead\" class=\"btn"+btnSize+"btn-"+colourName+" btn-block w-"+bsBtnWidth+" m-2\" data-toggle=\"collapse\" href=\"#readMore"+readMoreNumber+"\" role=\"button\" aria-expanded=\"false\" aria-controls=\"collapseExample\">"+readMoreBtnTxt+faIconCode+"</a></div>"
-	var readMoreOutput = readMoreContainer+readMoreBefore+readMore_1+readMoreAfter+readMoreBtnFinal+readMoreClose;
-	document.getElementById('readMoreCode').innerHTML=toggleBtnScript+readMoreOutput;
-	//SelectAll("readMoreCode");
+function updateDemo(readMoreOutput){
 	$('#demo').nextAll('div').remove();
 	$('#demo').after(readMoreOutput);
-    /*Switch to run the icon toggle on the different icon sets by Tim*/
+	/*Switch to run the icon toggle on the different icon sets by Tim*/
 	$('#beestRead').click(function(){
 		classToggles = {
 			"1":'fa-plus fa-minus',
@@ -275,7 +201,65 @@ function generateReadMoreCode() {
 		}
 	
 		$(this).find('i').toggleClass(classToggles[faIcon])
-    });
+	});
+}
+/*END helper functions for generateElementCode*/
+
+
+function generateReadMoreCode() {
+	var readMoreContainer="<div class=\"beestRead\"><span id='readMoreAbove'>"
+	var readMore_1="</span><div class=\"collapse\" id=\"readMore"+readMoreNumber+"\">"
+	var readMoreClose="</div>"
+	var toggleBtnScript="<script> var L=document.createElement('script'); L.type='text/javascript'; L.src='https://mon-arts-ed-des.github.io/BEEST/js/toggleBtnIcon.js'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>";
+	
+	var readMoreNumber = randomString(5)//PREVIOUSLY: document.getElementById('readMoreNumber').value;
+	
+	var bsColour = getRadioOption("btnColour")
+	var bsBtnSize = getRadioOption("buttonSize")
+	var bsBtnWidth = getRadioOption("buttonWidth")
+	var faIcon = getRadioOption("faCode")
+	var readMoreBtnTxt = $('#readMoreBtnTxt').val()
+	var readMoreBefore = tinyMCE.get('tinyMCEreadMoreBefore').getContent();
+	var readMoreAfter = tinyMCE.get('tinyMCEreadMoreAfter').getContent();
+
+/*replace blanks with placeholders*/
+    if(readMoreBtnTxt == ""){
+		readMoreBtnTxt = "[Placeholder button text]"
+    }
+    if(readMoreBefore == ""){
+		readMoreBefore = "Placeholder content before the button. Click the button below to reveal the content after and see how read more buttons work."
+    }
+    if (readMoreAfter == ""){
+		readMoreAfter = "Placeholder content after the button. You can input content here, and hide it until the button is clicked by the user."
+    }
+	
+	var faIconCode = generateIconTag(faIcon);
+	if (faIconCode==""){
+		toggleBtnScript=""; //if no icon, there's no need to toggle between open and closed
+	}
+   	//buttonSize moved to top
+	var btnSize = buttonSize[bsBtnSize];	
+
+	//swap the class to invert the colour
+	var invertColour = getRadioOption("invertColour");
+	var baseColour = bsColour
+	if (invertColour == "y"){
+		bsColour = bsColour + "y";
+	}
+	if ((typeof(classReadMore.colInv) !== "undefined")&&(classReadMore.colInv !== invertColour)){ //only if user requested swap regular/inverse
+		invertButtonColours(invertColour)
+	}
+
+	//colourNames moved to top
+	var colourName = colourNames[bsColour];
+
+    var readMoreBtnFinal="</div><div class=\"d-flex justify-content-center\"><a id=\"beestRead\" class=\"btn"+btnSize+"btn-"+colourName+" btn-block w-"+bsBtnWidth+" m-2\" data-toggle=\"collapse\" href=\"#readMore"+readMoreNumber+"\" role=\"button\" aria-expanded=\"false\" aria-controls=\"collapseExample\">"+readMoreBtnTxt+faIconCode+"</a></div>"
+	var readMoreOutput = readMoreContainer+readMoreBefore+readMore_1+readMoreAfter+readMoreBtnFinal+readMoreClose;
+	$('#readMoreCode').val(toggleBtnScript+readMoreOutput);
+	
+	changeWidthOfDemo(bsBtnWidth)
+	updateDemo(readMoreOutput)
+	
 	
 	/*update current instance to support save/load*/
 	classReadMore.buttonNum = readMoreNumber
