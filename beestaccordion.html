@@ -212,6 +212,15 @@ var iconNames = {
 		}
 	}
 	/*END REQUIRED FOR HISTORY*/
+
+	function add_remove_drawers_to_match_count(new_count){
+		while (classAccord.usableDrawers < new_count){
+			addSection()
+		}
+		while (classAccord.usableDrawers > new_count){
+			removeSection()
+		}
+	}
 	
 	function changeDrawerCount(){
 		var revisedCount = document.getElementById(COUNTER_ID).value
@@ -228,12 +237,7 @@ var iconNames = {
 			if (revisedCount < absoluteMinAccord){
 				revisedCount = absoluteMinAccord
 			}
-			while (classAccord.usableDrawers < revisedCount){
-				addSection()
-			}
-			while (classAccord.usableDrawers > revisedCount){
-				removeSection()
-			}
+			add_remove_drawers_to_match_count(revisedCount)
 		}
 		updatePageCounter(revisedCount)
 	}
@@ -356,6 +360,27 @@ function resetAddRemoveButtonDisplay(){
 		}
 		return output
 	}
+
+function setAccordContentsAndHeadings(idList,dataSet){
+	function getValAt(valType,dataSet,idNum){
+		var method = {"contents":"getDrCont","heading":"getDrHead"}
+		try{
+			thisThing=dataSet[method[valType]](idNum)
+		}
+		catch{
+			thisThing = ""
+		}
+		return thisThing
+	}
+	var thisContent;
+	var thisHeading;
+	for (var idNum=0; idNum<idList.length; idNum++){
+		thisContent = getValAt("contents",dataSet,idNum)
+		thisHeading = getValAt("heading",dataSet,idNum)
+		tinyMCE.get(idList.tiny[idNum]).setContent(thisContent)
+		document.getElementById(idList.btn[idNum]).value = thisHeading
+	}
+}
 	
 	function setTextAreas(dataSet){
 	/*
@@ -366,34 +391,12 @@ function resetAddRemoveButtonDisplay(){
 		setRadios('headSize',dataSet.headSize)
 		setRadios('faCode',dataSet.icon)
 		
-		while (classAccord.usableDrawers < dataSet.drawerCount){
-			addSection()
-		} // add required sections
-		while (classAccord.usableDrawers > dataSet.drawerCount){
-			removeSection()
-		} // remove extra sections
+		add_remove_drawers_to_match_count(dataSet.drawerCount)
 /*		
 		tinyMCE.get('tinyMCEmonAccContent1').setContent(dataSet.getDrCont(0))
 		document.getElementById('monAccBtnTxt1').value = dataSet.getDrHead(0)
 	*/	
-		for (var idNum=0; idNum<idList.length; idNum++){
-			var thisContent
-			var thisHeading = ""
-			try{
-				thisContent=dataSet.getDrCont(idNum)
-			}
-			catch{
-				thisContent = ""
-			}
-			try{
-				thisHeading=dataSet.getDrHead(idNum)
-			}
-			catch{
-				thisHeading = ""
-			}
-			tinyMCE.get(idList.tiny[idNum]).setContent(thisContent)
-			document.getElementById(idList.btn[idNum]).value = thisHeading
-		}	
+		setAccordContentsAndHeadings(idList,dataSet)			
 	}
 	
 	function getTextAreas(idList){
