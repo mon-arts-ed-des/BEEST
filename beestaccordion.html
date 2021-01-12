@@ -72,6 +72,7 @@ var iconNames = {
 		/*REQUIRED FOR HISTORY*/
 		initHistory()
 		/*END REQUIRED FOR HISTORY*/
+		setupBackToTopButton()
 	});
 	/*REQUIRED FOR HISTORY*/
 	class drawer{
@@ -199,7 +200,7 @@ var iconNames = {
 			
 			var headingHTML="<span id=\""+idBlock+"\"><div class=\"row w-100\"><div class=\"col-lg\"><h6>Heading "+num+"</h6><textarea maxlength=\"75\" class=\"border border-dark rounded p-2 w-100 mx-auto\" rows=\"1\" placeholder=\"Input the heading for drawer "+num+" here\" id=\""+idHead+"\" onchange=generateElementCode()></textarea></div></div>"
 			
-			var contentHTML = "<div class=\"row w-100 mt-2\"><div class=\"col-lg\"><h6>Content "+num+"</h6><textarea id=\""+idTiny+"\"class=\"border border-dark rounded p-2 w-100\" rows=\"3\" name=\""+idCont+"\" placeholder=\"Write the content for drawer "+num+" here\" onchange=generateElementCode()></textarea></div></div></span><hr>"
+			var contentHTML = "<div class=\"row w-100 mt-2\"><div class=\"col-lg\"><h6>Content "+num+"</h6><textarea id=\""+idTiny+"\"class=\"border border-dark rounded p-2 w-100\" rows=\"3\" name=\""+idCont+"\" placeholder=\"Write the content for drawer "+num+" here\" onchange=generateElementCode()></textarea></div></div><hr></span>"
 			
 			return {
 				IDHead: idHead,
@@ -234,47 +235,13 @@ var iconNames = {
 				removeSection()
 			}
 		}
-		updatePageCounter(COUNTER_ID,revisedCount)
+		updatePageCounter(revisedCount)
 	}
 	
-	function updatePageCounter(ID,currCounter){
-		document.getElementById(ID).value = currCounter;
+	function updatePageCounter(currCounter){
+		document.getElementById(COUNTER_ID).value = currCounter;
 	}
 
-	 
-  function iconpreview() {
-        var faIcon = document.getElementById('faCode').value;
-
-        var iconName = iconNames[faIcon];
-	     	var faIconCode = "<i id=\"icon\" class=\"fa fa-"+iconName+"\"></i> ";
-		
-        if (faIcon == "noI"){
-          faIconCode = "";
-          if (document.getElementById("icon"))
-           {
-            var icon = document.getElementById("icon");
-            icon.parentNode.removeChild(icon);
-            var iconpreview = document.getElementById("iconpreview");
-            iconpreview.style.display = "none";
-           }
-        }
-
-        else{
-          if (document.getElementById("icon"))
-          {
-            var icon = document.getElementById("icon");
-            icon.parentNode.removeChild(icon);
-          }
-
-          var code = document.createElement("span");
-          code.innerHTML = faIconCode;
-          var iconpreview = document.getElementById("iconpreview");
-          iconpreview.style.display = "block";
-          iconpreview.parentNode.insertBefore(code,iconpreview.nextSibling);
-        }
-        generateElementCode();
-      }
-	  
 	function addSection(live){
 	/*
 	use the template to construct a new one (or show existing)
@@ -301,7 +268,7 @@ var iconNames = {
 			var accordAppear = classAccord.getLastDrawer()
 			showHTML(accordAppear.IDBlock)
 		}
-		updatePageCounter(COUNTER_ID,classAccord.usableDrawers)
+		updatePageCounter(classAccord.usableDrawers)
 		
 		if (classAccord.usableDrawers > absoluteMinAccord)
 		{
@@ -358,7 +325,7 @@ function resetAddRemoveButtonDisplay(){
 		hideHTML(accordAppear.IDBlock)
 	
 		classAccord.removeDrawer()
-		updatePageCounter(COUNTER_ID,classAccord.usableDrawers)
+		updatePageCounter(classAccord.usableDrawers)
 		if (classAccord.usableDrawers > absoluteMinAccord){
 			
 			monAcc_1_opt.pop() //remove the last 1a
@@ -622,24 +589,22 @@ function recoverCode(){
 	var monAccBtnTxt = [];
 	var monAccContent = [];
 
-    </script>
-    <script>
-      $(document).ready(function(){
+function setupBackToTopButton(){
 	$(window).scroll(function () {
-			if ($(this).scrollTop() > 50) {
-				$('#back-to-top').fadeIn();
-			} else {
-				$('#back-to-top').fadeOut();
-			}
-		});
-		// scroll body to 0px on click
-		$('#back-to-top').click(function () {
-			$('body,html').animate({
-				scrollTop: 0
-			}, 400);
-			return false;
-		});
-});
+		if ($(this).scrollTop() > 50) {
+			$('#back-to-top').fadeIn();
+		} else {
+			$('#back-to-top').fadeOut();
+		}
+	});
+	// scroll body to 0px on click
+	$('#back-to-top').click(function () {
+		$('body,html').animate({
+			scrollTop: 0
+		}, 400);
+		return false;
+	});
+}
     </script>
     <style>
         .mce-notification-inner, .mce-close, .mce-notification-warning {
