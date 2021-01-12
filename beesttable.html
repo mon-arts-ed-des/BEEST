@@ -60,93 +60,93 @@
 		"15":"exclamation-circle"
 	}
 /*END REQUIRED FOR HISTORY*/ 	
-	$(document).ready(function(){
-		setupGoogleAnalytics()
-		setupNav()
-		setupToolTips() 
-		//wipeHTML("editTable")
-		basicTinyMCEWithID(pasteTable,{"change":writeTableExcelPaste,"init":function(){tablePasterIsTiny = true;},"input":writeTableExcelPaste},"paste your spreadsheet data here")
-		/*makeTinyWithID("editTable",generateTableCode, function(){
-			generateEditableTable("editTable",currRow,currCol,false)
-		})*/
-		//generateEditableTable("editTable",currRow,currCol,true)
-		default_XRadio_onEmpty_Y("tableMainHeading","headSize","noH","headSize2",generateTableCode)
-		/*REQUIRED FOR HISTORY*/   
-		initHistory()
-		/*END REQUIRED FOR HISTORY*/
-		classTable = new table()   		
-	})
+$(document).ready(function(){
+	setupGoogleAnalytics()
+	setupNav()
+	setupToolTips() 
+	//wipeHTML("editTable")
+	basicTinyMCEWithID(pasteTable,{"change":writeTableExcelPaste,"init":function(){tablePasterIsTiny = true;},"input":writeTableExcelPaste},"paste your spreadsheet data here")
+	/*makeTinyWithID("editTable",generateTableCode, function(){
+		generateEditableTable("editTable",currRow,currCol,false)
+	})*/
+	//generateEditableTable("editTable",currRow,currCol,true)
+	default_XRadio_onEmpty_Y("tableMainHeading","headSize","noH","headSize2",generateTableCode)
+	/*REQUIRED FOR HISTORY*/   
+	initHistory()
+	/*END REQUIRED FOR HISTORY*/
+	classTable = new table()   		
+})
 
 /*REQUIRED FOR HISTORY*/  	
-	class table{
-		constructor(mainHeading, icon, headSize, tableData){
-			this.mainHead = mainHeading
-			this.icon = icon
-			this.headSize = headSize
-			this.tableData = tableData
-		}
-		tableCopy(table){
-			var tmpTable = [[]]
-			while (tmpTable.length < table.length){
-				tmpTable.push([])
-			}
-			for (var row=0;row < table.length; row++){
-				while (tmpTable[row].length < table[row].length){
-					tmpTable[row].push("")
-				}
-				for (var col=0;col < table[row].length; col++){
-					tmpTable[row][col] = table[row][col]
-				}
-			}
-			return tmpTable
-		}
-		toPDO(){
-			var result = {}
-			result.mainHead = this.mainHead
-			result.icon = this.icon
-			result.headSize = this.headSize
-			result.tableData = this.tableCopy(this.tableData)
-			return result
-		}	
-		toString(){
-			return JSON.stringify(this.toPDO())
-		}
-		fromObj(PDO){
-			this.tableData = this.tableCopy(PDO.tableData)
-			this.mainHead = PDO.mainHead
-			this.icon = PDO.icon
-			this.headSize = PDO.headSize
-		}
+class table{
+	constructor(mainHeading, icon, headSize, tableData){
+		this.mainHead = mainHeading
+		this.icon = icon
+		this.headSize = headSize
+		this.tableData = tableData
 	}
+	tableCopy(table){
+		var tmpTable = [[]]
+		while (tmpTable.length < table.length){
+			tmpTable.push([])
+		}
+		for (var row=0;row < table.length; row++){
+			while (tmpTable[row].length < table[row].length){
+				tmpTable[row].push("")
+			}
+			for (var col=0;col < table[row].length; col++){
+				tmpTable[row][col] = table[row][col]
+			}
+		}
+		return tmpTable
+	}
+	toPDO(){
+		var result = {}
+		result.mainHead = this.mainHead
+		result.icon = this.icon
+		result.headSize = this.headSize
+		result.tableData = this.tableCopy(this.tableData)
+		return result
+	}	
+	toString(){
+		return JSON.stringify(this.toPDO())
+	}
+	fromObj(PDO){
+		this.tableData = this.tableCopy(PDO.tableData)
+		this.mainHead = PDO.mainHead
+		this.icon = PDO.icon
+		this.headSize = PDO.headSize
+	}
+}
 /*END REQUIRED FOR HISTORY*/
 
-	const tableBody = "TABLE_BODY"
-	const baseRowID = "ROW"
-	const baseCellID = "CELL" //format for a cell is baseCellID+row+"-"+col
-	const previewMode = false;
-	
-	var editableTableHTML = [[]]
-	
-	var tableContents = [
-		[]
-	] 	
-		function newTextField(placeholder,id){
-			return "<textarea id=\""+id+"\" placeholder=\""+placeholder+"\" class=\"border border-dark rounded p-2 w-100\" cols=\"70\" rows=\"1\" name=\""+id+"\" onchange=generateTableCode()></textarea>"
-		}
-	
-		function newCellCode(rowNum,colNum,contents){
-			var cellCode = ""
-			if (rowNum==0){
-				cellCode = "<th scope=\"col\">"+contents+"</th>"
-			}
-			else if (colNum==0){
-				cellCode = "<th scope=\"row\">"+contents+"</th>"
-			}
-			else{
-				cellCode = "<td>"+contents+"</td>"
-			}
-			return cellCode
-		}
+const tableBody = "TABLE_BODY"
+const baseRowID = "ROW"
+const baseCellID = "CELL" //format for a cell is baseCellID+row+"-"+col
+const previewMode = false;
+
+var editableTableHTML = [[]]
+
+var tableContents = [
+	[]
+] 	
+function newTextField(placeholder,id){
+	return "<textarea id=\""+id+"\" placeholder=\""+placeholder+"\" class=\"border border-dark rounded p-2 w-100\" cols=\"70\" rows=\"1\" name=\""+id+"\" onchange=generateTableCode()></textarea>"
+}
+
+function newCellCode(rowNum,colNum,contents){
+	var cellCode = ""
+	if (rowNum==0){
+		cellCode = "<th scope=\"col\">"+contents+"</th>"
+	}
+	else if (colNum==0){
+		cellCode = "<th scope=\"row\">"+contents+"</th>"
+	}
+	else{
+		cellCode = "<td>"+contents+"</td>"
+	}
+	return cellCode
+}
 
 function tabSepDataToArray(tsv){
 	allLines = tsv.match(/[^\n]+/g)
@@ -218,123 +218,123 @@ function writeTableExcelPaste(){
 	generateTableCode()
 }
 		
-		function newRowCode(rowNum,contentsArray){
-		/*
-		length of contents array must match column count for the row
-		*/
-			var rowCode = "<tr id=\""+baseRowID+rowNum+"\">"
-			var thisCell;
-			var cellContent;
-			
-			for (var colN = 0; colN < contentsArray.length; colN++){
-				cellContent = contentsArray[colN]
-				thisCell = newCellCode(rowNum,colN,cellContent)
-				rowCode += thisCell
-			}
-			rowCode += "</tr>"
-			
-			return rowCode
-		}
-		
-		function newTableCode(contentsArray){
-		/*
-		format should be [[r0c0,r0c1,r0c2,...],[r1c0,r1c1,c1c2,...],...]
-		*/
-			var tableCode = "<table class=\"table table-bordered table-hover table-striped table-responsive-lg border border-dark\">"
-
-			for (var rowN=0;rowN<contentsArray.length;rowN++){
-				switch(rowN){
-					case 0:
-						tableCode += "<thead class=\"thead-dark h5\">"
-						break;
-					case 1:
-						tableCode += "</thead><tbody id=\""+tableBody+"\">"
-						break;
-				}
-
-				tableCode += newRowCode(rowN,contentsArray[rowN])
-				
-			}
-			
-			tableCode += "</tbody></table>"
-			
-			return tableCode
-		}
-		
-		function getCellContents(row,col){
-			return getCell(row,col).value
-		}
-		function getCell(row,col){
-			return document.getElementById(cellID(row,col))
-		}
-		function cellID(row,col){return baseCellID+row+"-"+col}
-		
-		
-		function rowHTMLtoRowElem(rowHTML){
-			var elem = document.createElement("tr")
-			var tagCont = rowHTML.replace(/">.*/,"")
-			tagCont = tagCont.replace(/<.*?"/,"")
-			elem.id = tagCont
-			elem.innerHTML = rowHTML.replace(/(<tr.*?>)|(<.tr>)/,"")
-			return elem
-		}
-		
-		function newCellAsDOMElem(cellCode){
-			/*
-			might start with a th OR a td
-			td doesn't matter but th has the scope to watch for
-			*/
-			var tag = cellCode.replace(/">.*</,"><")
-			var elem;
-			switch(tag[1]+tag[2]){
-				case "td":
-					elem = document.createElement("td")
-					break;
-				case "th":
-					elem = document.createElement("th")
-					var scope = tag.replace(/<th.*?"/,"").replace(/>.*/,"")
-					elem.scope = scope
-					break;
-				default:
-					alert("cell replacer encountered a non cell item")
-			}
-			var tagContents = cellCode.replace(/<t[dh].*?>/,"").replace(/<.t[dh].*?>/,"")
-			elem.innerHTML = tagContents
-			return elem
-		}
-		
-		function addColToRowsHTML(rowsList,colNum){
-			var placeholder;
-			var newColContent;
-			for (var rNum=0;rNum < rowsList.length; rNum++){
-				placeholder = "Input your row contents"
-				if (rNum==0){placeholder = "Input your table heading"}
-				newColContent = newTextField(placeholder,baseCellID+rNum+"-"+colNum)
-				rowsList[rNum].appendChild(
-					newCellAsDOMElem(
-						newCellCode(rNum,colNum,newColContent)
-					)
-				)
-				editableTableHTML[rNum][colNum]=newColContent //keep it available for later
-			}
-		}
+function newRowCode(rowNum,contentsArray){
+/*
+length of contents array must match column count for the row
+*/
+	var rowCode = "<tr id=\""+baseRowID+rowNum+"\">"
+	var thisCell;
+	var cellContent;
 	
-	function getTableContentsFromPage(){
-		if (typeof(classTable.tableData)=="undefined"){
-			return [["Lorem ipsum dolor sit amet","consectetur adipiscing elit","sed do eiusmod tempor incididunt"],["ut labore et dolore magna aliqua"," Ut enim ad minim veniam","quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"],["Duis aute irure dolor in reprehenderit in voluptate","velit esse cillum dolore eu fugiat nulla pariatur","<p style='color:#ff0000;'><i><b>your own data will replace this</b></i></p>"]]
+	for (var colN = 0; colN < contentsArray.length; colN++){
+		cellContent = contentsArray[colN]
+		thisCell = newCellCode(rowNum,colN,cellContent)
+		rowCode += thisCell
+	}
+	rowCode += "</tr>"
+	
+	return rowCode
+}
+
+function newTableCode(contentsArray){
+/*
+format should be [[r0c0,r0c1,r0c2,...],[r1c0,r1c1,c1c2,...],...]
+*/
+	var tableCode = "<table class=\"table table-bordered table-hover table-striped table-responsive-lg border border-dark\">"
+
+	for (var rowN=0;rowN<contentsArray.length;rowN++){
+		switch(rowN){
+			case 0:
+				tableCode += "<thead class=\"thead-dark h5\">"
+				break;
+			case 1:
+				tableCode += "</thead><tbody id=\""+tableBody+"\">"
+				break;
 		}
-		else{
-			return classTable.tableData
-		}
+
+		tableCode += newRowCode(rowN,contentsArray[rowN])
+		
 	}
 	
+	tableCode += "</tbody></table>"
+	
+	return tableCode
+}
 
-	function copyCode(){
-		/*REQUIRED FOR HISTORY*/	  
-		addToHistory(classTable)
-		/*END REQUIRED FOR HISTORY*/
-		SelectAll("txtareaBtn");
-    }
+function getCellContents(row,col){
+	return getCell(row,col).value
+}
+function getCell(row,col){
+	return document.getElementById(cellID(row,col))
+}
+function cellID(row,col){return baseCellID+row+"-"+col}
+
+
+function rowHTMLtoRowElem(rowHTML){
+	var elem = document.createElement("tr")
+	var tagCont = rowHTML.replace(/">.*/,"")
+	tagCont = tagCont.replace(/<.*?"/,"")
+	elem.id = tagCont
+	elem.innerHTML = rowHTML.replace(/(<tr.*?>)|(<.tr>)/,"")
+	return elem
+}
+
+function newCellAsDOMElem(cellCode){
+	/*
+	might start with a th OR a td
+	td doesn't matter but th has the scope to watch for
+	*/
+	var tag = cellCode.replace(/">.*</,"><")
+	var elem;
+	switch(tag[1]+tag[2]){
+		case "td":
+			elem = document.createElement("td")
+			break;
+		case "th":
+			elem = document.createElement("th")
+			var scope = tag.replace(/<th.*?"/,"").replace(/>.*/,"")
+			elem.scope = scope
+			break;
+		default:
+			alert("cell replacer encountered a non cell item")
+	}
+	var tagContents = cellCode.replace(/<t[dh].*?>/,"").replace(/<.t[dh].*?>/,"")
+	elem.innerHTML = tagContents
+	return elem
+}
+
+function addColToRowsHTML(rowsList,colNum){
+	var placeholder;
+	var newColContent;
+	for (var rNum=0;rNum < rowsList.length; rNum++){
+		placeholder = "Input your row contents"
+		if (rNum==0){placeholder = "Input your table heading"}
+		newColContent = newTextField(placeholder,baseCellID+rNum+"-"+colNum)
+		rowsList[rNum].appendChild(
+			newCellAsDOMElem(
+				newCellCode(rNum,colNum,newColContent)
+			)
+		)
+		editableTableHTML[rNum][colNum]=newColContent //keep it available for later
+	}
+}
+	
+function getTableContentsFromPage(){
+	if (typeof(classTable.tableData)=="undefined"){
+		return [["Lorem ipsum dolor sit amet","consectetur adipiscing elit","sed do eiusmod tempor incididunt"],["ut labore et dolore magna aliqua"," Ut enim ad minim veniam","quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"],["Duis aute irure dolor in reprehenderit in voluptate","velit esse cillum dolore eu fugiat nulla pariatur","<p style='color:#ff0000;'><i><b>your own data will replace this</b></i></p>"]]
+	}
+	else{
+		return classTable.tableData
+	}
+}
+
+
+function copyCode(){
+	/*REQUIRED FOR HISTORY*/	  
+	addToHistory(classTable)
+	/*END REQUIRED FOR HISTORY*/
+	SelectAll("txtareaBtn");
+}
 	
 	/*REQUIRED FOR HISTORY*/
 function setTextAreas(classData){
@@ -389,70 +389,70 @@ function generateHeading(classTable){
 }
 /*END helper functions for generateTableCode*/
 
-    function generateTableCode() {
-	  
-		tableContents = getTableContentsFromPage()
-	
-		var tableMainHeading = document.getElementById('tableMainHeading').value;
-		var headSize = getRadioOption('headSize');
-		var faIcon = getRadioOption('faCode');
+function generateTableCode() {
+  
+	tableContents = getTableContentsFromPage()
 
-		classTable.tableData = tableContents		
-		classTable.mainHead = tableMainHeading
-		classTable.icon = faIcon
-		classTable.headSize = headSize		
-		
-		var resizedHead = generateHeading(classTable);
-	
-		var textOutputTable = newTableCode(tableContents)
-	    
-        document.getElementById('txtareaBtn').innerHTML= resizedHead+textOutputTable;
-        //SelectAll("txtareaBtn");
-        document.getElementById('demo').innerHTML = resizedHead+textOutputTable;
-		
-      }
+	var tableMainHeading = document.getElementById('tableMainHeading').value;
+	var headSize = getRadioOption('headSize');
+	var faIcon = getRadioOption('faCode');
 
-	function recoverCode(){
-		classTable = new table()
-		var pastedHTML = $("#retrieveCode").val()
-		
-		var dataToFind = {
-			tags:["table"]
-		}
-		
-		var iconHeading = getIconAndHeading(pastedHTML)
-		var iconClassName = iconHeading.iconName
-		var headSize = iconHeading.headSize
-		var headText = iconHeading.headText
-		
-		var recoveredData = recoverFromPasted(pastedHTML,dataToFind)
-		
-		classTable.headSize = headSize //sets to noH or h3/4/5 as appropriate
-		classTable.mainHead = headText
-		
-		var iconNums = reverseObjectMap(iconNames)
-		classTable.icon = iconNums[iconClassName]
-		
-		classTable.tableData = tableHTML_toArray(recoveredData.tags.table[0].outerHTML)
-				
-		setTextAreas(classTable)
+	classTable.tableData = tableContents		
+	classTable.mainHead = tableMainHeading
+	classTable.icon = faIcon
+	classTable.headSize = headSize		
+	
+	var resizedHead = generateHeading(classTable);
+
+	var textOutputTable = newTableCode(tableContents)
+	
+	document.getElementById('txtareaBtn').innerHTML= resizedHead+textOutputTable;
+	//SelectAll("txtareaBtn");
+	document.getElementById('demo').innerHTML = resizedHead+textOutputTable;
+	
+  }
+
+function recoverCode(){
+	classTable = new table()
+	var pastedHTML = $("#retrieveCode").val()
+	
+	var dataToFind = {
+		tags:["table"]
 	}
-
-    function SelectAll(id){
-        document.getElementById(id).focus();
-        document.getElementById(id).select();
-        document.execCommand("copy");
-        //window.alert('test');
-        var popup = document.getElementById("myPopup");
-        popup.classList.toggle("showPopup");
-    }
 	
-    function submitform()
-    {
-        document.forms["myform"].submit();
-    }
-    $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
+	var iconHeading = getIconAndHeading(pastedHTML)
+	var iconClassName = iconHeading.iconName
+	var headSize = iconHeading.headSize
+	var headText = iconHeading.headText
+	
+	var recoveredData = recoverFromPasted(pastedHTML,dataToFind)
+	
+	classTable.headSize = headSize //sets to noH or h3/4/5 as appropriate
+	classTable.mainHead = headText
+	
+	var iconNums = reverseObjectMap(iconNames)
+	classTable.icon = iconNums[iconClassName]
+	
+	classTable.tableData = tableHTML_toArray(recoveredData.tags.table[0].outerHTML)
+			
+	setTextAreas(classTable)
+}
+
+function SelectAll(id){
+	document.getElementById(id).focus();
+	document.getElementById(id).select();
+	document.execCommand("copy");
+	//window.alert('test');
+	var popup = document.getElementById("myPopup");
+	popup.classList.toggle("showPopup");
+}
+
+function submitform()
+{
+	document.forms["myform"].submit();
+}
+$(function () {
+	$('[data-toggle="tooltip"]').tooltip()
 })
 
 	</script>
