@@ -131,6 +131,7 @@ $(document).ready(function() { //create the tinyMCE areas after the first
 });
 /*BEGIN helper functions for generateElementCode*/
 function generateIconTag(faIcon){
+/**Based on the faIcon number (as per page) it will generate an i tag that matches**/
 	//icon names moved to top
 	var iconName;
 	var faIconCode;
@@ -144,6 +145,7 @@ function generateIconTag(faIcon){
 	return faIconCode
 }
 function changeWidthOfDemo(bsBtnWidth){
+/*given one of 50/75/100 widths, this revises the demo's width to match*/
 	widths = {
 		"50":["75","100"],
 		"75":["50","100"],
@@ -155,6 +157,7 @@ function changeWidthOfDemo(bsBtnWidth){
 	$('#buttonSize .btn').removeClass('w-'+widths[bsBtnWidth][1]);
 }
 function mapButtonsToColours(buttonIds,colourNames){
+/*takes the button ids in order matching the colours and maps the ids to the colour names*/
 	var nameMapping = {}
 	for (var id_i = 1; id_i<buttonIds.length; id_i++){
 		nameMapping[buttonIds[id_i]] = colourNames[id_i+""]
@@ -163,6 +166,7 @@ function mapButtonsToColours(buttonIds,colourNames){
 	return nameMapping
 }
 function invertButtonColours(inverted){
+/*flips the button states to base colour or inverted based on whether inverted=="y"*/
 	btnColClassAdd = ((inverted == "y") ? "y" : "")
 	btnColClassRem = ((inverted == "y") ? "" : "y")
 	

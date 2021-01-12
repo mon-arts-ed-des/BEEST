@@ -120,17 +120,6 @@
 	}
 /*END REQUIRED FOR HISTORY*/
 
-/*
-	var rowsWithData = 3
-	var colsWithData = 3
-	var currRow = 3
-	var currCol = 3
-	//Can we make these minimums?
-	// const absoluteMinRow = 3;
-	// const absoluteMinCol = 2;
-	const absoluteMaxRow = 15;
-	const absoluteMaxCol = 6;
-	*/
 	const tableBody = "TABLE_BODY"
 	const baseRowID = "ROW"
 	const baseCellID = "CELL" //format for a cell is baseCellID+row+"-"+col
@@ -140,51 +129,7 @@
 	
 	var tableContents = [
 		[]
-	] //empty 2d array
-	/*
-		function wipeHTML(idToWipe){
-			document.getElementById(idToWipe).innerHTML = ""
-		}*/
-	/*
-		function newEditTableRow(rowN,maxCols){
-			var theRow = []
-			
-			for (var colN=0;colN<maxCols;colN++){
-				if (theRow.length<=colN){
-					theRow.push("")
-				}
-				placeholder = "Input your row contents"
-				if (rowN==0){
-					placeholder = "Input your table heading"
-				}
-				else if (colN==0){
-					placeholder = "Input your bolded row contents"
-				}
-				theRow[colN] = newTextField(placeholder,baseCellID+rowN+"-"+colN)
-			}
-			return theRow
-		}*/
-	/*
-		function generateEditableTable(idToPlaceIn,maxRows,maxCols,plainText){
-			//create the editable table on the page to write into
-			var placeholder="";
-			for (var rowN=0;rowN<maxRows;rowN++){
-				if (editableTableHTML.length<=rowN){
-					editableTableHTML.push([])
-				}
-				for (var colN=0;colN<maxCols;colN++){
-					editableTableHTML[rowN] = newEditTableRow(rowN,maxCols)
-				}
-			}
-			var tableHTML = newTableCode(editableTableHTML)
-			if (plainText){
-				document.getElementById(idToPlaceIn).innerHTML = tableHTML
-			}
-			else{
-				setTinyContent(idToPlaceIn,tableHTML)
-			}
-		}*/
-	
+	] 	
 		function newTextField(placeholder,id){
 			return "<textarea id=\""+id+"\" placeholder=\""+placeholder+"\" class=\"border border-dark rounded p-2 w-100\" cols=\"70\" rows=\"1\" name=\""+id+"\" onchange=generateTableCode()></textarea>"
 		}
@@ -323,35 +268,7 @@ function writeTableExcelPaste(){
 			return document.getElementById(cellID(row,col))
 		}
 		function cellID(row,col){return baseCellID+row+"-"+col}
-		/*
-		function removeRow(){
-			//will remove the nth row from the page (and generated code) where n = currRow global value
-			if (currRow > 1){
-				currRow -= 1; //so now this row won't be included in generated code
-				
-				hideHTML(baseRowID+currRow) //row disappears in html page
-				
-				if (currRow == 1){
-					hideButton("minusbutton")
-				}
-				if (currRow < absoluteMaxRow){
-					showButton("plusbutton")
-				}
-			}
-			else{
-				alert("cannot delete only remaining row")
-			}
-			generateTableCode();
-		}*/
-		/*
-		function resetColDisplay(rowNum,colsToDisplay,maxCols){
-			for (var colN=0; colN < colsToDisplay; colN++){
-				showHTML(cellID(rowNum,colN))
-			}
-			for (colN=colsToDisplay; colN < maxCols; colN++){
-				hideHTML(cellID(rowNum,colN))
-			}
-		}*/
+		
 		
 		function rowHTMLtoRowElem(rowHTML){
 			var elem = document.createElement("tr")
@@ -361,90 +278,6 @@ function writeTableExcelPaste(){
 			elem.innerHTML = rowHTML.replace(/(<tr.*?>)|(<.tr>)/,"")
 			return elem
 		}
-		/*
-		function addRow(){
-			if (currRow < absoluteMaxRow){
-				if (currRow < rowsWithData){
-					showHTML(baseRowID+currRow)
-				}
-				else{
-					//if no row yet exists
-					
-					//is there a body?
-					tableBodyTag = document.getElementById(tableBody)
-					if (tableBodyTag!=null){
-						var rowContents = newEditTableRow(currRow,colsWithData)
-						var theRow = newRowCode(currRow,rowContents)
-						theRow = rowHTMLtoRowElem(theRow)
-						tableBodyTag.appendChild(theRow)
-						
-						resetColDisplay(currRow,currCol,colsWithData)
-						
-						editableTableHTML.push(rowContents) // save it for direct access
-						rowsWithData++
-					}
-					else{
-						//is there only a head?
-						alert("no table body found to add to -- please click the feedback/improvements/issues button and let us know what happened")
-					}
-				}
-				resetColDisplay(currRow,currCol,colsWithData)
-				currRow++
-				if (currRow == absoluteMaxRow){
-					hideButton("plusbutton")
-				}
-				if (currRow > 1){
-					showButton("minusbutton")
-				}
-			}
-			else{
-				alert("too many rows -- consider the amount of information you are displaying")
-			}
-			generateTableCode();
-		}*/
-		
-		/*
-		function addCol(){
-			if (currCol < absoluteMaxCol){
-				if (currCol < colsWithData){
-					showColHTML(currRow,currCol)
-				}
-				else{
-					//if no col yet exists
-					
-					//get all **existing** rows
-					var rowList = []
-					var thisRow = null;
-					for (var rNum=0; rNum < rowsWithData; rNum++){
-						thisRow = document.getElementById(baseRowID+rNum)
-						if (thisRow!=null){ //if we found the row...
-							rowList.push(thisRow) //add to a list of row objects from page
-						}
-					}
-					if (rowList.length>0)
-					{
-						//now make the cols on the page
-						addColToRowsHTML(rowList,currCol)
-						colsWithData++
-					}
-					else{
-						alert("no rows found to add to -- please click the feedback/improvements/issues button and let us know what happened")
-					}
-									
-				}
-				currCol++
-				if (currCol == absoluteMaxCol){
-					hideButton("pluscolbutton")
-				}
-				if (currCol > 1){
-					showButton("minuscolbutton")
-				}
-			}
-			else{
-				alert("too many cols -- consider the amount of information you are displaying")
-			}
-			generateTableCode();
-		}*/
 		
 		function newCellAsDOMElem(cellCode){
 			/*
@@ -485,40 +318,6 @@ function writeTableExcelPaste(){
 				editableTableHTML[rNum][colNum]=newColContent //keep it available for later
 			}
 		}
-
-		
-		/*
-		function showColHTML(maxRows,colNumber){
-			for (var rNum=0;rNum < maxRows; rNum++){
-				showHTML(cellID(rNum,colNumber))
-			}
-		}*/
-		/*
-		function hideColHTML(maxRows,colNumber){
-			for (var rNum=0;rNum < maxRows; rNum++){
-				hideHTML(cellID(rNum,colNumber))
-			}
-		}*/
-		/*
-		function removeCol(){
-			if (currCol > 1){
-				currCol -= 1
-				
-				hideColHTML(currRow,currCol)
-				
-				if (currCol == 1){
-					hideButton("minuscolbutton")
-				}
-				if (currCol < absoluteMaxRow){
-					showButton("pluscolbutton")
-				}
-			}
-			else{
-				alert("cannot delete only remaining column")
-			}
-			generateTableCode();
-		}
-		*/
 	
 	function getTableContentsFromPage(){
 		if (typeof(classTable.tableData)=="undefined"){
@@ -527,20 +326,6 @@ function writeTableExcelPaste(){
 		else{
 			return classTable.tableData
 		}
-		/*var the_table = [[]]
-		for (var rowN=0;rowN<maxRow;rowN++){
-			if (the_table.length<=rowN){
-				the_table.push([])
-			}
-			for (var colN=0;colN<maxCol;colN++){
-				if (the_table[rowN].length<=colN){
-					the_table[rowN].push("")
-				}
-				the_table[rowN][colN] = getCellContents(rowN,colN)
-			}
-		}
-		return the_table
-		*/
 	}
 	
 
@@ -555,25 +340,6 @@ function writeTableExcelPaste(){
 function setTextAreas(classData){
 	
 	var theTable = classData.tableData
-	/*
-	not necessary when using a single text area for the table editing
-	while (currCol < theTable[0].length){
-		addCol()
-	}
-	while (currCol > theTable[0].length){
-		removeCol()
-	}
-	while (currRow < theTable.length){
-		addRow()
-	}
-	while (currRow > theTable.length){
-		removeRow()
-	}
-	for (var row = 0; row < theTable.length; row++){
-		for (var col = 0; col < theTable[row].length; col++){
-			getCell(row,col).innerHTML = theTable[row][col]
-		}
-	}*/
 		
 	var dataSet = {
 		"tableMainHeading":{type:'basic',value:classData.mainHead},
@@ -598,6 +364,31 @@ function getHistoryI(index,history){
 }
 /*END REQUIRED FOR HISTORY*/
 
+/*START helper functions for generateTableCode*/
+function generateIconTag(iconNum){
+	var faIconCode = "";
+	if (iconNum !== "noI"){
+		//iconNames object can be found at top of file
+		faIconCode = "<i class=\"fa fa-"+iconNames[iconNum]+"\"></i> ";
+	}
+	return faIconCode
+}
+
+function generateHeading(classTable){
+	var faIconCode = generateIconTag(classTable.icon)
+	var resizedHead = "";
+	if (classTable.mainHead!= ""){
+		var resizedHead = ""
+		//Resizing the heading text
+		if (classTable.headSize !== "noH"){
+			var sizes = {"h3":3,"h4":4,"h5":5}
+			resizedHead = '<h'+sizes[classTable.headSize]+'>'+faIconCode+classTable.mainHead+"</h"+sizes[classTable.headSize]+">"
+		}
+	}
+	return resizedHead
+}
+/*END helper functions for generateTableCode*/
+
     function generateTableCode() {
 	  
 		tableContents = getTableContentsFromPage()
@@ -609,32 +400,9 @@ function getHistoryI(index,history){
 		classTable.tableData = tableContents		
 		classTable.mainHead = tableMainHeading
 		classTable.icon = faIcon
-		classTable.headSize = headSize
+		classTable.headSize = headSize		
 		
-		//iconNames object can be found at top of file
-		
-        var iconName = iconNames[faIcon];
-		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
-		
-        if (faIcon == "noI"){
-          faIconCode = "";
-        }
-		
-		var resizedHead;
-
-		if(tableMainHeading == ""){
-          resizedHead = "";
-		}
-		else{
-        //Resizing the heading text
-			var resizedHead
-			//Resizing the heading text
-			if (headSize == "noH"){resizedHead = ""}
-			else{
-				var sizes = {"h3":3,"h4":4,"h5":5}
-				resizedHead = '<h'+sizes[headSize]+'>'+faIconCode+tableMainHeading+"</h"+sizes[headSize]+">"
-			}
-		}
+		var resizedHead = generateHeading(classTable);
 	
 		var textOutputTable = newTableCode(tableContents)
 	    
