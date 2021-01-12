@@ -273,21 +273,7 @@ var iconNames = {
 			showHTML(accordAppear.IDBlock)
 		}
 		updatePageCounter(classAccord.usableDrawers)
-		
-		if (classAccord.usableDrawers > absoluteMinAccord)
-		{
-			monAcc_1_opt.push(monAcc_1a) //add another 1a
-			
-			monAcc_8_opt.pop() //remove the 8b and add it after another 8a
-			monAcc_8_opt.push(monAcc_8a)
-			monAcc_8_opt.push(monAcc_8b)
-		}
-		
-		else{
-			monAcc_1_opt = [monAcc_1,monAcc_1a,monAcc_1a];
-			monAcc_8_opt = [monAcc_8,monAcc_8a,monAcc_8b];
-		}
-		
+				
 		resetAddRemoveButtonDisplay()
     generateElementCode();
 	if ((live!=undefined)&&(live)){
@@ -329,16 +315,7 @@ function resetAddRemoveButtonDisplay(){
 		hideHTML(accordAppear.IDBlock)
 	
 		classAccord.removeDrawer()
-		updatePageCounter(classAccord.usableDrawers)
-		if (classAccord.usableDrawers > absoluteMinAccord){
-			
-			monAcc_1_opt.pop() //remove the last 1a
-			
-			monAcc_8_opt.pop() //remove the 8b and 8a before it and add the 8b back in after
-			monAcc_8_opt.pop()
-			monAcc_8_opt.push(monAcc_8b)
-		}
-		
+		updatePageCounter(classAccord.usableDrawers)		
 		
 		resetAddRemoveButtonDisplay()
     generateElementCode();
@@ -432,7 +409,64 @@ function setAccordContentsAndHeadings(idList,dataSet){
 			}
 		}
 	}
+/*START helper functions for generate Element code*/	
+function generateHeading(classAccord){
+	//icon names moved to top
+	var faIconCode = ""
+	if (classAccord.icon != "noI"){
+	  faIconCode = "<i class=\"fa fa-"+iconNames[classAccord.icon]+"\"></i> ";
+	}
+	var resizedHead=""
+	if (classAccord.headSize != "noH"){
+		var sizes = {"h3":3,"h4":4,"h5":5}
+		resizedHead = '<h'+sizes[classAccord.headSize]+'>'+faIconCode+classAccord.mainHead+"</h"+sizes[classAccord.headSize]+">"
+	}
+	return resizedHead
+}
+
+function generateAccordionHTML(classAccord,resizedHead,monAccBtnTxt,monAccContent){
+//generate a random string start to ensure no accordions mix each other up
+	var monAccOutput = resizedHead
 	
+	var randString = randomString(5)
+	
+	var numCode = null
+	var lastDr = classAccord.usableDrawers - 1
+	
+	changesByDrawer = {"beestAccUse":"","roundTop":"","showhide":"","roundBottom":"","roundNone":""}
+	
+	// loop over every accordion block
+	for (var secNum = 0; secNum < classAccord.usableDrawers; secNum++){
+		changesByDrawer.beestAccUse = ((secNum==0) ? " beestAcc" : "")
+		changesByDrawer.roundTop = ((secNum==0) ? " rounded-top " : " rounded-0 ")
+		changesByDrawer.showhide = ((secNum==0) ? "show " : "")
+		changesByDrawer.roundBottom = ((secNum==lastDr) ? " rounded-bottom " : "")
+		
+		numCode = randString+(1+secNum)
+		monAccOutput += "<div id=\"accordion" + randString
+		monAccOutput += "\" class=\"mt-0 w-100 mx-auto"+changesByDrawer.beestAccUse+"\"><div class=\"card border-0\"><div class=\""+changesByDrawer.roundTop+"headingStyle text-white card-header p-0\" id=\"head" + numCode
+		monAccOutput += "\" data-toggle=\"collapse\" data-target=\"#content" + numCode
+		monAccOutput += "\" aria-expanded=\"false\" aria-controls=\"content" + numCode
+		monAccOutput += "\"><h5 class=\"mb-0 text-center\"><button class=\"noUnderline text-white btn btn-link\" data-toggle=\"collapse\" data-target=\"#content" + numCode
+		monAccOutput += "\" aria-expanded=\"true\" aria-controls=\"content" + numCode
+		monAccOutput += "\"><span class=\"h5 text-white\">"
+		
+		monAccOutput += monAccBtnTxt[secNum]
+		
+		monAccOutput += "</span></button></h5></div><div id=\"content" + numCode
+		monAccOutput += "\" class=\"collapse "+changesByDrawer.showhide+"cardBodyBorder"+changesByDrawer.roundBottom+"\" aria-labelledby=\"head" + numCode
+		monAccOutput += "\" data-parent=\"#accordion" + randString + "\"><div class=\"card-body p-1\"><div class=\"m-1 p-1\"><div class=\"accDiv\">"
+		
+		monAccOutput += monAccContent[secNum]
+		monAccOutput += "</div></div></div></div></div>"
+	} 
+	
+	monAccOutput+="</div></div></div>"
+	
+	return monAccOutput
+}
+		
+/*END helper functions for generate Element code*/		
 	function generateElementCode() {
 		var IDs = accordListToIDs(classAccord.getAllDrawers())
 		var txtAreas = getTextAreas(IDs)
@@ -443,51 +477,12 @@ function setAccordContentsAndHeadings(idList,dataSet){
 		classAccord.headSize = getRadioOption('headSize')
 		classAccord.icon = getRadioOption('faCode')
 		
-		//icon names moved to top
-		
-        var iconName = iconNames[classAccord.icon];
-		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
-		
-        if (classAccord.icon == "noI"){
-          faIconCode = "";
-        }
-		
-		var resizedHead
+		var resizedHead = generateHeading(classAccord)
 			//Resizing the heading text
-			if (classAccord.headSize == "noH"){resizedHead = ""}
-			else{
-				var sizes = {"h3":3,"h4":4,"h5":5}
-				resizedHead = '<h'+sizes[classAccord.headSize]+'>'+faIconCode+classAccord.mainHead+"</h"+sizes[classAccord.headSize]+">"
-			}
-		
-		var monAccOutput = resizedHead;
-		
-		//generate a random string start to ensure no accordions mix each other up
-		var randString = randomString(5)
-		
-		var numCode = null
-		// loop over every accordion block
-		for (var secNum = 0; secNum < classAccord.usableDrawers; secNum++){
-			numCode = randString+(1+secNum)
-			monAccOutput += monAcc_0 + randString
-			monAccOutput += monAcc_1_opt[secNum] + numCode
-			monAccOutput += monAcc_2 + numCode
-			monAccOutput += monAcc_3 + numCode
-			monAccOutput += monAcc_4 + numCode
-			monAccOutput += monAcc_5 + numCode
-			monAccOutput += monAcc_6
 			
-			monAccOutput += monAccBtnTxt[secNum]
-			
-			monAccOutput += monAcc_7 + numCode
-			monAccOutput += monAcc_8_opt[secNum] + numCode
-			monAccOutput += monAcc_9 + randString + monAcc_9_pt2
-			
-			monAccOutput += monAccContent[secNum]
-			monAccOutput += monAcc_10
-		} 
 		
-		monAccOutput+=monAcc_Close
+		var monAccOutput = generateAccordionHTML(classAccord,resizedHead,monAccBtnTxt,monAccContent);	
+		
         document.getElementById('monAccCode').innerHTML=monAccStyle+monAccOutput;
         //SelectAll("monAccCode");
         $('#demo').nextAll('div.beestAcc, script, h3, h4, h5, i').remove();
@@ -569,26 +564,6 @@ function recoverCode(){
     monAcc = button to toggle extended text
     */
 	  var monAccStyle="<script>var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://mon-arts-ed-des.github.io/BEEST/css/accordionStyle.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
-    var monAcc_0 = "<div id=\"accordion"
-	var monAcc_1="\" class=\"mt-0 w-100 mx-auto beestAcc\"><div class=\"card border-0\"><div class=\"rounded-top headingStyle text-white card-header p-0\" id=\"head"
-    var monAcc_1a="\" class=\"mt-0 w-100 mx-auto\"><div class=\"card border-0\"><div class=\"headingStyle text-white card-header p-0\" id=\"head"
-    var monAcc_2="\" data-toggle=\"collapse\" data-target=\"#content"
-    var monAcc_3="\" aria-expanded=\"false\" aria-controls=\"content"
-    var monAcc_4="\"><h5 class=\"mb-0 text-center\"><button class=\"noUnderline text-white btn btn-link\" data-toggle=\"collapse\" data-target=\"#content"
-    var monAcc_5="\" aria-expanded=\"true\" aria-controls=\"content"
-    var monAcc_6="\"><span class=\"h5 text-white\">"
-    var monAcc_7="</span></button></h5></div><div id=\"content"
-
-    var monAcc_8="\" class=\"collapse show cardBodyBorder\" aria-labelledby=\"head"
-    var monAcc_8a="\" class=\"collapse cardBodyBorder\" aria-labelledby=\"head"
-    var monAcc_8b="\" class=\"collapse cardBodyBorder rounded-bottom\" aria-labelledby=\"head"
-    var monAcc_9="\" data-parent=\"#accordion"
-	var monAcc_9_pt2 = "\"><div class=\"card-body p-1\"><div class=\"m-1 p-1\"><div class=\"accDiv\">"
-    var monAcc_10="</div></div></div></div></div>"
-    var monAcc_Close="</div></div></div>"
-	
-	var monAcc_1_opt = [monAcc_1,monAcc_1a,monAcc_1a];
-	var monAcc_8_opt = [monAcc_8,monAcc_8a,monAcc_8b];
 	var monAccBtnTxt = [];
 	var monAccContent = [];
 
