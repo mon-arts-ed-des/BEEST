@@ -234,7 +234,7 @@ function constructResponsiveIFrame(respLink){
 		respVid += "allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen"
 	}
 	else{
-		respVid += "allowfullscreen=\"\"
+		respVid += "allowfullscreen=\"\""
 	}
 	respVid += " src=\""+respLink+"\"></iframe></div>"
 	return respVid
@@ -283,7 +283,7 @@ function constructIconTag(faIcon){
         var respVid=constructResponsiveIFrame(respLink)
 
 		var faIconCode = constructIconTag(faIcon)
-        var resizedHead = constructHeading(vidHeading,headSize,faIconCode
+        var resizedHead = constructHeading(vidHeading,headSize,faIconCode)
  
         //Change position of video and order of output
 		textOutput = updatePreview(resizedHead,vPosition,respVid,contextCode,vWidth)
