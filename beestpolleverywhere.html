@@ -41,14 +41,14 @@ var iconNames = {
 	"4":"thumbs-o-up",
 	"5":"hand-paper-o",
 	"6":"balance-scale",
-	"7":"question",
-	"8":"question-circle",
-	"9":"question-circle-o",
-	"10":"share",
-	"11":"share-alt",
-	"12":"bullhorn",
-	"13":"gavel",
-	"14":"exchange"
+	"7":"exchange",
+	"8":"bullhorn",
+	"9":"question",
+	"10":"question-circle",
+	"11":"question-circle-o",
+	"12":"share",
+	"13":"share-alt",
+	"14":"gavel"
 }    
 	
 	/*REQUIRED FOR HISTORY  */
@@ -118,10 +118,10 @@ function constructIconCode(faIcon){
 	//iconNames moved to top
 	var iconName = iconNames[faIcon];
 	var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
-	
 	if (faIcon == "none"){
 	  faIconCode = "";
 	}
+	return faIconCode
 }
 
 function reviseDemo(pollEv_URL, frameHeight, headSize, pollHeading, resizedHead, contextCode){
@@ -508,28 +508,28 @@ function getHistoryI(index,history){
                   <div class="row w-100 mt-2">
                     <div class="col-lg">
                       <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
-                        <input class="form-check-input" name="faCode" id="faCode14" type="radio" value="14">
-                        <label class="form-check-label" for="faCode14"><i class="fa fa-fw fa-exchange fa-2x"></i></label>
+                        <input class="form-check-input" name="faCode" id="faCode7" type="radio" value="7">
+                        <label class="form-check-label" for="faCode7"><i class="fa fa-fw fa-exchange fa-2x"></i></label>
                       </div>
                       <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
-                        <input class="form-check-input" name="faCode" id="faCode12" type="radio" value="12">
-                        <label class="form-check-label" for="faCode12"><i class="fa fa-fw fa-bullhorn fa-2x"></i></label>
+                        <input class="form-check-input" name="faCode" id="faCode8" type="radio" value="8">
+                        <label class="form-check-label" for="faCode8"><i class="fa fa-fw fa-bullhorn fa-2x"></i></label>
                       </div>
                   <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
-                    <input class="form-check-input" name="faCode" id="faCode7" type="radio" value="7">
-                    <label class="form-check-label" for="faCode7"><i class="fa fa-fw fa-question fa-2x"></i></label>
-                  </div>
-                  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
-                    <input class="form-check-input" name="faCode" id="faCode8" type="radio" value="8">
-                    <label class="form-check-label" for="faCode8"><i class="fa fa-fw fa-question-circle fa-2x"></i></label>
-                  </div>
-                  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                     <input class="form-check-input" name="faCode" id="faCode9" type="radio" value="9">
-                    <label class="form-check-label" for="faCode9"><i class="fa fa-fw fa-question-circle-o fa-2x"></i></label>
+                    <label class="form-check-label" for="faCode9"><i class="fa fa-fw fa-question fa-2x"></i></label>
                   </div>
                   <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                     <input class="form-check-input" name="faCode" id="faCode10" type="radio" value="10">
-                    <label class="form-check-label" for="faCode10"><i class="fa fa-fw fa-share fa-2x"></i></label>
+                    <label class="form-check-label" for="faCode10"><i class="fa fa-fw fa-question-circle fa-2x"></i></label>
+                  </div>
+                  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
+                    <input class="form-check-input" name="faCode" id="faCode11" type="radio" value="11">
+                    <label class="form-check-label" for="faCode11"><i class="fa fa-fw fa-question-circle-o fa-2x"></i></label>
+                  </div>
+                  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
+                    <input class="form-check-input" name="faCode" id="faCode12" type="radio" value="12">
+                    <label class="form-check-label" for="faCode12"><i class="fa fa-fw fa-share fa-2x"></i></label>
                   </div>
                 </div>
               </div>
