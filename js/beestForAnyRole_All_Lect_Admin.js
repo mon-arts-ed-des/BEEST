@@ -1,7 +1,7 @@
 //single script to add any
 
 const match_admin = /Restore/;
-const match_lect = /Turn editing/;
+const match_lect = /Edit settings/;
 const cog_presence_regex = /Recycle bin/;
 const key_current_role_raw = "CURRENT_ROLE"
 const key_current_role = sha256(key_current_role_raw)
