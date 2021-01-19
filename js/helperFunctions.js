@@ -13,7 +13,7 @@ function textAreaActUpon(id,type,task,value){
 	if (task=='get'){
 		return operation(id)
 	}
-	else if (task='set'){
+	else if (task=='set'){
 		operation(id,value)
 	}
 }
