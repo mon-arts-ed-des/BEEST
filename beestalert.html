@@ -125,65 +125,78 @@ var colourNames = {
 		SelectAll("monAlertCode");
     }
 
-    var alertCode;
+/*BEGIN helper functions for generate element code*/
+function createHeading(alertHeading,colourName,headSize,faIcon){
+	//icon names moved to top
+	var faIconCode = "";
+	if (faIcon!==undefined){
+		faIconCode = ' <i class="fa fa-' + iconNames[faIcon] + '"></i> ';
+	}
+	var resizedHead = ""
+	if(headSize !== "noH"){
+	//Resizing the heading text
+		var sizes = {"h3":3,"h4":4,"h5":5}
+		resizedHead = '<h'+sizes[headSize]+' class="text-'+colourName+'">'+faIconCode+alertHeading+"</h"+sizes[headSize]+">"
+	}
+	return resizedHead
+}
 
+function generateColourTag(colourName,dmoption){
+	var colCode = '<div class="alert alert-' + colourName
+	if (colourName !== "mu"){
+		colCode += " border border-" + colourName
+	}
+	colCode += ' rounded'
+	if (dmoption=="dismissable"){
+		colCode += ' alert-dismissible fade show'
+	}
+	colCode += '" role="alert">'
+	return colCode
+}
+
+function storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmoption){
+	var dmOpts = {"dismissable":1,"permanent":2}
+	var sizeToStorate = {"h5":1,"h4":2,"h3":3}
+	var iconStorage = 1;
+	if (faIcon!="noI"){
+		iconStorage = faIcon*1+1
+	}
+	if (alertCode == PLACEHOLDER) {
+		alertCode = ""
+	}
+	classAlert = new alert(alertCode,alertHeading,sizeToStorate[headSize],iconStorage,bsColour,dmOpts[dmoption])
+	return classAlert
+}
+/*END helper functions for generate element code*/
 	
     function generateElementCode() {
-        // Get the HTML contents of the currently active editor
-        console.debug(tinyMCE.activeEditor.getContent());
-
-        //Retrieve the content by id of the tinyMCE textarea
-        alertCode = getTinyContent("tinyMCEalert",PLACEHOLDER)
-
+        //Retrieve the page data
+        var alertCode = getTinyContent("tinyMCEalert",PLACEHOLDER)
         var dmoption = getRadioOption('dmoption');
         var alertHeading = getId("alertHeading").value;
         var headSize = getRadioOption("headSize");
         var bsColour = getRadioOption("alertColour");
         var faIcon = getRadioOption("faCode")
-        //icon names moved to top
-		var iconName;
-		var faIconCode;
-		if (faIcon==undefined){
-			faIconCode = ""
-		}
-		else{
-			iconName = iconNames[faIcon];
-			faIconCode = ' <i class="fa fa-' + iconName + '"></i> ';
-		}
-        //colourNames moved to the top
-        var colourName = colourNames[bsColour];
+
         var alertScript = "<script> var L=document.createElement('link'); L.rel='stylesheet'; L.href='http://mon-arts-ed-des.github.io/BEEST/css/monashElements.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
-		var colourCodes = '<div class="alert alert-' + colourName + ((colourName == "mu") ? "" : " border border-" + colourName) + ' rounded' + ( (dmoption=="dismissable") ? ' alert-dismissible fade show': '') + '" role="alert">'
 
-        var monAlertP_Close = "</div>";
-        var monAlertD_Close = '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
-
-        if(alertHeading == ""){
-          resizedHead = "";
-        }
-        else{
-        //Resizing the heading text
+		//colourNames moved to the top
+        var colourName = colourNames[bsColour];
 		
-			var sizes = {"h3":3,"h4":4,"h5":5}
-			resizedHead = '<h'+sizes[headSize]+' class="text-'+colourName+'">'+faIconCode+alertHeading+"</h"+sizes[headSize]+">"
+		var colourCodes = generateColourTag(colourName,dmoption)
 
-        }
+		var resizedHead = createHeading(alertHeading,colourName,headSize,faIcon)
+
 		var textOutput = colourCodes + resizedHead + alertCode
         if (dmoption == "dismissable") {
-            textOutput+= monAlertD_Close;
-        } else if (dmoption == "permanent") {
-            textOutput += monAlertP_Close;
+            textOutput+= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
         }
-		var dmOpts = {"dismissable":1,"permanent":2}
-		var sizeToStorate = {"h5":1,"h4":2,"h3":3}
-		var iconStorage = ( (faIcon=="noI") ? 1 : faIcon*1+1)
-		var contentStorage = (alertCode==PLACEHOLDER ? "" : alertCode)
-		classAlert = new alert(contentStorage,alertHeading,sizeToStorate[headSize],iconStorage,bsColour,dmOpts[dmoption])
+		textOutput += "</div>";
+		classAlert = storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmoption)
 
         document.getElementById("monAlertCode").innerHTML = alertScript+textOutput;
         //SelectAll("monAlertCode");
-        $("#demo").nextAll("div .alert").remove();
-        $("#demo").after(textOutput);
+        $("#demo").html(textOutput);
     }
 
     function SelectAll(id) {
