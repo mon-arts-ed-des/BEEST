@@ -184,7 +184,7 @@ function invertButtonColours(inverted){
 	}
 }
 
-function updateDemo(readMoreOutput){
+function updateDemo(readMoreOutput,faIcon){
 	$('#demo').nextAll('div').remove();
 	$('#demo').after(readMoreOutput);
 	/*Switch to run the icon toggle on the different icon sets by Tim*/
@@ -207,16 +207,29 @@ function updateDemo(readMoreOutput){
 		$(this).find('i').toggleClass(classToggles[faIcon])
 	});
 }
+
+function savePageToClass(readMoreNumber,baseColour,invertColour,bsBtnSize,bsBtnWidth,faIcon,readMoreBtnTxt,readMoreAfter,readMoreBefore){
+	/*update current instance to support save/load*/
+	classReadMore.buttonNum = readMoreNumber
+	classReadMore.colour = baseColour
+	classReadMore.colInv = invertColour
+	classReadMore.size = bsBtnSize
+	classReadMore.width = bsBtnWidth
+	classReadMore.iconPair = faIcon
+	classReadMore.buttonTxt = readMoreBtnTxt
+	classReadMore.after = readMoreAfter
+	classReadMore.before = readMoreBefore
+}
 /*END helper functions for generateElementCode*/
 
 
 function generateReadMoreCode() {
+	var readMoreNumber = randomString(5)//PREVIOUSLY: document.getElementById('readMoreNumber').value;
+	
 	var readMoreContainer="<div class=\"beestRead\"><span id='readMoreAbove'>"
 	var readMore_1="</span><div class=\"collapse\" id=\"readMore"+readMoreNumber+"\">"
 	var readMoreClose="</div>"
 	var toggleBtnScript="<script> var L=document.createElement('script'); L.type='text/javascript'; L.src='https://mon-arts-ed-des.github.io/BEEST/js/toggleBtnIcon.js'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>";
-	
-	var readMoreNumber = randomString(5)//PREVIOUSLY: document.getElementById('readMoreNumber').value;
 	
 	var bsColour = getRadioOption("btnColour")
 	var bsBtnSize = getRadioOption("buttonSize")
@@ -262,19 +275,9 @@ function generateReadMoreCode() {
 	$('#readMoreCode').val(toggleBtnScript+readMoreOutput);
 	
 	changeWidthOfDemo(bsBtnWidth)
-	updateDemo(readMoreOutput)
+	updateDemo(readMoreOutput,faIcon)
 	
-	
-	/*update current instance to support save/load*/
-	classReadMore.buttonNum = readMoreNumber
-	classReadMore.colour = baseColour
-	classReadMore.colInv = invertColour
-	classReadMore.size = bsBtnSize
-	classReadMore.width = bsBtnWidth
-	classReadMore.iconPair = faIcon
-	classReadMore.buttonTxt = readMoreBtnTxt
-	classReadMore.after = readMoreAfter
-	classReadMore.before = readMoreBefore
+	savePageToClass(readMoreNumber,baseColour,invertColour,bsBtnSize,bsBtnWidth,faIcon,readMoreBtnTxt,readMoreAfter,readMoreBefore)
 }
 
 function recoverCode(){
