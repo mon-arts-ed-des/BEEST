@@ -47,7 +47,7 @@ function retrieve_from_local(key){
 	}
 }
 
-function setup_beest(MODE){
+function setup_beest(MODE,visibilityMethod){
 	var cog_present=false;
 	var correct_role=false;
 	var role = null;
@@ -86,7 +86,7 @@ function setup_beest(MODE){
 		//update current role of user to localStorage
 		save_to_local(key_current_role,role)
 		if (!(beest_icon_visible)){
-			make_beest_visible();
+			make_beest_visible(visibilityMethod);
 			beest_icon_visible = true;
 			//paranoid checking -- don't show the icon if you're already done this on this page load
 		}
@@ -105,21 +105,44 @@ function setup_beest(MODE){
 		if (sha256(regex_to_role[mode])===role){
 			//if the role (encrypted) matches the role for the lookup (encrypted) then make visible
 			if (!(beest_icon_visible)){
-				make_beest_visible();
+				make_beest_visible(visibilityMethod);
 				beest_icon_visible = true;
 			}
 		}
 	}
 };
 
-function make_beest_visible(){
+function createButtonAndModal(){
 	$(".header-right").prepend(
 		'<div class="custom-menus my-auto dropdown"><button type="button" target="_blank" class="border border-dark rounded-circle p-2 text-dark" role="button" title="BEEST" style="width: 38px; height: 38px;" data-toggle="modal" data-target=".beest-home-modal" id="beestDropdown"><img src="https://mon-arts-ed-des.github.io/BEEST/img/dragon-solid-black.png" width="20px" height="20px" style="margin-bottom: 4px;" /></button>'
 	);
 	$("#region-main").append(
 		'<style>.modal-beest{max-width: 80% !important;}</style><div class="modal fade beest-home-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"><div class="modal-dialog modal-lg modal-beest"><div class="modal-content"><div class="modal-header mb-0 p-2 bg-danger text-white px-5"><h5 class="modal-title text-white my-auto" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5><button type="button" class="btn btn-outline-light btn-lg rounded" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">Close <i class="fa fa-times"></i></span></button></div><iframe src="https://mon-arts-ed-des.github.io/BEEST/index.html" width="100%" height="900px"></iframe></div></div></div>'
 	);
-		
+}
+	
+
+function create_iFrameInEditScreen(){
+	var CSS_page = document.createElement('link')
+	CSS_page.rel = 'stylesheet'
+	CSS_page.href = 'https://mon-arts-ed-des.github.io/BEEST/css/beest_editScreen_iFrame.css'
+	document.getElementsByTagName('head')[0].appendChild(CSS_page)
+	$('#id_general, #id_generalhdr, #id_qtypeheading').after('<fieldset class="clearfix collapsible" id="id_beest"><legend class="ftoggler"><a href="#" class="fheader" role="button" aria-controls="id_beest" aria-expanded="false">BEEST</a></legend><div class="fcontainer clearfix iframeResp"><iframe src="https://mon-arts-ed-des.github.io/BEEST/index.html" frameborder="0" class="responsive-iframe"></iframe></div></fieldset>');
+}
+
+function make_beest_visible(visibilityMethod){
+	if (typeof(visibilityMethod)=="undefined"){
+		createButtonAndModal() //compatibility with previous versions of setup function -- not having an argument means use the basic button version only
+		return
+	}
+	else{
+		if visibilityMethod.hasOwnProperty("button"){
+			createButtonAndModal()
+		}
+		if visibilityMethod.hasOwnProperty("iFrame"){
+			create_iFrameInEditScreen()
+		}
+	}
 }
 
 
