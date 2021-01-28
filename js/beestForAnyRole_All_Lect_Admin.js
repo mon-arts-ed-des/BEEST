@@ -137,10 +137,14 @@ function make_beest_visible(visibilityMethod){
 	}
 	else{
 		if (visibilityMethod.hasOwnProperty("button")){
-			createButtonAndModal()
+			if (visibilityMethod.button){ //should be true if enabled
+				createButtonAndModal()
+			}
 		}
 		if (visibilityMethod.hasOwnProperty("iFrame")){
-			create_iFrameInEditScreen()
+			if (visibilityMethod.iFrame){ //should be true if enabled
+				create_iFrameInEditScreen()
+			}
 		}
 	}
 }
