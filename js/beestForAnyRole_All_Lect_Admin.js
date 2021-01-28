@@ -136,10 +136,10 @@ function make_beest_visible(visibilityMethod){
 		return
 	}
 	else{
-		if visibilityMethod.hasOwnProperty("button"){
+		if (visibilityMethod.hasOwnProperty("button")){
 			createButtonAndModal()
 		}
-		if visibilityMethod.hasOwnProperty("iFrame"){
+		if (visibilityMethod.hasOwnProperty("iFrame")){
 			create_iFrameInEditScreen()
 		}
 	}
