@@ -1,8 +1,12 @@
 //single script to add any
-
+const LOCAL_STORAGE_ERROR_MSG = "localStorage unavailable, cannot retrieve key"
 const match_admin = /Restore/;
 const match_lect = /Edit settings/;
 const cog_presence_regex = /Recycle bin/;
+const COLLAPSED_MODE = "collapsed"
+const KEY_COLLAPSE_BEEST_EDIT_RAW = "wasSeen"
+const KEY_COLLAPSE_BEEST_EDIT = sha256(COLLAPSE_BEEST_EDIT_KEY_RAW)
+
 const key_current_role_raw = "CURRENT_ROLE"
 const key_current_role = sha256(key_current_role_raw)
 var match = [
@@ -45,6 +49,7 @@ function retrieve_from_local(key){
 	if (localStorageAvailable()){
 		return JSON.parse(localStorage.getItem(key))
 	}
+	throw new TypeError(LOCAL_STORAGE_ERROR_MSG,key)
 }
 
 function setup_beest(MODE,visibilityMethod){
@@ -99,15 +104,20 @@ function setup_beest(MODE,visibilityMethod){
 	}
 	else if (!(cog_present)){
 		//if can't find cog -- pull from local storage
-		role = retrieve_from_local(key_current_role) //should already be encrypted in SHA256
+		try{
+			role = retrieve_from_local(key_current_role) //should already be encrypted in SHA256
 		
-		//to decide whether to show or hide beest
-		if (sha256(regex_to_role[mode])===role){
-			//if the role (encrypted) matches the role for the lookup (encrypted) then make visible
-			if (!(beest_icon_visible)){
-				make_beest_visible(visibilityMethod);
-				beest_icon_visible = true;
+			//to decide whether to show or hide beest
+			if (sha256(regex_to_role[mode])===role){
+				//if the role (encrypted) matches the role for the lookup (encrypted) then make visible
+				if (!(beest_icon_visible)){
+					make_beest_visible(visibilityMethod);
+					beest_icon_visible = true;
+				}
 			}
+		}
+		catch{
+			console.log("beest button cannot display, localStorage disabled and no cog menu found")
 		}
 	}
 };
@@ -123,11 +133,51 @@ function createButtonAndModal(){
 	
 
 function create_iFrameInEditScreen(){
+	var expand;
+	try{
+		var wasSeen = retrieve_from_local(KEY_COLLAPSE_BEEST_EDIT)
+		
+		if (wasSeen === null){
+			//so never seen
+			expand = true
+			save_to_local(KEY_COLLAPSE_BEEST_EDIT,false)
+		}
+		else if (wasSeen){
+			//so wasSeen is true
+			expand = false
+		}
+		else{
+			expand = true
+		}
+	}
+	catch (err){
+		if (err.message == LOCAL_STORAGE_ERROR_MSG){
+			expand = false
+		}
+		else{
+			throw err //send it onwards if not a localStorage issue
+		}
+	}
+	
+	var classToAdd;
+	
+	if (expand){
+		classToAdd = ""
+	}
+	else{
+		classToAdd = " "+COLLAPSED_MODE
+	}
+	
 	var CSS_page = document.createElement('link')
 	CSS_page.rel = 'stylesheet'
 	CSS_page.href = 'https://mon-arts-ed-des.github.io/BEEST/css/beest_editScreen_iFrame.css'
 	document.getElementsByTagName('head')[0].appendChild(CSS_page)
-	$('#id_general, #id_generalhdr, #id_qtypeheading').after('<fieldset class="clearfix collapsible" id="id_beest"><legend class="ftoggler"><a href="#" class="fheader" role="button" aria-controls="id_beest" aria-expanded="false">BEEST</a></legend><div class="fcontainer clearfix iframeResp"><iframe src="https://mon-arts-ed-des.github.io/BEEST/index.html" frameborder="0" class="responsive-iframe"></iframe></div></fieldset>');
+	var matchEditArea = $('#id_general, #id_generalhdr, #id_qtypeheading')
+	if (matchEditArea.length>0){
+		matchEditArea.after('<fieldset class="clearfix collapsible'+classToAdd+'" id="id_beest"><legend class="ftoggler"><a href="#" class="fheader" role="button" aria-controls="id_beest" aria-expanded="false">BEEST</a></legend><div class="fcontainer clearfix iframeResp"><iframe src="https://mon-arts-ed-des.github.io/BEEST/index.html" frameborder="0" class="responsive-iframe"></iframe></div></fieldset>');
+		save_to_local(KEY_COLLAPSE_BEEST_EDIT,true)
+	}
+	
 }
 
 function make_beest_visible(visibilityMethod){
