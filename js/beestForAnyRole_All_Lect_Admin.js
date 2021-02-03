@@ -5,7 +5,7 @@ const match_lect = /Edit settings/;
 const cog_presence_regex = /Recycle bin/;
 const COLLAPSED_MODE = "collapsed"
 const KEY_COLLAPSE_BEEST_EDIT_RAW = "wasSeen"
-const KEY_COLLAPSE_BEEST_EDIT = sha256(COLLAPSE_BEEST_EDIT_KEY_RAW)
+const KEY_COLLAPSE_BEEST_EDIT = sha256(KEY_COLLAPSE_BEEST_EDIT_RAW)
 
 const key_current_role_raw = "CURRENT_ROLE"
 const key_current_role = sha256(key_current_role_raw)
