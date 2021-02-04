@@ -327,6 +327,7 @@ iterates over the number of tabs and generates the HTML template including appro
 */
 	var tabHeadingHTMLs = [] //to hold the HTML of the headings
 	var tabContentHTMLs = [] //to hold the HTML of the content
+	var rString = randomString(5)
 	//looping to generate the headings1,2,etc. and content1,2,etc.
 	for (var headContI=0;headContI<classTabbed.tabCount;headContI++){
 		tabHeadingHTMLs[headContI] = "<a class=\"nav-link"
@@ -334,14 +335,14 @@ iterates over the number of tabs and generates the HTML template including appro
 			tabHeadingHTMLs[headContI]+=" active show"
 		}
 		//since headContI changes each time we go through the loop it talks about the next tabbed section and then the next one
-		tabHeadingHTMLs[headContI]+="\" id=\"tab"+headContI+"\" data-toggle=\"pill\" href=\"#t"+headContI+"\" role=\"tab\" aria-controls=\"v-tabs-t"+headContI+"\" aria-selected=\""
+		tabHeadingHTMLs[headContI]+="\" id=\"tab"+headContI+"\" data-toggle=\"pill\" href=\"#t"+rString+headContI+"\" role=\"tab\" aria-controls=\"v-tabs-t"+rString+headContI+"\" aria-selected=\""
 		tabHeadingHTMLs[headContI]+=(headContI==1)+"\">"+classTabbed.getTabHeading(headContI)+"</a>"; //instead of if x==1 --> y=true we can say y=(x==1)
 		
 		tabContentHTMLs[headContI]="<div class=\"tab-pane p-3 fade"
-		if (headContI==1){//only for the first one
+		if (headContI==0){//only for the first one
 			tabContentHTMLs[headContI]+=" active show"
 		}
-		tabContentHTMLs[headContI]+="\" id=\"t"+headContI+"\" role=\"tabpanel\" aria-labelledby=\"v-tabs-t"+headContI+"-tab\">";
+		tabContentHTMLs[headContI]+="\" id=\"t"+rString + headContI+"\" role=\"tabpanel\" aria-labelledby=\"v-tabs-t"+headContI+"-tab\">";
 	}
 	return {heading:tabHeadingHTMLs,content:tabContentHTMLs}
 }
@@ -410,6 +411,8 @@ function generateElementCode() {
 		//add in tabhtml + contents of tab + close the tab's html
 	}
 	textOutputTabbedContent+=monTabContent_Final //close the html (double div end instead of triple as _Close includes a div end)
+	
+	textOutputTabbedContent = "<!---TABBED CONTENT START---"+">" + textOutputTabbedContent + "<!---TABBED CONTENT END---"+">"
 	
 	$('#txtareaBtn').text(textOutputTabbedContent);
 	//SelectAll("txtareaBtn");
