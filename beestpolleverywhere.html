@@ -236,7 +236,13 @@ function generateElementCode() {
 	classPollEv = new pollEv()
 	
 	//pollEv{constructor(...,frameHeight,...,...,...,...)}
-	classPollEv.heading = recoveredData.ids.theHeadTxt.html()
+	if ((typeof(recoveredData.ids.theHeadTxt)) !== "undefined")
+	{
+		classPollEv.heading = recoveredData.ids.theHeadTxt.html()
+	}
+	else{
+		classPollEv.heading = ""
+	}
 	classPollEv.headSize = headSize
 	
 	if (iconClassName == null){
