@@ -51,6 +51,7 @@ var iconNames = {
 	const ACCORD_HIST = "history_accordion"
 	var localStorageHistory = ACCORD_HIST
 /*END REQUIRED FOR HISTORY*/	
+	const NULLHEADING = "~...N/A...~"
 	const COUNTER_ID = "accordCounter"
 	const absoluteMaxAccord = 10;
 	const absoluteMinAccord = 3;
@@ -421,6 +422,9 @@ function generateHeading(classAccord){
 		var sizes = {"h3":3,"h4":4,"h5":5}
 		resizedHead = '<h'+sizes[classAccord.headSize]+'>'+faIconCode+classAccord.mainHead+"</h"+sizes[classAccord.headSize]+">"
 	}
+	else{
+		resizedHead = "<h5 hidden>"+NULLHEADING+"</h5>"
+	}
 	return resizedHead
 }
 
@@ -510,9 +514,14 @@ function recoverCode(){
 	var headSize = iconHeading.headSize
 	var headText = iconHeading.headText
 	
-	_classAccord_.mainHead = headText
-	_classAccord_.headSize = headSize
-	
+	if (headText === NULLHEADING){
+		_classAccord_.mainHead = ""
+		_classAccord_.headSize = "noH"
+	}
+	else{
+		_classAccord_.mainHead = headText
+		_classAccord_.headSize = headSize
+	}
 	if (iconClassName == null){
 		_classAccord_.icon = "noI"
 	}
