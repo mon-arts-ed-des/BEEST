@@ -193,7 +193,9 @@ function getIconAndHeading(htmlCode){
 		iconName:iconNameVal,
 		headSize:hSize
 	}
-	output.iconName = output.iconName.replace("fa fa-","")
+	if (output.iconName!==null){
+		output.iconName = output.iconName.replace("fa fa-","")
+	}
 	if (hSize != "noH"){
 		output.headText = results.tags[hSize][0].innerText.trim()
 	} 

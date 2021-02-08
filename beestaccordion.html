@@ -513,9 +513,13 @@ function recoverCode(){
 	_classAccord_.mainHead = headText
 	_classAccord_.headSize = headSize
 	
-	var iconCode = reverseObjectMap(iconNames)
-	_classAccord_.icon = iconCode[iconClassName]
-	
+	if (iconClassName == null){
+		_classAccord_.icon = "noI"
+	}
+	else{
+		var iconCode = reverseObjectMap(iconNames)
+		_classAccord_.icon = iconCode[iconClassName]
+	}
 	var dataToFind = {
 		tags:["button"],
 		classes:["accDiv"]
