@@ -325,9 +325,13 @@ function recoverCode(){
 	
 	classImage.heading = imgHeading
 	classImage.size = headSize
-	var iconNums = reverseObjectMap(iconNames)
-	classImage.icon = iconNums[iconClassName]
-	
+	if (iconClassName == null){
+		classImage.icon = "noI"
+	}
+	else{
+		var iconNums = reverseObjectMap(iconNames)
+		classImage.icon = iconNums[iconClassName]
+	}
 	var dataToFind = {
 		tags:['img','p']
 	}

@@ -429,10 +429,13 @@ function recoverCode(){
 	
 	classTable.headSize = headSize //sets to noH or h3/4/5 as appropriate
 	classTable.mainHead = headText
-	
-	var iconNums = reverseObjectMap(iconNames)
-	classTable.icon = iconNums[iconClassName]
-	
+	if (iconClassName == null){
+		classTable.icon = "noI"
+	}
+	else{	
+		var iconNums = reverseObjectMap(iconNames)
+		classTable.icon = iconNums[iconClassName]
+	}	
 	classTable.tableData = tableHTML_toArray(recoveredData.tags.table[0].outerHTML)
 			
 	setTextAreas(classTable)

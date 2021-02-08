@@ -293,10 +293,14 @@ function recoverCode(){
 		ids: ["readMoreAbove"]
 	}
 	var recoveredData = recoverFromPasted(pastedCode,dataToFind)
-		
-	var iconNums = reverseObjectMap(iconNames)
-	classReadMore.iconPair = iconNums[iconClassName]
-	
+
+	if (iconClassName == null){
+		classReadMore.iconPair = "noI"
+	}
+	else{
+		var iconNums = reverseObjectMap(iconNames)
+		classReadMore.iconPair = iconNums[iconClassName]
+	}
 	classReadMore.before = recoveredData.ids.readMoreAbove.text()
 	classReadMore.after = recoveredData.classes.collapse.text()
 	classReadMore.buttonTxt = recoveredData.tags.a.text()

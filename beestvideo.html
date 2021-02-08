@@ -322,10 +322,13 @@ function constructIconTag(faIcon){
 		
 		videoPageInstance.headingSize = headSize
 		videoPageInstance.heading = headText
-		
-		var iconNums = reverseObjectMap(iconNames)
-		videoPageInstance.icon = iconNums[iconClassName]
-		
+		if (iconClassName == null){
+			videoPageInstance.icon = "noI"
+		}
+		else{		
+			var iconNums = reverseObjectMap(iconNames)
+			videoPageInstance.icon = iconNums[iconClassName]
+		}		
 		var recoveredData = recoverFromPasted(pastedHTML,dataToFind)
 		
 		videoPageInstance.link = recoveredData.tags.iframe[0].src

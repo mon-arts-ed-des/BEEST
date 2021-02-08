@@ -233,10 +233,13 @@ function recoverCode(){
 	
 	
 	classAlert = new alert()
-		
-	var iconNums = reverseObjectMap(iconNames)
-	classAlert.icon = iconNums[iconClassName]
-	
+	if (iconClassName == null){
+		classAlert.icon = "noI"
+	}
+	else{		
+		var iconNums = reverseObjectMap(iconNames)
+		classAlert.icon = iconNums[iconClassName]
+	}
 	
 	classAlert.headSize = headSize //sets to noH or h3/4/5 as appropriate
 	classAlert.mainHead = headText //will be undefined if noH so need not validate first

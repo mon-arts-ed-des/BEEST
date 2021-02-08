@@ -239,9 +239,13 @@ function generateElementCode() {
 	classPollEv.heading = recoveredData.ids.theHeadTxt.html()
 	classPollEv.headSize = headSize
 	
-	var iconNums = reverseObjectMap(iconNames)
-	classPollEv.icon = iconNums[iconClassName]
-	
+	if (iconClassName == null){
+		classPollEv.icon = "none"
+	}
+	else{	
+		var iconNums = reverseObjectMap(iconNames)
+		classPollEv.icon = iconNums[iconClassName]
+	}	
 	classPollEv.context = recoveredData.tags.p.html()
 	
 	var iFrame = recoveredData.ids.pollSrc[0]

@@ -502,8 +502,13 @@ function recoverCode(){
 	classTabbed_supp.mainHead = headText
 	classTabbed_supp.headSize = headSize
 	
-	var iconCode = reverseObjectMap(iconNames)
-	classTabbed_supp.icon = iconCode[iconClassName]
+	if (iconClassName == null){
+		classTabbed_supp.icon = "noI"
+	}
+	else{
+		var iconCode = reverseObjectMap(iconNames)
+		classTabbed_supp.icon = iconCode[iconClassName]
+	}
 	
 	var dataToFind = {
 		classes:["nav-link","tab-pane"]
