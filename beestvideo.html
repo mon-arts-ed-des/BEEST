@@ -35,6 +35,9 @@
     <script src="js/setupPage.js"></script>
     <!-- Script to init the tinyMCE editor --> 
     <script type="text/javascript">
+const START_ELEMENT = "<!--Begin BEEST video-->"
+const END_ELEMENT = "<!--End BEEST video-->"
+
 const DEFAULT_VIDEO_URL = "https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=5d23c190-f6c6-405d-968b-abab0095e7a4";
 	
 var iconNames = {
@@ -288,7 +291,7 @@ function constructIconTag(faIcon){
         //Change position of video and order of output
 		textOutput = updatePreview(resizedHead,vPosition,respVid,contextCode,vWidth)
 		
-		document.getElementById('txtarearespVid').innerHTML=textOutput //update code displayed
+		document.getElementById('txtarearespVid').innerHTML=START_ELEMENT+textOutput+END_ELEMENT //update code displayed
     }
 
 	function setPageContents(pageInstance){

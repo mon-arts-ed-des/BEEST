@@ -34,6 +34,9 @@
 	<script src="js/helperFunctions.js"></script>
 	<script src="js/setupPage.js"></script>
     <script type="text/javascript">
+const START_ELEMENT = "<!--Begin BEEST pollEverywhere-->"
+const END_ELEMENT = "<!--End BEEST pollEverywhere-->"
+
 var iconNames = {
 	"1":"bar-chart",
 	"2":"line-chart",
@@ -204,7 +207,7 @@ function generateElementCode() {
 	var pollEv_2="\" width=\"100%\" height=\""+frameHeight+"\" frameBorder=\"0\"></iframe>"
 	var textOutputPollEv = resizedHead+divContainer+"<span id='theContext'>"+contextCode+"</span>"+pollEv_1+pollEv_URL+pollEv_2+closeContainer;
 	
-	$('#txtareapollEv').html(textOutputPollEv);
+	$('#txtareapollEv').html(START_ELEMENT+textOutputPollEv+END_ELEMENT);
 	
 	if (noDemo()){
 		$('#demo').html(textOutputPollEv);

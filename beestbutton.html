@@ -36,7 +36,8 @@
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
 	  <script src="js/advancedModeLocalStorage.js"></script>
     <script type="text/javascript">
-/*REQUIRED FOR HISTORY*/ 
+const START_ELEMENT = "<!--Begin BEEST button-->"
+const END_ELEMENT = "<!--End BEEST button-->"
 var iconNames = {
 	"1":"arrow-right",
 	"2":"arrow-circle-right",
@@ -61,7 +62,7 @@ var colourNames = {
 for (prop in colourNames){
 	colourNames[prop+"y"] = "outline-"+colourNames[prop]
 } // as inverts are just outline- followed by the name doing this by a loop
-   
+/*REQUIRED FOR HISTORY*/    
 	const BUTTON_HIST = "history_button"
 	var localStorageHistory = BUTTON_HIST
 	var classButton = null
@@ -284,7 +285,7 @@ function getColourCode(bsColour,btnSize){
 		textOutput += targetOption(btnTarget,btnClrCode,btn_URL,btn_text,faIconCode)
            
 		classButton = new button(btn_text,btn_URL,bsBtnSize,faIcon,bsColour,fullWidth,btnTarget,btnAlign,invertColour);
-        document.getElementById('txtareaBtn').value=textOutput;
+        document.getElementById('txtareaBtn').value=START_ELEMENT+textOutput+END_ELEMENT;
         //SelectAll("txtareaBtn");
         $('#demo').next('div').remove();
         $('#demo').after(textOutput);

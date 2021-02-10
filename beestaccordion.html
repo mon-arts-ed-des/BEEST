@@ -34,6 +34,9 @@
       <script src="js/placeholder.js"></script> 
 	    <script src="js/advancedModeLocalStorage.js"></script>
       <script type="text/javascript">
+const START_ELEMENT = "<!--Begin BEEST accordion-->"
+const END_ELEMENT = "<!--End BEEST accordion-->"
+
 var iconNames = {
 	"noI":"",
 	"1":"database",
@@ -487,7 +490,7 @@ function generateAccordionHTML(classAccord,resizedHead,monAccBtnTxt,monAccConten
 		
 		var monAccOutput = generateAccordionHTML(classAccord,resizedHead,monAccBtnTxt,monAccContent);	
 		
-        document.getElementById('monAccCode').innerHTML=monAccStyle+monAccOutput;
+        document.getElementById('monAccCode').innerHTML=START_ELEMENT+monAccStyle+monAccOutput+END_ELEMENT;
         //SelectAll("monAccCode");
         $('#demo').nextAll('div.beestAcc, script, h3, h4, h5, i').remove();
         $('#demo').after(monAccOutput);

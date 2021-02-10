@@ -34,7 +34,8 @@
 	<script src="js/placeholder.js"></script> 
     <script src="js/advancedModeLocalStorage.js"></script>
 	<script type="text/javascript">
-
+const START_ELEMENT = "<!--Begin BEEST table-->"
+const END_ELEMENT = "<!--End BEEST table-->"
 /*REQUIRED FOR HISTORY*/    
 	const BUTTON_HIST = "history_table"
 	const pasteTable = "pasteTableFromExcel"
@@ -404,11 +405,11 @@ function generateTableCode() {
 	
 	var resizedHead = generateHeading(classTable);
 
-	var textOutputTable = newTableCode(tableContents)
+	var textOutputTable = resizedHead+newTableCode(tableContents)
 	
-	document.getElementById('txtareaBtn').innerHTML= resizedHead+textOutputTable;
+	document.getElementById('txtareaBtn').innerHTML= START_ELEMENT+textOutputTable+END_ELEMENT;
 	//SelectAll("txtareaBtn");
-	document.getElementById('demo').innerHTML = resizedHead+textOutputTable;
+	document.getElementById('demo').innerHTML = textOutputTable;
 	
   }
 

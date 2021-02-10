@@ -52,6 +52,9 @@
     monAlert = Monash themed alert
     monAlertD = Monash themed alert that can be dismissed
     */
+const START_ELEMENT = "<!--Begin BEEST alert-->"
+const END_ELEMENT = "<!--End BEEST alert-->"
+	
 var iconNames = {
 	"1": "exclamation-circle",
 	"2": "info-circle",
@@ -194,7 +197,7 @@ function storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmopti
 		textOutput += "</div>";
 		classAlert = storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmoption)
 
-        document.getElementById("monAlertCode").innerHTML = alertScript+textOutput;
+        document.getElementById("monAlertCode").innerHTML = START_ELEMENT+alertScript+textOutput+END_ELEMENT;
         //SelectAll("monAlertCode");
         $("#demo").html(textOutput);
     }

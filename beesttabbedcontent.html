@@ -38,6 +38,8 @@
     <script src="js/placeholder.js"></script> 
 
     <script type="text/javascript">
+const START_ELEMENT = "<!--Begin BEEST tabbed-->"
+const END_ELEMENT = "<!--End BEEST tabbed-->"
 var iconNames = {
 	"1":"columns",
 	"2":"question",
@@ -412,9 +414,7 @@ function generateElementCode() {
 	}
 	textOutputTabbedContent+=monTabContent_Final //close the html (double div end instead of triple as _Close includes a div end)
 	
-	textOutputTabbedContent = "<!---TABBED CONTENT START---"+">" + textOutputTabbedContent + "<!---TABBED CONTENT END---"+">"
-	
-	$('#txtareaBtn').text(textOutputTabbedContent);
+	$('#txtareaBtn').text(START_ELEMENT+textOutputTabbedContent+END_ELEMENT);
 	//SelectAll("txtareaBtn");
 	$('#demo').html(textOutputTabbedContent);
 }

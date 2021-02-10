@@ -38,6 +38,9 @@
 	<script src="js/setupPage.js"></script>
 	<script src="js/pageHistory.js"></script>
 <script>
+const START_ELEMENT = "<!--Begin BEEST image-->"
+const END_ELEMENT = "<!--End BEEST image-->"
+
 var iconNames = {
 	"1":"image",
 	"2":"play",
@@ -310,7 +313,7 @@ function generateCode() {
 	 //Add the html code after the div
 	var demoDiv = document.getElementById("demo");
 	demoDiv.innerHTML = textOutput;
-	$('#txtarearespImg').val(textOutput)
+	$('#txtarearespImg').val(START_ELEMENT+textOutput+END_ELEMENT)
 }
 
 function recoverCode(){
