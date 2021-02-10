@@ -300,10 +300,13 @@ function recoverCode(){
 
 	var iconHeading = getIconAndHeading(pastedHTML)
 	var iconClassName = iconHeading.iconName
-
-	var iconNums = reverseObjectMap(iconNames)
-	classButton.icon = iconNums[iconClassName]
-
+	if (iconClassName === null){
+		classButton.icon = "noI"
+	}
+	else{
+		var iconNums = reverseObjectMap(iconNames)
+		classButton.icon = iconNums[iconClassName]
+	}
 	var dataToFind = {
 		tags:['p','div','a']
 	}
