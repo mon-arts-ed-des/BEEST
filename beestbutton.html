@@ -118,115 +118,85 @@ for (prop in colourNames){
 		}
 	}
 /*END REQUIRED FOR HISTORY*/
-
-// Function that generates code for live preview as page is updated
-    function generateBtnCode() {
-        //Retrieve the content by id of the textareas
-        var btn_URL = document.getElementById('btn_URL').value;
-        var btn_text = document.getElementById('btn_text').value;
-
-        if (btn_text == ""){
-          btn_text = "[Placeholder for button text]";
-        }
-
-        var btnTarget = getRadioOption("buttonTarget");
-        var btnAlign = getRadioOption("buttonAlign")
-        var bsColour = getRadioOption("btnColour")
-        var bsBtnSize = getRadioOption("buttonSize")
-        var btnLeft="<div><p>"
-        var btnCenter="<div class=\"text-center\"><p>"
-        var btnBlockSwap="<div class=\"text-center mx-2\"><p>"
-        var btnNW_1="\" target=\"_blank\">"
-        var btnNW_2="</a></p><p>(Opens in a new window)</p></div>"
-        var btnSW_1="\">"
-        var btnSW_2="</a></p></div>"
-        var faIcon = getRadioOption("faCode")
-        //iconNames moved to top
-
-		var iconName;
-		var faIconCode;
-		if (faIcon=="noI"){
-			faIconCode = ""
-		}
-		else{
-			iconName = iconNames[faIcon];
-			faIconCode = ' <i class="fa fa-' + iconName + '"></i> ';
-		}
-        
-        var buttonSize = {
-          "1":" btn-sm ",
-          "2":" ",
-          "3":" btn-lg ",
-          "1y":" btn-sm btn-block ",
-          "2y":" btn-block ",
-          "3y":" btn-lg btn-block "
-        }
-		var buttonSpan = ['#btnSmall','#btnRegular','#btnLarge']
-
-        var fullWidth = getCheckBox("fullWidth2");
-        if (fullWidth){
-          for (var _buttonSize of buttonSpan){
+/*START Helper functions for generate code*/
+function setIconCode(faIcon){
+	//iconNames moved to top
+	if (faIcon=="noI"){
+		return ""
+	}
+	return ' <i class="fa fa-' + iconNames[faIcon] + '"></i> ';
+}
+function changePageButtons(fullWidth){
+	var buttonSpan = ['#btnSmall','#btnRegular','#btnLarge']
+	if (fullWidth){
+		for (var _buttonSize of buttonSpan){
 			$(_buttonSize).addClass('btn-block');
-      $('#buttonSize label').addClass('w-100');
-      $('#buttonSize .btn').addClass('btn-block');
-		  }
-		  bsBtnSize = bsBtnSize + "y";
-          $('#alignment').hide();
-        }
-        else {
-          for (var _buttonSize of buttonSpan){
+			$('#buttonSize label').addClass('w-100');
+			$('#buttonSize .btn').addClass('btn-block');
+		}
+		$('#alignment').hide();
+	}
+	else {
+		for (var _buttonSize of buttonSpan){
 			$(_buttonSize).removeClass('btn-block');
-      $('#buttonSize label').removeClass('w-100');
-      $('#buttonSize .btn').removeClass('btn-block');
-		  }
-          $('#alignment').show();
-        }
+			$('#buttonSize label').removeClass('w-100');
+			$('#buttonSize .btn').removeClass('btn-block');
+		}
+		$('#alignment').show();
+	}
+}
+function getBtnClass(bsBtnSize){
+	var buttonSize = {
+	  "1":" btn-sm ",
+	  "2":" ",
+	  "3":" btn-lg ",
+	  "1y":" btn-sm btn-block ",
+	  "2y":" btn-block ",
+	  "3y":" btn-lg btn-block "
+	}
+	return buttonSize[bsBtnSize];
+}
 
-        var btnSize = buttonSize[bsBtnSize];
-       
-        //colourNames moved to top
+function mapArr1Arr2ById(arr1,arr2){
+	var nameMapping = {}
+	for (var id_i = 1; id_i<arr1.length; id_i++){
+		nameMapping[arr1[id_i]] = arr2[id_i+""]
+		nameMapping[arr1[id_i]+"y"] = arr2[id_i+"y"]
+	}
+	return nameMapping
+}
 
-		var buttonIds = [,'#monashBlue','#red','#yellow','#green','#darkBlue','#lightBlue','#black','#grey']
-		var nameMapping = {}
-		for (var id_i = 1; id_i<buttonIds.length; id_i++){
-			nameMapping[buttonIds[id_i]] = colourNames[id_i+""]
-			nameMapping[buttonIds[id_i]+"y"] = colourNames[id_i+"y"]
-		}
-        //swap the class to invert the colour
-        var invertColour = getRadioOption("invertColour");
-		
-		if (invertColour == "y"){
-			btnColClassAdd = "y" //to allow invert/non invert class to be added
-			btnColClassRem = "" //flipped to get the class NOT added to be removed
-			bsColour = bsColour + "y";
-		}
-		else{
-			btnColClassAdd = ""
-			btnColClassRem = "y"
-		}
-				
-		for (var btnId_i = 1; btnId_i < buttonIds.length; btnId_i++){
-				elementId = buttonIds[btnId_i] //get each button ID
-				elemColCodeAdd = nameMapping[elementId+btnColClassAdd] //find colour code to add
-				elemColCodeRem = nameMapping[elementId+btnColClassRem] //find colour code to remove
-				$(elementId).removeClass('btn-'+elemColCodeRem)
-				$(elementId).addClass('btn-'+elemColCodeAdd)
-		}
-
-        var colourName = colourNames[bsColour];
-        btnClrCode = "<a class=\"btn btn-"+colourName+btnSize+"m-1\" role=\"button\" href=\"";
-
-        if (faIcon == "noI"){
-          faIconCode = "";
-        }
-		switch (btnSize){
-			case " btn-lg btn-block ":
-			case " btn-block ":
-			case " btn-sm btn-block ":
-				btnLeft = btnBlockSwap;
-				btnCenter = btnBlockSwap;
-				break;
-		}
+function invertPageButtonCols(invertColour){
+	//colourNames moved to top
+	var buttonIds = [,'#monashBlue','#red','#yellow','#green','#darkBlue','#lightBlue','#black','#grey']
+	var nameMapping = mapArr1Arr2ById(buttonIds,colourNames)
+	
+//swap the class to invert the colour
+	if (invertColour == "y"){
+		btnColClassAdd = "y" //to allow invert/non invert class to be added
+		btnColClassRem = "" //flipped to get the class NOT added to be removed
+	}
+	else{
+		btnColClassAdd = ""
+		btnColClassRem = "y"
+	}
+	for (var btnId_i = 1; btnId_i < buttonIds.length; btnId_i++){
+		elementId = buttonIds[btnId_i] //get each button ID
+		elemColCodeAdd = nameMapping[elementId+btnColClassAdd] //find colour code to add
+		elemColCodeRem = nameMapping[elementId+btnColClassRem] //find colour code to remove
+		$(elementId).removeClass('btn-'+elemColCodeRem)
+		$(elementId).addClass('btn-'+elemColCodeAdd)
+	}
+}  
+function setBtnSizeAlign(fullWidth,btnAlign){
+	var btnLeft="<div><p>"
+	var btnCenter="<div class=\"text-center\"><p>"
+	var btnBlockSwap="<div class=\"text-center mx-2\"><p>"
+	var textOutput;
+	if (fullWidth){ //alignment no longer relevant if taking up the full width of page
+		textOutput = btnBlockSwap;
+	}
+	else{
 		switch(btnAlign){
 			case "leftAlign":
 				textOutput = btnLeft;
@@ -237,21 +207,82 @@ for (prop in colourNames){
 			default:
 				alert("alignment option chosen not covered by 'generateBtnCode()'") //to let us know if we add something and forget to change the code
 		}
-		
-		//doing the below as a switch statement to show the approximate relationship between if and switch
-		switch(btnTarget){
-			case "sameWin": //the same as if btnTarget == "sameWin"
-				textOutput += btnClrCode+btn_URL+btnSW_1+btn_text+faIconCode+btnSW_2;
-			break;	//breaks stop the code in the 'case' moving into the next case (that's one way for multiple inputs to lead to the same result)
-			case "newWin":
-				textOutput += btnClrCode+btn_URL+btnNW_1+btn_text+faIconCode+btnNW_2;
-			break;
-			default:
-				alert("button target option chosen not covered by 'generateBtnCode()'")
-			break;
-		}
-           
+	}
+	return textOutput
+}
+function targetOption(btnTarget,btnClrCode,btn_URL,btn_text,faIconCode){
+/*generates the code to manage whether button goes to a new window or the existing window
+ --Variable Key--
+These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
+btnNW = btn open in new window
+btnSW = btn open in same window
+*/
+	var btnNW_1="\" target=\"_blank\">"
+	var btnNW_2="</a></p><p>(Opens in a new window)</p></div>"
+	var btnSW_1="\">"
+	var btnSW_2="</a></p></div>"
+	
+	var result;
+	switch(btnTarget){
+		case "sameWin": 
+			result= btnClrCode+btn_URL+btnSW_1+btn_text+faIconCode+btnSW_2;
+		break;
+		case "newWin":
+			result= btnClrCode+btn_URL+btnNW_1+btn_text+faIconCode+btnNW_2;
+		break;
+		default:
+			alert("button target option chosen not covered by 'generateBtnCode()'")
+		break;
+	}
+	return result
+}
+function getColourCode(bsColour,btnSize){
+	var colourName = colourNames[bsColour];
+	btnClrCode = "<a class=\"btn btn-"+colourName+btnSize+"m-1\" role=\"button\" href=\"";
+	return btnClrCode
+}
 
+/*END Helper functions for generate code*/
+
+// Function that generates code for live preview as page is updated
+    function generateBtnCode() {
+        //Retrieve the content by id of the textareas
+        var btn_URL = document.getElementById('btn_URL').value;
+        var btn_text = document.getElementById('btn_text').value;
+		var btnTarget = getRadioOption("buttonTarget");
+        var btnAlign = getRadioOption("buttonAlign")
+        var bsColour = getRadioOption("btnColour")
+        var bsBtnSize = getRadioOption("buttonSize")
+        var faIcon = getRadioOption("faCode")
+		var fullWidth = getCheckBox("fullWidth2");
+		var invertColour = getRadioOption("invertColour");
+		
+		if (btn_text == ""){
+          btn_text = "[Placeholder for button text]";
+        }
+
+		var faIconCode = setIconCode(faIcon)
+        
+		if (fullWidth){
+			bsBtnSize = bsBtnSize + "y";
+		}
+		
+		changePageButtons(fullWidth)
+		
+        var btnSize = getBtnClass(bsBtnSize)
+       
+		invertPageButtonCols(invertColour)      
+		
+		if (invertColour == "y"){
+			bsColour = bsColour + "y";
+		}
+		
+		var btnClrCode = getColourCode(bsColour,btnSize)
+
+		var textOutput = setBtnSizeAlign(fullWidth,btnAlign)
+		
+		textOutput += targetOption(btnTarget,btnClrCode,btn_URL,btn_text,faIconCode)
+           
 		classButton = new button(btn_text,btn_URL,bsBtnSize,faIcon,bsColour,fullWidth,btnTarget,btnAlign,invertColour);
         document.getElementById('txtareaBtn').value=textOutput;
         //SelectAll("txtareaBtn");
@@ -353,17 +384,7 @@ function recoverCode(){
     $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
-    /* Variable Key
-    These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
-    btnNW = btn open in new window
-    btnSW = btn open in same window
-    */
-    var btnLeft="<div><p>"
-    var btnCenter="<div class=\"text-center\"><p>"
-    var btnNW_1="\" target=\"_blank\">"
-    var btnNW_2="</a></p><p>(Opens in a new window)</p></div>"  
-    var btnSW_1="\">"
-    var btnSW_2="</a></p></div>"
+
 /*REQUIRED FOR HISTORY*/
 function setTextAreas(classData){
 	getId("btn_URL").value = classData.destination
