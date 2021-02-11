@@ -127,7 +127,33 @@ function setTextAreas(classData){
 	generateElementCode()
 }
 /*END REQUIRED FOR HISTORY*/
+/*START helper functions for generate element*/
+function generateColourCode(bsColour){
+	//colour names moved to top
+	var colourName = colourNames[bsColour];
+	var bgClrCode = "<blockquote class=\"blockquote alert alert-"+colourName+" pb-3 px-2"
+	
+	if (colourName != "mu"){
+		bgClrCode+= " border border-"+colourName
+	}
+	
+	bgClrCode+=" rounded\"><i aria-hidden=\"true\" class=\"fa fa-fw fa-quote-left fa-2x fa-pull-left\"></i>"
+	return bgClrCode
+}
+function combineQuoteElements(bgClrCode,resizedText,quote_Text,reference_text){
+	/* Variable Key
+    These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
 
+    quotes = predefined code to create Font Awesome quotes
+    */
+    
+    var quotes_1="</div><i aria-hidden=\"true\" class=\"fa fa-fw fa-quote-right fa-2x fa-pull-right\"></i><div class=\"blockquote-footer mt-2\">"
+    var quotes_2="</div></blockquote>"
+	
+	var quoteOutput = bgClrCode+resizedText+quote_Text+quotes_1+reference_text+quotes_2;
+	return quoteOutput
+}
+/*END helper functions for generate element*/
   //generates code as page preferences are updated
     function generateElementCode() {
         console.debug(tinyMCE.activeEditor.getContent());
@@ -145,11 +171,10 @@ function setTextAreas(classData){
 		
 		var resizedText = "<div style=\"font-size:"+sizeMap[textSize]+";\">";
         
-        //colour names moved to top
-        var colourName = colourNames[bsColour];
-		var bgClrCode = "<blockquote class=\"blockquote alert alert-"+colourName+" pb-3 px-2"+((colourName != "mu") ? " border border-"+colourName : "" )+" rounded\"><i aria-hidden=\"true\" class=\"fa fa-fw fa-quote-left fa-2x fa-pull-left\"></i>"
-		var quoteOutput = bgClrCode+resizedText+quote_Text+quotes_1+reference_text+quotes_2;
-    
+		bgClrCode = generateColourCode(bsColour)
+
+		quoteOutput = combineQuoteElements(bgClrCode,resizedText,quote_Text,reference_text)
+		
         document.getElementById('monQuoteCode').innerHTML=START_ELEMENT+quoteOutput+END_ELEMENT;
         //SelectAll("monQuoteCode");
         $('#demoQuote').html(quoteOutput);
@@ -212,14 +237,7 @@ function setTextAreas(classData){
     $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
-    /* Variable Key
-    These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.
 
-    quotes = predefined code to create Font Awesome quotes
-    */
-    
-    var quotes_1="</div><i aria-hidden=\"true\" class=\"fa fa-fw fa-quote-right fa-2x fa-pull-right\"></i><div class=\"blockquote-footer mt-2\">"
-    var quotes_2="</div></blockquote>"
     </script>
        <style>
         .mce-notification-inner, .mce-close, .mce-notification-warning {
