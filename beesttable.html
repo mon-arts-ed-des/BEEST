@@ -80,11 +80,14 @@ $(document).ready(function(){
 
 /*REQUIRED FOR HISTORY*/  	
 class table{
-	constructor(mainHeading, icon, headSize, tableData){
+	constructor(mainHeading, icon, headSize, tableData,bg,r1,c1){
 		this.mainHead = mainHeading
 		this.icon = icon
 		this.headSize = headSize
 		this.tableData = tableData
+		this.bgStyle = bg
+		this.row1Style = r1
+		this.col1Style = c1
 	}
 	tableCopy(table){
 		var tmpTable = [[]]
@@ -107,6 +110,9 @@ class table{
 		result.icon = this.icon
 		result.headSize = this.headSize
 		result.tableData = this.tableCopy(this.tableData)
+		result.bgStyle = this.bgStyle
+		result.col1Style = this.col1Style
+		result.row1Style = this.row1Style
 		return result
 	}	
 	toString(){
@@ -117,6 +123,9 @@ class table{
 		this.mainHead = PDO.mainHead
 		this.icon = PDO.icon
 		this.headSize = PDO.headSize
+		this.bgStyle = PDO.bgStyle
+		this.col1Style = PDO.col1Style
+		this.row1Style = PDO.row1Style
 	}
 }
 /*END REQUIRED FOR HISTORY*/
@@ -237,16 +246,26 @@ length of contents array must match column count for the row
 	return rowCode
 }
 
-function newTableCode(contentsArray){
+function r1Sizing(presentation_mode){
+	if(presentation_mode=="None"){
+		return ""
+	}
+	return presentation_mode
+}
+
+function newTableCode(contentsArray,display_options){
 /*
+display options {r1: class, c1: class, bg: class}
 format should be [[r0c0,r0c1,r0c2,...],[r1c0,r1c1,c1c2,...],...]
 */
-	var tableCode = "<table class=\"table table-bordered table-hover table-striped table-responsive-lg border border-dark\">"
+	var tableCode = "<span id='display_options' r1='"+display_options.r1+"' c1='"+display_options.c1+"' bg='"+display_options.bg+"'></span><table class=\"table table-bordered table-hover table-striped table-responsive-lg border border-dark\">"
 
 	for (var rowN=0;rowN<contentsArray.length;rowN++){
 		switch(rowN){
 			case 0:
-				tableCode += "<thead class=\"thead-dark h5\">"
+				tableCode += "<thead class=\"thead-dark "
+				tableCode+= r1Sizing(display_options.r1)
+				tableCode+="\">"
 				break;
 			case 1:
 				tableCode += "</thead><tbody id=\""+tableBody+"\">"
@@ -339,13 +358,15 @@ function copyCode(){
 	
 	/*REQUIRED FOR HISTORY*/
 function setTextAreas(classData){
-	
 	var theTable = classData.tableData
 		
 	var dataSet = {
 		"tableMainHeading":{type:'basic',value:classData.mainHead},
 		"headSize":{type:'radio',value:classData.headSize},
 		"faCode":{type:'radio',value:classData.icon},
+		"r1Style":{type:'radio',value:classData.row1Style},
+		"c1Style":{type:'radio',value:classData.col1Style},
+		"bgStyle":{type:'radio',value:classData.bgStyle}
 	}
 	dataSet[pasteTable] = {type:'tiny',value:arrayToTableHTML(theTable)}
 	
@@ -397,15 +418,23 @@ function generateTableCode() {
 	var tableMainHeading = document.getElementById('tableMainHeading').value;
 	var headSize = getRadioOption('headSize');
 	var faIcon = getRadioOption('faCode');
+	var r1Style = getRadioOption('r1Style');
+	var c1Style = getRadioOption('c1Style');
+	var bgStyle = getRadioOption('bgStyle');
 
 	classTable.tableData = tableContents		
 	classTable.mainHead = tableMainHeading
 	classTable.icon = faIcon
-	classTable.headSize = headSize		
+	classTable.headSize = headSize
+	classTable.row1Style = r1Style
+	classTable.col1Style = c1Style
+	classTable.bgStyle = bgStyle
+	
+	table_display = {r1: r1Style, c1: c1Style, bg: bgStyle}
 	
 	var resizedHead = generateHeading(classTable);
 
-	var textOutputTable = resizedHead+newTableCode(tableContents)
+	var textOutputTable = resizedHead+newTableCode(tableContents,table_display) /**TO UPDATE**/
 	
 	document.getElementById('txtareaBtn').innerHTML= START_ELEMENT+textOutputTable+END_ELEMENT;
 	//SelectAll("txtareaBtn");
@@ -414,6 +443,7 @@ function generateTableCode() {
   }
 
 function recoverCode(){
+	/**to extend to recover row 1, col1 and bg**/
 	classTable = new table()
 	var pastedHTML = $("#retrieveCode").val()
 	
@@ -722,11 +752,11 @@ $(function () {
 		</div>
 		<div class="col-lg">
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateTableCode()>
-		<input class="form-check-input" name="bgStyle" id="bgStyle1" type="radio" value="td">
+		<input class="form-check-input" name="bgStyle" id="bgStyle1" type="radio" value="td" checked>
 		<label class="form-check-label" for="bgStyle1"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead><td>Plain text</td></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateTableCode()>
-		<input class="form-check-input" name="bgStyle" id="bgStyle2" type="radio" value="th" checked>
+		<input class="form-check-input" name="bgStyle" id="bgStyle2" type="radio" value="th">
 		<label class="form-check-label" for="bgStyle2"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead><th>Bold</th></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateTableCode()>
