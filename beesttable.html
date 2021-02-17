@@ -130,7 +130,7 @@ class table{
 }
 /*END REQUIRED FOR HISTORY*/
 
-const tableBody = "TABLE_BODY"
+const TABLE_BODY = "TABLE_BODY"
 const baseRowID = "ROW"
 const baseCellID = "CELL" //format for a cell is baseCellID+row+"-"+col
 const previewMode = false;
@@ -144,12 +144,16 @@ function newTextField(placeholder,id){
 	return "<textarea id=\""+id+"\" placeholder=\""+placeholder+"\" class=\"border border-dark rounded p-2 w-100\" cols=\"70\" rows=\"1\" name=\""+id+"\" onchange=generateTableCode()></textarea>"
 }
 
-function newCellCode(rowNum,colNum,contents){
+function newCellCode(rowNum,colNum,contents,display_options){
+/*display options {r1: "None"|"h3|4|5", c1: "td"|"th"|[class], bg: "td"|"th"|[class]}*/
 	var cellCode = ""
-	if (rowNum==0){
+	colIsPlain = display_options.c1=="td"
+	rowIsPlain = display_options.bg=="td"
+	
+	if ((rowNum==0)&&(!(rowIsPlain))){
 		cellCode = "<th scope=\"col\">"+contents+"</th>"
 	}
-	else if (colNum==0){
+	else if ((colNum==0)&&(!(colIsPlain))){
 		cellCode = "<th scope=\"row\">"+contents+"</th>"
 	}
 	else{
@@ -228,8 +232,9 @@ function writeTableExcelPaste(){
 	generateTableCode()
 }
 		
-function newRowCode(rowNum,contentsArray){
+function newRowCode(rowNum,contentsArray,display_options){
 /*
+display options {r1: class, c1: class, bg: class}
 length of contents array must match column count for the row
 */
 	var rowCode = "<tr id=\""+baseRowID+rowNum+"\">"
@@ -238,7 +243,7 @@ length of contents array must match column count for the row
 	
 	for (var colN = 0; colN < contentsArray.length; colN++){
 		cellContent = contentsArray[colN]
-		thisCell = newCellCode(rowNum,colN,cellContent)
+		thisCell = newCellCode(rowNum,colN,cellContent,display_options)
 		rowCode += thisCell
 	}
 	rowCode += "</tr>"
@@ -246,11 +251,27 @@ length of contents array must match column count for the row
 	return rowCode
 }
 
-function r1Sizing(presentation_mode){
-	if(presentation_mode=="None"){
-		return ""
+function determineRowOptions(display_options){
+/*display options {r1: class, c1: class, bg: class}*/
+	var options = {open:null,close:null}
+	var mainTableStart = "<tbody id=\""+TABLE_BODY+"\">"
+	if (display_options.bg == 'td'){
+		options.open = mainTableStart
+		options.close = ""
 	}
-	return presentation_mode
+	else{
+		options.open = "<thead class=\""
+		if (display_options.bg != 'th'){ //without a specific class just a basic thead so if have one use it
+			options.open +=display_options.bg + " "
+		}
+		if (display_options.r1 !== "None"){ //if there is a row sizing
+			options.open+= display_options.r1
+		}
+		options.open+="\">"
+		
+		options.close = "</thead>" + mainTableStart
+	}
+	return options
 }
 
 function newTableCode(contentsArray,display_options){
@@ -260,19 +281,19 @@ format should be [[r0c0,r0c1,r0c2,...],[r1c0,r1c1,c1c2,...],...]
 */
 	var tableCode = "<span id='display_options' r1='"+display_options.r1+"' c1='"+display_options.c1+"' bg='"+display_options.bg+"'></span><table class=\"table table-bordered table-hover table-striped table-responsive-lg border border-dark\">"
 
+	rowOptions = determineRowOptions(display_options)
+
 	for (var rowN=0;rowN<contentsArray.length;rowN++){
 		switch(rowN){
 			case 0:
-				tableCode += "<thead class=\"thead-dark "
-				tableCode+= r1Sizing(display_options.r1)
-				tableCode+="\">"
+				tableCode += rowOptions.open
 				break;
 			case 1:
-				tableCode += "</thead><tbody id=\""+tableBody+"\">"
+				tableCode += rowOptions.close
 				break;
 		}
 
-		tableCode += newRowCode(rowN,contentsArray[rowN])
+		tableCode += newRowCode(rowN,contentsArray[rowN],display_options)
 		
 	}
 	
@@ -699,11 +720,11 @@ $(function () {
 		<label class="form-check-label" for="r1Style1">Plain text</label>
 	  </div>
 	  <div class="form-check form-check-inline" id="r1Style" onchange=generateTableCode()>
-		<input class="form-check-input" name="r1Style" id="r1Style2" type="radio" value="h5">
+		<input class="form-check-input" name="r1Style" id="r1Style2" type="radio" value="h5" checked>
 		<label class="form-check-label" for="r1Style2"><h5>Small</h5></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="r1Style" onchange=generateTableCode()>
-		<input class="form-check-input" name="r1Style" id="r1Style3" type="radio" value="h4" checked>
+		<input class="form-check-input" name="r1Style" id="r1Style3" type="radio" value="h4">
 		<label class="form-check-label" for="r1Style3"><h4>Medium</h4></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="r1Style" onchange=generateTableCode()>
@@ -751,7 +772,7 @@ $(function () {
 		</div>
 		<div class="col-lg">
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateTableCode()>
-		<input class="form-check-input" name="bgStyle" id="bgStyle1" type="radio" value="td" checked>
+		<input class="form-check-input" name="bgStyle" id="bgStyle1" type="radio" value="td">
 		<label class="form-check-label" for="bgStyle1"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead><td>Plain text</td></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateTableCode()>
@@ -759,7 +780,7 @@ $(function () {
 		<label class="form-check-label" for="bgStyle2"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead><th>Bold</th></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateTableCode()>
-		<input class="form-check-input" name="bgStyle" id="bgStyle3" type="radio" value="thead-dark">
+		<input class="form-check-input" name="bgStyle" id="bgStyle3" type="radio" value="thead-dark" checked>
 		<label class="form-check-label" for="bgStyle3"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="thead-dark h5"><th>Dark</th></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateTableCode()>
