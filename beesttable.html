@@ -448,7 +448,8 @@ function recoverCode(){
 	var pastedHTML = $("#retrieveCode").val()
 	
 	var dataToFind = {
-		tags:["table"]
+		tags:["table"],
+		ids:['display_options']
 	}
 	
 	var iconHeading = getIconAndHeading(pastedHTML)
@@ -466,8 +467,15 @@ function recoverCode(){
 	else{	
 		var iconNums = reverseObjectMap(iconNames)
 		classTable.icon = iconNums[iconClassName]
-	}	
+	}
+
+	display_options = recoveredData.ids.display_options	
+	
 	classTable.tableData = tableHTML_toArray(recoveredData.tags.table[0].outerHTML)
+	
+	classTable.row1Style = $(display_options).attr('r1')
+	classTable.col1Style = $(display_options).attr('c1')
+	classTable.bgStyle = $(display_options).attr('bg')
 			
 	setTextAreas(classTable)
 }
@@ -681,9 +689,7 @@ $(function () {
   </div>
 	</div>
 	</div>
-	  <hr>
-	  
-		<div class="row w-100 mx-auto">
+	  <hr><div class="row w-100 mx-auto">
 		<div class="col-lg-2 mt-2">
 	   <h5 class="font-weight-bold">Row 1 Style<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the style of row 1. Medium is chosen by default.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
 		</div>
@@ -706,11 +712,7 @@ $(function () {
 	  </div>
 		</div>
 	  </div>		  
-		<hr>  
-		 
-
-	  <hr>
-	  
+		<hr>   
 		<div class="row w-100 mx-auto">
 		<div class="col-lg-2 mt-2">
 	   <h5 class="font-weight-bold">Column 1 Style<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the style of column 1. bold is chosen by default.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
@@ -742,11 +744,8 @@ $(function () {
 	  </div>	  
 		</div>
 	  </div>		  
-		<hr> 
-
-	  <hr>
-	  
-		<div class="row w-100 mx-auto">
+		<hr>
+	<div class="row w-100 mx-auto">
 		<div class="col-lg-2 mt-2">
 	   <h5 class="font-weight-bold">Background colour<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the background of cells. None is chosen by default.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
 		</div>
