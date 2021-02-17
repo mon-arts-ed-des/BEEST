@@ -148,14 +148,19 @@ function newTextField(placeholder,id){
 function newCellCode(rowNum,colNum,contents,display_options){
 /*display options {r1: NO_ROW_SIZE|"h3|4|5", c1: "td"|"th"|[class], bg: "td"|"th"|[class]}*/
 	var cellCode = ""
-	colIsPlain = display_options.c1=="td"
+	colStyle = display_options.c1
+	colIsPlain = colStyle=="td"
 	rowIsPlain = display_options.bg=="td"
 	
 	if ((rowNum==0)&&(!(rowIsPlain))){
 		cellCode = "<th scope=\"col\">"+contents+"</th>"
 	}
 	else if ((colNum==0)&&(!(colIsPlain))){
-		cellCode = "<th scope=\"row\">"+contents+"</th>"
+		cellCode = "<th scope=\"row\" "
+		if (colStyle !=="th"){
+			cellCode +="class=\""+colStyle+"\""
+		}
+		cellCode+=">"+contents+"</th>"
 	}
 	else{
 		cellCode = "<td>"+contents+"</td>"
