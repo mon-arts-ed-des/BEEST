@@ -36,6 +36,7 @@
 	<script type="text/javascript">
 const START_ELEMENT = "<!--Begin BEEST table-->"
 const END_ELEMENT = "<!--End BEEST table-->"
+const NO_ROW_SIZE = "None"
 /*REQUIRED FOR HISTORY*/    
 	const BUTTON_HIST = "history_table"
 	const pasteTable = "pasteTableFromExcel"
@@ -145,7 +146,7 @@ function newTextField(placeholder,id){
 }
 
 function newCellCode(rowNum,colNum,contents,display_options){
-/*display options {r1: "None"|"h3|4|5", c1: "td"|"th"|[class], bg: "td"|"th"|[class]}*/
+/*display options {r1: NO_ROW_SIZE|"h3|4|5", c1: "td"|"th"|[class], bg: "td"|"th"|[class]}*/
 	var cellCode = ""
 	colIsPlain = display_options.c1=="td"
 	rowIsPlain = display_options.bg=="td"
@@ -243,6 +244,14 @@ length of contents array must match column count for the row
 	
 	for (var colN = 0; colN < contentsArray.length; colN++){
 		cellContent = contentsArray[colN]
+		if ((rowNum==0)&&(display_options.bg==="td")){
+			//if we're top row and not using a bg, apply the heading size
+			if (display_options.r1!==NO_ROW_SIZE)
+			{
+				hSize = display_options.r1
+				cellContent = "<"+hSize+">"+cellContent+"</"+hSize+">"
+			}
+		}
 		thisCell = newCellCode(rowNum,colN,cellContent,display_options)
 		rowCode += thisCell
 	}
@@ -264,7 +273,7 @@ function determineRowOptions(display_options){
 		if (display_options.bg != 'th'){ //without a specific class just a basic thead so if have one use it
 			options.open +=display_options.bg + " "
 		}
-		if (display_options.r1 !== "None"){ //if there is a row sizing
+		if (display_options.r1 !== NO_ROW_SIZE){ //if there is a row sizing
 			options.open+= display_options.r1
 		}
 		options.open+="\">"
@@ -319,12 +328,12 @@ function rowHTMLtoRowElem(rowHTML){
 	elem.innerHTML = rowHTML.replace(/(<tr.*?>)|(<.tr>)/,"")
 	return elem
 }
-
+/*
 function newCellAsDOMElem(cellCode){
 	/*
 	might start with a th OR a td
 	td doesn't matter but th has the scope to watch for
-	*/
+	*//*
 	var tag = cellCode.replace(/">.*</,"><")
 	var elem;
 	switch(tag[1]+tag[2]){
@@ -333,7 +342,7 @@ function newCellAsDOMElem(cellCode){
 			break;
 		case "th":
 			elem = document.createElement("th")
-			var scope = tag.replace(/<th.*?"/,"").replace(/>.*/,"")
+			var scope = tag.replace(/<th.*?"/,"").replace(/>.*//*,"")
 			elem.scope = scope
 			break;
 		default:
@@ -343,7 +352,7 @@ function newCellAsDOMElem(cellCode){
 	elem.innerHTML = tagContents
 	return elem
 }
-
+/*
 function addColToRowsHTML(rowsList,colNum){
 	var placeholder;
 	var newColContent;
@@ -359,7 +368,7 @@ function addColToRowsHTML(rowsList,colNum){
 		editableTableHTML[rNum][colNum]=newColContent //keep it available for later
 	}
 }
-	
+*/	
 function getTableContentsFromPage(){
 	if (typeof(classTable.tableData)=="undefined"){
 		return [["Lorem ipsum dolor sit amet","consectetur adipiscing elit","sed do eiusmod tempor incididunt"],["ut labore et dolore magna aliqua"," Ut enim ad minim veniam","quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"],["Duis aute irure dolor in reprehenderit in voluptate","velit esse cillum dolore eu fugiat nulla pariatur","<p style='color:#ff0000;'><i><b>your own data will replace this</b></i></p>"]]
