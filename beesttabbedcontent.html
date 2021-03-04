@@ -364,6 +364,17 @@ function generateIconCode(faIcon){
 	}
 	return faIconCode
 }
+/**BEGIN generateElementCode helper functions**/
+function createResizedHead(headSize,faIconCode,tabbedMainHeading){
+	//Resizing the heading text
+	if (headSize == "noH"){resizedHead = ""}
+	else{
+		var sizes = {"h3":3,"h4":4,"h5":5}
+		resizedHead = '<h'+sizes[headSize]+'>'+faIconCode+tabbedMainHeading+"</h"+sizes[headSize]+">"
+	}
+	return resizedHead
+}
+/**END generateElementCode helper functions**/
 			
 function generateElementCode() {
     //console.debug(tinyMCE.activeEditor.getContent());
@@ -391,14 +402,8 @@ function generateElementCode() {
 
     var faIconCode = generateIconCode(faIcon)
 	
-	var resizedHead
-	//Resizing the heading text
-	if (headSize == "noH"){resizedHead = ""}
-	else{
-		var sizes = {"h3":3,"h4":4,"h5":5}
-		resizedHead = '<h'+sizes[headSize]+'>'+faIconCode+tabbedMainHeading+"</h"+sizes[headSize]+">"
-	}
-	
+	var resizedHead = createResizedHead(headSize,faIconCode,tabbedMainHeading)
+
 	//Retrieve the content by id of the textareas
 	var textOutputTabbedContent = resizedHead+monTabHeading_Open
 	
