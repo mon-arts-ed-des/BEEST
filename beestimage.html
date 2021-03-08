@@ -237,17 +237,76 @@ function setTextAreas(classData){
 
     var contextCode;
 
+/**BEGIN generateCode helper functions**/
+function getImageUrl(id,placeholder){
+	var url;
+	if (document.getElementById(id).value !== ""){
+        url = document.getElementById(id).value;
+	}
+	else{
+        url = placeholder;
+	}
+	return url
+}
+
+function createIconCode(faIcon){
+	//icon names moved to top
+	var iconName = iconNames[faIcon];
+		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
+	
+	if (faIcon == "noI"){
+		faIconCode = "";
+	}  
+		return faIconCode
+}
+
+function generateResizedHead(headSize,faIconCode,imgHeading){
+	//Resizing the heading text
+	hTag = "<"+headSize+">"
+	hTagClose = "</"+headSize+">"
+	resizedHead = ""
+	if (headSize !== "noH"){
+		resizedHead = hTag+faIconCode+imgHeading+hTagClose
+	}
+	return resizedHead
+} 
+
+function setColsForImgWidth(imgWidth,imgPosition){
+//Change size of column if requested
+	var firstCol="<div class=\"col-lg\">"
+	var secCol="<div class=\"col-lg mt-2\">"
+	if (imgWidth != "50"){
+		widthClass = {"50":"col-lg","33":"col-lg-4","25":"col-lg-3"}
+		if (imgPosition == "left"){
+			firstCol = firstCol.replace(widthClass["50"],widthClass[imgWidth])
+		}
+		else if (imgPosition == "right"){
+			secCol = secCol.replace(widthClass["50"],widthClass[imgWidth])
+		}
+	}
+	return {firstCol:firstCol,secCol:secCol}
+}
+function createColContents(imgPosition,contextCode,url){
+	var imgTagMake = function (src){return '<img class="img-fluid" src="'+src+'">'}
+	var leftColContent = ""
+	var rightColContent = ""
+	if (imgPosition == "left"){
+		leftColContent = imgTagMake(url)
+		rightColContent = contextCode
+	}
+	else if (imgPosition == "right"){
+		leftColContent = contextCode
+		rightColContent = imgTagMake(url)
+	}
+	return {left:leftColContent,right:rightColContent}
+}
+/**END generateCode helper functions**/
+
     /*Function to generate and copy code for the responsive image*/
 function generateCode() {
         // Get the HTML contents of the currently active editor
 	//console.debug(tinyMCE.activeEditor.getContent());
-
-	if (document.getElementById('respImgSwitch').value !== ""){
-        url = document.getElementById('respImgSwitch').value;
-	}
-	else{
-        url = imageplaceholder;
-	}
+	var url = getImageUrl('respImgSwitch',imageplaceholder)
 
 	contextCode = getTinyContent('tinyMCEimage',"[Placeholder for image context. The content you entered in step 2 will appear here.]")
 
@@ -266,49 +325,19 @@ function generateCode() {
 	classImage.icon = faIcon
 
 	var rowOpen="<div class=\"row w-100\">"
-	var firstCol="<div class=\"col-lg\">"
-	var imgTagMake = function (src){return '<img class="img-fluid" src="'+src+'">'}
-	var secCol="<div class=\"col-lg mt-2\">"
 	var closeCol="</div>"
 	var closeRow="</div></div>"
 	
-	//icon names moved to top
-
-	var iconName = iconNames[faIcon];
-		var faIconCode = "<i class=\"fa fa-"+iconName+"\"></i> ";
+	faIconCode = createIconCode(faIcon)
+	var resizedHead = generateResizedHead(headSize,faIconCode,imgHeading);  
+    
+	var widthCols = setColsForImgWidth(imgWidth,imgPosition)
+	var firstCol = widthCols.firstCol
+	var secCol = widthCols.secCol
 	
-	if (faIcon == "noI"){
-		faIconCode = "";
-	}  
-
-	var resizedHead;  
-    
-	//Resizing the heading text
-	hTag = "<"+headSize+">"
-	hTagClose = "</"+headSize+">"
-	resizedHead = ((headSize == "noH") ? "" : hTag+faIconCode+imgHeading+hTagClose) 
-    
-    //Change size of column if requested
-	if (imgWidth != "50"){
-		widthClass = {"50":"col-lg","33":"col-lg-4","25":"col-lg-3"}
-		if (imgPosition == "left"){
-			firstCol = firstCol.replace(widthClass["50"],widthClass[imgWidth])
-		}
-		else if (imgPosition == "right"){
-			secCol = secCol.replace(widthClass["50"],widthClass[imgWidth])
-		}
-	}
-	var leftColContent = ""
-	var rightColContent = ""
-	if (imgPosition == "left"){
-		leftColContent = imgTagMake(url)
-		rightColContent = contextCode
-	}
-	else if (imgPosition == "right"){
-		leftColContent = contextCode
-		rightColContent = imgTagMake(url)
-	}
-	var textOutput = resizedHead+rowOpen+firstCol+leftColContent+closeCol+secCol+rightColContent+closeRow;
+	var colContents = createColContents(imgPosition,contextCode,url)
+	
+	var textOutput = resizedHead+rowOpen+firstCol+colContents.left+closeCol+secCol+colContents.right+closeRow;
 
 	 //Add the html code after the div
 	var demoDiv = document.getElementById("demo");

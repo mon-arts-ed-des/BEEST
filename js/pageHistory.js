@@ -152,17 +152,17 @@ function recoverHistory(){
 		document.getElementById(id).style[styleName]=styleResult
 	}
 
-function addToHistory(currAccord){
+function addToHistory(currentInstance){
 	var localCurr = getHistory()
 	if ((localCurr == undefined)||(localCurr=="")){
 		localCurr = "[]"
 		setHistory(localCurr)
 	}
 	localCurr = JSON.parse(localCurr) //now an array of objects
-	currAccord = JSON.parse(JSON.stringify(currAccord))
-	currAccord.timestamp = new Date()
-	localCurr.push(currAccord)
-	localCurr = JSON.stringify(localCurr) //now a string again -- currAccord should have had its toString method called
+	currentInstance = JSON.parse(JSON.stringify(currentInstance))
+	currentInstance.timestamp = new Date()
+	localCurr.push(currentInstance)
+	localCurr = JSON.stringify(localCurr) //now a string again -- currentInstance should have had its toString method called
 	setHistory(localCurr)
 	historicalData = recoverHistory()
 	histIndex = historicalData.length-1

@@ -106,10 +106,11 @@ var iconNames = {
 		baseTiny = "tinyMCEmonAccContent"
 		baseBlock = "AccordSect"
 		
-		constructor(mainHead,headSize,icon,drawerList){
+		constructor(mainHead,headSize,icon,drawerList,openClose){
 			this.mainHead = mainHead
 			this.headSize = headSize
 			this.icon = icon
+			this.openClose = openClose
 			if (drawerList == undefined){
 				this.drawerList = []
 			}
@@ -183,6 +184,7 @@ var iconNames = {
 					this.drawerList[d].toPDO()
 				)
 			}
+			result.openClose = this.openClose
 			result.drawerCount = this.usableDrawers
 			return result
 		}
@@ -191,6 +193,7 @@ var iconNames = {
 			this.mainHead = PDO.mainHead
 			this.headSize = PDO.headSize
 			this.icon = PDO.icon
+			this.openClose = PDO.openClose
 			for (var dr=0; dr < PDO.drawerCount; dr++){
 				var theDrawer = PDO.drawerList[dr]
 				this.addDrawer(theDrawer.heading,theDrawer.content)
@@ -369,9 +372,15 @@ function setAccordContentsAndHeadings(idList,dataSet){
 	*/
 		idList = accordListToIDs(dataSet.getAllDrawers())
 		document.getElementById('accMainHeading').value = dataSet.mainHead;
-		setRadios('headSize',dataSet.headSize)
-		setRadios('faCode',dataSet.icon)
-		
+		if (dataSet.headSize!==undefined){
+			setRadios('headSize',dataSet.headSize)
+		}
+		if (dataSet.icon!==undefined){
+			setRadios('faCode',dataSet.icon)
+		}
+		if (dataSet.openClose!==undefined){
+			setRadios('openClose',dataSet.openClose)
+		}
 		add_remove_drawers_to_match_count(dataSet.drawerCount)
 /*		
 		tinyMCE.get('tinyMCEmonAccContent1').setContent(dataSet.getDrCont(0))
@@ -431,7 +440,7 @@ function generateHeading(classAccord){
 	return resizedHead
 }
 
-function generateAccordionHTML(classAccord,resizedHead,monAccBtnTxt,monAccContent){
+function generateAccordionHTML(classAccord,resizedHead,monAccBtnTxt,monAccContent,openClosed){
 //generate a random string start to ensure no accordions mix each other up
 	var monAccOutput = resizedHead
 	
@@ -446,7 +455,12 @@ function generateAccordionHTML(classAccord,resizedHead,monAccBtnTxt,monAccConten
 	for (var secNum = 0; secNum < classAccord.usableDrawers; secNum++){
 		changesByDrawer.beestAccUse = ((secNum==0) ? " beestAcc" : "")
 		changesByDrawer.roundTop = ((secNum==0) ? " rounded-top " : " rounded-0 ")
-		changesByDrawer.showhide = ((secNum==0) ? "show " : "")
+		if (openClosed=="closed"){
+			changesByDrawer.showhide = ""
+		}
+		else{
+			changesByDrawer.showhide = ((secNum==0) ? "show " : "")
+		}
 		changesByDrawer.roundBottom = ((secNum==lastDr) ? " rounded-bottom " : "")
 		
 		numCode = randString+(1+secNum)
@@ -483,12 +497,13 @@ function generateAccordionHTML(classAccord,resizedHead,monAccBtnTxt,monAccConten
 		classAccord.mainHead = document.getElementById('accMainHeading').value;
 		classAccord.headSize = getRadioOption('headSize')
 		classAccord.icon = getRadioOption('faCode')
+		classAccord.openClose = getRadioOption('openClose')
 		
 		var resizedHead = generateHeading(classAccord)
 			//Resizing the heading text
 			
 		
-		var monAccOutput = generateAccordionHTML(classAccord,resizedHead,monAccBtnTxt,monAccContent);	
+		var monAccOutput = generateAccordionHTML(classAccord,resizedHead,monAccBtnTxt,monAccContent,classAccord.openClose);	
 		
         document.getElementById('monAccCode').innerHTML=START_ELEMENT+monAccStyle+monAccOutput+END_ELEMENT;
         //SelectAll("monAccCode");
@@ -534,10 +549,14 @@ function recoverCode(){
 	}
 	var dataToFind = {
 		tags:["button"],
-		classes:["accDiv"]
+		classes:["show","accDiv"]
 	} //spans in order should give headings, div in order (when id starts with content) will give contents
 	var recoveredData = recoverFromPasted(pastedHTML,dataToFind)
-	
+	var openClose = "closed"
+	if (recoveredData.classes.hasOwnProperty("show")){
+		openClose = "open"
+	}
+	_classAccord_.openClose = openClose
 	var drawers = {head:[],cont:[]}
 	
 	drawers.cont = recoveredData.classes.accDiv
@@ -805,6 +824,25 @@ function setupBackToTopButton(){
       </div>
     </div>
           <hr>
+		  
+<div class="row w-100">
+  <div class="col-lg-3">
+    <h5>Load with...<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose whether the first block of the accordion starts expanded or collapsed. The default is open/expanded">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+  </div>
+  <div class="col-lg">
+<div class="form-check form-check-inline" id="openClose" onchange=generateElementCode()>
+  <input class="form-check-input" name="openClose" id="openClose1" type="radio" value="open" checked>
+  <label class="form-check-label" for="openClose1">First block open</label>
+</div>
+<div class="form-check form-check-inline" id="openClose" onchange=generateElementCode()>
+  <input class="form-check-input" name="openClose" id="openClose2" type="radio" value="closed">
+  <label class="form-check-label" for="openClose2">First block closed</label>
+</div>
+
+</div>
+  </div>
+<hr>
+
 <div class="row w-100">
   <div class="col-lg">
 <h5>Drawer headings & content<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Input the headings that will appear on the accordion drawers and the content that will sit inside each of the drawers. The max length allowed for headings is 75 characters.">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
