@@ -179,13 +179,11 @@ class modal{
 		else{
 			result+='secondary"'
 		}
-		if (action=="close"){
-			result+='data-dismiss="modal"'
+		result+=' data-dismiss="modal"'
+		if (action!=="close"){
+			result+=' onclick="'+action+'"'
 		}
-		else{
-			result+='onclick="'+action
-		}
-		result+=contents+'</button>'
+		result+='>'+contents+'</button>'
 		return result
 	}
 	buildModalStart(){
@@ -219,6 +217,14 @@ class modal{
 			}
 			result+='></textarea>'
 		}
+		
+		if (hasPreview){
+			result+="<BR><BR>"
+			result+='<span><b>Preview:</b></span><table border=1><tbody><tr><td><span style="font-size: large" id="'+this.id+'Preview">'
+			result+=this.buildPreview()
+			result+='</span></td></tr></tbody></table>'
+		}
+		
 		result+='</div>'
 		return result
 	}
@@ -258,14 +264,9 @@ class modal{
 	}
 	buildModalFooter(hasPreview,hasButton){
 		var result = ""
-		if (hasButton || hasPreview){
-			
+		if (hasButton){
 			result+='<div class="modal-footer">'
-			if (hasPreview){
-				result+='<span><b>Preview:</b></span><table border=1><tbody><tr><td><span style="font-size: large" id="'+this.id+'Preview">'
-				result+=this.buildPreview()
-				result+='</span></td></tr></tbody></table>'
-			}
+
 			if (hasButton){
 				for (var bId=0;bId<this.buttons.length;bId++){
 					result+=this.buildButton(this.buttons[bId].text,this.buttons[bId].result,this.buttons[bId].colour)
@@ -295,8 +296,9 @@ class modal{
 		htmlModal+= this.buildModalBody(hasDescription,hasTextField,hasPlaceholder,hasPreview)
 		
 		htmlModal+=this.buildModalFooter(hasPreview,hasButton)
+		htmlModal += '</div></div></div>'
 		
-		this.modal.innerHTML=htmlModal+'</div></div></div>'
+		this.modal.innerHTML=htmlModal
 		
 		document.body.appendChild(this.modal)
 		this.hide()
@@ -326,14 +328,14 @@ function savePopup(currentItem){
 		args:[currentItem.mainHead,time],
 		buttons: [
 			{
-				text:"do not save",
+				text:"cancel",
 				colour:"danger",
 				result:"close"
 			},
 			{
 				text:"save",
 				colour:"success",
-				result:"addToHistory_Aux(this.args[0])"
+				result:"addToHistory_Aux(theModal.args[0])"
 			}
 		]
 	}
