@@ -189,7 +189,7 @@ class modal{
 		return result
 	}
 	buildModalStart(){
-		return '<div class="modal fade" id="'+this.id+'" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content">'
+		return '<div class="modal fade" id="'+this.id+'" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content">'
 	}
 	buildModalTitle(hasTitle){
 		var result = '<div class="modal-header"><h5 class="modal-title" id="'+this.id+'Label">'
@@ -215,7 +215,7 @@ class modal{
 			}
 			result+='<textarea maxlength="75" class="rounded p-2 w-100 border border-dark" rows="1" name="modalTextArea" type="text" id="'+this.id+'TextField" placeholder="'+placeholder+'"'
 			if (hasPreview){
-				result+=' onedit="theModal.textFieldChanged()"'
+				result+=' onkeyup="theModal.textFieldChanged()"'
 			}
 			result+='></textarea>'
 		}
@@ -231,7 +231,7 @@ class modal{
 			else{
 				this.args = [changedVal]
 			}
-			setPreview()
+			this.setPreview()
 		}
 	}
 	buildPreview(){
@@ -254,7 +254,7 @@ class modal{
 		return thePreview
 	}
 	setPreview(){
-		$('#'+this.id+"Preview").html(buildPreview())
+		$('#'+this.id+"Preview").html(this.buildPreview())
 	}
 	buildModalFooter(hasPreview,hasButton){
 		var result = ""
@@ -262,9 +262,9 @@ class modal{
 			
 			result+='<div class="modal-footer">'
 			if (hasPreview){
-				result+='<span id="'+this.id+'Preview">'
+				result+='<span><b>Preview:</b></span><table border=1><tbody><tr><td><span style="font-size: large" id="'+this.id+'Preview">'
 				result+=this.buildPreview()
-				result+='</span>'
+				result+='</span></td></tr></tbody></table>'
 			}
 			if (hasButton){
 				for (var bId=0;bId<this.buttons.length;bId++){
@@ -314,14 +314,16 @@ function savePopup(currentItem){
 	if ((send_placeholder == undefined)||(send_placeholder=="")){
 		send_placeholder = "[placeholder]"
 	}
+	var time = currentItem.timestamp
+	time = time.toLocaleDateString() + " " + time.toLocaleTimeString()
 	var data = {
 		id: "savePopup",
-		title:"Save in browser",
-		description: "<b>Code copied</b><br><br>Save this element in your browser?<br><br>Name:",
+		title:"Save in browser?",
+		description: "<b>Code copied!</b><br><br>Save this element in your browser?<br><br>Name:",
 		textField: true,
 		placeholder: send_placeholder,
 		previewResult: "$1 ($2)",
-		args:[currentItem.mainHead,currentItem.timestamp],
+		args:[currentItem.mainHead,time],
 		buttons: [
 			{
 				text:"do not save",
