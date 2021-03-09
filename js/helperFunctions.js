@@ -1,6 +1,10 @@
 class modal{
-	/*
+	/*	
 	arguments set through data (all optional unless otherwise specified, some may be replaced with placeholders if blank)
+	
+	how to use: create an instance (var X = new modal(data)) and then run the display function (X.display()). Hide with .hide (X.hide())
+	
+	Arguments:
 		id [required]: a unique ID for this modal
 		
 		title: text to appear at top of modal
