@@ -166,12 +166,12 @@ class modal{
 		this.build()
 	}
 	setData(data){
-		for (item in data){
+		for (var item in data){
 			this[item] = data[item]
 		}
 	}
 	buildButton(contents,action,colour){
-		result = '<button type="button" class="btn btn-'
+		var result = '<button type="button" class="btn btn-'
 		if (typeof(colour)!=='undefined'){
 			result+=colour+'"'
 		}
@@ -199,16 +199,16 @@ class modal{
 		return result
 	}
 	buildModalBody(hasDescription,hasTextField,hasPlaceholder,hasPreview){
-		result = '<div class="modal-body">'
+		var result = '<div class="modal-body">'
 		if (hasDescription){
-			correctedDesc = this.description.replace('\n','<br>')
+			var correctedDesc = this.description.replace('\n','<br>')
 			result+=correctedDesc
 		}
 		if (hasTextField){
 			if (hasDescription){
 				result+='<BR>'
 			}
-			placeholder = "Your text here"
+			var placeholder = "Your text here"
 			if (hasPlaceholder){
 				placeholder = this.placeholder
 			}
@@ -223,7 +223,7 @@ class modal{
 	}
 	textFieldChanged(){
 		if (this.hasOwnProperty('args')){
-			changedVal = $('#'+this.id+'TextField').val()
+			var changedVal = $('#'+this.id+'TextField').val()
 			if (this.args.hasOwnProperty(0)){
 				this.args[0] = changedVal
 			}
@@ -244,11 +244,9 @@ class modal{
 		}
 		
 		for (var argN=0; argN<lastArg; argN++){
+			var repWith = "???";
 			if (this.args.hasOwnProperty(argN)){
 				repWith = this.args[argN]
-			}
-			else{
-				repWith = "???"
 			}
 			thePreview = thePreview.replace("$"+(argN+1),repWith)
 		}
@@ -258,18 +256,18 @@ class modal{
 		$('#'+this.id+"Preview").html(buildPreview())
 	}
 	buildModalFooter(hasPreview,hasButton){
-		result = ""
+		var result = ""
 		if (hasButton || hasPreview){
 			
 			result+='<div class="modal-footer">'
 			if (hasPreview){
 				result+='<span id="'+this.id+'Preview">'
-				result+=buildPreview()
+				result+=this.buildPreview()
 				result+='</span>'
 			}
 			if (hasButton){
 				for (var bId=0;bId<this.buttons.length;bId++){
-					result+=buildButton(this.buttons[bId].text,this.buttons[bId].result,this.buttons[bId].colour)
+					result+=this.buildButton(this.buttons[bId].text,this.buttons[bId].result,this.buttons[bId].colour)
 				}
 			}
 			result+='</div>'
@@ -286,16 +284,17 @@ class modal{
 		var hasTitle = this.hasOwnProperty('title')
 		
 		this.modal = document.createElement('span')
-		this.modal.setAttribute(id="modalContainer")
-		this.modal.innerHTML = buildModalStart()
+		this.modal.setAttribute("id","modalContainer")
 		
-		this.modal.innerHTML+= buildModalTitle(hasTitle)
+		var htmlModal = this.buildModalStart()
 		
-		this.modal.innerHTML+= buildModalBody(hasDescription,hasTextField,hasPlaceholder,hasPreview)
+		htmlModal+= this.buildModalTitle(hasTitle)
 		
-		this.modal.innerHTML+=buildModalFooter(hasPreview,hasButton)
+		htmlModal+= this.buildModalBody(hasDescription,hasTextField,hasPlaceholder,hasPreview)
 		
-		this.modal.innerHTML+='</div></div></div>'
+		htmlModal+=this.buildModalFooter(hasPreview,hasButton)
+		
+		this.modal.innerHTML=htmlModal+'</div></div></div>'
 		
 		document.body.appendChild(this.modal)
 		this.hide()
