@@ -5,13 +5,13 @@ class modal{
 		
 		title: text to appear at top of modal
 		
-***		description: text to appear within body of the modal. use <BR>'s for new lines and include special  codes (@ followed by a digit) to place text fields within the description text
+		description: text to appear within body of the modal. use <BR>'s for new lines and include special  codes (@ followed by a digit) to place text fields within the description text
 		
-***		textField: the number of text fields to include (if no @ codes included in description, these appear at the end of the body of the modal). Note: you can find the values in these text fields at any time using the modal instance's     .args[index]    the index will match that of the text field
+		textField: the number of text fields to include (if no @ codes included in description, these appear at the end of the body of the modal). Note: you can find the values in these text fields at any time using the modal instance's     .args[index]    the index will match that of the text field
 		
-***		placeholder: an array of text field placeholders (in order of appearance) e.g. ['your text here', 'your name', ...]. Note: if there are fewer placeholders than text fields, the last placeholder is repeated
+		placeholder: an array of text field placeholders (in order of appearance) e.g. ['your text here', 'your name', ...]. Note: if there are fewer placeholders than text fields, the last placeholder is repeated
 		
-		previewResult: the format for previewing the results - use dollar codes ($ followed by a digit) to specify which of the args to use where within the preview e.g. "$1 ($2)" with the first and second args as 'hello' and 'world' would be "hello (world)". Note: if you are using textfields but want arguments which aren't changed by these, you will need more arguments than text fields (e.g. $7 if there was just 1 text field would refer to your 7th argument only and would not change with user entry)
+		previewResult: the format for previewing the results - use dollar codes ($ followed by a digit) to specify which of the args to use where within the preview e.g. "$1 ($2)" with the first and second args as 'hello' and 'world' would be "hello (world)". Note: if you are using textfields but want arguments which aren't changed by these, you will need more arguments than text fields (e.g. $7 if there was just 1 text field would refer to your 7th argument only and would not change with user entry). If values are missing from args and specified by preview "???" will appear
 		
 		args: an array of data the modal will have access to. Note: if you have text fields, the ones of these matching a text field number (e.g. arg 3 to the third text field) will be overwritten by the user. You do not need to specify these if you wish (e.g. [,,'non text field argument'] if there were 2 text fields) and they will be updated when the user enters something into the field
 		
@@ -69,16 +69,10 @@ class modal{
 		
 		return result
 	}
-	buildModalBody(hasDescription,hasTextField,hasPlaceholder,hasPreview){
+	buildModalBody(hasDescription,descriptionHasWild,hasTextField,hasPlaceholder,hasPreview){
 		var result = '<div class="modal-body">'
-		if (hasDescription){
-			var correctedDesc = this.description.replace('\n','<br>')
-			result+=correctedDesc
-		}
+		var textFieldsArray = []
 		if (hasTextField){
-			if (hasDescription){
-				result+='<BR>'
-			}
 			var placeholder = "Your text here"
 			if (hasPlaceholder){
 				placeholder = this.placeholder
@@ -86,8 +80,31 @@ class modal{
 			if (!(Array.isArray(placeholder))){
 				placeholder = [placeholder]
 			}
-			for (var textFieldIndex = 0; textFieldIndex<this.textField;textFieldIndex++){
-				result += this.buildTextField(textFieldIndex,placeholder,hasPreview)
+			var textFieldsInDesc = this.countWildCards(this.description,"@")
+			var tFieldCount = Math.max(textFieldsInDesc,this.textField)
+			for (var textFieldIndex = 0; textFieldIndex<tFieldCount;textFieldIndex++){
+				textFieldsArray.push(this.buildTextField(textFieldIndex,placeholder,hasPreview))
+			}
+		}
+		
+		if (hasDescription){
+			var revisedDescription = this.description
+			if (hasTextField && descriptionHasWild){//we have text fields and they should be in description
+				revisedDescription = this.replaceCodeWith(revisedDescription,"@",textFieldsArray)
+				while ((textFieldsInDesc>0)&&(textFieldsArray.length>0)){
+					textFieldsArray.shift()
+					textFieldsInDesc-=1
+					//remove those already included from the list
+				}
+			}
+			result+=revisedDescription
+		}
+		if ((hasTextField)&&(textFieldsArray.length>0)){//we have them but they weren't in the description (or some remain)
+			if (hasDescription){
+				result+='<BR>'
+			}
+			while (textFieldsArray.length>0){
+				result += textFieldsArray.shift()
 			}
 			
 		}
@@ -102,46 +119,14 @@ class modal{
 		result+='</div>'
 		return result
 	}
-	textFieldChanged(hasPreview,index){
-		var changedVal = $('#'+this.id+'TextField'+index).val()
-		if (this.hasOwnProperty('args')){
-			if (!(Array.isArray(this.args))){
-				this.args = [this.args]
-			}
-		}
-		else{
-			this.args = []
-		}
-		this.args[index] = changedVal
-		if (hasPreview){
-			this.setPreview()
-		}
-	}
-	replaceCodeWith(string,codePrefix,replaceList){
-		
-		
-	}
 	buildPreview(){
-		var thePreview = ""
-		var lastArg = this.previewResult.match(/(\$\d+)(?!.*\$\d)/) //match last $num
-		lastArg = Number(lastArg[0].replace("$",""))
-		
-		thePreview = this.previewResult
-		if (!(this.args.hasOwnProperty(0))){
+		if (!(Array.isArray(this.args))){
 			this.args = [this.args]
 		}
-		
-		for (var argN=0; argN<lastArg; argN++){
-			var repWith = "???";
-			if (this.args.hasOwnProperty(argN)){
-				repWith = this.args[argN]
-			}
-			thePreview = thePreview.replace("$"+(argN+1),repWith)
-		}
+		var thePreview = this.previewResult
+		thePreview = this.replaceCodeWith(thePreview,"$",this.args) //match last $num
+
 		return thePreview
-	}
-	setPreview(){
-		$('#'+this.id+"Preview").html(this.buildPreview())
 	}
 	buildModalFooter(hasPreview,hasButton){
 		var result = ""
@@ -164,6 +149,7 @@ class modal{
 		var hasTextField = this.hasOwnProperty('textField')
 		hasTextField = hasTextField && (this.textField>0)
 		var hasDescription = this.hasOwnProperty('description')
+		var descriptionHasWild = ((hasDescription)&&(this.hasWildcards(this.description,"@")))
 		var hasPlaceholder = this.hasOwnProperty('placeholder')
 		var hasTitle = this.hasOwnProperty('title')
 		
@@ -174,7 +160,7 @@ class modal{
 		
 		htmlModal+= this.buildModalTitle(hasTitle)
 		
-		htmlModal+= this.buildModalBody(hasDescription,hasTextField,hasPlaceholder,hasPreview)
+		htmlModal+= this.buildModalBody(hasDescription,descriptionHasWild,hasTextField,hasPlaceholder,hasPreview)
 		
 		htmlModal+=this.buildModalFooter(hasPreview,hasButton)
 		htmlModal += '</div></div></div>'
@@ -183,6 +169,52 @@ class modal{
 		
 		document.body.appendChild(this.modal)
 		this.hide()
+	}
+	hasWildcards(string,wildcard){
+		return (this.countWildCards(string,wildcard)>0)
+	}
+	countWildCards(string,wildcard){
+		var regex = '\\'+wildcard+"\\d+"
+		return [...string.matchAll(regex)].length
+	}
+	textFieldChanged(hasPreview,index){
+		var changedVal = $('#'+this.id+'TextField'+index).val()
+		if (this.hasOwnProperty('args')){
+			if (!(Array.isArray(this.args))){
+				this.args = [this.args]
+			}
+		}
+		else{
+			this.args = []
+		}
+		this.args[index] = changedVal
+		if (hasPreview){
+			this.setPreview()
+		}
+	}
+	replaceCodeWith(string,codePrefix,replaceList){
+		var regex = '(\\'+codePrefix+'\\d+)' //get last instance of prefix+digit
+		var allMatches = [...string.matchAll(regex)] //... takes a sequence and breaks it up into individual elements
+		for (var i=0;i<allMatches.length;i++){
+			allMatches[i] = allMatches[i][0] //take just the match
+			allMatches[i] = allMatches[i].replace(codePrefix,"") //remove the codePrefix
+			allMatches[i] = Number(allMatches[i])//make it numeric 
+		} 
+		var lastArg = Math.max(...allMatches); //get the highest
+		var result = string;
+		
+		for (var argN=0; argN<lastArg; argN++){
+			var repWith = "???";
+			if (replaceList.hasOwnProperty(argN)){
+				repWith = replaceList[argN]
+			}
+			result = result.replace(codePrefix+(argN+1),repWith)
+		}
+		
+		return result
+	}
+	setPreview(){
+		$('#'+this.id+"Preview").html(this.buildPreview())
 	}
 	display(){
 		$('#'+this.id).modal('show')
