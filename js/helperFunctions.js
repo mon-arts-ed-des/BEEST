@@ -1,3 +1,197 @@
+class modal{
+	/*
+	arguments set through data (all optional unless otherwise specified, some may be replaced with placeholders if blank)
+		id [required]: a unique ID for this modal
+		
+		title: text to appear at top of modal
+		
+***		description: text to appear within body of the modal. use <BR>'s for new lines and include special  codes (@ followed by a digit) to place text fields within the description text
+		
+***		textField: the number of text fields to include (if no @ codes included in description, these appear at the end of the body of the modal). Note: you can find the values in these text fields at any time using the modal instance's     .args[index]    the index will match that of the text field
+		
+***		placeholder: an array of text field placeholders (in order of appearance) e.g. ['your text here', 'your name', ...]. Note: if there are fewer placeholders than text fields, the last placeholder is repeated
+		
+		previewResult: the format for previewing the results - use dollar codes ($ followed by a digit) to specify which of the args to use where within the preview e.g. "$1 ($2)" with the first and second args as 'hello' and 'world' would be "hello (world)". Note: if you are using textfields but want arguments which aren't changed by these, you will need more arguments than text fields (e.g. $7 if there was just 1 text field would refer to your 7th argument only and would not change with user entry)
+		
+		args: an array of data the modal will have access to. Note: if you have text fields, the ones of these matching a text field number (e.g. arg 3 to the third text field) will be overwritten by the user. You do not need to specify these if you wish (e.g. [,,'non text field argument'] if there were 2 text fields) and they will be updated when the user enters something into the field
+		
+		buttons: an array of button objects in order of appearance in the footer of the modal. a button object has the form {text: TEXT TO APPEAR IN BUTTON, colour: BOOTSTRAP COLOUR CLASS, result: FUNCTION TO TRIGGER OR 'close' TO CANCEL} e.g. {text:'save',colour:'success',result:'doThing()'} or {text:'cancel',colour:'danger',result:'close'}	
+	*/
+	constructor(data){
+		this.id=data.id //there will always be an id, allow to crash otherwise
+		this.modal=null
+		this.setData(data)
+		this.build()
+	}
+	setData(data){
+		for (var item in data){
+			this[item] = data[item]
+		}
+	}
+	buildButton(contents,action,colour){
+		var result = '<button type="button" class="btn btn-'
+		if (typeof(colour)!=='undefined'){
+			result+=colour+'"'
+		}
+		else{
+			result+='secondary"'
+		}
+		result+=' data-dismiss="modal"'
+		if (action!=="close"){
+			result+=' onclick="'+action+'"'
+		}
+		result+='>'+contents+'</button>'
+		return result
+	}
+	buildModalStart(){
+		return '<div class="modal fade" id="'+this.id+'" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content">'
+	}
+	buildModalTitle(hasTitle){
+		var result = '<div class="modal-header"><h5 class="modal-title" id="'+this.id+'Label">'
+		if (hasTitle){
+			result+=this.title
+		}
+		result += '</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>'
+		return result
+	}
+	buildTextField(index,placeholder,hasPreview){
+		var result = ""
+		var thisPlace = placeholder[placeholder.length-1]
+		if (placeholder.length > index){
+			thisPlace = placeholder[index]
+		}
+		
+		result+='<textarea maxlength="75" class="rounded p-2 w-100 border border-dark" rows="1" name="modalTextArea" type="text" id="'+this.id+'TextField'+index+'" placeholder="'+thisPlace+'"'
+		if (hasPreview){
+			result+=' onkeyup="theModal.textFieldChanged('+hasPreview+','+index+')"'
+		}
+		result+='></textarea>'
+		
+		return result
+	}
+	buildModalBody(hasDescription,hasTextField,hasPlaceholder,hasPreview){
+		var result = '<div class="modal-body">'
+		if (hasDescription){
+			var correctedDesc = this.description.replace('\n','<br>')
+			result+=correctedDesc
+		}
+		if (hasTextField){
+			if (hasDescription){
+				result+='<BR>'
+			}
+			var placeholder = "Your text here"
+			if (hasPlaceholder){
+				placeholder = this.placeholder
+			}
+			if (!(Array.isArray(placeholder))){
+				placeholder = [placeholder]
+			}
+			for (var textFieldIndex = 0; textFieldIndex<this.textField;textFieldIndex++){
+				result += this.buildTextField(textFieldIndex,placeholder,hasPreview)
+			}
+			
+		}
+		
+		if (hasPreview){
+			result+="<BR><BR>"
+			result+='<span><b>Preview:</b></span><table border=1><tbody><tr><td><span style="font-size: large" id="'+this.id+'Preview">'
+			result+=this.buildPreview()
+			result+='</span></td></tr></tbody></table>'
+		}
+		
+		result+='</div>'
+		return result
+	}
+	textFieldChanged(hasPreview,index){
+		var changedVal = $('#'+this.id+'TextField'+index).val()
+		if (this.hasOwnProperty('args')){
+			if (!(Array.isArray(this.args))){
+				this.args = [this.args]
+			}
+		}
+		else{
+			this.args = []
+		}
+		this.args[index] = changedVal
+		if (hasPreview){
+			this.setPreview()
+		}
+	}
+	replaceCodeWith(string,codePrefix,replaceList){
+		
+		
+	}
+	buildPreview(){
+		var thePreview = ""
+		var lastArg = this.previewResult.match(/(\$\d+)(?!.*\$\d)/) //match last $num
+		lastArg = Number(lastArg[0].replace("$",""))
+		
+		thePreview = this.previewResult
+		if (!(this.args.hasOwnProperty(0))){
+			this.args = [this.args]
+		}
+		
+		for (var argN=0; argN<lastArg; argN++){
+			var repWith = "???";
+			if (this.args.hasOwnProperty(argN)){
+				repWith = this.args[argN]
+			}
+			thePreview = thePreview.replace("$"+(argN+1),repWith)
+		}
+		return thePreview
+	}
+	setPreview(){
+		$('#'+this.id+"Preview").html(this.buildPreview())
+	}
+	buildModalFooter(hasPreview,hasButton){
+		var result = ""
+		if (hasButton){
+			result+='<div class="modal-footer">'
+
+			if (hasButton){
+				for (var bId=0;bId<this.buttons.length;bId++){
+					result+=this.buildButton(this.buttons[bId].text,this.buttons[bId].result,this.buttons[bId].colour)
+				}
+			}
+			result+='</div>'
+		}
+		return result
+	}
+	build(){
+		$("#modalContainer").remove() //in case one already exists
+		var hasButton = this.hasOwnProperty("buttons")
+		var hasPreview = this.hasOwnProperty('previewResult')
+		var hasTextField = this.hasOwnProperty('textField')
+		hasTextField = hasTextField && (this.textField>0)
+		var hasDescription = this.hasOwnProperty('description')
+		var hasPlaceholder = this.hasOwnProperty('placeholder')
+		var hasTitle = this.hasOwnProperty('title')
+		
+		this.modal = document.createElement('span')
+		this.modal.setAttribute("id","modalContainer")
+		
+		var htmlModal = this.buildModalStart()
+		
+		htmlModal+= this.buildModalTitle(hasTitle)
+		
+		htmlModal+= this.buildModalBody(hasDescription,hasTextField,hasPlaceholder,hasPreview)
+		
+		htmlModal+=this.buildModalFooter(hasPreview,hasButton)
+		htmlModal += '</div></div></div>'
+		
+		this.modal.innerHTML=htmlModal
+		
+		document.body.appendChild(this.modal)
+		this.hide()
+	}
+	display(){
+		$('#'+this.id).modal('show')
+	}
+	hide(){
+		$('#'+this.id).modal('hide')
+	}
+}
+
 function textAreaActUpon(id,type,task,value){
 	getBasic = function(id){return $('#'+id).val()}
 	setBasic = function(id,value){$('#'+id).val(value)}
