@@ -3,6 +3,7 @@ const UNSELECTED = "Select the item you wish to load..."
 var historicalData = null
 var histIndex = null;
 var currentLocalSet = null
+var theModal = null;
 
 function getHistory(){
 	return localStorage.getItem(localStorageHistory)
@@ -188,7 +189,7 @@ class modal{
 		return result
 	}
 	buildModalStart(){
-		return '<div class="modal fade" id="'+this.id+'" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content">'
+		return '<div class="modal fade" id="'+this.id+'" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content">'
 	}
 	buildModalTitle(hasTitle){
 		var result = '<div class="modal-header"><h5 class="modal-title" id="'+this.id+'Label">'
@@ -214,7 +215,7 @@ class modal{
 			}
 			result+='<textarea maxlength="75" class="rounded p-2 w-100 border border-dark" rows="1" name="modalTextArea" type="text" id="'+this.id+'TextField" placeholder="'+placeholder+'"'
 			if (hasPreview){
-				result+=' onchange="textFieldChanged()"'
+				result+=' onedit="theModal.textFieldChanged()"'
 			}
 			result+='></textarea>'
 		}
@@ -275,6 +276,7 @@ class modal{
 		return result
 	}
 	build(){
+		$("#modalContainer").remove() //in case one already exists
 		var hasButton = this.hasOwnProperty("buttons")
 		var hasPreview = this.hasOwnProperty('previewResult')
 		var hasTextField = this.hasOwnProperty('textField')
@@ -308,12 +310,16 @@ class modal{
 }
 
 function savePopup(currentItem){
-	theModal = new modal({
+	var send_placeholder = currentItem.mainHead
+	if ((send_placeholder == undefined)||(send_placeholder=="")){
+		send_placeholder = "[placeholder]"
+	}
+	var data = {
 		id: "savePopup",
 		title:"Save in browser",
-		description: "Also save this element locally in this browser?\n\n Name:",
+		description: "<b>Code copied</b><br><br>Save this element in your browser?<br><br>Name:",
 		textField: true,
-		placeholder: currentItem,
+		placeholder: send_placeholder,
 		previewResult: "$1 ($2)",
 		args:[currentItem.mainHead,currentItem.timestamp],
 		buttons: [
@@ -328,7 +334,14 @@ function savePopup(currentItem){
 				result:"addToHistory_Aux(this.args[0])"
 			}
 		]
-	})
+	}
+	if (theModal==null){
+		theModal = new modal(data)
+	}
+	else{
+		theModal.setData(data)
+		theModal.build()
+	}
 	theModal.display()
 }
 
