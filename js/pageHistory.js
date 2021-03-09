@@ -188,7 +188,7 @@ class modal{
 		return result
 	}
 	buildModalStart(){
-		return '<div class="modal fade" id="'this.id'" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content">'
+		return '<div class="modal fade" id="'+this.id+'" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content">'
 	}
 	buildModalTitle(hasTitle){
 		var result = '<div class="modal-header"><h5 class="modal-title" id="'+this.id+'Label">'
@@ -310,13 +310,13 @@ class modal{
 
 function savePopup(currentItem){
 	theModal = new modal({
-		id: "savePopup"
+		id: "savePopup",
 		title:"Save in browser",
-		description: "Also save this element locally in this browser?\n\n Name:"
-		textField: true
-		placeholder: currentItem
+		description: "Also save this element locally in this browser?\n\n Name:",
+		textField: true,
+		placeholder: currentItem,
 		previewResult: "$1 ($2)",
-		args:[currentItem.mainHead,currentItem.timestamp]
+		args:[currentItem.mainHead,currentItem.timestamp],
 		buttons: [
 			{
 				text:"do not save",
