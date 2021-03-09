@@ -71,7 +71,12 @@ class recoveryDataSet{
 		this.length=0
 		for (var recoveryI=0;recoveryI<recoveryDataArray.length;recoveryI++){
 			element = recoveryDataArray[recoveryI]
-			heading = element.mainHead
+			if (element.hasOwnProperty("title")){
+				heading = element.title
+			}
+			else{
+				heading = element.mainHead
+			}
 			time = new Date(element.timestamp)
 			this[recoveryI] = new recoveryData(heading,time)
 			this.length++
@@ -151,7 +156,200 @@ function recoverHistory(){
 	function htmlStyle(id,styleName,styleResult){
 		document.getElementById(id).style[styleName]=styleResult
 	}
+/**WIP**/
+function createModel(data){
+	result = data
+	result.result = null
+	
+	
+}
 
+class modal{
+	constructor(data){
+		this.id=data.id //there will always be an id, allow to crash otherwise
+		this.modal=null
+		this.setData(data)
+		this.build()
+	}
+	setData(data){
+		for (item in data){
+			this[item] = data[item]
+		}
+	}
+	buildButton(contents,action,colour){
+		result = '<button type="button" class="btn btn-'
+		if (typeof(colour)!=='undefined'){
+			result+=colour+'"'
+		}
+		else{
+			result+='secondary"'
+		}
+		if (action=="close"){
+			result+='data-dismiss="modal"'
+		}
+		else{
+			result+='onclick="'+action
+		}
+		result+=contents+'</button>'
+		return result
+	}
+	buildModalStart(){
+		return '<div class="modal fade" id="'this.id'" tabindex="-1" role="dialog"><div class="modal-dialog" role="document"><div class="modal-content">'
+	}
+	buildModalTitle(hasTitle){
+		var result = '<div class="modal-header"><h5 class="modal-title" id="'+this.id+'Label">'
+		if (hasTitle){
+			result+=this.title
+		}
+		result += '</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>'
+		return result
+	}
+	buildModalBody(hasDescription,hasTextField,hasPlaceholder,hasPreview){
+		result = '<div class="modal-body">'
+		if (hasDescription){
+			correctedDesc = this.description.replace('\n','<br>')
+			result+=correctedDesc
+		}
+		if (hasTextField){
+			if (hasDescription){
+				result+='<BR>'
+			}
+			placeholder = "Your text here"
+			if (hasPlaceholder){
+				placeholder = this.placeholder
+			}
+			result+='<textarea maxlength="75" class="rounded p-2 w-100 border border-dark" rows="1" name="modalTextArea" type="text" id="'+this.id+'TextField" placeholder="'+placeholder+'"'
+			if (hasPreview){
+				result+=' onchange="textFieldChanged()"'
+			}
+			result+='></textarea>'
+		}
+		result+='</div>'
+		return result
+	}
+	textFieldChanged(){
+		if (this.hasOwnProperty('args')){
+			changedVal = $('#'+this.id+'TextField').val()
+			if (this.args.hasOwnProperty(0)){
+				this.args[0] = changedVal
+			}
+			else{
+				this.args = [changedVal]
+			}
+			setPreview()
+		}
+	}
+	buildPreview(){
+		var thePreview = ""
+		var lastArg = this.previewResult.match(/(\$\d+)(?!.*\$\d)/) //match last $num
+		lastArg = Number(lastArg[0].replace("$",""))
+		
+		thePreview = this.previewResult
+		if (!(this.args.hasOwnProperty(0))){
+			this.args = [this.args]
+		}
+		
+		for (var argN=0; argN<lastArg; argN++){
+			if (this.args.hasOwnProperty(argN)){
+				repWith = this.args[argN]
+			}
+			else{
+				repWith = "???"
+			}
+			thePreview = thePreview.replace("$"+(argN+1),repWith)
+		}
+		return thePreview
+	}
+	setPreview(){
+		$('#'+this.id+"Preview").html(buildPreview())
+	}
+	buildModalFooter(hasPreview,hasButton){
+		result = ""
+		if (hasButton || hasPreview){
+			
+			result+='<div class="modal-footer">'
+			if (hasPreview){
+				result+='<span id="'+this.id+'Preview">'
+				result+=buildPreview()
+				result+='</span>'
+			}
+			if (hasButton){
+				for (var bId=0;bId<this.buttons.length;bId++){
+					result+=buildButton(this.buttons[bId].text,this.buttons[bId].result,this.buttons[bId].colour)
+				}
+			}
+			result+='</div>'
+		}
+		return result
+	}
+	build(){
+		var hasButton = this.hasOwnProperty("buttons")
+		var hasPreview = this.hasOwnProperty('previewResult')
+		var hasTextField = this.hasOwnProperty('textField')
+		hasTextField = hasTextField && this.textField
+		var hasDescription = this.hasOwnProperty('description')
+		var hasPlaceholder = this.hasOwnProperty('placeholder')
+		var hasTitle = this.hasOwnProperty('title')
+		
+		this.modal = document.createElement('span')
+		this.modal.setAttribute(id="modalContainer")
+		this.modal.innerHTML = buildModalStart()
+		
+		this.modal.innerHTML+= buildModalTitle(hasTitle)
+		
+		this.modal.innerHTML+= buildModalBody(hasDescription,hasTextField,hasPlaceholder,hasPreview)
+		
+		this.modal.innerHTML+=buildModalFooter(hasPreview,hasButton)
+		
+		this.modal.innerHTML+='</div></div></div>'
+		
+		document.body.appendChild(this.modal)
+		this.hide()
+	}
+	display(){
+		$('#'+this.id).modal('show')
+	}
+	hide(){
+		$('#'+this.id).modal('hide')
+	}
+}
+
+function savePopup(currentItem){
+	result = createModal({
+		id: "savePopup"
+		title:"Save in browser",
+		description: "Save this element locally in this browser?\n\n Name:"
+		textField: true
+		placeholder: currentItem
+		previewResult: "$1 ($2)",
+		args:[currentItem.mainHead,currentItem.timestamp]
+		buttons: [
+			{
+				text:"do not save",
+				colour:"danger",
+				result:"close"
+			},
+			{
+				text:"save",
+				colour:"success",
+				result:"addToHistory_Aux"
+			}
+		]
+	})
+	if (result.result=="addToHistory_Aux"){
+		addToHistory_Aux(result.previewResult,currentItem)
+	}
+}
+
+function userSaves(popUpResponse){
+/*validates whether the user has saved based on savePopup response*/
+	return (popUpResponse !== null)
+}
+
+function addToHistory_Aux(name,data){
+	throw new Error("not defined")
+}
+/**end WIP**/
 function addToHistory(currentInstance){
 	var localCurr = getHistory()
 	if ((localCurr == undefined)||(localCurr=="")){
