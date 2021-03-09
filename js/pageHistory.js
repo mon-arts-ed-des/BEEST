@@ -2,6 +2,7 @@ const MAX_HIST = 20;
 const UNSELECTED = "Select the item you wish to load..."
 var historicalData = null
 var histIndex = null;
+var currentLocalSet = null
 
 function getHistory(){
 	return localStorage.getItem(localStorageHistory)
@@ -71,8 +72,8 @@ class recoveryDataSet{
 		this.length=0
 		for (var recoveryI=0;recoveryI<recoveryDataArray.length;recoveryI++){
 			element = recoveryDataArray[recoveryI]
-			if (element.hasOwnProperty("title")){
-				heading = element.title
+			if (element.hasOwnProperty("historyTitle")){
+				heading = element.historyTitle
 			}
 			else{
 				heading = element.mainHead
@@ -156,13 +157,6 @@ function recoverHistory(){
 	function htmlStyle(id,styleName,styleResult){
 		document.getElementById(id).style[styleName]=styleResult
 	}
-/**WIP**/
-function createModel(data){
-	result = data
-	result.result = null
-	
-	
-}
 
 class modal{
 	constructor(data){
@@ -315,10 +309,10 @@ class modal{
 }
 
 function savePopup(currentItem){
-	result = createModal({
+	theModal = new modal({
 		id: "savePopup"
 		title:"Save in browser",
-		description: "Save this element locally in this browser?\n\n Name:"
+		description: "Also save this element locally in this browser?\n\n Name:"
 		textField: true
 		placeholder: currentItem
 		previewResult: "$1 ($2)",
@@ -332,39 +326,36 @@ function savePopup(currentItem){
 			{
 				text:"save",
 				colour:"success",
-				result:"addToHistory_Aux"
+				result:"addToHistory_Aux(this.args[0])"
 			}
 		]
 	})
-	if (result.result=="addToHistory_Aux"){
-		addToHistory_Aux(result.previewResult,currentItem)
-	}
+	theModal.display()
 }
 
-function userSaves(popUpResponse){
-/*validates whether the user has saved based on savePopup response*/
-	return (popUpResponse !== null)
-}
-
-function addToHistory_Aux(name,data){
-	throw new Error("not defined")
-}
-/**end WIP**/
-function addToHistory(currentInstance){
-	var localCurr = getHistory()
-	if ((localCurr == undefined)||(localCurr=="")){
-		localCurr = "[]"
-		setHistory(localCurr)
-	}
-	localCurr = JSON.parse(localCurr) //now an array of objects
-	currentInstance = JSON.parse(JSON.stringify(currentInstance))
-	currentInstance.timestamp = new Date()
-	localCurr.push(currentInstance)
-	localCurr = JSON.stringify(localCurr) //now a string again -- currentInstance should have had its toString method called
-	setHistory(localCurr)
+function addToHistory_Aux(name){
+	//currentLocalSet will have the most recent element added to the end and ready to updateCommands
+	currentInstance = currentLocalSet.pop()
+	currentInstance.historyTitle = name
+	currentLocalSet.push(currentInstance)
+	
+	currentLocalSet = JSON.stringify(currentLocalSet) //now a string again -- currentInstance should have had its toString method called
+	setHistory(currentLocalSet)
 	historicalData = recoverHistory()
 	histIndex = historicalData.length-1
 	showRecoveryDate(histIndex,historicalData);
 	showButton("delHist")
 	//showButton("loadHist")
+}
+function addToHistory(currentInstance){
+	currentLocalSet = getHistory()
+	if ((currentLocalSet == undefined)||(currentLocalSet=="")){
+		currentLocalSet = "[]"
+		setHistory(currentLocalSet)
+	}
+	currentLocalSet = JSON.parse(currentLocalSet) //now an array of objects
+	currentInstance = JSON.parse(JSON.stringify(currentInstance))
+	currentInstance.timestamp = new Date()
+	currentLocalSet.push(currentInstance)
+	savePopup(currentInstance)
 }
