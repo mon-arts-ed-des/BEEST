@@ -47,7 +47,7 @@
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     }
     /*This background class can be used as a stand-alone class*/
-    .bg-arts, .btn-mu {
+    .bg-arts, .bg-mu {
     background: #006DAE;
     color: white;
     }

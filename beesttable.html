@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <!-- Arts CSS -->  
-    <link rel="stylesheet" href="css/adminPlusSetuBlockStyle.css" />
+    <link rel="stylesheet" href="css/monashElements.css" />
     <link rel="stylesheet" href="css/monTabs.css" />
     <!-- external link to js file -->  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -727,7 +727,7 @@ $(function () {
 	</div>
 	  <hr><div class="row w-100 mx-auto">
 		<div class="col-lg-2 mt-2">
-	   <h5 class="font-weight-bold">Row 1 Size<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the style of row 1. Medium is chosen by default.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+	   <h5 class="font-weight-bold">Row 1 Heading Size<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the heading size of the first row. Small is chosen by default.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
 		</div>
 		<div class="col-lg">
 	  <div class="form-check form-check-inline" id="r1Style" onchange=generateTableCode()>
@@ -752,7 +752,7 @@ $(function () {
 
 	<div class="row w-100 mx-auto">
 		<div class="col-lg-2 mt-2">
-	   <h5 class="font-weight-bold">Row 1 Style<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the background of cells. None is chosen by default.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+	   <h5 class="font-weight-bold">Row 1 Colour/Style<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the colour/style of the first row. Dark is chosen by default.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
 		</div>
 		<div class="col-lg">
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateTableCode()>
@@ -765,19 +765,19 @@ $(function () {
 	  </div>
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateTableCode()>
 		<input class="form-check-input" name="bgStyle" id="bgStyle3" type="radio" value="thead-dark" checked>
-		<label class="form-check-label" for="bgStyle3"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="thead-dark h5"><th>Dark</th></thead></table></label>
+		<label class="form-check-label" for="bgStyle3"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="thead-dark"><th>Dark</th></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateTableCode()>
 		<input class="form-check-input" name="bgStyle" id="bgStyle4" type="radio" value="table-primary">
-		<label class="form-check-label" for="bgStyle4"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="table-primary h5"><th>Primary</th></thead></table></label>
+		<label class="form-check-label" for="bgStyle4"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="table-primary"><th>Primary</th></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateTableCode()>
 		<input class="form-check-input" name="bgStyle" id="bgStyle5" type="radio" value="table-secondary">
-		<label class="form-check-label" for="bgStyle5"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="table-secondary h5"><th>Secondary</th></thead></table></label>
+		<label class="form-check-label" for="bgStyle5"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="table-secondary"><th>Secondary</th></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateTableCode()>
 		<input class="form-check-input" name="bgStyle" id="bgStyle6" type="radio" value="bg-mu text-white">
-		<label class="form-check-label" for="bgStyle6"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="bg-mu h5"><th>Monash White</th></thead></table></label>
+		<label class="form-check-label" for="bgStyle6"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="bg-mu"><th>Monash Blue</th></thead></table></label>
 	  </div>	  
 		</div>
 	  </div>		  
@@ -785,7 +785,7 @@ $(function () {
 		
 		<div class="row w-100 mx-auto">
 		<div class="col-lg-2 mt-2">
-	   <h5 class="font-weight-bold">Column 1 Style<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the style of column 1. bold is chosen by default.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+	   <h5 class="font-weight-bold">Column 1 Style<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the colour/style of column 1. Bold is chosen by default.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
 		</div>
 		<div class="col-lg">
 	  <div class="form-check form-check-inline" id="c1Style" onchange=generateTableCode()>
@@ -797,20 +797,20 @@ $(function () {
 		<label class="form-check-label" for="c1Style2"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead><th>Bold</th></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="c1Style" onchange=generateTableCode()>
-		<input class="form-check-input" name="c1Style" id="c1Style3" type="radio" value="thead-dark">
-		<label class="form-check-label" for="c1Style3"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="thead-dark h5"><th>Dark</th></thead></table></label>
+		<input class="form-check-input" name="c1Style" id="c1Style3" type="radio" value="table-dark border border-dark">
+		<label class="form-check-label" for="c1Style3"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="thead-dark"><th>Dark</th></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="c1Style" onchange=generateTableCode()>
 		<input class="form-check-input" name="c1Style" id="c1Style4" type="radio" value="table-primary">
-		<label class="form-check-label" for="c1Style4"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="table-primary h5"><th>Primary</th></thead></table></label>
+		<label class="form-check-label" for="c1Style4"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="table-primary"><th>Primary</th></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="c1Style" onchange=generateTableCode()>
 		<input class="form-check-input" name="c1Style" id="c1Style5" type="radio" value="table-secondary">
-		<label class="form-check-label" for="c1Style5"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="table-secondary h5"><th>Secondary</th></thead></table></label>
+		<label class="form-check-label" for="c1Style5"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="table-secondary"><th>Secondary</th></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="c1Style" onchange=generateTableCode()>
 		<input class="form-check-input" name="c1Style" id="c1Style6" type="radio" value="bg-mu text-white">
-		<label class="form-check-label" for="c1Style6"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="bg-mu h5"><th>Monash White</th></thead></table></label>
+		<label class="form-check-label" for="c1Style6"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="bg-mu"><th>Monash Blue</th></thead></table></label>
 	  </div>	  
 		</div>
 	  </div>		  
@@ -872,7 +872,10 @@ $(function () {
     <div class="col-lg-2">
       <h5 class="font-weight-bold">Preview</h5>
 	  </div>
-	  <div class="col-lg">
+	  <div class="col-lg bg-white" id="preview">
+		  <div class="text-center">
+		<button type="button" class="btn btn-mu btn-lg mb-3" id="togglePreviewFS">Activate fullscreen preview</button>
+	</div>
 		<div id="demo"></div>
 	  </div>
 	</div>
@@ -880,5 +883,30 @@ $(function () {
   </div>
 	    <div class="py-5"></div>
   <div id="beestFooter"></div>
-      </body>
+	  </body>
+	  <script>
+		if (document.fullscreenEnabled) {
+			var togglePreviewFS = document.getElementById("togglePreviewFS");
+			togglePreviewFS.addEventListener("click", function (event) {
+				if (!document.fullscreenElement) {
+					document.querySelector("#preview").requestFullscreen();
+				} else {
+					document.exitFullscreen();
+				}
+			}, false);			
+			document.addEventListener("fullscreenchange", function (event) {
+				console.log(event);
+				if (!document.fullscreenElement) {
+					togglePreviewFS.innerText = "Activate fullscreen preview";
+					$('#preview').removeClass('pt-5');
+				} else {
+					togglePreviewFS.innerText = "Exit fullscreen preview";
+					$('#preview').addClass('pt-5');
+				}
+			});
+			document.addEventListener("fullscreenerror", function (event) {
+				console.log(event);		
+			});
+		}
+		</script>
       </html>
