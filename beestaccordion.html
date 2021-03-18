@@ -825,7 +825,65 @@ function setupBackToTopButton(){
     </div>
           <hr>
 		  
+
 <div class="row w-100">
+		<div class="col-lg-3">
+	   <h5>Drawer Heading<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the heading size of the first row. Small is chosen by default.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+		</div>
+		<div class="col-lg">
+	  <div class="form-check form-check-inline" id="r1Style" onchange=generateTableCode()>
+		<input class="form-check-input" name="r1Style" id="r1Style1" type="radio" value="None">
+		<label class="form-check-label" for="r1Style1">Plain text</label>
+	  </div>
+	  <div class="form-check form-check-inline" id="r1Style" onchange=generateTableCode()>
+		<input class="form-check-input" name="r1Style" id="r1Style2" type="radio" value="h5" checked>
+		<label class="form-check-label" for="r1Style2"><h5>Small</h5></label>
+	  </div>
+	  <div class="form-check form-check-inline" id="r1Style" onchange=generateTableCode()>
+		<input class="form-check-input" name="r1Style" id="r1Style3" type="radio" value="h4">
+		<label class="form-check-label" for="r1Style3"><h4>Medium</h4></label>
+	  </div>
+	  <div class="form-check form-check-inline" id="r1Style" onchange=generateTableCode()>
+		<input class="form-check-input" name="r1Style" id="r1Style4" type="radio" value="h3">
+		<label class="form-check-label" for="r1Style4"><h3>Large</h3></label>
+	  </div>
+		</div>
+	  </div>		  
+		<hr> 
+
+	<div class="row w-100">
+		<div class="col-lg-3">
+	   <h5>Drawer Style<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the colour/style of the first row. Dark is chosen by default.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+		</div>
+		<div class="col-lg">
+	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateTableCode()>
+		<input class="form-check-input" name="bgStyle" id="bgStyle1" type="radio" value="td">
+		<label class="form-check-label" for="bgStyle1"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead><td>Plain text</td></thead></table></label>
+	  </div>
+	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateTableCode()>
+		<input class="form-check-input" name="bgStyle" id="bgStyle2" type="radio" value="th">
+		<label class="form-check-label" for="bgStyle2"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead><th>Bold</th></thead></table></label>
+	  </div>
+	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateTableCode()>
+		<input class="form-check-input" name="bgStyle" id="bgStyle3" type="radio" value="thead-dark" checked>
+		<label class="form-check-label" for="bgStyle3"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="thead-dark"><th>Dark</th></thead></table></label>
+	  </div>
+	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateTableCode()>
+		<input class="form-check-input" name="bgStyle" id="bgStyle4" type="radio" value="table-primary">
+		<label class="form-check-label" for="bgStyle4"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="table-primary"><th>Primary</th></thead></table></label>
+	  </div>
+	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateTableCode()>
+		<input class="form-check-input" name="bgStyle" id="bgStyle5" type="radio" value="table-secondary">
+		<label class="form-check-label" for="bgStyle5"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="table-secondary"><th>Secondary</th></thead></table></label>
+	  </div>
+	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateTableCode()>
+		<input class="form-check-input" name="bgStyle" id="bgStyle6" type="radio" value="bg-mu text-white">
+		<label class="form-check-label" for="bgStyle6"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="bg-mu"><th>Monash Blue</th></thead></table></label>
+	  </div>	  
+		</div>
+	  </div>		  
+		<hr>
+		<div class="row w-100">
   <div class="col-lg-3">
     <h5>Load with...<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose whether the first block of the accordion starts expanded or collapsed. The default is open/expanded">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
   </div>
@@ -842,7 +900,6 @@ function setupBackToTopButton(){
 </div>
   </div>
 <hr>
-
 <div class="row w-100">
   <div class="col-lg">
 <h5>Drawer headings & content<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Input the headings that will appear on the accordion drawers and the content that will sit inside each of the drawers. The max length allowed for headings is 75 characters.">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
