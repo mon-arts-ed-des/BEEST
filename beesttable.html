@@ -872,10 +872,7 @@ $(function () {
     <div class="col-lg-2">
       <h5 class="font-weight-bold">Preview</h5>
 	  </div>
-	  <div class="col-lg bg-white" id="preview">
-		  <div class="text-center">
-		<button type="button" class="btn btn-mu btn-lg mb-3" id="togglePreviewFS">Activate fullscreen preview</button>
-	</div>
+	  <div class="col-lg">
 		<div id="demo"></div>
 	  </div>
 	</div>
@@ -884,29 +881,4 @@ $(function () {
 	    <div class="py-5"></div>
   <div id="beestFooter"></div>
 	  </body>
-	  <script>
-		if (document.fullscreenEnabled) {
-			var togglePreviewFS = document.getElementById("togglePreviewFS");
-			togglePreviewFS.addEventListener("click", function (event) {
-				if (!document.fullscreenElement) {
-					document.querySelector("#preview").requestFullscreen();
-				} else {
-					document.exitFullscreen();
-				}
-			}, false);			
-			document.addEventListener("fullscreenchange", function (event) {
-				console.log(event);
-				if (!document.fullscreenElement) {
-					togglePreviewFS.innerText = "Activate fullscreen preview";
-					$('#preview').removeClass('pt-5');
-				} else {
-					togglePreviewFS.innerText = "Exit fullscreen preview";
-					$('#preview').addClass('pt-5');
-				}
-			});
-			document.addEventListener("fullscreenerror", function (event) {
-				console.log(event);		
-			});
-		}
-		</script>
       </html>
