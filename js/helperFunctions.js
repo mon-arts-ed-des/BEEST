@@ -587,8 +587,11 @@ function castAsNumIfPossible(potentialNum){
 			if (!document.fullscreenElement) {
 				togglePreviewFS.innerHTML = "<i class=\"fa fa-fw fa-expand\"></i>";
 				$('#previewFS').removeClass('pt-5');
+				$(togglePreviewFS).appendTo('.previewButton');
 			} else {
 				togglePreviewFS.innerHTML = "<i class=\"fa fa-fw fa-compress\"></i>";
+				$(togglePreviewFS).appendTo('#demo');
+				$(togglePreviewFS).addClass('d-block mx-auto')
 				$('#previewFS').addClass('pt-5');
 			}
 		});
