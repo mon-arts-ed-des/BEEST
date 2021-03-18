@@ -385,13 +385,34 @@ function getTableContentsFromPage(){
 
 
 function copyCode(){
-	/*REQUIRED FOR HISTORY*/	  
+	/*REQUIRED FOR HISTORY*/	 	 
 	addToHistory(classTable)
 	/*END REQUIRED FOR HISTORY*/
 	SelectAll("txtareaBtn");
 }
 	
 	/*REQUIRED FOR HISTORY*/
+function default_r1_c1(dataSet){
+/*this function will review the r1 and c1 data in the class and reset them to a default value if undefined (e.g. from before this feature was introduced*/
+	
+	function isUndef(item){return typeof(item)=="undefined"}
+	
+	var defaults = {
+		r1Style: "h5",
+		c1Style: "th",
+		bgStyle: "thead-dark",
+	}
+	
+	for (var prop in dataSet){
+		if (defaults.hasOwnProperty(prop)){
+			if (isUndef(dataSet[prop].value)){
+				dataSet[prop].value = defaults[prop]
+			}
+		}
+	}
+	return dataSet
+}
+	
 function setTextAreas(classData){
 	var theTable = classData.tableData
 		
@@ -403,6 +424,7 @@ function setTextAreas(classData){
 		"c1Style":{type:'radio',value:classData.col1Style},
 		"bgStyle":{type:'radio',value:classData.bgStyle}
 	}
+	dataSet = default_r1_c1(dataSet)
 	dataSet[pasteTable] = {type:'tiny',value:arrayToTableHTML(theTable)}
 	
 	setTextAreas_util(dataSet)
