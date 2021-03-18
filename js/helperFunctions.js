@@ -572,3 +572,28 @@ function castAsNumIfPossible(potentialNum){
 		return content
 	}
 	function getId(id){return document.getElementById(id)}
+	function fullScreenToggle(){
+	if (document.fullscreenEnabled) {
+		var togglePreviewFS = document.getElementById("togglePreviewFS");
+		togglePreviewFS.addEventListener("click", function (event) {
+			if (!document.fullscreenElement) {
+				document.querySelector("#previewFS").requestFullscreen();
+			} else {
+				document.exitFullscreen();
+			}
+		}, false);			
+		document.addEventListener("fullscreenchange", function (event) {
+			console.log(event);
+			if (!document.fullscreenElement) {
+				togglePreviewFS.innerHTML = "<i class=\"fa fa-fw fa-expand\"></i>";
+				$('#previewFS').removeClass('pt-5');
+			} else {
+				togglePreviewFS.innerHTML = "<i class=\"fa fa-fw fa-compress\"></i>";
+				$('#previewFS').addClass('pt-5');
+			}
+		});
+		document.addEventListener("fullscreenerror", function (event) {
+			console.log(event);		
+		});
+	}
+}
