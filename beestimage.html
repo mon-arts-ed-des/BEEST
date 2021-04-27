@@ -415,6 +415,9 @@ function submitform()
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 });
+$(function () {
+  fullScreenToggle()
+})
 //Function to replace image links (plain URLs) with the embed version of the link.
 var displayingError = false
 function replaceLinkWithEmbed(event){
@@ -812,9 +815,17 @@ function replaceLinkWithEmbed(event){
           
 <div class="col-lg-6 mt-2">
   <div class="sticky-top" style="top:100px;">
-            <h5 class="font-weight-bold">Preview<span class="small text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="A preview of your element will appear here as you update your preferences on the page.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
-          <div id="demo" class="row w-100 mb-3 mx-auto">                     
-          </div>
+    <div class="row w-100">
+      <div class="col-lg-2">
+      <h5 class="font-weight-bold">Preview</h5>
+      <div class="text-center mb-2 previewButton"> 
+      <button type="button" class="btn btn-outline-dark" style="padding: .7rem;" id="togglePreviewFS" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click to expand the preview to fullscreen. Click again or press Escape to return here to the editing screen."><i class="fa fa-fw fa-expand"></i></button>
+       </div>
+    </div>
+      <div class="col-lg bg-white" id="previewFS">
+      <div id="demo"></div>
+      </div>
+    </div>
           <hr>
        <h5 class="font-weight-bold">Copy code<span class="small text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to copy the code for your element ready for pasting in Moodle.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
        

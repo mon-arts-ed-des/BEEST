@@ -591,7 +591,7 @@ function castAsNumIfPossible(potentialNum){
 			} else {
 				togglePreviewFS.innerHTML = "<i class=\"fa fa-fw fa-compress\"></i>";
 				$(togglePreviewFS).appendTo('#demo');
-				$(togglePreviewFS).addClass('d-block mx-auto')
+				$(togglePreviewFS).addClass('d-block mx-auto mt-3')
 				$('#previewFS').addClass('pt-5');
 			}
 		});
