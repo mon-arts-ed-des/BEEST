@@ -56,6 +56,7 @@ $(document).ready(function() {
 	$('#respVidSwitch').on('input', embedLinkConverter); 
 	setupToolTips(10000)
 		setupNav()
+		fullScreenToggle()
 		makeTinyWithID('tinyMCEvideo',{'change':generateCode},'[Placeholder for video context]')
 		setupGoogleAnalytics()
 		default_XRadio_onEmpty_Y("respVidHeading","headSize","noH","headSize1",generateCode);
@@ -370,7 +371,7 @@ function constructIconTag(faIcon){
     }
     $(function () {
 		$('[data-toggle="tooltip"]').tooltip()
-	})
+  })
 	
 /*REQUIRED FOR HISTORY*/
 function getHistoryI(index,history){
@@ -757,8 +758,16 @@ function embedLinkConverter(event){
         </div>
               <div class="col-lg-6">
               <div class="sticky-top" style="top:100px;">
-                <h5 class="font-weight-bold">Preview<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="A live preview will update here as you update your preferences on the page for your video element." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
-                <div id="demo" class="mt-2">    
+                <div class="row w-100">
+                  <div class="col-lg-2">
+                  <h5 class="font-weight-bold">Preview</h5>
+                  <div class="text-center mb-2 previewButton"> 
+                  <button type="button" class="btn btn-outline-dark" style="padding: .5rem .7rem;" id="togglePreviewFS" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click to expand the preview to fullscreen. Click again or press Escape to return here to the editing screen."><i class="fa fa-fw fa-expand"></i></button>
+                   </div>
+                </div>
+                  <div class="col-lg bg-white" id="previewFS">
+                  <div id="demo"></div>
+                  </div>
                 </div>
              <hr>
               <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click the copy code button below once you have finished building your video element, ready to paste into Moodle." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>  

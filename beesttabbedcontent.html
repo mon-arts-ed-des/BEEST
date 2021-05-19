@@ -185,6 +185,7 @@ class beestTabbed{
 		setupGoogleAnalytics()
 		classTabbed = new beestTabbed(maxTabs)
 		setupNav()
+		fullScreenToggle()
 		setupToolTips() 
 		default_XRadio_onEmpty_Y("tabbedMainHeading","headSize","noH","headSize2",generateElementCode)
 		/*REQUIRED FOR HISTORY*/
@@ -660,7 +661,7 @@ function recoverCode(){
   </div>
 </div>
 <!--End HTML paste video walkthrough-->
-<!--Preview modal-->
+<!--Preview modal
 <div class="modal fade previewElement" tabindex="-1" role="dialog" aria-labelledby="preview-modal" aria-hidden="true" style="padding-right: 0;">
   <div class="modal-dialog modal-lg" style="max-width:80%;">
     <div class="modal-content p-2">
@@ -838,14 +839,17 @@ function recoverCode(){
   </div>
 </div>
     <hr>
-    <h5 class="font-weight-bold">Preview<span data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Click the button below to reveal a full screen width preview of your element." class="text-success small hideableinstruct">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
     <div class="row w-100">
-      <div class="col-lg">
-        <div><a class="btn btn-success btn-block w-100 mx-auto" target="#" data-target=".previewElement" data-toggle="modal" href="#" role="button">Reveal preview panel</a></div>
-    <p class="my-3"></p>
+      <div class="col-lg-2">
+		<h5 class="font-weight-bold">Preview</h5>
+	  <div class="text-center mb-2 previewButton"> 
+		<button type="button" class="btn btn-outline-dark" style="padding: .5rem .7rem;" id="togglePreviewFS" data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click to expand the preview to fullscreen. Click again or press Escape to return here to the editing screen."><i class="fa fa-fw fa-expand"></i></button>
+	   </div>
+	  </div>
+	  <div class="col-lg bg-white" id="previewFS">
+		<div id="demo"></div>
+	  </div>
       </div>
-      </div>
-      
       <hr>
       <div class="row w-100">
         <div class="col-lg">
@@ -858,13 +862,15 @@ function recoverCode(){
         </div>
       </div>
     </div>
-    </div>
-    </div>
-</form>
+	</div>
 </div>
+</form>
+    </div>
+
                <div class="text-center">
                 <a id="back-to-top" href="#" class="btn btn-lg btn-outline-dark back-to-top" role="button"><i class="fas fa-chevron-up"></i></a>
-              </div>
+			  </div>
+			  <div class="py-5"></div>
 <div id="beestFooter"></div>
       </body>
       </html>
