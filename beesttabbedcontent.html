@@ -185,6 +185,7 @@ class beestTabbed{
 		setupGoogleAnalytics()
 		classTabbed = new beestTabbed(maxTabs)
 		setupNav()
+		fullScreenToggle()
 		setupToolTips() 
 		default_XRadio_onEmpty_Y("tabbedMainHeading","headSize","noH","headSize2",generateElementCode)
 		/*REQUIRED FOR HISTORY*/
@@ -570,8 +571,6 @@ function recoverCode(){
     }
     $(function () {
   $('[data-toggle="tooltip"]').tooltip()
-})
-$(function () {fullScreenToggle()
 })
 
     /* Variable Key

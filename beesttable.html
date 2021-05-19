@@ -66,6 +66,7 @@ $(document).ready(function(){
 	setupNav()
 	setupToolTips() 
 	//wipeHTML("editTable")
+	fullScreenToggle()
 	basicTinyMCEWithID(pasteTable,{"change":writeTableExcelPaste,"init":function(){tablePasterIsTiny = true;},"input":writeTableExcelPaste},"paste your spreadsheet data here")
 	/*makeTinyWithID("editTable",generateTableCode, function(){
 		generateEditableTable("editTable",currRow,currCol,false)
@@ -75,7 +76,7 @@ $(document).ready(function(){
 	/*REQUIRED FOR HISTORY*/   
 	initHistory()
 	/*END REQUIRED FOR HISTORY*/
-	classTable = new table()   		
+	classTable = new table()
 })
 
 /*REQUIRED FOR HISTORY*/  	
@@ -457,8 +458,6 @@ function submitform()
 }
 $(function () {
 	$('[data-toggle="tooltip"]').tooltip()
-})
-$(function () {fullScreenToggle()
 })
 	</script>
 <style>

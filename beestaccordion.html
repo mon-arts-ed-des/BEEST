@@ -64,6 +64,7 @@ var iconNames = {
 	$(document).ready(function() { //create the tinyMCE areas after the first
 		setupGoogleAnalytics();
 		setupNav();
+		fullScreenToggle();
 		setupToolTips();
 		default_XRadio_onEmpty_Y("accMainHeading","headSize","noH","headSize2",generateElementCode);
 		makeTinyWithID('tinyMCEmonAccContent1',{"change":generateElementCode},"enter your text for drawer 1 here");
@@ -593,8 +594,6 @@ function recoverCode(){
     }
     $(function () {
   $('[data-toggle="tooltip"]').tooltip()
-})
-$(function () {fullScreenToggle()
 })
     /* Variable Key
     These variables are pre-defined html that is added to inputs from users before and after to generate the final html product for copying and pasting.

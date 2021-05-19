@@ -61,6 +61,7 @@ $(document).ready(function(){
 	default_XRadio_onEmpty_Y("respImgHeading","headSize","noH","headSize1",generateCode)
 	setupToolTips(10000)
 	setupNav()
+	fullScreenToggle()
 	$('#respImgSwitch').on('input', replaceLinkWithEmbed);
 	makeTinyWithID('tinyMCEimage',{'change':generateCode},'[Placeholder for image context. The content you entered in step 2 will appear here.]')
 	classImage = new beestImage()
@@ -415,9 +416,6 @@ function submitform()
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 });
-$(function () {
-  fullScreenToggle()
-})
 //Function to replace image links (plain URLs) with the embed version of the link.
 var displayingError = false
 function replaceLinkWithEmbed(event){
