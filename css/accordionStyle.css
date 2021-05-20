@@ -6,6 +6,10 @@
 	.text-black {
 		color: black;
 	}
+	.text-bold {
+		color: black;
+		font-weight: bold;
+	}
 	/*Styles the border of the body of the block*/
     .cardBodyBorder {//retain for backward compatibility
     border: solid 1px #006dae !important;
@@ -67,7 +71,18 @@
 	.cardborder-dk {
 		border: solid 1px #212529 !important;
 	}
-    
+	.heading-bold {
+		cursor: pointer !important; 
+		border: solid 1px !important;
+	}
+	.cardborder-bold {
+		border: solid 1px !important;
+	}
+    .heading-plain {
+		cursor: pointer !important; 
+	}
+	.cardborder-plain {
+	}
     /*Ensures the last element inside the accordion does not have a huge margin at the bottom of it to save space*/
     .accDiv p:last-child, .accDiv ul:last-child, .accDiv ol:last-child {
     margin-bottom: 0px;

@@ -458,6 +458,12 @@ function generateAccordionHTML(classAccord,resizedHead,monAccBtnTxt,monAccConten
 	if (classAccord.drawerColour.search("white")>0){
 		textColourClass = " text-white"
 	}
+	else if (classAccord.drawerColour.search("black")>0){
+		textColourClass = " text-black"
+	}
+	else if (classAccord.drawerColour.search("bold")>0){
+		textColourClass = " text-bold"
+	}
 	
 	// loop over every accordion block
 	for (var secNum = 0; secNum < classAccord.usableDrawers; secNum++){
@@ -870,11 +876,11 @@ function setupBackToTopButton(){
 		</div>
 		<div class="col-lg">
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateElementCode()>
-		<input class="form-check-input" name="bgStyle" id="bgStyle1" type="radio" value="heading-plain,cardborder-plain">
+		<input class="form-check-input" name="bgStyle" id="bgStyle1" type="radio" value="heading-plain text-black,cardborder-plain">
 		<label class="form-check-label" for="bgStyle1"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead><td>Plain text</td></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateElementCode()>
-		<input class="form-check-input" name="bgStyle" id="bgStyle2" type="radio" value="heading-bd text-white,cardborder-bd">
+		<input class="form-check-input" name="bgStyle" id="bgStyle2" type="radio" value="heading-bold text-black,cardborder-bold">
 		<label class="form-check-label" for="bgStyle2"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead><th>Bold</th></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateElementCode()>
@@ -882,11 +888,11 @@ function setupBackToTopButton(){
 		<label class="form-check-label" for="bgStyle3"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="thead-dark"><th>Dark</th></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateElementCode()>
-		<input class="form-check-input" name="bgStyle" id="bgStyle4" type="radio" value="heading-pm,cardborder-pm">
+		<input class="form-check-input" name="bgStyle" id="bgStyle4" type="radio" value="heading-pm text-black,cardborder-pm">
 		<label class="form-check-label" for="bgStyle4"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="table-primary"><th>Primary</th></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateElementCode()>
-		<input class="form-check-input" name="bgStyle" id="bgStyle5" type="radio" value="heading-sc,cardborder-sc">
+		<input class="form-check-input" name="bgStyle" id="bgStyle5" type="radio" value="heading-sc text-black,cardborder-sc">
 		<label class="form-check-label" for="bgStyle5"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="table-secondary"><th>Secondary</th></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateElementCode()>
