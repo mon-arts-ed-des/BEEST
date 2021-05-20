@@ -107,13 +107,14 @@ var iconNames = {
 		baseTiny = "tinyMCEmonAccContent"
 		baseBlock = "AccordSect"
 		
-		constructor(mainHead,headSize,icon,drawerList,openClose,drawerSize,drawerColour){
+		constructor(mainHead,headSize,icon,drawerList,openClose,drawerSize,drawerColour,drawerBorder){
 			this.mainHead = mainHead
 			this.headSize = headSize
 			this.icon = icon
 			this.openClose = openClose
 			this.drawerSize = drawerSize
 			this.drawerColour = drawerColour
+			this.drawerBorder = drawerBorder
 			if (drawerList == undefined){
 				this.drawerList = []
 			}
@@ -453,6 +454,10 @@ function generateAccordionHTML(classAccord,resizedHead,monAccBtnTxt,monAccConten
 	var lastDr = classAccord.usableDrawers - 1
 	
 	changesByDrawer = {"beestAccUse":"","roundTop":"","showhide":"","roundBottom":"","roundNone":""}
+	var textColourClass = " text-black"
+	if (classAccord.drawerColour.search("white")>0){
+		textColourClass = " text-white"
+	}
 	
 	// loop over every accordion block
 	for (var secNum = 0; secNum < classAccord.usableDrawers; secNum++){
@@ -466,19 +471,20 @@ function generateAccordionHTML(classAccord,resizedHead,monAccBtnTxt,monAccConten
 		}
 		changesByDrawer.roundBottom = ((secNum==lastDr) ? " rounded-bottom " : "")
 		
+		
 		numCode = randString+(1+secNum)
 		monAccOutput += "<div id=\"accordion" + randString
-		monAccOutput += "\" class=\"mt-0 w-100 mx-auto"+changesByDrawer.beestAccUse+"\"><div class=\"card border-0\"><div class=\""+changesByDrawer.roundTop+"headingStyle text-white card-header p-0\" id=\"head" + numCode
+		monAccOutput += "\" class=\"mt-0 w-100 mx-auto"+changesByDrawer.beestAccUse+"\"><div class=\"card border-0\"><div class=\""+changesByDrawer.roundTop+classAccord.drawerColour+" card-header p-0\" id=\"head" + numCode
 		monAccOutput += "\" data-toggle=\"collapse\" data-target=\"#content" + numCode
 		monAccOutput += "\" aria-expanded=\"false\" aria-controls=\"content" + numCode
-		monAccOutput += "\"><"+classAccord.drawerSize+" class=\"mb-0 text-center\"><button class=\"noUnderline text-white btn btn-link\" data-toggle=\"collapse\" data-target=\"#content" + numCode
+		monAccOutput += "\"><"+classAccord.drawerSize+" class=\"mb-0 text-center\"><button class=\"noUnderline "+textColourClass+" btn btn-link\" data-toggle=\"collapse\" data-target=\"#content" + numCode
 		monAccOutput += "\" aria-expanded=\"true\" aria-controls=\"content" + numCode
-		monAccOutput += "\"><span class=\""+classAccord.drawerSize+" text-white\">"
+		monAccOutput += "\"><span class=\""+classAccord.drawerSize+textColourClass+"\">"
 		
 		monAccOutput += monAccBtnTxt[secNum]
 		
 		monAccOutput += "</span></button></"+classAccord.drawerSize+"></div><div id=\"content" + numCode
-		monAccOutput += "\" class=\"collapse "+changesByDrawer.showhide+"cardBodyBorder"+changesByDrawer.roundBottom+"\" aria-labelledby=\"head" + numCode
+		monAccOutput += "\" class=\"collapse "+changesByDrawer.showhide+classAccord.drawerBorder+changesByDrawer.roundBottom+"\" aria-labelledby=\"head" + numCode
 		monAccOutput += "\" data-parent=\"#accordion" + randString + "\"><div class=\"card-body p-1\"><div class=\"m-1 p-1\"><div class=\"accDiv\">"
 		
 		monAccOutput += monAccContent[secNum]
@@ -501,7 +507,9 @@ function generateAccordionHTML(classAccord,resizedHead,monAccBtnTxt,monAccConten
 		classAccord.headSize = getRadioOption('headSize')
 		classAccord.icon = getRadioOption('faCode')
 		classAccord.openClose = getRadioOption('openClose')
-		classAccord.drawerColour = getRadioOption('bgStyle')
+		var drawerColouring = getRadioOption('bgStyle').split(",") //pos 0 is the main colouring and 1 is the border
+		classAccord.drawerColour = drawerColouring[0]
+		classAccord.drawerBorder = drawerColouring[1]
 		classAccord.drawerSize = getRadioOption('drawerSize')
 		
 		var resizedHead = generateHeading(classAccord)
@@ -862,27 +870,27 @@ function setupBackToTopButton(){
 		</div>
 		<div class="col-lg">
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateElementCode()>
-		<input class="form-check-input" name="bgStyle" id="bgStyle1" type="radio" value="td">
+		<input class="form-check-input" name="bgStyle" id="bgStyle1" type="radio" value="heading-plain,cardborder-plain">
 		<label class="form-check-label" for="bgStyle1"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead><td>Plain text</td></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateElementCode()>
-		<input class="form-check-input" name="bgStyle" id="bgStyle2" type="radio" value="th">
+		<input class="form-check-input" name="bgStyle" id="bgStyle2" type="radio" value="heading-bd text-white,cardborder-bd">
 		<label class="form-check-label" for="bgStyle2"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead><th>Bold</th></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateElementCode()>
-		<input class="form-check-input" name="bgStyle" id="bgStyle3" type="radio" value="thead-dark">
+		<input class="form-check-input" name="bgStyle" id="bgStyle3" type="radio" value="heading-dk text-white,cardborder-dk">
 		<label class="form-check-label" for="bgStyle3"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="thead-dark"><th>Dark</th></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateElementCode()>
-		<input class="form-check-input" name="bgStyle" id="bgStyle4" type="radio" value="table-primary">
+		<input class="form-check-input" name="bgStyle" id="bgStyle4" type="radio" value="heading-pm,cardborder-pm">
 		<label class="form-check-label" for="bgStyle4"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="table-primary"><th>Primary</th></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateElementCode()>
-		<input class="form-check-input" name="bgStyle" id="bgStyle5" type="radio" value="table-secondary">
+		<input class="form-check-input" name="bgStyle" id="bgStyle5" type="radio" value="heading-sc,cardborder-sc">
 		<label class="form-check-label" for="bgStyle5"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="table-secondary"><th>Secondary</th></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateElementCode()>
-		<input class="form-check-input" name="bgStyle" id="bgStyle6" type="radio" value="bg-mu text-white" checked>
+		<input class="form-check-input" name="bgStyle" id="bgStyle6" type="radio" value="heading-mu text-white,cardborder-mu" checked>
 		<label class="form-check-label" for="bgStyle6"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="bg-mu"><th>Monash Blue</th></thead></table></label>
 	  </div>	  
 		</div>

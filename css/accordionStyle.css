@@ -3,24 +3,70 @@
     text-decoration: none !important;
     }
     /*Changes colour of the headings within the accordion and also changes them on hover to show they are clickable*/
-    .headingStyle {
+	.text-black {
+		color: black;
+	}
+	/*Styles the border of the body of the block*/
+    .cardBodyBorder {//retain for backward compatibility
+    border: solid 1px #006dae !important;
+    }
+    .headingStyle {//retain for backward compatibility
     background: #006dae !important; 
-    color: #fff !important; 
     cursor: pointer !important; 
     border: solid 1px #006dae !important;
     }
-    .headingStyle:hover {
+    .headingStyle:hover {//retain for backward compatibility
     background-color: #3d90c2 !important;
     cursor: pointer !important;
     border: solid 1px #3d90c2 !important;
     }
-    
-    /*Styles the border of the body of the block*/
-    .cardBodyBorder {
-    border-left: solid 2px #006dae; 
-    border-right: solid 2px #006dae;
-    border: solid 1px #006dae !important;
-    }
+	.heading-mu {
+		background: #006dae !important;
+		cursor: pointer !important; 		
+		border: solid 1px #006dae !important;
+	}
+	.heading-mu:hover{
+		background-color: #3d90c2 !important;
+		cursor: pointer !important; 
+		border: solid 1px #3d90c2 !important;
+	}
+	.cardborder-mu {
+		border: solid 1px #006dae !important;
+	}
+	.heading-pm {
+		background: #B8DAFF !important; 
+		cursor: pointer !important; 
+		border: solid 1px #B8DAFF !important;
+	}
+	.heading-pm:hover{
+		background-color: #9fcdff !important;
+		cursor: pointer !important; 
+		border: solid 1px #9fcdff !important;
+	}
+	.cardborder-pm {
+		border: solid 1px #B8DAFF !important;
+	}
+	.heading-sc {
+		background: #D6D8DB !important; 
+		cursor: pointer !important; 
+		border: solid 1px #D6D8DB !important;
+	}
+	.heading-sc:hover{
+		background-color: #C8CBCF !important;
+		cursor: pointer !important; 
+		border: solid 1px #C8CBCF !important;
+	}
+	.cardborder-sc {
+		border: solid 1px #D6D8DB !important;
+	}
+	.heading-dk {
+		background: #212529 !important; 
+		cursor: pointer !important; 
+		border: solid 1px #212529 !important;
+	}
+	.cardborder-dk {
+		border: solid 1px #212529 !important;
+	}
     
     /*Ensures the last element inside the accordion does not have a huge margin at the bottom of it to save space*/
     .accDiv p:last-child, .accDiv ul:last-child, .accDiv ol:last-child {
