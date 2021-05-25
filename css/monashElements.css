@@ -51,6 +51,21 @@
     background: #006DAE;
     color: white;
     }
+	/*setup classes for whole row to trigger the hover of the row on the th cell*/
+	.bg-mu-row:hover th{
+    background: #3d90c2 !important;
+    }
+	.bg-sc-row:hover th{
+    background: #C8CBCF !important;
+    }
+	.bg-pm-row:hover th{
+    background: #9FCDFF !important;
+    }
+	.bg-dk-row:hover th{
+    background: #B9BBBE !important;
+    color: black;
+	border: 1px solid #B9BBBE !important;
+    }
     /*The alert should be used in conjunction with the class .alert to ensure correct visuals and .rounded if a rounded box is a required design element.*/
     .alert-arts, .alert-mu {
     background: rgba(0, 109, 174, .25);

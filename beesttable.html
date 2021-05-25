@@ -244,7 +244,22 @@ function newRowCode(rowNum,contentsArray,display_options){
 display options {r1: class, c1: class, bg: class}
 length of contents array must match column count for the row
 */
-	var rowCode = "<tr id=\""+baseRowID+rowNum+"\">"
+	var rowClass = ""
+	var rowClassOptions = {
+		"bg-mu":"bg-mu-row",
+		"table-dark":"bg-dk-row",
+		"table-primary":"bg-pm-row",
+		"table-secondary":"bg-sc-row",
+	}
+	if (rowNum>0){
+		for (classN in rowClassOptions){
+			if (display_options.c1.search(classN)>=0){
+				rowClass = rowClassOptions[classN]
+			}
+		}
+		
+	}
+	var rowCode = "<tr id=\""+baseRowID+rowNum+"\" class=\""+rowClass+"\">"
 	var thisCell;
 	var cellContent;
 	
