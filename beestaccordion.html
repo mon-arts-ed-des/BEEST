@@ -190,6 +190,9 @@ var iconNames = {
 			}
 			result.openClose = this.openClose
 			result.drawerCount = this.usableDrawers
+			result.drawerSize = this.drawerSize
+			result.drawerColour = this.drawerColour
+			result.drawerBorder = this.drawerBorder
 			return result
 		}
 		toString(){return JSON.stringify(this.toPDO())}
@@ -202,6 +205,9 @@ var iconNames = {
 				var theDrawer = PDO.drawerList[dr]
 				this.addDrawer(theDrawer.heading,theDrawer.content)
 			}
+			this.drawerColour = PDO.drawerColour
+			this.drawerBorder = PDO.drawerBorder
+			this.drawerSize = PDO.drawerSize
 		}
 		accordianSectionTemplate(num){
 			var idHead = this.baseHead+num
@@ -374,6 +380,9 @@ function setAccordContentsAndHeadings(idList,dataSet){
 	/*
 	dataSet should be an instance of the accordion class
 	*/
+		const MONASH_BLUE_DRAWER_COLOUR_CODE = "heading-mu text-white,cardborder-mu"
+		const DEFAULT_DRAWER_SIZE = "h5"
+		
 		idList = accordListToIDs(dataSet.getAllDrawers())
 		document.getElementById('accMainHeading').value = dataSet.mainHead;
 		if (dataSet.headSize!==undefined){
@@ -385,6 +394,18 @@ function setAccordContentsAndHeadings(idList,dataSet){
 		if (dataSet.openClose!==undefined){
 			setRadios('openClose',dataSet.openClose)
 		}
+		var bgStyleVal = MONASH_BLUE_DRAWER_COLOUR_CODE
+		if (dataSet.drawerColour!==undefined){
+			bgStyleVal = dataSet.drawerColour+","+dataSet.drawerBorder
+		}
+		setRadios('bgStyle',bgStyleVal)
+		
+		var drawerSizeVal = DEFAULT_DRAWER_SIZE
+		if (dataSet.drawerSize!==undefined){
+			drawerSizeVal = dataSet.drawerSize
+		}
+		setRadios('drawerSize',drawerSizeVal)
+
 		add_remove_drawers_to_match_count(dataSet.drawerCount)
 /*		
 		tinyMCE.get('tinyMCEmonAccContent1').setContent(dataSet.getDrCont(0))
@@ -542,6 +563,51 @@ function getHistoryI(index,history){
 }
 /*END REQUIRED FOR HISTORY*/
 
+function getColourBorderSize(divList){
+	//set default value if none found
+	var colBorSiz = {
+		"colour":"heading-mu text-white",
+		"border":"cardborder-mu",
+		"size":"h5",
+	}
+	
+	var colourBorderClassNames = {
+		"heading-mu text-white":"cardborder-mu",
+		"heading-sc text-black":"cardborder-sc",
+		"heading-pm text-black":"cardborder-pm",
+		"heading-dk text-white":"cardborder-dk"
+	}
+	var colourType = null;
+	var colouredDiv = null
+	var divI = 0
+	while ((colourType == null) && (divI < divList.length)){
+		for (var colourClass in colourBorderClassNames){
+			if($(divList[divI]).hasClass(colourClass)){
+				colourType = colourClass
+				colouredDiv = divList[divI]
+				break;
+			}
+		}
+		divI++
+	}
+	//by the end colouredDiv / colourType will either still be null (in which case assume h5 and monash blue) otherwise it will have the first div and colour class found
+	if (colourType !== null){
+		colBorSiz.colour = colourType
+		colBorSiz.border = colourBorderClassNames[colourType]
+		if ($(colouredDiv).find("h3").length>0){
+			colBorSiz.size = "h3"
+		}
+		else if ($(colouredDiv).find("h4").length>0){
+			colBorSiz.size = "h4"
+		}
+		else{
+			colBorSiz.size = "h5"
+		}
+	}
+	
+	return colBorSiz
+}
+
 function recoverCode(){
 	_classAccord_ = new accordion()
 	var pastedHTML = $("#retrieveCode").val()
@@ -567,7 +633,7 @@ function recoverCode(){
 		_classAccord_.icon = iconCode[iconClassName]
 	}
 	var dataToFind = {
-		tags:["button"],
+		tags:["button","div"],
 		classes:["show","accDiv"]
 	} //spans in order should give headings, div in order (when id starts with content) will give contents
 	var recoveredData = recoverFromPasted(pastedHTML,dataToFind)
@@ -586,6 +652,12 @@ function recoverCode(){
 		
 		_classAccord_.addDrawer(drawers.head[c],drawers.cont[c])
 	}
+	
+	var divList = recoveredData.tags.div
+	var colBorSiz = getColourBorderSize(divList)
+	_classAccord_.drawerColour = colBorSiz.colour
+	_classAccord_.drawerBorder = colBorSiz.border
+	_classAccord_.drawerSize = colBorSiz.size
 	
 	setTextAreas(_classAccord_)
 	
