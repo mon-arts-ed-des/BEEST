@@ -68,10 +68,14 @@
 		cursor: pointer !important; 
 		border: solid 1px #212529 !important;
 	}
+	.heading-dk:hover span{
+
+		color: black !important;
+	}
 	.heading-dk:hover{
 		background-color: #b9bbbe !important;
 		cursor: pointer !important; 
-		border: solid 1px #b9bbbe !important;
+		border: solid 1px #212529 !important;
 	}
 	.cardborder-dk {
 		border: solid 1px #212529 !important;
