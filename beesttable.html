@@ -202,6 +202,37 @@ function arrayToTableHTML(array){
 }
 
 function tableHTML_toArray(htmlTable){
+	class sortList{
+		constructor(sortBy){
+			this.list =[]
+			this.len = 0
+			this.sortBy = sortBy
+		} 
+		insert(item){
+			if (this.len==0){
+				this.list.push(item)
+			}
+			else{
+				var comp = item[this.sortBy]
+				this.list.push(item)
+				var currcomp = null
+				for (var pos=this.len-1;pos>=0;pos--){
+					currcomp = this.list[pos][this.sortBy]
+					if (currcomp > comp){
+						[this.list[pos],this.list[pos+1]] = [this.list[pos+1],this.list[pos]]
+					}	
+					else{
+						break;
+					}
+				}
+				this.len++
+			}
+		}
+		toList(){
+			return this.list
+		}
+	}
+	
 	const dummyTable = [['']]
 	
 	if (htmlTable == undefined){
@@ -214,11 +245,70 @@ function tableHTML_toArray(htmlTable){
 	if (tableData == null){
 		return dummyTable
 	}
+	var merges = new sortList("cstart"); //format being [{rstart:[0-9]*, cstart:[0-9]*, rowspan:[0-9]*, colspan:[0-9]*},...]
+	
 	for (var rNum=0; rNum < tableData.length; rNum++){
 		tableData[rNum]=extractHTMLFromSingleTag(tableData[rNum],"tr") //get rid of row tags
 		tableData[rNum]=getArrayByTag(tableData[rNum],"t[dh]") //break up by td/th
 		for (var cNum=0;cNum<tableData[rNum].length;cNum++){
+			//check for merges first
+			item = tableData[rNum][cNum]
+			colspan = $(item).attr("colspan")
+			rowspan = $(item).attr("rowspan")
+			if ((colspan!=undefined)||(rowspan!=undefined)){
+				mergeToStore = {'rstart':rNum, 'cstart':cNum, 'rowspan':0, 'colspan':0}
+				mergeToStore.rowspan = (rowspan!=undefined ? rowspan : 0)
+				mergeToStore.colspan = (colspan!=undefined ? colspan : 0)
+				merges.insert(mergeToStore) //these will be organised into column order so we can insert from left to right later
+			}
+			
 			tableData[rNum][cNum]=extractHTMLFromSingleTag(tableData[rNum][cNum],"t[dh]")
+		}
+	}
+	merges = merges.toList()
+	tableData = generateTableMerges(tableData,merges)
+	//insert dummy cells where there's a merge
+	return tableData
+}
+
+function generateTableMerges(tableData,mergeList){
+	const DUMMY = null;
+	
+	for (var mNum = 0; mNum < mergeList.length; mNum++){
+		item = mergeList[mNum]
+		col = item.cstart
+		row = item.rstart
+		colspan = item.colspan
+		rowspan = item.rowspan
+		
+		if (rowspan>0){
+			for (var rNum = row; rNum <= (row+rowspan); rNum++){
+				if (colspan>0){
+					for (var cNum = col; cNum <= (col+colspan); cNum++){
+						if ((row==rNum)&&(col==cNum)){
+							continue
+						}
+						else{
+							tableData[rNum].splice(cNum,0,DUMMY)
+						}
+					}
+				}
+				if (colspan==0){
+					cNum = col;
+					if (rNum==row){
+						continue
+					}
+					else{
+						tableData[rNum].splice(cNum,0,DUMMY)
+					}
+				}
+			}
+		}
+		if (rowspan==0){
+			rNum = row;
+			for (var cNum = col+1; cNum <= (col+colspan); cNum++){
+				tableData[rNum].splice(cNum,0,DUMMY)
+			}
 		}
 	}
 	return tableData
