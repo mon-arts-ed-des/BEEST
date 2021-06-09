@@ -11,10 +11,12 @@
 		font-weight: bold;
 	}
 	/*Styles the border of the body of the block*/
-    .cardBodyBorder {//retain for backward compatibility
+    /*retain for backward compatibility*/
+	.cardBodyBorder {
     border: solid 1px #006dae !important;
     }
-    .headingStyle {//retain for backward compatibility
+	/*retain for backward compatibility*/
+    .headingStyle {
     background-color: #006dae !important; 
     cursor: pointer !important; 
     border: solid 1px #006dae !important;
