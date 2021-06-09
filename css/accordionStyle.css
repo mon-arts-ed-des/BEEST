@@ -15,7 +15,7 @@
     border: solid 1px #006dae !important;
     }
     .headingStyle {//retain for backward compatibility
-    background: #006dae !important; 
+    background-color: #006dae !important; 
     cursor: pointer !important; 
     border: solid 1px #006dae !important;
     }
@@ -25,7 +25,7 @@
     border: solid 1px #3d90c2 !important;
     }
 	.heading-mu {
-		background: #006dae !important;
+		background-color: #006dae !important;
 		cursor: pointer !important; 		
 		border: solid 1px #006dae !important;
 	}
@@ -38,7 +38,7 @@
 		border: solid 1px #006dae !important;
 	}
 	.heading-pm {
-		background: #B8DAFF !important; 
+		background-color: #B8DAFF !important; 
 		cursor: pointer !important; 
 		border: solid 1px #B8DAFF !important;
 	}
@@ -51,7 +51,7 @@
 		border: solid 1px #B8DAFF !important;
 	}
 	.heading-sc {
-		background: #D6D8DB !important; 
+		background-color: #D6D8DB !important; 
 		cursor: pointer !important; 
 		border: solid 1px #D6D8DB !important;
 	}
@@ -64,7 +64,7 @@
 		border: solid 1px #D6D8DB !important;
 	}
 	.heading-dk {
-		background: #212529 !important; 
+		background-color: #212529 !important; 
 		cursor: pointer !important; 
 		border: solid 1px #212529 !important;
 	}
