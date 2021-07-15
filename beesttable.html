@@ -272,19 +272,19 @@ function tableHTML_toArray(htmlTable){
 }
 
 function generateTableMerges(tableData,mergeList){
-	const DUMMY = null;
+	const DUMMY = "";
 	
 	for (var mNum = 0; mNum < mergeList.length; mNum++){
 		item = mergeList[mNum]
 		col = item.cstart
 		row = item.rstart
-		colspan = item.colspan
-		rowspan = item.rowspan
+		colspan = Number(item.colspan)
+		rowspan = Number(item.rowspan)
 		
 		if (rowspan>0){
-			for (var rNum = row; rNum <= (row+rowspan); rNum++){
+			for (var rNum = row; rNum < (row+rowspan); rNum++){
 				if (colspan>0){
-					for (var cNum = col; cNum <= (col+colspan); cNum++){
+					for (var cNum = col; cNum < (col+colspan); cNum++){
 						if ((row==rNum)&&(col==cNum)){
 							continue
 						}
@@ -306,7 +306,7 @@ function generateTableMerges(tableData,mergeList){
 		}
 		if (rowspan==0){
 			rNum = row;
-			for (var cNum = col+1; cNum <= (col+colspan); cNum++){
+			for (var cNum = col+1; cNum < (col+colspan); cNum++){
 				tableData[rNum].splice(cNum,0,DUMMY)
 			}
 		}
