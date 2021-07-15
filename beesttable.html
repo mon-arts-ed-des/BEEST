@@ -201,8 +201,7 @@ function arrayToTableHTML(array){
 	return htmlTable
 }
 
-function tableHTML_toArray(htmlTable){
-	class sortList{
+class sortList{
 		constructor(sortBy){
 			this.list =[]
 			this.len = 0
@@ -232,6 +231,9 @@ function tableHTML_toArray(htmlTable){
 			return this.list
 		}
 	}
+
+function tableHTML_toArray(htmlTable){
+	
 	
 	const dummyTable = [['']]
 	
