@@ -80,6 +80,54 @@ $(document).ready(function(){
 	classTable = new table()
 })
 
+
+class sortList{
+		constructor(sortBy){
+			this.list =[]
+			this.len = 0
+			this.sortBy = sortBy
+		} 
+		insert(item){
+			if (this.len==0){
+				this.list.push(item)
+			}
+			else{
+				var comp = item[this.sortBy]
+				this.list.push(item)
+				var currcomp = null
+				for (var pos=this.len-1;pos>=0;pos--){
+					currcomp = this.list[pos][this.sortBy]
+					if (currcomp > comp){
+						[this.list[pos],this.list[pos+1]] = [this.list[pos+1],this.list[pos]]
+					}	
+					else{
+						break;
+					}
+				}
+				this.len++
+			}
+		}
+		toList(){
+			return this.list
+		}
+		toPDO(){
+			obj = {}
+			obj.list = this.list
+			obj.len = this.len
+			obj.sortBy = this.sortBy
+			return obj
+		}
+		toString(){
+			return JSON.stringify(this.toPDO())
+		}
+		fromObj(PDO){
+			for (prop in PDO){
+				this[prop]=PDO[prop]
+			}
+		}
+	}
+
+
 /*REQUIRED FOR HISTORY*/  	
 class table{
 	constructor(mainHeading, icon, headSize, tableData,bg,r1,c1){
@@ -90,6 +138,7 @@ class table{
 		this.bgStyle = bg
 		this.row1Style = r1
 		this.col1Style = c1
+		this.merges = new sortList()
 	}
 	tableCopy(table){
 		var tmpTable = [[]]
@@ -115,6 +164,7 @@ class table{
 		result.bgStyle = this.bgStyle
 		result.col1Style = this.col1Style
 		result.row1Style = this.row1Style
+		result.merges = this.merges
 		return result
 	}	
 	toString(){
@@ -128,6 +178,7 @@ class table{
 		this.bgStyle = PDO.bgStyle
 		this.col1Style = PDO.col1Style
 		this.row1Style = PDO.row1Style
+		this.merges = PDO.merges
 	}
 }
 /*END REQUIRED FOR HISTORY*/
@@ -201,40 +252,7 @@ function arrayToTableHTML(array){
 	return htmlTable
 }
 
-class sortList{
-		constructor(sortBy){
-			this.list =[]
-			this.len = 0
-			this.sortBy = sortBy
-		} 
-		insert(item){
-			if (this.len==0){
-				this.list.push(item)
-			}
-			else{
-				var comp = item[this.sortBy]
-				this.list.push(item)
-				var currcomp = null
-				for (var pos=this.len-1;pos>=0;pos--){
-					currcomp = this.list[pos][this.sortBy]
-					if (currcomp > comp){
-						[this.list[pos],this.list[pos+1]] = [this.list[pos+1],this.list[pos]]
-					}	
-					else{
-						break;
-					}
-				}
-				this.len++
-			}
-		}
-		toList(){
-			return this.list
-		}
-	}
-
 function tableHTML_toArray(htmlTable){
-	
-	
 	const dummyTable = [['']]
 	
 	if (htmlTable == undefined){
