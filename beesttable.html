@@ -37,6 +37,7 @@
 const START_ELEMENT = "<!--Begin BEEST table-->"
 const END_ELEMENT = "<!--End BEEST table-->"
 const NO_ROW_SIZE = "None"
+const DUMMY = "~~~MERGE FILLER~~~";
 /*REQUIRED FOR HISTORY*/    
 	const BUTTON_HIST = "history_table"
 	const pasteTable = "pasteTableFromExcel"
@@ -90,6 +91,7 @@ class sortList{
 		insert(item){
 			if (this.len==0){
 				this.list.push(item)
+				this.len++
 			}
 			else{
 				var comp = item[this.sortBy]
@@ -178,7 +180,8 @@ class table{
 		this.bgStyle = PDO.bgStyle
 		this.col1Style = PDO.col1Style
 		this.row1Style = PDO.row1Style
-		this.merges = PDO.merges
+		this.merges = new sortList()
+		this.merges.fromObj(PDO.merges)
 	}
 }
 /*END REQUIRED FOR HISTORY*/
@@ -197,25 +200,33 @@ function newTextField(placeholder,id){
 	return "<textarea id=\""+id+"\" placeholder=\""+placeholder+"\" class=\"border border-dark rounded p-2 w-100\" cols=\"70\" rows=\"1\" name=\""+id+"\" onchange=generateTableCode()></textarea>"
 }
 
-function newCellCode(rowNum,colNum,contents,display_options){
+function newCellCode(rowNum,colNum,contents,display_options,merges){
 /*display options {r1: NO_ROW_SIZE|"h3|4|5", c1: "td"|"th"|[class], bg: "td"|"th"|[class]}*/
+	if (merges.hasOwnProperty('list')){merges = merges.list}
+	while ((merges.length>0) &&((rowNum>merges[0].rStart) || ((colNum>merges[0].cStart) && (rowNum==merges[0].rStart)))){
+		merges.shift()
+	}//shift along until have a relevant merge
+	
+	var spans = mergeSpanComm(merges[0],(merges.length>0))//get the row/col spans for this cell
+	var spanCode = addColRowSpansToTag(spans)
+	
 	var cellCode = ""
 	colStyle = display_options.c1
 	colIsPlain = colStyle=="td"
 	rowIsPlain = display_options.bg=="td"
 	
 	if ((rowNum==0)&&(!(rowIsPlain))){
-		cellCode = "<th scope=\"col\">"+contents+"</th>"
+		cellCode = "<th"+spanCode+" scope=\"col\">"+contents+"</th>"
 	}
 	else if ((colNum==0)&&(!(colIsPlain))){
-		cellCode = "<th scope=\"row\" "
+		cellCode = "<th"+spanCode+" scope=\"row\" "
 		if (colStyle !=="th"){
 			cellCode +="class=\""+colStyle+"\""
 		}
 		cellCode+=">"+contents+"</th>"
 	}
 	else{
-		cellCode = "<td>"+contents+"</td>"
+		cellCode = "<td"+spanCode+">"+contents+"</td>"
 	}
 	return cellCode
 }
@@ -240,16 +251,94 @@ function getArrayByTag(htmlInput,tag){
 	return htmlInput.match(searchString)
 }
 
-function arrayToTableHTML(array){
+function removeDummyCells(array){
+	var rPos = 0
+	while (rPos < array.length){
+		var cPos = 0
+		while (cPos < array[rPos].length){
+			while ((array[rPos][cPos]===DUMMY)&&(cPos < array[rPos].length)){
+				array[rPos].splice(cPos,1)
+			}
+			cPos += 1
+		}
+		rPos+=1
+	}
+}
+
+function mergeSpanComm(mergeItem,attempt){
+	var spans = {r:"",c:""}
+	if (attempt){
+		if ((row==mergeItem.rStart)&&(col==mergeItem.cStart)){
+			spans.r = "rowspan='"+mergeItem.rSpan+"'"
+			spans.c = "colspan='"+mergeItem.cSpan+"'"
+		}
+	}
+	return spans
+}
+function addColRowSpansToTag(spans){
+	return ((spans.c=="") ? "" : " "+spans.c)+((spans.r=="") ? "" : " "+spans.r)
+}
+
+function arrayToTableHTML(array,merges){
 	/*
 	takes a 2d array and converts it into an HTML table
 	*/
 	htmlTable = "<table><tbody>"
+	var mPos= 0;
+	array = removeDummyCells(array)
+	var mergeItem
+	if (merges.hasOwnProperty("list")){
+		merges = merges.list
+	}
+	mergeItem = merges[mPos]
+
 	for (var row=0;row<array.length;row++){
-		htmlTable+= "<tr><td>"+array[row].join("</td><td>")+"</td></tr>"
+		htmlTable+= "<tr>"
+		
+		for (var col=0;col < array[row].length;col++){
+			while (((mergeItem.rStart > row)||((mergeItem.cStart > col)&&(mergeItem.rStart == row)))&&(mPos < merges.length)){
+				mPos+=1
+				mergeItem = merges[mPos]
+				//find next relevent merge
+			}
+			var spans = mergeSpanComm(mergeItem,(mPos < merges.length))
+			htmlTable+="<td"+addColRowSpansToTag(spans)+">"+array[row][col]+"</td>"
+		}
+		
+		htmlTable+="</tr>"
 	}
 	htmlTable += "</tbody></table>"
 	return htmlTable
+}
+
+function addMergedCellFromTD_TH(item,merges,rNum,cNum){
+	colspan = $(item).attr("colspan")
+	rowspan = $(item).attr("rowspan")
+	if ((colspan!=undefined)||(rowspan!=undefined)){
+		mergeToStore = {'rstart':rNum, 'cstart':cNum, 'rowspan':0, 'colspan':0}
+		mergeToStore.rowspan = (rowspan!=undefined ? rowspan : 0)
+		mergeToStore.colspan = (colspan!=undefined ? colspan : 0)
+		merges.insert(mergeToStore) //these will be organised into column order so we can insert from left to right later
+	}
+}
+function isPartOfMerge(rNum,cNum,merges){
+	function between(low,hi,check){
+		return ((check >= low)&&(check <= hi))
+	}
+	
+	for (mNum=0; mNum<merges.len;mNum++){
+		merge = merges.list[mNum]
+		mR = merge.rstart
+		mC = merge.cstart
+		rSp = Number(merge.rowspan)
+		cSp = Number(merge.colspan)
+		mR_end = rSp+mR-((rSp>0) ? 1 : 0)
+		mC_end = cSp+mC-((cSp>0) ? 1 : 0)
+		if (between(mR,mR_end,rNum)&&between(mC,mC_end,cNum)){
+			return true
+		}
+	}
+	return false
 }
 
 function tableHTML_toArray(htmlTable){
@@ -272,28 +361,24 @@ function tableHTML_toArray(htmlTable){
 		tableData[rNum]=getArrayByTag(tableData[rNum],"t[dh]") //break up by td/th
 		for (var cNum=0;cNum<tableData[rNum].length;cNum++){
 			//check for merges first
-			item = tableData[rNum][cNum]
-			colspan = $(item).attr("colspan")
-			rowspan = $(item).attr("rowspan")
-			if ((colspan!=undefined)||(rowspan!=undefined)){
-				mergeToStore = {'rstart':rNum, 'cstart':cNum, 'rowspan':0, 'colspan':0}
-				mergeToStore.rowspan = (rowspan!=undefined ? rowspan : 0)
-				mergeToStore.colspan = (colspan!=undefined ? colspan : 0)
-				merges.insert(mergeToStore) //these will be organised into column order so we can insert from left to right later
+			if (isPartOfMerge(rNum,cNum,merges)){
+				tableData[rNum].splice(cNum,0,DUMMY)
 			}
-			
-			tableData[rNum][cNum]=extractHTMLFromSingleTag(tableData[rNum][cNum],"t[dh]")
+			else{
+				item = tableData[rNum][cNum]
+				
+				addMergedCellFromTD_TH(item,merges,rNum,cNum)
+				
+				tableData[rNum][cNum]=extractHTMLFromSingleTag(item,"t[dh]")
+			}
 		}
 	}
 	merges = merges.toList()
-	tableData = generateTableMerges(tableData,merges)
-	//insert dummy cells where there's a merge
-	return tableData
+	
+	return {tableData:tableData,merges:merges}
 }
 
-function generateTableMerges(tableData,mergeList){
-	const DUMMY = "";
-	
+function generateTableMerges(tableData,mergeList){	
 	for (var mNum = 0; mNum < mergeList.length; mNum++){
 		item = mergeList[mNum]
 		col = item.cstart
@@ -336,20 +421,27 @@ function generateTableMerges(tableData,mergeList){
 
 function writeTableExcelPaste(){
 	var tableData;
+	var merges;
 	if (tablePasterIsTiny){
 		var pastedTable = getTinyContent(pasteTable)
-		tableData = tableHTML_toArray(pastedTable)
+		results = tableHTML_toArray(pastedTable)
+		tableData = results.tableData
+		merges = results.merges
+		tableData = generateTableMerges(tableData,merges)
+		//insert dummy cells where there's a merge
 	}
 	else{
 		var pastedTable = $('#'+pasteTable).val()
 		tableData = tabSepDataToArray(pastedTable)
+		/***will need updating***//*TBC*/
 	}
 	classTable.tableData = tableData
+	classTable.merges = merges
 	//setTextAreas(classTable)
 	generateTableCode()
 }
 		
-function newRowCode(rowNum,contentsArray,display_options){
+function newRowCode(rowNum,contentsArray,display_options,merges){
 /*
 display options {r1: class, c1: class, bg: class}
 length of contents array must match column count for the row
@@ -383,7 +475,7 @@ length of contents array must match column count for the row
 				cellContent = "<"+hSize+">"+cellContent+"</"+hSize+">"
 			}
 		}
-		thisCell = newCellCode(rowNum,colN,cellContent,display_options)
+		thisCell = newCellCode(rowNum,colN,cellContent,display_options,merges)
 		rowCode += thisCell
 	}
 	rowCode += "</tr>"
@@ -414,7 +506,7 @@ function determineRowOptions(display_options){
 	return options
 }
 
-function newTableCode(contentsArray,display_options){
+function newTableCode(contentsArray,display_options,merges){
 /*
 display options {r1: class, c1: class, bg: class}
 format should be [[r0c0,r0c1,r0c2,...],[r1c0,r1c1,c1c2,...],...]
@@ -433,7 +525,7 @@ format should be [[r0c0,r0c1,r0c2,...],[r1c0,r1c1,c1c2,...],...]
 				break;
 		}
 
-		tableCode += newRowCode(rowN,contentsArray[rowN],display_options)
+		tableCode += newRowCode(rowN,contentsArray[rowN],display_options,merges)
 		
 	}
 	
@@ -541,6 +633,7 @@ function default_r1_c1(dataSet){
 	
 function setTextAreas(classData){
 	var theTable = classData.tableData
+	var merges = classData.merges
 		
 	var dataSet = {
 		"tableMainHeading":{type:'basic',value:classData.mainHead},
@@ -551,7 +644,7 @@ function setTextAreas(classData){
 		"bgStyle":{type:'radio',value:classData.bgStyle}
 	}
 	dataSet = default_r1_c1(dataSet)
-	dataSet[pasteTable] = {type:'tiny',value:arrayToTableHTML(theTable)}
+	dataSet[pasteTable] = {type:'tiny',value:arrayToTableHTML(theTable,merges)}
 	
 	setTextAreas_util(dataSet)
 	
@@ -617,7 +710,7 @@ function generateTableCode() {
 	
 	var resizedHead = generateHeading(classTable);
 
-	var textOutputTable = resizedHead+newTableCode(tableContents,table_display) /**TO UPDATE**/
+	var textOutputTable = resizedHead+newTableCode(tableContents,table_display,classTable.merges) /**TO UPDATE**/	/*TBC*/
 	
 	document.getElementById('txtareaBtn').innerHTML= START_ELEMENT+textOutputTable+END_ELEMENT;
 	//SelectAll("txtareaBtn");
@@ -654,7 +747,9 @@ function recoverCode(){
 
 	display_options = recoveredData.ids.display_options	
 	
-	classTable.tableData = tableHTML_toArray(recoveredData.tags.table[0].outerHTML)
+	var results = tableHTML_toArray(recoveredData.tags.table[0].outerHTML)
+	classTable.tableData = results.tableData
+	classTable.merges = results.merges
 	
 	classTable.row1Style = $(display_options).attr('r1')
 	classTable.col1Style = $(display_options).attr('c1')
