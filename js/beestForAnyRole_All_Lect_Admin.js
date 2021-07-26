@@ -6,6 +6,7 @@ const cog_presence_regex = /Recycle bin/;
 const COLLAPSED_MODE = "collapsed"
 const KEY_COLLAPSE_BEEST_EDIT_RAW = "wasSeen"
 const KEY_COLLAPSE_BEEST_EDIT = encodehash(KEY_COLLAPSE_BEEST_EDIT_RAW)
+const HOST = "https://beest.monash.edu.au"
 
 const key_current_role_raw = "CURRENT_ROLE"
 const key_current_role = encodehash(key_current_role_raw)
@@ -124,10 +125,10 @@ function setup_beest(MODE,visibilityMethod){
 
 function createButtonAndModal(){
 	$(".header-right").prepend(
-		'<div class="custom-menus my-auto dropdown"><a type="button" target="_blank" class="border border-dark rounded-circle p-2 text-dark" role="button" title="BEEST" style="width: 38px; height: 38px;" data-toggle="modal" data-target=".beest-home-modal" id="beestDropdown"><img src="https://mon-arts-ed-des.github.io/BEEST/img/dragon-solid-black.png" width="20px" height="20px" style="margin-bottom: 4px;" /></a>'
+		'<div class="custom-menus my-auto dropdown"><a type="button" target="_blank" class="border border-dark rounded-circle p-2 text-dark" role="button" title="BEEST" style="width: 38px; height: 38px;" data-toggle="modal" data-target=".beest-home-modal" id="beestDropdown"><img src="'+HOST+'/img/dragon-solid-black.png" width="20px" height="20px" style="margin-bottom: 4px;" /></a>'
 	);
 	$("#region-main").append(
-		'<style>.modal-beest{max-width: 80% !important;}</style><div class="modal fade beest-home-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"><div class="modal-dialog modal-lg modal-beest"><div class="modal-content"><div class="modal-header mb-0 p-2 bg-danger text-white px-5"><h5 class="modal-title text-white my-auto" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5><button type="button" class="btn btn-outline-light btn-lg rounded" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">Close <i class="fa fa-times"></i></span></button></div><iframe src="https://mon-arts-ed-des.github.io/BEEST/index.html" width="100%" height="900px"></iframe></div></div></div>'
+		'<style>.modal-beest{max-width: 80% !important;}</style><div class="modal fade beest-home-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"><div class="modal-dialog modal-lg modal-beest"><div class="modal-content"><div class="modal-header mb-0 p-2 bg-danger text-white px-5"><h5 class="modal-title text-white my-auto" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5><button type="button" class="btn btn-outline-light btn-lg rounded" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">Close <i class="fa fa-times"></i></span></button></div><iframe src="'+HOST+'/index.html" width="100%" height="900px"></iframe></div></div></div>'
 	);
 }
 	
@@ -169,12 +170,13 @@ function create_iFrameInEditScreen(){
 	}
 	
 	var CSS_page = document.createElement('link')
+	var CSS_page = document.createElement('link')
 	CSS_page.rel = 'stylesheet'
-	CSS_page.href = 'https://mon-arts-ed-des.github.io/BEEST/css/beest_editScreen_iFrame.css'
+	CSS_page.href = HOST+'/css/beest_editScreen_iFrame.css'
 	document.getElementsByTagName('head')[0].appendChild(CSS_page)
 	var matchEditArea = $('#id_general, #id_generalhdr, #id_qtypeheading')
 	if (matchEditArea.length>0){
-		matchEditArea.after('<fieldset class="clearfix collapsible'+classToAdd+'" id="id_beest"><legend class="ftoggler"><a href="#" class="fheader" role="button" aria-controls="id_beest" aria-expanded="false">BEEST</a></legend><div class="fcontainer clearfix iframeResp"><iframe src="https://mon-arts-ed-des.github.io/BEEST/index.html" frameborder="0" class="responsive-iframe"></iframe></div></fieldset>');
+		matchEditArea.after('<fieldset class="clearfix collapsible'+classToAdd+'" id="id_beest"><legend class="ftoggler"><a href="#" class="fheader" role="button" aria-controls="id_beest" aria-expanded="false">BEEST</a></legend><div class="fcontainer clearfix iframeResp"><iframe src="'+HOST+'/index.html" frameborder="0" class="responsive-iframe"></iframe></div></fieldset>');
 		save_to_local(KEY_COLLAPSE_BEEST_EDIT,true)
 	}
 	

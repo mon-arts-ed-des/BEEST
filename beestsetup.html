@@ -32,6 +32,8 @@
     <!-- Tinymce js file -->   
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
     <script>
+const HOST = "https://beest.monash.edu.au"	
+
     function generateAccessCode() {
 		var htmlBlockID = document.getElementById('htmlBlockID').value;
 		var accessToBeest = document.getElementById('accessToBeest').value;
@@ -62,13 +64,13 @@
 				break;
 			*/
 		}
-		accessLevel = role_to_comment[role]+"<p><scrip"+"t src=\"https://mon-arts-ed-des.github.io/BEEST/js/beestForAnyRole_All_Lect_Admin.js\"></scrip"+"t></p><scrip"+"t>window.onload=function(){setup_beest(match_"+role;
+		accessLevel = role_to_comment[role]+"<p><scrip"+"t src=\""+HOST+"/js/beestForAnyRole_All_Lect_Admin.js\"></scrip"+"t></p><scrip"+"t>window.onload=function(){setup_beest(match_"+role;
 		if (visibilityMode!=null){
 			accessLevel+= ","+visibilityMode
 		}
 		accessLevel+= ")}</scrip"+"t>"
 		
-		var monElementStyle = "<scrip"+"t type=\"text/javascript\"> var cssRules = '#inst"+htmlBlockID+"{box-shadow:none !important;height:0px !important;margin:0px !important;}#inst"+htmlBlockID+" .action-menu, #inst"+htmlBlockID+" .dropdown-toggle, #inst"+htmlBlockID+" i {background: #fff !important;color: #fff !important;}#inst"+htmlBlockID+" .card-title {background: #fff !important;color: #fff !important;}'; var styleElement = document.createElement('style'); styleElement.appendChild(document.createTextNode(cssRules)); document.getElementsByTagName('head')[0].appendChild(styleElement);</scrip"+"t><p><link rel=\"stylesheet\" href=\"https://mon-arts-ed-des.github.io/BEEST/css/monashElements.css\"></p> "+accessLevel+"";
+		var monElementStyle = "<scrip"+"t type=\"text/javascript\"> var cssRules = '#inst"+htmlBlockID+"{box-shadow:none !important;height:0px !important;margin:0px !important;}#inst"+htmlBlockID+" .action-menu, #inst"+htmlBlockID+" .dropdown-toggle, #inst"+htmlBlockID+" i {background: #fff !important;color: #fff !important;}#inst"+htmlBlockID+" .card-title {background: #fff !important;color: #fff !important;}'; var styleElement = document.createElement('style'); styleElement.appendChild(document.createTextNode(cssRules)); document.getElementsByTagName('head')[0].appendChild(styleElement);</scrip"+"t><p><link rel=\"stylesheet\" href=\""+HOST+"/css/monashElements.css\"></p> "+accessLevel+"";
 		
 		var textOutput = monElementStyle;
 		document.getElementById('beestInMoodle').innerHTML=textOutput;
