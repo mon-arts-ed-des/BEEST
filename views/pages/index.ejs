@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-152392632-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-152392632-3');
+</script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A simple element creator to generate responsive code that can be easily embbedded into Moodle">
+    <meta name="author" content="T&M">
+    <title>BEEST home</title>
+    <link rel="icon" href="img/black favicon-16x16.png" type="image/gif">
+    <!-- external link to css file --> 
+    <!-- Bootstrap CSS -->   
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> 
+    <!-- Arts CSS -->  
+    <link rel="stylesheet" href="../../css/adminPlusSetuBlockStyle.css">
+    <!-- external link to js file -->  
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    
+    <!-- Bootstrap js file --> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- FontAwesome js file --> 
+    <script src="https://kit.fontawesome.com/3817feae52.js"></script> 
+    <!-- Tinymce js file -->   
+    <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+    <script>
+    function generateAccessCode() {
+		var htmlBlockID = document.getElementById('htmlBlockID').value;
+		var accessToBeest = document.getElementById('accessToBeest').value;
+		var role_to_comment = {
+				admin:"<!--BEEST for Moodle administrators only-->",
+				lect:"<!--BEEST for Moodle administrator, lecturer, non-primary lecturer and designer roles-->",
+				tutor:"<!--BEEST for Moodle administrator, lecturer, non-primary lecturer, designer and tutor roles-->"
+			}
+		/*
+		var beestForMoodleAdmin = "<!--BEEST for Moodle administrators only--><p><scrip"+"t src=\"js/beestForMoodleAdmin.js\"></scrip"+"t></p>";
+		var beestForMoodleLect = "<!--BEEST for Moodle administrator, lecturer, non-primary lecturer and designer roles--><p><scrip"+"t src=\"js/beestForMoodleLect.js\"></scrip"+"t></p>";
+		var beestForAllStaff = "<!--BEEST for Moodle administrator, lecturer, non-primary lecturer, designer and tutor roles--><p><scrip"+"t src=\"js/beestForAllStaff.js\"></scrip"+"t></p>";*/
+		var accessLevel;
+		var role;
+		//Adjusting the BEEST Moodle javascript to match the access level
+		switch(accessToBeest){
+			case "1":
+				role="admin"
+				//accessLevel = beestForMoodleAdmin;
+				break;
+			case "2":
+				role="lect"
+				//accessLevel = beestForMoodleLect;
+				break;
+			/*
+			case "3": //unreachable code now that tutor access has been removed from scope
+				role="tutor"
+				//accessLevel = beestForAllStaff;
+				break;
+			*/
+		}
+		accessLevel = role_to_comment[role]+"<p><scrip"+"t src=\"https://github.com/mon-arts-ed-des/BEEST/js/beestForAnyRole_All_Lect_Admin.js\"></scrip"+"t></p><scrip"+"t>window.onload=function(){setup_beest(match_"+role+")}</scrip"+"t>"
+		
+		var monElementStyle = "<scrip"+"t type=\"text/javascript\"> var cssRules = '#inst"+htmlBlockID+"{box-shadow:none !important;height:0px !important;margin:0px !important;}#inst"+htmlBlockID+" .action-menu, #inst"+htmlBlockID+" .dropdown-toggle, #inst"+htmlBlockID+" i {background: #fff !important;color: #fff !important;}#inst"+htmlBlockID+" .card-title {background: #fff !important;color: #fff !important;}'; var styleElement = document.createElement('style'); styleElement.appendChild(document.createTextNode(cssRules)); document.getElementsByTagName('head')[0].appendChild(styleElement);</scrip"+"t><p><link rel=\"stylesheet\" href=\"https://github.com/mon-arts-ed-des/BEEST/css/monashElements.css\"></p> "+accessLevel+"";
+		
+		var textOutput = monElementStyle;
+		document.getElementById('beestInMoodle').innerHTML=textOutput;
+		SelectAll("beestInMoodle");
+    }
+    function SelectAll(id){
+        document.getElementById(id).focus();
+        document.getElementById(id).select();
+        document.execCommand("copy");
+
+        var popup = document.getElementById("myPopup");
+        popup.classList.toggle("showPopup");
+        //window.alert('test');
+    }        
+         
+    $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+  </script>
+  <script>   
+    window.onload=function(){
+      $('#beestNav').load('common/beestnav.html');
+      $('#beestFooter').load('common/beestfooter.html');
+      function activeNav() {
+          var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
+           $(".nav-link").each(function(){
+                if($(this).attr("href") == pgurl || $(this).attr("href") == '' ){
+                $(this).addClass("active");
+                $(this).removeClass("text-white");
+                $(this).append('<span class="sr-only">(current)</span>');
+                $(this).closest('.nav-item').css({"background": "#004DAE"});
+           }
+          });
+      }
+      setTimeout(function() {
+          activeNav();
+      }, 100);
+    };
+  </script>
+  <style>
+    .tooltip-inner {
+  text-align: left;
+  padding: 15px;
+  font-size: 1.05rem;
+  max-width: 480px;
+}
+    .nav-item:hover {
+  background: #004dae;
+}
+  </style>
+  </head>
+
+  <body>
+    <%- include('../partials/header') %>
+    <div id="beestNav"></div>
+    <div class="py-5"></div>
+    <div class="container-fluid">
+          <h3 class="text-center">BEEST Project</h3>
+          <div class="row w-100 my-3">
+            <div class="col-lg">
+  <h5>What is the BEEST?</h5>
+  <p>BEEST stands for <strong>B</strong>ootstrap <strong>E</strong>nhanced <strong>E</strong>lements <strong>S</strong>treamlining <strong>T</strong>ool. BEEST takes your input and combines it with pre-written HTML to generate advanced HTML elements for Moodle without the need for complex HTML skills.</p>
+  <h5>How do I use BEEST to help me in Moodle?</h5>
+  <p>Use the step by step instructions on each page to create your element. The steps are accompanied by <span class="font-weight-bold text-success" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="When you hover over me, help appears. When you move your mouse away I disappear.">help instructions in green</span> on what input you need to provide. There are video walkthroughs for each element, and the examples page to show you the what each of the finished products looks like. Each page also has a preview that updates as you make changes to ensure you reach your desired result before copying your code ready to paste into Moodle.</p>
+  <h5>What can BEEST do that nothing else can?</h5>
+  <p>Take a look at the videos on the right to see the BEEST in action. For the details, read on. This tool, <strong>when used appropriately</strong>, can create <span class="text-success font-weight-bold" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="Responsive design means web pages detect the user's screen size and orientation and change the layout accordingly. Therefore the elements here 'respond' to the user's device to work how that person expects them to work on that device.">responsive</span>, consistent, quality HTML elements that improve your Moodle site's <span class="text-success font-weight-bold" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="User experience encompasses all aspects of the end-user's interaction with the product including usability, clarity of instructions, accessibility, responsivity and formatting.">user experience (UX) design</span> while also meeting <span class="text-success font-weight-bold" data-toggle="tooltip" data-placement="top" data-trigger="focus hover" title="WCAG is the global body that produces guidelines to support making content accessible to a wider range of people with disabilities, including blindness, low vision, deafness, hearing loss, learning disabilities, cognitive limitations, limited movement, speech disabilities, photosensitivity and combinations of these.">WCAG accessibility standards</span>. BEEST can cut the time needed and the skills required to achieve this by a vast amount.</p>
+   <h5>Why use the BEEST?</h5> 
+   <p>If you are producing high quality teaching and learning in your Moodle site, and want to take it to the next level for your students, BEEST can help you reformat your existing content, and support a responsive, high-quality end-user learning product.</p>   
+  </div>
+   <div class="col-lg">
+    <h5>What can the BEEST do?</h5>
+    <p>Take a look at what the BEEST can do for you. Click the circles under the videos to look through all our video examples.</p>
+<div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?pid=834ebc01-aa6b-4dce-b908-ac520182c6ee"></iframe></div>
+   <!-- <div id="carouselvideo" class="carousel slide" data-ride="carousel">    
+      <div class="carousel-inner" role="listbox">
+        <span class="carousel-item active">
+          <div class="embed-responsive embed-responsive-16by9">
+          <iframe class="embed-responsive-item" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=26ce12c9-615b-4791-b18f-ac3e005c08f1" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+        </div>
+        </span>
+        <span class="carousel-item">
+          <div class="embed-responsive embed-responsive-16by9">
+          <iframe class="embed-responsive-item" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=53e3ef90-79b6-42b5-b8d2-ac3f005056cd" frameborder="0" allowfullscreen></iframe>
+        </div>
+        </span>
+        <span class="carousel-item">
+          <div class="embed-responsive embed-responsive-16by9">
+          <iframe class="embed-responsive-item" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=9ab8c122-2316-4a02-aaaf-ac40005cd8f7" frameborder="0" allowfullscreen></iframe>
+        </div>
+        </span>
+        <span class="carousel-item">
+          <div class="embed-responsive embed-responsive-16by9">
+          <iframe class="embed-responsive-item" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=0b05ea43-04dd-404e-8322-ac3f016cb1ad" frameborder="0" allowfullscreen></iframe>
+        </div>
+        </span>
+        <span class="carousel-item">
+          <div class="embed-responsive embed-responsive-16by9">
+          <iframe class="embed-responsive-item" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=a3b32c11-7614-4ec4-8104-ac4000328f01" frameborder="0" allowfullscreen></iframe>
+        </div>
+        </span>
+        </div> 
+    </div>  
+<div> 
+  <ol class="carousel-indicators">
+  <li data-target="#carouselvideo" data-slide-to="0" class="active"></li>
+  <li data-target="#carouselvideo" data-slide-to="1"></li>
+  <li data-target="#carouselvideo" data-slide-to="2"></li>
+  <li data-target="#carouselvideo" data-slide-to="3"></li>
+  <li data-target="#carouselvideo" data-slide-to="4"></li>
+</ol></div>
+    </div>
+  </div>-->
+   
+        </div>
+        </div>
+      <!-- <script>
+        function getRandomUrl(videoURL) {
+          var minIndex = 0;
+          var maxIndex = videoURL.length - 1;
+          var randomIndex = Math.floor(Math.random() * (maxIndex - minIndex)) + minIndex;
+          return videoURL[randomIndex];
+      }
+      var videoURL = [
+      "",
+      "",
+      "",
+        "",
+      ];
+      var randomVideoURL = getRandomUrl(videoURL);
+      
+      $("#beestPlaylist").html(
+      "<iframe class=\"embed-responsive-item\" src=\""+randomVideoURL+"\" frameborder='0'></iframe>");
+      </script>
+           <script>
+        $(".carousel-indicators li").on('click', function(){
+            $(this).siblings().removeClass('active')
+            $(this).addClass('active');
+        })
+        </script>
+        <script>
+var $item = $('.carousel-item span');
+
+var $numberofSlides = $item.length;
+var $currentSlide = Math.floor((Math.random() * $numberofSlides));
+
+$('.carousel-indicators li').each(function(){
+  var $slideValue = $(this).attr('data-slide-to');
+  if($currentSlide == $slideValue) {
+    $(this).addClass('active');
+    $item.eq($slideValue).addClass('active');
+  } else {
+    $(this).removeClass('active');
+    $item.eq($slideValue).removeClass('active');
+	return false // only one should ever by active at once -- no need to review ALL remaining li tags
+  }
+});
+
+$('#carouselvideo').carousel({
+  interval: false,
+  pause: "false"
+});
+$('a[data-slide="prev"]').click(function() {
+  $('#myCarousel').carousel('prev');
+});
+
+$('a[data-slide="next"]').click(function() {
+  $('#myCarousel').carousel('next');
+});
+       </script>-->
+      <div class="py-5"></div>
+        <div id="beestFooter"></div>
+        </body>
+        </html>
+        
