@@ -37,7 +37,12 @@ function idSelectedRecData(){
 	}
 	else{
 		showButton("delHist")
+		var tmpItem = historicalData[histIndex]
+		if (tmpItem.hasOwnProperty("element")){
+			historicalData[histIndex] = tmpItem.element
+		} //backward compatibility -- if setup using the recoveryData class then will have a .element holding the beestElement data else won't -- this ensures data loads correctly per item
 		getHistoryI(histIndex,historicalData)	
+		historicalData[histIndex] = tmpItem
 	}
 }
 
@@ -70,9 +75,10 @@ class beestElement{
 }
 
 class recoveryData{
-	constructor(name,timestamp){
+	constructor(name,timestamp,element){
 		this.name = name
 		this.timestamp = timestamp
+		this.element = element
 	}
 	toString(){
 		var time = this.timestamp
@@ -83,6 +89,7 @@ class recoveryData{
 class recoveryDataSet{
 	constructor(recoveryDataArray){
 		var element;
+		var beestElem;
 		var time;
 		var heading;
 		this.length=0
@@ -95,7 +102,13 @@ class recoveryDataSet{
 				heading = element.mainHead
 			}
 			time = new Date(element.timestamp)
-			this[recoveryI] = new recoveryData(heading,time)
+			if (element.hasOwnProperty("element")){//backwards compatibility -- past data entered with flat structure
+				beestElem = element.element
+			}
+			else{
+				beestElem = element;
+			}
+			this[recoveryI] = new recoveryData(heading,time,beestElem)
 			this.length++
 		}
 	}
