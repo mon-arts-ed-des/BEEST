@@ -54,6 +54,14 @@ function delHistI(){
 	showRecoveryDate(histIndex,historicalData)
 }
 
+class beestElement{
+	constructor(){
+		if (new.target === beestElement){
+			throw new TypeError("beestElement is an abstract class and cannot be directly instantiated")
+		}		
+	}
+}
+
 class recoveryData{
 	constructor(name,timestamp){
 		this.name = name
