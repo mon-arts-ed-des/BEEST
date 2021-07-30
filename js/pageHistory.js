@@ -85,6 +85,28 @@ class recoveryData{
 		time = time.toLocaleDateString()+" "+time.toLocaleTimeString()
 		return this.name+" ("+time+")"
 	}
+	toPDO(){
+		var r = {historyTitle:this.name}
+		r.timestamp = this.timestamp
+		r.element = JSON.parse(JSON.stringify(this.element))
+		return r
+	}
+	toJSON(){return this.toPDO()}
+	fromObj(PDO){
+		this.name = PDO.historyTitle
+		this.timestamp = PDO.timestamp
+		if (PDO.hasOwnProperty("element")){
+			this.element = PDO.element
+		}
+		else{
+			try{ //if wasn't a recoveryData before, make it one by putting the rest as the element
+				delete PDO.timestamp
+				delete PDO.historyTitle
+			}
+			catch{}
+			this.element = PDO
+		}
+	}
 }
 class recoveryDataSet{
 	constructor(recoveryDataArray){
@@ -95,19 +117,19 @@ class recoveryDataSet{
 		this.length=0
 		for (var recoveryI=0;recoveryI<recoveryDataArray.length;recoveryI++){
 			element = recoveryDataArray[recoveryI]
-			if (element.hasOwnProperty("historyTitle")){
-				heading = element.historyTitle
-			}
-			else{
-				heading = element.mainHead
-			}
-			time = new Date(element.timestamp)
 			if (element.hasOwnProperty("element")){//backwards compatibility -- past data entered with flat structure
 				beestElem = element.element
 			}
 			else{
 				beestElem = element;
 			}
+			if (element.hasOwnProperty("historyTitle")){
+				heading = element.historyTitle
+			}
+			else{
+				heading = beestElem.mainHead
+			}
+			time = new Date(element.timestamp)
 			this[recoveryI] = new recoveryData(heading,time,beestElem)
 			this.length++
 		}
@@ -227,8 +249,10 @@ function savePopup(currentItem){
 
 function addToHistory_Aux(name){
 	//currentLocalSet will have the most recent element added to the end and ready to updateCommands
-	currentInstance = currentLocalSet.pop()
-	currentInstance.historyTitle = name
+	var loaded = currentLocalSet.pop()
+	loaded.historyTitle = name
+	currentInstance = new recoveryData()
+	currentInstance.fromObj(loaded)
 	currentLocalSet.push(currentInstance)
 	
 	currentLocalSet = JSON.stringify(currentLocalSet) //now a string again -- currentInstance should have had its toString method called

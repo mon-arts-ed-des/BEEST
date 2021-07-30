@@ -110,12 +110,9 @@ var colourNames = {
 			return JSON.stringify(this.toPDO())
 		}
 		fromObj(PDO){
-			this.content = PDO.content
-			this.mainHead = PDO.mainHead
-			this.headSize = PDO.headSize
-			this.icon = PDO.icon
-			this.colour = PDO.colour
-			this.permanent = PDO.permanent
+			for (var item in PDO){
+				this[item] = PDO[item]
+			}
 		}
 	}
 /*END REQUIRED FOR HISTORY*/	
