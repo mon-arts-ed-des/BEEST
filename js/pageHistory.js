@@ -55,10 +55,17 @@ function delHistI(){
 }
 
 class beestElement{
-	constructor(){
+	constructor(userEmail){
 		if (new.target === beestElement){
 			throw new TypeError("beestElement is an abstract class and cannot be directly instantiated")
+		}
+		else{
+			this.userEmail = userEmail
+			this.id = this.getNextID()
 		}		
+	}
+	getNextID(){
+		throw new TypeError("getNextID - Not implemented -- requires Database lookup")
 	}
 }
 
