@@ -69,14 +69,16 @@ var iconNames = {
 		default_XRadio_onEmpty_Y("accMainHeading","headSize","noH","headSize2",generateElementCode);
 		makeTinyWithID('tinyMCEmonAccContent1',{"change":generateElementCode},"enter your text for drawer 1 here");
 		
+		/*REQUIRED FOR HISTORY*/
+		initHistory()
+		/*END REQUIRED FOR HISTORY*/
+		
 		classAccord = new accordion()
 		classAccord.addDrawer() //page starts with 1 drawer
 		while (classAccord.usableDrawers < absoluteMinAccord){
 			addSection()
 		}
-		/*REQUIRED FOR HISTORY*/
-		initHistory()
-		/*END REQUIRED FOR HISTORY*/
+		
 		setupBackToTopButton()
 	});
 	/*REQUIRED FOR HISTORY*/
@@ -101,13 +103,14 @@ var iconNames = {
 		}
 	}
 	
-	class accordion{
+	class accordion extends beestElement{
 		baseHead = "monAccBtnTxt"
 		baseCont = "monAccContent"
 		baseTiny = "tinyMCEmonAccContent"
 		baseBlock = "AccordSect"
 		
 		constructor(mainHead,headSize,icon,drawerList,openClose,drawerSize,drawerColour,drawerBorder){
+			super()
 			this.mainHead = mainHead
 			this.headSize = headSize
 			this.icon = icon

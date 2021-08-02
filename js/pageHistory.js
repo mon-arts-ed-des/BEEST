@@ -1,9 +1,18 @@
 const MAX_HIST = 20;
 const UNSELECTED = "Select the item you wish to load..."
+const OVERRIDEDATABASE = true
+const DUMMY_USER = {
+	staffID : 4,
+	staffEmail : "fake.email@monash.edu",
+	firstName : "Fake",
+	lastName : "User",
+	isAdmin : false
+}
 var historicalData = null
 var histIndex = null;
 var currentLocalSet = null
 var theModal = null;
+var theUser = null;
 
 function getHistory(){
 	return localStorage.getItem(localStorageHistory)
@@ -13,6 +22,7 @@ function setHistory(value){
 }
 
 function initHistory(){
+	setupUser()
 	historicalData = recoverHistory();
 	if (historicalData == null){
 		showRecoveryDate(0,historicalData) //should trigger 'none available'
@@ -60,16 +70,17 @@ function delHistI(){
 }
 
 class beestElement{
-	constructor(userEmail){
+	constructor(){
 		if (new.target === beestElement){
 			throw new TypeError("beestElement is an abstract class and cannot be directly instantiated")
 		}
 		else{
-			this.userEmail = userEmail
+			this.userEmail = theUser.staffEmail
 			this.id = this.getNextID()
 		}		
 	}
 	getNextID(){
+		if (OVERRIDEDATABASE){return 4}
 		throw new TypeError("getNextID - Not implemented -- requires Database lookup")
 	}
 }
@@ -160,6 +171,16 @@ function recoveryOptionGenerator(selectedIndex,aRecoveryDataSet){
 	return outputHTML
 }
 
+function setupUser(){
+	if (OVERRIDEDATABASE){
+		theUser = new User()
+		theUser.fromObj(DUMMY_USER)
+	}
+	else{
+		throw new TypeError("user creation not defined")
+	}
+}
+
 function showRecoveryDate(index,history){
 	try{
 		if ((history==null)||(!history.hasOwnProperty("length"))||(history.length==0)){
@@ -210,6 +231,10 @@ function recoverHistory(){
 	}
 
 function savePopup(currentItem){
+	if (theUser===null){
+		setupUser()
+	}
+	
 	var send_placeholder = currentItem.mainHead
 	if ((send_placeholder == undefined)||(send_placeholder=="")){
 		send_placeholder = "[placeholder]"
@@ -219,7 +244,7 @@ function savePopup(currentItem){
 	var data = {
 		id: "savePopup",
 		title:"Save in browser?",
-		description: "<b>Code copied!</b><br><br>Save this element in your browser?<br><br>Name:",
+		description: "<b>Code copied!</b><br><br>Save this element in your ("+theUser.staffEmail+") account?<br><br>Name:",
 		textField: 1,
 		placeholder: send_placeholder,
 		previewResult: "$1 ($2)",

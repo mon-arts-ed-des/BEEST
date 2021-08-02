@@ -86,9 +86,9 @@ var colourNames = {
 		default_XRadio_onEmpty_Y("alertHeading","headSize","noH","headSize1",generateElementCode);
 	})
 
-	
-	class alert{
+	class alert extends beestElement{
 		constructor(content,heading,headSize,icon,colour,permanent){
+			super()
 			this.content = content
 			this.mainHead = heading
 			this.headSize = headSize
