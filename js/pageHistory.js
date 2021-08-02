@@ -1,3 +1,4 @@
+const HOST = "https://mon-arts-ed-des.github.io/BEEST"
 const MAX_HIST = 20;
 const UNSELECTED = "Select the item you wish to load..."
 var historicalData = null

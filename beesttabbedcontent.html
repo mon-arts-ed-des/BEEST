@@ -52,6 +52,12 @@ var iconNames = {
 	"9":"plus-square",
 	"10":"plus-square-o"
 }
+var tabSizes = {
+	"size1":1,
+	"size2":2,
+	"size3":3,
+	"size4":4
+}
 	
     const maxTabs = 10 //when to stop creating - I think min 3 max 10 like accordions is the best for consistency.
     const requiredInitialTabs = 3; //the default number of tabs to start with
@@ -93,7 +99,7 @@ class beestTabSection{
 	}
 }	
 class beestTabbed{
-	constructor(globalMaxTab,mainHeading,headSize,icon){
+	constructor(globalMaxTab,mainHeading,headSize,icon,tabSize,tabStyle){
 		this.mainHead = mainHeading
 		this.headSize = headSize
 		this.icon = icon
@@ -101,6 +107,8 @@ class beestTabbed{
 		this.tabCount = 0
 		this.tabsWithData = 0
 		this.maxTab = globalMaxTab
+		this.tabSize = tabSize
+		this.tabStyle = tabStyle
 	}
 	hasDataNotShown(){
 		return (this.tabsWithData>this.tabCount)
@@ -173,6 +181,20 @@ class beestTabbed{
 			}
 		}
 	}
+	getStyle(){return this.#tabStyleSize().style}
+	getSize(){return this.#tabStyleSize().size}
+	#tabStyleSize(){
+		var tabSNums = reverseObjectMap(tabSizes)
+		var styleSize = {size:tabSNums[1],style:"monTabs"}
+		if(tabSNums.hasOwnProperty(this.tabSize)){
+			styleSize.size = tabSNums[this.tabSize]
+		}
+		if (this.tabStyle!==undefined){
+			styleSize.style = this.tabStyle
+		}
+		return styleSize
+	}
+	
 	tabTemplate(tabNum){
 		var result = '<span id='+OUTER_BLOCK_ID_BASE+tabNum+'><hr><div class="row w-100"><div class="col-lg"><h6>Tab '+(1+tabNum)+'</h6><textarea maxlength="50" class="border border-dark rounded p-2 w-100 mx-auto" rows="1" cols="140" placeholder="Input the heading for your tab button" id="'+HEADING_ID_BASE+tabNum+'" onchange=generateElementCode()></textarea><h6 class=\"mt-2\">Content '+(1+tabNum)+'</h6><textarea id="'+TINYMCE_ID_BASE+tabNum+'" class="border border-dark rounded p-2 w-100" cols="70" rows="3" name="'+INNER_HEADING_ID_BASE+tabNum+'" onchange=generateElementCode()></textarea></div></div></span>'
 		return result
@@ -328,12 +350,13 @@ iterates over the number of tabs and generates the HTML template including appro
 	preconditions: classTabbed exists and matches current state (in number of tabs at least) of the page
 	returns: {headingHTML, contentHTML}
 */
+	var theTabSize = classTabbed.getSize()
 	var tabHeadingHTMLs = [] //to hold the HTML of the headings
 	var tabContentHTMLs = [] //to hold the HTML of the content
 	var rString = randomString(5)
 	//looping to generate the headings1,2,etc. and content1,2,etc.
 	for (var headContI=0;headContI<classTabbed.tabCount;headContI++){
-		tabHeadingHTMLs[headContI] = "<a class=\"nav-link"
+		tabHeadingHTMLs[headContI] = "<a class=\"nav-link "+theTabSize
 		if (headContI==0){//only for the first one
 			tabHeadingHTMLs[headContI]+=" active show"
 		}
@@ -341,7 +364,7 @@ iterates over the number of tabs and generates the HTML template including appro
 		tabHeadingHTMLs[headContI]+="\" id=\"tab"+headContI+"\" data-toggle=\"pill\" href=\"#t"+rString+headContI+"\" role=\"tab\" aria-controls=\"v-tabs-t"+rString+headContI+"\" aria-selected=\""
 		tabHeadingHTMLs[headContI]+=(headContI==1)+"\">"+classTabbed.getTabHeading(headContI)+"</a>"; //instead of if x==1 --> y=true we can say y=(x==1)
 		
-		tabContentHTMLs[headContI]="<div class=\"tab-pane p-3 fade"
+		tabContentHTMLs[headContI]="<div class=\"tab-pane p-3 fade "+theTabSize
 		if (headContI==0){//only for the first one
 			tabContentHTMLs[headContI]+=" active show"
 		}
@@ -396,7 +419,8 @@ function getTabContents(classTabbed,HTML,monTabContent_Close){
 }
 
 function generateTabHeadingContent(resizedHead,classTabbed,HTML){
-	const monTabHeading_Open = "<script>var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://mon-arts-ed-des.github.io/BEEST/css/monTabs.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t><div class=\"row w-100 mx-auto mb-3\"><div class=\"col-3\"><div class=\"nav monTabs flex-column nav-pills border-arts rounded\" id=\"v-tabs-tab\" role=\"tablist\" aria-orientation=\"vertical\">";
+	var thisStyle = classTabbed.getStyle()
+	var monTabHeading_Open = "<script>var L=document.createElement('link'); L.rel='stylesheet'; L.href='"+HOST+"/css/monTabs.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t><div class=\"row w-100 mx-auto mb-3\"><div class=\"col-3\"><div class=\"nav "+thisStyle+" flex-column nav-pills border-arts rounded\" id=\"v-tabs-tab\" role=\"tablist\" aria-orientation=\"vertical\">";
 	const monTabHeading_Close="</div></div>";
 	const monTabContent_Open="<div class=\"col-9\"><div class=\"tab-content border-arts-3 rounded\" id=\"v-tabs-tabContent\">";
 	const monTabContent_Close="</div>";	
@@ -416,21 +440,27 @@ function generateTabHeadingContent(resizedHead,classTabbed,HTML){
 }
 /**END generateElementCode helper functions**/
 			
-function generateElementCode() {
+function generateElementCode(){
     //console.debug(tinyMCE.activeEditor.getContent());
 	//Content variables
 
 	assignTabsToInstance()
-	var HTML = generateTabHeadContentsHTML()
+	
 
     //Heading variables
     var tabbedMainHeading = $('#tabbedMainHeading').val();
     var headSize = getRadioOption('headSize')
     var faIcon = getRadioOption('faCode')
+	var tabSize = getRadioOption("tabSize")
+	var tabStyle = getRadioOption("bgStyle")
 
 	classTabbed.mainHead = tabbedMainHeading
 	classTabbed.headSize = headSize
 	classTabbed.icon = faIcon
+	classTabbed.tabStyle = tabStyle
+	classTabbed.tabSize = tabSizes[tabSize]
+	
+	var HTML = generateTabHeadContentsHTML()
 
     var faIconCode = generateIconCode(faIcon)
 	
@@ -812,7 +842,58 @@ function recoverCode(){
           </div>
         </div>
       </div>
-    </div>
+    </div><hr>
+	
+<div class="row w-100">
+		<div class="col-lg-3">
+	   <h5 class="font-weight-bold">Tab Size<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the heading size of the first row. Small is chosen by default.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+		</div>
+		<div class="col-lg">
+	  <div class="form-check form-check-inline" id="tabSize" onchange=generateElementCode()>
+		<input class="form-check-input" name="tabSize" id="tabSize1" type="radio" value="size1" checked>
+		<label class="form-check-label" for="tabSize1"><h6>Small</h6></label>
+	  </div>
+	  <div class="form-check form-check-inline" id="tabSize" onchange=generateElementCode()>
+		<input class="form-check-input" name="tabSize" id="tabSize2" type="radio" value="size2">
+		<label class="form-check-label" for="tabSize2"><h5>Medium</h5></label>
+	  </div>
+	  <div class="form-check form-check-inline" id="tabSize" onchange=generateElementCode()>
+		<input class="form-check-input" name="tabSize" id="tabSize3" type="radio" value="size3">
+		<label class="form-check-label" for="tabSize3"><h4>Large</h4></label>
+	  </div>
+	  <div class="form-check form-check-inline" id="tabSize" onchange=generateElementCode()>
+		<input class="form-check-input" name="tabSize" id="tabSize4" type="radio" value="size4">
+		<label class="form-check-label" for="tabSize4"><h3>Very large</h3></label>
+	  </div>
+		</div>
+	  </div>		  
+		<hr> 
+
+	<div class="row w-100">
+		<div class="col-lg-3">
+	   <h5 class="font-weight-bold">Tab Style<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the colour/style of the first row. Dark is chosen by default.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+		</div>
+		<div class="col-lg">
+	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateElementCode()>
+		<input class="form-check-input" name="bgStyle" id="bgStyle1" type="radio" value="darkTabs">
+		<label class="form-check-label" for="bgStyle1"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="thead-dark"><th>Dark</th></thead></table></label>
+	  </div>
+	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateElementCode()>
+		<input class="form-check-input" name="bgStyle" id="bgStyle2" type="radio" value="skyTabs">
+		<label class="form-check-label" for="bgStyle2"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="table-primary"><th>Sky Blue</th></thead></table></label>
+	  </div>
+	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateElementCode()>
+		<input class="form-check-input" name="bgStyle" id="bgStyle3" type="radio" value="greyTabs">
+		<label class="form-check-label" for="bgStyle3"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="table-secondary"><th>Grey</th></thead></table></label>
+	  </div>
+	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateElementCode()>
+		<input class="form-check-input" name="bgStyle" id="bgStyle4" type="radio" value="monTabs" checked>
+		<label class="form-check-label" for="bgStyle4"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="bg-mu"><th>Monash Blue</th></thead></table></label>
+	  </div>	  
+		</div>
+	  </div>
+	
+	
      <hr>
      <div class="row w-100">
       <div class="col-lg">

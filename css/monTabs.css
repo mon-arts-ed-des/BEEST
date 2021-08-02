@@ -1,3 +1,44 @@
+.darkTabs .nav-link:hover {
+    background: #212529 !important;
+    color: white !important;
+  }
+  .darkTabs .nav-link.active {
+    background: #212529 !important;
+    color: white !important;
+  }
+  .darkTabs .nav-link {
+  color: #212529 !important;
+  }
+
+
+.skyTabs .nav-link:hover {
+    background: #B8DAFF !important;
+    color: black !important;
+  }
+  .skyTabs .nav-link.active {
+    background: #9FCDFF !important;
+    color: black !important;
+  }
+  .skyTabs .nav-link {
+  color: #9FCDFF !important;
+  }
+
+
+
+.greyTabs .nav-link:hover {
+    background: #D6D8DB !important;
+    color: black !important;
+  }
+  .greyTabs .nav-link.active {
+    background: #C8CBCF !important;
+    color: black !important;
+  }
+  .greyTabs .nav-link {
+  color: #C8CBCF !important;
+  }
+
+
+
 .monTabs .nav-link:hover {
     background: #006dae !important;
     color: white !important;
@@ -11,4 +52,17 @@
   }
   .tab-content p:last-of-type {
   margin-bottom: 0px !important;
+  }
+
+  .size1{
+	  font-size:16px;
+  }
+  .size2{
+	  font-size:20px;
+  }
+  .size3{
+	  font-size:24px;
+  }
+  .size4{
+	  font-size:28px;
   }
