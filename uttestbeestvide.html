@@ -571,7 +571,7 @@ function embedLinkConverter(event){
     </div>
     <hr>
     <script>
-      const tour = new Shepherd.Tour({
+      const beestTour = new Shepherd.Tour({
   defaultStepOptions: {
     cancelIcon: {
       enabled: true
@@ -581,7 +581,7 @@ function embedLinkConverter(event){
   }
 });
 
-tour.addStep({
+beestTour.addStep({
   title: 'Pasting a video link',
   text: `Paste your link from one of the platforms mentioned.\
   So far BEEST supports Panopto, Vimeo, TEDTalks and YouTube`,
@@ -590,6 +590,13 @@ tour.addStep({
     on: 'bottom'
   },
   buttons: [
+  {
+              action: function() {
+                return this.cancel();
+              },
+              secondary: true,
+              text: 'Exit'
+            },
     {
       action() {
         return this.next();
@@ -597,10 +604,10 @@ tour.addStep({
       text: 'Next'
     }
   ],
-  id: 'pastelink'
+  id: 'beestVidPasteLink'
 });
 
-tour.start();
+beestTour.start();
     </script>
     <div class="row w-100 mx-auto beestVidPasteLink">
       <div class="col-lg-3">
