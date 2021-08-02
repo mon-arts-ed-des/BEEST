@@ -58,6 +58,13 @@ var tabSizes = {
 	"size3":3,
 	"size4":4
 }
+var tabStyleBorders = {
+	"monTabs" : "borders-mon",
+	"skyTabs" : "borders-sky",
+	"greyTabs" : "borders-grey",
+	"darkTabs" : "borders-dark"
+}
+const default_tabStyle = "monTabs"
 	
     const maxTabs = 10 //when to stop creating - I think min 3 max 10 like accordions is the best for consistency.
     const requiredInitialTabs = 3; //the default number of tabs to start with
@@ -420,9 +427,10 @@ function getTabContents(classTabbed,HTML,monTabContent_Close){
 
 function generateTabHeadingContent(resizedHead,classTabbed,HTML){
 	var thisStyle = classTabbed.getStyle()
-	var monTabHeading_Open = "<script>var L=document.createElement('link'); L.rel='stylesheet'; L.href='"+HOST+"/css/monTabs.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t><div class=\"row w-100 mx-auto mb-3\"><div class=\"col-3\"><div class=\"nav "+thisStyle+" flex-column nav-pills border-arts rounded\" id=\"v-tabs-tab\" role=\"tablist\" aria-orientation=\"vertical\">";
+	var borderStyle = "border-"+thisStyle.replace("Tabs","")
+	var monTabHeading_Open = "<script>var L=document.createElement('link'); L.rel='stylesheet'; L.href='"+HOST+"/css/monTabs.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t><div class=\"row w-100 mx-auto mb-3\"><div class=\"col-3\"><div class=\"nav "+thisStyle+" flex-column nav-pills "+borderStyle+" rounded\" id=\"v-tabs-tab\" role=\"tablist\" aria-orientation=\"vertical\">";
 	const monTabHeading_Close="</div></div>";
-	const monTabContent_Open="<div class=\"col-9\"><div class=\"tab-content border-arts-3 rounded\" id=\"v-tabs-tabContent\">";
+	const monTabContent_Open="<div class=\"col-9\"><div class=\"tab-content "+borderStyle+"-3 rounded\" id=\"v-tabs-tabContent\">";
 	const monTabContent_Close="</div>";	
 	const monTabContent_Final="</div></div>";
 	
@@ -490,13 +498,11 @@ function generateElementCode(){
 /**END REQUIRED FOR HISTORY**/	
 
 function setTextAreas(classData){
-	var tabbedMainHeading = $('#tabbedMainHeading').val();
-    var headSize = getRadioOption('headSize')
-    var faIcon = getRadioOption('faCode')
-	
 	txtAreaVals = {
 		'tabbedMainHeading': {type:'basic',value:classData.mainHead},
 		'headSize': {type:'radio',value:classData.headSize},
+		'tabSize': {type:'radio',value:classData.tabSize},
+		'bgStyle': {type:'radio',value:classData.tabStyle},
 		'faCode': {type:'radio',value:classData.icon}
 	}
 	txtAreaVals[COUNTER_ID] = {type:'basic',value:classData.tabCount}
@@ -544,6 +550,30 @@ function getHistoryI(index,history){
 		updatePageCounter(COUNTER_ID,revisedCount)
 	}
 
+function getSizeStyleFromHTML(HTML_in){
+		var output = {size:reverseObjectMap(tabSizes)[1],style:default_tabStyle}
+		var dataToFind = {
+			classes:[]
+		}
+		for (var size in tabSizes){
+			dataToFind.classes.push(size)
+		}
+		for (var style in tabStyleBorders){
+			dataToFind.classes.push(style)
+		}
+		var recoveredData = recoverFromPasted(HTML_in,dataToFind)
+		
+		for (var classN in recoveredData.classes){
+			if (classN.search("Tab")>=0){
+				output.style = classN
+			}
+			else if (classN.search("size")>=0){
+				output.size = classN
+			}
+		}
+		return output
+	}
+
 function recoverCode(){
 	classTabbed_supp = new beestTabbed(maxTabs)
 
@@ -564,6 +594,11 @@ function recoverCode(){
 		var iconCode = reverseObjectMap(iconNames)
 		classTabbed_supp.icon = iconCode[iconClassName]
 	}
+	
+	var tabSizeStyle = getSizeStyleFromHTML(pastedHTML)
+	
+	classTabbed_supp.tabStyle = tabSizeStyle.style
+	classTabbed_supp.tabSize = tabSizes[tabSizeStyle.size]
 	
 	var dataToFind = {
 		classes:["nav-link","tab-pane"]

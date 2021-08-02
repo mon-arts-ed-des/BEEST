@@ -9,6 +9,13 @@
   .darkTabs .nav-link {
   color: #212529 !important;
   }
+  
+.border-dark{
+    border: 1px solid #212529;
+}
+.border-dark-3{
+    border: 3px solid #212529;
+}
 
 
 .skyTabs .nav-link:hover {
@@ -22,7 +29,12 @@
   .skyTabs .nav-link {
   color: #9FCDFF !important;
   }
-
+.border-sky{
+    border: 1px solid #9FCDFF;
+}
+.border-sky-3{
+    border: 3px solid #9FCDFF;
+}
 
 
 .greyTabs .nav-link:hover {
@@ -37,7 +49,12 @@
   color: #C8CBCF !important;
   }
 
-
+.border-grey{
+    border: 1px solid #C8CBCF;
+}
+.border-grey-3{
+    border: 3px solid #C8CBCF;
+}
 
 .monTabs .nav-link:hover {
     background: #006dae !important;
@@ -53,6 +70,13 @@
   .tab-content p:last-of-type {
   margin-bottom: 0px !important;
   }
+  
+.border-mon{
+    border: 1px solid #006dae;
+}
+.border-mon-3{
+    border: 3px solid #006dae;
+}
 
   .size1{
 	  font-size:16px;
