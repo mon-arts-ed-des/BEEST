@@ -6,7 +6,37 @@ class User{
 		this.lastName = lName
 		this.isAdmin = isAdmin
 	}
-	
+	#role(){
+		switch(this.isAdmin){
+			case true:
+				return "Administrator"
+				break;
+			case false:
+				return "User"
+				break;
+			default:
+				return "Undefined role"
+		}
+	}
+	fromObj(PDO){
+		for (var attrib in this){
+			this[attrib] = PDO[attrib]
+		}		
+	}
+	toPDO(){
+		var result = {}
+		for (var attrib in this){
+			result[attrib] = this[attrib]
+		}
+		return result
+	}
+	#nameFormat(){
+		return this.lastName+", "+this.firstName
+	}
+	toJSON(){return this.toPDO()}
+	toString(){
+		return this.#nameFormat()+" <"+this.staffEmail+"> ["+this.#role()+"]"
+	}
 }
 
 class modal{
