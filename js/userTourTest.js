@@ -176,7 +176,7 @@
       },
     ];
 
-    shepherd.addSteps(steps);
+    beestTour.addSteps(steps);
 
      //This should add steps after the ones added with `addSteps`
  
