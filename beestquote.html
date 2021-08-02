@@ -68,17 +68,19 @@ var sizeMap = {
 		setupNav();
 		setupToolTips();
 		makeTinyWithID('quoteText',{'change':generateElementCode},QUOTE_PLACEHOLDER)
-		classQuote = new quote()
-	
+		
 		/*REQUIRED FOR HISTORY*/ 
 		initHistory()
 		/*END REQUIRED FOR HISTORY*/ 
+		
+		classQuote = new quote()	
 	})
 
 /*REQUIRED FOR HISTORY*/ 
 
-class quote{
+class quote extends beestElement{
 	constructor(quoteText,referenceText,textSize,colour){
+		super()
 		this.quoteText = quoteText
 		this.referenceText = referenceText
 		this.textSize = textSize

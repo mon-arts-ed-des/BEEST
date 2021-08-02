@@ -68,20 +68,21 @@ for (prop in colourNames){
 	var classButton = null
 /*END REQUIRED FOR HISTORY*/	
 	$(document).ready(function(){
-		classButton = new button()
-		
-		setupGoogleAnalytics()
 		/*REQUIRED FOR HISTORY*/ 
 		initHistory()
 		/*END REQUIRED FOR HISTORY*/
+		
+		classButton = new button()
+		setupGoogleAnalytics()
 		setupToolTips()
 		setupNav()
 		setupCheckURLValid()
 	})
 
 /*REQUIRED FOR HISTORY*/	
-	class button{
+	class button extends beestElement{
 		constructor(content,destination,buttonSize,icon,colour,width,newWindow,alignment,invert){
+			super()
 			this.mainHead = content
 			this.destination = destination
 			this.buttonSize = buttonSize

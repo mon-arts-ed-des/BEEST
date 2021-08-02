@@ -61,11 +61,11 @@ var iconNames = {
 	const DEFAULT_POLLEV_LINK = "https://pollev.com/free_text_polls/Uzz31kGxHw6BRIoWbXtbl/respond";
 	/*END REQUIRED FOR HISTORY  */
     $(document).ready(function(){
-		classPollEv = new pollEv()
-		setupGoogleAnalytics()
 		/*REQUIRED FOR HISTORY*/ 
 		initHistory()
 		/*END REQUIRED FOR HISTORY*/
+		classPollEv = new pollEv()
+		setupGoogleAnalytics()
 		setupToolTips()
 		setupNav()
 		default_XRadio_onEmpty_Y("pollHeading","headSize","noH","headSize2",generateElementCode)
@@ -73,8 +73,9 @@ var iconNames = {
 	})
 
 /*REQUIRED FOR HISTORY  */
-class pollEv{
+class pollEv extends beestElement{
 	constructor(destination,frameHeight,heading,headSize,icon,context){
+		super()
 		this.destination = destination
 		this.frameHeight = frameHeight
 		this.heading = heading

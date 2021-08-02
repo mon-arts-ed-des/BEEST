@@ -69,8 +69,9 @@ $(document).ready(function(){
 })
 /*REQUIRED FOR HISTORY*/   
 	
-class beestImage{
+class beestImage extends beestElement{
 	constructor(link,context,position,width,heading,size,icon){
+		super()
 		this.link = link
 		this.context = context
 		this.position = position
