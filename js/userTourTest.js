@@ -59,7 +59,7 @@
         text: element,
         attachTo: {
           element: '.beestVidPasteLink',
-          on: 'right'
+          on: 'bottom'
         },
         buttons: [
           {
@@ -83,7 +83,7 @@
         text: 'It is best practice to give your video some context for the viewer before they click play. Type the context for your video in this space.',
         attachTo: {
           element: '.beestVidContext',
-          on: 'right'
+          on: 'bottom'
         },
         buttons: [
           {
@@ -107,7 +107,7 @@
         text: 'Your video can be on the left or right of screen. It defaults to right so that on smaller screens the text sits above the video, but you can change this option to have the video sit to the left and the text will collapse underneath the video.',
         attachTo: {
           element: '.beestVidPosition',
-          on: 'right'
+          on: 'bottom'
         },
         buttons: [
           {
@@ -131,7 +131,7 @@
         text: 'Your video can be either 50% (6 columns - one half) or 33% (4 columns - one third) of the screen width. This is because we divide the screen into 12 columns and best practice dictates the video should take no more the 50% of the screen space, but should also not be so small that the viewer does not recognise it as a video.',
         attachTo: {
           element: '.beestVidWidth',
-          on: 'right'
+          on: 'bottom'
         },
         buttons: [
           {
@@ -155,7 +155,7 @@
         text: 'Give your video a heading and make it stand out on the page. It can be small (h5), medium (h4) or large (h3). Make sure to consider whether this is a main heading or subheading and not make it larger than a heading that has come before it.',
         attachTo: {
           element: '.beestVidHeading',
-          on: 'right'
+          on: 'bottom'
         },
         buttons: [
           {
