@@ -586,7 +586,7 @@ tour.addStep({
   text: `Paste your link from one of the platforms mentioned.\
   So far BEEST supports Panopto, Vimeo, TEDTalks and YouTube`,
   attachTo: {
-    element: '#beestVidPasteLink',
+    element: '.beestVidPasteLink',
     on: 'bottom'
   },
   buttons: [
@@ -602,7 +602,7 @@ tour.addStep({
 
 tour.start();
     </script>
-    <div class="row w-100 mx-auto" id="beestVidPasteLink">
+    <div class="row w-100 mx-auto beestVidPasteLink">
       <div class="col-lg-3">
         <h5 class="font-weight-bold">Video link<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your video."  class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
       </div>
