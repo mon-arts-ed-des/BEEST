@@ -5,7 +5,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152392632-3"></script>
 <script src="js/pageHistory.js"></script>
 <script src="js/helperFunctions.js"></script>
-
+<script src="js/userTourTest.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="A simple element creator to generate responsive code that can be easily embbedded into Moodle">
@@ -570,45 +570,6 @@ function embedLinkConverter(event){
       </div>
     </div>
     <hr>
-    <script>
-      const beestTour = new Shepherd.Tour({
-  defaultStepOptions: {
-    cancelIcon: {
-      enabled: true
-    },
-    classes: 'class-1 class-2',
-    scrollTo: { behavior: 'smooth', block: 'center' }
-  }
-});
-
-beestTour.addStep({
-  title: 'Pasting a video link',
-  text: `Paste your link from one of the platforms mentioned.\
-  So far BEEST supports Panopto, Vimeo, TEDTalks and YouTube`,
-   /*attachTo: {
-    element: '.beestVidPasteLink',
-    on: 'bottom'
-  },*/
-  buttons: [
-  {
-              action: function() {
-                return this.cancel();
-              },
-              secondary: true,
-              text: 'Exit'
-            },
-    {
-      action() {
-        return this.next();
-      },
-      text: 'Next'
-    }
-  ],
-  id: 'beestVidPasteLink'
-});
-
-beestTour.start();
-    </script>
     <div class="row w-100 mx-auto beestVidPasteLink">
       <div class="col-lg-3">
         <h5 class="font-weight-bold">Video link<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your video."  class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
@@ -678,7 +639,7 @@ beestTour.start();
       </div>
     </div>
     <hr>
-    <div class="row w-100 mx-auto">
+    <div class="row w-100 mx-auto beestVidContext">
       <div class="col-lg-3">
         <h5 class="font-weight-bold">Context<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="It's recommended to have a few sentences or dot points explaining what is in the video students are about to watch. This helps in particular when students are reviewing material for assessment." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
         </div>
@@ -687,7 +648,7 @@ beestTour.start();
       </div>
     </div>
     <hr>
-    <div class="row w-100 mx-auto">
+    <div class="row w-100 mx-auto beestVidPosition">
       <div class="col-lg-3">
       <h5 class="font-weight-bold">Position <span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose which side of screen you would prefer the video to appear by clicking on one of the options below. Video on the right is selected by default." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
       </div>
@@ -707,7 +668,7 @@ beestTour.start();
           </div>
         </div>
         <hr>
-        <div class="row w-100 mx-auto">
+        <div class="row w-100 mx-auto beestVidWidth">
           <div class="col-lg-3">
           <h5 class="font-weight-bold">Width <span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Choose whether you want the video to be 50% (1/2) of the screen width or 33.3% (1/3) of the screen width." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
           </div>
@@ -727,7 +688,7 @@ beestTour.start();
           </div>
         </div> 
         <hr>
-        <div class="row w-100 mx-auto">
+        <div class="row w-100 mx-auto beestVidHeading">
           <div class="col-lg-3">
         <h5 class="font-weight-bold">Heading<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type a heading for this video. 75 character maximum. This will site above the video and context. If you want an icon to display you must also type a heading." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
           </div>
