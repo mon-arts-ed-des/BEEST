@@ -159,7 +159,7 @@ function generateColourTag(colourName,dmoption){
 
 function storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmoption){
 	var dmOpts = {"dismissable":1,"permanent":2}
-	var sizeToStorate = {"h5":1,"h4":2,"h3":3}
+	var sizeToStorate = {"h5":1+1,"h4":2+1,"h3":3+1}//first index is noHeading so +1 to capture starting from 2nd position
 	var iconStorage = 1;
 	if (faIcon!="noI"){
 		iconStorage = faIcon*1+1
