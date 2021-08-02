@@ -452,38 +452,7 @@ function embedLinkConverter(event){
 		/*These different options have been absorbed into a javascript Object allowing a direct mapping and lookup of code to icon name*/
 		
     </script>
-      <script>
-        const tour = new Shepherd.Tour({
-    defaultStepOptions: {
-      cancelIcon: {
-        enabled: true
-      },
-      classes: 'class-1 class-2',
-      scrollTo: { behavior: 'smooth', block: 'center' }
-    }
-  });
-  
-  tour.addStep({
-    title: 'Pasting a video link',
-    text: `Paste your link from one of the platforms mentioned.\
-    So far BEEST supports Panopto, Vimeo, TEDTalks and YouTube`,
-    attachTo: {
-      element: '#beestVidPasteLink',
-      on: 'bottom'
-    },
-    buttons: [
-      {
-        action() {
-          return this.next();
-        },
-        text: 'Next'
-      }
-    ],
-    id: 'pastelink'
-  });
-  
-  tour.start();
-      </script>
+     
    <!--<script>   
     window.onload=function(){
       $('#beestNav').load('common/beestnav.html');
@@ -601,7 +570,38 @@ function embedLinkConverter(event){
       </div>
     </div>
     <hr>
-  
+    <script>
+      const tour = new Shepherd.Tour({
+  defaultStepOptions: {
+    cancelIcon: {
+      enabled: true
+    },
+    classes: 'class-1 class-2',
+    scrollTo: { behavior: 'smooth', block: 'center' }
+  }
+});
+
+tour.addStep({
+  title: 'Pasting a video link',
+  text: `Paste your link from one of the platforms mentioned.\
+  So far BEEST supports Panopto, Vimeo, TEDTalks and YouTube`,
+  attachTo: {
+    element: '#beestVidPasteLink',
+    on: 'bottom'
+  },
+  buttons: [
+    {
+      action() {
+        return this.next();
+      },
+      text: 'Next'
+    }
+  ],
+  id: 'pastelink'
+});
+
+tour.start();
+    </script>
     <div class="row w-100 mx-auto" id="beestVidPasteLink">
       <div class="col-lg-3">
         <h5 class="font-weight-bold">Video link<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Paste in the link/URL (not the embed code) for your video."  class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
