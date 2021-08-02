@@ -1,3 +1,14 @@
+class User{
+	constructor(ID,email,fName,lName,isAdmin){
+		this.staffID = ID
+		this.staffEmail = email
+		this.firstName = fName
+		this.lastName = lName
+		this.isAdmin = isAdmin
+	}
+	
+}
+
 class modal{
 	/*	
 	arguments set through data (all optional unless otherwise specified, some may be replaced with placeholders if blank)
