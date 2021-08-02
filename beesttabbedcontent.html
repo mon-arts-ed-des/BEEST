@@ -92,8 +92,9 @@ class beestTabSection{
 		}
 	}
 }	
-class beestTabbed{
+class beestTabbed extends beestElement{
 	constructor(globalMaxTab,mainHeading,headSize,icon){
+		super()
 		this.mainHead = mainHeading
 		this.headSize = headSize
 		this.icon = icon
@@ -183,14 +184,16 @@ class beestTabbed{
 	$(document).ready(function() { //create the tinyMCE areas after the first
 		//makeTinyWithID(TINYMCE_ID_BASE+'1',{'change':generateElementCode},'Input the content for tab heading 1 here')
 		setupGoogleAnalytics()
+		
+		/*REQUIRED FOR HISTORY*/
+		initHistory()
+		/*END REQUIRED FOR HISTORY*/
+		
 		classTabbed = new beestTabbed(maxTabs)
 		setupNav()
 		fullScreenToggle()
 		setupToolTips() 
 		default_XRadio_onEmpty_Y("tabbedMainHeading","headSize","noH","headSize2",generateElementCode)
-		/*REQUIRED FOR HISTORY*/
-		initHistory()
-		/*END REQUIRED FOR HISTORY*/
 		
 		for (var createdTabs = 0; createdTabs < requiredInitialTabs; createdTabs++)
 		{

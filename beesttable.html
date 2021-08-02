@@ -81,8 +81,9 @@ $(document).ready(function(){
 })
 
 /*REQUIRED FOR HISTORY*/  	
-class table{
+class table extends beestElement{
 	constructor(mainHeading, icon, headSize, tableData,bg,r1,c1){
+		super()
 		this.mainHead = mainHeading
 		this.icon = icon
 		this.headSize = headSize

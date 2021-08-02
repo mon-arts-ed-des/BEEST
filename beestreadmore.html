@@ -79,8 +79,9 @@ const READMORE_HIST = "history_read_more"
 localStorageHistory = READMORE_HIST
 var classReadMore = null;
 
-class readMore{
+class readMore extends beestElement{
 	constructor(before,after,buttonNum,buttonTxt,colour,colInvert,size,width,iconPair){
+		super()
 		this.before = before
 		this.after = after
 		this.buttonNum = buttonNum
@@ -125,12 +126,15 @@ $(document).ready(function() { //create the tinyMCE areas after the first
 	setupGoogleAnalytics();
 	setupNav();
     setupToolTips();
-	classReadMore = new readMore()
-	makeTinyWithID('tinyMCEreadMoreBefore',{'change':generateReadMoreCode},'Write the content before your read more button here')
-	makeTinyWithID('tinyMCEreadMoreAfter',{'change':generateReadMoreCode},'Write the content after your read more button here')
+	
 	/*REQUIRED FOR HISTORY*/
 	initHistory();
 	/*END REQUIRED FOR HISTORY*/
+	
+	classReadMore = new readMore()
+	makeTinyWithID('tinyMCEreadMoreBefore',{'change':generateReadMoreCode},'Write the content before your read more button here')
+	makeTinyWithID('tinyMCEreadMoreAfter',{'change':generateReadMoreCode},'Write the content after your read more button here')
+	
 });
 /*BEGIN helper functions for generateElementCode*/
 function generateIconTag(faIcon){

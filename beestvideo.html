@@ -61,8 +61,8 @@ $(document).ready(function() {
 		setupGoogleAnalytics()
 		default_XRadio_onEmpty_Y("respVidHeading","headSize","noH","headSize1",generateCode);
 		/*REQUIRED FOR HISTORY*/
-		videoPageInstance = new videoPage()
 		initHistory();
+		videoPageInstance = new videoPage()
 		/*END REQUIRED FOR HISTORY*/
 });
 	//Get the window width dynamically  
@@ -89,8 +89,9 @@ $(document).ready(function() {
       }
     }); */
 /*REQUIRED FOR HISTORY*/
-	class videoPage{
+	class videoPage extends beestElement{
 		constructor(link,context,position,width,heading,headingSize,icon){
+			super()
 			this.link = link
 			this.context = context
 			this.position = position
