@@ -6,6 +6,19 @@
     setTimeout(function() {
         beestVidTour.start();
     }, 400);
+    function dismissTour() {
+      if (!localStorage.getItem('beestVidTour')) {
+          localStorage.setItem('beestVidTour', 'yes');
+      }
+    }
+    
+    // Dismiss the tour when the cancel icon is clicked. Do not show the tour on next page reload
+    beestVidTour.on('cancel', dismissTour);
+    
+    // Initiate the tour
+    if (!localStorage.getItem('beestVidTour')) {
+    beestVidTour.start();
+    }
   }
   
   function setupShepherd() {
@@ -193,16 +206,4 @@
 
   ready();
 }).call(void 0);
-function dismissTour() {
-  if (!localStorage.getItem('beestVidTour')) {
-      localStorage.setItem('beestVidTour', 'yes');
-  }
-}
 
-// Dismiss the tour when the cancel icon is clicked. Do not show the tour on next page reload
-beestVidTour.on('cancel', dismissTour);
-
-// Initiate the tour
-if (!localStorage.getItem('beestVidTour')) {
-beestVidTour.start();
-}
