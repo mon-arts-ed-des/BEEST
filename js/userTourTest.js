@@ -3,9 +3,7 @@
 (function() {
   function init() {
     var beestVidTour = setupShepherd();
-    setTimeout(function() {
-        beestVidTour.start();
-    }, 400);
+  
     function dismissTour() {
       if (!localStorage.getItem('beestVidTour')) {
           localStorage.setItem('beestVidTour', 'yes');
@@ -180,10 +178,10 @@
           },
           {
             action: function() {
-              return this.next();
+              return this.cancel();
             },
-            text: 'Next'
-          }
+            text: 'Finish tour'
+          },
         ],
         id: 'heading'
       },
