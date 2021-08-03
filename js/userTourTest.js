@@ -2,14 +2,14 @@
 
 (function() {
   function init() {
-    var beestTour = setupShepherd();
+    var beestVidTour = setupShepherd();
     setTimeout(function() {
-        beestTour.start();
+        beestVidTour.start();
     }, 400);
   }
-
+  
   function setupShepherd() {
-    var beestTour = new Shepherd.Tour({
+    var beestVidTour = new Shepherd.Tour({
       defaultStepOptions: {
         cancelIcon: {
           enabled: true
@@ -176,11 +176,11 @@
       },
     ];
 
-    beestTour.addSteps(steps);
+    beestVidTour.addSteps(steps);
 
      //This should add steps after the ones added with `addSteps`
  
-    return beestTour;
+    return beestVidTour;
   }
 
   function ready() {
@@ -193,3 +193,16 @@
 
   ready();
 }).call(void 0);
+function dismissTour() {
+  if (!localStorage.getItem('beestVidTour')) {
+      localStorage.setItem('beestVidTour', 'yes');
+  }
+}
+
+// Dismiss the tour when the cancel icon is clicked. Do not show the tour on next page reload
+beestVidTour.on('cancel', dismissTour);
+
+// Initiate the tour
+if (!localStorage.getItem('beestVidTour')) {
+beestVidTour.start();
+}
