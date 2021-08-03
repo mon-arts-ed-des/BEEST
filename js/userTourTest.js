@@ -163,9 +163,9 @@
       },
       {
         title: 'Heading for the video',
-        text: 'Give your video a heading and make it stand out on the page. It can be small (h5), medium (h4) or large (h3). Make sure to consider whether this is a main heading or subheading and not make it larger than a heading that has come before it.',
+        text: 'Give your video a heading, choose its size, and if you want an icon in the heading. It can be small (h5), medium (h4) or large (h3). Make sure to consider whether this is a main heading or subheading and not make it larger than a heading that has come before it. And use consistent icons for content types (video, media, reading).',
         attachTo: {
-          element: '.beestVidHeading',
+          element: '.headingOptions',
           on: 'bottom'
         },
         buttons: [
