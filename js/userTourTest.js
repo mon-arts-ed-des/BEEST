@@ -1,5 +1,3 @@
-'use strict';
-
 (function() {
   function init() {
     var beestVidTour = setupShepherd();
@@ -30,11 +28,15 @@
           behavior: 'smooth',
           block: 'center'
         }
+        
       },
+      
       // This should add the first tour step
       steps: [
+        
         {
-          text: 'Paste your video link in this space. BEEST currently supports Panopto, Vimeo, TEDTalks and YouTube. watch the videos linked for each platform to find which link you need for the BEEST to work correctly.',
+          title: 'Video link',
+          text: 'Paste your video link in this space. BEEST currently supports Panopto, Vimeo, TEDTalks and YouTube. watch the videos linked for each platform to find which link you need for the BEEST to work correctly and the BEEST will alter this link to be the URL required for embedding the video.',
           attachTo: {
             element: '.beestVidPasteLink',
             on: 'bottom'
@@ -45,13 +47,13 @@
                 return this.cancel();
               },
               secondary: true,
-              text: 'Exit'
+              text: 'End tour'
             },
             {
               action: function() {
                 return this.next();
               },
-              text: 'Next'
+              text: UTNxt
             }
           ],
           id: 'pastelink'
@@ -59,36 +61,9 @@
       ],
       useModalOverlay: true
     });
-
-    const element = document.createElement('p');
-    element.innerText = 'The BEEST automatically updates the link you paste to be the version required to embed it correctly.';
-
+    
     // These steps should be added via `addSteps`
     const steps = [
-      {
-        title: 'Including',
-        text: element,
-        attachTo: {
-          element: '.beestVidPasteLink',
-          on: 'bottom'
-        },
-        buttons: [
-          {
-            action: function() {
-              return this.back();
-            },
-            secondary: true,
-            text: 'Back'
-          },
-          {
-            action: function() {
-              return this.next();
-            },
-            text: 'Next'
-          }
-        ],
-        id: 'howbeestvidworks'
-      },
       {
         title: 'Context',
         text: 'It is best practice to give your video some context for the viewer before they click play. Type the context for your video in this space.',
@@ -102,13 +77,13 @@
               return this.back();
             },
             secondary: true,
-            text: 'Back'
+            text: UTBk
           },
           {
             action: function() {
               return this.next();
             },
-            text: 'Next'
+            text: UTNxt
           }
         ],
         id: 'context'
@@ -126,13 +101,13 @@
               return this.back();
             },
             secondary: true,
-            text: 'Back'
+            text: UTBk
           },
           {
             action: function() {
               return this.next();
             },
-            text: 'Next'
+            text: UTNxt
           }
         ],
         id: 'position'
@@ -150,13 +125,13 @@
               return this.back();
             },
             secondary: true,
-            text: 'Back'
+            text: UTBk
           },
           {
             action: function() {
               return this.next();
             },
-            text: 'Next'
+            text: UTNxt
           }
         ],
         id: 'width'
@@ -174,16 +149,125 @@
               return this.back();
             },
             secondary: true,
-            text: 'Back'
+            text: UTBk
           },
+          {
+            action: function() {
+              return this.next();
+            },
+            text: UTNxt
+          },
+        ],
+        id: 'heading'
+      },
+      {
+        title: 'Preview your element',
+        text: 'See how your final product will look in real time. After each change if you click anywhere on the screen, the preview will update to reflect your changes. You can then click the expand button - <i class="fa fa-expand border border-dark rounded p-2"></i> - to look at your element in fullscreen to get an accurate preview of what it will look like on your Moodle site.',
+        attachTo: {
+          element: '.beestPreview',
+          on: 'bottom'
+        },
+        buttons: [
+          {
+            action: function() {
+              return this.back();
+            },
+            secondary: true,
+            text: UTBk
+          },
+          {
+            action: function() {
+              return this.next();
+            },
+            text: UTNxt
+          },
+        ],
+        id: 'preview'
+      },
+      {
+        title: 'Copy your code',
+        text: 'Click the button to copy the code for your BEEST element. This will prompt you to name your element to store and return to later if you want to edit it slightly, or notice an error.',
+        attachTo: {
+          element: '.beestCopyCode',
+          on: 'bottom'
+        },
+        buttons: [
+          {
+            action: function() {
+              return this.back();
+            },
+            secondary: true,
+            text: UTBk
+          },
+          {
+            action: function() {
+              return this.next();
+            },
+            text: UTNxt
+          },
+        ],
+        id: 'copy your code'
+      },
+      {
+        title: 'Restore a previous item',
+        text: 'Once you have created and saved a BEEST element, you can recover it to edit it again, or paste the HTML from Moodle and the BEEST will update to reflect all of the previous information you had compiled to create the element.',
+        attachTo: {
+          element: '.beestRecover',
+          on: 'bottom'
+        },
+        buttons: [
+          {
+            action: function() {
+              return this.back();
+            },
+            secondary: true,
+            text: UTBk
+          },
+          {
+            action: function() {
+              return this.next();
+            },
+            text: UTNxt
+          },
+        ],
+        id: 'recover'
+      },
+      {
+        title: 'Important buttons',
+        text: 'Clear the page will reset all options to blank without saving, and Turn off help with remove all green question marks from the page if you are a confident user and no longer require the help and have managed to tame the BEEST.',
+        attachTo: {
+          element: '.beestTopButtons',
+          on: 'bottom'
+        },
+        buttons: [
+          {
+            action: function() {
+              return this.back();
+            },
+            secondary: true,
+            text: UTBk
+          },
+          {
+            action: function() {
+              return this.next();
+            },
+            text: UTNxt
+          },
+        ],
+        id: 'top buttons'
+      },
+      {
+        title: 'End of tour',
+        text: 'Enjoy creating your new BEEST elements! Please provide feedback on any bugs, issues or improvements by clicking the <a href="https://docs.google.com/forms/d/e/1FAIpQLSeojgdmy3o6gUq1ZzuV3Q2YflUDfxH4TKKzz5lbpTJLmLOm5w/viewform?usp=sf_link" target="_blank">Feedback/Improvements/Issues</a> (opens in a new window) link at the bottom of each BEEST page, and feel free to contact <a href="mailto:beest@monash.edu" target="_blank">beest@monash.edu</a> (opens in a new window) for any further queries you have or support you require.',
+        buttons: [
           {
             action: function() {
               return this.cancel();
             },
-            text: 'Finish tour'
+            text: UTFin
           },
         ],
-        id: 'heading'
+        id: 'finish tour'
       },
     ];
 

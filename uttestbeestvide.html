@@ -504,22 +504,6 @@ function embedLinkConverter(event){
   <div class="py-5"></div>
 <div class="container-fluid">
 <h3 class="text-center font-weight-bold">Responsive video + context <span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="This page takes a video URL, text input and other choices and combines them to make a video that is responsive across device sizes. Resize your screen to see the effect on the Preview placeholder video. Once the screen is small enough the text/video will collapse under one another on small devices for optimal use." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h3>
-<h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".respVidWalkthrough" href="">Create a responsive video walkthrough (5:55)</a></h5>
-<!--Modal content for this page-->
-    <!--Responsive video walkthrough modal-->
-  <div class="modal fade respVidWalkthrough" tabindex="-1" role="dialog" aria-labelledby="panopto-modal" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content p-2 bg-dark">
-      <div class="modal-header">
-        <h5 class="modal-title text-white" id="exampleModalLabel">Click close or click outside this box to return to the BEEST.</h5>
-        <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">Close &times;</span>
-        </button>
-      </div>
-    <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=cef099bc-a7e9-4211-be3c-ac3e005c0924"></iframe></div>
-    </div>
-  </div>
-</div>
    <!--How to paste HTML into Moodle modal-->
 <div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="html-paste-modal" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -535,23 +519,25 @@ function embedLinkConverter(event){
   </div>
 </div>
 <!--End of modal content-->
-  <div class="row w-50 mx-auto text-center mt-3">
+  <div class="row w-50 mx-auto text-center mt-3 beestTopButtons">
     <div class="col-lg">
           <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-danger btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
         </div>
         <div class="col-lg">
           <button data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" id="toggleHelp" class="btn btn-success btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
-        </div></div>
+        </div>
+      </div>
         <hr class="hr2">
 <form id="respVid">  
   <div class="row w-100 mx-auto">
     <div class="col-lg-6">
-      <div class="row w-100 mx-auto">
-        <div class="col-lg-3"> 
-          <h5 class="font-weight-bold">Recover<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Recover recently created items. This will only become operational once you have created at least one item. If you change browsers or clear your browser history, you will lose this history as well." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
-        </div>
-        <div class="col-lg-8">
-          <select class="custom-select border border-dark" size="1" id="recoveryDate" onchange="idSelectedRecData()">
+      <div class="beestRecover">
+        <div class="row w-100 mx-auto">
+          <div class="col-lg-3"> 
+            <h5 class="font-weight-bold">Recover<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Recover recently created items. This will only become operational once you have created at least one item. If you change browsers or clear your browser history, you will lose this history as well." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+          </div>
+          <div class="col-lg-8">
+            <select class="custom-select border border-dark" size="1" id="recoveryDate" onchange="idSelectedRecData()">
             <option selected value=0>please wait</option>
             </select>
           </div>
@@ -569,6 +555,7 @@ function embedLinkConverter(event){
         <textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Copy previously generated BEEST code from Moodle and paste it here" onchange=recoverCode()></textarea>
       </div>
     </div>
+  </div>
     <hr>
     <div class="row w-100 mx-auto beestVidPasteLink">
       <div class="col-lg-3">
@@ -687,7 +674,7 @@ function embedLinkConverter(event){
           </div>
         </div> 
         <hr>
-        <span class="headingOptions">
+        <div class="headingOptions">
         <div class="row w-100 mx-auto beestVidHeading">
           <div class="col-lg-3">
         <h5 class="font-weight-bold">Heading<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type a heading for this video. 75 character maximum. This will site above the video and context. If you want an icon to display you must also type a heading." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
@@ -763,12 +750,12 @@ function embedLinkConverter(event){
             </div>
             </div>
           </div>
-        </span>
+        </div>
             <hr>
         </div>
               <div class="col-lg-6">
               <div class="sticky-top" style="top:100px;">
-                <div class="row w-100">
+                <div class="row w-100 beestPreview">
                   <div class="col-lg-2">
                   <h5 class="font-weight-bold">Preview</h5>
                   <div class="text-center mb-2 previewButton"> 
@@ -780,11 +767,13 @@ function embedLinkConverter(event){
                   </div>
                 </div>
              <hr>
+             <div class="beestCopyCode">
               <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click the copy code button below once you have finished building your video element, ready to paste into Moodle." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>  
                 <textarea readonly class="rounded p-2 w-100 mt-2" id="txtarearespVid" cols="70" rows="6" name="Result" placeholder="Code for your element will appear here"></textarea>  
                      <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied" type="button" class="btn btn-success btn-block btn-lg my-2" id="copyCodeBtn" name="GenerateWrap" id="copyCodeBtn" value="Copy your code </>" onClick=copyCode() >
                         <div class="text-center mt-4 h5"><a data-toggle="modal" data-target=".html-paste-modal" href="">How do I paste this into Moodle</a>
-                 
+                        </div>
+                      </div>
                 </div>
               </div>
                           <!--<input type="button" class="btn btn-arts m-1" name="GenerateWrap" value="Display in Moodle" onClick=writeinMoodle() ></p>-->

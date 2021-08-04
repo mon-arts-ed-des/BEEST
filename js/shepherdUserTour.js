@@ -1,5 +1,8 @@
 /*! shepherd.js 8.3.1 */
 
+const UTBk = '<i class="fa fa-fw fa-chevron-left"></i> Back';
+const UTNxt = 'Next <i class="fa fa-fw fa-chevron-right"></i>';
+const UTFin = 'Finish tour <i class="fa fa-fw fa-flag-checkered"></i>';
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
@@ -3040,7 +3043,7 @@
 	    c() {
 	      footer = element("footer");
 	      if (if_block) if_block.c();
-	      attr(footer, "class", "shepherd-footer");
+	      attr(footer, "class", "shepherd-footer mx-auto");
 	    },
 
 	    m(target, anchor) {
@@ -3138,14 +3141,14 @@
 	    c() {
 	      button = element("button");
 	      span = element("span");
-	      span.textContent = "×";
+	      span.textContent = "Close tour ×";
 	      attr(span, "aria-hidden", "true");
 	      attr(button, "aria-label", button_aria_label_value =
 	      /*cancelIcon*/
 	      ctx[0].label ?
 	      /*cancelIcon*/
 	      ctx[0].label : "Close Tour");
-	      attr(button, "class", "shepherd-cancel-icon");
+	      attr(button, "class", "shepherd-cancel-icon shepherd-button border border-white rounded text-white p-2");
 	      attr(button, "type", "button");
 	    },
 
@@ -3230,7 +3233,7 @@
 	      attr(h3, "id",
 	      /*labelId*/
 	      ctx[1]);
-	      attr(h3, "class", "shepherd-title");
+	      attr(h3, "class", "shepherd-title text-white");
 	    },
 
 	    m(target, anchor) {
@@ -3442,7 +3445,7 @@
 	      if (if_block0) if_block0.c();
 	      t = space();
 	      if (if_block1) if_block1.c();
-	      attr(header, "class", "shepherd-header");
+	      attr(header, "class", "shepherd-header bg-mu");
 	    },
 
 	    m(target, anchor) {

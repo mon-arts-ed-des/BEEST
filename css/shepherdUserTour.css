@@ -30,12 +30,15 @@
 .shepherd-footer .shepherd-button:last-child{
     margin-right:0
 }
+.shepherd-footer button{
+    width: 50% !important;
+}
 .shepherd-cancel-icon{
     background:transparent;
     border:none;
     color:hsla(0,0%,50.2%,.75);
     cursor:pointer;
-    font-size:2em;
+    font-size:1rem;
     font-weight:400;
     margin:0;
     padding:0;
@@ -54,7 +57,7 @@
     color:rgba(0,0,0,.75);
     display:flex;
     flex:1 0 auto;
-    font-size:1rem;
+    font-size:1.5rem;
     font-weight:400;
     margin:0;
     padding:0
@@ -65,7 +68,7 @@
     border-top-right-radius:5px;
     display:flex;
     justify-content:flex-end;
-    line-height:2em;
+    line-height:1.5em;
     padding:.75rem .75rem 0
 }
 .shepherd-has-title .shepherd-content .shepherd-header{
@@ -75,7 +78,8 @@
     color:rgba(0,0,0,.75);
     font-size:1rem;
     line-height:1.3em;
-    padding:.75em
+    padding:.75em;
+    text-align: justify;
 }
 .shepherd-text p{
     margin-top:0
@@ -103,7 +107,7 @@
 .shepherd-enabled.shepherd-element{
     opacity:1;
     visibility:visible;
-    margin:15px 0px !important;
+    margin:20px 0px !important;
 }
 .shepherd-element[data-popper-reference-hidden]:not(.shepherd-centered){
     opacity:0;
@@ -144,6 +148,9 @@
 }
 .shepherd-target-click-disabled.shepherd-enabled.shepherd-target,.shepherd-target-click-disabled.shepherd-enabled.shepherd-target *{
     pointer-events:none
+}
+.shepherd-target{
+    padding: 10px 0px !important;
 }
 .shepherd-modal-overlay-container{
     height:0;
