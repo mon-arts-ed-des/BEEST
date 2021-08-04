@@ -35,7 +35,7 @@
       steps: [
         {
           title: 'Help',
-          text: 'Hover over the green question marks - <span class="text-success small">&nbsp;<i class="h5 fa fa-question-circle"></i></span> - for help and instructions on how to use that option or text box for each element.',
+          text: 'Hover over the green question marks <span class="text-success small">&nbsp;<i class="h5 fa fa-question-circle"></i></span> to reveal instructions on how to use that option or text box.',
           attachTo: {
             element: '.fa-question-circle',
             on: 'bottom'
@@ -59,7 +59,7 @@
         },
         {
           title: 'Video link',
-          text: 'Paste your video link in this space. BEEST currently supports Panopto, Vimeo, TEDTalks and YouTube. watch the videos linked for each platform to find which link you need for the BEEST to work correctly and the BEEST will alter this link to be the URL required for embedding the video.',
+          text: 'Paste your video link in this space. BEEST currently supports Panopto, Vimeo, TEDTalks and YouTube. click the link for your desired platform to reveal a walkthrough to show you which link you need for the BEEST to work correctly. The BEEST will alter this link to be the URL required for embedding the video.',
           attachTo: {
             element: '.beestVidPasteLink',
             on: 'top'
@@ -137,7 +137,7 @@
       },
       {
         title: 'Width of the video',
-        text: 'Your video can be either 50% (6 columns - one half) or 33% (4 columns - one third) of the screen width. This is because we divide the screen into 12 columns and best practice dictates the video should take no more the 50% of the screen space, but should also not be so small that the viewer does not recognise it as a video.',
+        text: 'The responsive video code splits the screen width into 12 columns. So you can make the video 50% width (6 columns) or 33.3% (4 columns) as we have found in testing these sizes produce the best results.',
         attachTo: {
           element: '.beestVidWidth',
           on: 'top'
@@ -161,7 +161,7 @@
       },
       {
         title: 'Heading for the video',
-        text: 'Give your video a heading, choose its size, and if you want an icon in the heading. It can be small (h5), medium (h4) or large (h3). Make sure to consider whether this is a main heading or subheading and not make it larger than a heading that has come before it. And use consistent icons for content types (video, media, reading).',
+        text: 'Give your video a heading, choose its size, and if you want an icon in the heading. Make sure to consider whether this is a main heading or subheading and use consistent icons for content types (video, media, reading).',
         attachTo: {
           element: '.headingOptions',
           on: 'top'
@@ -185,7 +185,7 @@
       },
       {
         title: 'Preview your element',
-        text: 'See how your final product will look in real time. After each change if you click anywhere on the screen, the preview will update to reflect your changes. You can then click the expand button - <i class="fa fa-expand border border-dark rounded p-2"></i> - to look at your element in fullscreen to get an accurate preview of what it will look like on your Moodle site.',
+        text: 'See how your final product will look in real time. After each change, click anywhere on the screen and the preview will update to reflect your changes. Click the expand button <i class="fa fa-expand border border-dark rounded p-2"></i> to see at your element in fullscreen.',
         attachTo: {
           element: '.beestPreview',
           on: 'bottom'
@@ -209,7 +209,7 @@
       },
       {
         title: 'Copy your code',
-        text: 'Click the button to copy the code for your BEEST element. This will prompt you to name your element to store and return to later if you want to edit it slightly, or notice an error.',
+        text: 'Clicking this button will copy the code to your clipboard and prompt you to name your element to store it and return to later if you want to edit it or notice an error. There is also a button below that will reveal a video walkthrough on how to paste this code into Moodle.',
         attachTo: {
           element: '.beestCopyCode',
           on: 'top'
@@ -233,7 +233,7 @@
       },
       {
         title: 'Restore a previous item',
-        text: 'Once you have created and saved a BEEST element, you can recover it to edit it again, or paste the HTML from Moodle and the BEEST will update to reflect all of the previous information you had compiled to create the element.',
+        text: 'Once you have created and saved a BEEST element, you can recover it and edit it, or paste the HTML from Moodle and the BEEST will update to reflect all of the previous information you had compiled to create the element.',
         attachTo: {
           element: '.beestRecover',
           on: 'bottom'
@@ -256,7 +256,7 @@
         id: 'recover'
       },
       {
-        title: 'Important buttons',
+        title: 'Clear the page',
         text: 'Clear the page will reset all options to their defaults without saving.',
         attachTo: {
           element: '.beestTopButtons',
@@ -305,7 +305,7 @@
       },
       {
         title: 'End of tour',
-        text: 'Enjoy creating your new BEEST elements! Contact the BEEST teeam <a href="mailto:beest@monash.edu" target="_blank">beest@monash.edu</a> (opens in a new window) for any further queries you have or support you require.',
+        text: 'Enjoy creating your new BEEST elements! Contact the BEEST teeam at <a href="mailto:beest@monash.edu" target="_blank">beest@monash.edu</a> (opens in a new window) for any further queries you have or support you require.',
         buttons: [
           {
             action: function() {
