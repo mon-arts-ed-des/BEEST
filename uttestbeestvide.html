@@ -519,13 +519,9 @@ function embedLinkConverter(event){
   </div>
 </div>
 <!--End of modal content-->
-  <div class="row w-75 mx-auto text-center mt-3 beestTopButtons">
+  <div class="row w-25 mx-auto text-center mt-3 beestTopButtons">
     <div class="col-lg">
           <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-danger btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
-        </div>
-        <div class="col-lg">
-          <a data-toggle="modal" data-target=".html-paste-modal" class="btn btn-info btn-lg btn-block" href="">How to paste an element into Moodle <i class="far fa-copy"></i></a>
-         <!-- <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" id="toggleHelp" class="btn btn-success btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>-->
         </div>
       </div>
         <hr class="hr2">
@@ -772,8 +768,11 @@ function embedLinkConverter(event){
               <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click the copy code button below once you have finished building your video element, ready to paste into Moodle." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>  
                 <textarea readonly class="rounded p-2 w-100 mt-2" id="txtarearespVid" cols="70" rows="6" name="Result" placeholder="Code for your element will appear here"></textarea>  
                      <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied" type="button" class="btn btn-success btn-block btn-lg my-2" id="copyCodeBtn" name="GenerateWrap" id="copyCodeBtn" value="Copy your code </>" onClick=copyCode() >
-                        <div class="text-center mt-4 h5"><a data-toggle="modal" data-target=".html-paste-modal" href="">How do I paste this into Moodle</a>
-                        </div>
+                     <div class="w-50 mx-auto">
+                      <span data-toggle="tooltip" data-placement="left" data-trigger="hover focus" role="button" title="Click this button to reveal a walkthrough video on how to paste BEEST elements into Moodle">
+                      <a data-toggle="modal" data-target=".html-paste-modal" class="btn btn-outline-info btn-sm btn-block" href="">How to paste an element into Moodle <i class="far fa-copy"></i></a></span>
+                     <!-- <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" id="toggleHelp" class="btn btn-success btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>-->
+                    </div>
                       </div>
                 </div>
               </div>
