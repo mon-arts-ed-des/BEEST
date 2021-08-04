@@ -151,7 +151,7 @@
     pointer-events:none
 }
 .shepherd-target{
-    padding: 10px 0px !important;
+    padding: 10px !important;
 }
 .shepherd-modal-overlay-container{
     height:0;

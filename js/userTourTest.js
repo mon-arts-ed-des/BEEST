@@ -4,7 +4,7 @@
   
     function dismissTour() {
       if (!localStorage.getItem('beestVidTour')) {
-          localStorage.setItem('beestVidTour', 'yes');
+          localStorage.setItem('beestVidTour', 'completed');
       }
     }
     
@@ -33,7 +33,30 @@
       
       // This should add the first tour step
       steps: [
-        
+        {
+          title: 'Help',
+          text: 'Hover over the green question marks - <span class="text-success small">&nbsp;<i class="h5 fa fa-question-circle"></i></span> - for help and instructions on how to use that option or text box for each element.',
+          attachTo: {
+            element: '.fa-question-circle',
+            on: 'bottom'
+          },
+          buttons: [
+            {
+              action: function() {
+                return this.cancel();
+              },
+              secondary: true,
+              text: 'End tour'
+            },
+            {
+              action: function() {
+                return this.next();
+              },
+              text: UTNxt
+            }
+          ],
+          id: 'help'
+        },
         {
           title: 'Video link',
           text: 'Paste your video link in this space. BEEST currently supports Panopto, Vimeo, TEDTalks and YouTube. watch the videos linked for each platform to find which link you need for the BEEST to work correctly and the BEEST will alter this link to be the URL required for embedding the video.',
@@ -44,10 +67,10 @@
           buttons: [
             {
               action: function() {
-                return this.cancel();
+                return this.back();
               },
               secondary: true,
-              text: 'End tour'
+              text: UTBk
             },
             {
               action: function() {
@@ -257,7 +280,7 @@
         id: 'top buttons'
       },
       {
-        title: 'Feedback and improvements',
+        title: 'Feedback',
         text: 'Click this link to provide feedback and improvements on the BEEST elements directly to the BEEST team.',
         attachTo: {
           element: '.beestFeedback',
@@ -278,7 +301,7 @@
             text: UTNxt
           },
         ],
-        id: 'top buttons'
+        id: 'feedback'
       },
       {
         title: 'End of tour',
