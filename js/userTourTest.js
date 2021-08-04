@@ -39,7 +39,7 @@
           text: 'Paste your video link in this space. BEEST currently supports Panopto, Vimeo, TEDTalks and YouTube. watch the videos linked for each platform to find which link you need for the BEEST to work correctly and the BEEST will alter this link to be the URL required for embedding the video.',
           attachTo: {
             element: '.beestVidPasteLink',
-            on: 'bottom'
+            on: 'top'
           },
           buttons: [
             {
@@ -69,7 +69,7 @@
         text: 'It is best practice to give your video some context for the viewer before they click play. Type the context for your video in this space.',
         attachTo: {
           element: '.beestVidContext',
-          on: 'bottom'
+          on: 'top'
         },
         buttons: [
           {
@@ -93,7 +93,7 @@
         text: 'Your video can be on the left or right of screen. It defaults to right so that on smaller screens the text sits above the video, but you can change this option to have the video sit to the left and the text will collapse underneath the video.',
         attachTo: {
           element: '.beestVidPosition',
-          on: 'bottom'
+          on: 'top'
         },
         buttons: [
           {
@@ -117,7 +117,7 @@
         text: 'Your video can be either 50% (6 columns - one half) or 33% (4 columns - one third) of the screen width. This is because we divide the screen into 12 columns and best practice dictates the video should take no more the 50% of the screen space, but should also not be so small that the viewer does not recognise it as a video.',
         attachTo: {
           element: '.beestVidWidth',
-          on: 'bottom'
+          on: 'top'
         },
         buttons: [
           {
@@ -141,7 +141,7 @@
         text: 'Give your video a heading, choose its size, and if you want an icon in the heading. It can be small (h5), medium (h4) or large (h3). Make sure to consider whether this is a main heading or subheading and not make it larger than a heading that has come before it. And use consistent icons for content types (video, media, reading).',
         attachTo: {
           element: '.headingOptions',
-          on: 'bottom'
+          on: 'top'
         },
         buttons: [
           {
@@ -189,7 +189,7 @@
         text: 'Click the button to copy the code for your BEEST element. This will prompt you to name your element to store and return to later if you want to edit it slightly, or notice an error.',
         attachTo: {
           element: '.beestCopyCode',
-          on: 'bottom'
+          on: 'top'
         },
         buttons: [
           {
@@ -234,7 +234,7 @@
       },
       {
         title: 'Important buttons',
-        text: 'Clear the page will reset all options to blank without saving, and Turn off help with remove all green question marks from the page if you are a confident user and no longer require the help and have managed to tame the BEEST.',
+        text: 'Clear the page will reset all options to blank without saving, and How to paste this into Moodle will bring up a walkthrough video of how to paste your BEEST element into Moodle.',
         attachTo: {
           element: '.beestTopButtons',
           on: 'bottom'
@@ -257,8 +257,32 @@
         id: 'top buttons'
       },
       {
+        title: 'Feedback and improvements',
+        text: 'Click this link to provide feedback and improvements on the BEEST elements directly to the BEEST team.',
+        attachTo: {
+          element: '.beestFeedback',
+          on: 'top'
+        },
+        buttons: [
+          {
+            action: function() {
+              return this.back();
+            },
+            secondary: true,
+            text: UTBk
+          },
+          {
+            action: function() {
+              return this.next();
+            },
+            text: UTNxt
+          },
+        ],
+        id: 'top buttons'
+      },
+      {
         title: 'End of tour',
-        text: 'Enjoy creating your new BEEST elements! Please provide feedback on any bugs, issues or improvements by clicking the <a href="https://docs.google.com/forms/d/e/1FAIpQLSeojgdmy3o6gUq1ZzuV3Q2YflUDfxH4TKKzz5lbpTJLmLOm5w/viewform?usp=sf_link" target="_blank">Feedback/Improvements/Issues</a> (opens in a new window) link at the bottom of each BEEST page, and feel free to contact <a href="mailto:beest@monash.edu" target="_blank">beest@monash.edu</a> (opens in a new window) for any further queries you have or support you require.',
+        text: 'Enjoy creating your new BEEST elements! Contact the BEEST teeam <a href="mailto:beest@monash.edu" target="_blank">beest@monash.edu</a> (opens in a new window) for any further queries you have or support you require.',
         buttons: [
           {
             action: function() {
