@@ -257,7 +257,7 @@
       },
       {
         title: 'Important buttons',
-        text: 'Clear the page will reset all options to blank without saving, and How to paste this into Moodle will bring up a walkthrough video of how to paste your BEEST element into Moodle.',
+        text: 'Clear the page will reset all options to their defaults without saving.',
         attachTo: {
           element: '.beestTopButtons',
           on: 'bottom'
