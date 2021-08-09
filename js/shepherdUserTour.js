@@ -3,6 +3,7 @@
 const UTBk = '<i class="fa fa-fw fa-chevron-left"></i> Back';
 const UTNxt = 'Next <i class="fa fa-fw fa-chevron-right"></i>';
 const UTFin = 'Finish tour <i class="fa fa-fw fa-flag-checkered"></i>';
+
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
