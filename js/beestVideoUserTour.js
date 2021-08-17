@@ -16,6 +16,23 @@
     beestVidTour.start();
     }
   }
+  /*const beestVidTour = new Shepherd.Tour({
+    defaultStepOptions: {
+      classes: 'tour-guide',
+      scrollTo: true,
+      useModalOverlay: true,
+      when: {
+        show() {
+          const currentStepElement = shepherd.currentStep.el;
+          const header = currentStepElement.querySelector('.shepherd-header');
+          const progress = document.createElement('span');
+          progress.style['margin-right'] = '15px';
+          progress.innerText = `${shepherd.steps.indexOf(shepherd.currentStep) + 1}/${shepherd.steps.length}`;
+          header.insertBefore(progress, currentStepElement.querySelector('.shepherd-cancel-icon'));        
+        }
+      } 
+    }
+  });*/
   
   function setupShepherd() {
     var beestVidTour = new Shepherd.Tour({
@@ -23,12 +40,27 @@
         cancelIcon: {
           enabled: true
         },
-        classes: 'class-1 class-2',
-        scrollTo: {
-          behavior: 'smooth',
-          block: 'center'
-        }
-        
+        classes: 'tour-guide',
+        scrollTo: true,
+        useModalOverlay: true,
+        when: {
+          show() {
+            const currentStepElement = beestVidTour.currentStep.el;
+            const footer = currentStepElement.querySelector('.shepherd-footer');
+            const progressPercentage = ((beestVidTour.steps.indexOf(beestVidTour.currentStep) + 1)/beestVidTour.steps.length)*100 + '%';
+            const progress = document.createElement('div');
+            const innerBar = document.createElement('span');
+            innerBar.style.width=progressPercentage;
+            progress.className='shepherd-progress-bar';
+            innerBar.className='progress-bar progress-bar-striped'
+            //progress.style['margin-right'] = '15px';
+            if (document.getElementsByClassName('shepherd-button').length==1) {
+              progress.style.minWidth = '260px';
+          }  
+            progress.appendChild(innerBar);
+            $(footer).after(progress, currentStepElement.querySelector('.shepherd-button'));   
+          }
+        } 
       },
       
       // This should add the first tour step
