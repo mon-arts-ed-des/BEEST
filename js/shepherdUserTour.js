@@ -3142,7 +3142,7 @@ const UTFin = 'Finish tour <i class="fa fa-fw fa-flag-checkered"></i>';
 	    c() {
 	      button = element("button");
 	      span = element("span");
-	      span.textContent = "Close tour ×";
+	      span.textContent = "&times;";
 	      attr(span, "aria-hidden", "true");
 	      attr(button, "aria-label", button_aria_label_value =
 	      /*cancelIcon*/
@@ -3151,7 +3151,21 @@ const UTFin = 'Finish tour <i class="fa fa-fw fa-flag-checkered"></i>';
 	      ctx[0].label : "Close Tour");
 	      attr(button, "class", "shepherd-cancel-icon shepherd-button border border-white rounded text-white p-2");
 	      attr(button, "type", "button");
-	    },
+		},
+	/* Create a minimise button
+		minimize() {
+			button = element("button");
+			span = element("span");
+			span.textContent = "&minus;";
+			attr(span, "aria-hidden", "true");
+			attr(button, "aria-label", button_aria_label_value =
+			/*minimiseIcon*/
+			/*ctx[0].label ?*/
+			/*minimiseIcon*/
+			/*ctx[0].label : "Minimise Tour");
+			attr(button, "class", "shepherd-cancel-icon shepherd-button border border-white rounded text-white p-2");
+			attr(button, "type", "button");
+		  },*/
 
 	    m(target, anchor) {
 	      insert(target, button, anchor);

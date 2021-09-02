@@ -73,14 +73,7 @@
             on: 'bottom'
           },
           buttons: [
-            {
-              action: function() {
-                return this.cancel();
-              },
-              secondary: true,
-              text: 'End tour'
-            },
-            {
+              {
               action: function() {
                 return this.next();
               },
