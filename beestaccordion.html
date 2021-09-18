@@ -743,23 +743,7 @@ function setupBackToTopButton(){
 <div class="py-5"></div>
 <div class="container-fluid">   
   <h3 class="text-center font-weight-bold">Accordion<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Accordions allow you to display information under collapsed 'drawers' that a user can click to reveal or hide the information." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h3>
-  <h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".btnWalkthrough" href="">Creating an accordion (07:08)</a></h5>
 <!--Begin modal content on the page-->
-<!--Button creation video walkthrough-->
-            <div class="modal fade btnWalkthrough" tabindex="-1" role="dialog" aria-labelledby="btn-modal" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content p-2 bg-dark">
-                <div class="modal-header">
-                  <h5 class="modal-title text-white">Click close or click outside this box to return to the BEEST.</h5>
-                  <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">Close &times;</span>
-                  </button>
-                </div>
-              <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=a3b32c11-7614-4ec4-8104-ac4000328f01"></iframe></div>
-              </div>
-            </div>
-          </div>
-<!--End button walkthrough modal-->
 <!--How to paste HTML into Moodle modal-->
 <div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="html-paste-modal" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -778,16 +762,17 @@ function setupBackToTopButton(){
 <!--End HTML paste video walkthrough-->
 <!--End modal content for this page-->
 <div class="row w-50 mx-auto text-center mt-3">	  
-  <div class="col-lg">
+  <div class="col-lg beestTopButtons">
   <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-danger btn-lg btn-block mb-2" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
   </div>
-  <div class="col-lg">
+  <!--<div class="col-lg">
   <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click this button to toggle the help instructions on the page on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-success btn-lg btn-block mb-2">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
-  </div>
+  </div>-->
 </div>
 <hr class="hr-3">
 <div class="row w-100 mx-auto">
   <div class="col-lg-6">
+	  <div class="beestRecover">
   <div class="row w-100">
             <div class="col-lg-3">
               <h5>Recover<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Retrieve your previous button configuration. Only works once you have created at least 1 button. Then the next 20 configurations will be available until you clear your internet browser history or change internet browsers or create more than 20 buttons." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-fw fa-question-circle"></i></h5>
@@ -817,17 +802,11 @@ function setupBackToTopButton(){
 			<textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Copy previously generated BEEST code from Moodle and paste it here" onchange="recoverCode()"></textarea>
 		</div>
 	</div>
-
-
-
-		  
+</div>
             <hr>
-			
-  
+			<div class="beestAccStyle p-2">
   <div class="row w-100">
-  
     <div class="col-lg-3">
-	
       <h5>Main heading<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the main heading for this accordion that will sit above the element and indicate to students what is in the accordion. 75 character maximum.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
     </div>
     <div class="col-lg">
@@ -984,7 +963,9 @@ function setupBackToTopButton(){
 
 </div>
   </div>
+</div>
 <hr>
+<div class="beestAccContent">
 <div class="row w-100">
   <div class="col-lg">
 <h5>Drawer headings & content<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Input the headings that will appear on the accordion drawers and the content that will sit inside each of the drawers. The max length allowed for headings is 75 characters.">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
@@ -1003,11 +984,13 @@ function setupBackToTopButton(){
         <textarea id="tinyMCEmonAccContent1" class="border border-dark rounded p-2 w-100" rows="3" name="monAccContent1" placeholder="Write the content for your accordion here" onchange=generateElementCode()></textarea>
       </div>
     </div>
+</div>
 	</span>
     <hr>
     <span id="newAccordArea"></span>   
 </div>
   <div class="col-lg">
+	  <div class="beestAccRightSide p-2">
 	<div class="sticky-top" style="top:100px;">
 		<h5>Add/Remove drawers + Current number of drawers<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="The page defaults to start with 3 accordion drawers. You can have up to 10. You can type in your number in the box on the right, which will also display the current number of drawers OR use the Add button to add more drawers one at a time. A remove button will appear once there are more than 3 drawers to remove drawers individually." >&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
 	<div class="btn-group btn-group-justified" role="group" id="addMinusButtons">
@@ -1034,9 +1017,9 @@ function setupBackToTopButton(){
 			<div class="col-lg">
   <h5>Copy code<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click the copy code button below to copy your code, ready to paste into Moodle." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
   <textarea readonly class="rounded p-2 w-100" id="monAccCode" rows="3" name="Result" placeholder="The code for your element will appear here as you update your preferences on the page." onClick=generateElementCode()></textarea>
-<input id="copyCodeBtn" type="button" class="btn btn-block btn-success mt-2 text-center" name="GenerateWrap" value="Copy your code" data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." onClick=copyCode()>
-<div class="text-center h5 mt-4">
-<a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
+<input id="copyCodeBtn" type="button" class="btn btn-block btn-success my-2 text-center" name="GenerateWrap" value="Copy your code" data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." onClick=copyCode()>
+<div class="w-50 mx-auto">
+<a data-toggle="modal" class="btn btn-outline-info btn-sm btn-block" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
 </div>
 </div>
 </div>

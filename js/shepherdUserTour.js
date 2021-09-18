@@ -3142,7 +3142,7 @@ const UTFin = 'Finish tour <i class="fa fa-fw fa-flag-checkered"></i>';
 	    c() {
 	      button = element("button");
 	      span = element("span");
-	      span.textContent = "&times;";
+	      span.textContent = "Close";
 	      attr(span, "aria-hidden", "true");
 	      attr(button, "aria-label", button_aria_label_value =
 	      /*cancelIcon*/

@@ -90,11 +90,11 @@
             id: 'help'
           },
           {
-            title: 'Video link',
-            text: 'Paste your video link in this space. BEEST currently supports Panopto, Vimeo, TEDTalks and YouTube. click the link for your desired platform to reveal a walkthrough to show you which link you need for the BEEST to work correctly. The BEEST will alter this link to be the URL required for embedding the video.',
+            title: 'Style your Accordion',
+            text: 'Write and style your main heading (sits above the accordion) and choose the style of your drawers as well. Lastly, choose whether your accordion will have the first drawer open or closed.',
             attachTo: {
-              element: '.beestVidPasteLink',
-              on: 'top'
+              element: '.beestAccStyle',
+              on: 'right'
             },
             buttons: [
               {
@@ -111,7 +111,7 @@
                 text: UTNxt
               }
             ],
-            id: 'pastelink'
+            id: 'styleAcc'
           }
         ],
         useModalOverlay: true
@@ -120,11 +120,11 @@
       // These steps should be added via `addSteps`
       const steps = [
         {
-          title: 'Context',
-          text: 'It is best practice to give your video some context for the viewer before they click play. Type the context for your video in this space.',
+          title: 'Accordion Content',
+          text: 'Insert the text for your drawer headings, and the content that will sit in that drawer.',
           attachTo: {
-            element: '.beestVidContext',
-            on: 'top'
+            element: '.beestAccContent',
+            on: 'right'
           },
           buttons: [
             {
@@ -141,14 +141,14 @@
               text: UTNxt
             }
           ],
-          id: 'context'
+          id: 'accordionContent'
         },
         {
-          title: 'Position the video',
-          text: 'Your video can be on the left or right of screen. It defaults to right so that on smaller screens the text sits above the video, but you can change this option to have the video sit to the left and the text will collapse underneath the video.',
+          title: 'Number of Drawers +<br>Preview & Copy',
+          text: 'Choose the number of drawers for your accordion. Either use the +/- buttons or click in and type a number from 2 - 10. Then preview your code (use the expansion button to see your accordion full screen) and then copy the code for your accordion. You will prompted to save what you have built to return to it later. There is also a button here that will reveal a video guide for pasting HTML code into Moodle.',
           attachTo: {
-            element: '.beestVidPosition',
-            on: 'top'
+            element: '.beestAccRightSide',
+            on: 'left'
           },
           buttons: [
             {
@@ -165,103 +165,7 @@
               text: UTNxt
             }
           ],
-          id: 'position'
-        },
-        {
-          title: 'Width of the video',
-          text: 'The responsive video code splits the screen width into 12 columns. So you can make the video 50% width (6 columns) or 33.3% (4 columns) as we have found in testing these sizes produce the best results.',
-          attachTo: {
-            element: '.beestVidWidth',
-            on: 'top'
-          },
-          buttons: [
-            {
-              action: function() {
-                return this.back();
-              },
-              secondary: true,
-              text: UTBk
-            },
-            {
-              action: function() {
-                return this.next();
-              },
-              text: UTNxt
-            }
-          ],
-          id: 'width'
-        },
-        {
-          title: 'Heading for the video',
-          text: 'Give your video a heading, choose its size, and if you want an icon in the heading. Make sure to consider whether this is a main heading or subheading and use consistent icons for content types (video, media, reading).',
-          attachTo: {
-            element: '.headingOptions',
-            on: 'top'
-          },
-          buttons: [
-            {
-              action: function() {
-                return this.back();
-              },
-              secondary: true,
-              text: UTBk
-            },
-            {
-              action: function() {
-                return this.next();
-              },
-              text: UTNxt
-            },
-          ],
-          id: 'heading'
-        },
-        {
-          title: 'Preview your element',
-          text: 'See how your final product will look in real time. After each change, click anywhere on the screen and the preview will update to reflect your changes. Click the expand button <i class="fa fa-expand border border-dark rounded p-2"></i> to see at your element in fullscreen.',
-          attachTo: {
-            element: '.beestPreview',
-            on: 'bottom'
-          },
-          buttons: [
-            {
-              action: function() {
-                return this.back();
-              },
-              secondary: true,
-              text: UTBk
-            },
-            {
-              action: function() {
-                return this.next();
-              },
-              text: UTNxt
-            },
-          ],
-          id: 'preview'
-        },
-        {
-          title: 'Copy your code',
-          text: 'Clicking this button will copy the code to your clipboard and prompt you to name your element to store it and return to later if you want to edit it or notice an error. There is also a button below that will reveal a video walkthrough on how to paste this code into Moodle.',
-          attachTo: {
-            element: '.beestCopyCode',
-            on: 'top'
-          },
-          buttons: [
-            {
-              action: function() {
-                return this.back();
-              },
-              secondary: true,
-              text: UTBk
-            },
-            {
-              action: function() {
-                return this.next();
-              },
-              text: UTNxt
-            },
-          ],
-          id: 'copy your code'
+          id: 'previewPlusDrawers'
         },
         {
           title: 'Restore a previous item',
@@ -306,48 +210,11 @@
               action: function() {
                 return this.next();
               },
-              text: UTNxt
-            },
-          ],
-          id: 'top buttons'
-        },
-        {
-          title: 'Feedback',
-          text: 'Click this link to provide feedback and improvements on the BEEST elements directly to the BEEST team.',
-          attachTo: {
-            element: '.beestFeedback',
-            on: 'top'
-          },
-          buttons: [
-            {
-              action: function() {
-                return this.back();
-              },
-              secondary: true,
-              text: UTBk
-            },
-            {
-              action: function() {
-                return this.next();
-              },
-              text: UTNxt
-            },
-          ],
-          id: 'feedback'
-        },
-        {
-          title: 'End of tour',
-          text: 'Enjoy creating your new BEEST elements! Contact the BEEST teeam at <a href="mailto:beest@monash.edu" target="_blank">beest@monash.edu</a> (opens in a new window) for any further queries you have or support you require.',
-          buttons: [
-            {
-              action: function() {
-                return this.cancel();
-              },
               text: UTFin
             },
           ],
-          id: 'finish tour'
-        },
+          id: 'top buttons'
+        }
       ];
   
       beestAccTour.addSteps(steps);
