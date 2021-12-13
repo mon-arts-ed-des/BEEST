@@ -6,6 +6,7 @@ var currentLocalSet = null
 var theModal = null;
 var allLocalStorageKeys = {}
 const ALLKEYSLOCATION = "ALLKEYS"
+var defaultKeys = {"/beesttabbedcontent.html":"history_tabbed","/beestbutton.html":"history_button","/beesttable.html":"history_table","/beestvideo.html":"local_video","/beestimage.html":"history_image","/beestalert.html":"history_alert","/beestpolleverywhere.html":"history_pollev","/beestreadmore.html":"history_read_more","/beestaccordion.html":"history_accordion","/beestquote.html":"history_quote"}
 
 function lsGet(key){
 	return localStorage.getItem(key)
