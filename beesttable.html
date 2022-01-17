@@ -133,8 +133,8 @@ class table{
 		this.bgStyle = PDO.bgStyle
 		this.col1Style = PDO.col1Style
 		this.row1Style = PDO.row1Style
-		this.filterable = PDO.filterable
-		this.searchText = PDO.searchText
+		this.filterable = (PDO.filterable ? PDO.filterable : false)
+		this.searchText = (PDO.searchText ? PDO.searchText : "") //if not found in history, assume blank
 	}
 }
 /*END REQUIRED FOR HISTORY*/
@@ -462,7 +462,9 @@ function setTextAreas(classData){
 		"faCode":{type:'radio',value:classData.icon},
 		"r1Style":{type:'radio',value:classData.row1Style},
 		"c1Style":{type:'radio',value:classData.col1Style},
-		"bgStyle":{type:'radio',value:classData.bgStyle}
+		"bgStyle":{type:'radio',value:classData.bgStyle},
+		"filterable1":{type:'checkbox',value:classData.filterable},
+		"filterBaseText":{type:'basic',value:classData.searchText}
 	}
 	dataSet = default_r1_c1(dataSet)
 	dataSet[pasteTable] = {type:'tiny',value:arrayToTableHTML(theTable)}
@@ -574,7 +576,8 @@ function recoverCode(){
 	
 	var dataToFind = {
 		tags:["table"],
-		ids:['display_options']
+		ids:['display_options'],
+		classes:['form-control']
 	}
 	
 	var iconHeading = getIconAndHeading(pastedHTML)
@@ -601,6 +604,16 @@ function recoverCode(){
 	classTable.row1Style = $(display_options).attr('r1')
 	classTable.col1Style = $(display_options).attr('c1')
 	classTable.bgStyle = $(display_options).attr('bg')
+	
+	var classes = recoveredData.classes
+	if (classes.hasOwnProperty('form-control')){
+		classTable.filterable = true
+		classTable.searchText = classes['form-control'][0].placeholder
+	}
+	else{
+		classTable.filterable = false
+		classTable.searchText = ""
+	}	
 			
 	setTextAreas(classTable)
 }
