@@ -82,7 +82,7 @@ $(document).ready(function(){
 
 /*REQUIRED FOR HISTORY*/  	
 class table{
-	constructor(mainHeading, icon, headSize, tableData,bg,r1,c1){
+	constructor(mainHeading, icon, headSize, tableData,bg,r1,c1,filterable){
 		this.mainHead = mainHeading
 		this.icon = icon
 		this.headSize = headSize
@@ -90,6 +90,7 @@ class table{
 		this.bgStyle = bg
 		this.row1Style = r1
 		this.col1Style = c1
+		this.filterable = filterable
 	}
 	tableCopy(table){
 		var tmpTable = [[]]
@@ -115,6 +116,7 @@ class table{
 		result.bgStyle = this.bgStyle
 		result.col1Style = this.col1Style
 		result.row1Style = this.row1Style
+		result.filterable = this.filterable
 		return result
 	}	
 	toString(){
@@ -128,6 +130,7 @@ class table{
 		this.bgStyle = PDO.bgStyle
 		this.col1Style = PDO.col1Style
 		this.row1Style = PDO.row1Style
+		this.filterable = PDO.filterable
 	}
 }
 /*END REQUIRED FOR HISTORY*/
@@ -678,7 +681,22 @@ $(function () {
 	  </div>
 		</div>
 	  </div>
-	  <hr>  
+	  <hr> 
+
+	  <div class="row w-100 mx-auto">
+		<div class="col-lg-2 mt-2">
+	   <h5 class="font-weight-bold">Filtering<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose whether this table can be filtered.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+		</div>
+		<div class="col-lg">
+	  <div class="form-check form-check-inline" id="filterable" onchange=generateTableCode()>
+		<input class="form-check-input" name="filterable" id="filterable1" type="checkbox">
+		<label class="form-check-label" for="filterable1">Allow filtering</label>
+	  </div>
+	  	</div>
+	  </div>
+	  <hr> 
+
+	  
 	  <div class="row w-100 mx-auto">
 		<div class="col-lg-2">
 		  <h5 class="font-weight-bold">Choose icon<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="If you would like an icon to the right of your heading text, choose one from this list." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5> 
