@@ -236,7 +236,8 @@ function textAreaActUpon(id,type,task,value){
 		'tiny':{'get':getTinyContent,'set':setTinyContent},
 		'basic':{'get':getBasic,'set':setBasic},
 		'radio':{'get':getRadioOption,'set':setRadios},
-		'drop':{'get':getDropdownValue,'set':setDropdown}
+		'drop':{'get':getDropdownValue,'set':setDropdown},
+		'checkbox':{'get':getCheckBox,'set':setCheckBox}
 	}
 	
 	operation = mapping[type][task]
