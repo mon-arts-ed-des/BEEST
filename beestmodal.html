@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<!--
+==========================================
+ Title:       BEEST Modal
+ Creator:     @timscholl
+ Last Update: 11 Oct 2020
+==========================================
+-->
+<html lang="en">
+
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-152392632-3"></script>
+<script src="js/pageHistory.js"></script>
+<script src="js/helperFunctions.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A simple element creator to generate responsive code that can be easily embbedded into Moodle">
+    <meta name="author" content="T&M">
+    <title>BEEST Modal</title>
+     <link rel="icon" href="img/black favicon-16x16.png" type="image/gif">
+    <!-- external link to css file --> 
+    <!-- Bootstrap CSS -->   
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Arts CSS -->  
+    <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/adminPlusSetuBlockStyle.css" />
+    <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/BEEST/css/monashElements.css" />
+
+    
+    <!-- external link to js file -->  
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <!-- Bootstrap js file --> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- FontAwesome js file --> 
+    <script src="https://kit.fontawesome.com/3817feae52.js"></script> 
+    <!-- Tinymce js file -->   
+    <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+    <script src="js/advancedModeLocalStorage.js"></script>
+    <!-- TinyMCE placeholder plugin file -->
+    <script src="js/placeholder.js"></script> 
+	<script src="js/setupPage.js"></script>
+    <script type="text/javascript">
+
+
+const START_ELEMENT = "<!--Begin BEEST modal-->"
+const END_ELEMENT = "<!--End BEEST modal-->"
+
+/*	
+var iconNames = {
+	"1": "exclamation-circle",
+	"2": "info-circle",
+	"3": "question-circle",
+}
+var colourNames = {
+	"1": "mu",
+	"2": "danger",
+	"3": "warning",
+	"4": "success",
+	"5": "primary",
+	"6": "info",
+	"7": "dark",
+	"8": "secondary",
+};
+*/
+	//const PLACEHOLDER = "[Placeholder for modal context. The content you entered in step 1 will appear here.]"
+/*REQUIRED FOR HISTORY*/    
+	const MODAL_HIST = "history_modal"
+	localStorageHistory = MODAL_HIST
+	var classModal = null
+	
+	$(document).ready(function(){
+		setupToolTips(10000)
+		initHistory()
+		setupNav()
+		setupGoogleAnalytics()
+		//default_XRadio_onEmpty_Y("alertHeading","headSize","noH","headSize1",generateElementCode);
+	})
+
+	
+	class beestmodal{
+		constructor(linkText,contentUrl,icon,colour,buttonExit,buttonOpen){
+			this.linkText = linkText
+			this.contentUrl = contentUrl
+			this.icon = icon
+			this.colour = colour
+			this.buttonExit = buttonExit
+			this.buttonOpen = buttonOpen
+		}
+		toPDO(){
+			var result = {}
+			result.mainHead = this.linkText
+			result.contentUrl = this.contentUrl
+			result.icon = this.icon
+			result.colour = this.colour
+			result.buttonExit = this.buttonExit
+			result.buttonOpen = this.buttonOpen
+			return result
+		}	
+		toString(){
+			return JSON.stringify(this.toPDO())
+		}
+		fromObj(PDO){
+			this.linkText = PDO.mainHead
+			this.contentUrl = PDO.contentUrl
+			this.icon = PDO.icon
+			this.colour = PDO.colour
+			this.buttonExit = PDO.buttonExit
+			this.buttonOpen = PDO.buttonOpen
+		}
+	}
+	
+/*END REQUIRED FOR HISTORY*/	
+
+
+    function copyCode() {
+        /*REQUIRED FOR HISTORY*/	  
+		addToHistory(classModal)
+		/*END REQUIRED FOR HISTORY*/
+		SelectAll("monAlertCode");
+    }
+
+
+function storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmoption){
+	return
+	var dmOpts = {"dismissable":1,"permanent":2}
+	var sizeToStorate = {"h5":1+1,"h4":2+1,"h3":3+1}//first index is noHeading so +1 to capture starting from 2nd position
+	var iconStorage = 1;
+	if (faIcon!="noI"){
+		iconStorage = faIcon*1+1
+	}
+	if (alertCode == PLACEHOLDER) {
+		alertCode = ""
+	}
+	classModal = new beestmodal(alertCode,alertHeading,sizeToStorate[headSize],iconStorage,bsColour,dmOpts[dmoption])
+	return classModal
+}
+/*END helper functions for generate element code*/
+	
+    function generateElementCode() {
+        //Retrieve the page data
+		
+		var buttons = [getCheckBox("buttonOpen"),getCheckBox("buttonClose")]
+		var bsColour = getRadioOption("modalColour");
+		var faIcon = getRadioOption("faCode")
+		///something for custom icon
+		var linkText = getId("linkText").value;
+		var contentURL = getId("modalURL").value;
+		
+		return
+        var alertScript = "<script> var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://mon-arts-ed-des.github.io/BEEST/css/monashElements.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
+
+		//colourNames moved to the top
+        var colourName = colourNames[bsColour];
+		
+		var colourCodes = generateColourTag(colourName,dmoption)
+
+		var resizedHead = createHeading(alertHeading,colourName,headSize,faIcon)
+
+		var textOutput = colourCodes + resizedHead + alertCode
+        if (dmoption == "dismissable") {
+            textOutput+= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+        }
+		textOutput += "</div>";
+		classModal = storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmoption)
+
+        document.getElementById("monAlertCode").innerHTML = START_ELEMENT+alertScript+textOutput+END_ELEMENT;
+        //SelectAll("monAlertCode");
+        $("#demo").html(textOutput);
+    }
+
+    function SelectAll(id) {
+        document.getElementById(id).focus();
+        document.getElementById(id).select();
+        document.execCommand("copy");
+
+		/***this is triggering an error -- no myPopup exists ***/
+        var popup = document.getElementById("myPopup");
+        popup.classList.toggle("showPopup");
+        //window.alert('test');
+    }
+
+    function submitform() {
+        document.forms["myform"].submit();
+    }
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+	
+	
+function recoverCode(){
+	var pastedCode = $("#retrieveCode").val()
+		
+	var iconHeading = getIconAndHeading(pastedCode)
+	var iconClassName = iconHeading.iconName
+	var headSize = iconHeading.headSize
+	var headText = iconHeading.headText
+	
+	var dataToFind = {
+		tags:["div","p","button"]
+	}
+	var recoveredData = recoverFromPasted(pastedCode,dataToFind)
+	
+	
+	classModal = new beestmodal()
+	if (iconClassName == null){
+		classModal.icon = "noI"
+	}
+	else{		
+		var iconNums = reverseObjectMap(iconNames)
+		classModal.icon = iconNums[iconClassName]
+	}
+	
+	classModal.headSize = headSize //sets to noH or h3/4/5 as appropriate
+	classModal.mainHead = headText //will be undefined if noH so need not validate first
+	
+	classModal.content = recoveredData.tags["p"][0].innerText
+	
+	classModal.permanent = (!(recoveredData.tags.hasOwnProperty("button")))
+	classModal.permanent = (classModal.permanent ? "permanent" : "dismissable")
+	//no button --> permanent || button --> dismissable
+	
+	var divClasses = recoveredData.tags["div"][0].className
+	var classColour = divClasses.replace("alert-dismissible","").replace(/.*alert-/,"").replace(/ .*/,"")
+	
+	var colourNums = reverseObjectMap(colourNames)
+	classModal.colour = colourNums[classColour]
+		
+	setTextAreas(classModal)
+	generateElementCode()
+}
+	/*REQUIRED FOR HISTORY*/
+
+function setTextAreas(classData){
+	getId("modalURL").value = classData.mainHead
+	setRadios("headSize",classData.headSize)
+	setRadios("modalColour",classData.colour)
+	setRadios("faCode",classData.icon)
+	setRadios("dmoption",classData.permanent)
+	setTinyContent("tinyMCEalert",classData.content)
+}
+
+function getHistoryI(index,history){
+	if (history.length>0){
+		var selectedItem = history[index]
+		classModal = new beestmodal()
+		classModal.fromObj(selectedItem)
+		refToclassModal = classModal
+		setTextAreas(refToclassModal)
+		generateElementCode()
+	}
+}
+/*END REQUIRED FOR HISTORY*/
+    </script>
+    <style>
+    .mce-notification-inner, .mce-close, .mce-notification-warning {
+    display:none !important;
+    }
+    .tooltip-inner {
+      text-align: left;
+      padding: 15px;
+      font-size: 1.05rem;
+      max-width: 400px;
+    }
+    .nav-item:hover {
+  background: #004dae;
+}
+    </style> 
+  </head>
+<body onload=generateElementCode()>
+  <div id="beestNav"></div>
+  <div class="py-5"></div>
+  <div class="container-fluid">
+    <h3 class="text-center font-weight-bold">Modal<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Modals are used as popups to allow a separate page to be displayed on top of other content and dismissed later as needed without ever having to leave the original site. BEEST itself makes use of modals for example with video instructions." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h3>
+    <h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".respVidWalkthrough" href="">Create a modal walkthrough (TBC)</a></h5>
+    <!--Begin modal content for this page-->
+    <!--Alert walkthrough modal-->
+      <div class="modal fade respVidWalkthrough" tabindex="-1" role="dialog" aria-labelledby="panopto-modal" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content p-2 bg-dark">
+          <div class="modal-header">
+            <h5 class="modal-title text-white" id="exampleModalLabel">Click close or click outside this box to return to the BEEST.</h5>
+            <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">Close &times;</span>
+            </button>
+          </div>
+        <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=ea6f0e20-e305-4edd-bfe0-ac40003b3d04"></iframe></div>
+        </div>
+      </div>
+    </div>
+    <!--How to paste HTML in Moodle modal-->
+    <div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="html-paste-modal" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content p-2 bg-dark">
+          <div class="modal-header">
+            <h5 class="modal-title text-white">Click close or click outside this box to return to the BEEST.</h5>
+            <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">Close &times;</span>
+            </button>
+          </div>
+        <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=d1c0ffaa-23a4-4d38-bb49-abda00b7805a"></iframe>
+        </div>
+        </div>
+      </div>
+    </div>
+    <!--End of modal content for this page-->
+      <div class="row w-50 mx-auto text-center mt-3">	  
+        <div class="col-lg">
+              <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-danger btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
+            </div>
+            <div class="col-lg">
+              <button id="toggleHelp" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus click" title="Click to toggle the help instructions on/off. Only do this if you are completely familiar with how to use the page" onclick="flipTooltip()" class="btn btn-success btn-lg btn-block">Turn <span class="onoffswapinstr">off</span> help <i class="fa fa-fw fa-power-off"></i></a>
+            </div></div>
+  <hr class="hr-3">
+  <form id="monashModal">
+    <div class="row w-100 mx-auto">
+      <div class="col-lg-6">
+        <div class="row w-100 mx-auto">
+          <div class="col-lg-3"> 
+            <h5 class="font-weight-bold">Recover<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Recover recently created items. This will only become operational once you have created at least one modal. If you change browsers or clear your browser history, you will lose this history as well." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+          </div>
+          <div class="col-lg-8">
+            <select class="custom-select border border-dark" size="1" id="recoveryDate" onchange="idSelectedRecData()">
+              <option selected value=0>please wait</option>
+              </select>
+            </div>
+            <div class="col-lg-1 text-center">
+              <button id="delHist" onclick="delHistI()" type="button" class="btn btn-danger mr-2" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Delete the currently selected historical data."><i class="fa fa-fw fa-trash"></i></button>
+              <button id="loadHist" onclick="getHistoryI(histIndex,historicalData)" class="btn btn-mu">Recover <i class="fa fa-fw fa-undo"></i></button>
+          </div>
+        </div>
+        <hr>
+        <div class="row w-100 mx-auto">
+          <div class="col-lg-3">
+          <h5 class="font-weight-bold">Paste code from Moodle<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Paste in the code you previously generated from BEEST and pasted into Moodle to recover and redesign the element." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+          </div>
+          <div class="col-lg">
+          <textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Or recover it by pasting existing code from Moodle" onchange=recoverCode()></textarea>
+      </div>
+    </div>
+    <hr>
+        <div class="row w-100 mx-auto">
+          <div class="col-lg-3">  
+     <h5 class="font-weight-bold">Link text<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Type in the clickable text you would like to appear on moodle." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+          </div>
+  <div class="col-lg">
+    <textarea maxlength="75" class="rounded p-2 w-100 border border-dark" rows="1" name="linkText" type="text" id="linkText" placeholder="Text to appear in moodle." onchange=generateElementCode()></textarea>
+  </div>
+</div>
+<hr>
+<div class="row w-100 mx-auto">
+  <div class="col-lg-3">
+    <h5 class="font-weight-bold">Content URL<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Enter the url linking to the content to display in the modal." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+  </div>
+  <div class="col-lg">
+    <textarea maxlength="75" class="rounded p-2 w-100 border border-dark" rows="1" name="modalURL" type="text" id="modalURL" placeholder="Your URL to the internal content goes here." onchange=generateElementCode()></textarea>
+  </div>
+  </div>
+        <hr>
+        <div class="row w-100 mx-auto">
+          <div class="col-lg-3">
+            <h5 class="font-weight-bold">Select icon<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Select an icon to go with your link text." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+            </div>
+            <div class="col-lg">
+              <div class="form-check form-check-inline" id="faCode" onchange=generateElementCode()>
+                <input class="form-check-input" name="faCode" id="faCodeNone" type="radio" value="noI" checked>
+                <label class="form-check-label" for="faCodeNone">No icon</label>
+              </div>
+              <div class="form-check form-check-inline" id="faCode" onchange=generateElementCode()>
+                <input class="form-check-input" name="faCode" id="faCode1" type="radio" value="1">
+                <label class="form-check-label" for="faCode1"><i class="fa fa-exclamation-circle fa-2x"></i></label>
+              </div>
+              <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateElementCode()>
+              <input class="form-check-input" name="faCode" id="faCode2" type="radio" value="2">
+              <label class="form-check-label" for="faCode2"><i class="fa fa-info-circle fa-2x"></i></label>
+              </div>
+              <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateElementCode()>
+              <input class="form-check-input" name="faCode" id="faCode3" type="radio" value="3">
+              <label class="form-check-label" for="faCode3"><i class="fa fa-question-circle fa-2x"></i></label>
+            </div>
+			
+			<div class="form-check form-check-inline ml-3" id="faCode" onchange=generateElementCode()>
+              <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="4">
+              <label class="form-check-label" for="faCode4">External (use field below)</label>
+            </div>
+			
+            </div> 
+            </div>
+			
+
+<hr>
+<div class="row w-100 mx-auto">
+  <div class="col-lg-3">
+    <h5 class="font-weight-bold">icon URL<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Enter the url linking to the icon to display next to the link text." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+  </div>
+  <div class="col-lg">
+    <textarea maxlength="75" class="rounded p-2 w-100 border border-dark" rows="1" name="iconURL" type="text" id="iconURL" placeholder="if you want a custom icon, enter the url here." onchange=generateElementCode()></textarea>
+  </div>
+  </div>
+
+			
+
+
+            <hr>                   
+        <div class="row w-100 mx-auto">
+            <div class="col-lg-3">
+
+            <h5 class="font-weight-bold">Modal colour<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Select the background colour of your alert." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+          </div>
+        <div class="col-lg">
+            <!--<select class="custom-select w-50 border border-dark" id="modalColour" name="modalColour" onchange=generateElementCode()>
+                <option selected value="1">Monash blue</option>
+                <option value="2">Red</option>
+                <option value="3">Yellow</option>
+                <option value="4">Green</option>
+                <option value="5">Dark blue</option>
+                <option value="6">Light blue</option>
+                <option value="7">Black</option>
+                <option value="8">Grey</option>
+              </select>-->
+              <div class="row w-100">
+                <div class="col-lg">
+              <div class="form-check form-check-inline mb-3" id="modalColour" onchange=generateElementCode()>
+                <input class="form-check-input" name="modalColour" id="modalColour1" type="radio" value="1" checked>
+                <label class="form-check-label alert alert-mu rounded my-auto" for="modalColour1">Monash blue</label>
+              </div>
+              <div class="form-check form-check-inline mb-3" id="modalColour" onchange=generateElementCode()>
+                <input class="form-check-input" name="modalColour" id="modalColour2" type="radio" value="2">
+                <label class="form-check-label alert alert-danger border border-danger rounded my-auto" for="modalColour2">Red</label>
+              </div>
+              <div class="form-check form-check-inline mb-3" id="modalColour" onchange=generateElementCode()>
+              <input class="form-check-input" name="modalColour" id="modalColour3" type="radio" value="3">
+              <label class="form-check-label alert alert-warning border border-warning my-auto" for="modalColour3">Yellow</label>
+              </div>
+              <div class="form-check form-check-inline mb-3" id="modalColour" onchange=generateElementCode()>
+              <input class="form-check-input" name="modalColour" id="modalColour4" type="radio" value="4">
+              <label class="form-check-label alert alert-success border border-success my-auto" for="modalColour4">Green</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg">
+          <div class="row w-100">
+          <div class="form-check form-check-inline mb-3" id="modalColour" onchange=generateElementCode()>
+          <input class="form-check-input" name="modalColour" id="modalColour5" type="radio" value="5">
+          <label class="form-check-label alert alert-primary border border-primary my-auto" for="modalColour5">Dark blue</label>
+        </div>
+        <div class="form-check form-check-inline mb-3" id="modalColour" onchange=generateElementCode()>
+          <input class="form-check-input" name="modalColour" id="modalColour6" type="radio" value="6">
+          <label class="form-check-label alert alert-info border border-info my-auto" for="modalColour6">Light blue</label>
+        </div>
+        <div class="form-check form-check-inline mb-3" id="modalColour" onchange=generateElementCode()>
+          <input class="form-check-input" name="modalColour" id="modalColour7" type="radio" value="7">
+          <label class="form-check-label alert alert-dark border border-dark my-auto" for="modalColour7">Black</label>
+        </div>
+        <div class="form-check form-check-inline mb-3" id="modalColour" onchange=generateElementCode()>
+          <input class="form-check-input" name="modalColour" id="modalColour8" type="radio" value="8">
+          <label class="form-check-label alert alert-secondary border border-secondary my-auto" for="modalColour8">Grey</label>
+        </div>
+      </div>
+    </div>
+            </div> 
+            </div>
+            <hr>
+            <div class="row w-100 mx-auto">
+     <div class="col-lg-3">
+      <h5 class="font-weight-bold">Additional buttons<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Additional buttons to live atop the main content." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+      </div>
+      <!--<select class="custom-select w-50 border border-dark" id="dmoption" name="dmoption" onchange=generateElementCode()>
+      <option value="dismissable" selected>Dismissable</option>
+      <option value="permanent">Permanent</option>
+    </select>-->
+    <div class="col-lg">
+    <div class="form-check form-check-inline" id="buttons" onchange=generateElementCode()>
+      <input class="form-check-input" name="buttons" id="buttonClose" type="checkbox" value="close" checked>
+      <label class="form-check-label" for="buttonClose">Close</label>
+    </div>
+    <div class="form-check form-check-inline" id="buttons" onchange=generateElementCode()>
+      <input class="form-check-input" name="buttons" id="buttonOpen" type="checkbox" value="openTab">
+      <label class="form-check-label" for="buttonOpen">Open in new tab</label>
+    </div>
+    </div>
+    </div>
+  </div>
+            <div class="col-lg">
+             <div class="sticky-top" style="top:100px;">
+              <h5 class="font-weight-bold">Preview<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="A live preview of your element will appear below as you update your preferences for your alert." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+              
+                <div id="demo"></div>
+                <p class="my-3"></p>
+                <hr>
+   <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click the copy code button below once you have finished creating your alert, ready for pasting into Moodle." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></h5>
+   
+   <textarea readonly class="border border-dark rounded p-2 w-100" id="monAlertCode" cols="70" rows="4" name="Result" placeholder="Code for your element will appear here."></textarea>  
+        <input type="button" class="btn btn-success btn-block btn-lg my-2 text-center" name="GenerateWrap" value="Copy code </>" onClick=copyCode() id="copyCodeBtn" data-toggle="tooltip" data-placement="left" data-trigger="click focus" title="Your code has been copied." />
+        <div class="text-center h5 mt-4">
+          <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
+          </div></div>
+       </div>
+      </div>
+    </form>   
+        </div>          
+      <div id="beestFooter"></div>
+        </body>
+        </html>
