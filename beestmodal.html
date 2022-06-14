@@ -144,15 +144,36 @@ function storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmopti
         //Retrieve the page data
 		
 		var buttons = [getCheckBox("buttonOpen"),getCheckBox("buttonClose")]
+		buttons = {'open':buttons[1], 'close':buttons[0]}
 		var bsColour = getRadioOption("modalColour");
 		var faIcon = getRadioOption("faCode")
 		///something for custom icon
 		var linkText = getId("linkText").value;
 		var contentURL = getId("modalURL").value;
 		
-		return
-        var alertScript = "<script> var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://mon-arts-ed-des.github.io/BEEST/css/monashElements.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
+		var icon_tag = null//TBC <img src="https://edstem.org/favicon.png" class="iconlarge activityicon" alt="" role="presentation" aria-hidden="true" id="yui_3_17_2_1_1642656197686_671" />
+		var modalName = null//TBC -- use 'beest_modal_'+random chars
+		var modal_html_start = '<div><a data-toggle="modal" data-target=".'+modalName+'" href="#">'
+		var link_text_html = '<span id="beest_modal_link_text">'+linkText+'</span></a></div>'
+		var outer_modal_layer = '<div class="modal fade '+modalName+'" tabindex="-1" role="dialog" aria-labelledby="btn-modal" aria-hidden="true"><div class="modal-dialog modal-l modal-mu-Dialog"><div class="modal-content p-2 bg-mu-m"><div class="modal-header"><h5 class="modal-title text-white">Click close or click outside this box to return to Moodle.</h5>'
+		var modal_close_button = '<button type="button" class="btn btn-danger btn-lg ml-2" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">Close ×</span> </button>'
+		var modal_open_button = '<a id="beest_modal_content_link" class="btn btn-dark btn-lg m-1" role="button" href="'+contentURL+'" target="_blank">Open <i class="fa fa-external-link"></i> </a>'
+		
+		var modal_top_buttons = '<span>'
+		if (buttons.open){
+			modal_top_buttons+=modal_open_button+' '
+		}
+		if (buttons.close){
+			modal_top_buttons+=modal_close_button
+		}
+		modal_top_buttons+='</span></div>'
+        
+		var modal_inner_frame = '<div class="embed-responsive embed-responsive-16by9"><iframe id="beest_modal_content_frame" class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="'+contentURL+'"></iframe></div>'
+		
+		var modal_html = modal_html_start+icon_tag+link_text_html+outer_modal_layer+modal_top_buttons+modal_inner_frame + '</div></div></div>'
 
+
+		return
 		//colourNames moved to the top
         var colourName = colourNames[bsColour];
 		
