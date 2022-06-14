@@ -49,7 +49,7 @@
 const START_ELEMENT = "<!--Begin BEEST modal-->"
 const END_ELEMENT = "<!--End BEEST modal-->"
 
-/*	
+
 var iconNames = {
 	"1": "exclamation-circle",
 	"2": "info-circle",
@@ -65,7 +65,7 @@ var colourNames = {
 	"7": "dark",
 	"8": "secondary",
 };
-*/
+
 	//const PLACEHOLDER = "[Placeholder for modal context. The content you entered in step 1 will appear here.]"
 /*REQUIRED FOR HISTORY*/    
 	const MODAL_HIST = "history_modal"
@@ -120,7 +120,7 @@ var colourNames = {
         /*REQUIRED FOR HISTORY*/	  
 		addToHistory(classModal)
 		/*END REQUIRED FOR HISTORY*/
-		SelectAll("monAlertCode");
+		SelectAll("monModalCode");
     }
 
 
@@ -143,16 +143,32 @@ function storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmopti
     function generateElementCode() {
         //Retrieve the page data
 		
+		STYLE_ADDER = '<STYL'+'E>	.bg-mu-m{background:#006dae;}.modal-mu-Dialog{max-width: 80% !important;}</STY'+'LE>'
+		
 		var buttons = [getCheckBox("buttonOpen"),getCheckBox("buttonClose")]
-		buttons = {'open':buttons[1], 'close':buttons[0]}
+		buttons = {'open':buttons[0], 'close':buttons[1]}
 		var bsColour = getRadioOption("modalColour");
 		var faIcon = getRadioOption("faCode")
 		///something for custom icon
 		var linkText = getId("linkText").value;
 		var contentURL = getId("modalURL").value;
+		var iconURL = getId("iconURL").value;
 		
-		var icon_tag = null//TBC <img src="https://edstem.org/favicon.png" class="iconlarge activityicon" alt="" role="presentation" aria-hidden="true" id="yui_3_17_2_1_1642656197686_671" />
-		var modalName = null//TBC -- use 'beest_modal_'+random chars
+		if (linkText == ""){
+			linkText = "Your text will appear here"
+		}
+		
+		var icon_tag = ""
+		if (faIcon=="EXTERNAL"){
+			icon_tag= '<img src="'+iconURL+'" class="iconlarge activityicon" alt="" role="presentation" aria-hidden="true"/>'
+		}
+		else if(faIcon != "noI"){
+			icon_tag = '<i class="fa fa-' + iconNames[faIcon] + '"></i> '
+		}
+		
+		var colourName = colourNames[bsColour];
+		
+		var modalName = "beest_modal_"+randomString(6)
 		var modal_html_start = '<div><a data-toggle="modal" data-target=".'+modalName+'" href="#">'
 		var link_text_html = '<span id="beest_modal_link_text">'+linkText+'</span></a></div>'
 		var outer_modal_layer = '<div class="modal fade '+modalName+'" tabindex="-1" role="dialog" aria-labelledby="btn-modal" aria-hidden="true"><div class="modal-dialog modal-l modal-mu-Dialog"><div class="modal-content p-2 bg-mu-m"><div class="modal-header"><h5 class="modal-title text-white">Click close or click outside this box to return to Moodle.</h5>'
@@ -173,24 +189,16 @@ function storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmopti
 		var modal_html = modal_html_start+icon_tag+link_text_html+outer_modal_layer+modal_top_buttons+modal_inner_frame + '</div></div></div>'
 
 
-		return
-		//colourNames moved to the top
-        var colourName = colourNames[bsColour];
-		
-		var colourCodes = generateColourTag(colourName,dmoption)
+		//TBC update colour of modal
 
-		var resizedHead = createHeading(alertHeading,colourName,headSize,faIcon)
 
-		var textOutput = colourCodes + resizedHead + alertCode
-        if (dmoption == "dismissable") {
-            textOutput+= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
-        }
-		textOutput += "</div>";
-		classModal = storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmoption)
+		var textOutput = modal_html
 
-        document.getElementById("monAlertCode").innerHTML = START_ELEMENT+alertScript+textOutput+END_ELEMENT;
-        //SelectAll("monAlertCode");
-        $("#demo").html(textOutput);
+		//TBC classModal = storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmoption)
+
+        document.getElementById("monModalCode").innerHTML = START_ELEMENT+textOutput+END_ELEMENT;
+        //SelectAll("monModalCode");
+        $("#demo").html(STYLE_ADDER+textOutput);
     }
 
     function SelectAll(id) {
@@ -404,7 +412,7 @@ function getHistoryI(index,history){
             </div>
 			
 			<div class="form-check form-check-inline ml-3" id="faCode" onchange=generateElementCode()>
-              <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="4">
+              <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="EXTERNAL">
               <label class="form-check-label" for="faCode4">External (use field below)</label>
             </div>
 			
@@ -514,7 +522,7 @@ function getHistoryI(index,history){
                 <hr>
    <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click the copy code button below once you have finished creating your alert, ready for pasting into Moodle." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></h5>
    
-   <textarea readonly class="border border-dark rounded p-2 w-100" id="monAlertCode" cols="70" rows="4" name="Result" placeholder="Code for your element will appear here."></textarea>  
+   <textarea readonly class="border border-dark rounded p-2 w-100" id="monModalCode" cols="70" rows="4" name="Result" placeholder="Code for your element will appear here."></textarea>  
         <input type="button" class="btn btn-success btn-block btn-lg my-2 text-center" name="GenerateWrap" value="Copy code </>" onClick=copyCode() id="copyCodeBtn" data-toggle="tooltip" data-placement="left" data-trigger="click focus" title="Your code has been copied." />
         <div class="text-center h5 mt-4">
           <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
