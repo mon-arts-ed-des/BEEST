@@ -2,8 +2,8 @@
 <!--
 ==========================================
  Title:       BEEST Modal
- Creator:     @timscholl
- Last Update: 11 Oct 2020
+ Creator:     @phillipabramson
+ Last Update: 15 June 2022
 ==========================================
 -->
 <html lang="en">
@@ -196,19 +196,21 @@ function storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmopti
         
 		var modal_inner_frame = '<div class="embed-responsive embed-responsive-16by9"><iframe id="beest_modal_content_frame" class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="'+contentURL+'"></iframe></div>'
 		
-		var modal_html = modal_html_start+icon_tag+link_text_html+outer_modal_layer+modal_top_buttons+modal_inner_frame + '</div></div></div>'
+		var modal_text_opener = modal_html_start+icon_tag+link_text_html
+		var modal_popup_html = outer_modal_layer+modal_top_buttons+modal_inner_frame + '</div></div></div>'
 
 
 		//TBC update colour of modal
 
 
-		var textOutput = modal_html
+		var textOutput = modal_text_opener
 
 		//TBC classModal = storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmoption)
 
-        document.getElementById("monModalCode").innerHTML = START_ELEMENT+textOutput+END_ELEMENT;
+        document.getElementById("monModalCode").innerHTML = START_ELEMENT+textOutput+modal_popup_html+END_ELEMENT;
         //SelectAll("monModalCode");
         $("#demo").html(STYLE_ADDER+textOutput);
+		$("#modaldemo").html(modal_popup_html)
     }
 
     function SelectAll(id) {
@@ -330,6 +332,7 @@ function getHistoryI(index,history){
         </div>
       </div>
     </div>
+	<div id="modaldemo"></div>
     <!--How to paste HTML in Moodle modal-->
     <div class="modal fade html-paste-modal" tabindex="-1" role="dialog" aria-labelledby="html-paste-modal" aria-hidden="true">
       <div class="modal-dialog modal-lg">
