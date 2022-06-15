@@ -54,6 +54,7 @@ var iconNames = {
 	"1": "exclamation-circle",
 	"2": "info-circle",
 	"3": "question-circle",
+	"EdStem": "https://edstem.org/favicon.png"
 }
 var colourNames = {
 	"1": "mu",
@@ -159,11 +160,20 @@ function storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmopti
 		}
 		
 		var icon_tag = ""
-		if (faIcon=="EXTERNAL"){
-			icon_tag= '<img src="'+iconURL+'" class="iconlarge activityicon" alt="" role="presentation" aria-hidden="true"/>'
-		}
-		else if(faIcon != "noI"){
-			icon_tag = '<i class="fa fa-' + iconNames[faIcon] + '"></i> '
+		if(faIcon != "noI"){
+			if (isNaN(faIcon)){
+				iconURLinUse = ''
+				if (faIcon in iconNames){
+					iconURLinUse=iconNames[faIcon]
+				}
+				if (faIcon=="EXTERNAL"){
+					iconURLinUse=iconURL
+				}
+				icon_tag= '<img src="'+iconURLinUse+'" width=20 class="iconlarge activityicon" alt="" role="presentation" aria-hidden="true"/> '
+			}
+			else{
+				icon_tag = '<i class="fa fa-' + iconNames[faIcon] + ' fa-lg"></i> '
+			}
 		}
 		
 		var colourName = colourNames[bsColour];
@@ -406,14 +416,20 @@ function getHistoryI(index,history){
               <input class="form-check-input" name="faCode" id="faCode2" type="radio" value="2">
               <label class="form-check-label" for="faCode2"><i class="fa fa-info-circle fa-2x"></i></label>
               </div>
-              <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateElementCode()>
+			  
+			  <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateElementCode()>
               <input class="form-check-input" name="faCode" id="faCode3" type="radio" value="3">
               <label class="form-check-label" for="faCode3"><i class="fa fa-question-circle fa-2x"></i></label>
+              </div>
+			  
+              <div class="form-check form-check-inline ml-3" id="faCode" onchange=generateElementCode()>
+              <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="EdStem">
+              <label class="form-check-label" for="faCode4"><img width="30" src="https://edstem.org/favicon.png"/></label>
             </div>
 			
 			<div class="form-check form-check-inline ml-3" id="faCode" onchange=generateElementCode()>
-              <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="EXTERNAL">
-              <label class="form-check-label" for="faCode4">External (use field below)</label>
+              <input class="form-check-input" name="faCode" id="faCode5" type="radio" value="EXTERNAL">
+              <label class="form-check-label" for="faCode5">External (use field below)</label>
             </div>
 			
             </div> 
