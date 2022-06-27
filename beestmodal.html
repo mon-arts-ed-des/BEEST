@@ -123,17 +123,14 @@ var colourNames = {
 
 
 function storePageToClass(linkText,contentUrl,faIcon,bsColour,buttonExit,buttonOpen){
-	return
-	var dmOpts = {"dismissable":1,"permanent":2}
-	var sizeToStorate = {"h5":1+1,"h4":2+1,"h3":3+1}//first index is noHeading so +1 to capture starting from 2nd position
 	var iconStorage = 1;
-	if (faIcon!="noI"){
-		iconStorage = faIcon*1+1
+	if ((faIcon!="noI")&&(faIcon!="EdStem")){
+		iconStorage = faIcon*1
 	}
-	if (alertCode == PLACEHOLDER) {
-		alertCode = ""
+	if (linkText == PLACEHOLDER) {
+		linkText = ""
 	}
-	classModal = new beestmodal(alertCode,alertHeading,sizeToStorate[headSize],iconStorage,bsColour,dmOpts[dmoption])
+	classModal = new beestmodal(linkText,contentUrl,iconStorage,bsColour,buttonExit,buttonOpen)
 	return classModal
 }
 /*END helper functions for generate element code*/
@@ -175,15 +172,16 @@ function storePageToClass(linkText,contentUrl,faIcon,bsColour,buttonExit,buttonO
 		var bsColour = getRadioOption("modalColour");
 		var faIcon = getRadioOption("faCode")
 		///something for custom icon
-		var linkText = getId("linkText").value;
-		var contentURL = getId("modalURL").value;
+		var linkText_base = getId("linkText").value;
+		var contentURL_base = getId("modalURL").value;
 		var iconURL = getId("iconURL").value;
 		
-		if (contentURL == ""){
+		contentURL = contentURL_base
+		if (contentURL_base == ""){
 			contentURL = "https://www.lipsum.com/"
 		}
-		
-		if (linkText == ""){
+		linkText = linkText_base
+		if (linkText_base == ""){
 			linkText = PLACEHOLDER
 		}
 		
@@ -221,7 +219,7 @@ function storePageToClass(linkText,contentUrl,faIcon,bsColour,buttonExit,buttonO
 
 		var textOutput = modal_text_opener
 
-		//TBC classModal = storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmoption)
+		classModal = storePageToClass(linkText_base,contentURL_base,faIcon,bsColour,buttons["close"],buttons["open"])
 
         document.getElementById("monModalCode").innerHTML = START_ELEMENT+textOutput+modal_popup_html+END_ELEMENT;
         //SelectAll("monModalCode");
