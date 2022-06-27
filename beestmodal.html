@@ -87,6 +87,7 @@ var colourNames = {
 			this.colour = colour
 			this.buttonExit = buttonExit
 			this.buttonOpen = buttonOpen
+			this.mainHead = this.linkText
 		}
 		toPDO(){
 			var result = {}
@@ -103,6 +104,7 @@ var colourNames = {
 		}
 		fromObj(PDO){
 			this.linkText = PDO.mainHead
+			this.mainHead = PDO.mainHead
 			this.contentUrl = PDO.contentUrl
 			this.icon = PDO.icon
 			this.colour = PDO.colour
