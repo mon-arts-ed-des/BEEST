@@ -64,7 +64,7 @@ var colourNames = {
 	"5": "dark"
 };
 
-	//const PLACEHOLDER = "[Placeholder for modal context. The content you entered in step 1 will appear here.]"
+	const PLACEHOLDER = "[Placeholder for modal link text. The text you entered in step 1 will appear here.]"
 /*REQUIRED FOR HISTORY*/    
 	const MODAL_HIST = "history_modal"
 	localStorageHistory = MODAL_HIST
@@ -122,7 +122,7 @@ var colourNames = {
     }
 
 
-function storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmoption){
+function storePageToClass(linkText,contentUrl,faIcon,bsColour,buttonExit,buttonOpen){
 	return
 	var dmOpts = {"dismissable":1,"permanent":2}
 	var sizeToStorate = {"h5":1+1,"h4":2+1,"h3":3+1}//first index is noHeading so +1 to capture starting from 2nd position
@@ -137,6 +137,33 @@ function storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmopti
 	return classModal
 }
 /*END helper functions for generate element code*/
+	function iconTagFromCode(faIcon,iconURL){
+		var icon_tag = ""
+		var fontawesome_start = '<i class="fa fa-'
+		var fontawesome_end = ' fa-lg"></i> '
+		var external_start = '<img src="'
+		var external_end = '" width=20 class="iconlarge activityicon" alt="" role="presentation" aria-hidden="true"/> '
+		if(faIcon != "noI"){
+			if (isNaN(faIcon)){
+				iconURLinUse = ''
+				if (faIcon in iconNames){
+					iconURLinUse=iconNames[faIcon]
+				}
+				if (faIcon=="EXTERNAL"){
+					if (iconURL == ""){
+						iconURL = "https://www.freeiconspng.com/uploads/error-icon-32.png"
+					}
+					iconURLinUse=iconURL
+				}
+				icon_tag= external_start+iconURLinUse+external_end
+			}
+			else{
+				icon_tag = fontawesome_start + iconNames[faIcon] + fontawesome_end
+			}
+		}
+		return icon_tag
+	}
+	
 	
     function generateElementCode() {
         //Retrieve the page data
@@ -152,26 +179,15 @@ function storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmopti
 		var contentURL = getId("modalURL").value;
 		var iconURL = getId("iconURL").value;
 		
-		if (linkText == ""){
-			linkText = "Your text will appear here"
+		if (contentURL == ""){
+			contentURL = "https://www.lipsum.com/"
 		}
 		
-		var icon_tag = ""
-		if(faIcon != "noI"){
-			if (isNaN(faIcon)){
-				iconURLinUse = ''
-				if (faIcon in iconNames){
-					iconURLinUse=iconNames[faIcon]
-				}
-				if (faIcon=="EXTERNAL"){
-					iconURLinUse=iconURL
-				}
-				icon_tag= '<img src="'+iconURLinUse+'" width=20 class="iconlarge activityicon" alt="" role="presentation" aria-hidden="true"/> '
-			}
-			else{
-				icon_tag = '<i class="fa fa-' + iconNames[faIcon] + ' fa-lg"></i> '
-			}
+		if (linkText == ""){
+			linkText = PLACEHOLDER
 		}
+		
+		var icon_tag = iconTagFromCode(faIcon,iconURL)
 		
 		var open_button_colour = "dark"
 		var colourName = colourNames[bsColour];
@@ -202,10 +218,6 @@ function storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmopti
 		
 		var modal_text_opener = modal_html_start+icon_tag+link_text_html
 		var modal_popup_html = outer_modal_layer+modal_top_buttons+modal_inner_frame + '</div></div></div>'
-
-
-		//TBC update colour of modal
-
 
 		var textOutput = modal_text_opener
 
@@ -530,7 +542,13 @@ function getHistoryI(index,history){
              <div class="sticky-top" style="top:100px;">
               <h5 class="font-weight-bold">Preview<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="A live preview of your element will appear below as you update your preferences for your alert." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
               
-                <div id="demo"></div>
+                <div id="demo">
+				
+							<style>	.bg-mu-m{background:#006dae;}.modal-mu-Dialog{max-width: 80% !important;}</style><div><a data-toggle="modal" data-target=".beest_modal_mFhxjw" href="#"><span id="beest_modal_link_text">[Placeholder for modal link text. The text you entered in step 1 will appear here.]</span></a></div>
+				
+				
+				
+				</div>
                 <p class="my-3"></p>
                 <hr>
    <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click the copy code button below once you have finished creating your alert, ready for pasting into Moodle." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></h5>
