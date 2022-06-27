@@ -61,10 +61,7 @@ var colourNames = {
 	"2": "danger",
 	"3": "warning",
 	"4": "success",
-	"5": "primary",
-	"6": "info",
-	"7": "dark",
-	"8": "secondary",
+	"5": "dark"
 };
 
 	//const PLACEHOLDER = "[Placeholder for modal context. The content you entered in step 1 will appear here.]"
@@ -176,14 +173,21 @@ function storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmopti
 			}
 		}
 		
+		var open_button_colour = "dark"
 		var colourName = colourNames[bsColour];
+		if (colourName == open_button_colour){
+			open_button_colour = "btn-mu"
+		}
+		else{
+			open_button_colour = "btn-dark"
+		}
 		
 		var modalName = "beest_modal_"+randomString(6)
 		var modal_html_start = '<div><a data-toggle="modal" data-target=".'+modalName+'" href="#">'
 		var link_text_html = '<span id="beest_modal_link_text">'+linkText+'</span></a></div>'
-		var outer_modal_layer = '<div class="modal fade '+modalName+'" tabindex="-1" role="dialog" aria-labelledby="btn-modal" aria-hidden="true"><div class="modal-dialog modal-l modal-mu-Dialog"><div class="modal-content p-2 bg-mu-m"><div class="modal-header"><h5 class="modal-title text-white">Click close or click outside this box to return to Moodle.</h5>'
+		var outer_modal_layer = '<div class="modal fade '+modalName+'" tabindex="-1" role="dialog" aria-labelledby="btn-modal" aria-hidden="true"><div class="modal-dialog modal-l modal-mu-Dialog"><div class="modal-content p-2 bg-'+colourName+'"><div class="modal-header"><h5 class="modal-title text-white">Click close or click outside this box to return to Moodle.</h5>'
 		var modal_close_button = '<button type="button" class="btn btn-danger btn-lg ml-2" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">Close ×</span> </button>'
-		var modal_open_button = '<a id="beest_modal_content_link" class="btn btn-dark btn-lg m-1" role="button" href="'+contentURL+'" target="_blank">Open <i class="fa fa-external-link"></i> </a>'
+		var modal_open_button = '<a id="beest_modal_content_link" class="btn '+open_button_colour+' btn-lg m-1" role="button" href="'+contentURL+'" target="_blank">Open <i class="fa fa-external-link"></i> </a>'
 		
 		var modal_top_buttons = '<span>'
 		if (buttons.open){
@@ -194,7 +198,7 @@ function storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmopti
 		}
 		modal_top_buttons+='</span></div>'
         
-		var modal_inner_frame = '<div class="embed-responsive embed-responsive-16by9"><iframe id="beest_modal_content_frame" class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="'+contentURL+'"></iframe></div>'
+		var modal_inner_frame = '<div class="embed-responsive embed-responsive-16by9" style="background:White;"><iframe id="beest_modal_content_frame" class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="'+contentURL+'"></iframe></div>'
 		
 		var modal_text_opener = modal_html_start+icon_tag+link_text_html
 		var modal_popup_html = outer_modal_layer+modal_top_buttons+modal_inner_frame + '</div></div></div>'
@@ -473,42 +477,32 @@ function getHistoryI(index,history){
                 <div class="col-lg">
               <div class="form-check form-check-inline mb-3" id="modalColour" onchange=generateElementCode()>
                 <input class="form-check-input" name="modalColour" id="modalColour1" type="radio" value="1" checked>
-                <label class="form-check-label alert alert-mu rounded my-auto" for="modalColour1">Monash blue</label>
+				<label class="form-check-label" for="modalColour1"><span id="monashBlue" class="btn btn-mu">Monash blue</span></label>
               </div>
-              <div class="form-check form-check-inline mb-3" id="modalColour" onchange=generateElementCode()>
+<!---
+			<div class="form-check form-check-inline mb-3" id="modalColour" onchange=generateElementCode()>
                 <input class="form-check-input" name="modalColour" id="modalColour2" type="radio" value="2">
-                <label class="form-check-label alert alert-danger border border-danger rounded my-auto" for="modalColour2">Red</label>
+				<label class="form-check-label" for="modalColour2"><span id="red" class="btn btn-danger">Red</span></label>
               </div>
-              <div class="form-check form-check-inline mb-3" id="modalColour" onchange=generateElementCode()>
-              <input class="form-check-input" name="modalColour" id="modalColour3" type="radio" value="3">
-              <label class="form-check-label alert alert-warning border border-warning my-auto" for="modalColour3">Yellow</label>
+			
+			<div class="form-check form-check-inline mb-3" id="modalColour" onchange=generateElementCode()>
+                <input class="form-check-input" name="modalColour" id="modalColour3" type="radio" value="3">
+				<label class="form-check-label" for="modalColour3"><span id="yellow" class="btn btn-warning">Yellow</span></label>
               </div>
-              <div class="form-check form-check-inline mb-3" id="modalColour" onchange=generateElementCode()>
-              <input class="form-check-input" name="modalColour" id="modalColour4" type="radio" value="4">
-              <label class="form-check-label alert alert-success border border-success my-auto" for="modalColour4">Green</label>
-            </div>
+			  
+			  <div class="form-check form-check-inline mb-3" id="modalColour" onchange=generateElementCode()>
+                <input class="form-check-input" name="modalColour" id="modalColour4" type="radio" value="4">
+				<label class="form-check-label" for="modalColour4"><span id="green" class="btn btn-success">Green</span></label>
+              </div>
+--->
+			  
+			  <div class="form-check form-check-inline mb-3" id="modalColour" onchange=generateElementCode()>
+                <input class="form-check-input" name="modalColour" id="modalColour5" type="radio" value="5">
+				<label class="form-check-label" for="modalColour5"><span id="dark" class="btn btn-dark">Dark</span></label>
+              </div>
           </div>
         </div>
-        <div class="col-lg">
-          <div class="row w-100">
-          <div class="form-check form-check-inline mb-3" id="modalColour" onchange=generateElementCode()>
-          <input class="form-check-input" name="modalColour" id="modalColour5" type="radio" value="5">
-          <label class="form-check-label alert alert-primary border border-primary my-auto" for="modalColour5">Dark blue</label>
-        </div>
-        <div class="form-check form-check-inline mb-3" id="modalColour" onchange=generateElementCode()>
-          <input class="form-check-input" name="modalColour" id="modalColour6" type="radio" value="6">
-          <label class="form-check-label alert alert-info border border-info my-auto" for="modalColour6">Light blue</label>
-        </div>
-        <div class="form-check form-check-inline mb-3" id="modalColour" onchange=generateElementCode()>
-          <input class="form-check-input" name="modalColour" id="modalColour7" type="radio" value="7">
-          <label class="form-check-label alert alert-dark border border-dark my-auto" for="modalColour7">Black</label>
-        </div>
-        <div class="form-check form-check-inline mb-3" id="modalColour" onchange=generateElementCode()>
-          <input class="form-check-input" name="modalColour" id="modalColour8" type="radio" value="8">
-          <label class="form-check-label alert alert-secondary border border-secondary my-auto" for="modalColour8">Grey</label>
-        </div>
-      </div>
-    </div>
+
             </div> 
             </div>
             <hr>
