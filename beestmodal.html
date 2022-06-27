@@ -80,10 +80,11 @@ var colourNames = {
 
 	
 	class beestmodal{
-		constructor(linkText,contentUrl,icon,colour,buttonExit,buttonOpen){
+		constructor(linkText,contentUrl,icon,colour,buttonExit,buttonOpen,iconURLifAny){
 			this.linkText = linkText
 			this.contentUrl = contentUrl
 			this.icon = icon
+			this.iconUrl = iconURLifAny
 			this.colour = colour
 			this.buttonExit = buttonExit
 			this.buttonOpen = buttonOpen
@@ -94,6 +95,7 @@ var colourNames = {
 			result.mainHead = this.linkText
 			result.contentUrl = this.contentUrl
 			result.icon = this.icon
+			result.iconUrl = this.iconUrl
 			result.colour = this.colour
 			result.buttonExit = this.buttonExit
 			result.buttonOpen = this.buttonOpen
@@ -107,6 +109,7 @@ var colourNames = {
 			this.mainHead = PDO.mainHead
 			this.contentUrl = PDO.contentUrl
 			this.icon = PDO.icon
+			this.iconUrl = PDO.iconUrl
 			this.colour = PDO.colour
 			this.buttonExit = PDO.buttonExit
 			this.buttonOpen = PDO.buttonOpen
@@ -124,15 +127,15 @@ var colourNames = {
     }
 
 
-function storePageToClass(linkText,contentUrl,faIcon,bsColour,buttonExit,buttonOpen){
-	var iconStorage = 1;
-	if ((faIcon!="noI")&&(faIcon!="EdStem")){
+function storePageToClass(linkText,contentUrl,faIcon,bsColour,buttonExit,buttonOpen,iconURLifKnown){
+	var iconStorage = faIcon;
+	if (!isNaN(faIcon)){
 		iconStorage = faIcon*1
 	}
 	if (linkText == PLACEHOLDER) {
 		linkText = ""
 	}
-	classModal = new beestmodal(linkText,contentUrl,iconStorage,bsColour,buttonExit,buttonOpen)
+	classModal = new beestmodal(linkText,contentUrl,iconStorage,bsColour,buttonExit,buttonOpen,iconURLifKnown)
 	return classModal
 }
 /*END helper functions for generate element code*/
@@ -221,7 +224,7 @@ function storePageToClass(linkText,contentUrl,faIcon,bsColour,buttonExit,buttonO
 
 		var textOutput = modal_text_opener
 
-		classModal = storePageToClass(linkText_base,contentURL_base,faIcon,bsColour,buttons["close"],buttons["open"])
+		classModal = storePageToClass(linkText_base,contentURL_base,faIcon,bsColour,buttons["close"],buttons["open"],iconURL)
 
         document.getElementById("monModalCode").innerHTML = START_ELEMENT+textOutput+modal_popup_html+END_ELEMENT;
         //SelectAll("monModalCode");
@@ -292,12 +295,13 @@ function recoverCode(){
 	/*REQUIRED FOR HISTORY*/
 
 function setTextAreas(classData){
-	getId("modalURL").value = classData.mainHead
-	setRadios("headSize",classData.headSize)
+	setCheckBox("buttonOpen",classData.buttonOpen)
+	setCheckBox("buttonClose",classData.buttonExit)
 	setRadios("modalColour",classData.colour)
 	setRadios("faCode",classData.icon)
-	setRadios("dmoption",classData.permanent)
-	setTinyContent("tinyMCEalert",classData.content)
+	getId("linkText").value = classData.linkText
+	getId("modalURL").value = classData.contentUrl
+	getId("iconURL").value = classData.iconUrl
 }
 
 function getHistoryI(index,history){
