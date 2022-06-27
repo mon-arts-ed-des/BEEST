@@ -225,8 +225,11 @@ function storePageToClass(linkText,contentUrl,faIcon,bsColour,buttonExit,buttonO
 		var textOutput = modal_text_opener
 
 		classModal = storePageToClass(linkText_base,contentURL_base,faIcon,bsColour,buttons["close"],buttons["open"],iconURL)
+		
+		modalDataJSON = JSON.stringify(classModal).substitute('"',"'")
+		modalDataTag = '<!'+'-- <data id="modaldata" value="'+modalDataJSON+'"></data> --'+'>'
 
-        document.getElementById("monModalCode").innerHTML = START_ELEMENT+textOutput+modal_popup_html+END_ELEMENT;
+        document.getElementById("monModalCode").innerHTML = START_ELEMENT+modalDataTag+textOutput+modal_popup_html+END_ELEMENT;
         //SelectAll("monModalCode");
         $("#demo").html(STYLE_ADDER+textOutput);
 		$("#modaldemo").html(modal_popup_html)
@@ -253,41 +256,23 @@ function storePageToClass(linkText,contentUrl,faIcon,bsColour,buttonExit,buttonO
 	
 function recoverCode(){
 	var pastedCode = $("#retrieveCode").val()
-		
-	var iconHeading = getIconAndHeading(pastedCode)
-	var iconClassName = iconHeading.iconName
-	var headSize = iconHeading.headSize
-	var headText = iconHeading.headText
+	
+	processedCode = pastedCode.replaceAll("<!--","").replaceAll("-"+"->","")
+	
 	
 	var dataToFind = {
-		tags:["div","p","button"]
+		tags:["data"]
 	}
 	var recoveredData = recoverFromPasted(pastedCode,dataToFind)
 	
 	
 	classModal = new beestmodal()
-	if (iconClassName == null){
-		classModal.icon = "noI"
-	}
-	else{		
-		var iconNums = reverseObjectMap(iconNames)
-		classModal.icon = iconNums[iconClassName]
-	}
-	
-	classModal.headSize = headSize //sets to noH or h3/4/5 as appropriate
-	classModal.mainHead = headText //will be undefined if noH so need not validate first
-	
-	classModal.content = recoveredData.tags["p"][0].innerText
-	
-	classModal.permanent = (!(recoveredData.tags.hasOwnProperty("button")))
-	classModal.permanent = (classModal.permanent ? "permanent" : "dismissable")
-	//no button --> permanent || button --> dismissable
-	
-	var divClasses = recoveredData.tags["div"][0].className
-	var classColour = divClasses.replace("alert-dismissible","").replace(/.*alert-/,"").replace(/ .*/,"")
-	
-	var colourNums = reverseObjectMap(colourNames)
-	classModal.colour = colourNums[classColour]
+
+	var vals = recoveredData.tags["!--"][1].value
+
+	JSON_data = JSON.parse(idVals)
+
+	classModal.fromObj(JSON_data)
 		
 	setTextAreas(classModal)
 	generateElementCode()
