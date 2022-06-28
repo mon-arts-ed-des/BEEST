@@ -226,7 +226,7 @@ function storePageToClass(linkText,contentUrl,faIcon,bsColour,buttonExit,buttonO
 
 		classModal = storePageToClass(linkText_base,contentURL_base,faIcon,bsColour,buttons["close"],buttons["open"],iconURL)
 		
-		modalDataJSON = JSON.stringify(classModal).substitute('"',"'")
+		modalDataJSON = (JSON.stringify(classModal)).replaceAll('"',"'")
 		modalDataTag = '<!'+'-- <data id="modaldata" value="'+modalDataJSON+'"></data> --'+'>'
 
         document.getElementById("monModalCode").innerHTML = START_ELEMENT+modalDataTag+textOutput+modal_popup_html+END_ELEMENT;
@@ -257,20 +257,22 @@ function storePageToClass(linkText,contentUrl,faIcon,bsColour,buttonExit,buttonO
 function recoverCode(){
 	var pastedCode = $("#retrieveCode").val()
 	
-	processedCode = pastedCode.replaceAll("<!--","").replaceAll("-"+"->","")
+	processedCode = pastedCode.replaceAll("<!--Begin BEEST modal-"+"-><!-- ","").replaceAll("-"+"->","")
+	processedCode = $.parseHTML(processedCode)
 	
-	
+/*	
 	var dataToFind = {
-		tags:["data"]
+		ids:["modaldata"]
 	}
 	var recoveredData = recoverFromPasted(pastedCode,dataToFind)
-	
+	*/
 	
 	classModal = new beestmodal()
 
-	var vals = recoveredData.tags["!--"][1].value
+	//var vals = recoveredData.tags["!--"][1].value
+	var vals = processedCode[0].value.replaceAll("'",'"')
 
-	JSON_data = JSON.parse(idVals)
+	JSON_data = JSON.parse(vals)
 
 	classModal.fromObj(JSON_data)
 		
