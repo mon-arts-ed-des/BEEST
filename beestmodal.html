@@ -257,20 +257,18 @@ function storePageToClass(linkText,contentUrl,faIcon,bsColour,buttonExit,buttonO
 function recoverCode(){
 	var pastedCode = $("#retrieveCode").val()
 	
-	processedCode = pastedCode.replaceAll("<!--Begin BEEST modal-"+"-><!-- ","").replaceAll("-"+"->","")
+	processedCode = pastedCode.replaceAll("<!--","").replaceAll("-"+"->","")
 	processedCode = $.parseHTML(processedCode)
 	
-/*	
-	var dataToFind = {
-		ids:["modaldata"]
-	}
-	var recoveredData = recoverFromPasted(pastedCode,dataToFind)
-	*/
-	
 	classModal = new beestmodal()
-
-	//var vals = recoveredData.tags["!--"][1].value
-	var vals = processedCode[0].value.replaceAll("'",'"')
+	var vals = null
+	
+	for (var i=0;i<processedCode.length;i++){
+		if (processedCode[i].id=="modaldata"){
+			vals = processedCode[i].value.replaceAll("'",'"')
+			break;
+		}
+	}
 
 	JSON_data = JSON.parse(vals)
 
@@ -323,7 +321,7 @@ function getHistoryI(index,history){
   <div class="py-5"></div>
   <div class="container-fluid">
     <h3 class="text-center font-weight-bold">Modal<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Modals are used as popups to allow a separate page to be displayed on top of other content and dismissed later as needed without ever having to leave the original site. BEEST itself makes use of modals for example with video instructions." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h3>
-    <h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".respVidWalkthrough" href="">Create a modal walkthrough (TBC)</a></h5>
+    <h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".respVidWalkthrough" href="">Create a modal walkthrough (2:58)</a></h5>
     <!--Begin modal content for this page-->
     <!--Alert walkthrough modal-->
       <div class="modal fade respVidWalkthrough" tabindex="-1" role="dialog" aria-labelledby="panopto-modal" aria-hidden="true">
@@ -334,8 +332,8 @@ function getHistoryI(index,history){
             <button type="button" class="btn btn-outline-light btn-lg ml-2" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">Close &times;</span>
             </button>
-          </div>
-        <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=ea6f0e20-e305-4edd-bfe0-ac40003b3d04"></iframe></div>
+          </div>		  
+        <div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" frameborder="0" allowfullscreen="allowfullscreen" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=83a5ea53-f77f-477e-a864-aec20049c469"></iframe></div>
         </div>
       </div>
     </div>
