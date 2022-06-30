@@ -168,9 +168,13 @@ function storePageToClass(linkText,contentUrl,faIcon,bsColour,buttonExit,buttonO
 	
 	
     function generateElementCode() {
-        //Retrieve the page data
+
+		var modalName = "beest_modal_"+randomString(6)
 		
-		STYLE_ADDER = '<STYL'+'E>	.bg-mu-m{background:#006dae;}.modal-mu-Dialog{max-width: 80% !important;}</STY'+'LE>'
+		const MODAL_DIALOG_CLASS_NAME = 'modal-mu-Dialog'+modalName
+		const MODAL_BG_MU_CLASS_NAME = 'bg-mu-m'+modalName
+		STYLE_ADDER = '<STYL'+'E>	.'+MODAL_BG_MU_CLASS_NAME+'{background:#006dae;}.'+MODAL_DIALOG_CLASS_NAME+'{max-width: 80% !important;}</STY'+'LE>'
+		
 		
 		var buttons = [getCheckBox("buttonOpen"),getCheckBox("buttonClose")]
 		buttons = {'open':buttons[0], 'close':buttons[1]}
@@ -200,11 +204,14 @@ function storePageToClass(linkText,contentUrl,faIcon,bsColour,buttonExit,buttonO
 		else{
 			open_button_colour = "btn-dark"
 		}
+		var modal_bg_colour_code = 'bg-'+colourName
+		if (colourName == "mu") {
+			modal_bg_colour_code = MODAL_BG_MU_CLASS_NAME
+		}
 		
-		var modalName = "beest_modal_"+randomString(6)
 		var modal_html_start = '<div><a data-toggle="modal" data-target=".'+modalName+'" href="#">'
 		var link_text_html = '<span id="beest_modal_link_text">'+linkText+'</span></a></div>'
-		var outer_modal_layer = '<div class="modal fade '+modalName+'" tabindex="-1" role="dialog" aria-labelledby="btn-modal" aria-hidden="true"><div class="modal-dialog modal-l modal-mu-Dialog"><div class="modal-content p-2 bg-'+colourName+'"><div class="modal-header"><h5 class="modal-title text-white">Click close or click outside this box to return to Moodle.</h5>'
+		var outer_modal_layer = '<div class="modal fade '+modalName+'" tabindex="-1" role="dialog" aria-labelledby="btn-modal" aria-hidden="true"><div class="modal-dialog modal-l '+MODAL_DIALOG_CLASS_NAME+'"><div class="modal-content p-2 '+modal_bg_colour_code+'"><div class="modal-header"><h5 class="modal-title text-white">Click close or click outside this box to return to Moodle.</h5>'
 		var modal_close_button = '<button type="button" class="btn btn-danger btn-lg ml-2" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">Close ×</span> </button>'
 		var modal_open_button = '<a id="beest_modal_content_link" class="btn '+open_button_colour+' btn-lg m-1" role="button" href="'+contentURL+'" target="_blank">Open <i class="fa fa-external-link"></i> </a>'
 		
@@ -229,7 +236,7 @@ function storePageToClass(linkText,contentUrl,faIcon,bsColour,buttonExit,buttonO
 		modalDataJSON = (JSON.stringify(classModal)).replaceAll('"',"'")
 		modalDataTag = '<!'+'-- <data id="modaldata" value="'+modalDataJSON+'"></data> --'+'>'
 
-        document.getElementById("monModalCode").innerHTML = START_ELEMENT+modalDataTag+textOutput+modal_popup_html+END_ELEMENT;
+        document.getElementById("monModalCode").innerHTML = START_ELEMENT+STYLE_ADDER+modalDataTag+textOutput+modal_popup_html+END_ELEMENT;
         //SelectAll("monModalCode");
         $("#demo").html(STYLE_ADDER+textOutput);
 		$("#modaldemo").html(modal_popup_html)
