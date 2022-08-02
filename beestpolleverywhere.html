@@ -182,12 +182,9 @@ function generateElementCode() {
 
 	//get the poll everywhere link on the page
 	var pollEv_URL = $('#pollEv_URL').val();
+	pollEv_URL = pollEv_URL.replace(/pollev\.com/i,"pollev-embeds.com")
 	var poll_url_on_page = pollEv_URL; //kept separate so a dummy value won't be saved to the class
-
-
-	if (pollEv_URL == ""){ // replace with a dummy one if none selected
-		pollEv_URL = DEFAULT_POLLEV_LINK;
-	}
+	//correct the poll URL to use the embed form
 
 	var frameHeight= $('#frameHeight').val();
 	var frame_height_on_page = frameHeight
@@ -203,6 +200,10 @@ function generateElementCode() {
 	classPollEv.context = contextCode
 	classPollEv.frameHeight = frame_height_on_page
 	classPollEv.destination = poll_url_on_page
+   
+	if (pollEv_URL == ""){ // replace with a dummy one if none selected
+		pollEv_URL = DEFAULT_POLLEV_LINK;
+	}
    
 	var pollEv_2="\" width=\"100%\" height=\""+frameHeight+"\" frameBorder=\"0\"></iframe>"
 	var textOutputPollEv = resizedHead+divContainer+"<span id='theContext'>"+contextCode+"</span>"+pollEv_1+pollEv_URL+pollEv_2+closeContainer;
@@ -255,7 +256,12 @@ function generateElementCode() {
 		var iconNums = reverseObjectMap(iconNames)
 		classPollEv.icon = iconNums[iconClassName]
 	}	
-	classPollEv.context = recoveredData.tags.p.html()
+	if (recoveredData.tags.hasOwnProperty('p')){
+		classPollEv.context = recoveredData.tags.p.html()
+	}
+	else{
+		classPollEv.context = ""
+	}
 	
 	var iFrame = recoveredData.ids.pollSrc[0]
 	classPollEv.destination = iFrame.src

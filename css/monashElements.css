@@ -51,6 +51,12 @@
     background: #006DAE;
     color: white;
     }
+	/*setup modal display CSS*/
+	.bg-mu-m{
+	   background:#006dae;}
+	.modal-mu-Dialog{
+	   max-width: 80% !important;
+	}
 	/*setup classes for whole row to trigger the hover of the row on the th cell*/
 	.bg-mu-row:hover th{
     background: #3d90c2 !important;
