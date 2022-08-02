@@ -321,8 +321,9 @@ format should be [[r0c0,r0c1,r0c2,...],[r1c0,r1c1,c1c2,...],...]
 	if (display_options.filterable){
 		var filterID = "filterTable_"+randomString(5)
 		var searchBarID = filterID+"_search"
+		var buttonID = filterID+"_button"
 		var tableID = filterID
-		var filterBar = "<div><i class=\"fa fa-search\" style=\"width:20px;\"></i><input class=\"form-control\" id=\""+searchBarID+"\" type=\"text\" style=\"display:inline; width:80%;\" placeholder=\""+display_options.searchBar+"\" /></div>"
+		var filterBar = "<div class=\"text-center\"><i class=\"fa fa-search\" style=\"width:20px;\"></i><input class=\"form-control\" id=\""+searchBarID+"\" type=\"text\" style=\"display:inline; width:90%;\" placeholder=\""+display_options.searchBar+"\" /><a id=\""+buttonID+"\" class=\"btn btn-outline-dark btn-sm m-1\" role=\"button\"><i style=\"width:20px;\" class=\"fa fa-play\" aria-hidden=\"true\"></i> </a></div>"
 	}
 	else{
 		var filterBar = ""
@@ -349,7 +350,8 @@ format should be [[r0c0,r0c1,r0c2,...],[r1c0,r1c1,c1c2,...],...]
 	tableCode += "</tbody></table>"
 	
 	if (display_options.filterable){
-		var filterCode = JQUERYSCRIPT+"<scri"+"pt>$(document).ready(function(){$(\"#"+searchBarID+"\").on(\"keyup\", function() {var value = $(this).val().toLowerCase();$(\"#"+tableID+" tbody tr\").filter(function() {$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)});});});</scr"+"ipt>"
+		var filterCode = JQUERYSCRIPT//+"<scri"+"pt>$(document).ready(function(){$(\"#"+searchBarID+"\").on(\"keyup\", function() {var value = $(this).val().toLowerCase();$(\"#"+tableID+" tbody tr\").filter(function() {$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)});});});</scr"+"ipt>"
+		filterCode += "<scri"+"pt>runFilter = function(){var value = $(\"#"+searchBarID+"\").val().toLowerCase();$(\"#"+tableID+" tbody tr\").filter(function(){$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)})}; $(document).ready(function(){$(\"#"+searchBarID+"\").on(\"keyup\",runFilter);});$(document).ready(function(){$(\"#"+buttonID+"\").on(\"click\",runFilter);});</scr"+"ipt>"
 		tableCode += filterCode
 	}
 	
@@ -561,12 +563,14 @@ function generateTableCode() {
   }
   
 function tableFilter(tableID,searchID){
-	$("#"+searchID).on("keyup",function runFilter(){
-		var value = $(this).val().toLowerCase();
+	function runFilter(){
+		var value = $("#"+searchID).val().toLowerCase();
 		$("#"+tableID+" tbody tr").filter(function(){
 			$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
 		})
-	})
+	}
+	$("#"+searchID).on("keyup",runFilter)
+	$("#"+searchID.replace("_search","_button")).on("click",runFilter)
 }
 
 function recoverCode(){
