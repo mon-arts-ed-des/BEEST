@@ -4,15 +4,75 @@ var historicalData = null
 var histIndex = null;
 var currentLocalSet = null
 var theModal = null;
+var allLocalStorageKeys = {}
+const ALLKEYSLOCATION = "ALLKEYS"
+var defaultKeys = {"/beesttabbedcontent.html":"history_tabbed","/beestbutton.html":"history_button","/beesttable.html":"history_table","/beestvideo.html":"local_video","/beestimage.html":"history_image","/beestalert.html":"history_alert","/beestpolleverywhere.html":"history_pollev","/beestreadmore.html":"history_read_more","/beestaccordion.html":"history_accordion","/beestquote.html":"history_quote"}
+
+function lsGet(key){
+	return localStorage.getItem(key)
+}
+function lsSet(key,val){
+	localStorage.setItem(key,val)
+}
 
 function getHistory(){
-	return localStorage.getItem(localStorageHistory)
+	return lsGet(localStorageHistory)
 }
 function setHistory(value){
-	localStorage.setItem(localStorageHistory,value)
+	lsSet(localStorageHistory,value)
+}
+/*
+function setAllKeysToDefault(){
+	if (allLocalStorageKeys)
+}
+*/
+function localStorageAvailable(){
+	/*
+	check by try/catch of if you can get and set -- if so it's enabled
+	*/
+	try{
+		localStorage.setItem("dummy","dummy")
+		localStorage.getItem("dummy")
+		return true
+	}
+	catch (e){
+		return false
+	}
+}
+/*
+function pageKey(){
+	var W = window.location
+	var pageKey = W.href
+	pageKey = pageKey.replace(W.origin,"")
+	return pageKey
 }
 
+function retrieveAllKeys(){
+	if (localStorageAvailable()){
+		var retrievedKeys = JSON.parse(lsGet(ALLKEYSLOCATION))
+		if (retrievedKeys === null){
+			console.log("storage keys not yet defined, resetting")
+		}
+		else{
+			allLocalStorageKeys = retrievedKeys
+		}
+		return allLocalStorageKeys
+	}
+	else{
+		console.error("localStorage is disabled, BEEST element history cannot function")
+	}
+}
+
+function reviseAllKeys(){
+	var thisKey = pageKey()
+	allLocalStorageKeys[thisKey] = localStorageHistory
+	var storeKeys = JSON.stringify(allLocalStorageKeys)
+	lsSet(ALLKEYSLOCATION,storeKeys)
+}
+*/
 function initHistory(){
+	//retrieveAllKeys()
+	//reviseAllKeys()
 	historicalData = recoverHistory();
 	if (historicalData == null){
 		showRecoveryDate(0,historicalData) //should trigger 'none available'
