@@ -1,7 +1,7 @@
 //single script to add any
 const LOCAL_STORAGE_ERROR_MSG = "localStorage unavailable, cannot retrieve key"
-const match_admin = /Restore/;
-const match_lect = /Edit settings/;
+const match_admin = /Banner settings|Restore/; //Restore applies to moodle 3.9, Banner settings to moodle 4.1
+const match_lect = /Unit completion|Edit settings/; //Edit settings applies to moodle 3.9, Unit completion to moodle 4.1
 const cog_presence_regex = /Recycle bin/;
 const COLLAPSED_MODE = "collapsed"
 const KEY_COLLAPSE_BEEST_EDIT_RAW = "wasSeen"
@@ -20,6 +20,9 @@ for (var mappingId=0;mappingId<match.length;mappingId++){
 }
 var beest_icon_visible=false;
 var mode;
+var RegExpMode;
+var cog_present=false;
+var correct_role=false;
  
 function localStorageAvailable(){
 		if (typeof localStorage !== 'undefined') {
@@ -53,13 +56,8 @@ function retrieve_from_local(key){
 	throw new TypeError(LOCAL_STORAGE_ERROR_MSG,key)
 }
 
-function setup_beest(MODE,visibilityMethod){
-	var cog_present=false;
-	var correct_role=false;
-	var role = null;
-	mode = MODE.toString();
+function check_for_edit_and_role(){
 	
-	$(".dropdown-item").each(function(){
 		if ((cog_present)&&(correct_role)){
 			return false;
 			//if we've discovered all we need to know end the .each() operation
@@ -74,10 +72,20 @@ function setup_beest(MODE,visibilityMethod){
 		}
 		if (!(correct_role)){
 			//keep checking until you find the menu option matching the correct role (or you run out of menu options)
-			correct_role = ((innerText.match(MODE))!=null)
+			correct_role = ((innerText.match(RegExpMode))!=null)
 		}
 		
-	});
+	
+}
+
+function setup_beest(MODE,visibilityMethod){
+	cog_present=false;
+	correct_role=false;
+	var role = null;
+	RegExpMode = MODE;
+	mode = MODE.toString();
+	
+	$(".dropdown-menu, .dropdown-item").each(check_for_edit_and_role); //this version applies to moodle 4.1 and 3.9 (the dropdown-item class is 3.9 and dropdown-menu is 4.1)
 	
 	//now we've explored EACH menu option let's check if we should display the icon.
 	
@@ -124,13 +132,21 @@ function setup_beest(MODE,visibilityMethod){
 };
 
 function createButtonAndModal(){
-	$(".header-right").prepend(
-		'<div class="custom-menus my-auto dropdown"><a type="button" target="_blank" class="border border-dark rounded-circle p-2 text-dark" role="button" title="BEEST" style="width: 38px; height: 38px;" data-toggle="modal" data-target=".beest-home-modal" id="beestDropdown"><img src="'+HOST+'/img/dragon-solid-black.png" width="20px" height="20px" style="margin-bottom: 4px;" /></a>'
-	);
-	/*for moodle 4.1, header-custom-menus*/
-	$("#region-main").append(
-		'<style>.modal-beest{max-width: 80% !important;}</style><div class="modal fade beest-home-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"><div class="modal-dialog modal-lg modal-beest"><div class="modal-content"><div class="modal-header mb-0 p-2 bg-danger text-white px-5"><h5 class="modal-title text-white my-auto" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5><button type="button" class="btn btn-outline-light btn-lg rounded" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">Close <i class="fa fa-times"></i></span></button></div><iframe src="'+HOST+'/index.html" width="100%" height="900px"></iframe></div></div></div>'
-	);/*for moodle 4.1, #region-main-box*/
+	var beest_button_for_menu = '<div class="custom-menus my-auto dropdown"><a type="button" target="_blank" class="border border-dark rounded-circle p-2 text-dark" role="button" title="BEEST" style="width: 38px; height: 38px;" data-toggle="modal" data-target=".beest-home-modal" id="beestDropdown"><img src="'+HOST+'/img/dragon-solid-black.png" width="20px" height="20px" style="margin-bottom: 4px;" /></a>'
+	var beest_modal_to_appear = '<style>.modal-beest{max-width: 80% !important;}</style><div class="modal fade beest-home-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"><div class="modal-dialog modal-lg modal-beest"><div class="modal-content"><div class="modal-header mb-0 p-2 bg-danger text-white px-5"><h5 class="modal-title text-white my-auto" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5><button type="button" class="btn btn-outline-light btn-lg rounded" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">Close <i class="fa fa-times"></i></span></button></div><iframe src="'+HOST+'/index.html" width="100%" height="900px"></iframe></div></div></div>'
+	
+	/*check which version of moodle we have 
+	for moodle 4.1, header-custom-menus, moodle 3.9 header-right*/
+	if ($(".header-right").length>0){
+		//moodle 3.9
+		$(".header-right").prepend(beest_button_for_menu);
+		$("#region-main").append(beest_modal_to_appear);/*for moodle 3.9 #region-main*/
+	}
+	else if ($(".header-custom-menus").length>0){
+		//moodle 4.1
+		$(".header-custom-menus").prepend(beest_button_for_menu);
+		$("#region-main-box").append(beest_modal_to_appear);/*for moodle 4.1, #region-main-box*/
+	}
 }
 	
 
