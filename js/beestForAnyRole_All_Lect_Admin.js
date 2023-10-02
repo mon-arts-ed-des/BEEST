@@ -4,7 +4,9 @@ const match_admin = /Banner settings|Restore/; //Restore applies to moodle 3.9, 
 const match_lect = /Unit completion|Edit settings/; //Edit settings applies to moodle 3.9, Unit completion to moodle 4.1
 const cog_presence_regex = /Recycle bin/;
 const COLLAPSED_MODE = "collapsed"
+const UNCOLLAPSED_MODE_49 = "show"
 const KEY_COLLAPSE_BEEST_EDIT_RAW = "wasSeen"
+const KEY_MOODLE_VERSION = "moodle_version_for_BEEST"
 const KEY_COLLAPSE_BEEST_EDIT = encodehash(KEY_COLLAPSE_BEEST_EDIT_RAW)
 const HOST = "https://mon-arts-ed-des.github.io/BEEST"
 
@@ -131,21 +133,37 @@ function setup_beest(MODE,visibilityMethod){
 	}
 };
 
+function checkMoodleVersion(){
+	/*checks for key elements on the page identifying as moodle 3.9 or 4.1 and saves to local storage*/
+	/*check which version of moodle we have 
+	for moodle 4.1, header-custom-menus, moodle 3.9 header-right*/
+	if ($(".header-right").length>0){
+		save_to_local(KEY_MOODLE_VERSION,3.9)
+	}
+	else if ($(".header-custom-menus").length>0){
+		save_to_local(KEY_MOODLE_VERSION,4.1)
+	}
+	else{
+		save_to_local(KEY_MOODLE_VERSION,"NOT AVAILABLE")
+	}
+}
+
 function createButtonAndModal(){
 	var beest_button_for_menu = '<div class="custom-menus my-auto dropdown"><a type="button" target="_blank" class="border border-dark rounded-circle p-2 text-dark" role="button" title="BEEST" style="width: 38px; height: 38px;" data-toggle="modal" data-target=".beest-home-modal" id="beestDropdown"><img src="'+HOST+'/img/dragon-solid-black.png" width="20px" height="20px" style="margin-bottom: 4px;" /></a>'
 	var beest_modal_to_appear = '<style>.modal-beest{max-width: 80% !important;}</style><div class="modal fade beest-home-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"><div class="modal-dialog modal-lg modal-beest"><div class="modal-content"><div class="modal-header mb-0 p-2 bg-danger text-white px-5"><h5 class="modal-title text-white my-auto" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5><button type="button" class="btn btn-outline-light btn-lg rounded" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">Close <i class="fa fa-times"></i></span></button></div><iframe src="'+HOST+'/index.html" width="100%" height="900px"></iframe></div></div></div>'
 	
-	/*check which version of moodle we have 
-	for moodle 4.1, header-custom-menus, moodle 3.9 header-right*/
-	if ($(".header-right").length>0){
-		//moodle 3.9
-		$(".header-right").prepend(beest_button_for_menu);
-		$("#region-main").append(beest_modal_to_appear);/*for moodle 3.9 #region-main*/
-	}
-	else if ($(".header-custom-menus").length>0){
-		//moodle 4.1
-		$(".header-custom-menus").prepend(beest_button_for_menu);
-		$("#region-main-box").append(beest_modal_to_appear);/*for moodle 4.1, #region-main-box*/
+	switch (retrieve_from_local(KEY_MOODLE_VERSION)){
+		case 3.9:
+			$(".header-right").prepend(beest_button_for_menu);
+			$("#region-main").append(beest_modal_to_appear);/*for moodle 3.9 #region-main*/
+			break;
+		default:
+			console.log("unable to determine moodle version, assuming 4.1")
+		case 4.1:
+			$(".header-custom-menus").prepend(beest_button_for_menu);
+			$("#region-main-box").append(beest_modal_to_appear);/*for moodle 4.1, #region-main-box*/
+			break;
+
 	}
 }
 	
@@ -178,28 +196,42 @@ function create_iFrameInEditScreen(){
 	}
 	
 	var classToAdd;
+	var class49Add;
 	
 	if (expand){
 		classToAdd = ""
+		class49Add = " "+UNCOLLAPSED_MODE_49
 	}
 	else{
 		classToAdd = " "+COLLAPSED_MODE
+		class49Add = ""
 	}
 	
-	var CSS_page = document.createElement('link')
+	const MOODLE39_BEESTEDIT_INPAGE = '<fieldset class="clearfix collapsible'+classToAdd+'" id="id_beest"><legend class="ftoggler"><a href="#" class="fheader" role="button" aria-controls="id_beest" aria-expanded="false">BEEST</a></legend><div class="fcontainer clearfix iframeResp"><iframe src="'+HOST+'/index.html" frameborder="0" class="responsive-iframe"></iframe></div></fieldset>'
+	const MOODLE41_BEESTEDIT_INPAGE = '<fieldset class="clearfix collapsible'+classToAdd+'" id="id_beest"><legend class="sr-only">BEEST</legend><div class="position-relative d-flex ftoggler align-items-center position-relative mr-1"><a data-toggle="collapse" href="#id_beest_container" role="button" aria-expanded="true" aria-controls="id_beest_container" class="btn btn-icon mr-1 icons-collapse-expand stretched-link fheader '+classToAdd+'" id="collapseElement-1"><span class="expanded-icon icon-no-margin p-2" title="Collapse"><i class="icon fa fa-chevron-down fa-fw " aria-hidden="true"></i></span><span class="collapsed-icon icon-no-margin p-2" title="Expand"><span class="dir-rtl-hide"><i class="icon fa fa-chevron-right fa-fw " aria-hidden="true"></i></span><span class="dir-ltr-hide"><i class="icon fa fa-chevron-left fa-fw " aria-hidden="true"></i></span></span><span class="sr-only">BEEST</span></a><h3 class="d-flex align-self-stretch align-items-center mb-0" aria-hidden="true">BEEST</h3></div>'+'<div id="id_beest_container" class="fcontainer collapseable collapse '+class49Add+'"><div id="fitem_id_page" class="form-group row  fitem   "><div class="fcontainer clearfix iframeResp"><iframe src="'+HOST+'/index.html" frameborder="0" class="responsive-iframe"></iframe></div></div></div></fieldset>'
+	
 	var CSS_page = document.createElement('link')
 	CSS_page.rel = 'stylesheet'
 	CSS_page.href = HOST+'/css/beest_editScreen_iFrame.css'
 	document.getElementsByTagName('head')[0].appendChild(CSS_page)
 	var matchEditArea = $('#id_general, #id_generalhdr, #id_qtypeheading')
 	if (matchEditArea.length>0){
-		matchEditArea.after('<fieldset class="clearfix collapsible'+classToAdd+'" id="id_beest"><legend class="ftoggler"><a href="#" class="fheader" role="button" aria-controls="id_beest" aria-expanded="false">BEEST</a></legend><div class="fcontainer clearfix iframeResp"><iframe src="'+HOST+'/index.html" frameborder="0" class="responsive-iframe"></iframe></div></fieldset>');
+		switch(retrieve_from_local(KEY_MOODLE_VERSION)){
+			case 3.9:
+				matchEditArea.after(MOODLE39_BEESTEDIT_INPAGE);
+				break;
+			default: //if not able to tell, assume version 4.1
+				console.log("unable to determine moodle version, assuming 4.1")
+			case 4.1:
+				matchEditArea.after(MOODLE41_BEESTEDIT_INPAGE);
+				break;
+		}
 		save_to_local(KEY_COLLAPSE_BEEST_EDIT,true)
 	}
-	
 }
 
 function make_beest_visible(visibilityMethod){
+	checkMoodleVersion()//check moodle version
 	if (typeof(visibilityMethod)=="undefined"){
 		createButtonAndModal() //compatibility with previous versions of setup function -- not having an argument means use the basic button version only
 		return
