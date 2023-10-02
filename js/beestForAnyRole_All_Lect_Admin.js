@@ -81,6 +81,7 @@ function check_for_edit_and_role(){
 }
 
 function setup_beest(MODE,visibilityMethod){
+	console.log("imported beest loader 17897ca version")
 	cog_present=false;
 	correct_role=false;
 	var role = null;
@@ -306,5 +307,3 @@ function murmurhash2_32_gc(str, seed) {
 
   return h >>> 0;
 }
-
-console.log("imported beest loader 17897ca version")
