@@ -70,7 +70,7 @@ $(document).ready(function(){
 /*REQUIRED FOR HISTORY*/   
 	
 class beestImage{
-	constructor(link,context,position,width,heading,size,icon){
+	constructor(link,context,position,width,heading,size,icon,alt){
 		this.link = link
 		this.context = context
 		this.position = position
@@ -78,6 +78,7 @@ class beestImage{
 		this.heading = heading
 		this.size = size
 		this.icon = icon
+        this.alt = alt
 	}
 	toPDO(){
 			var obj = {}
@@ -116,7 +117,8 @@ function setTextAreas(classData){
 		'imagePosition': {type:'radio',value:classData.position},
 		'imageWidth': {type:'radio',value:classData.width},
 		'headSize': {type:'radio',value:classData.size},
-		'faCode': {type:'radio',value:classData.icon}
+		'faCode': {type:'radio',value:classData.icon},
+        'respImgAlt': {type:'basic',value:classData.alt}
 	}
 	setTextAreas_util(txtAreaVals)
 }
@@ -287,17 +289,17 @@ function setColsForImgWidth(imgWidth,imgPosition){
 	}
 	return {firstCol:firstCol,secCol:secCol}
 }
-function createColContents(imgPosition,contextCode,url){
-	var imgTagMake = function (src){return '<img class="img-fluid" src="'+src+'">'}
+function createColContents(imgPosition,contextCode,url,alt){
+	var imgTagMake = function (src,alt){return '<img class="img-fluid" src="'+src+'" alt="'+alt+'">'}
 	var leftColContent = ""
 	var rightColContent = ""
 	if (imgPosition == "left"){
-		leftColContent = imgTagMake(url)
+		leftColContent = imgTagMake(url,alt)
 		rightColContent = contextCode
 	}
 	else if (imgPosition == "right"){
 		leftColContent = contextCode
-		rightColContent = imgTagMake(url)
+		rightColContent = imgTagMake(url,alt)
 	}
 	return {left:leftColContent,right:rightColContent}
 }
@@ -316,6 +318,7 @@ function generateCode() {
 	var imgPosition = getRadioOption("imagePosition");
 	var headSize = getRadioOption("headSize")
 	var faIcon = getRadioOption("faCode")
+    var imgAlt = $('#respImgAlt').val();
 
 	classImage.link = url
 	classImage.context = contextCode
@@ -324,6 +327,7 @@ function generateCode() {
 	classImage.heading = imgHeading
 	classImage.size = headSize
 	classImage.icon = faIcon
+    classImage.alt = imgAlt
 
 	var rowOpen="<div class=\"row w-100\">"
 	var closeCol="</div>"
@@ -336,7 +340,7 @@ function generateCode() {
 	var firstCol = widthCols.firstCol
 	var secCol = widthCols.secCol
 	
-	var colContents = createColContents(imgPosition,contextCode,url)
+	var colContents = createColContents(imgPosition,contextCode,url,imgAlt)
 	
 	var textOutput = resizedHead+rowOpen+firstCol+colContents.left+closeCol+secCol+colContents.right+closeRow;
 
@@ -355,6 +359,7 @@ function recoverCode(){
 	var iconClassName = iconHeading.iconName
 	var headSize = iconHeading.headSize
 	var imgHeading = iconHeading.headText
+
 	
 	classImage.heading = imgHeading
 	classImage.size = headSize
@@ -374,6 +379,8 @@ function recoverCode(){
 	
 	var imgJQ = recoveredData.tags.img
 	classImage.link = imgJQ[0].src
+
+    // todo: get alt text here
 	
 	if (imgJQ.parent().hasClass("mt-2")){
 		classImage.position = "right"
@@ -687,6 +694,17 @@ function replaceLinkWithEmbed(event){
         <img id="img" src="" style="max-width:100%;max-height:100%;">
       </div>-->
 
+<hr>
+        <div class="row w-100 mx-auto">
+            <div class="col-lg-3">
+                <h5 class="font-weight-bold">Alt text<span class="small text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Type the alt text for this image. 50 character maximum.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+            </div>
+            <div class="col-lg">
+                <textarea maxlength="50" class="rounded p-2 w-100" rows="1" name="respVid_alt" type="text" id="respImgAlt" placeholder="Type your alt text here" onchange=generateCode()></textarea>
+            </div>
+        </div>
+
+
   <hr>
       <div class="row w-100 mx-auto">
         <div class="col-lg-3">
@@ -743,6 +761,7 @@ function replaceLinkWithEmbed(event){
                 <textarea maxlength="50" class="rounded p-2 w-100" rows="1" name="respVid_heading" type="text" id="respImgHeading" placeholder="Type your image heading here" onchange=generateCode()></textarea>
               </div>
             </div>
+
 <hr>
     <div class="row w-100 mx-auto">
     <div class="col-lg-3">
