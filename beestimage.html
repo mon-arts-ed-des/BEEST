@@ -380,8 +380,7 @@ function recoverCode(){
 	var imgJQ = recoveredData.tags.img
 	classImage.link = imgJQ[0].src
 
-    // todo: get alt text here
-    console.log(imgJQ);
+    classImage.alt = imgJQ[0].alt;
 	
 	if (imgJQ.parent().hasClass("mt-2")){
 		classImage.position = "right"
