@@ -250,8 +250,11 @@ function recoverCode(){
 	classAlert.content=""
 	var pTag = recoveredData.tags["p"][0] //we start from the first p tag found
 	while (pTag != null){ //repeat until we run out of content.
-		classAlert.content += pTag.innerHTML //take in HTML mode to retain formating
-		pTag = pTag.nextSibling //go to next tag following this
+		classAlert.content += pTag.outerHTML //take in HTML mode to retain formating
+		while ((pTag.nextSibling!=null) && (pTag.nextSibling.nodeType !=1)){ //only consider element type nodes
+			pTag = pTag.nextSibling //go to next tag following this
+		}
+		pTag = pTag.nextSibling
 	}
 	
 	classAlert.permanent = (!(recoveredData.tags.hasOwnProperty("button")))
