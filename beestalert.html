@@ -247,7 +247,12 @@ function recoverCode(){
 	classAlert.headSize = headSize //sets to noH or h3/4/5 as appropriate
 	classAlert.mainHead = headText //will be undefined if noH so need not validate first
 	
-	classAlert.content = recoveredData.tags["p"][0].innerText
+	classAlert.content=""
+	var pTag = recoveredData.tags["p"][0] //we start from the first p tag found
+	while (pTag != null){ //repeat until we run out of content.
+		classAlert.content += pTag.innerHTML //take in HTML mode to retain formating
+		pTag = pTag.nextSibling //go to next tag following this
+	}
 	
 	classAlert.permanent = (!(recoveredData.tags.hasOwnProperty("button")))
 	classAlert.permanent = (classAlert.permanent ? "permanent" : "dismissable")
