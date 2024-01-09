@@ -190,7 +190,7 @@ function storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmopti
 
 		var resizedHead = createHeading(alertHeading,colourName,headSize,faIcon)
 
-		var textOutput = colourCodes + resizedHead + alertCode
+		var textOutput = colourCodes + resizedHead + "<span class='alertcontent'>"+alertCode+"</span>"
         if (dmoption == "dismissable") {
             textOutput+= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
         }
@@ -230,7 +230,8 @@ function recoverCode(){
 	var headText = iconHeading.headText
 	
 	var dataToFind = {
-		tags:["div","p","button"]
+		tags:["div","p","button"],
+		classes:['alertcontent']
 	}
 	var recoveredData = recoverFromPasted(pastedCode,dataToFind)
 	
@@ -248,13 +249,19 @@ function recoverCode(){
 	classAlert.mainHead = headText //will be undefined if noH so need not validate first
 	
 	classAlert.content=""
-	var pTag = recoveredData.tags["p"][0] //we start from the first p tag found
-	while (pTag != null){ //repeat until we run out of content.
-		classAlert.content += pTag.outerHTML //take in HTML mode to retain formating
-		while ((pTag.nextSibling!=null) && (pTag.nextSibling.nodeType !=1)){ //only consider element type nodes
-			pTag = pTag.nextSibling //go to next tag following this
+	var alertContentTag = recoveredData.classes["alertcontent"]
+	if ((alertContentTag === null)||(alertContentTag === undefined)){
+		var pTag = recoveredData.tags["p"][0] //we start from the first p tag found
+		while (pTag != null){ //repeat until we run out of content.
+			classAlert.content += pTag.outerHTML //take in HTML mode to retain formating
+			while ((pTag.nextSibling!=null) && (pTag.nextSibling.nodeType !=1)){ //only consider element type nodes
+				pTag = pTag.nextSibling //go to next tag following this
+			}
+			pTag = pTag.nextSibling
 		}
-		pTag = pTag.nextSibling
+	}
+	else{
+		classAlert.content=alertContentTag[0].innerHTML
 	}
 	
 	classAlert.permanent = (!(recoveredData.tags.hasOwnProperty("button")))
