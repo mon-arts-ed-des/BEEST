@@ -149,11 +149,13 @@ $(document).ready(function() {
 			case "down":
 				version = "v"
 				reviewWidth = false;
+				$('#widthRow').hide();
 			break;
 			case "right":
 			case "left":
 				version = "h"
 				reviewWidth = true;
+				$('#widthRow').show();
 			break;
 		}
 		var vertHorz = {
@@ -706,7 +708,7 @@ function embedLinkConverter(event){
               <label class="form-check-label" for="videoPosition4">Below</label>
               </div>
           </div>
-        </div>
+        </div><span id='widthRow'>
         <hr>
         <div class="row w-100 mx-auto">
           <div class="col-lg-3">
@@ -726,7 +728,7 @@ function embedLinkConverter(event){
               <label class="form-check-label" for="videoWidth2">33.3% (1/3 of the screen width)</label>
               </div>
           </div>
-        </div> 
+        </div></span> 
         <hr>
         <div class="row w-100 mx-auto">
           <div class="col-lg-3">
