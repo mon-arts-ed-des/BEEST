@@ -126,11 +126,11 @@ $(document).ready(function() {
     }
 	
 	function updatePreview(resizedHead,vPosition,respVid,contextCode,vWidth){
-		function prepLeftRightAlignment(vPosition,respVid_span,closeCol,secCol,contextCode_span){
-			if (vPosition == "left"){
+		function prepLeftRightAlignment(alignment,respVid_span,closeCol,secCol,contextCode_span){
+			if (alignment == "before"){
 				return respVid_span+closeCol+secCol+contextCode_span;
 			}
-			else if (vPosition == "right"){
+			else if (alignment == "after"){
 				return contextCode_span+closeCol+secCol+respVid_span;
 			}
 		}
@@ -140,86 +140,49 @@ $(document).ready(function() {
 			}
 		}
 		
-/*
-<!--Begin BEEST video--> BASE Right
-<span id='resizedHead'>___HEAD___</span>
-<div class="row w-100">
-	<div class="col-lg" id="fCol">
-		<span id='vPos' side=left>
-			<span id='respVidDemo'>
-				<div class="embed-responsive embed-responsive-16by9">
-					<iframe class="embed-responsive-item" frameborder="0" allowfullscreen="" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=5d23c190-f6c6-405d-968b-abab0095e7a4"></iframe>
-				</div>
-			</span>
-	</div>
-	<div class="col-lg mt-2" id="sCol">
-		<span id='video-context'>
-			<p>right context</p>
-		</span>
-		</span>
-	</div>
-</div>
-<!--End BEEST video-->
-
-<!--Begin BEEST video--> RIGHT NEW
-<span id='resizedHead'>__HEAD___</span>
-<div class="row w-100">
-	<span id='vPos' side=left></span>
-	<div class="col-lg" id="fCol">
-		<span id='respVidDemo'>
-			<div class="embed-responsive embed-responsive-16by9">
-				<iframe class="embed-responsive-item" frameborder="0" allowfullscreen="" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=5d23c190-f6c6-405d-968b-abab0095e7a4"></iframe>
-			</div>
-		</span>
-	</div>
-	<div class="col-lg mt-2" id="sCol">
-		<span id='video-context'><p>right context</p></span>
-	</div>
-</div><!--End BEEST video-->
-
-<span id='resizedHead'>___resizedHead___</span>
-	<div>
-		<span id='vPos' side=up></span>
-		<div id="uCol">
-			<span id='respVidDemo'>
-			<div class="embed-responsive embed-responsive-16by9">
-				<iframe class="embed-responsive-item" frameborder="0" allowfullscreen="" src="URL"></iframe>
-			</div>
-			</span>
-		</div>
-		<div id="dCol">
-			<span id='video-context'>TEXT</span>
-		</div>
+		var reviewWidth=true;
+		var version = ""
+		var orderMapping = {"left":"before","right":"after","up":"before","down":"after"}
+		var alignOrder = orderMapping[vPosition]
+		switch(vPosition){
+			case "up":
+			case "down":
+				version = "v"
+				reviewWidth = false;
+			break;
+			case "right":
+			case "left":
+				version = "h"
+				reviewWidth = true;
+			break;
+		}
+		var vertHorz = {
+			rowOpen:{v:"<div>",h:"<div class=\"row w-100\">"},
+			firstCol:{v:"<div id=\"uCol\">",h:"<div class=\"col-lg\" id=\"fCol\">"},
+			secCol:{v:"<div id=\"dCol\">",h:"<div class=\"col-lg mt-2\" id=\"sCol\">"}
+		}
 		
-	</div>
-	
-rowOpen = "<div>"
-closeRow = "</div>"	
-firstCol = "<div id=\"uCol\">"
-//vPos="up" // vPos = "down"
-secCol="<div id=\"dCol\">"
-*/		
-
-		
-		var rowOpen="<div class=\"row w-100\">"
+		var rowOpen=vertHorz.rowOpen[version]//"<div class=\"row w-100\">"
 		var closeCol="</div>"
 		var closeRow="</div>"
+		
 		
 		sizeClasses = {
 			"33":"col-lg-4",
 			"50":"col-lg"
 		}
 		
-        var firstCol="<div class=\"col-lg\" id=\"fCol\">"
-        var secCol="<div class=\"col-lg mt-2\" id=\"sCol\">"
+        var firstCol=vertHorz.firstCol[version]//"<div class=\"col-lg\" id=\"fCol\">"
+        var secCol=vertHorz.secCol[version]//"<div class=\"col-lg mt-2\" id=\"sCol\">"
 		//Change size of column if requested
-        if (vWidth == "33" && vPosition == "left"){
-          firstCol = firstCol.replace(sizeClasses["50"],sizeClasses["33"])
-        }
-        else if (vWidth == "33" && vPosition== "right"){
-          secCol = secCol.replace(sizeClasses["50"],sizeClasses["33"])
-        }
-		
+        if (reviewWidth){
+			if (vWidth == "33" && vPosition == "left"){
+			  firstCol = firstCol.replace(sizeClasses["50"],sizeClasses["33"])
+			}
+			else if (vWidth == "33" && vPosition== "right"){
+			  secCol = secCol.replace(sizeClasses["50"],sizeClasses["33"])
+			}
+		}
 		var textOutput = "<span id='resizedHead'>"+resizedHead+"</span>"+rowOpen
 		textOutput += "<span id='vPos' side="+vPosition+"></span>"
 		textOutput += firstCol
@@ -227,7 +190,7 @@ secCol="<div id=\"dCol\">"
 		respVid_span = "<span id='respVidDemo'>"+respVid+"</span>"
 		contextCode_span = "<span id='video-context'>"+contextCode+"</span>"
 				
-		textOutput += prepLeftRightAlignment(vPosition,respVid_span,closeCol,secCol,contextCode_span)
+		textOutput += prepLeftRightAlignment(alignOrder,respVid_span,closeCol,secCol,contextCode_span)
 		
 		textOutput+= closeRow
 		textOutput+= closeRow
@@ -246,8 +209,20 @@ secCol="<div id=\"dCol\">"
 			var sColHTML = $('#sCol')
 			var sColClasses = sColHTML.attr('class')
 			var contextCodeHTML = $('#video-context')
-			var oldWidth33 = (sColClasses.includes(sizeClasses['33']) || fColClasses.includes(sizeClasses['33']))
-			var oldWidth = (oldWidth33 ? '33' : '50')
+			var oldWidth33 = ""
+			var oldWidth = ""
+			switch(side){
+				case "up":
+				case "down":
+					oldWidth = '100'
+				break;
+				case "right":
+				case "left":
+					oldWidth33 = (sColClasses.includes(sizeClasses['33']) || fColClasses.includes(sizeClasses['33']))
+					oldWidth = (oldWidth33 ? '33' : '50')
+				break;
+			}
+			
 			
 			//updateIfDifferent(fColHTML,firstCol) //fix me by changing class
 			if (side !== vPosition){
@@ -401,13 +376,17 @@ function constructIconTag(faIcon){
 		videoPageInstance.position = recoveredData.ids.vPos.attr('side')
 		videoPageInstance.context = recoveredData.ids['video-context'].text()
 		
-		colClasses = [recoveredData.ids.fCol[0].className,
-		recoveredData.ids.sCol[0].className]
-		colClasses[0] = colClasses[0].replace(/ .*/,"")
-		colClasses[1] = colClasses[1].replace(/ .*/,"")
-		
-		videoPageInstance.width = (colClasses[0] == colClasses[1] ? 50 : 33)
+		if ((recoveredData.ids.hasOwnProperty("fCol"))&&(recoveredData.ids.hasOwnProperty("sCol"))){
+			colClasses = [recoveredData.ids.fCol[0].className,
+			recoveredData.ids.sCol[0].className]
+			colClasses[0] = colClasses[0].replace(/ .*/,"")
+			colClasses[1] = colClasses[1].replace(/ .*/,"")
 			
+			videoPageInstance.width = (colClasses[0] == colClasses[1] ? 50 : 33)
+		}
+		else{
+			videoPageInstance.width = 50
+		}
 		setPageContents(videoPageInstance)
 	}
 
@@ -718,14 +697,14 @@ function embedLinkConverter(event){
               <input class="form-check-input" name="videoPosition" id="videoPosition2" type="radio" value="right" checked>
               <label class="form-check-label" for="videoPosition2">Right</label>
               </div>
-			  <!--<div class="form-check form-check-inline" id="videoPosition" onchange=generateCode()>
-                <input class="form-check-input" name="videoPosition" id="videoPosition3" type="radio" value="above">
+			  <div class="form-check form-check-inline" id="videoPosition" onchange=generateCode()>
+                <input class="form-check-input" name="videoPosition" id="videoPosition3" type="radio" value="up">
                 <label class="form-check-label" for="videoPosition3">Above</label>
               </div>
               <div class="form-check form-check-inline" id="videoPosition" onchange=generateCode()>
-              <input class="form-check-input" name="videoPosition" id="videoPosition4" type="radio" value="below" checked>
+              <input class="form-check-input" name="videoPosition" id="videoPosition4" type="radio" value="down">
               <label class="form-check-label" for="videoPosition4">Below</label>
-              </div>-->
+              </div>
           </div>
         </div>
         <hr>
