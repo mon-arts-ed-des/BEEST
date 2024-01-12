@@ -140,9 +140,70 @@ $(document).ready(function() {
 			}
 		}
 		
+/*
+<!--Begin BEEST video--> BASE Right
+<span id='resizedHead'>___HEAD___</span>
+<div class="row w-100">
+	<div class="col-lg" id="fCol">
+		<span id='vPos' side=left>
+			<span id='respVidDemo'>
+				<div class="embed-responsive embed-responsive-16by9">
+					<iframe class="embed-responsive-item" frameborder="0" allowfullscreen="" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=5d23c190-f6c6-405d-968b-abab0095e7a4"></iframe>
+				</div>
+			</span>
+	</div>
+	<div class="col-lg mt-2" id="sCol">
+		<span id='video-context'>
+			<p>right context</p>
+		</span>
+		</span>
+	</div>
+</div>
+<!--End BEEST video-->
+
+<!--Begin BEEST video--> RIGHT NEW
+<span id='resizedHead'>__HEAD___</span>
+<div class="row w-100">
+	<span id='vPos' side=left></span>
+	<div class="col-lg" id="fCol">
+		<span id='respVidDemo'>
+			<div class="embed-responsive embed-responsive-16by9">
+				<iframe class="embed-responsive-item" frameborder="0" allowfullscreen="" src="https://monash-panopto.aarnet.edu.au/Panopto/Pages/Embed.aspx?id=5d23c190-f6c6-405d-968b-abab0095e7a4"></iframe>
+			</div>
+		</span>
+	</div>
+	<div class="col-lg mt-2" id="sCol">
+		<span id='video-context'><p>right context</p></span>
+	</div>
+</div><!--End BEEST video-->
+
+<span id='resizedHead'>___resizedHead___</span>
+	<div>
+		<span id='vPos' side=up></span>
+		<div id="uCol">
+			<span id='respVidDemo'>
+			<div class="embed-responsive embed-responsive-16by9">
+				<iframe class="embed-responsive-item" frameborder="0" allowfullscreen="" src="URL"></iframe>
+			</div>
+			</span>
+		</div>
+		<div id="dCol">
+			<span id='video-context'>TEXT</span>
+		</div>
+		
+	</div>
+	
+rowOpen = "<div>"
+closeRow = "</div>"	
+firstCol = "<div id=\"uCol\">"
+//vPos="up" // vPos = "down"
+secCol="<div id=\"dCol\">"
+*/		
+
+		
 		var rowOpen="<div class=\"row w-100\">"
 		var closeCol="</div>"
-		var closeRow="</div></div>"
+		var closeRow="</div>"
 		
 		sizeClasses = {
 			"33":"col-lg-4",
@@ -159,15 +220,16 @@ $(document).ready(function() {
           secCol = secCol.replace(sizeClasses["50"],sizeClasses["33"])
         }
 		
-		var textOutput = "<span id='resizedHead'>"+resizedHead+"</span>"+rowOpen+firstCol
-		textOutput += "<span id='vPos' side="+vPosition+">"
+		var textOutput = "<span id='resizedHead'>"+resizedHead+"</span>"+rowOpen
+		textOutput += "<span id='vPos' side="+vPosition+"></span>"
+		textOutput += firstCol
 		
 		respVid_span = "<span id='respVidDemo'>"+respVid+"</span>"
 		contextCode_span = "<span id='video-context'>"+contextCode+"</span>"
 				
 		textOutput += prepLeftRightAlignment(vPosition,respVid_span,closeCol,secCol,contextCode_span)
 		
-		textOutput += "</span>"
+		textOutput+= closeRow
 		textOutput+= closeRow
 	   
 		var demoDiv = $('#demo')
@@ -656,6 +718,14 @@ function embedLinkConverter(event){
               <input class="form-check-input" name="videoPosition" id="videoPosition2" type="radio" value="right" checked>
               <label class="form-check-label" for="videoPosition2">Right</label>
               </div>
+			  <!--<div class="form-check form-check-inline" id="videoPosition" onchange=generateCode()>
+                <input class="form-check-input" name="videoPosition" id="videoPosition3" type="radio" value="above">
+                <label class="form-check-label" for="videoPosition3">Above</label>
+              </div>
+              <div class="form-check form-check-inline" id="videoPosition" onchange=generateCode()>
+              <input class="form-check-input" name="videoPosition" id="videoPosition4" type="radio" value="below" checked>
+              <label class="form-check-label" for="videoPosition4">Below</label>
+              </div>-->
           </div>
         </div>
         <hr>
