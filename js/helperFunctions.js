@@ -502,7 +502,7 @@ function makeTinyWithID(id,callbacks,placeholder){
 	tinymce.init({
 		selector: '#'+id,
 		menubar: false,
-		plugins : 'advlist autolink link lists charmap print preview code placeholder',
+		plugins : 'advlist autolink link lists charmap preview code',
 		placeholder: (placeholder == undefined ? 'Input your text here' : placeholder),
 		toolbar: ['styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | lists',
 		'undo redo | charmap | autolink link | code | removeformat' ],
@@ -518,7 +518,7 @@ function basicTinyMCEWithID(id,callbacks,placeholder){
 	tinymce.init({
 		selector: '#'+id,
 		menubar: false,
-		plugins : 'autolink link placeholder table',
+		plugins : 'autolink link table',
 		placeholder: (typeof(placeholder) == undefined ? 'Input your text here' : placeholder),
 		toolbar: ['bold italic | undo redo | autolink link | removeformat | table' ],
 		setup : function(ed) {
