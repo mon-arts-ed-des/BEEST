@@ -348,7 +348,7 @@ function constructIconTag(faIcon){
 		setTextAreas_util(dataToSave)
         generateCode();
 	}
-	
+
 	function recoverCode(){
 		videoPageInstance = new videoPage()
 		var pastedHTML = $("#retrieveCode").val()
@@ -357,6 +357,8 @@ function constructIconTag(faIcon){
 		var iconClassName = iconHeading.iconName
 		var headSize = iconHeading.headSize
 		var headText = iconHeading.headText
+		var hasSideProp = false;
+		var hasFSCols = false;
 		
 		var dataToFind = {
 			tags:['iframe'],
@@ -375,10 +377,14 @@ function constructIconTag(faIcon){
 		var recoveredData = recoverFromPasted(pastedHTML,dataToFind)
 		
 		videoPageInstance.link = recoveredData.tags.iframe[0].src
-		videoPageInstance.position = recoveredData.ids.vPos.attr('side')
-		videoPageInstance.context = recoveredData.ids['video-context'].text()
+		hasSideProp = (recoveredData.ids.hasOwnProperty("vPos"))
+		if (hasSideProp){
+			videoPageInstance.position = recoveredData.ids.vPos.attr('side')
+			videoPageInstance.context = recoveredData.ids['video-context'].text()
+		}
 		
-		if ((recoveredData.ids.hasOwnProperty("fCol"))&&(recoveredData.ids.hasOwnProperty("sCol"))){
+		hasFSCols = ((recoveredData.ids.hasOwnProperty("fCol"))&&(recoveredData.ids.hasOwnProperty("sCol")))
+		if (hasFSCols){
 			colClasses = [recoveredData.ids.fCol[0].className,
 			recoveredData.ids.sCol[0].className]
 			colClasses[0] = colClasses[0].replace(/ .*/,"")
@@ -389,6 +395,22 @@ function constructIconTag(faIcon){
 		else{
 			videoPageInstance.width = 50
 		}
+		
+		if ((!hasSideProp)&&(hasFSCols)){
+			if ($(recoveredData.ids.fCol).find("iframe").length>0){
+				videoPageInstance.position = "left"
+				videoPageInstance.context = recoveredData.ids.sCol[0].innerHTML
+			}
+			else{
+				videoPageInstance.position = "right"
+				videoPageInstance.context = recoveredData.ids.fCol[0].innerHTML
+			}
+		}
+		if ((!hasSideProp)&&(!hasFSCols)){
+			throw new Error("BEEST video element is missing ids/tags to identify the position of video vs text context")
+		}
+		
+		
 		setPageContents(videoPageInstance)
 	}
 
