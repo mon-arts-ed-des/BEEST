@@ -36,7 +36,8 @@
       <script src="js/placeholder.js"></script> 
       <script src="js/pageHistory.js"></script>
       <script src="js/helperFunctions.js"></script>
-      <script src="js/setupPage.js"></script>  
+      <script src="js/setupPage.js"></script>
+      <script src="js/insertCode.js"></script>
       
     <script type="text/javascript">
 const START_ELEMENT = "<!--Begin BEEST readmore-->"
@@ -129,6 +130,7 @@ $(document).ready(function() { //create the tinyMCE areas after the first
 	classReadMore = new readMore()
 	makeTinyWithID('tinyMCEreadMoreBefore',{'change':generateReadMoreCode},'Write the content before your read more button here')
 	makeTinyWithID('tinyMCEreadMoreAfter',{'change':generateReadMoreCode},'Write the content after your read more button here')
+    setupInsertCode();
 	/*REQUIRED FOR HISTORY*/
 	initHistory();
 	/*END REQUIRED FOR HISTORY*/
@@ -288,6 +290,13 @@ function recoverCode(){
 	classReadMore = new readMore()
 	
 	var pastedCode = $("#retrieveCode").val()
+
+
+    if(pastedCode==="")return;
+    let pastedHTMLArray=checkForMultipleBlocks(pastedCode,"readmore"); //find the first block that matches the type (helperFunctions.js)
+    if(pastedHTMLArray.length>0)pastedCode=pastedHTMLArray[0]; //if the array has something in it use it, otherwise try with pastedCode (in case the user does not paste the comments or breaks the string in some other way - may as well try to get something from it)
+
+
 	
 	var iconClassName = getIconAndHeading(pastedCode).iconName
 	
@@ -346,6 +355,14 @@ function recoverCode(){
 	  addToHistory(classReadMore)
 	  /*END REQUIRED FOR HISTORY*/
 	  SelectAll("readMoreCode");
+    }
+    // function to insert generated code
+    function insertCode(){
+        /*REQUIRED FOR HISTORY*/
+        addToHistory(classReadMore)
+        /*END REQUIRED FOR HISTORY*/
+
+        insertCodeInPage("readMoreCode");
     }
 
     function SelectAll(id){
@@ -488,6 +505,7 @@ function getHistoryI(index,history){
           </div>
           <div class="col-lg">
           <textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Or recover it by pasting existing code from Moodle" onchange=recoverCode()></textarea>
+              <div id="paste-help"></div>
       </div>
     </div>
     <hr>
@@ -714,8 +732,20 @@ function getHistoryI(index,history){
         <hr>
         <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="left" data-trigger="hover focus" title="Click the copy code button below to copy your code, ready to paste into Moodle." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
     <textarea readonly class="rounded p-2 w-100" id="readMoreCode" cols="70" rows="3" name="Result" placeholder="When you click the button above, it will create the code or your alert and copy it to the clipboard." onchange=generateReadMoreCode()></textarea>
-    <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." type="button" class="btn btn-success btn-lg btn-block mt-2" id="copyCodeBtn" name="GenerateWrap" value="Copy your code &lt;/&gt;" onClick=copyCode()>
   </div>
+
+        <div class="row w-100">
+            <div class="col-lg-6">
+                <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." id="copyCodeBtn" class="btn btn-success btn-lg btn-block mt-2" name="GenerateWrap" value="Copy your code </>" OnClick=copyCode() >
+            </div>
+            <div class="col-lg-6">
+                <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been inserted." id="insertCodeBtn" class="btn btn-success btn-lg btn-block mt-2" name="insertWrap" value="Insert your code </>" OnClick='insertCode()' >
+                <div id="input-help"></div>
+            </div>
+        </div>
+
+
+
 </div>
     </form>
   </div>

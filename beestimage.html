@@ -38,6 +38,8 @@
 	<script src="js/helperFunctions.js"></script>
 	<script src="js/setupPage.js"></script>
 	<script src="js/pageHistory.js"></script>
+    <script src="js/insertCode.js"></script>
+
 <script>
 const START_ELEMENT = "<!--Begin BEEST image-->"
 const END_ELEMENT = "<!--End BEEST image-->"
@@ -64,6 +66,7 @@ $(document).ready(function(){
 	setupNav()
 	fullScreenToggle()
 	$('#respImgSwitch').on('input', replaceLinkWithEmbed);
+    setupInsertCode();
 	makeTinyWithID('tinyMCEimage',{'change':generateCode},'[Placeholder for image context. The content you entered in step 2 will appear here.]')
 	classImage = new beestImage()
 	generateCode()
@@ -239,6 +242,16 @@ function setTextAreas(classData){
 	  SelectAll("txtarearespImg");
     }
 
+    // function to insert generated code
+    function insertCode(){
+        /*REQUIRED FOR HISTORY*/
+        addToHistory(classImage)
+        /*END REQUIRED FOR HISTORY*/
+
+        insertCodeInPage("txtarearespImg");
+    }
+
+
     var contextCode;
 
 /**BEGIN generateCode helper functions**/
@@ -355,6 +368,12 @@ function recoverCode(){
 	classImage = new beestImage()
 
 	var pastedHTML = $("#retrieveCode").val()
+
+
+    if(pastedHTML==="")return;
+    let pastedHTMLArray=checkForMultipleBlocks(pastedHTML,"image"); //find the first block that matches the type (helperFunctions.js)
+    if(pastedHTMLArray.length>0)pastedHTML=pastedHTMLArray[0]; //if the array has something in it use it, otherwise try with pastedHTML (in case the user does not paste the comments or breaks the string in some other way - may as well try to get something from it)
+
 
 	var iconHeading = getIconAndHeading(pastedHTML)
 	var iconClassName = iconHeading.iconName
@@ -627,6 +646,7 @@ function replaceLinkWithEmbed(event){
               </div>
               <div class="col-lg">
               <textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Or recover it by pasting existing code from Moodle" onchange=recoverCode()></textarea>
+                  <div id="paste-help"></div>
           </div>
         </div>
 		
@@ -849,7 +869,19 @@ function replaceLinkWithEmbed(event){
        
        
         <textarea readonly class="rounded p-2 w-100 mt-2" id="txtarearespImg" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here"></textarea>
-        <input type="button" class="btn btn-lg btn-block btn-success mt-3" id="copyCodeBtn" name="GenerateWrap" value="Copy your code </>" onClick=copyCode() data-toggle="tooltip" data-placement="top" data-trigger="click focus" title="Your code has been copied." />
+
+      <div class="row w-100">
+          <div class="col-lg-6">
+              <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." id="copyCodeBtn" class="btn btn-success btn-lg btn-block mt-2" name="GenerateWrap" value="Copy your code </>" OnClick=copyCode() >
+          </div>
+          <div class="col-lg-6">
+              <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been inserted." id="insertCodeBtn" class="btn btn-success btn-lg btn-block mt-2" name="insertWrap" value="Insert your code </>" OnClick='insertCode()' >
+              <div id="input-help"></div>
+          </div>
+      </div>
+
+
+
         <div class="text-center h5 mt-4">
           <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
           </div>

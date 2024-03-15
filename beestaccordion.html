@@ -31,7 +31,10 @@
       <!-- Tinymce js file -->   
        <script src="https://beest.monash.edu/tinymce/tinymce.min.js"></script>
       <!-- TinyMCE placeholder plugin file -->
-      <script src="js/placeholder.js"></script> 
+      <script src="js/placeholder.js"></script>
+      <script src="js/insertCode.js"></script>
+
+
 	    <script src="js/advancedModeLocalStorage.js"></script>
       <script type="text/javascript">
 const START_ELEMENT = "<!--Begin BEEST accordion-->"
@@ -74,6 +77,7 @@ var iconNames = {
 		while (classAccord.usableDrawers < absoluteMinAccord){
 			addSection()
 		}
+        setupInsertCode();
 		/*REQUIRED FOR HISTORY*/
 		initHistory()
 		/*END REQUIRED FOR HISTORY*/
@@ -611,6 +615,12 @@ function getColourBorderSize(divList){
 function recoverCode(){
 	_classAccord_ = new accordion()
 	var pastedHTML = $("#retrieveCode").val()
+
+
+    if(pastedHTML==="")return;
+    let pastedHTMLArray=checkForMultipleBlocks(pastedHTML,"accordion"); //find the first block that matches the type (helperFunctions.js)
+    if(pastedHTMLArray.length>0)pastedHTML=pastedHTMLArray[0]; //if the array has something in it use it, otherwise try with pastedHTML (in case the user does not paste the comments or breaks the string in some other way - may as well try to get something from it)
+
 	
 	var iconHeading = getIconAndHeading(pastedHTML)
 	var iconClassName = iconHeading.iconName
@@ -670,6 +680,14 @@ function recoverCode(){
 	  /*REQUIRED FOR HISTORY*/
 	  addToHistory(classAccord)
 	  /*END REQUIRED FOR HISTORY*/
+    }
+    // function to insert generated code
+    function insertCode(){
+        /*REQUIRED FOR HISTORY*/
+        addToHistory(classAccord)
+        /*END REQUIRED FOR HISTORY*/
+
+        insertCodeInPage("monAccCode");
     }
         
     function SelectAll(id){
@@ -809,6 +827,7 @@ function setupBackToTopButton(){
 		</div>
 		<div class="col-lg">
 			<textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Copy previously generated BEEST code from Moodle and paste it here" onchange="recoverCode()"></textarea>
+            <div id="paste-help"></div>
 		</div>
 	</div>
 
@@ -1028,7 +1047,15 @@ function setupBackToTopButton(){
 			<div class="col-lg">
   <h5>Copy code<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click the copy code button below to copy your code, ready to paste into Moodle." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
   <textarea readonly class="rounded p-2 w-100" id="monAccCode" rows="3" name="Result" placeholder="The code for your element will appear here as you update your preferences on the page." onClick=generateElementCode()></textarea>
-<input id="copyCodeBtn" type="button" class="btn btn-block btn-success mt-2 text-center" name="GenerateWrap" value="Copy your code" data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." onClick=copyCode()>
+    <div class="row w-100">
+        <div class="col-lg-6">
+            <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." id="copyCodeBtn" class="btn btn-success btn-lg btn-block mt-2" name="GenerateWrap" value="Copy your code </>" OnClick=copyCode() >
+        </div>
+        <div class="col-lg-6">
+            <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been inserted." id="insertCodeBtn" class="btn btn-success btn-lg btn-block mt-2" name="insertWrap" value="Insert your code </>" OnClick='insertCode()' >
+            <div id="input-help"></div>
+        </div>
+    </div>
 <div class="text-center h5 mt-4">
 <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
 </div>

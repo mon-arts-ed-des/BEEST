@@ -34,8 +34,11 @@
     <script src="https://kit.fontawesome.com/3817feae52.js"></script> 
     <!-- Tinymce js file -->   
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
-	  <script src="js/advancedModeLocalStorage.js"></script>
+    <script src="js/advancedModeLocalStorage.js"></script>
+    <script src="js/insertCode.js"></script>
+
     <script type="text/javascript">
+
 const START_ELEMENT = "<!--Begin BEEST button-->"
 const END_ELEMENT = "<!--End BEEST button-->"
 var iconNames = {
@@ -66,6 +69,8 @@ for (prop in colourNames){
 	const BUTTON_HIST = "history_button"
 	var localStorageHistory = BUTTON_HIST
 	var classButton = null
+    var showingError=false;
+
 /*END REQUIRED FOR HISTORY*/	
 	$(document).ready(function(){
 		classButton = new button()
@@ -77,6 +82,9 @@ for (prop in colourNames){
 		setupToolTips()
 		setupNav()
 		setupCheckURLValid()
+        setupInsertCode();
+
+
 	})
 
 /*REQUIRED FOR HISTORY*/	
@@ -290,79 +298,84 @@ function getColourCode(bsColour,btnSize){
         $('#demo').next('div').remove();
         $('#demo').after(textOutput);
 	}
-// end of generateBtnCode function
+    // end of generateBtnCode function
 
-//function to recover previously generated code that is pasted back into BEEST
+    //function to recover previously generated code that is pasted back into BEEST
+    function recoverCode(){
+        classButton = new button()
 
-function recoverCode(){
-	classButton = new button()
+        var pastedHTML = $("#retrieveCode").val();
 
-	var pastedHTML = $("#retrieveCode").val()
 
-	var iconHeading = getIconAndHeading(pastedHTML)
-	var iconClassName = iconHeading.iconName
-	if (iconClassName === null){
-		classButton.icon = "noI"
-	}
-	else{
-		var iconNums = reverseObjectMap(iconNames)
-		classButton.icon = iconNums[iconClassName]
-	}
-	var dataToFind = {
-		tags:['p','div','a']
-	}
+        if(pastedHTML==="")return;
+        let pastedHTMLArray=checkForMultipleBlocks(pastedHTML,"button"); //find the first block that matches the type (helperFunctions.js)
+        if(pastedHTMLArray.length>0)pastedHTML=pastedHTMLArray[0]; //if the array has something in it use it, otherwise try with pastedHTML (in case the user does not paste the comments or breaks the string in some other way - may as well try to get something from it)
 
-	var recoveredData = recoverFromPasted(pastedHTML,dataToFind)
-	classButton.mainHead = recoveredData.tags.p.text()
-	
-	var aTagJQ = recoveredData.tags.a
-	var aTag = aTagJQ[0]
-	
-	classButton.destination = aTagJQ.attr('href')
-	if (aTagJQ.attr('target')=="_blank"){
-		classButton.newWindow = "newWin"
-	}
-	else{
-		classButton.newWindow = "sameWin"
-	}
-	if (aTag.className.match(/btn-lg/)!=null){
-		classButton.buttonSize = 3 //large
-	}
-	else if (aTag.className.match(/btn-sm/)!=null){
-		classButton.buttonSize = 1 //small
-	}
-	else{
-		classButton.buttonSize = 2 //regular
-	}
-	var tagColour = aTag.className.replace(/btn btn-([^ ]*).*/,"$1")
-	if (tagColour.match("outline-") !== null){
-		tagColour = tagColour.replace("outline-","")
-		classButton.invert = "y"
-	}
-	else{
-		classButton.invert = "n"
-	}
-	var colourNums = reverseObjectMap(colourNames)
-	classButton.colour = colourNums[tagColour]
-	
-	var alignWidth = recoveredData.tags.div[0].className
-	if (alignWidth == ""){
-		classButton.alignment = "leftAlign"
-	}
-	else{
-		classButton.alignment = "centerAlign"
-		if (alignWidth.match(/mx-2/)!=null){
-			classButton.width = true
-		}
-		else{
-			classButton.width = false
-		}
-	}
 
-	setTextAreas(classButton)
+        var iconHeading = getIconAndHeading(pastedHTML)
+        var iconClassName = iconHeading.iconName
+        if (iconClassName === null){
+            classButton.icon = "noI"
+        }
+        else{
+            var iconNums = reverseObjectMap(iconNames)
+            classButton.icon = iconNums[iconClassName]
+        }
+        var dataToFind = {
+            tags:['p','div','a']
+        }
 
-	generateBtnCode()
-}
+        var recoveredData = recoverFromPasted(pastedHTML,dataToFind)
+        classButton.mainHead = recoveredData.tags.p.text()
+
+        var aTagJQ = recoveredData.tags.a
+        var aTag = aTagJQ[0]
+
+        classButton.destination = aTagJQ.attr('href')
+        if (aTagJQ.attr('target')=="_blank"){
+            classButton.newWindow = "newWin"
+        }
+        else{
+            classButton.newWindow = "sameWin"
+        }
+        if (aTag.className.match(/btn-lg/)!=null){
+            classButton.buttonSize = 3 //large
+        }
+        else if (aTag.className.match(/btn-sm/)!=null){
+            classButton.buttonSize = 1 //small
+        }
+        else{
+            classButton.buttonSize = 2 //regular
+        }
+        var tagColour = aTag.className.replace(/btn btn-([^ ]*).*/,"$1")
+        if (tagColour.match("outline-") !== null){
+            tagColour = tagColour.replace("outline-","")
+            classButton.invert = "y"
+        }
+        else{
+            classButton.invert = "n"
+        }
+        var colourNums = reverseObjectMap(colourNames)
+        classButton.colour = colourNums[tagColour]
+
+        var alignWidth = recoveredData.tags.div[0].className
+        if (alignWidth == ""){
+            classButton.alignment = "leftAlign"
+        }
+        else{
+            classButton.alignment = "centerAlign"
+            if (alignWidth.match(/mx-2/)!=null){
+                classButton.width = true
+            }
+            else{
+                classButton.width = false
+            }
+        }
+
+        setTextAreas(classButton)
+
+        generateBtnCode()
+    }
 
     //End of recoverCode function
 // function to copy generated code 
@@ -371,7 +384,17 @@ function recoverCode(){
 		addToHistory(classButton)
 		/*END REQUIRED FOR HISTORY*/
       SelectAll("txtareaBtn");
-    }     
+    }
+    // function to insert generated code
+    function insertCode(){
+        /*REQUIRED FOR HISTORY*/
+        addToHistory(classButton)
+        /*END REQUIRED FOR HISTORY*/
+
+        insertCodeInPage("txtareaBtn");
+    }
+
+
     function SelectAll(id){
         document.getElementById(id).focus();
         document.getElementById(id).select();
@@ -522,6 +545,7 @@ function setupCheckURLValid(){
               </div>
               <div class="col-lg">
               <textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Or recover it by pasting existing code from Moodle" onchange=recoverCode()></textarea>
+                  <div id="paste-help"></div>
           </div>
         </div>
 		
@@ -751,7 +775,15 @@ function setupCheckURLValid(){
                   <p class="my-3"></p>
                 <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click the copy code button below to copy your code, ready to paste into Moodle." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
                 <textarea readonly class="rounded p-2 w-100 border border-dark" id="txtareaBtn" cols="70" rows="2" name="Result" placeholder="Code for your element will appear here"></textarea>
-                <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." id="copyCodeBtn" class="btn btn-success btn-lg btn-block mt-2" name="GenerateWrap" value="Copy your code </>" OnClick=copyCode() >
+                      <div class="row w-100">
+                          <div class="col-lg-6">
+                              <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." id="copyCodeBtn" class="btn btn-success btn-lg btn-block mt-2" name="GenerateWrap" value="Copy your code </>" OnClick=copyCode() >
+                          </div>
+                          <div class="col-lg-6">
+                              <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been inserted." id="insertCodeBtn" class="btn btn-success btn-lg btn-block mt-2" name="insertWrap" value="Insert your code </>" OnClick='insertCode()' >
+                              <div id="input-help"></div>
+                          </div>
+                      </div>
                 <div class="text-center h5 mt-4">
                   <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
                   </div>

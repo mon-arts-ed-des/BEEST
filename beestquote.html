@@ -31,9 +31,10 @@
     <script src="js/advancedModeLocalStorage.js"></script>
     <!-- TinyMCE placeholder plugin file -->
     <script src="js/placeholder.js"></script> 
-      <script src="js/pageHistory.js"></script>
-      <script src="js/helperFunctions.js"></script>
-      <script src="js/setupPage.js"></script>  
+    <script src="js/pageHistory.js"></script>
+    <script src="js/helperFunctions.js"></script>
+    <script src="js/setupPage.js"></script>
+    <script src="js/insertCode.js"></script>
 
     <script type="text/javascript">
 const START_ELEMENT = "<!--Begin BEEST quote-->"
@@ -69,7 +70,7 @@ var sizeMap = {
 		setupToolTips();
 		makeTinyWithID('quoteText',{'change':generateElementCode},QUOTE_PLACEHOLDER)
 		classQuote = new quote()
-	
+        setupInsertCode();
 		/*REQUIRED FOR HISTORY*/ 
 		initHistory()
 		/*END REQUIRED FOR HISTORY*/ 
@@ -184,6 +185,13 @@ function combineQuoteElements(bgClrCode,resizedText,quote_Text,reference_text){
   
  function recoverCode(){
 	var pastedCode = $("#retrieveCode").val()
+
+
+
+     if(pastedCode==="")return;
+     let pastedHTMLArray=checkForMultipleBlocks(pastedCode,"quote"); //find the first block that matches the type (helperFunctions.js)
+     if(pastedHTMLArray.length>0)pastedCode=pastedHTMLArray[0]; //if the array has something in it use it, otherwise try with pastedCode (in case the user does not paste the comments or breaks the string in some other way - may as well try to get something from it)
+
 		
 	var dataToFind = {
 		tags:["blockquote","p","div"],
@@ -218,6 +226,14 @@ function combineQuoteElements(bgClrCode,resizedText,quote_Text,reference_text){
 		addToHistory(classQuote)
 		/*END REQUIRED FOR HISTORY*/
 		SelectAll("monQuoteCode");
+    }
+    // function to insert generated code
+    function insertCode(){
+        /*REQUIRED FOR HISTORY*/
+        addToHistory(classQuote)
+        /*END REQUIRED FOR HISTORY*/
+
+        insertCodeInPage("monQuoteCode");
     }
 
     //select all the generated HTML
@@ -327,6 +343,7 @@ function combineQuoteElements(bgClrCode,resizedText,quote_Text,reference_text){
             </div>
             <div class="col-lg">
             <textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Or recover it by pasting existing code from Moodle (work in progress)" onchange=recoverCode()></textarea>
+                <div id="paste-help"></div>
         </div>
       </div>
         <hr>
@@ -429,7 +446,15 @@ function combineQuoteElements(bgClrCode,resizedText,quote_Text,reference_text){
   <p class="my-3"></p>
    <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click the copy code button below once you have finished creating your quote, ready for pasting into Moodle." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
    <textarea readonly class="rounded p-2 w-100" id="monQuoteCode" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here."></textarea>
-       <input type="button" id="copyCodeBtn" class="btn btn-success btn-lg btn-block mt-2 text-center" name="GenerateWrap" value="Copy your code </>" data-toggle="tooltip" data-placement="bottom" data-trigger="click focus" title="Your code has been copied." onClick=copyCode()>
+  <div class="row w-100">
+      <div class="col-lg-6">
+          <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." id="copyCodeBtn" class="btn btn-success btn-lg btn-block mt-2" name="GenerateWrap" value="Copy your code </>" OnClick=copyCode() >
+      </div>
+      <div class="col-lg-6">
+          <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been inserted." id="insertCodeBtn" class="btn btn-success btn-lg btn-block mt-2" name="insertWrap" value="Insert your code </>" OnClick='insertCode()' >
+          <div id="input-help"></div>
+      </div>
+      </div>
        <div class="text-center h5 mt-4">
         <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
         </div>

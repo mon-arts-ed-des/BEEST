@@ -43,6 +43,9 @@
     <!-- TinyMCE placeholder plugin file -->
     <script src="js/placeholder.js"></script> 
 	<script src="js/setupPage.js"></script>
+    <script src="js/insertCode.js"></script>
+
+
     <script type="text/javascript">
 
 
@@ -76,6 +79,7 @@ var colourNames = {
 		setupNav()
 		setupGoogleAnalytics()
 		//default_XRadio_onEmpty_Y("alertHeading","headSize","noH","headSize1",generateElementCode);
+        setupInsertCode();
 	})
 
 	
@@ -124,6 +128,14 @@ var colourNames = {
 		addToHistory(classModal)
 		/*END REQUIRED FOR HISTORY*/
 		SelectAll("monModalCode");
+    }
+    // function to insert generated code
+    function insertCode(){
+        /*REQUIRED FOR HISTORY*/
+        addToHistory(classModal)
+        /*END REQUIRED FOR HISTORY*/
+
+        insertCodeInPage("monModalCode");
     }
 
 
@@ -263,6 +275,13 @@ function storePageToClass(linkText,contentUrl,faIcon,bsColour,buttonExit,buttonO
 	
 function recoverCode(){
 	var pastedCode = $("#retrieveCode").val()
+
+
+    if(pastedCode==="")return;
+    let pastedHTMLArray=checkForMultipleBlocks(pastedCode,"modal"); //find the first block that matches the type (helperFunctions.js)
+    if(pastedHTMLArray.length>0)pastedCode=pastedHTMLArray[0]; //if the array has something in it use it, otherwise try with pastedHTML (in case the user does not paste the comments or breaks the string in some other way - may as well try to get something from it)
+
+
 	
 	processedCode = pastedCode.replaceAll("<!--","").replaceAll("-"+"->","")
 	processedCode = $.parseHTML(processedCode)
@@ -393,6 +412,7 @@ function getHistoryI(index,history){
           </div>
           <div class="col-lg">
           <textarea class="rounded p-2 w-100 mt-2" rows="2" name="retrieveCode" type="text" id="retrieveCode" placeholder="Or recover it by pasting existing code from Moodle" onchange=recoverCode()></textarea>
+              <div id="paste-help"></div>
       </div>
     </div>
     <hr>
@@ -539,8 +559,17 @@ function getHistoryI(index,history){
                 <hr>
    <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click the copy code button below once you have finished creating your alert, ready for pasting into Moodle." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></h5>
    
-   <textarea readonly class="border border-dark rounded p-2 w-100" id="monModalCode" cols="70" rows="4" name="Result" placeholder="Code for your element will appear here."></textarea>  
-        <input type="button" class="btn btn-success btn-block btn-lg my-2 text-center" name="GenerateWrap" value="Copy code </>" onClick=copyCode() id="copyCodeBtn" data-toggle="tooltip" data-placement="left" data-trigger="click focus" title="Your code has been copied." />
+   <textarea readonly class="border border-dark rounded p-2 w-100" id="monModalCode" cols="70" rows="4" name="Result" placeholder="Code for your element will appear here."></textarea>
+         <div class="row w-100">
+             <div class="col-lg-6">
+                 <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." id="copyCodeBtn" class="btn btn-success btn-lg btn-block mt-2" name="GenerateWrap" value="Copy your code </>" OnClick=copyCode() >
+             </div>
+             <div class="col-lg-6">
+                 <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been inserted." id="insertCodeBtn" class="btn btn-success btn-lg btn-block mt-2" name="insertWrap" value="Insert your code </>" OnClick='insertCode()' >
+                 <div id="input-help"></div>
+             </div>
+         </div>
+
         <div class="text-center h5 mt-4">
           <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
           </div></div>
