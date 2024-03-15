@@ -601,3 +601,41 @@ function castAsNumIfPossible(potentialNum){
 		});
 	}
 }
+
+/* check the pastedHTML and break up into nodes based on comments */
+/* add complete blocks to array if they match the correct type */
+function checkForMultipleBlocks(pastedHTML,type){
+
+	var content = $('<div />',{html:pastedHTML});
+	let nodes=content[0].childNodes;
+	let pastedHTMLArray=[];
+	let tmp="";
+
+	console.log(nodes);
+
+	nodes.forEach(function (val,index,list) {
+
+		switch(val.nodeType){
+			case 1:
+				tmp+=val.outerHTML.replace("<p>(Opens in a new window)</p>","");
+				break;
+			case 8:
+				tmp+="<!-- "+val.nodeValue+" -->";
+				break;
+			default:
+				tmp+=val.nodeValue;
+				break;
+		}
+
+		if(val.nodeType===8&&val.nodeValue.indexOf("End")!==-1){
+			if(val.nodeValue.indexOf(type)!==-1){pastedHTMLArray.push(tmp);}
+			tmp = "";
+		}
+	});
+
+	console.log(pastedHTML);
+
+	if(pastedHTMLArray.length>1)showErrorMsg('paste-help','Multiple BEEST blocks detected. Only the first correct type will be used.',5000,function(){console.log("Multiple BEEST blocks detected");});
+
+	return pastedHTMLArray;
+}
