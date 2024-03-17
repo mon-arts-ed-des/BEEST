@@ -14,7 +14,7 @@ function setupInsertCode(){
 			$("#insertCodeBtn").prop("disabled", true);
 		}
 	}catch(ex){
-		console.log("Atto not found: "+ex);
+		console.log("Atto test: "+ex);
 	}
 
 	//disable button if popup is used outside an edit page
@@ -54,20 +54,13 @@ function insertCodeInPage(id){
 		parent.tinymce.activeEditor.setDirty(true);
 		//tinymce.activeEditor.selection.getBookmark();
 
-	}else if(window.parent.Y.M.editor_atto!=undefined) {
-
-		/*txt = parent.Y.one('#id_introeditor').get('value');
-		code=txt+code;
-		parent.Y.one('#id_introeditor' + 'editable').setHTML(code);
-		parent.Y.one('#id_introeditor').setHTML(code);
-		$('#id_introeditoreditable').focus();*/
-
 	}else{
 		//todo: this is rubbish - make it better
+
 		txtarea=$('textarea', parent.document)[0];
 		txt=$(txtarea).html();
 		code=txt+code;
-		$(txtarea).html(code);
+		txtarea.innerHTML = code;
 	}
 
 
