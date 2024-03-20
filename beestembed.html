@@ -336,7 +336,7 @@ function getHistoryI(index,history){
 <div class="py-5"></div>
 <div class="container-fluid">   
   <h3 class="text-center font-weight-bold">Embed <span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Embed an activity, Google doc or sheet, or any other embeddable content in Moodle." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></h3>
-  <!--<h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".pollevWalkthrough" href="">Video walkthrough - Creating a Poll Everywhere activity/survey embed code (2:36)</a></h5>-->
+  <h5 class="text-center"><a class="hideableinstruct" data-toggle="modal" data-target=".pollevWalkthrough" href="">Video walkthrough - Creating an Embed activity (3:34)</a></h5>
   <div class="row w-50 mx-auto text-center mt-2">
     <div class="col-lg mt-2">
           <a data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click this button to clear the page and start again." href="javascript:window.location.reload()" class="btn btn-danger btn-lg btn-block" role="button">Clear the page <i class="fa fa-fw fa-refresh"></i></a>
@@ -346,7 +346,7 @@ function getHistoryI(index,history){
         </div></div>
 <!--Modal content for this page-->
 <!--Get the correct link -->
-<div class="modal fade pollev-modal" tabindex="-1" role="dialog" aria-labelledby="pollev-modal" aria-hidden="true">
+<div class="modal fade embed-modal" tabindex="-1" role="dialog" aria-labelledby="embed-modal" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content p-2 bg-dark text-white">
       <div class="modal-header">
@@ -357,9 +357,9 @@ function getHistoryI(index,history){
       </div>
           <h5 class="m-3"><i class="fa fa-fw fa-link"></i> Get the embeddable URL</h5>
             <ol class="mb-0">
-                <li>Go to <a href="https://www.polleverywhere.com/activities" target="_blank" class="text-white">Poll Everywhere <i class="fa fa-fw fa-external-link-square"></i></a> (opens in a new window) and login.</li>
-                <li>Click on the <strong>Actions</strong> menu of an already created item and choose <strong>Copy response link</strong>.</li>
-                <li>Return to the BEEST and paste this link in Step 1.</li>
+                <li>Go to the relevant page to embed.</li>
+                <li>If there is an embeddable version, use this URL rather than what's in the address bar.</li>
+                <li>Return to the BEEST and paste this link into the embeddable URL field.</li>
                 </ol>
    
     </div>
@@ -432,7 +432,7 @@ function getHistoryI(index,history){
                   <h5 class="font-weight-bold">Embeddable URL<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Paste in your embeddable URL." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
             </div>
             <div class="col-lg">
-              <!--<a href="" data-toggle="modal" data-target=".pollev-modal">Which link do I need?</a>-->
+              <a href="" data-toggle="modal" data-target=".embed-modal">Which link do I need?</a>
               <textarea class="rounded p-2 w-100 mt-2" rows="1" name="embed_URL" id="embed_URL" placeholder="Write/paste the embeddable link here" onchange=generateElementCode()></textarea>
               </div>
               </div>
