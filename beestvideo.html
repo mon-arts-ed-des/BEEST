@@ -126,11 +126,11 @@ $(document).ready(function() {
     }
 	
 	function updatePreview(resizedHead,vPosition,respVid,contextCode,vWidth){
-		function prepLeftRightAlignment(vPosition,respVid_span,closeCol,secCol,contextCode_span){
-			if (vPosition == "left"){
+		function prepLeftRightAlignment(alignment,respVid_span,closeCol,secCol,contextCode_span){
+			if (alignment == "before"){
 				return respVid_span+closeCol+secCol+contextCode_span;
 			}
-			else if (vPosition == "right"){
+			else if (alignment == "after"){
 				return contextCode_span+closeCol+secCol+respVid_span;
 			}
 		}
@@ -140,34 +140,61 @@ $(document).ready(function() {
 			}
 		}
 		
-		var rowOpen="<div class=\"row w-100\">"
+		var reviewWidth=true;
+		var version = ""
+		var orderMapping = {"left":"before","right":"after","up":"before","down":"after"}
+		var alignOrder = orderMapping[vPosition]
+		switch(vPosition){
+			case "up":
+			case "down":
+				version = "v"
+				reviewWidth = false;
+				$('#widthRow').hide();
+			break;
+			case "right":
+			case "left":
+				version = "h"
+				reviewWidth = true;
+				$('#widthRow').show();
+			break;
+		}
+		var vertHorz = {
+			rowOpen:{v:"<div>",h:"<div class=\"row w-100\">"},
+			firstCol:{v:"<div id=\"uCol\">",h:"<div class=\"col-lg\" id=\"fCol\">"},
+			secCol:{v:"<div id=\"dCol\">",h:"<div class=\"col-lg mt-2\" id=\"sCol\">"}
+		}
+		
+		var rowOpen=vertHorz.rowOpen[version]//"<div class=\"row w-100\">"
 		var closeCol="</div>"
-		var closeRow="</div></div>"
+		var closeRow="</div>"
+		
 		
 		sizeClasses = {
 			"33":"col-lg-4",
 			"50":"col-lg"
 		}
 		
-        var firstCol="<div class=\"col-lg\" id=\"fCol\">"
-        var secCol="<div class=\"col-lg mt-2\" id=\"sCol\">"
+        var firstCol=vertHorz.firstCol[version]//"<div class=\"col-lg\" id=\"fCol\">"
+        var secCol=vertHorz.secCol[version]//"<div class=\"col-lg mt-2\" id=\"sCol\">"
 		//Change size of column if requested
-        if (vWidth == "33" && vPosition == "left"){
-          firstCol = firstCol.replace(sizeClasses["50"],sizeClasses["33"])
-        }
-        else if (vWidth == "33" && vPosition== "right"){
-          secCol = secCol.replace(sizeClasses["50"],sizeClasses["33"])
-        }
-		
-		var textOutput = "<span id='resizedHead'>"+resizedHead+"</span>"+rowOpen+firstCol
-		textOutput += "<span id='vPos' side="+vPosition+">"
+        if (reviewWidth){
+			if (vWidth == "33" && vPosition == "left"){
+			  firstCol = firstCol.replace(sizeClasses["50"],sizeClasses["33"])
+			}
+			else if (vWidth == "33" && vPosition== "right"){
+			  secCol = secCol.replace(sizeClasses["50"],sizeClasses["33"])
+			}
+		}
+		var textOutput = "<span id='resizedHead'>"+resizedHead+"</span>"+rowOpen
+		textOutput += "<span id='vPos' side="+vPosition+"></span>"
+		textOutput += firstCol
 		
 		respVid_span = "<span id='respVidDemo'>"+respVid+"</span>"
 		contextCode_span = "<span id='video-context'>"+contextCode+"</span>"
 				
-		textOutput += prepLeftRightAlignment(vPosition,respVid_span,closeCol,secCol,contextCode_span)
+		textOutput += prepLeftRightAlignment(alignOrder,respVid_span,closeCol,secCol,contextCode_span)
 		
-		textOutput += "</span>"
+		textOutput+= closeRow
 		textOutput+= closeRow
 	   
 		var demoDiv = $('#demo')
@@ -184,8 +211,20 @@ $(document).ready(function() {
 			var sColHTML = $('#sCol')
 			var sColClasses = sColHTML.attr('class')
 			var contextCodeHTML = $('#video-context')
-			var oldWidth33 = (sColClasses.includes(sizeClasses['33']) || fColClasses.includes(sizeClasses['33']))
-			var oldWidth = (oldWidth33 ? '33' : '50')
+			var oldWidth33 = ""
+			var oldWidth = ""
+			switch(side){
+				case "up":
+				case "down":
+					oldWidth = '100'
+				break;
+				case "right":
+				case "left":
+					oldWidth33 = (sColClasses.includes(sizeClasses['33']) || fColClasses.includes(sizeClasses['33']))
+					oldWidth = (oldWidth33 ? '33' : '50')
+				break;
+			}
+			
 			
 			//updateIfDifferent(fColHTML,firstCol) //fix me by changing class
 			if (side !== vPosition){
@@ -309,7 +348,7 @@ function constructIconTag(faIcon){
 		setTextAreas_util(dataToSave)
         generateCode();
 	}
-	
+
 	function recoverCode(){
 		videoPageInstance = new videoPage()
 		var pastedHTML = $("#retrieveCode").val()
@@ -318,6 +357,8 @@ function constructIconTag(faIcon){
 		var iconClassName = iconHeading.iconName
 		var headSize = iconHeading.headSize
 		var headText = iconHeading.headText
+		var hasSideProp = false;
+		var hasFSCols = false;
 		
 		var dataToFind = {
 			tags:['iframe'],
@@ -336,16 +377,40 @@ function constructIconTag(faIcon){
 		var recoveredData = recoverFromPasted(pastedHTML,dataToFind)
 		
 		videoPageInstance.link = recoveredData.tags.iframe[0].src
-		videoPageInstance.position = recoveredData.ids.vPos.attr('side')
-		videoPageInstance.context = recoveredData.ids['video-context'].text()
+		hasSideProp = (recoveredData.ids.hasOwnProperty("vPos"))
+		if (hasSideProp){
+			videoPageInstance.position = recoveredData.ids.vPos.attr('side')
+			videoPageInstance.context = recoveredData.ids['video-context'].text()
+		}
 		
-		colClasses = [recoveredData.ids.fCol[0].className,
-		recoveredData.ids.sCol[0].className]
-		colClasses[0] = colClasses[0].replace(/ .*/,"")
-		colClasses[1] = colClasses[1].replace(/ .*/,"")
-		
-		videoPageInstance.width = (colClasses[0] == colClasses[1] ? 50 : 33)
+		hasFSCols = ((recoveredData.ids.hasOwnProperty("fCol"))&&(recoveredData.ids.hasOwnProperty("sCol")))
+		if (hasFSCols){
+			colClasses = [recoveredData.ids.fCol[0].className,
+			recoveredData.ids.sCol[0].className]
+			colClasses[0] = colClasses[0].replace(/ .*/,"")
+			colClasses[1] = colClasses[1].replace(/ .*/,"")
 			
+			videoPageInstance.width = (colClasses[0] == colClasses[1] ? 50 : 33)
+		}
+		else{
+			videoPageInstance.width = 50
+		}
+		
+		if ((!hasSideProp)&&(hasFSCols)){
+			if ($(recoveredData.ids.fCol).find("iframe").length>0){
+				videoPageInstance.position = "left"
+				videoPageInstance.context = recoveredData.ids.sCol[0].innerHTML
+			}
+			else{
+				videoPageInstance.position = "right"
+				videoPageInstance.context = recoveredData.ids.fCol[0].innerHTML
+			}
+		}
+		if ((!hasSideProp)&&(!hasFSCols)){
+			throw new Error("BEEST video element is missing ids/tags to identify the position of video vs text context")
+		}
+		
+		
 		setPageContents(videoPageInstance)
 	}
 
@@ -656,8 +721,16 @@ function embedLinkConverter(event){
               <input class="form-check-input" name="videoPosition" id="videoPosition2" type="radio" value="right" checked>
               <label class="form-check-label" for="videoPosition2">Right</label>
               </div>
+			  <div class="form-check form-check-inline" id="videoPosition" onchange=generateCode()>
+                <input class="form-check-input" name="videoPosition" id="videoPosition3" type="radio" value="up">
+                <label class="form-check-label" for="videoPosition3">Above</label>
+              </div>
+              <div class="form-check form-check-inline" id="videoPosition" onchange=generateCode()>
+              <input class="form-check-input" name="videoPosition" id="videoPosition4" type="radio" value="down">
+              <label class="form-check-label" for="videoPosition4">Below</label>
+              </div>
           </div>
-        </div>
+        </div><span id='widthRow'>
         <hr>
         <div class="row w-100 mx-auto">
           <div class="col-lg-3">
@@ -677,7 +750,7 @@ function embedLinkConverter(event){
               <label class="form-check-label" for="videoWidth2">33.3% (1/3 of the screen width)</label>
               </div>
           </div>
-        </div> 
+        </div></span> 
         <hr>
         <div class="row w-100 mx-auto">
           <div class="col-lg-3">
