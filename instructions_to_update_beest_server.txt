@@ -1,6 +1,8 @@
 git pull to get the most up to date BEEST files on the master branch
 
-open BEEST server (fit-web107-v02.ocio.monash.edu) in WinSCP
+connect to VPN
+
+open BEEST server (fit-web107-v02.ocio.monash.edu) in Putty (via WinSCP) and then directly in WinSCP
 
 Go to /var/tmp and make a folder and copy in the current set of files to include
 
@@ -9,7 +11,7 @@ go to /var/tmp
 [cd /var/tmp]
 
 grant yourself sudo access
-[sudo sudosh]
+[sudo su -]
 
 move the copied files into the html directory and override
 [mv *.* /srv/www/html]
