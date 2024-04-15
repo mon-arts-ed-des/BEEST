@@ -154,7 +154,7 @@ function textColourForBG(colour){
 function createHeading(cardHeading,colourName,headSize,faIcon,matchColour,borderInUse){
 	//icon names moved to top
 	var faIconCode = "";
-	if (faIcon!==undefined)&&(faIcon!=="noI"){
+	if ((faIcon!==undefined)&&(faIcon!=="noI")){
 		faIconCode = ' <i class="fa fa-' + iconNames[faIcon] + '"></i> ';
 	}
 	var resizedHead = ""
@@ -200,6 +200,39 @@ function generateColourTag(colourName,matching,alignment,border){
 	return colCode
 }
 
+function buildCardText(cardContent,colourName,matchColour,borderUse){
+	var cardTag = '<div class="card-body'
+	if (borderUse){
+		cardTag += ' border-dark'
+	}
+	if (matchColour == "card"){
+		cardTag += ' '+textColourForBG(colourName) //handle making text visible if needed
+	}
+	cardTag += '"><div class="card-text"><span class="cardcontent">'+cardContent+'</span></div></div>'
+	return cardTag
+}
+
+function buildFooter(footerText,colourName,matching,borderUse){
+	var footTag = ""
+	if (footerText!==""){
+		footTag = '<div class="card-footer text-muted'
+		switch(matching){
+			case "footer":
+				footTag += ' bg-'+colourName
+			case "card":
+				footTag += ' '+textColourForBG(colourName) //for either footer OR card matching we need to handle text colour
+			case "none":
+			default:
+				break;		
+		}
+		if (borderUse){
+			footTag += ' border-dark'
+		}
+		footTag += '">'+cardFooter+'</div>'
+	}
+	return footTag
+}
+
 function storePageToClass(cardContent,cardHeading,cardSize,textPosition,headSize,faIcon,bsColour,borderUse,matchColour,cardFooter){
 	var sizeToStorate = {"h5":1+1,"h4":2+1,"h3":3+1}//first index is noHeading so +1 to capture starting from 2nd position
 	var iconStorage = 1;
@@ -236,8 +269,8 @@ function storePageToClass(cardContent,cardHeading,cardSize,textPosition,headSize
 		var resizedHead = createHeading(cardHeading,colourName,headSize,faIcon,matchColour,borderUse)
 
 		var textOutput = sizedCard + colourCodes + resizedHead
-		textOutput+= '<div class="card-body"><div class="card-text"><span class="cardcontent">'+cardContent+'</span></div></div>'
-        textOutput += '<div class="card-footer text-muted">'+cardFooter+'</div>'
+		textOutput+= buildCardText(cardContent,colourName,matchColour,borderUse)
+        textOutput += buildFooter(cardFooter,colourName,matchColour,borderUse)
 		textOutput += "</div></div>";
 		classCard = storePageToClass(cardContent,cardHeading,cardSize,textPosition,headSize,faIcon,bsColour,borderUse,matchColour,cardFooter)
 
