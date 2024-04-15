@@ -301,22 +301,83 @@ function storePageToClass(cardContent,cardHeading,cardSize,textPosition,headSize
     });
 	
 	
+function coloudMatchDetermine(textAlignDiv,headerDiv,footerDiv){
+	var result = {
+		"colour": "",
+		"matchType":""
+	};
+	var matchCol = /bg-[^ ]+/
+	var replaceCol = /.*bg-([^ ]+).*/
+	var cardClasses = textAlignDiv[0].className
+	var footerClasses = footerDiv[0].className
+	var headerClasses = headerDiv[0].className
+	if (cardClasses.match(matchCol)!==null){
+		result.matchType = "card"
+		result.colour = cardClasses.replace(replaceCol,"$1")
+	}
+	else{
+		if (footerClasses.match(matchCol)!==null){
+			result.matchType = "footer"
+			result.colour = footerClasses.replace(replaceCol,"$1")
+		}
+		else{
+			if (headerClasses.match(matchCol)!==null){
+				result.matchType = "none"
+				result.colour = headerClasses.replace(replaceCol,"$1")
+			}
+			else{
+				throw new Error("where is the colour gone??")
+			}
+		}
+	}
+	return result
+}
+	
 function recoverCode(){
 	var pastedCode = $("#retrieveCode").val()
 		
-	var iconHeading = getIconAndHeading(pastedCode)
-	var iconClassName = iconHeading.iconName
-	var headSize = iconHeading.headSize
-	var headText = iconHeading.headText
+	var iconClassName = getIconAndHeading(pastedCode).iconName
+	
+	classCard = new card()
 	
 	var dataToFind = {
-		tags:["div","p","button"],
-		classes:['cardcontent']
+		classes:['cardcontent','card-footer','card-header','card','mx-auto']
 	}
 	var recoveredData = recoverFromPasted(pastedCode,dataToFind)
 	
+	var outerdiv = recoveredData.classes["mx-auto"]
+	classCard.width = outerdiv[0].className.replace(" mx-auto","")
 	
-	classCard = new card()
+	var textAlignDiv = recoveredData.classes["card"]
+	var textAlignDivClasses = textAlignDiv[0].className
+	var textAligned = textAlignDivClasses.replace(/.*(text-[^ ]*).*/,"$1")
+	classCard.textPos = textAligned
+	
+	var borderUse = textAlignDivClasses.replace(/.*(border-[^ ]*).*/,"$1")
+	if (borderUse == 'border-dark'){
+		classCard.borderUse = true
+	}
+	else{
+		classCard.borderUse = false
+	}
+	
+	var headerDiv = recoveredData.classes["card-header"]
+	var headSize = headerDiv[0].className.replace(/.*(h[[0-9]).*/,"$1")
+	//if header has BG colour then either matching = none or matching=footer
+	classCard.headSize = headSize //sets to noH or h3/4/5 as appropriate
+	
+	var headText = headerDiv[0].innerHTML.replace(/ *<i.*i> */,"").trim()
+	classCard.mainHead = headText
+	
+	
+	var footerDiv = recoveredData.classes["card-footer"]
+	classCard.footer = footerDiv[0].innerHTML
+	
+	var colourMatched = coloudMatchDetermine(textAlignDiv,headerDiv,footerDiv)
+	classCard.matchCol = colourMatched.matchType
+	colourNums = reverseObjectMap(colourNames)
+	classCard.colour = colourNums[colourMatched.colour]
+	
 	if (iconClassName == null){
 		classCard.icon = "noI"
 	}
@@ -325,34 +386,14 @@ function recoverCode(){
 		classCard.icon = iconNums[iconClassName]
 	}
 	
-	classCard.headSize = headSize //sets to noH or h3/4/5 as appropriate
-	classCard.mainHead = headText //will be undefined if noH so need not validate first
-	
 	classCard.content=""
 	var cardContentTag = recoveredData.classes["cardcontent"]
 	if ((cardContentTag === null)||(cardContentTag === undefined)){
-		var pTag = recoveredData.tags["p"][0] //we start from the first p tag found
-		while (pTag != null){ //repeat until we run out of content.
-			classCard.content += pTag.outerHTML //take in HTML mode to retain formating
-			while ((pTag.nextSibling!=null) && (pTag.nextSibling.nodeType !=1)){ //only consider element type nodes
-				pTag = pTag.nextSibling //go to next tag following this
-			}
-			pTag = pTag.nextSibling
-		}
+		classCard.content=""
 	}
 	else{
 		classCard.content=cardContentTag[0].innerHTML
 	}
-	
-	classCard.permanent = (!(recoveredData.tags.hasOwnProperty("button")))
-	classCard.permanent = (classCard.permanent ? "permanent" : "dismissable")
-	//no button --> permanent || button --> dismissable
-	
-	var divClasses = recoveredData.tags["div"][0].className
-	var classColour = divClasses.replace("card-dismissible","").replace(/.*card-/,"").replace(/ .*/,"")
-	
-	var colourNums = reverseObjectMap(colourNames)
-	classCard.colour = colourNums[classColour]
 		
 	setTextAreas(classCard)
 	generateElementCode()
