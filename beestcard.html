@@ -143,7 +143,7 @@ var colourNames = {
 
 /*BEGIN helper functions for generate element code*/
 function textColourForBG(colour){
-	if (colour=="light"){
+	if ((colour=="light")||(colour=="warning")){
 		return ""
 	}
 	else{
@@ -237,10 +237,11 @@ function buildFooter(footerText,colourName,matching,borderUse){
 
 function storePageToClass(cardContent,cardHeading,cardSize,textPosition,headSize,faIcon,bsColour,borderUse,matchColour,cardFooter){
 	var sizeToStorate = {"h5":1+1,"h4":2+1,"h3":3+1}//first index is noHeading so +1 to capture starting from 2nd position
-	var iconStorage = 1;
+	var iconStorage = 0;
 	if (faIcon!="noI"){
-		iconStorage = faIcon*1+1
+		iconStorage = faIcon*1
 	}
+	cardCode = cardContent
 	if (cardContent == PLACEHOLDER) {
 		cardCode = ""
 	}
@@ -360,11 +361,15 @@ function recoverCode(){
 
 function setTextAreas(classData){
 	getId("cardHeading").value = classData.mainHead
-	setRadios("headSize",classData.headSize)
-	setRadios("cardColour",classData.colour)
-	setRadios("faCode",classData.icon)
-	setRadios("dmoption",classData.permanent)
 	setTinyContent("tinyMCEcard",classData.content)
+	getId("cardFooter").value = classData.footer
+	setRadios("cardSize",classData.width)
+	setRadios("textPos",classData.textPos)
+	setRadios("headSize",classData.headSize)
+	setRadios("faCode",classData.icon)
+	setRadios("cardColour",classData.colour)
+	setCheckBox("borderUse",classData.borderUse)
+	setRadios("matchColour",classData.matchCol)
 }
 
 function getHistoryI(index,history){
