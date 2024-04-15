@@ -215,20 +215,22 @@ function buildCardText(cardContent,colourName,matchColour,borderUse){
 function buildFooter(footerText,colourName,matching,borderUse){
 	var footTag = ""
 	if (footerText!==""){
-		footTag = '<div class="card-footer text-muted'
+		footTag = '<div class="card-footer'
 		switch(matching){
 			case "footer":
 				footTag += ' bg-'+colourName
 			case "card":
 				footTag += ' '+textColourForBG(colourName) //for either footer OR card matching we need to handle text colour
+				break;
 			case "none":
+				footTag += ' text-muted' //only really visible if not a coloured background
 			default:
 				break;		
 		}
 		if (borderUse){
 			footTag += ' border-dark'
 		}
-		footTag += '">'+cardFooter+'</div>'
+		footTag += '">'+footerText+'</div>'
 	}
 	return footTag
 }
@@ -503,16 +505,16 @@ function getHistoryI(index,history){
   </div>
   <div class="col-lg">
         <div class="form-check form-check-inline" id="cardSize" onchange=generateElementCode()>
-          <input class="form-check-input" name="cardSize" id="cardSize1" type="radio" value="w-33" checked>
-          <label class="form-check-label" for="cardSize1">33%</label>
+          <input class="form-check-input" name="cardSize" id="cardSize1" type="radio" value="" checked>
+          <label class="form-check-label" for="cardSize1">full</label>
         </div>
           <div class="form-check form-check-inline" id="cardSize" onchange=generateElementCode()>
-            <input class="form-check-input" name="cardSize" id="cardSize2" type="radio" value="w-50">
-            <label class="form-check-label" for="cardSize2">50%</label>
+            <input class="form-check-input" name="cardSize" id="cardSize2" type="radio" value="w-75">
+            <label class="form-check-label" for="cardSize2">75%</label>
           </div>
           <div class="form-check form-check-inline" id="cardSize" onchange=generateElementCode()>
-          <input class="form-check-input" name="cardSize" id="cardSize3" type="radio" value="w-75">
-          <label class="form-check-label" for="cardSize3">75%</label>
+          <input class="form-check-input" name="cardSize" id="cardSize3" type="radio" value="w-50">
+          <label class="form-check-label" for="cardSize3">50%</label>
           </div>
 
         </div> 
@@ -535,11 +537,11 @@ function getHistoryI(index,history){
           </div>
           <div class="form-check form-check-inline" id="textPos" onchange=generateElementCode()>
           <input class="form-check-input" name="textPos" id="textPos3" type="radio" value="text-right">
-          <label class="form-check-label" for="textPos3">75%</label>
+          <label class="form-check-label" for="textPos3">right</label>
           </div>
 		  <div class="form-check form-check-inline" id="textPos" onchange=generateElementCode()>
           <input class="form-check-input" name="textPos" id="textPos4" type="radio" value="text-justify">
-          <label class="form-check-label" for="textPos4">75%</label>
+          <label class="form-check-label" for="textPos4">justify</label>
           </div>
         </div> 
         </div>
@@ -677,21 +679,21 @@ function getHistoryI(index,history){
 	
 	<div class="row w-100 mx-auto">
       <div class="col-lg-3">
-        <h5 class="font-weight-bold">Add border?<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Toggle whether to apply a dark border through the card." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+        <h5 class="font-weight-bold">Add border to card?<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Toggle whether to apply a dark border through the card." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
         
       </div>
       <div class="col-lg">
         <div class="row w-100">
           <div class="col-lg">
-            <div class="form-check form-check-inline" id="borderUse">
-              <input class="form-check-input" name="borderUse" id="borderUse2" type="checkbox" onchange=generateBtnCode()>
-              <label class="form-check-label" for="borderUse2">Add border</label>
+            <div class="form-check form-check-inline" id="borderUse1">
+              <input class="form-check-input" name="borderUse1" id="borderUse" type="checkbox" onchange=generateElementCode()>
+              <label class="form-check-label" for="borderUse">Add border</label>
               </div>            
         </div>
       </div>
     </div>
   </div>
-	
+	<hr>
 	
   </div>
             <div class="col-lg">
