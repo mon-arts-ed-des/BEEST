@@ -7,8 +7,22 @@ const COLLAPSED_MODE = "collapsed"
 const UNCOLLAPSED_MODE_49 = "show"
 const KEY_COLLAPSE_BEEST_EDIT_RAW = "wasSeen"
 const KEY_MOODLE_VERSION = "moodle_version_for_BEEST"
-const KEY_COLLAPSE_BEEST_EDIT = encodehash(KEY_COLLAPSE_BEEST_EDIT_RAW)
-const HOST = "https://mon-arts-ed-des.github.io/BEEST"
+const KEY_COLLAPSE_BEEST_EDIT = encodehash(KEY_COLLAPSE_BEEST_EDIT_RAW);
+
+
+
+
+
+
+
+//todo: swap HOST before push
+//const HOST = "https://mon-arts-ed-des.github.io/BEEST"
+const HOST = "http://localhost/moodle/_BEEST";
+
+console.log("HOST: "+HOST);
+
+
+
 
 const key_current_role_raw = "CURRENT_ROLE"
 const key_current_role = encodehash(key_current_role_raw)
@@ -91,6 +105,28 @@ function setup_beest(MODE,visibilityMethod){
 	$(".dropdown-menu, .dropdown-item").each(check_for_edit_and_role); //this version applies to moodle 4.1 and 3.9 (the dropdown-item class is 3.9 and dropdown-menu is 4.1)
 	
 	//now we've explored EACH menu option let's check if we should display the icon.
+
+	//todo: remove before push
+	cog_present=true;
+	correct_role=true;
+
+
+
+
+	window.addEventListener( "message",function (e) {
+
+			console.log("-------------------------------------");
+			console.log(e.origin);
+			console.log(e.data);
+			console.log("-------------------------------------");
+
+			if(e.origin!=='https://beest.monash.edu'){return;}
+			insertCodeInPage(e.data);
+		});
+
+
+
+
 	
 	if((cog_present)&&(correct_role)){
 		//if at any point cog present and can find the required text...
@@ -161,7 +197,10 @@ function createButtonAndModal(){
 		default:
 			console.log("unable to determine moodle version, assuming 4.1")
 		case 4.1:
-			$(".header-custom-menus").prepend(beest_button_for_menu);
+			//todo: replace header-custom-menu before push
+			//$(".header-custom-menus").prepend(beest_button_for_menu);
+			$(".usermenu").prepend(beest_button_for_menu);
+
 			$("#region-main-box").append(beest_modal_to_appear);/*for moodle 4.1, #region-main-box*/
 			break;
 
@@ -209,7 +248,7 @@ function create_iFrameInEditScreen(){
 	}
 	
 	const MOODLE39_BEESTEDIT_INPAGE = '<fieldset class="clearfix collapsible'+classToAdd+'" id="id_beest"><legend class="ftoggler"><a href="#" class="fheader" role="button" aria-controls="id_beest" aria-expanded="false">BEEST</a></legend><div class="fcontainer clearfix iframeResp"><iframe src="'+HOST+'/index.html" frameborder="0" class="responsive-iframe"></iframe></div></fieldset>'
-	const MOODLE41_BEESTEDIT_INPAGE = '<fieldset class="clearfix collapsible'+classToAdd+'" id="id_beest"><legend class="sr-only">BEEST</legend><div class="position-relative d-flex ftoggler align-items-center position-relative mr-1"><a data-toggle="collapse" href="#id_beest_container" role="button" aria-expanded="true" aria-controls="id_beest_container" class="btn btn-icon mr-1 icons-collapse-expand stretched-link fheader '+classToAdd+'" id="collapseElement-1"><span class="expanded-icon icon-no-margin p-2" title="Collapse"><i class="icon fa fa-chevron-down fa-fw " aria-hidden="true"></i></span><span class="collapsed-icon icon-no-margin p-2" title="Expand"><span class="dir-rtl-hide"><i class="icon fa fa-chevron-right fa-fw " aria-hidden="true"></i></span><span class="dir-ltr-hide"><i class="icon fa fa-chevron-left fa-fw " aria-hidden="true"></i></span></span><span class="sr-only">BEEST</span></a><h3 class="d-flex align-self-stretch align-items-center mb-0" aria-hidden="true">BEEST</h3></div>'+'<div id="id_beest_container" class="fcontainer collapseable collapse '+class49Add+'"><div id="fitem_id_page" class="form-group row  fitem   "><div class="fcontainer clearfix iframeResp"><iframe src="'+HOST+'/index.html" frameborder="0" class="responsive-iframe"></iframe></div></div></div></fieldset>'
+	const MOODLE41_BEESTEDIT_INPAGE = '<fieldset class="clearfix collapsible'+classToAdd+'" id="id_beest"><legend class="sr-only">BEEST</legend><div class="position-relative d-flex ftoggler align-items-center position-relative mr-1"><a data-toggle="collapse" href="#id_beest_container" role="button" aria-expanded="true" aria-controls="id_beest_container" class="btn btn-icon mr-1 icons-collapse-expand stretched-link fheader '+classToAdd+'" id="collapseElement-1"><span class="expanded-icon icon-no-margin p-2" title="Collapse"><i class="icon fa fa-chevron-down fa-fw " aria-hidden="true"></i></span><span class="collapsed-icon icon-no-margin p-2" title="Expand"><span class="dir-rtl-hide"><i class="icon fa fa-chevron-right fa-fw " aria-hidden="true"></i></span><span class="dir-ltr-hide"><i class="icon fa fa-chevron-left fa-fw " aria-hidden="true"></i></span></span><span class="sr-only">BEEST</span></a><h3 class="d-flex align-self-stretch align-items-center mb-0" aria-hidden="true">BEEST</h3></div>'+'<div id="id_beest_container" class="fcontainer collapseable collapse '+class49Add+'"><div id="fitem_id_page" class="form-group row  fitem   "><div class="fcontainer clearfix iframeResp"><iframe src="'+HOST+'/index.html" frameborder="0" class="responsive-iframe" id="beest-ifrm"></iframe></div></div></div></fieldset>'
 	
 	var CSS_page = document.createElement('link')
 	CSS_page.rel = 'stylesheet'
@@ -306,4 +345,37 @@ function murmurhash2_32_gc(str, seed) {
   h ^= h >>> 15;
 
   return h >>> 0;
+}
+
+
+
+/* insert code into the editor */
+function insertCodeInPage(obj){
+
+	console.log("--- insertCode ---");
+
+	let txtarea=null;
+	let code=obj.code;
+	let txt="";
+
+	// tinyMCE
+	if(tinyMCE){
+		txt=tinyMCE.activeEditor.getContent({format : 'raw'});
+		code=txt+code;
+		console.log(code);
+
+		//tinyMCE stripping empty spans - maybe add a $nbsp;?
+
+		tinymce.activeEditor.setContent(code);
+		tinymce.activeEditor.setDirty(true);
+		//tinymce.activeEditor.selection.getBookmark();
+
+	}else{
+		//todo: this is rubbish - make it better
+
+		txtarea=$('textarea')[0];
+		txt=$(txtarea).html();
+		code=txt+code;
+		txtarea.innerHTML = code;
+	}
 }
