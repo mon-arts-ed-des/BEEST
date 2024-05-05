@@ -13,14 +13,7 @@ const KEY_COLLAPSE_BEEST_EDIT = encodehash(KEY_COLLAPSE_BEEST_EDIT_RAW);
 
 
 
-
-
-//todo: swap HOST before push
-//const HOST = "https://mon-arts-ed-des.github.io/BEEST"
-const HOST = "http://localhost/moodle/_BEEST";
-
-console.log("HOST: "+HOST);
-
+const HOST = "https://mon-arts-ed-des.github.io/BEEST"
 
 
 
@@ -105,12 +98,6 @@ function setup_beest(MODE,visibilityMethod){
 	$(".dropdown-menu, .dropdown-item").each(check_for_edit_and_role); //this version applies to moodle 4.1 and 3.9 (the dropdown-item class is 3.9 and dropdown-menu is 4.1)
 	
 	//now we've explored EACH menu option let's check if we should display the icon.
-
-	//todo: remove before push
-	cog_present=true;
-	correct_role=true;
-
-
 
 
 	window.addEventListener( "message",function (e) {
@@ -197,10 +184,7 @@ function createButtonAndModal(){
 		default:
 			console.log("unable to determine moodle version, assuming 4.1")
 		case 4.1:
-			//todo: replace header-custom-menu before push
-			//$(".header-custom-menus").prepend(beest_button_for_menu);
-			$(".usermenu").prepend(beest_button_for_menu);
-
+			$(".header-custom-menus").prepend(beest_button_for_menu);
 			$("#region-main-box").append(beest_modal_to_appear);/*for moodle 4.1, #region-main-box*/
 			break;
 
