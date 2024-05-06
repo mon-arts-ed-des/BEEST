@@ -13,7 +13,14 @@ const KEY_COLLAPSE_BEEST_EDIT = encodehash(KEY_COLLAPSE_BEEST_EDIT_RAW);
 
 
 
-const HOST = "https://mon-arts-ed-des.github.io/BEEST"
+
+
+//todo: swap HOST before push
+const HOST = "https://beest.monash.edu/insert_code";
+//const HOST = "http://localhost/moodle/_BEEST";
+
+console.log("HOST: "+HOST);
+
 
 
 
@@ -107,12 +114,9 @@ function setup_beest(MODE,visibilityMethod){
 			console.log(e.data);
 			console.log("-------------------------------------");
 
-			if(e.origin!=='https://beest.monash.edu'){return;}
+			if(e.origin!=='https://learning.monash.edu'){return;}
 			insertCodeInPage(e.data);
 		});
-
-
-
 
 	
 	if((cog_present)&&(correct_role)){
@@ -184,7 +188,10 @@ function createButtonAndModal(){
 		default:
 			console.log("unable to determine moodle version, assuming 4.1")
 		case 4.1:
+			//todo: replace header-custom-menu before push
 			$(".header-custom-menus").prepend(beest_button_for_menu);
+			//$(".usermenu").prepend(beest_button_for_menu);
+
 			$("#region-main-box").append(beest_modal_to_appear);/*for moodle 4.1, #region-main-box*/
 			break;
 
