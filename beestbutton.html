@@ -395,7 +395,7 @@ function getColourCode(bsColour,btnSize){
         let origin = "https://learning.monash.edu";
         console.log(origin);
         let obj={type:'txtareaBtn',code:$("#txtareaBtn").val()};
-        window.parent.postMessage(obj,origin);
+        window.parent.postMessage(obj,"*");
 
     }
 

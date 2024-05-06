@@ -110,11 +110,12 @@ function setup_beest(MODE,visibilityMethod){
 	window.addEventListener( "message",function (e) {
 
 			console.log("-------------------------------------");
+			console.log(e);
 			console.log(e.origin);
 			console.log(e.data);
 			console.log("-------------------------------------");
 
-			if(e.origin!=='https://learning.monash.edu'){return;}
+			//if(e.origin!=='https://learning.monash.edu'){return;}
 			insertCodeInPage(e.data);
 		});
 
