@@ -112,10 +112,14 @@ function setup_beest(MODE,visibilityMethod){
 			console.log("-------------------------------------");
 			console.log(e);
 			console.log(e.origin);
+			console.log(e.target.origin);
 			console.log(e.data);
 			console.log("-------------------------------------");
 
-			//if(e.origin!=='https://learning.monash.edu'){return;}
+			/*if(e.origin!=='https://beest.monash.edu'){
+				console.log("failed");
+				return;
+			}*/
 			insertCodeInPage(e.data);
 		});
 

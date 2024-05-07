@@ -38,7 +38,7 @@
 	<script src="js/helperFunctions.js"></script>
 	<script src="js/setupPage.js"></script>
 	<script src="js/pageHistory.js"></script>
-    <script src="js/insertCode.js"></script>
+    <!--<script src="js/insertCode.js"></script>-->
 
 <script>
 const START_ELEMENT = "<!--Begin BEEST image-->"
@@ -66,7 +66,7 @@ $(document).ready(function(){
 	setupNav()
 	fullScreenToggle()
 	$('#respImgSwitch').on('input', replaceLinkWithEmbed);
-    setupInsertCode();
+    //setupInsertCode();
 	makeTinyWithID('tinyMCEimage',{'change':generateCode},'[Placeholder for image context. The content you entered in step 2 will appear here.]')
 	classImage = new beestImage()
 	generateCode()
@@ -248,7 +248,10 @@ function setTextAreas(classData){
         addToHistory(classImage)
         /*END REQUIRED FOR HISTORY*/
 
-        insertCodeInPage("txtarearespImg");
+        //insertCodeInPage("txtarearespImg");
+        let obj={type:'txtarearespImg',code:$("#txtarearespImg").val()};
+        //window.parent.postMessage(obj,"https://learning.monash.edu");
+        window.parent.postMessage(obj,"*");
     }
 
 
@@ -868,7 +871,7 @@ function replaceLinkWithEmbed(event){
        <h5 class="font-weight-bold">Copy code<span class="small text-success hideableinstruct" data-toggle="tooltip" data-placement="right" data-trigger="focus hover" title="Click this button to copy the code for your element ready for pasting in Moodle.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
        
        
-        <textarea readonly class="rounded p-2 w-100 mt-2" id="txtarearespImg" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here"></textarea>
+        <textarea readonly class="rounded p-2 w-100 mt-2" id="txtarearespImg" cols="70" rows="3" name="Result" placeholder="The code for your element will appear here as you update your preferences on the page."></textarea>
 
       <div class="row w-100">
           <div class="col-lg-6">

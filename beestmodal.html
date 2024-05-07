@@ -43,7 +43,7 @@
     <!-- TinyMCE placeholder plugin file -->
     <script src="js/placeholder.js"></script> 
 	<script src="js/setupPage.js"></script>
-    <script src="js/insertCode.js"></script>
+    <!--<script src="js/insertCode.js"></script>-->
 
 
     <script type="text/javascript">
@@ -79,7 +79,7 @@ var colourNames = {
 		setupNav()
 		setupGoogleAnalytics()
 		//default_XRadio_onEmpty_Y("alertHeading","headSize","noH","headSize1",generateElementCode);
-        setupInsertCode();
+        //setupInsertCode();
 	})
 
 	
@@ -135,7 +135,10 @@ var colourNames = {
         addToHistory(classModal)
         /*END REQUIRED FOR HISTORY*/
 
-        insertCodeInPage("monModalCode");
+        //insertCodeInPage("monModalCode");
+        let obj={type:'monModalCode',code:$("#monModalCode").val()};
+        //window.parent.postMessage(obj,"https://learning.monash.edu");
+        window.parent.postMessage(obj,"*");
     }
 
 
@@ -559,7 +562,7 @@ function getHistoryI(index,history){
                 <hr>
    <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click the copy code button below once you have finished creating your alert, ready for pasting into Moodle." class="hideableinstruct text-success font-weight-normal small">&nbsp;<i class="fa fa-question-circle"></i></h5>
    
-   <textarea readonly class="border border-dark rounded p-2 w-100" id="monModalCode" cols="70" rows="4" name="Result" placeholder="Code for your element will appear here."></textarea>
+   <textarea readonly class="border border-dark rounded p-2 w-100" id="monModalCode" cols="70" rows="4" name="Result" placeholder="The code for your element will appear here as you update your preferences on the page."></textarea>
          <div class="row w-100">
              <div class="col-lg-6">
                  <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." id="copyCodeBtn" class="btn btn-success btn-lg btn-block mt-2" name="GenerateWrap" value="Copy your code </>" OnClick=copyCode() >

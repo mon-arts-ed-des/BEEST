@@ -37,7 +37,7 @@
       <script src="js/pageHistory.js"></script>
       <script src="js/helperFunctions.js"></script>
       <script src="js/setupPage.js"></script>
-      <script src="js/insertCode.js"></script>
+      <!--<script src="js/insertCode.js"></script>-->
       
     <script type="text/javascript">
 const START_ELEMENT = "<!--Begin BEEST readmore-->"
@@ -130,7 +130,7 @@ $(document).ready(function() { //create the tinyMCE areas after the first
 	classReadMore = new readMore()
 	makeTinyWithID('tinyMCEreadMoreBefore',{'change':generateReadMoreCode},'Write the content before your read more button here')
 	makeTinyWithID('tinyMCEreadMoreAfter',{'change':generateReadMoreCode},'Write the content after your read more button here')
-    setupInsertCode();
+    //setupInsertCode();
 	/*REQUIRED FOR HISTORY*/
 	initHistory();
 	/*END REQUIRED FOR HISTORY*/
@@ -362,7 +362,10 @@ function recoverCode(){
         addToHistory(classReadMore)
         /*END REQUIRED FOR HISTORY*/
 
-        insertCodeInPage("readMoreCode");
+        //insertCodeInPage("readMoreCode");
+        let obj={type:'readMoreCode',code:$("#readMoreCode").val()};
+        //window.parent.postMessage(obj,"https://learning.monash.edu");
+        window.parent.postMessage(obj,"*");
     }
 
     function SelectAll(id){
@@ -731,7 +734,7 @@ function getHistoryI(index,history){
         <p class="my-3"></p>
         <hr>
         <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="left" data-trigger="hover focus" title="Click the copy code button below to copy your code, ready to paste into Moodle." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
-    <textarea readonly class="rounded p-2 w-100" id="readMoreCode" cols="70" rows="3" name="Result" placeholder="When you click the button above, it will create the code or your alert and copy it to the clipboard." onchange=generateReadMoreCode()></textarea>
+    <textarea readonly class="rounded p-2 w-100" id="readMoreCode" cols="70" rows="3" name="Result" placeholder="The code for your element will appear here as you update your preferences on the page." onchange=generateReadMoreCode()></textarea>
   </div>
 
         <div class="row w-100">

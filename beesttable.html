@@ -33,7 +33,7 @@
     <script src="https://beest.monash.edu/tinymce/tinymce.min.js"></script>
 	<script src="js/placeholder.js"></script> 
     <script src="js/advancedModeLocalStorage.js"></script>
-	<script src="js/insertCode.js"></script>
+	<!--<script src="js/insertCode.js"></script>-->
 
 	<script type="text/javascript">
 const START_ELEMENT = "<!--Begin BEEST table-->"
@@ -77,7 +77,7 @@ $(document).ready(function(){
 	})*/
 	//generateEditableTable("editTable",currRow,currCol,true)
 	default_XRadio_onEmpty_Y("tableMainHeading","headSize","noH","headSize2",generateTableCode);
-	setupInsertCode();
+	//setupInsertCode();
 	/*REQUIRED FOR HISTORY*/   
 	initHistory()
 	/*END REQUIRED FOR HISTORY*/
@@ -441,7 +441,10 @@ function insertCode(){
 	addToHistory(classTable)
 	/*END REQUIRED FOR HISTORY*/
 
-	insertCodeInPage("txtareaBtn");
+	//insertCodeInPage("txtareaBtn");
+	let obj={type:'txtareaBtn',code:$("#txtareaBtn").val()};
+	//window.parent.postMessage(obj,"https://learning.monash.edu");
+	window.parent.postMessage(obj,"*");
 }
 	
 	/*REQUIRED FOR HISTORY*/
@@ -1028,7 +1031,7 @@ $(function () {
 		<h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click the copy code button below to copy your code, ready to paste into Moodle." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
 		</div>
 		<div class="col-lg">
-		<textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="5" name="Result" placeholder="When you click the button above, it will create the code for your table and copy it to the clipboard."></textarea>
+		<textarea readonly class="rounded p-2 w-100" id="txtareaBtn" cols="70" rows="5" name="Result" placeholder="The code for your element will appear here as you update your preferences on the page."></textarea>
 
 		<div class="row w-100">
 			<div class="col-lg-6">

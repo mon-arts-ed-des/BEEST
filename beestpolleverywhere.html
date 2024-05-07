@@ -33,7 +33,7 @@
 	<script src="js/pageHistory.js"></script>
 	<script src="js/helperFunctions.js"></script>
 	<script src="js/setupPage.js"></script>
-    <script src="js/insertCode.js"></script>
+    <!--<script src="js/insertCode.js"></script>-->
 
     <script type="text/javascript">
 const START_ELEMENT = "<!--Begin BEEST pollEverywhere-->"
@@ -72,7 +72,7 @@ var iconNames = {
 		setupNav()
 		default_XRadio_onEmpty_Y("pollHeading","headSize","noH","headSize2",generateElementCode)
 		makeTinyWithID('tinyMCEpollEv',{'change':generateElementCode},'[Placeholder for poll context.]')
-        setupInsertCode();
+        //setupInsertCode();
 	})
 
 /*REQUIRED FOR HISTORY  */
@@ -294,7 +294,10 @@ function insertCode(){
     addToHistory(classPollEv)
     /*END REQUIRED FOR HISTORY*/
 
-    insertCodeInPage("txtareapollEv");
+    //insertCodeInPage("txtareapollEv");
+    let obj={type:'txtareapollEv',code:$("#txtareapollEv").val()};
+    //window.parent.postMessage(obj,"https://learning.monash.edu");
+    window.parent.postMessage(obj,"*");
 }
 
 
@@ -598,7 +601,7 @@ function getHistoryI(index,history){
         <p class="my-3"></p>
           <h5 class="font-weight-bold">Copy code<span class="hideableinstruct text-success small" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click the button below to copy your code, ready to paste into Moodle.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
         
-           <textarea readonly class="rounded p-2 w-100" id="txtareapollEv" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here."></textarea>
+           <textarea readonly class="rounded p-2 w-100" id="txtareapollEv" cols="70" rows="3" name="Result" placeholder="The code for your element will appear here as you update your preferences on the page."></textarea>
             <div class="row w-100">
                 <div class="col-lg-6">
                     <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." id="copyCodeBtn" class="btn btn-success btn-lg btn-block mt-2" name="GenerateWrap" value="Copy your code </>" OnClick=copyCode() >

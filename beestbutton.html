@@ -35,7 +35,7 @@
     <!-- Tinymce js file -->   
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
     <script src="js/advancedModeLocalStorage.js"></script>
-    <!--<script src="js/insertCode.js"></script>-->
+    <!--<!--<script src="js/insertCode.js"></script>-->-->
 
     <script type="text/javascript">
 
@@ -392,9 +392,8 @@ function getColourCode(bsColour,btnSize){
         /*END REQUIRED FOR HISTORY*/
 
         //insertCodeInPage("txtareaBtn");
-        let origin = "https://learning.monash.edu";
-        console.log(origin);
         let obj={type:'txtareaBtn',code:$("#txtareaBtn").val()};
+        //window.parent.postMessage(obj,"https://learning.monash.edu");
         window.parent.postMessage(obj,"*");
 
     }
@@ -779,7 +778,7 @@ function setupCheckURLValid(){
                   <div id="demo"></div>
                   <p class="my-3"></p>
                 <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="top" data-trigger="hover focus" title="Click the copy code button below to copy your code, ready to paste into Moodle." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
-                <textarea readonly class="rounded p-2 w-100 border border-dark" id="txtareaBtn" cols="70" rows="2" name="Result" placeholder="Code for your element will appear here"></textarea>
+                <textarea readonly class="rounded p-2 w-100 border border-dark" id="txtareaBtn" cols="70" rows="2" name="Result" placeholder="The code for your element will appear here as you update your preferences on the page."></textarea>
                       <div class="row w-100">
                           <div class="col-lg-6">
                               <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." id="copyCodeBtn" class="btn btn-success btn-lg btn-block mt-2" name="GenerateWrap" value="Copy your code </>" OnClick=copyCode() >
