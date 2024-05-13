@@ -38,7 +38,7 @@
 	<script src="js/helperFunctions.js"></script>
 	<script src="js/setupPage.js"></script>
 	<script src="js/pageHistory.js"></script>
-    <!--<script src="js/insertCode.js"></script>-->
+    <script src="js/insertCode.js"></script>
 
 <script>
 const START_ELEMENT = "<!--Begin BEEST image-->"
@@ -66,10 +66,10 @@ $(document).ready(function(){
 	setupNav()
 	fullScreenToggle()
 	$('#respImgSwitch').on('input', replaceLinkWithEmbed);
-    //setupInsertCode();
 	makeTinyWithID('tinyMCEimage',{'change':generateCode},'[Placeholder for image context. The content you entered in step 2 will appear here.]')
 	classImage = new beestImage()
-	generateCode()
+	generateCode();
+    setupInsertCodeListener();
 })
 /*REQUIRED FOR HISTORY*/   
 	
@@ -249,7 +249,7 @@ function setTextAreas(classData){
         /*END REQUIRED FOR HISTORY*/
 
         //insertCodeInPage("txtarearespImg");
-        let obj={type:'txtarearespImg',code:$("#txtarearespImg").val()};
+        let obj={type:'insertCode',code:$("#txtarearespImg").val()};
         //window.parent.postMessage(obj,"https://learning.monash.edu");
         window.parent.postMessage(obj,"*");
     }

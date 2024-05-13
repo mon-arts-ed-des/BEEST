@@ -16,8 +16,8 @@ const KEY_COLLAPSE_BEEST_EDIT = encodehash(KEY_COLLAPSE_BEEST_EDIT_RAW);
 
 
 //todo: swap HOST before push
-const HOST = "https://beest.monash.edu/insert_code";
-//const HOST = "http://localhost/moodle/_BEEST";
+//const HOST = "https://beest.monash.edu/insert_code";
+const HOST = "http://localhost/moodle/_BEEST";
 
 console.log("HOST: "+HOST);
 
@@ -109,19 +109,36 @@ function setup_beest(MODE,visibilityMethod){
 
 	window.addEventListener( "message",function (e) {
 
-			console.log("-------------------------------------");
-			console.log(e);
-			console.log(e.origin);
-			console.log(e.target.origin);
-			console.log(e.data);
-			console.log("-------------------------------------");
+		console.log("----------------- main --------------------");
+		console.log(e);
+		console.log(e.origin);
+		console.log(e.target.origin);
+		console.log(e.data);
+		console.log("----------------- main --------------------");
 
-			/*if(e.origin!=='https://beest.monash.edu'){
-				console.log("failed");
-				return;
-			}*/
+
+
+		/*if(e.origin!=='https://beest.monash.edu'){
+			console.log("failed - origin not correct");
+			return;
+		}*/
+
+		//check for event type
+		if(e.data.type=="insertCode"){
 			insertCodeInPage(e.data);
-		});
+		}else if(e.data.type=="insertCheck"){
+
+
+			let isAttoTmp= checkForAtto();
+			let isEditTmp= checkForEditScreen();
+			let obj={type:'insertCheckReturn',isAtto:isAttoTmp,isEdit:isEditTmp};
+			document.getElementById('beest-ifrm1').contentWindow.postMessage(obj,'*');
+			document.getElementById('beest-ifrm2').contentWindow.postMessage(obj,'*');
+
+		}
+
+
+	});
 
 	
 	if((cog_present)&&(correct_role)){
@@ -166,6 +183,28 @@ function setup_beest(MODE,visibilityMethod){
 	}
 };
 
+
+function checkForAtto(){
+	console.log("checkForAtto",Y.M.editor_atto);
+	let isAtto=false;
+	if(Y.M.editor_atto!==undefined)isAtto=true;
+	return isAtto;
+}
+
+function checkForEditScreen(){
+	console.log("checkForEditScreen",location.href.indexOf("view.php"));
+	let isEdit=false;
+	if(location.href.indexOf("view.php")===-1)isEdit=true;
+	return isEdit;
+}
+
+function getParams(url,id){
+	let params = new URL(url).searchParams;
+	return params.get(id);
+}
+
+
+
 function checkMoodleVersion(){
 	/*checks for key elements on the page identifying as moodle 3.9 or 4.1 and saves to local storage*/
 	/*check which version of moodle we have 
@@ -183,7 +222,7 @@ function checkMoodleVersion(){
 
 function createButtonAndModal(){
 	var beest_button_for_menu = '<div class="custom-menus my-auto dropdown"><a type="button" target="_blank" class="border border-dark rounded-circle p-2 text-dark" role="button" title="BEEST" style="width: 38px; height: 38px;" data-toggle="modal" data-target=".beest-home-modal" id="beestDropdown"><img src="'+HOST+'/img/dragon-solid-black.png" width="20px" height="20px" style="margin-bottom: 4px;" /></a>'
-	var beest_modal_to_appear = '<style>.modal-beest{max-width: 80% !important;}</style><div class="modal fade beest-home-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"><div class="modal-dialog modal-lg modal-beest"><div class="modal-content"><div class="modal-header mb-0 p-2 bg-danger text-white px-5"><h5 class="modal-title text-white my-auto" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5><button type="button" class="btn btn-outline-light btn-lg rounded" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">Close <i class="fa fa-times"></i></span></button></div><iframe src="'+HOST+'/index.html" width="100%" height="900px"></iframe></div></div></div>'
+	var beest_modal_to_appear = '<style>.modal-beest{max-width: 80% !important;}</style><div class="modal fade beest-home-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"><div class="modal-dialog modal-lg modal-beest"><div class="modal-content"><div class="modal-header mb-0 p-2 bg-danger text-white px-5"><h5 class="modal-title text-white my-auto" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5><button type="button" class="btn btn-outline-light btn-lg rounded" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">Close <i class="fa fa-times"></i></span></button></div><iframe src="'+HOST+'/index.html" width="100%" height="900px" id="beest-ifrm1"></iframe></div></div></div>'
 	
 	switch (retrieve_from_local(KEY_MOODLE_VERSION)){
 		case 3.9:
@@ -194,8 +233,8 @@ function createButtonAndModal(){
 			console.log("unable to determine moodle version, assuming 4.1")
 		case 4.1:
 			//todo: replace header-custom-menu before push
-			$(".header-custom-menus").prepend(beest_button_for_menu);
-			//$(".usermenu").prepend(beest_button_for_menu);
+			//$(".header-custom-menus").prepend(beest_button_for_menu);
+			$(".usermenu").prepend(beest_button_for_menu);
 
 			$("#region-main-box").append(beest_modal_to_appear);/*for moodle 4.1, #region-main-box*/
 			break;
@@ -243,8 +282,8 @@ function create_iFrameInEditScreen(){
 		class49Add = ""
 	}
 	
-	const MOODLE39_BEESTEDIT_INPAGE = '<fieldset class="clearfix collapsible'+classToAdd+'" id="id_beest"><legend class="ftoggler"><a href="#" class="fheader" role="button" aria-controls="id_beest" aria-expanded="false">BEEST</a></legend><div class="fcontainer clearfix iframeResp"><iframe src="'+HOST+'/index.html" frameborder="0" class="responsive-iframe"></iframe></div></fieldset>'
-	const MOODLE41_BEESTEDIT_INPAGE = '<fieldset class="clearfix collapsible'+classToAdd+'" id="id_beest"><legend class="sr-only">BEEST</legend><div class="position-relative d-flex ftoggler align-items-center position-relative mr-1"><a data-toggle="collapse" href="#id_beest_container" role="button" aria-expanded="true" aria-controls="id_beest_container" class="btn btn-icon mr-1 icons-collapse-expand stretched-link fheader '+classToAdd+'" id="collapseElement-1"><span class="expanded-icon icon-no-margin p-2" title="Collapse"><i class="icon fa fa-chevron-down fa-fw " aria-hidden="true"></i></span><span class="collapsed-icon icon-no-margin p-2" title="Expand"><span class="dir-rtl-hide"><i class="icon fa fa-chevron-right fa-fw " aria-hidden="true"></i></span><span class="dir-ltr-hide"><i class="icon fa fa-chevron-left fa-fw " aria-hidden="true"></i></span></span><span class="sr-only">BEEST</span></a><h3 class="d-flex align-self-stretch align-items-center mb-0" aria-hidden="true">BEEST</h3></div>'+'<div id="id_beest_container" class="fcontainer collapseable collapse '+class49Add+'"><div id="fitem_id_page" class="form-group row  fitem   "><div class="fcontainer clearfix iframeResp"><iframe src="'+HOST+'/index.html" frameborder="0" class="responsive-iframe" id="beest-ifrm"></iframe></div></div></div></fieldset>'
+	const MOODLE39_BEESTEDIT_INPAGE = '<fieldset class="clearfix collapsible'+classToAdd+'" id="id_beest"><legend class="ftoggler"><a href="#" class="fheader" role="button" aria-controls="id_beest" aria-expanded="false">BEEST</a></legend><div class="fcontainer clearfix iframeResp"><iframe src="'+HOST+'/index.html" frameborder="0" class="responsive-iframe" id="beest-ifrm2"></iframe></div></fieldset>'
+	const MOODLE41_BEESTEDIT_INPAGE = '<fieldset class="clearfix collapsible'+classToAdd+'" id="id_beest"><legend class="sr-only">BEEST</legend><div class="position-relative d-flex ftoggler align-items-center position-relative mr-1"><a data-toggle="collapse" href="#id_beest_container" role="button" aria-expanded="true" aria-controls="id_beest_container" class="btn btn-icon mr-1 icons-collapse-expand stretched-link fheader '+classToAdd+'" id="collapseElement-1"><span class="expanded-icon icon-no-margin p-2" title="Collapse"><i class="icon fa fa-chevron-down fa-fw " aria-hidden="true"></i></span><span class="collapsed-icon icon-no-margin p-2" title="Expand"><span class="dir-rtl-hide"><i class="icon fa fa-chevron-right fa-fw " aria-hidden="true"></i></span><span class="dir-ltr-hide"><i class="icon fa fa-chevron-left fa-fw " aria-hidden="true"></i></span></span><span class="sr-only">BEEST</span></a><h3 class="d-flex align-self-stretch align-items-center mb-0" aria-hidden="true">BEEST</h3></div>'+'<div id="id_beest_container" class="fcontainer collapseable collapse '+class49Add+'"><div id="fitem_id_page" class="form-group row  fitem   "><div class="fcontainer clearfix iframeResp"><iframe src="'+HOST+'/index.html" frameborder="0" class="responsive-iframe" id="beest-ifrm2"></iframe></div></div></div></fieldset>'
 	
 	var CSS_page = document.createElement('link')
 	CSS_page.rel = 'stylesheet'

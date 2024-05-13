@@ -43,7 +43,7 @@
     <!-- TinyMCE placeholder plugin file -->
     <script src="js/placeholder.js"></script> 
 	<script src="js/setupPage.js"></script>
-    <!--<script src="js/insertCode.js"></script>-->
+    <script src="js/insertCode.js"></script>
 
 
     <script type="text/javascript">
@@ -88,7 +88,7 @@ var colourNames = {
 		setupGoogleAnalytics()
 		makeTinyWithID('tinyMCEalert',{'change':generateElementCode},PLACEHOLDER)
 		default_XRadio_onEmpty_Y("alertHeading","headSize","noH","headSize1",generateElementCode);
-        //setupInsertCode();
+        setupInsertCodeListener();
 	})
 
 	
@@ -139,7 +139,7 @@ var colourNames = {
         /*END REQUIRED FOR HISTORY*/
 
         //insertCodeInPage("monAlertCode");
-        let obj={type:'monAlertCode',code:$("#monAlertCode").val()};
+        let obj={type:'insertCode',code:$("#monAlertCode").val()};
         //window.parent.postMessage(obj,"https://learning.monash.edu");
         window.parent.postMessage(obj,"*");
     }

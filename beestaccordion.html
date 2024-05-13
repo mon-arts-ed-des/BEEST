@@ -32,7 +32,7 @@
        <script src="https://beest.monash.edu/tinymce/tinymce.min.js"></script>
       <!-- TinyMCE placeholder plugin file -->
       <script src="js/placeholder.js"></script>
-      <!--<script src="js/insertCode.js"></script>-->
+      <script src="js/insertCode.js"></script>
 
 
 	    <script src="js/advancedModeLocalStorage.js"></script>
@@ -77,7 +77,7 @@ var iconNames = {
 		while (classAccord.usableDrawers < absoluteMinAccord){
 			addSection()
 		}
-        //setupInsertCode();
+        setupInsertCodeListener();
 		/*REQUIRED FOR HISTORY*/
 		initHistory()
 		/*END REQUIRED FOR HISTORY*/
@@ -688,7 +688,7 @@ function recoverCode(){
         /*END REQUIRED FOR HISTORY*/
 
         //insertCodeInPage("monAccCode");
-        let obj={type:'monAccCode',code:$("#monAccCode").val()};
+        let obj={type:'insertCode',code:$("#monAccCode").val()};
         //window.parent.postMessage(obj,"https://learning.monash.edu");
         window.parent.postMessage(obj,"*");
     }

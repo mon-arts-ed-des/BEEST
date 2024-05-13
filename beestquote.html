@@ -34,7 +34,7 @@
     <script src="js/pageHistory.js"></script>
     <script src="js/helperFunctions.js"></script>
     <script src="js/setupPage.js"></script>
-    <!--<script src="js/insertCode.js"></script>-->
+    <script src="js/insertCode.js"></script>
 
     <script type="text/javascript">
 const START_ELEMENT = "<!--Begin BEEST quote-->"
@@ -70,7 +70,7 @@ var sizeMap = {
 		setupToolTips();
 		makeTinyWithID('quoteText',{'change':generateElementCode},QUOTE_PLACEHOLDER)
 		classQuote = new quote()
-        //setupInsertCode();
+        setupInsertCodeListener();
 		/*REQUIRED FOR HISTORY*/ 
 		initHistory()
 		/*END REQUIRED FOR HISTORY*/ 
@@ -234,7 +234,7 @@ function combineQuoteElements(bgClrCode,resizedText,quote_Text,reference_text){
         /*END REQUIRED FOR HISTORY*/
 
         //insertCodeInPage("monQuoteCode");
-        let obj={type:'monQuoteCode',code:$("#monQuoteCode").val()};
+        let obj={type:'insertCode',code:$("#monQuoteCode").val()};
         //window.parent.postMessage(obj,"https://learning.monash.edu");
         window.parent.postMessage(obj,"*");
     }

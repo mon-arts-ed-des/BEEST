@@ -33,7 +33,7 @@
     <script src="https://beest.monash.edu/tinymce/tinymce.min.js"></script>
 	<script src="js/placeholder.js"></script> 
     <script src="js/advancedModeLocalStorage.js"></script>
-	<!--<script src="js/insertCode.js"></script>-->
+	<script src="js/insertCode.js"></script>
 
 	<script type="text/javascript">
 const START_ELEMENT = "<!--Begin BEEST table-->"
@@ -77,7 +77,7 @@ $(document).ready(function(){
 	})*/
 	//generateEditableTable("editTable",currRow,currCol,true)
 	default_XRadio_onEmpty_Y("tableMainHeading","headSize","noH","headSize2",generateTableCode);
-	//setupInsertCode();
+	setupInsertCodeListener();
 	/*REQUIRED FOR HISTORY*/   
 	initHistory()
 	/*END REQUIRED FOR HISTORY*/
@@ -442,7 +442,7 @@ function insertCode(){
 	/*END REQUIRED FOR HISTORY*/
 
 	//insertCodeInPage("txtareaBtn");
-	let obj={type:'txtareaBtn',code:$("#txtareaBtn").val()};
+	let obj={type:'insertCode',code:$("#txtareaBtn").val()};
 	//window.parent.postMessage(obj,"https://learning.monash.edu");
 	window.parent.postMessage(obj,"*");
 }

@@ -43,7 +43,7 @@
     <!-- TinyMCE placeholder plugin file -->
     <script src="js/placeholder.js"></script> 
 	<script src="js/setupPage.js"></script>
-    <!--<script src="js/insertCode.js"></script>-->
+    <script src="js/insertCode.js"></script>
 
 
     <script type="text/javascript">
@@ -79,7 +79,7 @@ var colourNames = {
 		setupNav()
 		setupGoogleAnalytics()
 		//default_XRadio_onEmpty_Y("alertHeading","headSize","noH","headSize1",generateElementCode);
-        //setupInsertCode();
+        setupInsertCodeListener();
 	})
 
 	
@@ -136,7 +136,7 @@ var colourNames = {
         /*END REQUIRED FOR HISTORY*/
 
         //insertCodeInPage("monModalCode");
-        let obj={type:'monModalCode',code:$("#monModalCode").val()};
+        let obj={type:'insertCode',code:$("#monModalCode").val()};
         //window.parent.postMessage(obj,"https://learning.monash.edu");
         window.parent.postMessage(obj,"*");
     }

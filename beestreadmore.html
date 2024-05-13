@@ -37,7 +37,7 @@
       <script src="js/pageHistory.js"></script>
       <script src="js/helperFunctions.js"></script>
       <script src="js/setupPage.js"></script>
-      <!--<script src="js/insertCode.js"></script>-->
+      <script src="js/insertCode.js"></script>
       
     <script type="text/javascript">
 const START_ELEMENT = "<!--Begin BEEST readmore-->"
@@ -130,7 +130,7 @@ $(document).ready(function() { //create the tinyMCE areas after the first
 	classReadMore = new readMore()
 	makeTinyWithID('tinyMCEreadMoreBefore',{'change':generateReadMoreCode},'Write the content before your read more button here')
 	makeTinyWithID('tinyMCEreadMoreAfter',{'change':generateReadMoreCode},'Write the content after your read more button here')
-    //setupInsertCode();
+    setupInsertCodeListener();
 	/*REQUIRED FOR HISTORY*/
 	initHistory();
 	/*END REQUIRED FOR HISTORY*/
@@ -363,7 +363,7 @@ function recoverCode(){
         /*END REQUIRED FOR HISTORY*/
 
         //insertCodeInPage("readMoreCode");
-        let obj={type:'readMoreCode',code:$("#readMoreCode").val()};
+        let obj={type:'insertCode',code:$("#readMoreCode").val()};
         //window.parent.postMessage(obj,"https://learning.monash.edu");
         window.parent.postMessage(obj,"*");
     }
@@ -729,13 +729,14 @@ function getHistoryI(index,history){
     </div>
     <div class="col-lg">
       <div class="sticky-top" style="top:100px;">
-        <h5 class="font-weight-bold">Preview<span data-toggle="tooltip" data-placement="left" data-trigger="hover focus" title="A preview of your element will appear below as you update your preferences for your read more button. Click the button in the preview to reveal the hidden content you input into the content after section." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
-        <div id="demo"></div>
-        <p class="my-3"></p>
-        <hr>
-        <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="left" data-trigger="hover focus" title="Click the copy code button below to copy your code, ready to paste into Moodle." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
-    <textarea readonly class="rounded p-2 w-100" id="readMoreCode" cols="70" rows="3" name="Result" placeholder="The code for your element will appear here as you update your preferences on the page." onchange=generateReadMoreCode()></textarea>
-  </div>
+          <div class="row w-100">
+                <h5 class="font-weight-bold">Preview<span data-toggle="tooltip" data-placement="left" data-trigger="hover focus" title="A preview of your element will appear below as you update your preferences for your read more button. Click the button in the preview to reveal the hidden content you input into the content after section." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+                <div id="demo"></div>
+                <p class="my-3"></p>
+                <hr>
+                <h5 class="font-weight-bold">Copy code<span data-toggle="tooltip" data-placement="left" data-trigger="hover focus" title="Click the copy code button below to copy your code, ready to paste into Moodle." class="small hideableinstruct text-success">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
+            <textarea readonly class="rounded p-2 w-100" id="readMoreCode" cols="70" rows="3" name="Result" placeholder="The code for your element will appear here as you update your preferences on the page." onchange=generateReadMoreCode()></textarea>
+          </div>
 
         <div class="row w-100">
             <div class="col-lg-6">
@@ -747,7 +748,7 @@ function getHistoryI(index,history){
             </div>
         </div>
 
-
+      </div>
 
 </div>
     </form>

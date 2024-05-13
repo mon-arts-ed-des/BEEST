@@ -33,7 +33,7 @@
 	<script src="js/pageHistory.js"></script>
 	<script src="js/helperFunctions.js"></script>
 	<script src="js/setupPage.js"></script>
-    <!--<script src="js/insertCode.js"></script>-->
+    <script src="js/insertCode.js"></script>
 
     <script type="text/javascript">
 const START_ELEMENT = "<!--Begin BEEST pollEverywhere-->"
@@ -72,7 +72,7 @@ var iconNames = {
 		setupNav()
 		default_XRadio_onEmpty_Y("pollHeading","headSize","noH","headSize2",generateElementCode)
 		makeTinyWithID('tinyMCEpollEv',{'change':generateElementCode},'[Placeholder for poll context.]')
-        //setupInsertCode();
+        setupInsertCodeListener();
 	})
 
 /*REQUIRED FOR HISTORY  */
@@ -295,7 +295,7 @@ function insertCode(){
     /*END REQUIRED FOR HISTORY*/
 
     //insertCodeInPage("txtareapollEv");
-    let obj={type:'txtareapollEv',code:$("#txtareapollEv").val()};
+    let obj={type:'insertCode',code:$("#txtareapollEv").val()};
     //window.parent.postMessage(obj,"https://learning.monash.edu");
     window.parent.postMessage(obj,"*");
 }

@@ -35,7 +35,7 @@
     <!-- Tinymce js file -->   
     <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
     <script src="js/advancedModeLocalStorage.js"></script>
-    <!--<!--<script src="js/insertCode.js"></script>-->-->
+    <script src="js/insertCode.js"></script>
 
     <script type="text/javascript">
 
@@ -82,7 +82,7 @@ for (prop in colourNames){
 		setupToolTips()
 		setupNav()
 		setupCheckURLValid()
-        //setupInsertCode();
+        setupInsertCodeListener();
 
 
 	})
@@ -392,7 +392,7 @@ function getColourCode(bsColour,btnSize){
         /*END REQUIRED FOR HISTORY*/
 
         //insertCodeInPage("txtareaBtn");
-        let obj={type:'txtareaBtn',code:$("#txtareaBtn").val()};
+        let obj={type:'insertCode',code:$("#txtareaBtn").val()};
         //window.parent.postMessage(obj,"https://learning.monash.edu");
         window.parent.postMessage(obj,"*");
 
