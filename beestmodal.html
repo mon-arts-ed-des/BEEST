@@ -166,7 +166,6 @@ function storePageToClass(linkText,contentUrl,faIcon,bsColour,buttonExit,buttonO
 		return icon_tag
 	}
 	
-	
     function generateElementCode() {
 
 		var modalName = "beest_modal_"+randomString(6)
@@ -412,6 +411,7 @@ function getHistoryI(index,history){
   </div>
   <div class="col-lg">
     <textarea class="rounded p-2 w-100 border border-dark" rows="1" name="modalURL" type="text" id="modalURL" placeholder="Your URL to the internal content goes here." onchange=generateElementCode()></textarea>
+	<span class="text-danger">Content not loading? <span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="If the page says 'refused to connect', make sure you've found the embeddable link, otherwise your browser may block the link out of an abundance of caution." >&nbsp;<i class="fa fa-question-circle"></i></span></span>
   </div>
   </div>
         <hr>
