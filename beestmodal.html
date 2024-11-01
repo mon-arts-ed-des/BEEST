@@ -166,14 +166,14 @@ function storePageToClass(linkText,contentUrl,faIcon,bsColour,buttonExit,buttonO
 		return icon_tag
 	}
 	
-	
     function generateElementCode() {
 
 		var modalName = "beest_modal_"+randomString(6)
 		
 		const MODAL_DIALOG_CLASS_NAME = 'modal-mu-Dialog'+modalName
 		const MODAL_BG_MU_CLASS_NAME = 'bg-mu-m'+modalName
-		STYLE_ADDER = '<STYL'+'E>	.'+MODAL_BG_MU_CLASS_NAME+'{background:#006dae;}.'+MODAL_DIALOG_CLASS_NAME+'{max-width: 80% !important;}</STY'+'LE>'
+		STYLE_ADDER = ''//'<STYL'+'E>	.'+MODAL_BG_MU_CLASS_NAME+'{background:#006dae;}.'+MODAL_DIALOG_CLASS_NAME+'{max-width: 80% !important;}</STY'+'LE>' //removed because doable just by sharing the same class but not using that class for opening
+		//namely the modal-base-outer and modal-base-in
 		
 		
 		var buttons = [getCheckBox("buttonOpen"),getCheckBox("buttonClose")]
@@ -211,7 +211,7 @@ function storePageToClass(linkText,contentUrl,faIcon,bsColour,buttonExit,buttonO
 		
 		var modal_html_start = '<div><a data-toggle="modal" data-target=".'+modalName+'" href="#">'
 		var link_text_html = '<span id="beest_modal_link_text">'+linkText+'</span></a></div>'
-		var outer_modal_layer = '<div class="modal fade '+modalName+'" tabindex="-1" role="dialog" aria-labelledby="btn-modal" aria-hidden="true"><div class="modal-dialog modal-l '+MODAL_DIALOG_CLASS_NAME+'"><div class="modal-content p-2 '+modal_bg_colour_code+'"><div class="modal-header"><h5 class="modal-title text-white">Click close or click outside this box to return to Moodle.</h5>'
+		var outer_modal_layer = '<div class="modal fade '+modalName+'" tabindex="-1" role="dialog" aria-labelledby="btn-modal" aria-hidden="true"><div class="modal-dialog modal-l '+MODAL_DIALOG_CLASS_NAME+' modal-base-outer"><div class="modal-content p-2 '+modal_bg_colour_code+' modal-base-in"><div class="modal-header"><h5 class="modal-title text-white">Click close or click outside this box to return to Moodle.</h5>'
 		var modal_close_button = '<button type="button" class="btn btn-danger btn-lg ml-2" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">Close ×</span> </button>'
 		var modal_open_button = '<a id="beest_modal_content_link" class="btn '+open_button_colour+' btn-lg m-1" role="button" href="'+contentURL+'" target="_blank">Open <i class="fa fa-external-link"></i> </a>'
 		
@@ -410,7 +410,8 @@ function getHistoryI(index,history){
     <h5 class="font-weight-bold">Content URL<span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Enter the url linking to the content to display in the modal." class="hideableinstruct text-success small">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
   </div>
   <div class="col-lg">
-    <textarea maxlength="75" class="rounded p-2 w-100 border border-dark" rows="1" name="modalURL" type="text" id="modalURL" placeholder="Your URL to the internal content goes here." onchange=generateElementCode()></textarea>
+    <textarea class="rounded p-2 w-100 border border-dark" rows="1" name="modalURL" type="text" id="modalURL" placeholder="Your URL to the internal content goes here." onchange=generateElementCode()></textarea>
+	<span class="text-danger">Content not loading? <span data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="If the page says 'refused to connect', make sure you've found the embeddable link, otherwise your browser may block the link out of an abundance of caution." >&nbsp;<i class="fa fa-question-circle"></i></span></span>
   </div>
   </div>
         <hr>

@@ -52,6 +52,12 @@
     color: white;
     }
 	/*setup modal display CSS*/
+	.modal-base-in{
+		background:#006dae;
+	}
+	.modal-base-outer{
+		max-width: 80% !important;
+	}
 	.bg-mu-m{
 	   background:#006dae;}
 	.modal-mu-Dialog{

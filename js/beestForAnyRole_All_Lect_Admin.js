@@ -8,7 +8,7 @@ const UNCOLLAPSED_MODE_49 = "show"
 const KEY_COLLAPSE_BEEST_EDIT_RAW = "wasSeen"
 const KEY_MOODLE_VERSION = "moodle_version_for_BEEST"
 const KEY_COLLAPSE_BEEST_EDIT = encodehash(KEY_COLLAPSE_BEEST_EDIT_RAW)
-const HOST = "https://mon-arts-ed-des.github.io/BEEST"
+const HOST = "https://beest.monash.edu"
 
 const key_current_role_raw = "CURRENT_ROLE"
 const key_current_role = encodehash(key_current_role_raw)
