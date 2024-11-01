@@ -7,22 +7,12 @@ const COLLAPSED_MODE = "collapsed"
 const UNCOLLAPSED_MODE_49 = "show"
 const KEY_COLLAPSE_BEEST_EDIT_RAW = "wasSeen"
 const KEY_MOODLE_VERSION = "moodle_version_for_BEEST"
+
 const KEY_COLLAPSE_BEEST_EDIT = encodehash(KEY_COLLAPSE_BEEST_EDIT_RAW);
-
-
-
-
-
-
-
 //todo: swap HOST before push
-//const HOST = "https://beest.monash.edu/insert_code";
-const HOST = "http://localhost/moodle/_BEEST";
-
+const HOST = "https://beest.monash.edu/insert_code";
+//const HOST = "http://localhost/moodle/_BEEST";
 console.log("HOST: "+HOST);
-
-
-
 
 const key_current_role_raw = "CURRENT_ROLE"
 const key_current_role = encodehash(key_current_role_raw)
