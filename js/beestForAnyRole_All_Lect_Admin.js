@@ -392,7 +392,7 @@ function insertCodeInPage(obj){
 	if(typeof(tinyMCE)!="undefined"){
 		txt=tinyMCE.activeEditor.getContent({format : 'raw'});
 		code=txt+code;
-		console.log(code);
+
 
 		//tinyMCE stripping empty spans - maybe add a $nbsp;?
 
