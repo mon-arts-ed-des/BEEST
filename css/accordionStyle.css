@@ -13,18 +13,18 @@
 	/*Styles the border of the body of the block*/
     /*retain for backward compatibility*/
 	.cardBodyBorder {
-    border: solid 1px #006dae !important;
+    	border: solid 1px #006dae !important;
     }
 	/*retain for backward compatibility*/
     .headingStyle {
-    background-color: #006dae !important; 
-    cursor: pointer !important; 
-    border: solid 1px #006dae !important;
+		background-color: #006dae !important;
+		cursor: pointer !important;
+		border: solid 1px #006dae !important;
     }
     .headingStyle:hover {//retain for backward compatibility
-    background-color: #3d90c2 !important;
-    cursor: pointer !important;
-    border: solid 1px #3d90c2 !important;
+		background-color: #3d90c2 !important;
+		cursor: pointer !important;
+		border: solid 1px #3d90c2 !important;
     }
 	.heading-mu {
 		background-color: #006dae !important;
@@ -40,30 +40,30 @@
 		border: solid 1px #006dae !important;
 	}
 	.heading-pm {
-		background-color: #B8DAFF !important; 
+		background-color: #6f64a9 !important;
 		cursor: pointer !important; 
-		border: solid 1px #B8DAFF !important;
+		border: solid 1px #6f64a9 !important;
 	}
 	.heading-pm:hover{
-		background-color: #9fcdff !important;
+		background-color: #8676d8 !important;
 		cursor: pointer !important; 
-		border: solid 1px #9fcdff !important;
+		border: solid 1px #8676D8 !important;
 	}
 	.cardborder-pm {
-		border: solid 1px #B8DAFF !important;
+		border: solid 1px #53488a !important;
 	}
 	.heading-sc {
-		background-color: #D6D8DB !important; 
+		background-color: #505050 !important;
 		cursor: pointer !important; 
-		border: solid 1px #D6D8DB !important;
+		border: solid 1px #505050 !important;
 	}
 	.heading-sc:hover{
-		background-color: #C8CBCF !important;
+		background-color: #7c7c7c !important;
 		cursor: pointer !important; 
-		border: solid 1px #C8CBCF !important;
+		border: solid 1px #7c7c7c !important;
 	}
 	.cardborder-sc {
-		border: solid 1px #D6D8DB !important;
+		border: solid 1px #474747 !important;
 	}
 	.heading-dk {
 		background-color: #212529 !important; 

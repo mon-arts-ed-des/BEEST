@@ -20,6 +20,11 @@
       <link rel="stylesheet" href="css/adminPlusSetuBlockStyle.css" />
       <link rel="stylesheet" href="css/accordionStyle.css" />
       <link rel="stylesheet" href="css/monashElements.css" />
+
+    <!-- BEEST colours -->
+    <link rel="stylesheet" href="css/beestColours.css" />
+
+
       <!-- external link to js file -->  
       <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
       <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -577,8 +582,8 @@ function getColourBorderSize(divList){
 	
 	var colourBorderClassNames = {
 		"heading-mu text-white":"cardborder-mu",
-		"heading-sc text-black":"cardborder-sc",
-		"heading-pm text-black":"cardborder-pm",
+		"heading-sc text-white":"cardborder-sc",
+		"heading-pm text-white":"cardborder-pm",
 		"heading-dk text-white":"cardborder-dk"
 	}
 	var colourType = null;
@@ -961,26 +966,29 @@ function setupBackToTopButton(){
 		<hr> 
 
 	<div class="row w-100">
+
+
 		<div class="col-lg-3">
 	   <h5>Drawer Style<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the colour/style of the first row. Dark is chosen by default.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
 		</div>
 		<div class="col-lg">
-	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateElementCode()>
-		<input class="form-check-input" name="bgStyle" id="bgStyle1" type="radio" value="heading-dk text-white,cardborder-dk">
-		<label class="form-check-label" for="bgStyle1"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="thead-dark"><th>Dark</th></thead></table></label>
-	  </div>
-	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateElementCode()>
-		<input class="form-check-input" name="bgStyle" id="bgStyle2" type="radio" value="heading-pm text-black,cardborder-pm">
-		<label class="form-check-label" for="bgStyle2"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="table-primary"><th>Sky Blue</th></thead></table></label>
-	  </div>
-	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateElementCode()>
-		<input class="form-check-input" name="bgStyle" id="bgStyle3" type="radio" value="heading-sc text-black,cardborder-sc">
-		<label class="form-check-label" for="bgStyle3"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="table-secondary"><th>Grey</th></thead></table></label>
-	  </div>
-	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateElementCode()>
-		<input class="form-check-input" name="bgStyle" id="bgStyle4" type="radio" value="heading-mu text-white,cardborder-mu" checked>
-		<label class="form-check-label" for="bgStyle4"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="bg-mu"><th>Monash Blue</th></thead></table></label>
-	  </div>	  
+            <div class="form-check form-check-inline" id="bgStyle" onchange=generateElementCode()>
+                <input class="form-check-input" name="bgStyle" id="bgStyle4" type="radio" value="heading-mu text-white,cardborder-mu" checked>
+                <label class="form-check-label" for="bgStyle4"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="bg-mu"><th>Monash Blue</th></thead></table></label>
+            </div>
+            <div class="form-check form-check-inline" id="bgStyle" onchange=generateElementCode()>
+                <input class="form-check-input" name="bgStyle" id="bgStyle1" type="radio" value="heading-dk text-white,cardborder-dk">
+                <label class="form-check-label" for="bgStyle1"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="thead-dark"><th>Dark</th></thead></table></label>
+            </div>
+            <div class="form-check form-check-inline" id="bgStyle" onchange=generateElementCode()>
+                <input class="form-check-input" name="bgStyle" id="bgStyle2" type="radio" value="heading-pm text-white,cardborder-pm">
+                <label class="form-check-label" for="bgStyle2"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="btn-mu-purple"><th>Purple</th></thead></table></label>
+            </div>
+            <div class="form-check form-check-inline" id="bgStyle" onchange=generateElementCode()>
+                <input class="form-check-input" name="bgStyle" id="bgStyle3" type="radio" value="heading-sc text-white,cardborder-sc">
+                <label class="form-check-label" for="bgStyle3"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="btn-mu-grey"><th>Grey</th></thead></table></label>
+            </div>
+
 		</div>
 	  </div>		  
 		<hr>

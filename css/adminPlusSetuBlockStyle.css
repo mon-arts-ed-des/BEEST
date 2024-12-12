@@ -210,3 +210,6 @@
     .alert p:last-of-type {
     margin-bottom: 0px !important;
     }
+
+.dropdown-item{color:#fff;}
+.dropdown-menu{background-color: #006dae;}

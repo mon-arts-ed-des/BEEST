@@ -20,6 +20,10 @@
     <!-- Arts CSS -->  
     <link rel="stylesheet" href="css/monashElements.css" />
     <link rel="stylesheet" href="css/monTabs.css" />
+
+	<!-- BEEST colours -->
+	<link rel="stylesheet" href="css/beestColours.css" />
+
     <!-- external link to js file -->  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -38,7 +42,9 @@
 	<script type="text/javascript">
 const START_ELEMENT = "<!--Begin BEEST table-->"
 const END_ELEMENT = "<!--End BEEST table-->"
+const BEEST_COLOURS="<script>var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://mon-arts-ed-des.github.io/BEEST/EmbedInsertNewNav/css/accordionStyle.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
 const NO_ROW_SIZE = "None"
+
 /*REQUIRED FOR HISTORY*/    
 	const BUTTON_HIST = "history_table"
 	const pasteTable = "pasteTableFromExcel"
@@ -564,7 +570,7 @@ function generateTableCode() {
 
 	var textOutputTable = resizedHead+newTableCode(tableContents,table_display) /**TO UPDATE**/
 	
-	document.getElementById('txtareaBtn').innerHTML= START_ELEMENT+textOutputTable+END_ELEMENT;
+	document.getElementById('txtareaBtn').innerHTML= START_ELEMENT+BEEST_COLOURS+textOutputTable+END_ELEMENT;
 	//SelectAll("txtareaBtn");
 
 	var genericTableWithFilter = textOutputTable.replaceAll(/filterTable_([a-zA-Z])*/ig,SAMPLEID)
@@ -911,6 +917,7 @@ $(function () {
 	   <h5 class="font-weight-bold">Row 1 Colour/Style<span class="text-success hideableinstruct small" data-toggle="tooltip" data-placement="right" data-trigger="hover focus" title="Choose the colour/style of the first row. Dark is chosen by default.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
 		</div>
 		<div class="col-lg">
+
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateTableCode()>
 		<input class="form-check-input" name="bgStyle" id="bgStyle1" type="radio" value="td">
 		<label class="form-check-label" for="bgStyle1"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead><td>Plain text</td></thead></table></label>
@@ -919,22 +926,23 @@ $(function () {
 		<input class="form-check-input" name="bgStyle" id="bgStyle2" type="radio" value="th">
 		<label class="form-check-label" for="bgStyle2"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead><th>Bold</th></thead></table></label>
 	  </div>
-	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateTableCode()>
+			<div class="form-check form-check-inline" id="bgStyle" onchange=generateTableCode()>
+				<input class="form-check-input" name="bgStyle" id="bgStyle6" type="radio" value="bg-mu text-white">
+				<label class="form-check-label" for="bgStyle6"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="bg-mu"><th>Monash Blue</th></thead></table></label>
+			</div>
+			<div class="form-check form-check-inline" id="bgStyle" onchange=generateTableCode()>
 		<input class="form-check-input" name="bgStyle" id="bgStyle3" type="radio" value="thead-dark" checked>
 		<label class="form-check-label" for="bgStyle3"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="thead-dark"><th>Dark</th></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateTableCode()>
-		<input class="form-check-input" name="bgStyle" id="bgStyle4" type="radio" value="table-primary">
-		<label class="form-check-label" for="bgStyle4"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="table-primary"><th>Sky Blue</th></thead></table></label>
+		<input class="form-check-input" name="bgStyle" id="bgStyle4" type="radio" value="bg-pm-row text-white">
+		<label class="form-check-label" for="bgStyle4"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="btn-mu-purple"><th>Purple</th></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateTableCode()>
-		<input class="form-check-input" name="bgStyle" id="bgStyle5" type="radio" value="table-secondary">
-		<label class="form-check-label" for="bgStyle5"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="table-secondary"><th>Grey</th></thead></table></label>
+		<input class="form-check-input" name="bgStyle" id="bgStyle5" type="radio" value="bg-sc-row text-white">
+		<label class="form-check-label" for="bgStyle5"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="btn-mu-grey"><th>Grey</th></thead></table></label>
 	  </div>
-	  <div class="form-check form-check-inline" id="bgStyle" onchange=generateTableCode()>
-		<input class="form-check-input" name="bgStyle" id="bgStyle6" type="radio" value="bg-mu text-white">
-		<label class="form-check-label" for="bgStyle6"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="bg-mu"><th>Monash Blue</th></thead></table></label>
-	  </div>	  
+
 		</div>
 	  </div>		  
 		<hr>
@@ -952,22 +960,23 @@ $(function () {
 		<input class="form-check-input" name="c1Style" id="c1Style2" type="radio" value="th" checked>
 		<label class="form-check-label" for="c1Style2"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead><th>Bold</th></thead></table></label>
 	  </div>
-	  <div class="form-check form-check-inline" id="c1Style" onchange=generateTableCode()>
+			<div class="form-check form-check-inline" id="c1Style" onchange=generateTableCode()>
+				<input class="form-check-input" name="c1Style" id="c1Style6" type="radio" value="bg-mu text-white">
+				<label class="form-check-label" for="c1Style6"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="bg-mu"><th>Monash Blue</th></thead></table></label>
+			</div>
+			<div class="form-check form-check-inline" id="c1Style" onchange=generateTableCode()>
 		<input class="form-check-input" name="c1Style" id="c1Style3" type="radio" value="table-dark border border-dark">
 		<label class="form-check-label" for="c1Style3"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="thead-dark"><th>Dark</th></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="c1Style" onchange=generateTableCode()>
-		<input class="form-check-input" name="c1Style" id="c1Style4" type="radio" value="table-primary">
-		<label class="form-check-label" for="c1Style4"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="table-primary"><th>Sky Blue</th></thead></table></label>
+		<input class="form-check-input" name="c1Style" id="c1Style4" type="radio" value="bg-pm-row text-white">
+		<label class="form-check-label" for="c1Style4"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="btn-mu-purple"><th>Purple</th></thead></table></label>
 	  </div>
 	  <div class="form-check form-check-inline" id="c1Style" onchange=generateTableCode()>
-		<input class="form-check-input" name="c1Style" id="c1Style5" type="radio" value="table-secondary">
-		<label class="form-check-label" for="c1Style5"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="table-secondary"><th>Grey</th></thead></table></label>
+		<input class="form-check-input" name="c1Style" id="c1Style5" type="radio" value="bg-sc-row text-white">
+		<label class="form-check-label" for="c1Style5"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="btn-mu-grey"><th>Grey</th></thead></table></label>
 	  </div>
-	  <div class="form-check form-check-inline" id="c1Style" onchange=generateTableCode()>
-		<input class="form-check-input" name="c1Style" id="c1Style6" type="radio" value="bg-mu text-white">
-		<label class="form-check-label" for="c1Style6"><table class="table table-bordered table-hover table-striped table-responsive-lg border border-dark"><thead class="bg-mu"><th>Monash Blue</th></thead></table></label>
-	  </div>	  
+
 		</div>
 	  </div>		  
 		<hr>

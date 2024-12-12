@@ -14,111 +14,120 @@
     border: 2px solid transparent;
     box-shadow: 0 2px 5px 0 rgba(0,0,0,.5);
     text-decoration: none;
-    }
-    .btn-lg {
-      padding:.5rem 1rem !important;
-      font-size:1.25rem !important;
-      line-height:1.5 !important;
-      border-radius:.3rem !important;
-    }
-    .btn-sm {
-      padding:.25rem .5rem !important;
-      font-size:.875rem !important;
-      line-height:1.5 !important;
-      border-radius:.2rem !important;
-    }
-    .btn-arts:hover, .btn-mu:hover {
+}
+.btn-lg {
+    padding:.5rem 1rem !important;
+    font-size:1.25rem !important;
+    line-height:1.5 !important;
+    border-radius:.3rem !important;
+}
+.btn-sm {
+    padding:.25rem .5rem !important;
+    font-size:.875rem !important;
+    line-height:1.5 !important;
+    border-radius:.2rem !important;
+}
+.btn-arts:hover, .btn-mu:hover {
     background: #3d90c2;
     color: white !important;
     cursor: pointer;
-    }
-    .btn-arts:focus, .btn-mu:focus {
+}
+.btn-arts:focus, .btn-mu:focus {
     background: #3d90c2 !important;
     color: white !important;
     border-color: #3d90c2 !important;
     box-shadow: none;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    }
-    .btn-arts:active, .btn-mu:active {
+}
+.btn-arts:active, .btn-mu:active {
     background: #3d90c2 !important;
     color: white !important;
     box-shadow: 0 0 0 0.2rem rgba(61, 144, 194, .5);
     border: 2px solid #3d90c2 !important;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    }
-    /*This background class can be used as a stand-alone class*/
-    .bg-arts, .bg-mu {
+}
+/*This background class can be used as a stand-alone class*/
+.bg-arts, .bg-mu {
     background: #006DAE;
     color: white;
-    }
-	/*setup modal display CSS*/
-	.modal-base-in{
-		background:#006dae;
-	}
-	.modal-base-outer{
-		max-width: 80% !important;
-	}
-	.bg-mu-m{
-	   background:#006dae;}
-	.modal-mu-Dialog{
-	   max-width: 80% !important;
-	}
-	/*setup classes for whole row to trigger the hover of the row on the th cell*/
-	.bg-mu-row:hover th{
+}
+/*setup modal display CSS*/
+.modal-base-in{
+    background:#006dae;
+}
+.modal-base-outer{
+    max-width: 80% !important;
+}
+.bg-mu-m{
+   background:#006dae;}
+.modal-mu-Dialog{
+   max-width: 80% !important;
+}
+
+.bg-pm-row{
+    background: #6f64a9 !important;
+}
+.bg-sc-row{
+    background: #505050 !important;
+}
+
+
+/*setup classes for whole row to trigger the hover of the row on the th cell*/
+.bg-mu-row:hover th{
     background: #3d90c2 !important;
-    }
-	.bg-sc-row:hover th{
-    background: #C8CBCF !important;
-    }
-	.bg-pm-row:hover th{
-    background: #9FCDFF !important;
-    }
-	.bg-dk-row:hover th{
+}
+.bg-sc-row:hover th{
+    background: #7c7c7c !important;
+}
+.bg-pm-row:hover th{
+    background: #8c7ada !important;
+}
+.bg-dk-row:hover th{
     background: #B9BBBE !important;
     color: black;
-	border: 1px solid #B9BBBE !important;
-    }
-    /*The alert should be used in conjunction with the class .alert to ensure correct visuals and .rounded if a rounded box is a required design element.*/
-    .alert-arts, .alert-mu {
+    border: 1px solid #B9BBBE !important;
+}
+/*The alert should be used in conjunction with the class .alert to ensure correct visuals and .rounded if a rounded box is a required design element.*/
+.alert-arts, .alert-mu {
     background: rgba(0, 109, 174, .25);
     border: 1px solid #006DAE;
     color: #000 !important;
-    }
-    /*This border class should be used in conjunction with .border to function correctly, and .rounded if a round border is required*/
-    .border-arts, .border-mu {
+}
+/*This border class should be used in conjunction with .border to function correctly, and .rounded if a round border is required*/
+.border-arts, .border-mu {
     border: 1px solid #006DAE;
-    }
-    /*This border class is a thicker border, 3px instead of 1px. It should be used in conjunction with .border to function correctly, and .rounded if a round border is required*/
-    .border-arts-3, .border-mu-3 {
+}
+/*This border class is a thicker border, 3px instead of 1px. It should be used in conjunction with .border to function correctly, and .rounded if a round border is required*/
+.border-arts-3, .border-mu-3 {
     border: 3px solid #006dae;
-    }
-    /*This text class can be used as a stand-alone class*/
-    .text-arts, .text-mu {
+}
+/*This text class can be used as a stand-alone class*/
+.text-arts, .text-mu {
     color: #006DAE !important;
-    }
-    .btn-outline-mu {
-     color:#006dae;
-        background-color:transparent;
-        background-image:none;
-        border-color:#006dae;
-      }
-      .btn-outline-mu:hover {
-        color:#fff;
-        background-color:#006dae;
-        border-color:#006dae;
-      }
-      .btn-outline-mu.focus,.btn-outline-mu:focus { 
-        box-shadow:0 0 0 .2rem rgba(0,123,255,1);
-      }
-      .btn-outline-mu.disabled,.btn-outline-mu:disabled {
-        color:#006dae;
-        background-color:transparent;
-      }
-      .btn-outline-mu:not(:disabled):not(.disabled).active,.btn-outline-mu:not(:disabled):not(.disabled):active,.show>.btn-outline-mu.dropdown-toggle {
-        color:#fff;
-        background-color:#006dae;
-        border-color:#006dae;
-      }
-      .btn-outline-mu:not(:disabled):not(.disabled).active:focus,.btn-outline-mu:not(:disabled):not(.disabled):active:focus,.show>.btn-outline-mu.dropdown-toggle:focus {
-        box-shadow:0 0 0 .2rem rgba(0,109,174, 1);
-      }
+}
+.btn-outline-mu {
+    color:#006dae;
+    background-color:transparent;
+    background-image:none;
+    border-color:#006dae;
+}
+.btn-outline-mu:hover {
+    color:#fff;
+    background-color:#006dae;
+    border-color:#006dae;
+}
+.btn-outline-mu.focus,.btn-outline-mu:focus {
+    box-shadow:0 0 0 .2rem rgba(0,123,255,1);
+}
+.btn-outline-mu.disabled,.btn-outline-mu:disabled {
+    color:#006dae;
+    background-color:transparent;
+}
+.btn-outline-mu:not(:disabled):not(.disabled).active,.btn-outline-mu:not(:disabled):not(.disabled):active,.show>.btn-outline-mu.dropdown-toggle {
+    color:#fff;
+    background-color:#006dae;
+    border-color:#006dae;
+}
+.btn-outline-mu:not(:disabled):not(.disabled).active:focus,.btn-outline-mu:not(:disabled):not(.disabled):active:focus,.show>.btn-outline-mu.dropdown-toggle:focus {
+    box-shadow:0 0 0 .2rem rgba(0,109,174, 1);
+}

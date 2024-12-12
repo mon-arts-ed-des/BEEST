@@ -17,6 +17,10 @@
       <!-- Arts CSS -->  
       <link rel="stylesheet" href="css/adminPlusSetuBlockStyle.css" />
       <link rel="stylesheet" href="css/monashElements.css" />
+
+    <!-- BEEST colours -->
+    <link rel="stylesheet" href="css/beestColours.css" />
+
       <!--Scripts for history and radio buttons-->
           
       <!-- external link to js file -->  
@@ -42,6 +46,7 @@
     <script type="text/javascript">
 const START_ELEMENT = "<!--Begin BEEST readmore-->"
 const END_ELEMENT = "<!--End BEEST readmore-->"
+const BEEST_COLOURS="<script>var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://mon-arts-ed-des.github.io/BEEST/EmbedInsertNewNav/css/accordionStyle.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
 
 var iconNames = {
 	"1":"plus",
@@ -57,7 +62,7 @@ var iconNames = {
    "11":"caret-square-o-down",
    "12":"hand-o-down"
 }
-var colourNames = {
+/*var colourNames = {
 	"1":"mu",
 	"2":"danger",
 	"3":"warning",
@@ -66,6 +71,16 @@ var colourNames = {
 	"6":"info", 
 	"7":"dark",
 	"8":"secondary"
+}*/
+var colourNames = {
+    "1":"mu",
+    "2":"mu-red",
+    "3":"mu-orange",
+    "4":"mu-green",
+    "5":"mu-purple",
+    "6":"mu-fuchsia",
+    "7":"dark",
+    "8":"mu-grey"
 }
 for (prop in colourNames){
 	colourNames[prop+"y"] = "outline-"+colourNames[prop]
@@ -278,7 +293,7 @@ function generateReadMoreCode() {
 
     var readMoreBtnFinal="</div><div class=\"d-flex justify-content-center\"><a id=\"beestRead\" class=\"btn"+btnSize+"btn-"+colourName+" btn-block w-"+bsBtnWidth+" m-2\" data-toggle=\"collapse\" href=\"#readMore"+readMoreNumber+"\" role=\"button\" aria-expanded=\"false\" aria-controls=\"collapseExample\">"+readMoreBtnTxt+faIconCode+"</a></div>"
 	var readMoreOutput = readMoreContainer+readMoreBefore+readMore_1+readMoreAfter+readMoreBtnFinal+readMoreClose;
-	$('#readMoreCode').val(START_ELEMENT+toggleBtnScript+readMoreOutput+END_ELEMENT);
+	$('#readMoreCode').val(START_ELEMENT+BEEST_COLOURS+toggleBtnScript+readMoreOutput+END_ELEMENT);
 	
 	changeWidthOfDemo(bsBtnWidth)
 	updateDemo(readMoreOutput,faIcon)
@@ -562,15 +577,15 @@ function getHistoryI(index,history){
       </div>
       <div class="form-check form-check-inline" id="btnColour" onchange=generateReadMoreCode()>
       <input class="form-check-input" name="btnColour" id="btnColour2" type="radio" value="2">
-      <label class="form-check-label" for="btnColour2"><span id="red" class="btn btn-danger">Red</span></label>
+      <label class="form-check-label" for="btnColour2"><span id="red" class="btn btn-mu-red">Red</span></label>
       </div>
       <div class="form-check form-check-inline" id="btnColour" onchange=generateReadMoreCode()>
         <input class="form-check-input" name="btnColour" id="btnColour3" type="radio" value="3">
-        <label class="form-check-label" for="btnColour3"><span id="yellow" class="btn btn-warning">Yellow</span></label>
+        <label class="form-check-label" for="btnColour3"><span id="yellow" class="btn btn-mu-orange">Orange</span></label>
         </div>
       <div class="form-check form-check-inline" id="btnColour" onchange=generateReadMoreCode()>
       <input class="form-check-input" name="btnColour" id="btnColour4" type="radio" value="4">
-      <label class="form-check-label" for="btnColour4"><span id="green" class="btn btn-success">Green</span></label>
+      <label class="form-check-label" for="btnColour4"><span id="green" class="btn btn-mu-green">Green</span></label>
     </div>
   </div>
 </div>
@@ -578,11 +593,11 @@ function getHistoryI(index,history){
     <div class="col-lg d-flex justify-content-between">
     <div class="form-check form-check-inline" id="btnColour" onchange=generateReadMoreCode()>
       <input class="form-check-input" name="btnColour" id="btnColour5" type="radio" value="5">
-      <label class="form-check-label" for="btnColour5"><span id="darkBlue" class="btn btn-primary">Dark blue</span></label>
+      <label class="form-check-label" for="btnColour5"><span id="darkBlue" class="btn btn-mu-purple">Purple</span></label>
     </div>
     <div class="form-check form-check-inline" id="btnColour" onchange=generateReadMoreCode()>
       <input class="form-check-input" name="btnColour" id="btnColour6" type="radio" value="6">
-      <label class="form-check-label" for="btnColour6"><span id="lightBlue" class="btn btn-info">Light blue</span></label>
+      <label class="form-check-label" for="btnColour6"><span id="lightBlue" class="btn btn-mu-fuchsia">Fuchsia</span></label>
     </div>
     <div class="form-check form-check-inline" id="btnColour" onchange=generateReadMoreCode()>
       <input class="form-check-input" name="btnColour" id="btnColour7" type="radio" value="7">
@@ -590,7 +605,7 @@ function getHistoryI(index,history){
     </div>
     <div class="form-check form-check-inline" id="btnColour" onchange=generateReadMoreCode()>
       <input class="form-check-input" name="btnColour" id="btnColour8" type="radio" value="8">
-      <label class="form-check-label" for="btnColour8"><span id="grey" class="btn btn-secondary">Grey</span></label>
+      <label class="form-check-label" for="btnColour8"><span id="grey" class="btn btn-mu-grey">Grey</span></label>
     </div>
   </div>
 </div>

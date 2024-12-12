@@ -33,6 +33,7 @@
 	<script src="js/pageHistory.js"></script>
 	<script src="js/helperFunctions.js"></script>
 	<script src="js/setupPage.js"></script>
+    <script src="js/insertCode.js"></script>
     <script type="text/javascript">
 const START_ELEMENT = "<!--Begin BEEST embed-->"
 const END_ELEMENT = "<!--End BEEST embed-->"
@@ -273,7 +274,19 @@ function copyTheCode(){
 	addToHistory(classEmbed)
 	/*END REQUIRED for history*/
 	SelectAll("txtareaembed");
-}    
+}
+
+function insertCode(){
+    /*REQUIRED FOR HISTORY*/
+    addToHistory(classEmbed)
+    /*END REQUIRED FOR HISTORY*/
+
+    //insertCodeInPage("txtareaBtn");
+    let obj={type:'insertCode',code:$("#txtareaembed").val()};
+    //window.parent.postMessage(obj,"https://learning.monash.edu");
+    window.parent.postMessage(obj,"*");
+
+}
 
     function SelectAll(id){
         document.getElementById(id).focus();
@@ -566,7 +579,15 @@ function getHistoryI(index,history){
           <h5 class="font-weight-bold">Copy code<span class="hideableinstruct text-success small" data-toggle="tooltip" data-placement="bottom" data-trigger="hover focus" title="Click the button below to copy your code, ready to paste into Moodle.">&nbsp;<i class="fa fa-question-circle"></i></span></h5>
         
            <textarea readonly class="rounded p-2 w-100" id="txtareaembed" cols="70" rows="3" name="Result" placeholder="Code for your element will appear here."></textarea>
-           <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." type="button" class="m-1 btn btn-success btn-block btn-lg" id="copyCodeBtn" name="copyCode" value="Copy your code &lt;/&gt;" onClick=copyTheCode()></input>
+            <div class="row w-100">
+                <div class="col-lg-6">
+                   <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been copied." type="button" class="m-1 btn btn-success btn-block btn-lg" id="copyCodeBtn" name="copyCode" value="Copy your code &lt;/&gt;" onClick=copyTheCode()></input>
+                </div>
+                <div class="col-lg-6">
+                    <input data-toggle="tooltip" data-placement="bottom" data-trigger="click" title="Your code has been inserted." id="insertCodeBtn" class="btn btn-success btn-lg btn-block mt-2" name="insertWrap" value="Insert your code </>" OnClick='insertCode()' >
+                    <div id="input-help"></div>
+                </div>
+            </div>
            <p class="text-center h5 mt-4">
             <a data-toggle="modal" data-target=".html-paste-modal" href="#">How do I paste this into Moodle?</a>
            </p>

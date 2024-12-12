@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <!-- Arts CSS -->  
     <link rel="stylesheet" href="css/adminPlusSetuBlockStyle.css" />
+
+    <!-- BEEST colours -->
+    <link rel="stylesheet" href="css/beestColours.css" />
     
     <!-- external link to js file -->  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -39,8 +42,9 @@
     <script type="text/javascript">
 const START_ELEMENT = "<!--Begin BEEST quote-->"
 const END_ELEMENT = "<!--End BEEST quote-->"
+const BEEST_COLOURS="<script>var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://mon-arts-ed-des.github.io/BEEST/EmbedInsertNewNav/css/accordionStyle.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
 
-var colourNames = {
+/*var colourNames = {
 	"1":"mu",
 	"2":"danger",
 	"3":"warning",
@@ -49,6 +53,16 @@ var colourNames = {
 	"6":"info", 
 	"7":"dark",
 	"8":"secondary"
+}*/
+var colourNames = {
+    "1":"mu",
+    "2":"mu-red",
+    "3":"mu-orange",
+    "4":"mu-green",
+    "5":"mu-purple",
+    "6":"mu-fuchsia",
+    "7":"mu-black",
+    "8":"mu-grey"
 }
 var sizeMap = {
 	"h3":"1.55rem",
@@ -134,9 +148,9 @@ function generateColourCode(bsColour){
 	var colourName = colourNames[bsColour];
 	var bgClrCode = "<blockquote class=\"blockquote alert alert-"+colourName+" pb-3 px-2"
 	
-	if (colourName != "mu"){
+	//if (colourName != "mu"){
 		bgClrCode+= " border border-"+colourName
-	}
+	//}
 	
 	bgClrCode+=" rounded\"><i aria-hidden=\"true\" class=\"fa fa-fw fa-quote-left fa-2x fa-pull-left\"></i>"
 	return bgClrCode
@@ -176,7 +190,7 @@ function combineQuoteElements(bgClrCode,resizedText,quote_Text,reference_text){
 
 		quoteOutput = combineQuoteElements(bgClrCode,resizedText,quote_Text,reference_text)
 		
-        document.getElementById('monQuoteCode').innerHTML=START_ELEMENT+quoteOutput+END_ELEMENT;
+        document.getElementById('monQuoteCode').innerHTML=START_ELEMENT+BEEST_COLOURS+quoteOutput+END_ELEMENT;
         //SelectAll("monQuoteCode");
         $('#demoQuote').html(quoteOutput);
 	}
@@ -406,15 +420,15 @@ function combineQuoteElements(bgClrCode,resizedText,quote_Text,reference_text){
           </div>
           <div class="form-check form-check-inline mx-1 mb-2" id="bgColour" onchange=generateElementCode()>
             <input class="form-check-input" name="bgColour" id="bgColour2" type="radio" value="2">
-            <label class="form-check-label alert alert-danger border border-danger rounded my-auto" for="bgColour2">Red</label>
+            <label class="form-check-label alert alert-mu-red border border-mu-red rounded my-auto" for="bgColour2">Red</label>
           </div>
           <div class="form-check form-check-inline mx-1 mb-2" id="bgColour" onchange=generateElementCode()>
           <input class="form-check-input" name="bgColour" id="bgColour3" type="radio" value="3">
-          <label class="form-check-label alert alert-warning border border-warning my-auto" for="bgColour3">Yellow</label>
+          <label class="form-check-label alert alert-mu-orange border border-mu-orange my-auto" for="bgColour3">Orange</label>
           </div>
           <div class="form-check form-check-inline mx-1 mb-2" id="bgColour" onchange=generateElementCode()>
           <input class="form-check-input" name="bgColour" id="bgColour4" type="radio" value="4">
-          <label class="form-check-label alert alert-success border border-success my-auto" for="bgColour4">Green</label>
+          <label class="form-check-label alert alert-mu-green border border-mu-green  my-auto" for="bgColour4">Green</label>
         </div>
       </div>
     </div>
@@ -423,19 +437,19 @@ function combineQuoteElements(bgClrCode,resizedText,quote_Text,reference_text){
         <div class="col-lg d-flex justify-content-between">
       <div class="form-check form-check-inline mx-1" id="bgColour" onchange=generateElementCode()>
       <input class="form-check-input" name="bgColour" id="bgColour5" type="radio" value="5">
-      <label class="form-check-label alert alert-primary border border-primary my-auto" for="bgColour5">Dark blue</label>
+      <label class="form-check-label alert alert-mu-purple border border-mu-purple my-auto" for="bgColour5">Purple</label>
     </div>
     <div class="form-check form-check-inline mx-1" id="bgColour" onchange=generateElementCode()>
       <input class="form-check-input" name="bgColour" id="bgColour6" type="radio" value="6">
-      <label class="form-check-label alert alert-info border border-info my-auto" for="bgColour6">Light blue</label>
+      <label class="form-check-label alert alert-mu-fuchsia border border-mu-fuchsia my-auto" for="bgColour6">Fuchsia</label>
     </div>
     <div class="form-check form-check-inline mx-1" id="bgColour" onchange=generateElementCode()>
       <input class="form-check-input" name="bgColour" id="bgColour7" type="radio" value="7">
-      <label class="form-check-label alert alert-dark border border-dark my-auto" for="bgColour7">Black</label>
+      <label class="form-check-label alert alert-mu-black border border-mu-black my-auto" for="bgColour7">Black</label>
     </div>
     <div class="form-check form-check-inline mx-1" id="bgColour" onchange=generateElementCode()>
       <input class="form-check-input" name="bgColour" id="bgColour8" type="radio" value="8">
-      <label class="form-check-label alert alert-secondary border border-secondary my-auto" for="bgColour8">Grey</label>
+      <label class="form-check-label alert alert-mu-grey border border-mu-grey my-auto" for="bgColour8">Grey</label>
     </div>
   </div>
 </div>

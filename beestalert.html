@@ -24,9 +24,11 @@
     <!-- Bootstrap CSS -->   
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Arts CSS -->  
-    <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/adminPlusSetuBlockStyle.css" />
-    <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/BEEST/css/monashElements.css" />
+    <link rel="stylesheet" href="css/adminPlusSetuBlockStyle.css" />
+    <link rel="stylesheet" href="/css/monashElements.css" />
 
+    <!-- BEEST colours -->
+    <link rel="stylesheet" href="css/beestColours.css" />
     
     <!-- external link to js file -->  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -55,15 +57,16 @@
     monAlert = Monash themed alert
     monAlertD = Monash themed alert that can be dismissed
     */
-const START_ELEMENT = "<!--Begin BEEST alert-->"
-const END_ELEMENT = "<!--End BEEST alert-->"
-	
+    const START_ELEMENT = "<!--Begin BEEST alert-->"
+    const END_ELEMENT = "<!--End BEEST alert-->"
+    const BEEST_COLOURS="<script>var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://mon-arts-ed-des.github.io/BEEST/EmbedInsertNewNav/css/accordionStyle.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
+
 var iconNames = {
 	"1": "exclamation-circle",
 	"2": "info-circle",
 	"3": "question-circle",
 }
-var colourNames = {
+/*var colourNames = {
 	"1": "mu",
 	"2": "danger",
 	"3": "warning",
@@ -72,7 +75,17 @@ var colourNames = {
 	"6": "info",
 	"7": "dark",
 	"8": "secondary",
-};
+};*/
+    var colourNames = {
+        "1":"mu",
+        "2":"mu-red",
+        "3":"mu-orange",
+        "4":"mu-green",
+        "5":"mu-purple",
+        "6":"mu-fuchsia",
+        "7":"mu-black",
+        "8":"mu-grey"
+    }
 
 	const PLACEHOLDER = "[Placeholder for alert context. The content you entered in step 1 will appear here.]"
 /*REQUIRED FOR HISTORY*/    
@@ -213,7 +226,7 @@ function storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmopti
 		textOutput += "</div>";
 		classAlert = storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmoption)
 
-        document.getElementById("monAlertCode").innerHTML = START_ELEMENT+alertScript+textOutput+END_ELEMENT;
+        document.getElementById("monAlertCode").innerHTML = START_ELEMENT+BEEST_COLOURS+alertScript+textOutput+END_ELEMENT;
         //SelectAll("monAlertCode");
         $("#demo").html(textOutput);
     }
@@ -517,15 +530,15 @@ function getHistoryI(index,history){
               </div>
               <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateElementCode()>
                 <input class="form-check-input" name="alertColour" id="alertColour2" type="radio" value="2">
-                <label class="form-check-label alert alert-danger border border-danger rounded my-auto" for="alertColour2">Red</label>
+                <label class="form-check-label alert alert-mu-red border border-mu-red rounded my-auto" for="alertColour2">Red</label>
               </div>
               <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateElementCode()>
               <input class="form-check-input" name="alertColour" id="alertColour3" type="radio" value="3">
-              <label class="form-check-label alert alert-warning border border-warning my-auto" for="alertColour3">Yellow</label>
+              <label class="form-check-label alert alert-mu-orange border border-mu-orange my-auto" for="alertColour3">Orange</label>
               </div>
               <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateElementCode()>
               <input class="form-check-input" name="alertColour" id="alertColour4" type="radio" value="4">
-              <label class="form-check-label alert alert-success border border-success my-auto" for="alertColour4">Green</label>
+              <label class="form-check-label alert alert-mu-green border border-mu-green my-auto" for="alertColour4">Green</label>
             </div>
           </div>
         </div>
@@ -533,19 +546,19 @@ function getHistoryI(index,history){
           <div class="row w-100">
           <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateElementCode()>
           <input class="form-check-input" name="alertColour" id="alertColour5" type="radio" value="5">
-          <label class="form-check-label alert alert-primary border border-primary my-auto" for="alertColour5">Dark blue</label>
+          <label class="form-check-label alert alert-mu-purple border border-mu-purple my-auto" for="alertColour5">Purple</label>
         </div>
         <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateElementCode()>
           <input class="form-check-input" name="alertColour" id="alertColour6" type="radio" value="6">
-          <label class="form-check-label alert alert-info border border-info my-auto" for="alertColour6">Light blue</label>
+          <label class="form-check-label alert alert-mu-fuchsia border border-mu-fuchsia my-auto" for="alertColour6">Fuchsia</label>
         </div>
         <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateElementCode()>
           <input class="form-check-input" name="alertColour" id="alertColour7" type="radio" value="7">
-          <label class="form-check-label alert alert-dark border border-dark my-auto" for="alertColour7">Black</label>
+          <label class="form-check-label alert alert-mu-black border border-mu-black my-auto" for="alertColour7">Black</label>
         </div>
         <div class="form-check form-check-inline mb-3" id="alertColour" onchange=generateElementCode()>
           <input class="form-check-input" name="alertColour" id="alertColour8" type="radio" value="8">
-          <label class="form-check-label alert alert-secondary border border-secondary my-auto" for="alertColour8">Grey</label>
+          <label class="form-check-label alert alert-mu-grey border border-mu-grey my-auto" for="alertColour8">Grey</label>
         </div>
       </div>
     </div>

@@ -24,10 +24,9 @@
     <!-- Bootstrap CSS -->   
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Arts CSS -->  
-    <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/artsmoodlecode/adminPlusSetuBlockStyle.css" />
+    <link rel="stylesheet" href="css/adminPlusSetuBlockStyle.css" />
     <link rel="stylesheet" href="https://mon-arts-ed-des.github.io/BEEST/css/monashElements.css" />
 
-    
     <!-- external link to js file -->  
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="  https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -51,7 +50,7 @@
 
 const START_ELEMENT = "<!--Begin BEEST modal-->"
 const END_ELEMENT = "<!--End BEEST modal-->"
-
+const BEEST_COLOURS="<script>var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://mon-arts-ed-des.github.io/BEEST/EmbedInsertNewNav/css/accordionStyle.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
 
 var iconNames = {
 	"1": "exclamation-circle",
@@ -66,6 +65,7 @@ var colourNames = {
 	"4": "success",
 	"5": "dark"
 };
+
 
 	const PLACEHOLDER = "[Placeholder for modal link text. The text you entered in step 1 will appear here.]"
 /*REQUIRED FOR HISTORY*/    
@@ -251,7 +251,7 @@ function storePageToClass(linkText,contentUrl,faIcon,bsColour,buttonExit,buttonO
 		modalDataJSON = (JSON.stringify(classModal)).replaceAll('"',"'")
 		modalDataTag = '<!'+'-- <data id="modaldata" value="'+modalDataJSON+'"></data> --'+'>'
 
-        document.getElementById("monModalCode").innerHTML = START_ELEMENT+STYLE_ADDER+modalDataTag+textOutput+modal_popup_html+END_ELEMENT;
+        document.getElementById("monModalCode").innerHTML = START_ELEMENT+BEEST_COLOURS+STYLE_ADDER+modalDataTag+textOutput+modal_popup_html+END_ELEMENT;
         //SelectAll("monModalCode");
         $("#demo").html(STYLE_ADDER+textOutput);
 		$("#modaldemo").html(modal_popup_html)

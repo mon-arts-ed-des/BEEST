@@ -10,8 +10,8 @@ const KEY_MOODLE_VERSION = "moodle_version_for_BEEST"
 
 const KEY_COLLAPSE_BEEST_EDIT = encodehash(KEY_COLLAPSE_BEEST_EDIT_RAW);
 //todo: swap HOST before push
-const HOST = "https://beest.monash.edu/insert_code";
-//const HOST = "http://localhost/moodle/_BEEST";
+//const HOST = "https://beest.monash.edu/insert_code";
+const HOST = "http://localhost/moodle/_BEEST";
 console.log("HOST: "+HOST);
 
 const key_current_role_raw = "CURRENT_ROLE"
@@ -96,6 +96,10 @@ function setup_beest(MODE,visibilityMethod){
 	
 	//now we've explored EACH menu option let's check if we should display the icon.
 
+	//todo: remove before push
+	cog_present=true;
+	correct_role=true;
+
 
 	window.addEventListener( "message",function (e) {
 
@@ -118,9 +122,9 @@ function setup_beest(MODE,visibilityMethod){
 			insertCodeInPage(e.data);
 		}else if(e.data.type=="insertCheck"){
 
-
 			let isAttoTmp= checkForAtto();
 			let isEditTmp= checkForEditScreen();
+
 			let obj={type:'insertCheckReturn',isAtto:isAttoTmp,isEdit:isEditTmp};
 			document.getElementById('beest-ifrm1').contentWindow.postMessage(obj,'*');
 			document.getElementById('beest-ifrm2').contentWindow.postMessage(obj,'*');
@@ -180,6 +184,7 @@ function checkForAtto(){
 	if(Y.M.editor_atto!==undefined)isAtto=true;
 	return isAtto;
 }
+
 
 function checkForEditScreen(){
 	console.log("checkForEditScreen",location.href.indexOf("view.php"));
@@ -384,7 +389,7 @@ function insertCodeInPage(obj){
 	let txt="";
 
 	// tinyMCE
-	if(tinyMCE){
+	if(typeof(tinyMCE)!="undefined"){
 		txt=tinyMCE.activeEditor.getContent({format : 'raw'});
 		code=txt+code;
 		console.log(code);
@@ -397,7 +402,7 @@ function insertCodeInPage(obj){
 
 	}else{
 		//todo: this is rubbish - make it better
-
+		console.log("PlainText");
 		txtarea=$('textarea')[0];
 		txt=$(txtarea).html();
 		code=txt+code;
