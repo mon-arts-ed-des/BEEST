@@ -10,7 +10,7 @@ const KEY_MOODLE_VERSION = "moodle_version_for_BEEST"
 
 const KEY_COLLAPSE_BEEST_EDIT = encodehash(KEY_COLLAPSE_BEEST_EDIT_RAW);
 //todo: swap HOST before push
-const HOST = "https://beest.monash.edu/EmbedInsertNewNav";
+const HOST = "https://beest.monash.edu/insert_code";
 //const HOST = "http://localhost/moodle/_BEEST";
 console.log("HOST: "+HOST);
 
@@ -29,24 +29,25 @@ var mode;
 var RegExpMode;
 var cog_present=false;
 var correct_role=false;
- 
+var htmlBlockId=0;
+
 function localStorageAvailable(){
-		if (typeof localStorage !== 'undefined') {
-			try {
-				localStorage.setItem('is_local_storage_available', 'yes');
-				if (localStorage.getItem('is_local_storage_available') === 'yes') {
-					localStorage.removeItem('is_local_storage_available');
-					return true;
-				} else {
-					return false;
-				}
-			} catch(e) {
+	if (typeof localStorage !== 'undefined') {
+		try {
+			localStorage.setItem('is_local_storage_available', 'yes');
+			if (localStorage.getItem('is_local_storage_available') === 'yes') {
+				localStorage.removeItem('is_local_storage_available');
+				return true;
+			} else {
 				return false;
 			}
-		} else {
+		} catch(e) {
 			return false;
 		}
+	} else {
+		return false;
 	}
+}
 
 
 function save_to_local(key,value){
@@ -63,25 +64,47 @@ function retrieve_from_local(key){
 }
 
 function check_for_edit_and_role(){
-	
-		if ((cog_present)&&(correct_role)){
-			return false;
-			//if we've discovered all we need to know end the .each() operation
-			//.each ends on a return false.
+
+	if ((cog_present)&&(correct_role)){
+		return false;
+		//if we've discovered all we need to know end the .each() operation
+		//.each ends on a return false.
+	}
+
+	var innerText = $(this).text()
+	if (!(cog_present)){
+		//if you haven't *yet* found the any staff option check if this one is it
+		cog_present = ((innerText.match(cog_presence_regex))!=null)
+		//null being the value when **not** a match
+	}
+	if (!(correct_role)){
+		//keep checking until you find the menu option matching the correct role (or you run out of menu options)
+		correct_role = ((innerText.match(RegExpMode))!=null)
+	}
+
+
+}
+
+
+function tryShowBlock(id,trial=5){
+	console.log("tryShowBlock",id);
+	if(trial>0){
+		if(beest_icon_visible){
+			console.log("BEEST VISIBLE");
+			$("#"+htmlBlockId).show();
 		}
-		
-		var innerText = $(this).text()
-		if (!(cog_present)){
-			//if you haven't *yet* found the any staff option check if this one is it
-			cog_present = ((innerText.match(cog_presence_regex))!=null)
-			//null being the value when **not** a match
-		}
-		if (!(correct_role)){
-			//keep checking until you find the menu option matching the correct role (or you run out of menu options)
-			correct_role = ((innerText.match(RegExpMode))!=null)
-		}
-		
-	
+	}else{
+		setTimeout(tryShowBlock(),1000,id,trial-1);
+	}
+}
+
+function getCommentNode(block){
+	let blockId=0;
+	let n=$(block).find(".content").find(".no-overflow").contents().filter(function() {return this.nodeType === 8;});
+	if(n[0].data.indexOf("BEEST")>-1){
+		blockId=block.id;
+	}
+	return blockId;
 }
 
 function setup_beest(MODE,visibilityMethod){
@@ -91,14 +114,16 @@ function setup_beest(MODE,visibilityMethod){
 	var role = null;
 	RegExpMode = MODE;
 	mode = MODE.toString();
-	
+
+	$(".block_html").each(function(){
+		htmlBlockId= getCommentNode(this);
+		$("#"+htmlBlockId).hide();
+	});
+
 	$(".dropdown-menu, .dropdown-item").each(check_for_edit_and_role); //this version applies to moodle 4.1 and 3.9 (the dropdown-item class is 3.9 and dropdown-menu is 4.1)
-	
+
 	//now we've explored EACH menu option let's check if we should display the icon.
 
-	//todo: remove before push
-	//cog_present=true;
-	//correct_role=true;
 
 
 	window.addEventListener( "message",function (e) {
@@ -134,15 +159,16 @@ function setup_beest(MODE,visibilityMethod){
 
 	});
 
-	
+
 	if((cog_present)&&(correct_role)){
+
 		//if at any point cog present and can find the required text...
 		role = encodehash(regex_to_role[mode])
-		
+
 		/*POSSIBLE DANGER: someone with cog access could change in the page the role by modifying localStorage in their browser directly
 		SOLUTION: encrypt both the localStorage key and value to make it practically impossible to change without knowledge of this code
 		*/
-		
+
 		//update current role of user to localStorage
 		save_to_local(key_current_role,role)
 		if (!(beest_icon_visible)){
@@ -150,6 +176,8 @@ function setup_beest(MODE,visibilityMethod){
 			beest_icon_visible = true;
 			//paranoid checking -- don't show the icon if you're already done this on this page load
 		}
+
+		tryShowBlock(htmlBlockId);
 	}
 	else if ((cog_present)&&(!(correct_role))){
 		//cog present but not correct role
@@ -161,7 +189,7 @@ function setup_beest(MODE,visibilityMethod){
 		//if can't find cog -- pull from local storage
 		try{
 			role = retrieve_from_local(key_current_role) //should already be encrypted in SHA256
-		
+
 			//to decide whether to show or hide beest
 			if (encodehash(regex_to_role[mode])===role){
 				//if the role (encrypted) matches the role for the lookup (encrypted) then make visible
@@ -202,7 +230,7 @@ function getParams(url,id){
 
 function checkMoodleVersion(){
 	/*checks for key elements on the page identifying as moodle 3.9 or 4.1 and saves to local storage*/
-	/*check which version of moodle we have 
+	/*check which version of moodle we have
 	for moodle 4.1, header-custom-menus, moodle 3.9 header-right*/
 	if ($(".header-right").length>0){
 		save_to_local(KEY_MOODLE_VERSION,3.9)
@@ -218,7 +246,7 @@ function checkMoodleVersion(){
 function createButtonAndModal(){
 	var beest_button_for_menu = '<div class="custom-menus my-auto dropdown"><a type="button" target="_blank" class="border border-dark rounded-circle p-2 text-dark" role="button" title="BEEST" style="width: 38px; height: 38px;" data-toggle="modal" data-target=".beest-home-modal" id="beestDropdown"><img src="'+HOST+'/img/dragon-solid-black.png" width="20px" height="20px" style="margin-bottom: 4px;" /></a>'
 	var beest_modal_to_appear = '<style>.modal-beest{max-width: 80% !important;}</style><div class="modal fade beest-home-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"><div class="modal-dialog modal-lg modal-beest"><div class="modal-content"><div class="modal-header mb-0 p-2 bg-danger text-white px-5"><h5 class="modal-title text-white my-auto" id="exampleModalLabel">To close this window click the button on the right or anywhere outside this box.</h5><button type="button" class="btn btn-outline-light btn-lg rounded" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">Close <i class="fa fa-times"></i></span></button></div><iframe src="'+HOST+'/index.html" width="100%" height="900px" id="beest-ifrm1"></iframe></div></div></div>'
-	
+
 	switch (retrieve_from_local(KEY_MOODLE_VERSION)){
 		case 3.9:
 			$(".header-right").prepend(beest_button_for_menu);
@@ -236,13 +264,13 @@ function createButtonAndModal(){
 
 	}
 }
-	
+
 
 function create_iFrameInEditScreen(){
 	var expand;
 	try{
 		var wasSeen = retrieve_from_local(KEY_COLLAPSE_BEEST_EDIT)
-		
+
 		if (wasSeen === null){
 			//so never seen
 			expand = true
@@ -264,10 +292,10 @@ function create_iFrameInEditScreen(){
 			throw err //send it onwards if not a localStorage issue
 		}
 	}
-	
+
 	var classToAdd;
 	var class49Add;
-	
+
 	if (expand){
 		classToAdd = ""
 		class49Add = " "+UNCOLLAPSED_MODE_49
@@ -276,10 +304,10 @@ function create_iFrameInEditScreen(){
 		classToAdd = " "+COLLAPSED_MODE
 		class49Add = ""
 	}
-	
+
 	const MOODLE39_BEESTEDIT_INPAGE = '<fieldset class="clearfix collapsible'+classToAdd+'" id="id_beest"><legend class="ftoggler"><a href="#" class="fheader" role="button" aria-controls="id_beest" aria-expanded="false">BEEST</a></legend><div class="fcontainer clearfix iframeResp"><iframe src="'+HOST+'/index.html" frameborder="0" class="responsive-iframe" id="beest-ifrm2"></iframe></div></fieldset>'
 	const MOODLE41_BEESTEDIT_INPAGE = '<fieldset class="clearfix collapsible'+classToAdd+'" id="id_beest"><legend class="sr-only">BEEST</legend><div class="position-relative d-flex ftoggler align-items-center position-relative mr-1"><a data-toggle="collapse" href="#id_beest_container" role="button" aria-expanded="true" aria-controls="id_beest_container" class="btn btn-icon mr-1 icons-collapse-expand stretched-link fheader '+classToAdd+'" id="collapseElement-1"><span class="expanded-icon icon-no-margin p-2" title="Collapse"><i class="icon fa fa-chevron-down fa-fw " aria-hidden="true"></i></span><span class="collapsed-icon icon-no-margin p-2" title="Expand"><span class="dir-rtl-hide"><i class="icon fa fa-chevron-right fa-fw " aria-hidden="true"></i></span><span class="dir-ltr-hide"><i class="icon fa fa-chevron-left fa-fw " aria-hidden="true"></i></span></span><span class="sr-only">BEEST</span></a><h3 class="d-flex align-self-stretch align-items-center mb-0" aria-hidden="true">BEEST</h3></div>'+'<div id="id_beest_container" class="fcontainer collapseable collapse '+class49Add+'"><div id="fitem_id_page" class="form-group row  fitem   "><div class="fcontainer clearfix iframeResp"><iframe src="'+HOST+'/index.html" frameborder="0" class="responsive-iframe" id="beest-ifrm2"></iframe></div></div></div></fieldset>'
-	
+
 	var CSS_page = document.createElement('link')
 	CSS_page.rel = 'stylesheet'
 	CSS_page.href = HOST+'/css/beest_editScreen_iFrame.css'
@@ -328,53 +356,53 @@ function encodehash(input){
 
 /**
  * JS Implementation of MurmurHash2
- * 
+ *
  * @author <a href="mailto:gary.court@gmail.com">Gary Court</a>
  * @see http://github.com/garycourt/murmurhash-js
  * @author <a href="mailto:aappleby@gmail.com">Austin Appleby</a>
  * @see http://sites.google.com/site/murmurhash/
- * 
+ *
  * @param {string} str ASCII only
  * @param {number} seed Positive integer only
  * @return {number} 32-bit positive integer hash
  */
 
 function murmurhash2_32_gc(str, seed) {
-  var
-    l = str.length,
-    h = seed ^ l,
-    i = 0,
-    k;
-  
-  while (l >= 4) {
-  	k = 
-  	  ((str.charCodeAt(i) & 0xff)) |
-  	  ((str.charCodeAt(++i) & 0xff) << 8) |
-  	  ((str.charCodeAt(++i) & 0xff) << 16) |
-  	  ((str.charCodeAt(++i) & 0xff) << 24);
-    
-    k = (((k & 0xffff) * 0x5bd1e995) + ((((k >>> 16) * 0x5bd1e995) & 0xffff) << 16));
-    k ^= k >>> 24;
-    k = (((k & 0xffff) * 0x5bd1e995) + ((((k >>> 16) * 0x5bd1e995) & 0xffff) << 16));
+	var
+		l = str.length,
+		h = seed ^ l,
+		i = 0,
+		k;
 
-	h = (((h & 0xffff) * 0x5bd1e995) + ((((h >>> 16) * 0x5bd1e995) & 0xffff) << 16)) ^ k;
+	while (l >= 4) {
+		k =
+			((str.charCodeAt(i) & 0xff)) |
+			((str.charCodeAt(++i) & 0xff) << 8) |
+			((str.charCodeAt(++i) & 0xff) << 16) |
+			((str.charCodeAt(++i) & 0xff) << 24);
 
-    l -= 4;
-    ++i;
-  }
-  
-  switch (l) {
-  case 3: h ^= (str.charCodeAt(i + 2) & 0xff) << 16;
-  case 2: h ^= (str.charCodeAt(i + 1) & 0xff) << 8;
-  case 1: h ^= (str.charCodeAt(i) & 0xff);
-          h = (((h & 0xffff) * 0x5bd1e995) + ((((h >>> 16) * 0x5bd1e995) & 0xffff) << 16));
-  }
+		k = (((k & 0xffff) * 0x5bd1e995) + ((((k >>> 16) * 0x5bd1e995) & 0xffff) << 16));
+		k ^= k >>> 24;
+		k = (((k & 0xffff) * 0x5bd1e995) + ((((k >>> 16) * 0x5bd1e995) & 0xffff) << 16));
 
-  h ^= h >>> 13;
-  h = (((h & 0xffff) * 0x5bd1e995) + ((((h >>> 16) * 0x5bd1e995) & 0xffff) << 16));
-  h ^= h >>> 15;
+		h = (((h & 0xffff) * 0x5bd1e995) + ((((h >>> 16) * 0x5bd1e995) & 0xffff) << 16)) ^ k;
 
-  return h >>> 0;
+		l -= 4;
+		++i;
+	}
+
+	switch (l) {
+		case 3: h ^= (str.charCodeAt(i + 2) & 0xff) << 16;
+		case 2: h ^= (str.charCodeAt(i + 1) & 0xff) << 8;
+		case 1: h ^= (str.charCodeAt(i) & 0xff);
+			h = (((h & 0xffff) * 0x5bd1e995) + ((((h >>> 16) * 0x5bd1e995) & 0xffff) << 16));
+	}
+
+	h ^= h >>> 13;
+	h = (((h & 0xffff) * 0x5bd1e995) + ((((h >>> 16) * 0x5bd1e995) & 0xffff) << 16));
+	h ^= h >>> 15;
+
+	return h >>> 0;
 }
 
 
@@ -392,7 +420,7 @@ function insertCodeInPage(obj){
 	if(typeof(tinyMCE)!="undefined"){
 		txt=tinyMCE.activeEditor.getContent({format : 'raw'});
 		code=txt+code;
-
+		console.log(code);
 
 		//tinyMCE stripping empty spans - maybe add a $nbsp;?
 
@@ -401,6 +429,8 @@ function insertCodeInPage(obj){
 		//tinymce.activeEditor.selection.getBookmark();
 
 	}else{
+		//todo: this is rubbish - make it better
+		console.log("PlainText");
 		txtarea=$('textarea')[0];
 		txt=$(txtarea).html();
 		code=txt+code;
