@@ -98,14 +98,7 @@ function tryShowBlock(id,trial=5){
 	}
 }
 
-function getCommentNode(block){
-	let blockId=0;
-	let n=$(block).find(".content").find(".no-overflow").contents().filter(function() {return this.nodeType === 8;});
-	if(n[0].data.indexOf("BEEST")>-1){
-		blockId=block.id;
-	}
-	return blockId;
-}
+
 
 function setup_beest(MODE,visibilityMethod){
 	console.log("imported beest loader 17897ca version")
@@ -115,10 +108,6 @@ function setup_beest(MODE,visibilityMethod){
 	RegExpMode = MODE;
 	mode = MODE.toString();
 
-	$(".block_html").each(function(){
-		htmlBlockId= getCommentNode(this);
-		$("#"+htmlBlockId).hide();
-	});
 
 	$(".dropdown-menu, .dropdown-item").each(check_for_edit_and_role); //this version applies to moodle 4.1 and 3.9 (the dropdown-item class is 3.9 and dropdown-menu is 4.1)
 

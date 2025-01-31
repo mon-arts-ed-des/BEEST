@@ -7,6 +7,21 @@
 .btn-mu-grey{color:#fff;background-color:#505050;border-color:#505050;}
 
 
+/* New Beest outline colours to align to Monash branding */
+.btn-outline-mu-red{color:#df0021;background-color:transparent;background-image:none;border-color:#df0021;}
+.btn-outline-mu-orange{color:#c33603;background-color:transparent;background-image:none;border-color:#c33603;}
+.btn-outline-mu-green{color:#006f29;background-color:transparent;background-image:none;border-color:#006f29;}
+.btn-outline-mu-purple{color:#6f64a9;background-color:transparent;background-image:none;border-color:#6f64a9;}
+.btn-outline-mu-fuchsia{color:#c90095;background-color:transparent;background-image:none;border-color:#c90095;}
+.btn-outline-mu-grey{color:#505050;background-color:transparent;background-image:none;border-color:#505050;}
+
+.btn-outline-mu-red:hover{color:#fff;background-color:#df0021;border-color:#df0021;}
+.btn-outline-mu-orange:hover{color:#fff;background-color:#c33603;border-color:#c33603;}
+.btn-outline-mu-green:hover{color:#fff;background-color:#006f29;border-color:#006f29;}
+.btn-outline-mu-purple:hover{color:#fff;background-color:#6f64a9;border-color:#6f64a9;}
+.btn-outline-mu-fuchsia:hover{color:#fff;background-color:#c90095;border-color:#c90095;}
+.btn-outline-mu-grey:hover{color:#fff;background-color:#505050;border-color:#505050;}
+
 
 /* alerts */
 .alert-mu {background: rgba(0, 109, 174, .25);border: 1px solid #006DAE;color: #000 !important;}

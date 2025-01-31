@@ -66,7 +66,7 @@ var iconNames = {
 	"2": "info-circle",
 	"3": "question-circle",
 }
-/*var colourNames = {
+var oldColourNames = {
 	"1": "mu",
 	"2": "danger",
 	"3": "warning",
@@ -75,7 +75,7 @@ var iconNames = {
 	"6": "info",
 	"7": "dark",
 	"8": "secondary",
-};*/
+};
     var colourNames = {
         "1":"mu",
         "2":"mu-red",
@@ -307,9 +307,14 @@ function recoverCode(){
 	
 	var divClasses = recoveredData.tags["div"][0].className
 	var classColour = divClasses.replace("alert-dismissible","").replace(/.*alert-/,"").replace(/ .*/,"")
-	
 	var colourNums = reverseObjectMap(colourNames)
 	classAlert.colour = colourNums[classColour]
+
+    //if old colour used map to new colour
+    if(colourNums[classColour]===undefined){
+        colourNums = reverseObjectMap(oldColourNames);
+        classAlert.colour = colourNums[classColour];
+    }
 		
 	setTextAreas(classAlert)
 	generateElementCode()

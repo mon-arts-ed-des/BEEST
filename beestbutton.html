@@ -45,7 +45,7 @@
 
 const START_ELEMENT = "<!--Begin BEEST button-->"
 const END_ELEMENT = "<!--End BEEST button-->"
-const BEEST_COLOURS="<script>var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://mon-arts-ed-des.github.io/BEEST/EmbedInsertNewNav/css/accordionStyle.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
+const BEEST_COLOURS="<script>var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://mon-arts-ed-des.github.io/BEEST/css/beestColours.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
 
 
 var iconNames = {
@@ -60,7 +60,7 @@ var iconNames = {
 	"9":"play-circle-o",
    "10":"link"
 }
-/*var colourNames = {
+var oldColourNames = {
 	"1":"mu",
 	"2":"danger",
 	"3":"warning",
@@ -68,7 +68,8 @@ var iconNames = {
 	"5":"primary",
 	"6":"info", 
 	"7":"dark",
-	"8":"secondary"}*/
+	"8":"secondary"
+}
 
 var colourNames = {
     "1":"mu",
@@ -196,7 +197,7 @@ function mapArr1Arr2ById(arr1,arr2){
 
 function invertPageButtonCols(invertColour){
 	//colourNames moved to top
-	var buttonIds = [,'#monashBlue','#red','#yellow','#green','#darkBlue','#lightBlue','#black','#grey']
+	var buttonIds = ['#monashBlue','#red','#yellow','#green','#darkBlue','#lightBlue','#black','#grey']
 	var nameMapping = mapArr1Arr2ById(buttonIds,colourNames)
 	
 //swap the class to invert the colour
@@ -377,6 +378,14 @@ function getColourCode(bsColour,btnSize){
         }
         var colourNums = reverseObjectMap(colourNames)
         classButton.colour = colourNums[tagColour]
+
+        //if old colour used map to new colour
+        if(colourNums[tagColour]===undefined){
+            colourNums = reverseObjectMap(oldColourNames);
+            classAlert.colour = colourNums[classColour];
+        }
+
+
 
         var alignWidth = recoveredData.tags.div[0].className
         if (alignWidth == ""){
