@@ -62,7 +62,7 @@ var iconNames = {
    "11":"caret-square-o-down",
    "12":"hand-o-down"
 }
-/*var colourNames = {
+var oldColourNames = {
 	"1":"mu",
 	"2":"danger",
 	"3":"warning",
@@ -71,7 +71,7 @@ var iconNames = {
 	"6":"info", 
 	"7":"dark",
 	"8":"secondary"
-}*/
+}
 var colourNames = {
     "1":"mu",
     "2":"mu-red",
@@ -351,6 +351,14 @@ function recoverCode(){
 	
 	var colourNums = reverseObjectMap(colourNames)
 	var colourWithY = colourNums[colourCodeName]
+
+    //if old colour used map to new colour
+    if(colourNums[colourCodeName]===undefined){
+        colourNums = reverseObjectMap(oldColourNames);
+        colourWithY = colourNums[colourCodeName];
+    }
+
+
 	
 	if (colourNums.hasOwnProperty('outline-'+colourCodeName)){
 		//if so then it WASN'T inverted
