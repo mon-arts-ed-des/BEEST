@@ -29,8 +29,8 @@
   
     <!-- Bootstrap js file --> 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <!-- FontAwesome js file --> 
-    <script src="https://kit.fontawesome.com/d4a0822db8.js" crossorigin="anonymous"></script>
+    <!-- FontAwesome js file [self hosted on beest server]--> 
+    <script defer src="https://beest.monash.edu/fa_dl/js/all.js"></script>
     <!-- Tinymce js file -->   
     <script src="https://beest.monash.edu/tinymce/tinymce.min.js"></script>
     <script src="js/advancedModeLocalStorage.js"></script>
@@ -44,13 +44,13 @@ var iconNames = {
 	"1":"columns",
 	"2":"question",
 	"3":"question-circle",
-	"4":"question-circle-o", 
+	"4":"layer-group", 
 	"5":"info",
 	"6":"info-circle",
 	"7":"bars",
 	"8":"plus",
 	"9":"plus-square",
-	"10":"plus-square-o"
+	"10":"grip-lines"
 }
 	
     const maxTabs = 10 //when to stop creating - I think min 3 max 10 like accordions is the best for consistency.
@@ -779,7 +779,7 @@ function recoverCode(){
                 </div>
               <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
               <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="4">
-              <label class="form-check-label" for="faCode4"><i class="fa fa-fw fa-question-circle-o fa-2x"></i></label>
+              <label class="form-check-label" for="faCode4"><i class="fa fa-fw fa-layer-group fa-2x"></i></label>
             </div>
             <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
               <input class="form-check-input" name="faCode" id="faCode5" type="radio" value="5">
@@ -807,7 +807,7 @@ function recoverCode(){
             </div>
             <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
               <input class="form-check-input" name="faCode" id="faCode10" type="radio" value="10">
-              <label class="form-check-label" for="faCode10"><i class="fa fa-fw fa-plus-square-o fa-2x"></i></label>
+              <label class="form-check-label" for="faCode10"><i class="fa fa-fw fa-grip-lines fa-2x"></i></label>
             </div>
           </div>
         </div>

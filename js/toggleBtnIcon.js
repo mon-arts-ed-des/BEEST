@@ -2,15 +2,15 @@ var classToggles = {
 	"1":'fa-plus fa-minus',
 	"2":'fa-plus-circle fa-minus-circle',
 	"3":'fa-plus-square fa-minus-square',
-	"4":'fa-plus-square-o fa-minus-square-o',
+	"4":'fa-download fa-upload',
 	"5":'fa-arrow-down fa-arrow-up',
 	"6":'fa-arrow-circle-down fa-arrow-circle-up',
-	"7":'fa-arrow-circle-o-down fa-arrow-circle-o-up',
+	"7":'fa-hand-point-down fa-hand-point-up',
 	"8":'fa-chevron-down fa-chevron-up',
 	"9":'fa-chevron-circle-down fa-chevron-circle-up',
 	"10":'fa-caret-down fa-caret-up',
-	"11":'fa-caret-square-o-down fa-caret-square-o-up',
-	"12":'fa-hand-o-down fa-hand-o-up'
+	"11":'fa-window-maximize fa-window-minimize',
+	"12":'fa-expand fa-compress'
 } // list of all possible class toggles
 
 var flippedClassToggles = null //to be run on page load to ensure no issues of accessing function before defined

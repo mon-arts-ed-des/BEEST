@@ -26,8 +26,8 @@
       <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
       <!-- Bootstrap js file --> 
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-      <!-- FontAwesome js file --> 
-      <script src="https://kit.fontawesome.com/d4a0822db8.js" crossorigin="anonymous"></script>
+      <!-- FontAwesome js file [self hosted on beest server]--> 
+    <script defer src="https://beest.monash.edu/fa_dl/js/all.js"></script>
       <!-- Tinymce js file -->   
 	  <script src="https://beest.monash.edu/tinymce/tinymce.min.js"></script>
       <!--<script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>-->
@@ -46,15 +46,15 @@ var iconNames = {
 	"1":"plus",
 	"2":"plus-circle",
 	"3":"plus-square",
-	"4":"plus-square-o",
+	"4":"download",
 	"5":"arrow-down",
 	"6":"arrow-circle-down",
-	"7":"arrow-circle-o-down",
+	"7":"hand-point-down",
 	"8":"chevron-down",
 	"9":"chevron-circle-down",
    "10":"caret-down",
-   "11":"caret-square-o-down",
-   "12":"hand-o-down"
+   "11":"window-maximize",
+   "12":"expand"
 }
 var colourNames = {
 	"1":"mu",
@@ -193,22 +193,32 @@ function updateDemo(readMoreOutput,faIcon){
 	$('#demo').after(readMoreOutput);
 	/*Switch to run the icon toggle on the different icon sets by Tim*/
 	$('#beestRead').click(function(){
+		var iconCode = $(this).html().replace(new RegExp("<.*<i(.*)</i> .* -->"),"<i$1</i>")
 		classToggles = {
 			"1":'fa-plus fa-minus',
 			"2":'fa-plus-circle fa-minus-circle',
 			"3":'fa-plus-square fa-minus-square',
-			"4":'fa-plus-square-o fa-minus-square-o',
+			"4":'fa-download fa-upload',
 			"5":'fa-arrow-down fa-arrow-up',
 			"6":'fa-arrow-circle-down fa-arrow-circle-up',
-			"7":'fa-arrow-circle-o-down fa-arrow-circle-o-up',
+			"7":'fa-hand-point-down fa-hand-point-up',
 			"8":'fa-chevron-down fa-chevron-up',
 			"9":'fa-chevron-circle-down fa-chevron-circle-up',
 			"10":'fa-caret-down fa-caret-up',
-			"11":'fa-caret-square-o-down fa-caret-square-o-up',
-			"12":'fa-hand-o-down fa-hand-o-up'
+			"11":'fa-window-maximize fa-window-minimize',
+			"12":'fa-expand fa-compress'
 		}
-	
-		$(this).find('i').toggleClass(classToggles[faIcon])
+		function swapper(text,toggler){
+			var tSplit = toggler.split(" ")
+			if (text.match(tSplit[0]) != null){
+				text = text.replace(tSplit[0],tSplit[1])
+			}
+			else{
+				text = text.replace(tSplit[1],tSplit[0])
+			}
+			return text
+		}
+		$(this).html(swapper(iconCode,classToggles[faIcon]))
 	});
 }
 
@@ -659,7 +669,7 @@ function getHistoryI(index,history){
     </div>
     <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
       <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="4">
-      <label class="form-check-label" for="faCode4"><i class="fa fa-fw fa-plus-square-o fa-2x"></i><i class="fa fa-fw fa-minus-square-o fa-2x"></i></label>
+      <label class="form-check-label" for="faCode4"><i class="fa fa-fw fa-download fa-2x"></i><i class="fa fa-fw fa-upload fa-2x"></i></label>
     </div>
     </div>
     </div>
@@ -675,7 +685,7 @@ function getHistoryI(index,history){
           </div>
         <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
           <input class="form-check-input" name="faCode" id="faCode7" type="radio" value="7">
-          <label class="form-check-label" for="faCode7"><i class="fa fa-fw fa-arrow-circle-o-down fa-2x"></i><i class="fa fa-fw fa-arrow-circle-o-up fa-2x"></i></label>
+          <label class="form-check-label" for="faCode7"><i class="fa fa-fw fa-hand-point-down fa-2x"></i><i class="fa fa-fw fa-hand-point-up fa-2x"></i></label>
           </div>
     <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
       <input class="form-check-input" name="faCode" id="faCode8" type="radio" value="8">
@@ -695,11 +705,11 @@ function getHistoryI(index,history){
       </div>
     <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
       <input class="form-check-input" name="faCode" id="faCode11" type="radio" value="11">
-      <label class="form-check-label" for="faCode11"><i class="fa fa-fw fa-caret-square-o-down fa-2x"></i><i class="fa fa-fw fa-caret-square-o-up fa-2x"></i></label>
+      <label class="form-check-label" for="faCode11"><i class="fa fa-fw fa-window-maximize fa-2x"></i><i class="fa fa-fw fa-window-minimize fa-2x"></i></label>
     </div>
     <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateReadMoreCode()>
       <input class="form-check-input" name="faCode" id="faCode12" type="radio" value="12">
-      <label class="form-check-label" for="faCode12"><i class="fa fa-fw fa-hand-o-down fa-2x"></i><i class="fa fa-fw fa-hand-o-up fa-2x"></i></label>
+      <label class="form-check-label" for="faCode12"><i class="fa fa-fw fa-expand fa-2x"></i><i class="fa fa-fw fa-compress fa-2x"></i></label>
     </div>
 </div>
 </div>

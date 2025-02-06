@@ -27,8 +27,8 @@
   
     <!-- Bootstrap js file --> 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <!-- FontAwesome js file --> 
-    <script src="https://kit.fontawesome.com/d4a0822db8.js" crossorigin="anonymous"></script>
+    <!-- FontAwesome js file [self hosted on beest server]--> 
+    <script defer src="https://beest.monash.edu/fa_dl/js/all.js"></script>
     <!-- Tinymce js file -->   
     <script src="https://beest.monash.edu/tinymce/tinymce.min.js"></script>
 	<script src="js/placeholder.js"></script> 
@@ -54,10 +54,10 @@ const NO_ROW_SIZE = "None"
 		"6":"info-circle",
 		"7":"question",
 		"8":"question-circle",
-		"9":"question-circle-o",
+		"9":"border-all",
 		"10":"check",
 		"11":"check-square",
-		"12":"check-square-o",
+		"12":"file-excel",
 		"13":"exclamation",
 		"14":"exclamation-triangle",
 		"15":"exclamation-circle"
@@ -824,7 +824,7 @@ $(function () {
 		</div>
 		<div class="form-check form-check-inline mx-1" id="faCode" onchange=generateTableCode()>
 		  <input class="form-check-input" name="faCode" id="faCode9" type="radio" value="9">
-		  <label class="form-check-label" for="faCode9"><i class="fa fa-fw fa-question-circle-o fa-2x"></i></label>
+		  <label class="form-check-label" for="faCode9"><i class="fa fa-fw fa-border-all fa-2x"></i></label>
 		</div>
 		<div class="form-check form-check-inline mx-1" id="faCode" onchange=generateTableCode()>
 		  <input class="form-check-input" name="faCode" id="faCode10" type="radio" value="10">
@@ -840,7 +840,7 @@ $(function () {
 	  </div>
 	  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateTableCode()>
 		<input class="form-check-input" name="faCode" id="faCode12" type="radio" value="12">
-		<label class="form-check-label" for="faCode12"><i class="fa fa-fw fa-check-square-o fa-2x"></i></label>
+		<label class="form-check-label" for="faCode12"><i class="fa fa-fw fa-file-excel fa-2x"></i></label>
 	  </div>
 	  <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateTableCode()>
 		<input class="form-check-input" name="faCode" id="faCode13" type="radio" value="13">
