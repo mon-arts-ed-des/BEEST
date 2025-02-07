@@ -38,17 +38,17 @@ const START_ELEMENT = "<!--Begin BEEST pollEverywhere-->"
 const END_ELEMENT = "<!--End BEEST pollEverywhere-->"
 
 var iconNames = {
-	"1":"bar-chart",
-	"2":"line-chart",
-	"3":"pie-chart", 
-	"4":"thumbs-o-up",
-	"5":"hand-paper-o",
+	"1":"chart-bar",
+	"2":"chart-line",
+	"3":"chart-pie", 
+	"4":"thumbs-up",
+	"5":"comment",
 	"6":"balance-scale",
-	"7":"exchange",
+	"7":"users",
 	"8":"bullhorn",
 	"9":"question",
 	"10":"question-circle",
-	"11":"question-circle-o",
+	"11":"comments",
 	"12":"share",
 	"13":"share-alt",
 	"14":"gavel"
@@ -500,23 +500,23 @@ function getHistoryI(index,history){
                         <div class="col-lg">
                     <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                       <input class="form-check-input" name="faCode" id="faCode1" type="radio" value="1">
-                      <label class="form-check-label" for="faCode1"><i class="fa fa-fw fa-bar-chart fa-2x"></i></label>
+                      <label class="form-check-label" for="faCode1"><i class="fa fa-fw fa-chart-bar fa-2x"></i></label>
                     </div>
                     <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                     <input class="form-check-input" name="faCode" id="faCode2" type="radio" value="2">
-                    <label class="form-check-label" for="faCode2"><i class="fa fa-fw fa-line-chart fa-2x"></i></label>
+                    <label class="form-check-label" for="faCode2"><i class="fa fa-fw fa-chart-line fa-2x"></i></label>
                     </div>
                     <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                       <input class="form-check-input" name="faCode" id="faCode3" type="radio" value="3">
-                      <label class="form-check-label" for="faCode3"><i class="fa fa-fw fa-pie-chart fa-2x"></i></label>
+                      <label class="form-check-label" for="faCode3"><i class="fa fa-fw fa-chart-pie fa-2x"></i></label>
                       </div>
                     <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                     <input class="form-check-input" name="faCode" id="faCode4" type="radio" value="4">
-                    <label class="form-check-label" for="faCode4"><i class="fa fa-fw fa-thumbs-o-up fa-2x"></i></label>
+                    <label class="form-check-label" for="faCode4"><i class="fa fa-fw fa-thumbs-up fa-2x"></i></label>
                   </div>
                   <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                     <input class="form-check-input" name="faCode" id="faCode5" type="radio" value="5">
-                    <label class="form-check-label" for="faCode5"><i class="fa fa-fw fa-hand-paper-o fa-2x"></i></label>
+                    <label class="form-check-label" for="faCode5"><i class="fa fa-fw fa-comment fa-2x"></i></label>
                   </div>
                   <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                     <input class="form-check-input" name="faCode" id="faCode6" type="radio" value="6">
@@ -528,7 +528,7 @@ function getHistoryI(index,history){
                     <div class="col-lg">
                       <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                         <input class="form-check-input" name="faCode" id="faCode7" type="radio" value="7">
-                        <label class="form-check-label" for="faCode7"><i class="fa fa-fw fa-exchange fa-2x"></i></label>
+                        <label class="form-check-label" for="faCode7"><i class="fa fa-fw fa-users fa-2x"></i></label>
                       </div>
                       <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                         <input class="form-check-input" name="faCode" id="faCode8" type="radio" value="8">
@@ -544,7 +544,7 @@ function getHistoryI(index,history){
                   </div>
                   <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                     <input class="form-check-input" name="faCode" id="faCode11" type="radio" value="11">
-                    <label class="form-check-label" for="faCode11"><i class="fa fa-fw fa-question-circle-o fa-2x"></i></label>
+                    <label class="form-check-label" for="faCode11"><i class="fa fa-fw fa-comments fa-2x"></i></label>
                   </div>
                   <div class="form-check form-check-inline mx-1" id="faCode" onchange=generateElementCode()>
                     <input class="form-check-input" name="faCode" id="faCode12" type="radio" value="12">
