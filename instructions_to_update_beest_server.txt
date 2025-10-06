@@ -7,11 +7,13 @@ open BEEST server (fit-web107-v02.ocio.monash.edu) in Putty (via WinSCP) and the
 Go to /var/tmp and make a folder and copy in the current set of files to include
 
 open Putty and access the same server
-go to /var/tmp
-[cd /var/tmp]
 
 grant yourself sudo access
 [sudo su -]
+
+go to /var/tmp
+[cd /var/tmp]
+
 
 move the copied files into the html directory and override
 [mv *.* /srv/www/html]
