@@ -46,7 +46,7 @@
     <script type="text/javascript">
 const START_ELEMENT = "<!--Begin BEEST readmore-->"
 const END_ELEMENT = "<!--End BEEST readmore-->"
-const BEEST_COLOURS="<script>var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://mon-arts-ed-des.github.io/BEEST/css/beestColours.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
+const BEEST_COLOURS="<script>var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://beest.monash.edu/colours_2024-12/css/beestColours.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
 
 var iconNames = {
 	"1":"plus",
@@ -250,7 +250,7 @@ function generateReadMoreCode() {
 	var readMoreContainer="<div class=\"beestRead\"><span id='readMoreAbove'>"
 	var readMore_1="</span><div class=\"collapse\" id=\"readMore"+readMoreNumber+"\">"
 	var readMoreClose="</div>"
-	var toggleBtnScript="<script> var L=document.createElement('script'); L.type='text/javascript'; L.src='https://mon-arts-ed-des.github.io/BEEST/js/toggleBtnIcon.js'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>";
+	var toggleBtnScript="<script> var L=document.createElement('script'); L.type='text/javascript'; L.src='https://beest.monash.edu/colours_2024-12/js/toggleBtnIcon.js'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>";
 	
 	var bsColour = getRadioOption("btnColour")
 	var bsBtnSize = getRadioOption("buttonSize")

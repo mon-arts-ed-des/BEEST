@@ -59,7 +59,7 @@
     */
     const START_ELEMENT = "<!--Begin BEEST alert-->"
     const END_ELEMENT = "<!--End BEEST alert-->"
-    const BEEST_COLOURS="<script>var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://mon-arts-ed-des.github.io/BEEST/css/beestColours.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
+    const BEEST_COLOURS="<script>var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://beest.monash.edu/colours_2024-12/css/beestColours.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
 
 var iconNames = {
 	"1": "exclamation-circle",
@@ -210,7 +210,7 @@ function storePageToClass(faIcon,alertCode,alertHeading,headSize,bsColour,dmopti
         var bsColour = getRadioOption("alertColour");
         var faIcon = getRadioOption("faCode")
 
-        var alertScript = "<script> var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://mon-arts-ed-des.github.io/BEEST/css/monashElements.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
+        var alertScript = "<script> var L=document.createElement('link'); L.rel='stylesheet'; L.href='https://beest.monash.edu/colours_2024-12/css/monashElements.css'; document.getElementsByTagName('head')[0].appendChild(L);</scrip"+"t>"
 
 		//colourNames moved to the top
         var colourName = colourNames[bsColour];
